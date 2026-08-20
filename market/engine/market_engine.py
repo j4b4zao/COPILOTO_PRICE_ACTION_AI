@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from core.candle import Candle, CandleHistory
+from models.candle import Candle
+from models.candle_history import CandleHistory
 
 
 class MarketEngine:

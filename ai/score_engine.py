@@ -1,9 +1,25 @@
 """
 ai/score_engine.py
 
-Score Engine
+ScoreEngine
 
-RC11
+RC13
+
+Responsável por transformar as confluências do mercado
+em um score operacional normalizado de 0 a 100.
+
+Arquitetura:
+
+    Structure       20%
+    Price Action    20%
+    Liquidity       15%
+    Volume          10%
+    Order Block     10%
+    FVG             10%
+    Context          5%
+    Strategy        10%
+
+Total = 100%
 """
 
 from ai.engine_base import EngineBase
@@ -13,11 +29,39 @@ class ScoreEngine(EngineBase):
 
     NAME = "ScoreEngine"
 
-    VERSION = "RC11"
+    VERSION = "RC13"
 
     ENABLED = True
 
     PRIORITY = 80
+
+    # ==========================================================
+    # PESOS
+    # ==========================================================
+
+    WEIGHT_STRUCTURE = 20.0
+
+    WEIGHT_PRICE_ACTION = 20.0
+
+    WEIGHT_LIQUIDITY = 15.0
+
+    WEIGHT_VOLUME = 10.0
+
+    WEIGHT_ORDER_BLOCK = 10.0
+
+    WEIGHT_FVG = 10.0
+
+    WEIGHT_CONTEXT = 5.0
+
+    WEIGHT_STRATEGY = 10.0
+
+    # ==========================================================
+    # LIMITE OPERACIONAL
+    # ==========================================================
+
+    MIN_SCORE = 70.0
+
+    MAX_SCORE = 100.0
 
     # ==========================================================
     # EXECUTAR
@@ -25,186 +69,728 @@ class ScoreEngine(EngineBase):
 
     def executar(self, context):
 
-        result = context.score
-
-        result.clear()
-
-        # ======================================================
-        # RESULTADOS
-        # ======================================================
-
-        structure = context.structure
-
-        liquidity = context.liquidity
-
-        volume = context.volume
-
-        price = context.price_action
-
-        order_block = context.order_block
-
-        fair_value_gap = context.fair_value_gap
-
-        market = context.context
-
-        strategy = context.strategy
-
-        risk = context.risk
-
-        # ======================================================
-        # MARKET STRUCTURE
-        # ======================================================
-
-        if structure.valid:
-
-            result.add_score(
-
-                "Structure",
-
-                structure.score,
-
-            )
-
-        # ======================================================
-        # LIQUIDITY
-        # ======================================================
-
-        if liquidity.valid:
-
-            result.add_score(
-
-                "Liquidity",
-
-                liquidity.confluences * 5,
-
-            )
-
-        # ======================================================
-        # VOLUME
-        # ======================================================
-
-        if volume.valid:
-
-            result.add_score(
-
-                "Volume",
-
-                volume.strength,
-
-            )
-
-        # ======================================================
-        # PRICE ACTION
-        # ======================================================
-
-        if price.valid:
-
-            result.add_score(
-
-                "PriceAction",
-
-                price.score,
-
-            )
-
-        # ======================================================
-        # ORDER BLOCK
-        # ======================================================
-
-        if order_block.valid:
-
-            result.add_score(
-
-                "OrderBlock",
-
-                order_block.score,
-
-            )
-
-        # ======================================================
-        # FAIR VALUE GAP
-        # ======================================================
-
-        if fair_value_gap.valid:
-
-            result.add_score(
-
-                "FairValueGap",
-
-                fair_value_gap.score,
-
-            )
-
-        # ======================================================
-        # CONTEXTO
-        # ======================================================
-
-        if market.valid:
-
-            result.add_score(
-
-                "Context",
-
-                market.score,
-
-            )
-
-        # ======================================================
-        # ESTRATÉGIA
-        # ======================================================
-
-        if strategy.valid:
-
-            result.bias = strategy.signal
-
-            result.add_score(
-
-                "Strategy",
-
-                strategy.score,
-
-            )
-
-        # ======================================================
-        # RISCO
-        # ======================================================
-
-        if risk.valid and risk.approved:
-
-            result.add_score(
-
-                "Risk",
-
-                10,
-
-            )
-
-        # ======================================================
+        score = context.score
+
+        score.clear()
+
+        # ------------------------------------------------------
+        # DIREÇÃO
+        # ------------------------------------------------------
+
+        self._set_bias(
+            context,
+            score,
+        )
+
+        # ------------------------------------------------------
+        # COMPONENTES
+        # ------------------------------------------------------
+
+        self._score_structure(
+            context,
+            score,
+        )
+
+        self._score_price_action(
+            context,
+            score,
+        )
+
+        self._score_liquidity(
+            context,
+            score,
+        )
+
+        self._score_volume(
+            context,
+            score,
+        )
+
+        self._score_order_block(
+            context,
+            score,
+        )
+
+        self._score_fvg(
+            context,
+            score,
+        )
+
+        self._score_context(
+            context,
+            score,
+        )
+
+        self._score_strategy(
+            context,
+            score,
+        )
+
+        # ------------------------------------------------------
         # TOTAL
-        # ======================================================
+        # ------------------------------------------------------
 
-        result.calculate_total()
+        score.calculate_total()
 
-        result.total = min(
-
-            result.total,
-
-            100,
-
+        # Segurança adicional.
+        score.total = min(
+            max(
+                float(score.total),
+                0.0,
+            ),
+            self.MAX_SCORE,
         )
 
-        result.classify()
+        # ------------------------------------------------------
+        # CLASSIFICAÇÃO
+        # ------------------------------------------------------
 
-        result.confidence = (
+        score.classify()
 
-            result.total / 100
+        # ------------------------------------------------------
+        # CONFIANÇA
+        # ------------------------------------------------------
 
+        score.confidence = (
+            score.total / self.MAX_SCORE
         )
 
-        result.valid = (
+        # ------------------------------------------------------
+        # VALIDADE
+        # ------------------------------------------------------
 
-            result.total >= 70
+        score.valid = (
+
+            context.strategy.valid
+            and score.total >= self.MIN_SCORE
 
         )
 
         return context
+
+    # ==========================================================
+    # DIREÇÃO
+    # ==========================================================
+
+    @staticmethod
+    def _set_bias(
+        context,
+        score,
+    ):
+
+        strategy = context.strategy
+
+        signal = str(
+            getattr(
+                strategy,
+                "signal",
+                "NONE",
+            )
+        ).upper()
+
+        if signal in (
+            "BUY",
+            "SELL",
+        ):
+
+            score.bias = signal
+
+        else:
+
+            score.bias = "NONE"
+
+    # ==========================================================
+    # NORMALIZAÇÃO
+    # ==========================================================
+
+    @staticmethod
+    def _clamp(
+        value,
+        minimum=0.0,
+        maximum=100.0,
+    ):
+
+        try:
+
+            value = float(value)
+
+        except (
+            TypeError,
+            ValueError,
+        ):
+
+            value = 0.0
+
+        return min(
+            max(
+                value,
+                minimum,
+            ),
+            maximum,
+        )
+
+    # ==========================================================
+    # APLICA PESO
+    # ==========================================================
+
+    @classmethod
+    def _weighted(
+        cls,
+        value,
+        weight,
+    ):
+
+        normalized = cls._clamp(
+            value
+        )
+
+        return (
+            normalized
+            * weight
+            / 100.0
+        )
+
+    # ==========================================================
+    # STRUCTURE
+    # ==========================================================
+
+    def _score_structure(
+        self,
+        context,
+        score,
+    ):
+
+        structure = context.structure
+
+        if not structure.valid:
+
+            return
+
+        value = 0.0
+
+        # ------------------------------------------------------
+        # Tendência
+        # ------------------------------------------------------
+
+        trend = str(
+            getattr(
+                structure,
+                "trend",
+                "",
+            )
+        ).upper()
+
+        if trend not in (
+            "TREND.UNKNOWN",
+            "UNKNOWN",
+            "NONE",
+            "",
+        ):
+
+            value += 40.0
+
+        # ------------------------------------------------------
+        # BOS
+        # ------------------------------------------------------
+
+        if getattr(
+            structure,
+            "bos_up",
+            False,
+        ) or getattr(
+            structure,
+            "bos_down",
+            False,
+        ):
+
+            value += 30.0
+
+        # ------------------------------------------------------
+        # HH / HL ou LH / LL
+        # ------------------------------------------------------
+
+        if (
+            getattr(
+                structure,
+                "hh",
+                False,
+            )
+            or getattr(
+                structure,
+                "hl",
+                False,
+            )
+            or getattr(
+                structure,
+                "lh",
+                False,
+            )
+            or getattr(
+                structure,
+                "ll",
+                False,
+            )
+        ):
+
+            value += 20.0
+
+        # ------------------------------------------------------
+        # CHOCH
+        # ------------------------------------------------------
+
+        if getattr(
+            structure,
+            "choch",
+            False,
+        ):
+
+            value += 10.0
+
+        # ------------------------------------------------------
+        # Confiança estrutural
+        # ------------------------------------------------------
+
+        confidence = getattr(
+            structure,
+            "confidence",
+            0.0,
+        )
+
+        if confidence <= 1.0:
+
+            confidence *= 100.0
+
+        value = (
+            value * 0.8
+            + self._clamp(
+                confidence
+            ) * 0.2
+        )
+
+        score.add_score(
+            "Structure",
+            self._weighted(
+                value,
+                self.WEIGHT_STRUCTURE,
+            ),
+        )
+
+    # ==========================================================
+    # PRICE ACTION
+    # ==========================================================
+
+    def _score_price_action(
+        self,
+        context,
+        score,
+    ):
+
+        price = context.price_action
+
+        if not price.valid:
+
+            return
+
+        # ------------------------------------------------------
+        # Score próprio do Price Action
+        # ------------------------------------------------------
+
+        value = getattr(
+            price,
+            "score",
+            0.0,
+        )
+
+        # ------------------------------------------------------
+        # Se o módulo ainda não fornecer score,
+        # construímos uma pontuação pelas confluências.
+        # ------------------------------------------------------
+
+        if value <= 0:
+
+            value = 0.0
+
+            if getattr(
+                price,
+                "bos",
+                False,
+            ):
+
+                value += 30.0
+
+            if getattr(
+                price,
+                "choch",
+                False,
+            ):
+
+                value += 20.0
+
+            if getattr(
+                price,
+                "breakout",
+                False,
+            ):
+
+                value += 15.0
+
+            if getattr(
+                price,
+                "pullback",
+                False,
+            ):
+
+                value += 15.0
+
+            if getattr(
+                price,
+                "hammer",
+                False,
+            ):
+
+                value += 10.0
+
+            if getattr(
+                price,
+                "shooting_star",
+                False,
+            ):
+
+                value += 10.0
+
+            if getattr(
+                price,
+                "bullish_engulfing",
+                False,
+            ):
+
+                value += 10.0
+
+            if getattr(
+                price,
+                "bearish_engulfing",
+                False,
+            ):
+
+                value += 10.0
+
+            value = min(
+                value,
+                100.0,
+            )
+
+        score.add_score(
+            "PriceAction",
+            self._weighted(
+                value,
+                self.WEIGHT_PRICE_ACTION,
+            ),
+        )
+
+    # ==========================================================
+    # LIQUIDITY
+    # ==========================================================
+
+    def _score_liquidity(
+        self,
+        context,
+        score,
+    ):
+
+        liquidity = context.liquidity
+
+        if not liquidity.valid:
+
+            return
+
+        confidence = getattr(
+            liquidity,
+            "confidence",
+            0.0,
+        )
+
+        if confidence > 0:
+
+            value = confidence
+
+        else:
+
+            value = 0.0
+
+            if getattr(
+                liquidity,
+                "buy_side",
+                False,
+            ):
+
+                value += 20.0
+
+            if getattr(
+                liquidity,
+                "sell_side",
+                False,
+            ):
+
+                value += 20.0
+
+            if getattr(
+                liquidity,
+                "sweep_up",
+                False,
+            ):
+
+                value += 30.0
+
+            if getattr(
+                liquidity,
+                "sweep_down",
+                False,
+            ):
+
+                value += 30.0
+
+        score.add_score(
+            "Liquidity",
+            self._weighted(
+                value,
+                self.WEIGHT_LIQUIDITY,
+            ),
+        )
+
+    # ==========================================================
+    # VOLUME
+    # ==========================================================
+
+    def _score_volume(
+        self,
+        context,
+        score,
+    ):
+
+        volume = context.volume
+
+        if not volume.valid:
+
+            return
+
+        strength = getattr(
+            volume,
+            "strength",
+            0.0,
+        )
+
+        if strength <= 1.0:
+
+            strength *= 100.0
+
+        if strength <= 0:
+
+            if getattr(
+                volume,
+                "high",
+                False,
+            ):
+
+                strength = 100.0
+
+            elif getattr(
+                volume,
+                "medium",
+                False,
+            ):
+
+                strength = 60.0
+
+            elif getattr(
+                volume,
+                "low",
+                False,
+            ):
+
+                strength = 30.0
+
+        score.add_score(
+            "Volume",
+            self._weighted(
+                strength,
+                self.WEIGHT_VOLUME,
+            ),
+        )
+
+    # ==========================================================
+    # ORDER BLOCK
+    # ==========================================================
+
+    def _score_order_block(
+        self,
+        context,
+        score,
+    ):
+
+        order_block = context.order_block
+
+        if not order_block.valid:
+
+            return
+
+        value = getattr(
+            order_block,
+            "score",
+            0.0,
+        )
+
+        if value <= 0:
+
+            strength = getattr(
+                order_block,
+                "strength",
+                0.0,
+            )
+
+            if strength <= 1.0:
+
+                strength *= 100.0
+
+            value = strength
+
+        if getattr(
+            order_block,
+            "mitigated",
+            False,
+        ):
+
+            value *= 0.5
+
+        score.add_score(
+            "OrderBlock",
+            self._weighted(
+                value,
+                self.WEIGHT_ORDER_BLOCK,
+            ),
+        )
+
+    # ==========================================================
+    # FVG
+    # ==========================================================
+
+    def _score_fvg(
+        self,
+        context,
+        score,
+    ):
+
+        fvg = context.fair_value_gap
+
+        if not fvg.valid:
+
+            return
+
+        value = getattr(
+            fvg,
+            "score",
+            0.0,
+        )
+
+        if value <= 0:
+
+            strength = getattr(
+                fvg,
+                "strength",
+                0.0,
+            )
+
+            if strength <= 1.0:
+
+                strength *= 100.0
+
+            value = strength
+
+        if getattr(
+            fvg,
+            "filled",
+            False,
+        ):
+
+            value *= 0.5
+
+        score.add_score(
+            "FVG",
+            self._weighted(
+                value,
+                self.WEIGHT_FVG,
+            ),
+        )
+
+    # ==========================================================
+    # CONTEXTO
+    # ==========================================================
+
+    def _score_context(
+        self,
+        context,
+        score,
+    ):
+
+        ctx = context.context
+
+        if not ctx.valid:
+
+            return
+
+        value = getattr(
+            ctx,
+            "score",
+            0.0,
+        )
+
+        if value <= 0:
+
+            confluences = getattr(
+                ctx,
+                "confluences",
+                0,
+            )
+
+            value = min(
+                float(confluences)
+                * 20.0,
+                100.0,
+            )
+
+        score.add_score(
+            "Context",
+            self._weighted(
+                value,
+                self.WEIGHT_CONTEXT,
+            ),
+        )
+
+    # ==========================================================
+    # ESTRATÉGIA
+    # ==========================================================
+
+    def _score_strategy(
+        self,
+        context,
+        score,
+    ):
+
+        strategy = context.strategy
+
+        if not strategy.valid:
+
+            return
+
+        value = getattr(
+            strategy,
+            "score",
+            0.0,
+        )
+
+        score.add_score(
+            "Strategy",
+            self._weighted(
+                value,
+                self.WEIGHT_STRATEGY,
+            ),
+        )

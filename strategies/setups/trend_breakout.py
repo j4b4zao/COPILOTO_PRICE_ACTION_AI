@@ -1,9 +1,10 @@
+
 """
 strategies/setups/trend_breakout.py
 
 Trend Breakout Setup
 
-RC11
+RC12
 """
 
 from enums.trend import Trend
@@ -17,11 +18,8 @@ from strategies.setups.setup_base import SetupBase
 class TrendBreakout(SetupBase):
 
     NAME = "Trend Breakout"
-
-    VERSION = "RC11"
-
+    VERSION = "RC12"
     PRIORITY = 20
-
     ENABLED = True
 
     # ==========================================================
@@ -37,8 +35,6 @@ class TrendBreakout(SetupBase):
         liquidity = context.liquidity
         price = context.price_action
         market = context.context
-
-        # SMART MONEY
 
         order_block = context.order_block
         fair_value_gap = context.fair_value_gap
@@ -56,106 +52,28 @@ class TrendBreakout(SetupBase):
 
         if market.bias == "BUY":
 
-            if structure.trend != Trend.UP:
+            if not self._validar_compra(
+                structure,
+                volume,
+                liquidity,
+                price,
+                order_block,
+                fair_value_gap,
+            ):
                 return result
 
-            if not structure.bos_up:
-                return result
-
-            # ----------------------------------------------
-            # ORDER BLOCK
-            # ----------------------------------------------
-
-            if not order_block.bullish:
-                return result
-
-            if order_block.mitigated:
-                return result
-
-            # ----------------------------------------------
-            # FAIR VALUE GAP
-            # ----------------------------------------------
-
-            if not fair_value_gap.bullish:
-                return result
-
-            if fair_value_gap.filled:
-                return result
-
-            # ----------------------------------------------
-            # BREAKOUT
-            # ----------------------------------------------
-
-            if not price.breakout:
-                return result
-
-            # ----------------------------------------------
-            # VOLUME
-            # ----------------------------------------------
-
-            if volume.low:
-                return result
-
-            # ----------------------------------------------
-            # LIQUIDEZ
-            # ----------------------------------------------
-
-            if liquidity.sell_side:
-                return result
-
-            # ----------------------------------------------
-            # RESULTADO
-            # ----------------------------------------------
-
-            result.valid = True
-
-            result.setup_id = "TREND_BREAKOUT_BUY"
-
-            result.name = self.NAME
-
-            result.setup_type = "BREAKOUT"
-
-            result.priority = self.PRIORITY
-
-            result.signal = "BUY"
-
-            result.score = SetupScoring.calculate(context)
-
-            result.reasons.extend([
-
-                "Trend UP",
-
-                "Breakout",
-
-                "BOS",
-
-                "Bullish Order Block",
-
-                "Bullish Fair Value Gap",
-
-                "Contexto Favorável",
-
-            ])
-
-            if volume.high:
-
-                result.reasons.append("High Volume")
-
-            elif volume.medium:
-
-                result.reasons.append("Medium Volume")
-
-            if order_block.strength >= 0.80:
-
-                result.reasons.append("Strong Order Block")
-
-            if fair_value_gap.strength >= 0.80:
-
-                result.reasons.append("Strong Fair Value Gap")
-
-            result.classify()
-
-            return result
+            return self._criar_resultado(
+                result=result,
+                signal="BUY",
+                setup_id="TREND_BREAKOUT_BUY",
+                trend_reason="Trend UP",
+                order_block_reason="Bullish Order Block",
+                fvg_reason="Bullish Fair Value Gap",
+                context=context,
+                volume=volume,
+                order_block=order_block,
+                fair_value_gap=fair_value_gap,
+            )
 
         # ======================================================
         # VENDA
@@ -163,105 +81,195 @@ class TrendBreakout(SetupBase):
 
         if market.bias == "SELL":
 
-            if structure.trend != Trend.DOWN:
+            if not self._validar_venda(
+                structure,
+                volume,
+                liquidity,
+                price,
+                order_block,
+                fair_value_gap,
+            ):
                 return result
 
-            if not structure.bos_down:
-                return result
+            return self._criar_resultado(
+                result=result,
+                signal="SELL",
+                setup_id="TREND_BREAKOUT_SELL",
+                trend_reason="Trend DOWN",
+                order_block_reason="Bearish Order Block",
+                fvg_reason="Bearish Fair Value Gap",
+                context=context,
+                volume=volume,
+                order_block=order_block,
+                fair_value_gap=fair_value_gap,
+            )
 
-            # ----------------------------------------------
-            # ORDER BLOCK
-            # ----------------------------------------------
+        # ======================================================
+        # SEM BIAS OPERACIONAL
+        # ======================================================
 
-            if not order_block.bearish:
-                return result
+        return result
+    # ==========================================================
+    # VALIDAR COMPRA
+    # ==========================================================
 
-            if order_block.mitigated:
-                return result
+    def _validar_compra(
+        self,
+        structure,
+        volume,
+        liquidity,
+        price,
+        order_block,
+        fair_value_gap,
+    ) -> bool:
 
-            # ----------------------------------------------
-            # FAIR VALUE GAP
-            # ----------------------------------------------
+        if structure.trend != Trend.UP:
+            return False
 
-            if not fair_value_gap.bearish:
-                return result
+        if not structure.bos_up:
+            return False
 
-            if fair_value_gap.filled:
-                return result
+        if not order_block.bullish:
+            return False
 
-            # ----------------------------------------------
-            # BREAKOUT
-            # ----------------------------------------------
+        if order_block.mitigated:
+            return False
 
-            if not price.breakout:
-                return result
+        if not fair_value_gap.bullish:
+            return False
 
-            # ----------------------------------------------
-            # VOLUME
-            # ----------------------------------------------
+        if fair_value_gap.filled:
+            return False
 
-            if volume.low:
-                return result
+        if not price.breakout:
+            return False
 
-            # ----------------------------------------------
-            # LIQUIDEZ
-            # ----------------------------------------------
+        if volume.low:
+            return False
 
-            if liquidity.buy_side:
-                return result
+        if liquidity.sell_side:
+            return False
 
-            # ----------------------------------------------
-            # RESULTADO
-            # ----------------------------------------------
+        return True
 
-            result.valid = True
+    # ==========================================================
+    # VALIDAR VENDA
+    # ==========================================================
 
-            result.setup_id = "TREND_BREAKOUT_SELL"
+    def _validar_venda(
+        self,
+        structure,
+        volume,
+        liquidity,
+        price,
+        order_block,
+        fair_value_gap,
+    ) -> bool:
 
-            result.name = self.NAME
+        if structure.trend != Trend.DOWN:
+            return False
 
-            result.setup_type = "BREAKOUT"
+        if not structure.bos_down:
+            return False
 
-            result.priority = self.PRIORITY
+        if not order_block.bearish:
+            return False
 
-            result.signal = "SELL"
+        if order_block.mitigated:
+            return False
 
-            result.score = SetupScoring.calculate(context)
+        if not fair_value_gap.bearish:
+            return False
 
-            result.reasons.extend([
+        if fair_value_gap.filled:
+            return False
 
-                "Trend DOWN",
+        if not price.breakout:
+            return False
 
+        if volume.low:
+            return False
+
+        if liquidity.buy_side:
+            return False
+
+        return True
+
+    # ==========================================================
+    # CRIAR RESULTADO
+    # ==========================================================
+
+    def _criar_resultado(
+        self,
+        result,
+        signal,
+        setup_id,
+        trend_reason,
+        order_block_reason,
+        fvg_reason,
+        context,
+        volume,
+        order_block,
+        fair_value_gap,
+    ) -> StrategyResult:
+
+        result.valid = True
+
+        result.setup_id = setup_id
+        result.name = self.NAME
+        result.setup_type = "BREAKOUT"
+        result.priority = self.PRIORITY
+        result.signal = signal
+
+        # ======================================================
+        # SCORE
+        # ======================================================
+
+        result.score = SetupScoring.calculate(context)
+
+        # ======================================================
+        # RAZÕES
+        # ======================================================
+
+        result.reasons.extend(
+            [
+                trend_reason,
                 "Breakout",
-
                 "BOS",
-
-                "Bearish Order Block",
-
-                "Bearish Fair Value Gap",
-
+                order_block_reason,
+                fvg_reason,
                 "Contexto Favorável",
+            ]
+        )
 
-            ])
+        # ======================================================
+        # VOLUME
+        # ======================================================
 
-            if volume.high:
+        if volume.high:
+            result.reasons.append("High Volume")
 
-                result.reasons.append("High Volume")
+        elif volume.medium:
+            result.reasons.append("Medium Volume")
 
-            elif volume.medium:
+        # ======================================================
+        # ORDER BLOCK
+        # ======================================================
 
-                result.reasons.append("Medium Volume")
+        if order_block.strength >= 0.80:
+            result.reasons.append("Strong Order Block")
 
-            if order_block.strength >= 0.80:
+        # ======================================================
+        # FAIR VALUE GAP
+        # ======================================================
 
-                result.reasons.append("Strong Order Block")
+        if fair_value_gap.strength >= 0.80:
+            result.reasons.append("Strong Fair Value Gap")
 
-            if fair_value_gap.strength >= 0.80:
+        # ======================================================
+        # CLASSIFICAÇÃO
+        # ======================================================
 
-                result.reasons.append("Strong Fair Value Gap")
-
-            result.classify()
-
-            return result
+        result.classify()
 
         return result

@@ -58,7 +58,7 @@ class FairValueGapResult(ResultBase):
 
     def clear(self):
 
-        super().clear()
+        ResultBase.clear(self)
 
         self.bullish = False
         self.bearish = False

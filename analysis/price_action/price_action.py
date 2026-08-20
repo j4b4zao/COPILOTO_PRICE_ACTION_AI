@@ -3,7 +3,19 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC8
+RC9
+
+Responsável pela leitura de Price Action,
+estrutura, padrões de candle e evidências
+direcionais.
+
+Regras principais:
+
+- Trend.UP   -> BUY
+- Trend.DOWN -> SELL
+- SIDEWAYS   -> NONE
+- UNKNOWN    -> NONE
+- Mercado lateral não recebe pontos de tendência.
 """
 
 from ai.engine_base import EngineBase
@@ -18,7 +30,7 @@ class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC8"
+    VERSION = "RC9"
 
     ENABLED = True
 
@@ -29,22 +41,32 @@ class PriceAction(EngineBase):
     # ==========================================================
 
     TREND_SCORE = 30
+
     BOS_SCORE = 20
+
     CHOCH_SCORE = 15
 
     HAMMER_SCORE = 8
+
     SHOOTING_STAR_SCORE = 8
+
     DOJI_SCORE = 5
 
     ENGULFING_SCORE = 10
 
     INSIDE_BAR_SCORE = 6
+
     OUTSIDE_BAR_SCORE = 6
 
     BREAKOUT_SCORE = 12
+
     PULLBACK_SCORE = 10
+
     CONTINUATION_SCORE = 10
+
     REJECTION_SCORE = 10
+
+    MIN_VALID_SCORE = 30
 
     # ==========================================================
     # EXECUTAR
@@ -55,6 +77,7 @@ class PriceAction(EngineBase):
         market = context.market
 
         if not market.ready:
+
             return context
 
         result = context.price_action
@@ -82,21 +105,19 @@ class PriceAction(EngineBase):
     def _copy_structure(self, context):
 
         structure = context.structure
+
         result = context.price_action
 
         result.trend = structure.trend
 
         result.last_high = structure.last_high
+
         result.last_low = structure.last_low
 
         result.bos = (
-
             structure.bos_up
-
             or
-
             structure.bos_down
-
         )
 
         result.choch = structure.choch
@@ -114,20 +135,27 @@ class PriceAction(EngineBase):
         previous = market.previous_candle
 
         if current is None or previous is None:
+
             return
 
         result = context.price_action
 
         result.hammer = (
-            CandlestickPatterns.is_hammer(current)
+            CandlestickPatterns.is_hammer(
+                current
+            )
         )
 
         result.shooting_star = (
-            CandlestickPatterns.is_shooting_star(current)
+            CandlestickPatterns.is_shooting_star(
+                current
+            )
         )
 
         result.doji = (
-            CandlestickPatterns.is_doji(current)
+            CandlestickPatterns.is_doji(
+                current
+            )
         )
 
         result.bullish_engulfing = (
@@ -169,47 +197,29 @@ class PriceAction(EngineBase):
         structure = context.structure
 
         result.breakout = (
-
             structure.bos_up
-
             or
-
             structure.bos_down
-
         )
 
         result.pullback = (
-
             result.hammer
-
             or
-
             result.bullish_engulfing
-
             or
-
             result.bearish_engulfing
-
         )
 
         result.rejection = (
-
             result.hammer
-
             or
-
             result.shooting_star
-
         )
 
         result.continuation = (
-
             result.breakout
-
             and
-
             not result.pullback
-
         )
 
     # ==========================================================
@@ -222,17 +232,33 @@ class PriceAction(EngineBase):
 
         evidence = context.evidence
 
+        # ------------------------------------------------------
+        # TENDÊNCIA DE ALTA
+        # ------------------------------------------------------
+
         if result.trend == Trend.UP:
 
             result.bias = "BUY"
 
-            evidence.add("TREND_BUY")
+            evidence.add(
+                "TREND_BUY"
+            )
+
+        # ------------------------------------------------------
+        # TENDÊNCIA DE BAIXA
+        # ------------------------------------------------------
 
         elif result.trend == Trend.DOWN:
 
             result.bias = "SELL"
 
-            evidence.add("TREND_SELL")
+            evidence.add(
+                "TREND_SELL"
+            )
+
+        # ------------------------------------------------------
+        # LATERAL / DESCONHECIDA
+        # ------------------------------------------------------
 
         else:
 
@@ -250,21 +276,47 @@ class PriceAction(EngineBase):
 
         score = 0
 
-        if result.trend != Trend.UNKNOWN:
+        # ------------------------------------------------------
+        # TENDÊNCIA
+        #
+        # IMPORTANTE:
+        # SIDEWAYS NÃO RECEBE PONTOS DE TENDÊNCIA.
+        # ------------------------------------------------------
+
+        if result.trend in (
+            Trend.UP,
+            Trend.DOWN,
+        ):
 
             score += self.TREND_SCORE
+
+        # ------------------------------------------------------
+        # BOS
+        # ------------------------------------------------------
 
         if result.bos:
 
             score += self.BOS_SCORE
 
-            evidence.add("BOS")
+            evidence.add(
+                "BOS"
+            )
+
+        # ------------------------------------------------------
+        # CHOCH
+        # ------------------------------------------------------
 
         if result.choch:
 
             score += self.CHOCH_SCORE
 
-            evidence.add("CHOCH")
+            evidence.add(
+                "CHOCH"
+            )
+
+        # ------------------------------------------------------
+        # PADRÕES
+        # ------------------------------------------------------
 
         if result.hammer:
 
@@ -294,6 +346,10 @@ class PriceAction(EngineBase):
 
             score += self.OUTSIDE_BAR_SCORE
 
+        # ------------------------------------------------------
+        # PRICE ACTION
+        # ------------------------------------------------------
+
         if result.breakout:
 
             score += self.BREAKOUT_SCORE
@@ -310,7 +366,14 @@ class PriceAction(EngineBase):
 
             score += self.REJECTION_SCORE
 
-        result.score = min(score, 100)
+        # ------------------------------------------------------
+        # LIMITE
+        # ------------------------------------------------------
+
+        result.score = min(
+            score,
+            100,
+        )
 
     # ==========================================================
     # FINALIZAR
@@ -320,6 +383,25 @@ class PriceAction(EngineBase):
 
         result = context.price_action
 
-        result.confidence = result.score / 100
+        result.confidence = (
+            result.score / 100
+        )
 
-        result.valid = result.score >= 30
+        # ------------------------------------------------------
+        # Price Action direcionalmente válido
+        #
+        # SIDEWAYS nunca é considerado BUY/SELL válido.
+        # ------------------------------------------------------
+
+        result.valid = (
+
+            result.bias in (
+                "BUY",
+                "SELL",
+            )
+
+            and
+
+            result.score >= self.MIN_VALID_SCORE
+
+        )

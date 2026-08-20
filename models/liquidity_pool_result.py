@@ -67,7 +67,7 @@ class LiquidityPoolResult(ResultBase):
 
     def clear(self):
 
-        super().clear()
+        ResultBase.clear(self)
 
         self.buy_side_pool = False
         self.sell_side_pool = False

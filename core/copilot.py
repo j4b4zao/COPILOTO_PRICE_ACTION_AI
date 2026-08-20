@@ -1,11 +1,11 @@
-from market.market_state import MarketState
-from market.market_structure import MarketStructure
+from core.market_state import MarketState
+from market.market_structure_engine import MarketStructureEngine as MarketStructure
 
-from analysis.price_action import PriceAction
+from analysis.price_action.price_action import PriceAction
 from analysis.order_flow import OrderFlow
 
 from ai.score_engine import ScoreEngine
-from ai.decision_engine import DecisionEngine
+from decision.decision_engine import DecisionEngine
 
 from alerts.alert_manager import AlertManager
 

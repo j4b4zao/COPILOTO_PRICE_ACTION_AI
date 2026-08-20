@@ -8,7 +8,7 @@ e selecionar o melhor resultado.
 
 from core.base_module import BaseModule
 
-from price_action.setups.pullback_setup import PullbackSetup
+from analysis.price_action.setups.pullback_setup import PullbackSetup
 # Futuramente:
 # from price_action.setups.continuation_setup import ContinuationSetup
 # from price_action.setups.breakout_setup import BreakoutSetup

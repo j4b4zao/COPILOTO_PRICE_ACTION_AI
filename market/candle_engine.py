@@ -4,7 +4,7 @@ market/candle_engine.py
 Converte MarketData em Candle.
 """
 
-from core.candle import Candle
+from models.candle import Candle
 
 
 class CandleEngine:

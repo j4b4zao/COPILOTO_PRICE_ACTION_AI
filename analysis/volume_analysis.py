@@ -3,8 +3,13 @@ analysis/volume_analysis.py
 
 Engine de Volume
 
-RC2
+Analisa o volume negociado do candle
+em relação ao histórico recente.
+
+RC3
 """
+
+from statistics import median
 
 from ai.engine_base import EngineBase
 from enums.volume_level import VolumeLevel
@@ -14,14 +19,25 @@ class VolumeAnalysis(EngineBase):
 
     NAME = "VolumeAnalysis"
 
-    VERSION = "RC2"
+    VERSION = "RC3"
 
     ENABLED = True
 
     PRIORITY = 40
 
-    HIGH_VOLUME = 10000
-    MEDIUM_VOLUME = 5000
+    # ==========================================================
+    # CONFIGURAÇÃO
+    # ==========================================================
+
+    HISTORY_SIZE = 20
+
+    LOW_RATIO = 0.70
+
+    HIGH_RATIO = 1.30
+
+    EXTREME_RATIO = 2.00
+
+    MIN_HISTORY = 5
 
     # ==========================================================
     # EXECUTAR
@@ -32,52 +48,143 @@ class VolumeAnalysis(EngineBase):
         market = context.market
 
         if not market.ready:
+
             return context
 
         result = context.volume
+
         evidence = context.evidence
 
         result.clear()
 
-        volume = market.volume
-
         # ======================================================
-        # VOLUME ALTO
+        # HISTÓRICO DE CANDLES
         # ======================================================
 
-        if volume >= self.HIGH_VOLUME:
+        candles = market.candles.all()
 
-            result.high = True
+        if not candles:
 
-            result.level = VolumeLevel.HIGH
-
-            result.strength = 1.00
-
-            result.confidence = 0.90
-
-            evidence.add("HIGH_VOLUME")
+            return context
 
         # ======================================================
-        # VOLUME MÉDIO
+        # CANDLE ATUAL
         # ======================================================
 
-        elif volume >= self.MEDIUM_VOLUME:
+        current_candle = candles[-1]
 
-            result.medium = True
-
-            result.level = VolumeLevel.MEDIUM
-
-            result.strength = 0.60
-
-            result.confidence = 0.60
-
-            evidence.add("MEDIUM_VOLUME")
+        current_volume = float(
+            getattr(
+                current_candle,
+                "volume",
+                0.0
+            ) or 0.0
+        )
 
         # ======================================================
-        # VOLUME BAIXO
+        # CANDLES FECHADOS
         # ======================================================
 
-        else:
+        closed_candles = candles[:-1]
+
+        historical_volumes = []
+
+        for candle in closed_candles:
+
+            candle_volume = float(
+                getattr(
+                    candle,
+                    "volume",
+                    0.0
+                ) or 0.0
+            )
+
+            # Volume zero não entra na referência.
+            if candle_volume <= 0:
+
+                continue
+
+            historical_volumes.append(
+                candle_volume
+            )
+
+        # ======================================================
+        # HISTÓRICO INSUFICIENTE
+        # ======================================================
+
+        if len(historical_volumes) < self.MIN_HISTORY:
+
+            result.current = current_volume
+
+            result.average = (
+                median(historical_volumes)
+                if historical_volumes
+                else 0.0
+            )
+
+            result.valid = False
+
+            result.confidence = 0.0
+
+            evidence.add(
+                "INSUFFICIENT_VOLUME_HISTORY"
+            )
+
+            result.confluences = len(
+                evidence.evidences
+            )
+
+            return context
+
+        # ======================================================
+        # LIMITAR À JANELA MAIS RECENTE
+        # ======================================================
+
+        reference_volumes = historical_volumes[
+            -self.HISTORY_SIZE:
+        ]
+
+        reference_volume = median(
+            reference_volumes
+        )
+
+        # ======================================================
+        # PROTEÇÃO
+        # ======================================================
+
+        if reference_volume <= 0:
+
+            result.current = current_volume
+
+            result.average = 0.0
+
+            result.valid = False
+
+            result.confidence = 0.0
+
+            evidence.add(
+                "INVALID_VOLUME_REFERENCE"
+            )
+
+            result.confluences = len(
+                evidence.evidences
+            )
+
+            return context
+
+        # ======================================================
+        # VOLUME ATUAL
+        # ======================================================
+
+        result.current = current_volume
+
+        result.average = reference_volume
+
+        # ======================================================
+        # VOLUME INVÁLIDO / ZERO
+        # ======================================================
+
+        if current_volume <= 0:
 
             result.low = True
 
@@ -87,16 +194,107 @@ class VolumeAnalysis(EngineBase):
 
             result.confidence = 0.30
 
-            evidence.add("LOW_VOLUME")
+            result.valid = True
+
+            evidence.add(
+                "LOW_VOLUME"
+            )
+
+            result.confluences = len(
+                evidence.evidences
+            )
+
+            return context
 
         # ======================================================
-        # ESTATÍSTICAS
+        # RELAÇÃO VOLUME / REFERÊNCIA
         # ======================================================
 
-        result.current = volume
+        ratio = (
+            current_volume
+            / reference_volume
+        )
 
-        result.confluences = len(evidence.evidences)
+        # ======================================================
+        # VOLUME BAIXO
+        # ======================================================
+
+        if ratio < self.LOW_RATIO:
+
+            result.low = True
+
+            result.level = VolumeLevel.LOW
+
+            result.strength = 0.30
+
+            result.confidence = 0.85
+
+            evidence.add(
+                "LOW_VOLUME"
+            )
+
+        # ======================================================
+        # VOLUME NORMAL / MÉDIO
+        # ======================================================
+
+        elif ratio < self.HIGH_RATIO:
+
+            result.medium = True
+
+            result.level = VolumeLevel.MEDIUM
+
+            result.strength = 0.50
+
+            result.confidence = 0.75
+
+            evidence.add(
+                "NORMAL_VOLUME"
+            )
+
+        # ======================================================
+        # VOLUME ALTO
+        # ======================================================
+
+        elif ratio < self.EXTREME_RATIO:
+
+            result.high = True
+
+            result.level = VolumeLevel.HIGH
+
+            result.strength = 0.80
+
+            result.confidence = 0.85
+
+            evidence.add(
+                "HIGH_VOLUME"
+            )
+
+        # ======================================================
+        # VOLUME EXTREMO
+        # ======================================================
+
+        else:
+
+            result.high = True
+
+            result.level = VolumeLevel.HIGH
+
+            result.strength = 1.00
+
+            result.confidence = 0.95
+
+            evidence.add(
+                "EXTREME_VOLUME"
+            )
+
+        # ======================================================
+        # FINALIZAÇÃO
+        # ======================================================
 
         result.valid = True
+
+        result.confluences = len(
+            evidence.evidences
+        )
 
         return context

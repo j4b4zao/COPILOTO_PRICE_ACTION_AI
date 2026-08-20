@@ -1,3 +1,4 @@
+# LEGACY - DO NOT USE
 class AnalysisResult:
 
     def __init__(self):

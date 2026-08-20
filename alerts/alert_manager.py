@@ -3,19 +3,19 @@ alerts/alert_manager.py
 
 Alert Manager
 
-RC8
+RC9.1
 """
 
-from ai.engine_base import EngineBase
-
 from datetime import datetime
+
+from ai.engine_base import EngineBase
 
 
 class AlertManager(EngineBase):
 
     NAME = "AlertManager"
 
-    VERSION = "RC8"
+    VERSION = "RC9.1"
 
     ENABLED = True
 
@@ -51,6 +51,8 @@ class AlertManager(EngineBase):
 
         alert.action = decision.action
 
+        alert.direction = decision.direction
+
         alert.signal = decision.signal
 
         alert.setup = decision.setup
@@ -61,7 +63,9 @@ class AlertManager(EngineBase):
 
         alert.valid = True
 
-        alert.add_reason("Alerta emitido")
+        alert.add_reason(
+            "Alerta emitido"
+        )
 
         # ------------------------------------------------------
         # LOG
@@ -69,15 +73,29 @@ class AlertManager(EngineBase):
 
         print("=" * 60)
 
-        print(f"[{alert.timestamp}]")
+        print(
+            f"[{alert.timestamp}]"
+        )
 
-        print(f"AÇÃO : {alert.action}")
+        print(
+            f"AÇÃO : {alert.action}"
+        )
 
-        print(f"SETUP: {alert.setup}")
+        print(
+            f"DIREÇÃO: {alert.direction}"
+        )
 
-        print(f"SCORE: {alert.score:.1f}")
+        print(
+            f"SETUP: {alert.setup}"
+        )
 
-        print(f"CONF.: {alert.confidence:.2f}")
+        print(
+            f"SCORE: {alert.score:.1f}"
+        )
+
+        print(
+            f"CONF.: {alert.confidence:.2f}"
+        )
 
         print("=" * 60)
 
