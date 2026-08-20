@@ -14,6 +14,7 @@ from external_context.external_market_state import (
 )
 
 from models.structure_result import StructureResult
+from models.regime_result import RegimeResult
 from models.liquidity_result import LiquidityResult
 from models.volume_result import VolumeResult
 from models.price_action_result import PriceActionResult
@@ -64,6 +65,10 @@ class AnalysisContext:
     # ==========================================================
     # PRICE ACTION
     # ==========================================================
+
+    regime: RegimeResult = field(
+        default_factory=RegimeResult
+    )
 
     structure: StructureResult = field(
         default_factory=StructureResult
@@ -186,6 +191,8 @@ class AnalysisContext:
         # ------------------------------------------------------
         # PRICE ACTION
         # ------------------------------------------------------
+
+        self.regime.clear()
 
         self.structure.clear()
 

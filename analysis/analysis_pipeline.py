@@ -16,6 +16,7 @@ from core.analysis_context import AnalysisContext
 # ==========================================================
 
 from analysis.market_structure import MarketStructure
+from analysis.market_regime import MarketRegime
 from analysis.liquidity_analysis import LiquidityAnalysis
 from analysis.volume_analysis import VolumeAnalysis
 from analysis.price_action.price_action import PriceAction
@@ -69,6 +70,8 @@ class AnalysisPipeline:
     # ======================================================
 
         self.price_action_engines = [
+
+            MarketRegime(),
 
             MarketStructure(),
 
@@ -192,6 +195,9 @@ class AnalysisPipeline:
         # ===============================================
         # PRICE ACTION
         # ===============================================
+
+            MarketRegime:
+                EventType.REGIME_UPDATED,
 
             MarketStructure:
                 EventType.STRUCTURE_UPDATED,

@@ -6,6 +6,7 @@ Resultado da classificação do regime do mercado.
 
 from dataclasses import dataclass
 
+from enums.trend import Trend
 from models.result_base import ResultBase
 
 
@@ -14,7 +15,7 @@ class RegimeResult(ResultBase):
 
     regime: str = "UNKNOWN"
 
-    trend: str = "NONE"
+    trend: Trend = Trend.UNKNOWN
 
     volatility: str = "NORMAL"
 
@@ -28,7 +29,7 @@ class RegimeResult(ResultBase):
 
         self.regime = "UNKNOWN"
 
-        self.trend = "NONE"
+        self.trend = Trend.UNKNOWN
 
         self.volatility = "NORMAL"
 
