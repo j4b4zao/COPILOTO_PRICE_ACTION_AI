@@ -740,11 +740,10 @@ def mostrar_resultado(context):
     print("RISK CONFLUENCES")
     print("-" * 72)
 
-    if confluences:
-        for confluence in confluences:
-            print(f"- {confluence}")
-    else:
-        print("- Nenhuma confluência registrada.")
+    print(
+        "- Quantidade de confluências: "
+        f"{confluences or 0}"
+    )
 
     print()
     print("DECISION")
