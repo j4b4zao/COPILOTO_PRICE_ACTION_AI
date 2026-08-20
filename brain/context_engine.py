@@ -1,7 +1,12 @@
 """
 brain/context_engine.py
 
-Context Engine RC15 + External Context RC2.3
+Context Engine RC15.1
+
+Integrações contextuais:
+
+- External Context RC2.3;
+- Market Regime RC2.4.
 
 Responsável por consolidar as análises anteriores
 em um contexto operacional.
@@ -19,6 +24,9 @@ Entrega ao StrategyEngine:
 O contexto externo é utilizado apenas como
 confirmação, conflito ou neutralidade contextual.
 
+O regime de mercado segue a mesma regra e não
+altera critérios operacionais.
+
 Não altera o Score global.
 """
 
@@ -33,7 +41,7 @@ class ContextEngine(EngineBase):
 
     NAME = "Context Engine"
 
-    VERSION = "RC15"
+    VERSION = "RC15.1"
 
     DESCRIPTION = "Consolida o contexto do mercado."
 
@@ -74,6 +82,8 @@ class ContextEngine(EngineBase):
         volume = context.volume
 
         price_action = context.price_action
+
+        regime = context.regime
 
         external_market = context.external_market
 
@@ -194,6 +204,65 @@ class ContextEngine(EngineBase):
             narrative.strengths.append(
                 "Price Action possui evidências."
             )
+
+        # ======================================================
+        # REGIME DE MERCADO
+        # ======================================================
+        #
+        # O regime NÃO altera:
+        #
+        # - checklist;
+        # - result.confluences;
+        # - result.valid;
+        # - result.score;
+        # - bias operacional.
+        #
+        # Ele apenas registra confirmação, conflito ou
+        # lateralidade no MarketNarrative.
+        #
+        # ======================================================
+
+        if regime.valid:
+
+            confirms_direction = (
+                result.bias == "BUY"
+                and regime.trend == Trend.UP
+            ) or (
+                result.bias == "SELL"
+                and regime.trend == Trend.DOWN
+            )
+
+            conflicts_direction = (
+                result.bias == "BUY"
+                and regime.trend == Trend.DOWN
+            ) or (
+                result.bias == "SELL"
+                and regime.trend == Trend.UP
+            )
+
+            if confirms_direction:
+
+                narrative.strengths.append(
+                    "Regime de mercado confirma direção."
+                )
+
+            elif conflicts_direction:
+
+                narrative.weaknesses.append(
+                    "Regime de mercado conflita com direção."
+                )
+
+            elif regime.trend == Trend.SIDEWAYS:
+
+                narrative.weaknesses.append(
+                    "Regime de mercado lateral."
+                )
+
+            else:
+
+                narrative.weaknesses.append(
+                    "Regime de mercado neutro."
+                )
 
         # ======================================================
         # CONTEXTO EXTERNO
