@@ -1,12 +1,12 @@
 """
 brain/context_engine.py
 
-Context Engine RC15.1
+Context Engine RC15.2
 
 Integrações contextuais:
 
 - External Context RC2.3;
-- Market Regime RC2.4.
+- Market Regime RC2.6.
 
 Responsável por consolidar as análises anteriores
 em um contexto operacional.
@@ -41,7 +41,7 @@ class ContextEngine(EngineBase):
 
     NAME = "Context Engine"
 
-    VERSION = "RC15.1"
+    VERSION = "RC15.2"
 
     DESCRIPTION = "Consolida o contexto do mercado."
 
@@ -262,6 +262,24 @@ class ContextEngine(EngineBase):
 
                 narrative.weaknesses.append(
                     "Regime de mercado neutro."
+                )
+
+            if regime.volatility == "HIGH":
+
+                narrative.weaknesses.append(
+                    "Volatilidade alta detectada pelo regime."
+                )
+
+            elif regime.volatility == "LOW":
+
+                narrative.weaknesses.append(
+                    "Volatilidade baixa detectada pelo regime."
+                )
+
+            else:
+
+                narrative.strengths.append(
+                    "Volatilidade normal detectada pelo regime."
                 )
 
         # ======================================================

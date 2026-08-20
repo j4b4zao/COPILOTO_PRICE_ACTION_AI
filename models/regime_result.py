@@ -19,6 +19,12 @@ class RegimeResult(ResultBase):
 
     volatility: str = "NORMAL"
 
+    recent_range: float = 0.0
+
+    reference_range: float = 0.0
+
+    volatility_ratio: float = 0.0
+
     strength: float = 0.0
 
     confidence: float = 0.0
@@ -32,6 +38,12 @@ class RegimeResult(ResultBase):
         self.trend = Trend.UNKNOWN
 
         self.volatility = "NORMAL"
+
+        self.recent_range = 0.0
+
+        self.reference_range = 0.0
+
+        self.volatility_ratio = 0.0
 
         self.strength = 0.0
 
