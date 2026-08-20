@@ -3,7 +3,7 @@ models/risk_result.py
 
 Resultado produzido pelo RiskManager.
 
-RC7
+RC9.1
 """
 
 from dataclasses import dataclass
@@ -29,19 +29,25 @@ class RiskResult(ResultBase):
     risk_score: float = 0.0
 
     # ==========================================================
-    # GERENCIAMENTO
+    # NÍVEIS DA OPERAÇÃO
     # ==========================================================
 
-    risk_reward: float = 0.0
+    entry_price: float = 0.0
 
     stop_loss: float = 0.0
 
     take_profit: float = 0.0
 
+    risk_reward: float = 0.0
+
+    # ==========================================================
+    # GERENCIAMENTO
+    # ==========================================================
+
     position_size: float = 0.0
 
     # ==========================================================
-    # ESTATÍSTICAS
+    # CONFLUÊNCIAS
     # ==========================================================
 
     confluences: int = 0
@@ -60,11 +66,13 @@ class RiskResult(ResultBase):
 
         self.risk_score = 0.0
 
-        self.risk_reward = 0.0
+        self.entry_price = 0.0
 
         self.stop_loss = 0.0
 
         self.take_profit = 0.0
+
+        self.risk_reward = 0.0
 
         self.position_size = 0.0
 

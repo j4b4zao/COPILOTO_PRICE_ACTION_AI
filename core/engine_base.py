@@ -1,5 +1,7 @@
 """
-ai/engine_base.py
+# LEGACY - DO NOT USE
+
+Legacy EngineBase retained temporarily for migration compatibility.
 
 Classe base de todas as engines do
 COPILOTO PRICE ACTION AI.

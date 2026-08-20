@@ -6,8 +6,18 @@ Responsável pela execução lógica das operações.
 
 from datetime import datetime
 
+from ai.engine_base import EngineBase
 
-class ExecutionEngine:
+
+class ExecutionEngine(EngineBase):
+
+    NAME = "ExecutionEngine"
+
+    VERSION = "RC13.5"
+
+    ENABLED = True
+
+    PRIORITY = 120
 
     def __init__(self):
 
@@ -18,7 +28,9 @@ class ExecutionEngine:
     # EXECUTAR
     # ==========================================================
 
-    def execute(self, result):
+    def executar(self, context):
+
+        result = context
 
         decision = result.decision
 

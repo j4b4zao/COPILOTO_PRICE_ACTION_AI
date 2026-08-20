@@ -1,64 +1,131 @@
 """
-price_action/setups/base_setup.py
+strategies/base_setup.py
 
-Classe base para todos os setups do Copiloto.
+Classe base para todos os setups do
+COPILOTO PRICE ACTION AI.
+
+Todos os setups devem herdar desta classe.
 """
 
 from abc import ABC, abstractmethod
 
+from ai.engine_base import EngineBase
+from models.strategy_result import StrategyResult
 
-class BaseSetup(ABC):
 
-    def __init__(self):
+class BaseSetup(EngineBase, ABC):
 
-        self.nome = self.__class__.__name__
+    # ==========================================================
+    # CONFIGURAÇÃO
+    # ==========================================================
+
+    NAME = ""
+
+    VERSION = "1.0"
+
+    PRIORITY = 100
+
+    ENABLED = True
+
+    MIN_SCORE = 70
+
+    # ==========================================================
+    # EXECUTAR
+    # ==========================================================
 
     @abstractmethod
-    def executar(self, market):
+    def executar(self, context) -> StrategyResult:
         """
-        Executa o setup.
-        Deve retornar um dicionário.
+        Método obrigatório de todos os setups.
         """
-        raise NotImplementedError
+        pass
 
     # ==========================================================
-    # RESULTADO PADRÃO
+    # VALIDAÇÕES COMUNS
     # ==========================================================
 
-    def resultado(self):
+    def validate_context(self, checklist):
 
-        return {
+        return checklist.context
 
-            "valido": False,
+    def validate_structure(self, structure):
 
-            "nome": "NENHUM",
+        return structure.valid
 
-            "lado": "NEUTRO",
+    def validate_volume(self, volume):
 
-            "score": 0,
+        return volume.valid
 
-            "classe": "SEM_SETUP",
+    def validate_liquidity(self, liquidity):
 
-            "motivos": []
-
-        }
+        return liquidity.valid
 
     # ==========================================================
-    # CLASSIFICAÇÃO
+    # SCORE
     # ==========================================================
 
-    def classificar(self, score):
+    def add_points(
 
-        if score >= 95:
-            return "A+"
+        self,
 
-        if score >= 85:
-            return "A"
+        result: StrategyResult,
 
-        if score >= 75:
-            return "B"
+        score: int,
 
-        if score >= 65:
-            return "C"
+        points: int,
 
-        return "SEM_SETUP"
+        reason: str
+
+    ) -> int:
+
+        result.reasons.append(reason)
+
+        return score + points
+
+    # ==========================================================
+    # REPROVAR
+    # ==========================================================
+
+    def reject(
+
+        self,
+
+        result: StrategyResult,
+
+        reason: str
+
+    ) -> StrategyResult:
+
+        result.valid = False
+
+        result.reasons.append(reason)
+
+        return result
+
+    # ==========================================================
+    # FINALIZAR
+    # ==========================================================
+
+    def finalize(
+
+        self,
+
+        result: StrategyResult,
+
+        score: int,
+
+        direction: str
+
+    ) -> StrategyResult:
+
+        result.name = self.NAME
+
+        result.score = score
+
+        result.confidence = score / 100
+
+        result.direction = direction
+
+        result.valid = score >= self.MIN_SCORE
+
+        return result

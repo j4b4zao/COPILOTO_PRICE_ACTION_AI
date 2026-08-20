@@ -1,8 +1,6 @@
-from market.market_engine import MarketEngine
+from market.engine.market_engine import MarketEngine
 
 from simulation.paper_trader import PaperTrader
-
-from bot import analisar
 
 from reports.backtest_report import BacktestReport
 

@@ -60,15 +60,7 @@ class Bot:
 
             try:
 
-                # ----------------------------------------------
-                # Atualiza conexão
-                # ----------------------------------------------
-
                 self.connection.atualizar()
-
-                # ----------------------------------------------
-                # Coleta dados
-                # ----------------------------------------------
 
                 context = self.collector.get_data()
 
@@ -82,26 +74,9 @@ class Bot:
 
                     continue
 
-                # ----------------------------------------------
-                # Executa pipeline
-                # ----------------------------------------------
-
                 context = self.pipeline.executar(context)
 
-                # ----------------------------------------------
-                # Exibição
-                # ----------------------------------------------
-
                 self.mostrar(context)
-
-                # Futuramente:
-                #
-                # self.monitor.show(context)
-                #
-                # ou
-                #
-                # EventBus -> DebugMonitor
-                #
 
                 time.sleep(1)
 
@@ -132,6 +107,12 @@ class Bot:
         liquidity = context.liquidity
 
         volume = context.volume
+
+        price_action = context.price_action
+
+        order_block = context.order_block
+
+        fair_value_gap = context.fair_value_gap
 
         strategy = context.strategy
 
@@ -172,4 +153,74 @@ class Bot:
 
         print(f"Ação............: {decision.action}")
 
+        print("=" * 60)
+
+        print("\n" + "=" * 60)
+        print("SMART MONEY / CONFLUENCE DIAGNOSTIC")
+        print("=" * 60)
+
+        print("\nORDER BLOCK")
+        print("------------")
+        print(f"valid      : {order_block.valid}")
+        print(f"bullish    : {order_block.bullish}")
+        print(f"bearish    : {order_block.bearish}")
+        print(f"mitigated  : {order_block.mitigated}")
+        print(f"strength   : {order_block.strength}")
+        print(f"score      : {order_block.score}")
+        print(f"high       : {order_block.high}")
+        print(f"low        : {order_block.low}")
+        print(f"entry      : {order_block.entry_price}")
+
+        print("\nFVG")
+        print("------------")
+        print(f"valid      : {fair_value_gap.valid}")
+        print(f"bullish    : {fair_value_gap.bullish}")
+        print(f"bearish    : {fair_value_gap.bearish}")
+        print(f"filled     : {fair_value_gap.filled}")
+        print(f"strength   : {fair_value_gap.strength}")
+        print(f"score      : {fair_value_gap.score}")
+
+        print("\nPRICE ACTION")
+        print("------------")
+        print(f"valid             : {price_action.valid}")
+        print(f"bias              : {price_action.bias}")
+        print(f"breakout          : {price_action.breakout}")
+        print(f"pullback          : {price_action.pullback}")
+        print(f"hammer            : {price_action.hammer}")
+        print(f"shooting_star     : {price_action.shooting_star}")
+        print(f"bullish_engulfing : {price_action.bullish_engulfing}")
+        print(f"bearish_engulfing : {price_action.bearish_engulfing}")
+
+        print("\nVOLUME")
+        print("------------")
+        print(f"valid      : {volume.valid}")
+        print(f"low        : {volume.low}")
+        print(f"medium     : {volume.medium}")
+        print(f"high       : {volume.high}")
+
+        print("\nLIQUIDITY")
+        print("------------")
+        print(f"valid      : {liquidity.valid}")
+        print(f"buy_side   : {liquidity.buy_side}")
+        print(f"sell_side  : {liquidity.sell_side}")
+        print(f"sweep_up   : {liquidity.sweep_up}")
+        print(f"sweep_down : {liquidity.sweep_down}")
+
+        print("\nSTRUCTURE")
+        print("------------")
+        print(f"valid      : {structure.valid}")
+        print(f"trend      : {structure.trend}")
+        print(f"bos_up     : {structure.bos_up}")
+        print(f"bos_down   : {structure.bos_down}")
+        print(f"choch      : {structure.choch}")
+
+        print("\nSTRATEGY")
+        print("------------")
+        print(f"valid      : {strategy.valid}")
+        print(f"name       : {strategy.name}")
+        print(f"signal     : {strategy.signal}")
+        print(f"score      : {strategy.score}")
+
+        print("=" * 60)
+        print("END SMART MONEY DIAGNOSTIC")
         print("=" * 60)

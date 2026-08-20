@@ -60,7 +60,7 @@ class ImbalanceResult(ResultBase):
 
     def clear(self):
 
-        super().clear()
+        ResultBase.clear(self)
 
         self.bullish = False
         self.bearish = False

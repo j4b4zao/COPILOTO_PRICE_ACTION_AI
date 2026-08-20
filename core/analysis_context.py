@@ -1,65 +1,64 @@
-```python
 """
 core/analysis_context.py
 
-Analysis Context
-
-RC13
-
-Objeto compartilhado entre todas as engines do
+Contexto compartilhado entre todas as engines do
 COPILOTO PRICE ACTION AI.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass, field
 
-# ==========================================================
-# MARKET
-# ==========================================================
+from core.market_state import MarketState
 
-from models.market_result import MarketResult
-
-# ==========================================================
-# PRICE ACTION
-# ==========================================================
+from external_context.external_market_state import (
+    ExternalMarketState,
+)
 
 from models.structure_result import StructureResult
 from models.liquidity_result import LiquidityResult
 from models.volume_result import VolumeResult
 from models.price_action_result import PriceActionResult
 
-# ==========================================================
-# SMART MONEY
-# ==========================================================
+from models.context_result import ContextResult
+from models.evidence_result import EvidenceResult
 
 from models.imbalance_result import ImbalanceResult
 from models.order_block_result import OrderBlockResult
 from models.fair_value_gap_result import FairValueGapResult
 from models.liquidity_pool_result import LiquidityPoolResult
 
-# ==========================================================
-# IA
-# ==========================================================
-
-from models.context_result import ContextResult
-from models.evidence_result import EvidenceResult
 from models.strategy_result import StrategyResult
 from models.score_result import ScoreResult
 from models.risk_result import RiskResult
 from models.decision_result import DecisionResult
 from models.alert_result import AlertResult
 
+from models.trade_checklist import TradeChecklist
+from models.market_narrative import MarketNarrative
+
 
 @dataclass(slots=True)
 class AnalysisContext:
+    """
+    Contexto compartilhado por todas as engines.
+
+    Cada engine escreve apenas no seu próprio Result.
+    As demais engines apenas consultam esses resultados.
+    """
 
     # ==========================================================
-    # MARKET
+    # ESTADO DO MERCADO
     # ==========================================================
 
-    market: MarketResult = field(
-        default_factory=MarketResult
+    market: MarketState = field(
+        default_factory=MarketState
+    )
+
+    # ==========================================================
+    # MERCADO EXTERNO
+    # ==========================================================
+
+    external_market: ExternalMarketState = field(
+        default_factory=ExternalMarketState
     )
 
     # ==========================================================
@@ -83,6 +82,14 @@ class AnalysisContext:
     )
 
     # ==========================================================
+    # EVIDÊNCIAS
+    # ==========================================================
+
+    evidence: EvidenceResult = field(
+        default_factory=EvidenceResult
+    )
+
+    # ==========================================================
     # SMART MONEY
     # ==========================================================
 
@@ -102,51 +109,79 @@ class AnalysisContext:
         default_factory=LiquidityPoolResult
     )
 
-    # Próximos módulos:
-    #
-    # breaker_block
-    # mitigation_block
-    # displacement
-    # premium_discount
-    # smt_divergence
-
     # ==========================================================
-    # IA
+    # CONTEXTO
     # ==========================================================
 
     context: ContextResult = field(
         default_factory=ContextResult
     )
 
-    evidence: EvidenceResult = field(
-        default_factory=EvidenceResult
-    )
+    # ==========================================================
+    # ESTRATÉGIA
+    # ==========================================================
 
     strategy: StrategyResult = field(
         default_factory=StrategyResult
     )
 
+    # ==========================================================
+    # SCORE
+    # ==========================================================
+
     score: ScoreResult = field(
         default_factory=ScoreResult
     )
+
+    # ==========================================================
+    # RISCO
+    # ==========================================================
 
     risk: RiskResult = field(
         default_factory=RiskResult
     )
 
+    # ==========================================================
+    # DECISÃO
+    # ==========================================================
+
     decision: DecisionResult = field(
         default_factory=DecisionResult
     )
+
+    # ==========================================================
+    # ALERTA
+    # ==========================================================
 
     alert: AlertResult = field(
         default_factory=AlertResult
     )
 
     # ==========================================================
-    # RESET
+    # CHECKLIST
     # ==========================================================
 
-    def clear_results(self):
+    checklist: TradeChecklist = field(
+        default_factory=TradeChecklist
+    )
+
+    # ==========================================================
+    # NARRATIVA
+    # ==========================================================
+
+    narrative: MarketNarrative = field(
+        default_factory=MarketNarrative
+    )
+
+    # ==========================================================
+    # LIMPAR RESULTADOS
+    # ==========================================================
+
+    def clear_results(self) -> None:
+        """
+        Limpa todos os resultados da pipeline,
+        preservando os estados de mercado e externo.
+        """
 
         # ------------------------------------------------------
         # PRICE ACTION
@@ -161,6 +196,12 @@ class AnalysisContext:
         self.price_action.clear()
 
         # ------------------------------------------------------
+        # EVIDÊNCIAS
+        # ------------------------------------------------------
+
+        self.evidence.clear()
+
+        # ------------------------------------------------------
         # SMART MONEY
         # ------------------------------------------------------
 
@@ -173,20 +214,62 @@ class AnalysisContext:
         self.liquidity_pool.clear()
 
         # ------------------------------------------------------
-        # IA
+        # CONTEXTO
         # ------------------------------------------------------
 
         self.context.clear()
 
-        self.evidence.clear()
+        # ------------------------------------------------------
+        # ESTRATÉGIA
+        # ------------------------------------------------------
 
         self.strategy.clear()
 
+        # ------------------------------------------------------
+        # SCORE
+        # ------------------------------------------------------
+
         self.score.clear()
+
+        # ------------------------------------------------------
+        # RISCO
+        # ------------------------------------------------------
 
         self.risk.clear()
 
+        # ------------------------------------------------------
+        # DECISÃO
+        # ------------------------------------------------------
+
         self.decision.clear()
 
+        # ------------------------------------------------------
+        # ALERTA
+        # ------------------------------------------------------
+
         self.alert.clear()
-```
+
+        # ------------------------------------------------------
+        # CHECKLIST
+        # ------------------------------------------------------
+
+        self.checklist.clear()
+
+        # ------------------------------------------------------
+        # NARRATIVA
+        # ------------------------------------------------------
+
+    # ==========================================================
+    # RESET COMPLETO
+    # ==========================================================
+
+    def reset(self) -> None:
+        """
+        Reinicia completamente o contexto.
+        """
+
+        self.market.clear()
+
+        self.external_market.clear()
+
+        self.clear_results()

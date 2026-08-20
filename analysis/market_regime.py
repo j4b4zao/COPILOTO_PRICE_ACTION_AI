@@ -11,15 +11,22 @@ Esta engine apenas classifica o mercado.
 """
 
 from enums.trend import Trend
+from ai.engine_base import EngineBase
 
 
-class MarketRegime:
+class MarketRegime(EngineBase):
 
     NAME = "MarketRegime"
 
+    VERSION = "RC13.5"
+
+    ENABLED = True
+
+    PRIORITY = 10
+
     def __init__(self):
 
-        self.enabled = True
+        super().__init__()
 
     # =====================================================
     # EXECUTAR
