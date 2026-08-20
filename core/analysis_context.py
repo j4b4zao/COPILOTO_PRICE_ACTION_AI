@@ -8,6 +8,7 @@ COPILOTO PRICE ACTION AI.
 from dataclasses import dataclass, field
 
 from core.market_state import MarketState
+from core.multi_timeframe_state import MultiTimeframeState
 
 from external_context.external_market_state import (
     ExternalMarketState,
@@ -53,6 +54,8 @@ class AnalysisContext:
     market: MarketState = field(
         default_factory=MarketState
     )
+
+    multi_timeframe: MultiTimeframeState | None = None
 
     # ==========================================================
     # MERCADO EXTERNO
@@ -276,6 +279,10 @@ class AnalysisContext:
         """
 
         self.market.clear()
+
+        if self.multi_timeframe is not None:
+
+            self.multi_timeframe.clear()
 
         self.external_market.clear()
 

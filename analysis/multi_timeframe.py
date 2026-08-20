@@ -1,3 +1,12 @@
+"""
+LEGACY - DO NOT USE no pipeline RC3.0.
+
+Esta implementação usa atributos que não existem no MarketState atual e
+mistura M15/M5/M2 sem históricos independentes. O contrato oficial está em
+core.multi_timeframe_state.MultiTimeframeState.
+"""
+
+
 class MultiTimeframe:
 
 
