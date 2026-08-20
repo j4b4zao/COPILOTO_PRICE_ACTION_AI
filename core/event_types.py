@@ -29,6 +29,8 @@ class EventType:
     # PRICE ACTION
     # ==========================================================
 
+    REGIME_UPDATED = "REGIME_UPDATED"
+
     STRUCTURE_UPDATED = "STRUCTURE_UPDATED"
 
     LIQUIDITY_UPDATED = "LIQUIDITY_UPDATED"

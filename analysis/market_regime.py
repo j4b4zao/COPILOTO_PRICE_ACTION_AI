@@ -1,36 +1,37 @@
 """
 analysis/market_regime.py
 
-MarketRegimeEngine RC1
+Classificação do regime atual do mercado.
 
-Responsável por identificar o regime atual do mercado.
+RC2.4 - CLOSED CANDLE REGIME
 
-Nenhuma decisão operacional é tomada aqui.
+Responsabilidades:
 
-Esta engine apenas classifica o mercado.
+- usar somente candles fechados;
+- classificar tendência de alta, baixa ou range;
+- registrar força, confiança e motivo;
+- não tomar decisão operacional.
 """
 
-from enums.trend import Trend
 from ai.engine_base import EngineBase
+from enums.trend import Trend
 
 
 class MarketRegime(EngineBase):
 
     NAME = "MarketRegime"
 
-    VERSION = "RC13.5"
+    VERSION = "RC2.4-CLOSED-CANDLE"
 
     ENABLED = True
 
     PRIORITY = 10
 
-    def __init__(self):
+    MIN_CLOSED_CANDLES = 5
 
-        super().__init__()
-
-    # =====================================================
+    # ==========================================================
     # EXECUTAR
-    # =====================================================
+    # ==========================================================
 
     def executar(self, context):
 
@@ -40,26 +41,50 @@ class MarketRegime(EngineBase):
 
         result.clear()
 
-        if not market.ready:
+        result.start()
+
+        result.source = self.NAME
+
+        candles = market.candles.all()
+
+        # ------------------------------------------------------
+        # O último candle está em formação e não participa da
+        # classificação do regime.
+        # ------------------------------------------------------
+
+        if len(candles) < self.MIN_CLOSED_CANDLES + 1:
+
+            result.skip()
+
+            result.add_reason(
+                "São necessários pelo menos cinco candles "
+                "fechados e um candle atual."
+            )
 
             return context
 
-        candles = market.last(5)
+        closed_candles = candles[:-1]
 
-        c1, c2, c3, c4, c5 = candles
+        recent_closed = closed_candles[
+            -self.MIN_CLOSED_CANDLES:
+        ]
 
-        # ==================================================
-        # TREND UP
-        # ==================================================
+        previous = recent_closed[-2]
+
+        current = recent_closed[-1]
+
+        # A volatilidade permanece neutra nesta primeira
+        # integração. Uma escala própria será incorporada em
+        # etapa isolada, sem alterar a classificação direcional.
+        result.volatility = "NORMAL"
+
+        # ======================================================
+        # TENDÊNCIA DE ALTA
+        # ======================================================
 
         if (
-
-            c5.high > c4.high
-
-            and
-
-            c5.low > c4.low
-
+            current.high > previous.high
+            and current.low > previous.low
         ):
 
             result.regime = "TREND_UP"
@@ -70,22 +95,22 @@ class MarketRegime(EngineBase):
 
             result.confidence = 0.70
 
-            result.valid = True
+            result.add_reason(
+                "Últimos candles fechados confirmam "
+                "máxima e mínima ascendentes."
+            )
+
+            result.validate()
 
             return context
 
-        # ==================================================
-        # TREND DOWN
-        # ==================================================
+        # ======================================================
+        # TENDÊNCIA DE BAIXA
+        # ======================================================
 
         if (
-
-            c5.high < c4.high
-
-            and
-
-            c5.low < c4.low
-
+            current.high < previous.high
+            and current.low < previous.low
         ):
 
             result.regime = "TREND_DOWN"
@@ -96,13 +121,18 @@ class MarketRegime(EngineBase):
 
             result.confidence = 0.70
 
-            result.valid = True
+            result.add_reason(
+                "Últimos candles fechados confirmam "
+                "máxima e mínima descendentes."
+            )
+
+            result.validate()
 
             return context
 
-        # ==================================================
+        # ======================================================
         # RANGE
-        # ==================================================
+        # ======================================================
 
         result.regime = "RANGE"
 
@@ -112,6 +142,11 @@ class MarketRegime(EngineBase):
 
         result.confidence = 0.50
 
-        result.valid = True
+        result.add_reason(
+            "Últimos candles fechados não confirmam "
+            "direção conjunta de máximas e mínimas."
+        )
+
+        result.validate()
 
         return context
