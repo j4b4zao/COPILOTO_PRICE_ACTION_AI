@@ -3,7 +3,7 @@ risk/risk_manager.py
 
 Risk Manager
 
-RC10.1
+RC10.2
 
 Responsável por:
 
@@ -25,6 +25,11 @@ O fallback de 2R somente será utilizado quando
 NÃO existir alvo estrutural disponível.
 
 Não executa ordens.
+
+Correção RC10.2:
+
+- níveis estruturais SELL zerados ou negativos não contam como
+  alvo encontrado e permitem o fallback quando não há alvo real.
 """
 
 from ai.engine_base import EngineBase
@@ -34,7 +39,7 @@ class RiskManager(EngineBase):
 
     NAME = "RiskManager"
 
-    VERSION = "RC10.1"
+    VERSION = "RC10.2"
 
     ENABLED = True
 
@@ -947,7 +952,7 @@ class RiskManager(EngineBase):
                 or 0.0
             )
 
-            if value < entry:
+            if 0.0 < value < entry:
 
                 candidates.append(
                     (
