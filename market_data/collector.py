@@ -2,9 +2,10 @@
 market_data/collector.py
 
 Coleta dados do Profit Pro através do Excel,
-alimenta M1/M5/M15 e retorna AnalysisContext.
+alimenta M1/M5/M15, oferece mercado NORMAL ou RENKO
+e retorna AnalysisContext.
 
-RC11 - MULTI-TIMEFRAME
+RC12 - CHART MODE / RENKO
 """
 
 import math
@@ -14,18 +15,23 @@ from connectors.profit_reader import ProfitReader
 from core.analysis_context import AnalysisContext
 from core.market_clock import MarketClock
 from core.multi_timeframe_state import MultiTimeframeState
+from core.renko_state import RenkoState
+from enums.chart_mode import ChartMode
 
 
 class Collector:
 
     NAME = "Collector"
-    VERSION = "RC11-MULTI-TIMEFRAME"
+    VERSION = "RC12-CHART-MODE"
 
     def __init__(
         self,
         excel=None,
         reader=None,
         multi_timeframe=None,
+        renko_state=None,
+        chart_mode=None,
+        renko_brick_size=None,
         clock=None,
     ):
 
@@ -55,21 +61,46 @@ class Collector:
         # MERCADO
         # ======================================================
 
+        from config.settings import (
+            CHART_MODE,
+            RENKO_BRICK_SIZE,
+        )
+
+        self.chart_mode = ChartMode.normalize(
+            chart_mode
+            if chart_mode is not None
+            else CHART_MODE
+        )
+
+        brick_size = (
+            renko_brick_size
+            if renko_brick_size is not None
+            else RENKO_BRICK_SIZE
+        )
+
         self.multi_timeframe = (
             multi_timeframe
             if multi_timeframe is not None
             else MultiTimeframeState()
         )
 
-        # Compatibilidade com o pipeline atual:
-        # context.market continua sendo o mercado M1.
-        self.market = self.multi_timeframe.primary
+        self.renko = (
+            renko_state
+            if renko_state is not None
+            else RenkoState(
+                brick_size=brick_size
+            )
+        )
+
+        self.market = self._primary_market()
 
         self.last_new_candles = {
             timeframe: False
             for timeframe
             in self.multi_timeframe.TIMEFRAMES
         }
+
+        self.last_closed_renko_bricks = 0
 
         self.clock = (
             clock
@@ -188,6 +219,17 @@ class Collector:
             )
         )
 
+        if self.chart_mode == ChartMode.RENKO:
+
+            self.last_closed_renko_bricks = (
+                self.renko.update_tick(
+                    symbol=ativo,
+                    price=close,
+                    cumulative_volume=volume,
+                    timestamp=timestamp,
+                )
+            )
+
         candle = self.market.last_candle
 
         # ======================================================
@@ -205,7 +247,10 @@ class Collector:
             f"history="
             f"M1:{self.multi_timeframe.get('M1').candle_count},"
             f"M5:{self.multi_timeframe.get('M5').candle_count},"
-            f"M15:{self.multi_timeframe.get('M15').candle_count}"
+            f"M15:{self.multi_timeframe.get('M15').candle_count} "
+            f"chart_mode={self.chart_mode.value} "
+            f"primary={self.market.timeframe} "
+            f"renko_bricks={self.renko.market.candle_count}"
         )
 
         # ======================================================
@@ -218,6 +263,18 @@ class Collector:
         )
 
         return context
+
+    # ==========================================================
+    # GRÁFICO PRINCIPAL
+    # ==========================================================
+
+    def _primary_market(self):
+
+        if self.chart_mode == ChartMode.RENKO:
+
+            return self.renko.market
+
+        return self.multi_timeframe.primary
 
     # ==========================================================
     # CONVERSÃO

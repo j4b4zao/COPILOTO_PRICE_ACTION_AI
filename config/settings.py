@@ -19,6 +19,14 @@ EXCEL_PATH = r"C:\COPILOTO_PRICE_ACTION_AI\Profit.xlsx"
 
 DEFAULT_TIMEFRAME = "M1"
 
+# NORMAL mantém o gráfico temporal M1 como mercado principal.
+# RENKO usa tijolos de preço e mantém M1/M5/M15 como contexto.
+CHART_MODE = "NORMAL"
+
+# Tamanho do tijolo em pontos do ativo. Para WIN, 20 pontos
+# correspondem a quatro variações mínimas de 5 pontos.
+RENKO_BRICK_SIZE = 20.0
+
 MIN_HISTORY = 5
 
 # ==========================================================
