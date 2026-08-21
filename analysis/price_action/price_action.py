@@ -3,7 +3,7 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC9.15 - MICROCHANNELS
+RC9.16 - HORIZONTAL SWING LINES
 
 Responsável pela leitura de Price Action,
 estrutura, padrões de candle e evidências
@@ -67,13 +67,16 @@ from analysis.price_action.channel_behavior_dynamics import (
 from analysis.price_action.microchannel_dynamics import (
     MicrochannelDynamics,
 )
+from analysis.price_action.horizontal_swing_dynamics import (
+    HorizontalSwingDynamics,
+)
 
 
 class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC9.15"
+    VERSION = "RC9.16"
 
     ENABLED = True
 
@@ -158,6 +161,8 @@ class PriceAction(EngineBase):
         self._detect_channel_behavior_dynamics(context)
 
         self._detect_microchannel_dynamics(context)
+
+        self._detect_horizontal_swing_dynamics(context)
 
         self._detect_patterns(context)
 
@@ -403,6 +408,21 @@ class PriceAction(EngineBase):
 
     def _detect_microchannel_dynamics(self, context):
         metrics = MicrochannelDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # LINHAS HORIZONTAIS EM PONTOS DE SWING FECHADOS
+    # ==========================================================
+
+    def _detect_horizontal_swing_dynamics(self, context):
+        metrics = HorizontalSwingDynamics.analyze(
             context.market.candles.all(),
             trend=context.price_action.trend,
         )
