@@ -3,7 +3,7 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC9.10 - LATE ENTRY
+RC9.11 - PATTERN EVOLUTION
 
 Responsável pela leitura de Price Action,
 estrutura, padrões de candle e evidências
@@ -52,13 +52,16 @@ from analysis.price_action.second_entry_dynamics import (
 from analysis.price_action.late_entry_dynamics import (
     LateEntryDynamics,
 )
+from analysis.price_action.pattern_evolution_dynamics import (
+    PatternEvolutionDynamics,
+)
 
 
 class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC9.10"
+    VERSION = "RC9.11"
 
     ENABLED = True
 
@@ -133,6 +136,8 @@ class PriceAction(EngineBase):
         self._detect_second_entry_dynamics(context)
 
         self._detect_late_entry_dynamics(context)
+
+        self._detect_pattern_evolution_dynamics(context)
 
         self._detect_patterns(context)
 
@@ -313,6 +318,17 @@ class PriceAction(EngineBase):
         )
 
         result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # EVOLUÇÃO DE PADRÕES JÁ DIAGNOSTICADOS
+    # ==========================================================
+
+    def _detect_pattern_evolution_dynamics(self, context):
+        result = context.price_action
+        metrics = PatternEvolutionDynamics.analyze(result)
 
         for name, value in metrics.items():
             setattr(result, name, value)

@@ -3,7 +3,7 @@ models/price_action_result.py
 
 Resultado produzido pela PriceAction.
 
-RC7.10 - LATE ENTRY
+RC7.11 - PATTERN EVOLUTION
 """
 
 from dataclasses import dataclass
@@ -336,6 +336,28 @@ class PriceActionResult(ResultBase):
     brooks_late_entry_confirmed: bool = False
 
     # ==========================================================
+    # EVOLUÇÃO DE PADRÕES - BROOKS TRENDS CAP. 12
+    # ==========================================================
+
+    brooks_evolution_state: str = "STABLE"
+
+    brooks_evolution_original_pattern: str = "NONE"
+
+    brooks_evolution_pattern: str = "NONE"
+
+    brooks_evolution_direction: str = "NONE"
+
+    brooks_evolution_failure: bool = False
+
+    brooks_evolution_expanded: bool = False
+
+    brooks_evolution_breakout_mode: bool = False
+
+    brooks_evolution_trapped_side: str = "NONE"
+
+    brooks_evolution_confirmed: bool = False
+
+    # ==========================================================
     # PRICE ACTION
     # ==========================================================
 
@@ -636,6 +658,24 @@ class PriceActionResult(ResultBase):
         self.brooks_late_entry_reduce_position = False
 
         self.brooks_late_entry_confirmed = False
+
+        self.brooks_evolution_state = "STABLE"
+
+        self.brooks_evolution_original_pattern = "NONE"
+
+        self.brooks_evolution_pattern = "NONE"
+
+        self.brooks_evolution_direction = "NONE"
+
+        self.brooks_evolution_failure = False
+
+        self.brooks_evolution_expanded = False
+
+        self.brooks_evolution_breakout_mode = False
+
+        self.brooks_evolution_trapped_side = "NONE"
+
+        self.brooks_evolution_confirmed = False
 
         # Price Action
         self.breakout = False
