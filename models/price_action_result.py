@@ -3,7 +3,7 @@ models/price_action_result.py
 
 Resultado produzido pela PriceAction.
 
-RC7.1 - BAR DYNAMICS
+RC7.2 - BREAKOUT LIFECYCLE
 """
 
 from dataclasses import dataclass
@@ -80,6 +80,30 @@ class PriceActionResult(ResultBase):
     climax_ended: bool = False
 
     pause_detected: bool = False
+
+    # ==========================================================
+    # CICLO DO ROMPIMENTO - BROOKS TRENDS CAP. 3
+    # ==========================================================
+
+    brooks_breakout_phase: str = "UNKNOWN"
+
+    brooks_breakout_direction: str = "NONE"
+
+    brooks_breakout_level: float = 0.0
+
+    brooks_breakout_penetration: float = 0.0
+
+    brooks_breakout_distance: float = 0.0
+
+    brooks_breakout_follow_through: bool = False
+
+    brooks_breakout_tested: bool = False
+
+    brooks_breakout_failed: bool = False
+
+    brooks_range_high: float = 0.0
+
+    brooks_range_low: float = 0.0
 
     # ==========================================================
     # PRICE ACTION
@@ -164,6 +188,26 @@ class PriceActionResult(ResultBase):
         self.climax_ended = False
 
         self.pause_detected = False
+
+        self.brooks_breakout_phase = "UNKNOWN"
+
+        self.brooks_breakout_direction = "NONE"
+
+        self.brooks_breakout_level = 0.0
+
+        self.brooks_breakout_penetration = 0.0
+
+        self.brooks_breakout_distance = 0.0
+
+        self.brooks_breakout_follow_through = False
+
+        self.brooks_breakout_tested = False
+
+        self.brooks_breakout_failed = False
+
+        self.brooks_range_high = 0.0
+
+        self.brooks_range_low = 0.0
 
         # Price Action
         self.breakout = False

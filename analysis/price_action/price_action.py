@@ -3,7 +3,7 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC9.1 - BAR DYNAMICS
+RC9.2 - BREAKOUT LIFECYCLE
 
 Responsável pela leitura de Price Action,
 estrutura, padrões de candle e evidências
@@ -25,13 +25,16 @@ from analysis.price_action.patterns.candlestick_patterns import (
     CandlestickPatterns,
 )
 from analysis.price_action.bar_dynamics import BarDynamics
+from analysis.price_action.breakout_dynamics import (
+    BreakoutDynamics,
+)
 
 
 class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC9.1"
+    VERSION = "RC9.2"
 
     ENABLED = True
 
@@ -89,6 +92,8 @@ class PriceAction(EngineBase):
 
         self._detect_bar_dynamics(context)
 
+        self._detect_breakout_dynamics(context)
+
         self._detect_patterns(context)
 
         self._detect_price_action(context)
@@ -131,6 +136,20 @@ class PriceAction(EngineBase):
 
     def _detect_bar_dynamics(self, context):
         metrics = BarDynamics.analyze(
+            context.market.candles.all()
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # CICLO DO ROMPIMENTO EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_breakout_dynamics(self, context):
+        metrics = BreakoutDynamics.analyze(
             context.market.candles.all()
         )
 
