@@ -3,7 +3,7 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC9.3 - SIGNAL / ENTRY CYCLE
+RC9.4 - REVERSAL BAR QUALITY
 
 Responsável pela leitura de Price Action,
 estrutura, padrões de candle e evidências
@@ -31,13 +31,16 @@ from analysis.price_action.breakout_dynamics import (
 from analysis.price_action.signal_entry_dynamics import (
     SignalEntryDynamics,
 )
+from analysis.price_action.reversal_bar_dynamics import (
+    ReversalBarDynamics,
+)
 
 
 class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC9.3"
+    VERSION = "RC9.4"
 
     ENABLED = True
 
@@ -98,6 +101,8 @@ class PriceAction(EngineBase):
         self._detect_breakout_dynamics(context)
 
         self._detect_signal_entry_dynamics(context)
+
+        self._detect_reversal_bar_dynamics(context)
 
         self._detect_patterns(context)
 
@@ -169,6 +174,21 @@ class PriceAction(EngineBase):
 
     def _detect_signal_entry_dynamics(self, context):
         metrics = SignalEntryDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # QUALIDADE DA BARRA DE REVERSÃO EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_reversal_bar_dynamics(self, context):
+        metrics = ReversalBarDynamics.analyze(
             context.market.candles.all(),
             trend=context.price_action.trend,
         )
