@@ -47,6 +47,14 @@ MIN_SCORE = 80
 
 MAX_SCORE = 100
 
+# Experimento RC4.5. Desativado por padrão: quando False, o
+# comportamento e o breakdown do ScoreEngine permanecem iguais.
+ENABLE_ORDER_FLOW_SCORE = False
+
+# Bônus máximo experimental, aplicado apenas a padrão confirmado
+# e alinhado com a direção da estratégia.
+ORDER_FLOW_SCORE_WEIGHT = 5.0
+
 # ==========================================================
 # REPLAY
 # ==========================================================
