@@ -1,12 +1,13 @@
 """
 brain/context_engine.py
 
-Context Engine RC15.2
+Context Engine RC15.3
 
 Integrações contextuais:
 
 - External Context RC2.3;
-- Market Regime RC2.6.
+- Market Regime RC2.6;
+- Multi-timeframe RC3.3 informativo.
 
 Responsável por consolidar as análises anteriores
 em um contexto operacional.
@@ -27,6 +28,9 @@ confirmação, conflito ou neutralidade contextual.
 O regime de mercado segue a mesma regra e não
 altera critérios operacionais.
 
+O multi-timeframe apenas alimenta narrativa e campos
+informativos do checklist.
+
 Não altera o Score global.
 """
 
@@ -41,7 +45,7 @@ class ContextEngine(EngineBase):
 
     NAME = "Context Engine"
 
-    VERSION = "RC15.2"
+    VERSION = "RC15.3"
 
     DESCRIPTION = "Consolida o contexto do mercado."
 
@@ -84,6 +88,10 @@ class ContextEngine(EngineBase):
         price_action = context.price_action
 
         regime = context.regime
+
+        multi_timeframe = (
+            context.multi_timeframe_analysis
+        )
 
         external_market = context.external_market
 
@@ -281,6 +289,89 @@ class ContextEngine(EngineBase):
                 narrative.strengths.append(
                     "Volatilidade normal detectada pelo regime."
                 )
+
+        # ======================================================
+        # MULTI-TIMEFRAME
+        # ======================================================
+        #
+        # O multi-timeframe NÃO altera:
+        #
+        # - checklist.ready;
+        # - checklist.approved;
+        # - checklist.score;
+        # - checklist.completion;
+        # - result.bias;
+        # - result.confluences;
+        # - result.valid;
+        # - result.score.
+        #
+        # Ele apenas atualiza campos informativos do checklist
+        # e registra sua leitura no MarketNarrative.
+        #
+        # ======================================================
+
+        checklist.multi_timeframe_status = (
+            multi_timeframe.alignment
+        )
+
+        if multi_timeframe.valid:
+
+            checklist.multi_timeframe_ready = True
+
+            checklist.multi_timeframe_aligned = (
+                multi_timeframe.aligned
+            )
+
+            checklist.multi_timeframe_conflict = (
+                multi_timeframe.conflict
+            )
+
+            if multi_timeframe.alignment in (
+                "BUY",
+                "SELL",
+            ):
+
+                if result.bias == multi_timeframe.bias:
+
+                    narrative.strengths.append(
+                        "Multi-timeframe confirma direção operacional."
+                    )
+
+                elif result.bias in (
+                    "BUY",
+                    "SELL",
+                ):
+
+                    checklist.multi_timeframe_conflict = True
+
+                    narrative.weaknesses.append(
+                        "Multi-timeframe conflita com direção operacional."
+                    )
+
+                else:
+
+                    narrative.weaknesses.append(
+                        "Multi-timeframe está alinhado, mas o contexto "
+                        "operacional ainda não possui direção."
+                    )
+
+            elif multi_timeframe.alignment == "CONFLICT":
+
+                narrative.weaknesses.append(
+                    "M15, M5 e M1 apresentam conflito direcional."
+                )
+
+            else:
+
+                narrative.weaknesses.append(
+                    "Multi-timeframe aguarda alinhamento completo."
+                )
+
+        else:
+
+            narrative.weaknesses.append(
+                "Multi-timeframe ainda possui dados insuficientes."
+            )
 
         # ======================================================
         # CONTEXTO EXTERNO
