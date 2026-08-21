@@ -12,6 +12,8 @@ class OrderFlowState:
 
     HISTORY_SIZE: ClassVar[int] = 50
     RECENT_WINDOW: ClassVar[int] = 5
+    PATTERN_WINDOW: ClassVar[int] = 3
+    MIN_PATTERN_SAMPLES: ClassVar[int] = 6
 
     cumulative_buy: float | None = None
     cumulative_sell: float | None = None
@@ -23,10 +25,21 @@ class OrderFlowState:
     history: deque[float] = field(
         default_factory=lambda: deque(maxlen=50)
     )
+    aggression_history: deque[float] = field(
+        default_factory=lambda: deque(maxlen=50)
+    )
+    price_history: deque[float] = field(
+        default_factory=lambda: deque(maxlen=51)
+    )
     ready: bool = False
     available: bool = False
 
-    def update(self, cumulative_buy: float, cumulative_sell: float) -> bool:
+    def update(
+        self,
+        cumulative_buy: float,
+        cumulative_sell: float,
+        price: float | None = None,
+    ) -> bool:
 
         buy = self._validate(cumulative_buy)
         sell = self._validate(cumulative_sell)
@@ -37,16 +50,21 @@ class OrderFlowState:
 
         previous_buy = self.cumulative_buy
         previous_sell = self.cumulative_sell
+        valid_price = self._validate_price(price)
         self.cumulative_buy = buy
         self.cumulative_sell = sell
         self.available = True
 
         if previous_buy is None or previous_sell is None:
+            if valid_price is not None:
+                self.price_history.append(valid_price)
             self._clear_interval()
             return False
 
         if buy < previous_buy or sell < previous_sell:
             self._clear_history()
+            if valid_price is not None:
+                self.price_history.append(valid_price)
             self._clear_interval()
             return False
 
@@ -55,6 +73,9 @@ class OrderFlowState:
         self.delta = self.buy_aggression - self.sell_aggression
         self.total_aggression = self.buy_aggression + self.sell_aggression
         self.history.append(self.delta)
+        self.aggression_history.append(self.total_aggression)
+        if valid_price is not None:
+            self.price_history.append(valid_price)
         self.cumulative_delta += self.delta
         self.ready = True
         return True
@@ -75,6 +96,37 @@ class OrderFlowState:
             return 0.0
         return sum(tuple(self.history)[-self.RECENT_WINDOW:])
 
+    @property
+    def pattern_ready(self) -> bool:
+        return (
+            self.sample_count >= self.MIN_PATTERN_SAMPLES
+            and len(self.aggression_history) >= self.MIN_PATTERN_SAMPLES
+            and len(self.price_history) >= self.MIN_PATTERN_SAMPLES + 1
+        )
+
+    @property
+    def recent_price_change(self) -> float:
+        if not self.pattern_ready:
+            return 0.0
+        prices = tuple(self.price_history)
+        window = min(self.RECENT_WINDOW, self.sample_count)
+        return prices[-1] - prices[-(window + 1)]
+
+    @property
+    def aggression_activity_ratio(self) -> float:
+        if not self.pattern_ready:
+            return 0.0
+
+        totals = tuple(self.aggression_history)
+        recent = totals[-self.PATTERN_WINDOW:]
+        previous = totals[-(self.PATTERN_WINDOW * 2):-self.PATTERN_WINDOW]
+        previous_average = sum(previous) / len(previous)
+
+        if previous_average <= 0:
+            return 0.0
+
+        return (sum(recent) / len(recent)) / previous_average
+
     def mark_unavailable(self) -> None:
         self.available = False
         self._clear_interval()
@@ -88,6 +140,8 @@ class OrderFlowState:
 
     def _clear_history(self) -> None:
         self.history.clear()
+        self.aggression_history.clear()
+        self.price_history.clear()
         self.cumulative_delta = 0.0
 
     def _clear_interval(self) -> None:
@@ -105,5 +159,16 @@ class OrderFlowState:
             return None
 
         if not math.isfinite(converted) or converted < 0:
+            return None
+        return converted
+
+    @staticmethod
+    def _validate_price(value) -> float | None:
+        try:
+            converted = float(value)
+        except (TypeError, ValueError):
+            return None
+
+        if not math.isfinite(converted) or converted <= 0:
             return None
         return converted

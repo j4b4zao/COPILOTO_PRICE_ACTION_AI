@@ -19,6 +19,12 @@ class OrderFlowResult(ResultBase):
     average_delta: float = 0.0
     sample_count: int = 0
     trend: str = "INSUFFICIENT_DATA"
+    patterns_ready: bool = False
+    recent_price_change: float = 0.0
+    aggression_activity_ratio: float = 0.0
+    divergence: str = "INSUFFICIENT_DATA"
+    absorption: str = "INSUFFICIENT_DATA"
+    exhaustion: str = "INSUFFICIENT_DATA"
 
     def clear(self) -> None:
         ResultBase.clear(self)
@@ -33,3 +39,9 @@ class OrderFlowResult(ResultBase):
         self.average_delta = 0.0
         self.sample_count = 0
         self.trend = "INSUFFICIENT_DATA"
+        self.patterns_ready = False
+        self.recent_price_change = 0.0
+        self.aggression_activity_ratio = 0.0
+        self.divergence = "INSUFFICIENT_DATA"
+        self.absorption = "INSUFFICIENT_DATA"
+        self.exhaustion = "INSUFFICIENT_DATA"
