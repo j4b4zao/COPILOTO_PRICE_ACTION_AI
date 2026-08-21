@@ -69,17 +69,18 @@ class BarCountDynamics:
         prefix = "HIGH" if trend == "UP" else "LOW"
         pattern = f"{prefix}_{attempt_count}" if attempt_count < 4 else f"{prefix}_4"
 
-        first_failed = self._attempt_failed(closed, attempts[0], trend) if len(attempts) >= 2 else False
+        first_failed = (
+            self._attempt_failed(closed, attempts[0], trend)
+            if len(attempts) >= 2
+            else False
+        )
         two_leg = self._has_two_counter_legs(closed, start, signal_idx, trend)
         abc = two_leg and attempt_count >= 2
         confirmed = self._confirmed_after_signal(closed, signal_idx, trend)
         continuation_bias = confirmed and attempt_count in (1, 2)
         exhaustion_risk = attempt_count >= 3
 
-        reasons = [
-            f"TREND_{trend}",
-            pattern,
-        ]
+        reasons = [f"TREND_{trend}", pattern]
         if first_failed:
             reasons.append("FIRST_ATTEMPT_FAILED")
         if two_leg:
@@ -111,7 +112,7 @@ class BarCountDynamics:
         )
 
     def _infer_trend(self, candles):
-        sample = candles[-10:]
+        sample = candles[-12:]
         if len(sample) < 8:
             return "NONE"
         atr = max(self._average_range(sample), 1e-9)
@@ -123,26 +124,43 @@ class BarCountDynamics:
 
         highs = [float(x.high) for x in sample]
         lows = [float(x.low) for x in sample]
-        if max(highs[-4:]) > max(highs[:4]) and min(lows[-4:]) > min(lows[:4]):
+        if max(highs[-5:]) > max(highs[:5]) and min(lows[-5:]) > min(lows[:5]):
             return "UP"
-        if max(highs[-4:]) < max(highs[:4]) and min(lows[-4:]) < min(lows[:4]):
+        if max(highs[-5:]) < max(highs[:5]) and min(lows[-5:]) < min(lows[:5]):
             return "DOWN"
         return "NONE"
 
     def _find_pullback_start(self, candles, trend):
-        start = max(2, len(candles) - self.LOOKBACK)
-        # Work forward from a recent trend extreme and choose the latest
-        # counter-trend sequence that still belongs to the current trend.
-        for i in range(len(candles) - 3, start - 1, -1):
-            bar = candles[i]
-            prev = candles[i - 1]
-            if trend == "UP":
-                if float(bar.low) < float(prev.low) or float(bar.close) < float(bar.open):
-                    return i
-            else:
-                if float(bar.high) > float(prev.high) or float(bar.close) > float(bar.open):
-                    return i
-        return None
+        left = max(2, len(candles) - self.LOOKBACK)
+        right = len(candles) - 2
+        if right <= left:
+            return None
+
+        region = candles[left:right]
+        if trend == "UP":
+            extreme_rel = max(range(len(region)), key=lambda i: float(region[i].high))
+            extreme_idx = left + extreme_rel
+            start = extreme_idx + 1
+            if start >= len(candles) - 1:
+                return None
+            has_pullback = any(
+                float(candles[i].low) < float(candles[i - 1].low)
+                or float(candles[i].close) < float(candles[i].open)
+                for i in range(start, len(candles))
+            )
+        else:
+            extreme_rel = min(range(len(region)), key=lambda i: float(region[i].low))
+            extreme_idx = left + extreme_rel
+            start = extreme_idx + 1
+            if start >= len(candles) - 1:
+                return None
+            has_pullback = any(
+                float(candles[i].high) > float(candles[i - 1].high)
+                or float(candles[i].close) > float(candles[i].open)
+                for i in range(start, len(candles))
+            )
+
+        return start if has_pullback else None
 
     def _count_attempts(self, candles, start, trend):
         attempts = []
