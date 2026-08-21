@@ -3,7 +3,7 @@ models/price_action_result.py
 
 Resultado produzido pela PriceAction.
 
-RC7.12 - TREND LINES
+RC7.13 - CHANNEL LINES
 """
 
 from dataclasses import dataclass
@@ -388,6 +388,40 @@ class PriceActionResult(ResultBase):
     brooks_trend_line_valid: bool = False
 
     # ==========================================================
+    # LINHA DE CANAL - BROOKS TRENDS CAP. 14
+    # ==========================================================
+
+    brooks_channel_line_state: str = "NO_CLEAR_TREND"
+
+    brooks_channel_line_direction: str = "NONE"
+
+    brooks_channel_line_slope: float = 0.0
+
+    brooks_channel_line_trend_level: float = 0.0
+
+    brooks_channel_line_level: float = 0.0
+
+    brooks_channel_line_width: float = 0.0
+
+    brooks_channel_line_position: float = 0.5
+
+    brooks_channel_line_tolerance: float = 0.0
+
+    brooks_channel_line_overshoot_distance: float = 0.0
+
+    brooks_channel_line_tested: bool = False
+
+    brooks_channel_line_overshoot: bool = False
+
+    brooks_channel_line_returned_inside: bool = False
+
+    brooks_channel_line_accelerating: bool = False
+
+    brooks_channel_line_reversal_candidate: bool = False
+
+    brooks_channel_line_valid: bool = False
+
+    # ==========================================================
     # PRICE ACTION
     # ==========================================================
 
@@ -732,6 +766,36 @@ class PriceActionResult(ResultBase):
         self.brooks_trend_line_two_sided_risk = False
 
         self.brooks_trend_line_valid = False
+
+        self.brooks_channel_line_state = "NO_CLEAR_TREND"
+
+        self.brooks_channel_line_direction = "NONE"
+
+        self.brooks_channel_line_slope = 0.0
+
+        self.brooks_channel_line_trend_level = 0.0
+
+        self.brooks_channel_line_level = 0.0
+
+        self.brooks_channel_line_width = 0.0
+
+        self.brooks_channel_line_position = 0.5
+
+        self.brooks_channel_line_tolerance = 0.0
+
+        self.brooks_channel_line_overshoot_distance = 0.0
+
+        self.brooks_channel_line_tested = False
+
+        self.brooks_channel_line_overshoot = False
+
+        self.brooks_channel_line_returned_inside = False
+
+        self.brooks_channel_line_accelerating = False
+
+        self.brooks_channel_line_reversal_candidate = False
+
+        self.brooks_channel_line_valid = False
 
         # Price Action
         self.breakout = False
