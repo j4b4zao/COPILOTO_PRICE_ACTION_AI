@@ -3,7 +3,7 @@ decision/decision_engine.py
 
 Decision Engine
 
-RC9.1
+RC9.2 - MULTI-TIMEFRAME SAFETY GATE
 """
 
 from ai.engine_base import EngineBase
@@ -13,7 +13,7 @@ class DecisionEngine(EngineBase):
 
     NAME = "DecisionEngine"
 
-    VERSION = "RC9.1"
+    VERSION = "RC9.2"
 
     ENABLED = True
 
@@ -103,6 +103,38 @@ class DecisionEngine(EngineBase):
             return context
 
         # ======================================================
+        # MULTI-TIMEFRAME SAFETY GATE (RC3.5)
+        # ======================================================
+        #
+        # O MTF não adiciona score nem cria uma operação.
+        # Ele apenas bloqueia uma decisão já formada quando:
+        #
+        # - existe conflito direcional entre M15/M5/M1; ou
+        # - o alinhamento válido aponta para o lado oposto.
+        #
+        # WAIT, dados insuficientes e análise não executada
+        # preservam o comportamento operacional anterior.
+
+        multi_timeframe = (
+            context.multi_timeframe_analysis
+        )
+
+        block_reason = self._multi_timeframe_block_reason(
+            multi_timeframe,
+            direction,
+        )
+
+        if block_reason:
+
+            decision.action = "WAIT"
+
+            decision.add_reason(
+                block_reason
+            )
+
+            return context
+
+        # ======================================================
         # DECISÃO
         # ======================================================
 
@@ -146,6 +178,15 @@ class DecisionEngine(EngineBase):
             "Operação aprovada."
         )
 
+        if (
+            multi_timeframe.valid
+            and multi_timeframe.alignment == direction
+        ):
+
+            decision.add_reason(
+                "Multi-timeframe confirma a direção da operação."
+            )
+
         decision.add_reason(
             f"Setup: {strategy.name}"
         )
@@ -175,3 +216,38 @@ class DecisionEngine(EngineBase):
         )
 
         return context
+
+    # ==========================================================
+    # MULTI-TIMEFRAME SAFETY GATE
+    # ==========================================================
+
+    @staticmethod
+    def _multi_timeframe_block_reason(
+        multi_timeframe,
+        direction,
+    ):
+
+        if not multi_timeframe.valid:
+
+            return None
+
+        if multi_timeframe.alignment == "CONFLICT":
+
+            return (
+                "Operação bloqueada: conflito direcional "
+                "entre M15, M5 e M1."
+            )
+
+        if (
+            multi_timeframe.alignment
+            in ("BUY", "SELL")
+            and multi_timeframe.alignment != direction
+        ):
+
+            return (
+                "Operação bloqueada: multi-timeframe "
+                f"{multi_timeframe.alignment} contradiz "
+                f"a direção {direction} da estratégia."
+            )
+
+        return None
