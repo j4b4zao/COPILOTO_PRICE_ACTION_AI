@@ -3,7 +3,7 @@ models/price_action_result.py
 
 Resultado produzido pela PriceAction.
 
-RC7.11 - PATTERN EVOLUTION
+RC7.12 - TREND LINES
 """
 
 from dataclasses import dataclass
@@ -358,6 +358,36 @@ class PriceActionResult(ResultBase):
     brooks_evolution_confirmed: bool = False
 
     # ==========================================================
+    # LINHA DE TENDÊNCIA - BROOKS TRENDS CAP. 13
+    # ==========================================================
+
+    brooks_trend_line_state: str = "NO_CLEAR_TREND"
+
+    brooks_trend_line_direction: str = "NONE"
+
+    brooks_trend_line_slope: float = 0.0
+
+    brooks_trend_line_level: float = 0.0
+
+    brooks_trend_line_distance: float = 0.0
+
+    brooks_trend_line_tolerance: float = 0.0
+
+    brooks_trend_line_touch_count: int = 0
+
+    brooks_trend_line_tested: bool = False
+
+    brooks_trend_line_rejected: bool = False
+
+    brooks_trend_line_broken: bool = False
+
+    brooks_trend_line_break_strength: float = 0.0
+
+    brooks_trend_line_two_sided_risk: bool = False
+
+    brooks_trend_line_valid: bool = False
+
+    # ==========================================================
     # PRICE ACTION
     # ==========================================================
 
@@ -676,6 +706,32 @@ class PriceActionResult(ResultBase):
         self.brooks_evolution_trapped_side = "NONE"
 
         self.brooks_evolution_confirmed = False
+
+        self.brooks_trend_line_state = "NO_CLEAR_TREND"
+
+        self.brooks_trend_line_direction = "NONE"
+
+        self.brooks_trend_line_slope = 0.0
+
+        self.brooks_trend_line_level = 0.0
+
+        self.brooks_trend_line_distance = 0.0
+
+        self.brooks_trend_line_tolerance = 0.0
+
+        self.brooks_trend_line_touch_count = 0
+
+        self.brooks_trend_line_tested = False
+
+        self.brooks_trend_line_rejected = False
+
+        self.brooks_trend_line_broken = False
+
+        self.brooks_trend_line_break_strength = 0.0
+
+        self.brooks_trend_line_two_sided_risk = False
+
+        self.brooks_trend_line_valid = False
 
         # Price Action
         self.breakout = False

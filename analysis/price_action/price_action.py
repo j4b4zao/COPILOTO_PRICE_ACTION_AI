@@ -3,7 +3,7 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC9.11 - PATTERN EVOLUTION
+RC9.12 - TREND LINES
 
 Responsável pela leitura de Price Action,
 estrutura, padrões de candle e evidências
@@ -55,13 +55,16 @@ from analysis.price_action.late_entry_dynamics import (
 from analysis.price_action.pattern_evolution_dynamics import (
     PatternEvolutionDynamics,
 )
+from analysis.price_action.trend_line_dynamics import (
+    TrendLineDynamics,
+)
 
 
 class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC9.11"
+    VERSION = "RC9.12"
 
     ENABLED = True
 
@@ -138,6 +141,8 @@ class PriceAction(EngineBase):
         self._detect_late_entry_dynamics(context)
 
         self._detect_pattern_evolution_dynamics(context)
+
+        self._detect_trend_line_dynamics(context)
 
         self._detect_patterns(context)
 
@@ -329,6 +334,21 @@ class PriceAction(EngineBase):
     def _detect_pattern_evolution_dynamics(self, context):
         result = context.price_action
         metrics = PatternEvolutionDynamics.analyze(result)
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # LINHA DE TENDÊNCIA EM PONTOS DE SWING FECHADOS
+    # ==========================================================
+
+    def _detect_trend_line_dynamics(self, context):
+        metrics = TrendLineDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
 
         for name, value in metrics.items():
             setattr(result, name, value)
