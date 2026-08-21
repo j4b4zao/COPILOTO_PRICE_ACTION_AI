@@ -3,7 +3,7 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC9.6 - OUTSIDE BAR CONTEXT
+RC9.7 - CLOSE QUALITY
 
 Responsável pela leitura de Price Action,
 estrutura, padrões de candle e evidências
@@ -40,13 +40,16 @@ from analysis.price_action.composite_signal_dynamics import (
 from analysis.price_action.outside_bar_dynamics import (
     OutsideBarDynamics,
 )
+from analysis.price_action.close_quality_dynamics import (
+    CloseQualityDynamics,
+)
 
 
 class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC9.6"
+    VERSION = "RC9.7"
 
     ENABLED = True
 
@@ -113,6 +116,8 @@ class PriceAction(EngineBase):
         self._detect_composite_signal_dynamics(context)
 
         self._detect_outside_bar_dynamics(context)
+
+        self._detect_close_quality_dynamics(context)
 
         self._detect_patterns(context)
 
@@ -229,6 +234,21 @@ class PriceAction(EngineBase):
 
     def _detect_outside_bar_dynamics(self, context):
         metrics = OutsideBarDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # QUALIDADE DO FECHAMENTO EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_close_quality_dynamics(self, context):
+        metrics = CloseQualityDynamics.analyze(
             context.market.candles.all(),
             trend=context.price_action.trend,
         )

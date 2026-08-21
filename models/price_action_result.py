@@ -3,7 +3,7 @@ models/price_action_result.py
 
 Resultado produzido pela PriceAction.
 
-RC7.6 - OUTSIDE BAR CONTEXT
+RC7.7 - CLOSE QUALITY
 """
 
 from dataclasses import dataclass
@@ -226,6 +226,38 @@ class PriceActionResult(ResultBase):
     brooks_outside_failed: bool = False
 
     # ==========================================================
+    # QUALIDADE DO FECHAMENTO - BROOKS TRENDS CAP. 8
+    # ==========================================================
+
+    brooks_close_state: str = "UNKNOWN"
+
+    brooks_close_direction: str = "NEUTRAL"
+
+    brooks_close_quality: str = "UNKNOWN"
+
+    brooks_close_context: str = "NEUTRAL"
+
+    brooks_close_position: float = 0.5
+
+    brooks_close_distance_to_extreme: float = 0.5
+
+    brooks_close_body_ratio: float = 0.0
+
+    brooks_close_progress: float = 0.0
+
+    brooks_close_reversed_closes: int = 0
+
+    brooks_close_consistency: int = 0
+
+    brooks_close_near_extreme: bool = False
+
+    brooks_close_follow_through: bool = False
+
+    brooks_close_deterioration: bool = False
+
+    brooks_close_confirmed: bool = False
+
+    # ==========================================================
     # PRICE ACTION
     # ==========================================================
 
@@ -432,6 +464,34 @@ class PriceActionResult(ResultBase):
         self.brooks_outside_follow_through = False
 
         self.brooks_outside_failed = False
+
+        self.brooks_close_state = "UNKNOWN"
+
+        self.brooks_close_direction = "NEUTRAL"
+
+        self.brooks_close_quality = "UNKNOWN"
+
+        self.brooks_close_context = "NEUTRAL"
+
+        self.brooks_close_position = 0.5
+
+        self.brooks_close_distance_to_extreme = 0.5
+
+        self.brooks_close_body_ratio = 0.0
+
+        self.brooks_close_progress = 0.0
+
+        self.brooks_close_reversed_closes = 0
+
+        self.brooks_close_consistency = 0
+
+        self.brooks_close_near_extreme = False
+
+        self.brooks_close_follow_through = False
+
+        self.brooks_close_deterioration = False
+
+        self.brooks_close_confirmed = False
 
         # Price Action
         self.breakout = False
