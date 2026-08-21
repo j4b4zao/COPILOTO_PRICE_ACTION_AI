@@ -33,12 +33,17 @@ class OrderFlowState:
     )
     ready: bool = False
     available: bool = False
+    waiting_for_sample: bool = False
+    sampling_mode: str = "TICK"
+    source_units: int = 0
 
     def update(
         self,
         cumulative_buy: float,
         cumulative_sell: float,
         price: float | None = None,
+        sampling_mode: str = "TICK",
+        source_units: int = 1,
     ) -> bool:
 
         buy = self._validate(cumulative_buy)
@@ -51,6 +56,9 @@ class OrderFlowState:
         previous_buy = self.cumulative_buy
         previous_sell = self.cumulative_sell
         valid_price = self._validate_price(price)
+        self.sampling_mode = sampling_mode
+        self.source_units = max(0, int(source_units))
+        self.waiting_for_sample = False
         self.cumulative_buy = buy
         self.cumulative_sell = sell
         self.available = True
@@ -129,12 +137,23 @@ class OrderFlowState:
 
     def mark_unavailable(self) -> None:
         self.available = False
+        self.waiting_for_sample = False
+        self._clear_interval()
+
+    def mark_waiting(self, sampling_mode: str) -> None:
+        self.available = True
+        self.sampling_mode = sampling_mode
+        self.source_units = 0
+        self.waiting_for_sample = True
         self._clear_interval()
 
     def clear(self) -> None:
         self.cumulative_buy = None
         self.cumulative_sell = None
         self.available = False
+        self.waiting_for_sample = False
+        self.sampling_mode = "TICK"
+        self.source_units = 0
         self._clear_history()
         self._clear_interval()
 

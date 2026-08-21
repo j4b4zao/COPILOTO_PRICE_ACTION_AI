@@ -221,15 +221,6 @@ class Collector:
             dados.get("agressao_venda")
         )
 
-        if aggression_buy is None or aggression_sell is None:
-            self.order_flow.mark_unavailable()
-        else:
-            self.order_flow.update(
-                cumulative_buy=aggression_buy,
-                cumulative_sell=aggression_sell,
-                price=close,
-            )
-
         # ======================================================
         # MULTI-TIMEFRAME
         # ======================================================
@@ -253,6 +244,12 @@ class Collector:
                     timestamp=timestamp,
                 )
             )
+
+        self._update_order_flow(
+            aggression_buy=aggression_buy,
+            aggression_sell=aggression_sell,
+            price=close,
+        )
 
         candle = self.market.last_candle
 
@@ -300,6 +297,54 @@ class Collector:
             return self.renko.market
 
         return self.multi_timeframe.primary
+
+    # ==========================================================
+    # AMOSTRAGEM ORDER FLOW
+    # ==========================================================
+
+    def _update_order_flow(
+        self,
+        *,
+        aggression_buy,
+        aggression_sell,
+        price,
+    ):
+
+        if aggression_buy is None or aggression_sell is None:
+            self.order_flow.mark_unavailable()
+            return
+
+        if self.chart_mode == ChartMode.NORMAL:
+            self.order_flow.update(
+                cumulative_buy=aggression_buy,
+                cumulative_sell=aggression_sell,
+                price=price,
+                sampling_mode="TICK",
+                source_units=1,
+            )
+            return
+
+        if self.order_flow.cumulative_buy is None:
+            self.order_flow.update(
+                cumulative_buy=aggression_buy,
+                cumulative_sell=aggression_sell,
+                price=price,
+                sampling_mode="RENKO_CLOSE",
+                source_units=0,
+            )
+            return
+
+        if self.last_closed_renko_bricks <= 0:
+            self.order_flow.mark_waiting("RENKO_CLOSE")
+            return
+
+        self.order_flow.update(
+            cumulative_buy=aggression_buy,
+            cumulative_sell=aggression_sell,
+            price=price,
+            sampling_mode="RENKO_CLOSE",
+            source_units=self.last_closed_renko_bricks,
+        )
 
     # ==========================================================
     # CONVERSÃO

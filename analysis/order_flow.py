@@ -6,7 +6,7 @@ from ai.engine_base import EngineBase
 class OrderFlow(EngineBase):
 
     NAME = "OrderFlow"
-    VERSION = "RC4.2"
+    VERSION = "RC4.3"
     ENABLED = True
     PRIORITY = 45
     IMBALANCE_THRESHOLD = 0.10
@@ -19,13 +19,20 @@ class OrderFlow(EngineBase):
         result.start()
         result.source = "PROFIT_AGGRESSION"
 
+        if state is not None:
+            result.sampling_mode = state.sampling_mode
+            result.source_units = state.source_units
+
         if state is None or not state.available:
             result.add_reason("ORDER_FLOW_DATA_UNAVAILABLE")
             result.skip()
             return context
 
         if not state.ready:
-            result.add_reason("ORDER_FLOW_BASELINE_PENDING")
+            if state.waiting_for_sample:
+                result.add_reason("ORDER_FLOW_WAITING_RENKO_CLOSE")
+            else:
+                result.add_reason("ORDER_FLOW_BASELINE_PENDING")
             result.skip()
             return context
 

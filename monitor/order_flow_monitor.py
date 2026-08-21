@@ -1,10 +1,10 @@
-"""Diagnóstico textual informativo de Order Flow RC4.2."""
+"""Diagnóstico textual informativo de Order Flow RC4.3."""
 
 
 class OrderFlowMonitor:
 
     NAME = "OrderFlowMonitor"
-    VERSION = "RC4.2-INFORMATIVE"
+    VERSION = "RC4.3-INFORMATIVE"
 
     @classmethod
     def render(cls, context) -> str:
@@ -19,6 +19,8 @@ class OrderFlowMonitor:
         lines = [
             "[ ORDER FLOW - INFORMATIVO ]",
             f"Status.........: {status}",
+            f"Amostragem.....: {result.sampling_mode}",
+            f"Unidades fonte.: {result.source_units}",
             f"Pressão........: {result.pressure}",
             f"Agressão compra: {result.buy_aggression:.0f}",
             f"Agressão venda.: {result.sell_aggression:.0f}",
