@@ -3,7 +3,7 @@ models/price_action_result.py
 
 Resultado produzido pela PriceAction.
 
-RC7.15 - MICROCHANNELS
+RC7.16 - HORIZONTAL SWING LINES
 """
 
 from dataclasses import dataclass
@@ -486,6 +486,40 @@ class PriceActionResult(ResultBase):
     brooks_microchannel_valid: bool = False
 
     # ==========================================================
+    # LINHAS HORIZONTAIS - BROOKS TRENDS CAP. 17
+    # ==========================================================
+
+    brooks_horizontal_state: str = "NO_LEVEL"
+
+    brooks_horizontal_level_type: str = "NONE"
+
+    brooks_horizontal_level: float = 0.0
+
+    brooks_horizontal_distance: float = 0.0
+
+    brooks_horizontal_tolerance: float = 0.0
+
+    brooks_horizontal_test_count: int = 0
+
+    brooks_horizontal_break_direction: str = "NONE"
+
+    brooks_horizontal_context: str = "NEUTRAL"
+
+    brooks_horizontal_tested: bool = False
+
+    brooks_horizontal_broken: bool = False
+
+    brooks_horizontal_returned_inside: bool = False
+
+    brooks_horizontal_breakout_pullback: bool = False
+
+    brooks_horizontal_second_attempt: bool = False
+
+    brooks_horizontal_countertrend_risk: bool = False
+
+    brooks_horizontal_valid: bool = False
+
+    # ==========================================================
     # PRICE ACTION
     # ==========================================================
 
@@ -916,6 +950,36 @@ class PriceActionResult(ResultBase):
         self.brooks_microchannel_active = False
 
         self.brooks_microchannel_valid = False
+
+        self.brooks_horizontal_state = "NO_LEVEL"
+
+        self.brooks_horizontal_level_type = "NONE"
+
+        self.brooks_horizontal_level = 0.0
+
+        self.brooks_horizontal_distance = 0.0
+
+        self.brooks_horizontal_tolerance = 0.0
+
+        self.brooks_horizontal_test_count = 0
+
+        self.brooks_horizontal_break_direction = "NONE"
+
+        self.brooks_horizontal_context = "NEUTRAL"
+
+        self.brooks_horizontal_tested = False
+
+        self.brooks_horizontal_broken = False
+
+        self.brooks_horizontal_returned_inside = False
+
+        self.brooks_horizontal_breakout_pullback = False
+
+        self.brooks_horizontal_second_attempt = False
+
+        self.brooks_horizontal_countertrend_risk = False
+
+        self.brooks_horizontal_valid = False
 
         # Price Action
         self.breakout = False
