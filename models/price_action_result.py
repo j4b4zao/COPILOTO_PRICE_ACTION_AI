@@ -3,7 +3,7 @@ models/price_action_result.py
 
 Resultado produzido pela PriceAction.
 
-RC7.8 - CHART PERSPECTIVE
+RC7.9 - SECOND ENTRY
 """
 
 from dataclasses import dataclass
@@ -278,6 +278,34 @@ class PriceActionResult(ResultBase):
     brooks_perspective_confirmed: bool = False
 
     # ==========================================================
+    # SEGUNDA ENTRADA - BROOKS TRENDS CAP. 10
+    # ==========================================================
+
+    brooks_second_entry_phase: str = "NONE"
+
+    brooks_second_entry_direction: str = "NONE"
+
+    brooks_second_entry_context: str = "NEUTRAL"
+
+    brooks_second_entry_quality: str = "NONE"
+
+    brooks_second_entry_attempt_count: int = 0
+
+    brooks_second_entry_first_level: float = 0.0
+
+    brooks_second_entry_level: float = 0.0
+
+    brooks_second_entry_price_relation: str = "NONE"
+
+    brooks_second_entry_bargain_risk: bool = False
+
+    brooks_second_entry_opposing_momentum: bool = False
+
+    brooks_second_entry_detected: bool = False
+
+    brooks_second_entry_confirmed: bool = False
+
+    # ==========================================================
     # PRICE ACTION
     # ==========================================================
 
@@ -528,6 +556,30 @@ class PriceActionResult(ResultBase):
         self.brooks_perspective_inverse_consistent = False
 
         self.brooks_perspective_confirmed = False
+
+        self.brooks_second_entry_phase = "NONE"
+
+        self.brooks_second_entry_direction = "NONE"
+
+        self.brooks_second_entry_context = "NEUTRAL"
+
+        self.brooks_second_entry_quality = "NONE"
+
+        self.brooks_second_entry_attempt_count = 0
+
+        self.brooks_second_entry_first_level = 0.0
+
+        self.brooks_second_entry_level = 0.0
+
+        self.brooks_second_entry_price_relation = "NONE"
+
+        self.brooks_second_entry_bargain_risk = False
+
+        self.brooks_second_entry_opposing_momentum = False
+
+        self.brooks_second_entry_detected = False
+
+        self.brooks_second_entry_confirmed = False
 
         # Price Action
         self.breakout = False
