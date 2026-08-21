@@ -3,7 +3,7 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC9.4 - REVERSAL BAR QUALITY
+RC9.5 - COMPOSITE SIGNAL PATTERNS
 
 Responsável pela leitura de Price Action,
 estrutura, padrões de candle e evidências
@@ -34,13 +34,16 @@ from analysis.price_action.signal_entry_dynamics import (
 from analysis.price_action.reversal_bar_dynamics import (
     ReversalBarDynamics,
 )
+from analysis.price_action.composite_signal_dynamics import (
+    CompositeSignalDynamics,
+)
 
 
 class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC9.4"
+    VERSION = "RC9.5"
 
     ENABLED = True
 
@@ -103,6 +106,8 @@ class PriceAction(EngineBase):
         self._detect_signal_entry_dynamics(context)
 
         self._detect_reversal_bar_dynamics(context)
+
+        self._detect_composite_signal_dynamics(context)
 
         self._detect_patterns(context)
 
@@ -189,6 +194,21 @@ class PriceAction(EngineBase):
 
     def _detect_reversal_bar_dynamics(self, context):
         metrics = ReversalBarDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # PADRÕES COMPOSTOS EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_composite_signal_dynamics(self, context):
+        metrics = CompositeSignalDynamics.analyze(
             context.market.candles.all(),
             trend=context.price_action.trend,
         )

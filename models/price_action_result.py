@@ -3,7 +3,7 @@ models/price_action_result.py
 
 Resultado produzido pela PriceAction.
 
-RC7.4 - REVERSAL BAR QUALITY
+RC7.5 - COMPOSITE SIGNAL PATTERNS
 """
 
 from dataclasses import dataclass
@@ -156,6 +156,44 @@ class PriceActionResult(ResultBase):
     brooks_reversal_large_doji_risk: bool = False
 
     # ==========================================================
+    # PADRÕES COMPOSTOS - BROOKS TRENDS CAP. 6
+    # ==========================================================
+
+    brooks_composite_pattern: str = "NONE"
+
+    brooks_composite_direction: str = "NONE"
+
+    brooks_two_bar_reversal: bool = False
+
+    brooks_two_bar_direction: str = "NONE"
+
+    brooks_three_bar_reversal: bool = False
+
+    brooks_three_bar_direction: str = "NONE"
+
+    brooks_inside_sequence_count: int = 0
+
+    brooks_ioi_pattern: bool = False
+
+    brooks_micro_double_bottom: bool = False
+
+    brooks_micro_double_top: bool = False
+
+    brooks_failed_reversal: bool = False
+
+    brooks_failed_reversal_direction: str = "NONE"
+
+    brooks_shaved_top: bool = False
+
+    brooks_shaved_bottom: bool = False
+
+    brooks_shaved_trend_bar: bool = False
+
+    brooks_exhaustion_bar: bool = False
+
+    brooks_composite_context: str = "NEUTRAL"
+
+    # ==========================================================
     # PRICE ACTION
     # ==========================================================
 
@@ -300,6 +338,40 @@ class PriceActionResult(ResultBase):
         self.brooks_reversal_excessive_overlap = False
 
         self.brooks_reversal_large_doji_risk = False
+
+        self.brooks_composite_pattern = "NONE"
+
+        self.brooks_composite_direction = "NONE"
+
+        self.brooks_two_bar_reversal = False
+
+        self.brooks_two_bar_direction = "NONE"
+
+        self.brooks_three_bar_reversal = False
+
+        self.brooks_three_bar_direction = "NONE"
+
+        self.brooks_inside_sequence_count = 0
+
+        self.brooks_ioi_pattern = False
+
+        self.brooks_micro_double_bottom = False
+
+        self.brooks_micro_double_top = False
+
+        self.brooks_failed_reversal = False
+
+        self.brooks_failed_reversal_direction = "NONE"
+
+        self.brooks_shaved_top = False
+
+        self.brooks_shaved_bottom = False
+
+        self.brooks_shaved_trend_bar = False
+
+        self.brooks_exhaustion_bar = False
+
+        self.brooks_composite_context = "NEUTRAL"
 
         # Price Action
         self.breakout = False
