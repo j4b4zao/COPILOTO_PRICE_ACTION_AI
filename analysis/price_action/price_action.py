@@ -3,7 +3,7 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC9.12 - TREND LINES
+RC9.13 - CHANNEL LINES
 
 Responsável pela leitura de Price Action,
 estrutura, padrões de candle e evidências
@@ -58,13 +58,16 @@ from analysis.price_action.pattern_evolution_dynamics import (
 from analysis.price_action.trend_line_dynamics import (
     TrendLineDynamics,
 )
+from analysis.price_action.channel_line_dynamics import (
+    ChannelLineDynamics,
+)
 
 
 class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC9.12"
+    VERSION = "RC9.13"
 
     ENABLED = True
 
@@ -143,6 +146,8 @@ class PriceAction(EngineBase):
         self._detect_pattern_evolution_dynamics(context)
 
         self._detect_trend_line_dynamics(context)
+
+        self._detect_channel_line_dynamics(context)
 
         self._detect_patterns(context)
 
@@ -344,6 +349,21 @@ class PriceAction(EngineBase):
 
     def _detect_trend_line_dynamics(self, context):
         metrics = TrendLineDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # LINHA PARALELA DO CANAL EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_channel_line_dynamics(self, context):
+        metrics = ChannelLineDynamics.analyze(
             context.market.candles.all(),
             trend=context.price_action.trend,
         )
