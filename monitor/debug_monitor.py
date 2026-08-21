@@ -289,6 +289,16 @@ class DebugMonitor:
         print(f"Total..........: {s.total:.2f}")
         print(f"Grade..........: {s.grade}")
         print(f"Confidence.....: {s.confidence:.2f}")
+        print(
+            "OrderFlow Exp..: "
+            f"{s.order_flow_experiment_enabled}"
+        )
+        print(f"OrderFlow Use..: {s.order_flow_applied}")
+        print(f"OrderFlow Dir..: {s.order_flow_direction}")
+        print(
+            "OrderFlow Pts..: "
+            f"{s.order_flow_contribution:.2f}"
+        )
 
         if s.breakdown:
 
