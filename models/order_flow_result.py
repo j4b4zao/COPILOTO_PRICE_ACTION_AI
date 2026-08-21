@@ -27,6 +27,12 @@ class OrderFlowResult(ResultBase):
     exhaustion: str = "INSUFFICIENT_DATA"
     sampling_mode: str = "TICK"
     source_units: int = 0
+    delta_dominance: float = 0.0
+    price_efficiency: float = 0.0
+    history_maturity: float = 0.0
+    pattern_confidence: float = 0.0
+    pattern_quality: str = "INSUFFICIENT_DATA"
+    pattern_confirmed: bool = False
 
     def clear(self) -> None:
         ResultBase.clear(self)
@@ -49,3 +55,9 @@ class OrderFlowResult(ResultBase):
         self.exhaustion = "INSUFFICIENT_DATA"
         self.sampling_mode = "TICK"
         self.source_units = 0
+        self.delta_dominance = 0.0
+        self.price_efficiency = 0.0
+        self.history_maturity = 0.0
+        self.pattern_confidence = 0.0
+        self.pattern_quality = "INSUFFICIENT_DATA"
+        self.pattern_confirmed = False

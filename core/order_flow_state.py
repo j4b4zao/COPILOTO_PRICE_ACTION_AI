@@ -105,6 +105,21 @@ class OrderFlowState:
         return sum(tuple(self.history)[-self.RECENT_WINDOW:])
 
     @property
+    def recent_total_aggression(self) -> float:
+        if not self.aggression_history:
+            return 0.0
+        return sum(
+            tuple(self.aggression_history)[-self.RECENT_WINDOW:]
+        )
+
+    @property
+    def recent_delta_dominance(self) -> float:
+        total = self.recent_total_aggression
+        if total <= 0:
+            return 0.0
+        return min(1.0, abs(self.recent_delta) / total)
+
+    @property
     def pattern_ready(self) -> bool:
         return (
             self.sample_count >= self.MIN_PATTERN_SAMPLES
@@ -119,6 +134,30 @@ class OrderFlowState:
         prices = tuple(self.price_history)
         window = min(self.RECENT_WINDOW, self.sample_count)
         return prices[-1] - prices[-(window + 1)]
+
+    @property
+    def recent_price_efficiency(self) -> float:
+        if not self.pattern_ready:
+            return 0.0
+
+        prices = tuple(self.price_history)
+        window = min(self.RECENT_WINDOW, self.sample_count)
+        recent_prices = prices[-(window + 1):]
+        travelled = sum(
+            abs(current - previous)
+            for previous, current in zip(
+                recent_prices,
+                recent_prices[1:],
+            )
+        )
+
+        if travelled <= 0:
+            return 0.0
+
+        return min(
+            1.0,
+            abs(recent_prices[-1] - recent_prices[0]) / travelled,
+        )
 
     @property
     def aggression_activity_ratio(self) -> float:
