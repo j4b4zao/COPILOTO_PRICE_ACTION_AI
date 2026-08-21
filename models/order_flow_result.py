@@ -25,6 +25,8 @@ class OrderFlowResult(ResultBase):
     divergence: str = "INSUFFICIENT_DATA"
     absorption: str = "INSUFFICIENT_DATA"
     exhaustion: str = "INSUFFICIENT_DATA"
+    sampling_mode: str = "TICK"
+    source_units: int = 0
 
     def clear(self) -> None:
         ResultBase.clear(self)
@@ -45,3 +47,5 @@ class OrderFlowResult(ResultBase):
         self.divergence = "INSUFFICIENT_DATA"
         self.absorption = "INSUFFICIENT_DATA"
         self.exhaustion = "INSUFFICIENT_DATA"
+        self.sampling_mode = "TICK"
+        self.source_units = 0
