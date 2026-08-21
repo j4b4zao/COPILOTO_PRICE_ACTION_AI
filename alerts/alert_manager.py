@@ -3,7 +3,7 @@ alerts/alert_manager.py
 
 Alert Manager
 
-RC9.1
+RC9.2 - ORDER FLOW OBSERVABILITY
 """
 
 from datetime import datetime
@@ -15,7 +15,7 @@ class AlertManager(EngineBase):
 
     NAME = "AlertManager"
 
-    VERSION = "RC9.1"
+    VERSION = "RC9.2"
 
     ENABLED = True
 
@@ -61,6 +61,28 @@ class AlertManager(EngineBase):
 
         alert.confidence = decision.confidence
 
+        score = context.score
+
+        if score.order_flow_applied:
+
+            alert.order_flow_applied = True
+
+            alert.order_flow_direction = (
+                score.order_flow_direction
+            )
+
+            alert.order_flow_sampling_mode = (
+                context.order_flow.sampling_mode
+            )
+
+            alert.order_flow_contribution = (
+                score.order_flow_contribution
+            )
+
+            alert.add_reason(
+                "Order Flow aplicado ao score"
+            )
+
         alert.valid = True
 
         alert.add_reason(
@@ -96,6 +118,15 @@ class AlertManager(EngineBase):
         print(
             f"CONF.: {alert.confidence:.2f}"
         )
+
+        if alert.order_flow_applied:
+
+            print(
+                "ORDER FLOW: "
+                f"{alert.order_flow_direction} | "
+                f"{alert.order_flow_sampling_mode} | "
+                f"+{alert.order_flow_contribution:.2f} pts"
+            )
 
         print("=" * 60)
 

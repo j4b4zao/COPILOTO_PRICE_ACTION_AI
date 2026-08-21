@@ -3,7 +3,7 @@ models/alert_result.py
 
 Resultado produzido pelo AlertManager.
 
-RC9.1
+RC9.2 - ORDER FLOW OBSERVABILITY
 """
 
 from dataclasses import dataclass, field
@@ -41,6 +41,18 @@ class AlertResult(ResultBase):
     confidence: float = 0.0
 
     # ==========================================================
+    # ORDER FLOW EXPERIMENTAL
+    # ==========================================================
+
+    order_flow_applied: bool = False
+
+    order_flow_direction: str = "NONE"
+
+    order_flow_sampling_mode: str = "NONE"
+
+    order_flow_contribution: float = 0.0
+
+    # ==========================================================
     # MOTIVOS
     # ==========================================================
 
@@ -69,5 +81,13 @@ class AlertResult(ResultBase):
         self.score = 0.0
 
         self.confidence = 0.0
+
+        self.order_flow_applied = False
+
+        self.order_flow_direction = "NONE"
+
+        self.order_flow_sampling_mode = "NONE"
+
+        self.order_flow_contribution = 0.0
 
         self.reasons.clear()
