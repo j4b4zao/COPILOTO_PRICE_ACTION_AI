@@ -1,10 +1,10 @@
-"""Diagnóstico textual informativo de Order Flow RC4.1."""
+"""Diagnóstico textual informativo de Order Flow RC4.2."""
 
 
 class OrderFlowMonitor:
 
     NAME = "OrderFlowMonitor"
-    VERSION = "RC4.1-INFORMATIVE"
+    VERSION = "RC4.2-INFORMATIVE"
 
     @classmethod
     def render(cls, context) -> str:
@@ -28,6 +28,12 @@ class OrderFlowMonitor:
             f"Média Delta....: {result.average_delta:+.2f}",
             f"Amostras.......: {result.sample_count}",
             f"Tendência......: {result.trend}",
+            f"Padrões prontos: {result.patterns_ready}",
+            f"Variação preço.: {result.recent_price_change:+.2f}",
+            f"Atividade......: {result.aggression_activity_ratio:.2f}",
+            f"Divergência....: {result.divergence}",
+            f"Absorção.......: {result.absorption}",
+            f"Exaustão.......: {result.exhaustion}",
             "Motivo..........: " + cls._reason(result),
             "Impacto.........: somente informativo",
         ]

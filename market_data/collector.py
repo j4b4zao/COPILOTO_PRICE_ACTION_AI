@@ -227,6 +227,7 @@ class Collector:
             self.order_flow.update(
                 cumulative_buy=aggression_buy,
                 cumulative_sell=aggression_sell,
+                price=close,
             )
 
         # ======================================================
