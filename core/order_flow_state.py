@@ -1,11 +1,17 @@
-"""Estado incremental dos dados de agressão exportados pelo Profit."""
+"""Estado incremental e histórico de agressão exportada pelo Profit."""
 
+from collections import deque
 from dataclasses import dataclass
+from dataclasses import field
 import math
+from typing import ClassVar
 
 
 @dataclass(slots=True)
 class OrderFlowState:
+
+    HISTORY_SIZE: ClassVar[int] = 50
+    RECENT_WINDOW: ClassVar[int] = 5
 
     cumulative_buy: float | None = None
     cumulative_sell: float | None = None
@@ -13,6 +19,10 @@ class OrderFlowState:
     sell_aggression: float = 0.0
     delta: float = 0.0
     total_aggression: float = 0.0
+    cumulative_delta: float = 0.0
+    history: deque[float] = field(
+        default_factory=lambda: deque(maxlen=50)
+    )
     ready: bool = False
     available: bool = False
 
@@ -36,6 +46,7 @@ class OrderFlowState:
             return False
 
         if buy < previous_buy or sell < previous_sell:
+            self._clear_history()
             self._clear_interval()
             return False
 
@@ -43,8 +54,26 @@ class OrderFlowState:
         self.sell_aggression = sell - previous_sell
         self.delta = self.buy_aggression - self.sell_aggression
         self.total_aggression = self.buy_aggression + self.sell_aggression
+        self.history.append(self.delta)
+        self.cumulative_delta += self.delta
         self.ready = True
         return True
+
+    @property
+    def sample_count(self) -> int:
+        return len(self.history)
+
+    @property
+    def average_delta(self) -> float:
+        if not self.history:
+            return 0.0
+        return sum(self.history) / len(self.history)
+
+    @property
+    def recent_delta(self) -> float:
+        if not self.history:
+            return 0.0
+        return sum(tuple(self.history)[-self.RECENT_WINDOW:])
 
     def mark_unavailable(self) -> None:
         self.available = False
@@ -54,7 +83,12 @@ class OrderFlowState:
         self.cumulative_buy = None
         self.cumulative_sell = None
         self.available = False
+        self._clear_history()
         self._clear_interval()
+
+    def _clear_history(self) -> None:
+        self.history.clear()
+        self.cumulative_delta = 0.0
 
     def _clear_interval(self) -> None:
         self.buy_aggression = 0.0
