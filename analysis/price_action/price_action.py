@@ -3,7 +3,7 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC9.5 - COMPOSITE SIGNAL PATTERNS
+RC9.6 - OUTSIDE BAR CONTEXT
 
 Responsável pela leitura de Price Action,
 estrutura, padrões de candle e evidências
@@ -37,13 +37,16 @@ from analysis.price_action.reversal_bar_dynamics import (
 from analysis.price_action.composite_signal_dynamics import (
     CompositeSignalDynamics,
 )
+from analysis.price_action.outside_bar_dynamics import (
+    OutsideBarDynamics,
+)
 
 
 class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC9.5"
+    VERSION = "RC9.6"
 
     ENABLED = True
 
@@ -108,6 +111,8 @@ class PriceAction(EngineBase):
         self._detect_reversal_bar_dynamics(context)
 
         self._detect_composite_signal_dynamics(context)
+
+        self._detect_outside_bar_dynamics(context)
 
         self._detect_patterns(context)
 
@@ -209,6 +214,21 @@ class PriceAction(EngineBase):
 
     def _detect_composite_signal_dynamics(self, context):
         metrics = CompositeSignalDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # CONTEXTO DA BARRA EXTERNA EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_outside_bar_dynamics(self, context):
+        metrics = OutsideBarDynamics.analyze(
             context.market.candles.all(),
             trend=context.price_action.trend,
         )
