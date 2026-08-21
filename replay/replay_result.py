@@ -3,7 +3,7 @@ replay/replay_result.py
 
 Resultado de uma sessão de Replay.
 
-RC6
+RC6.1 - ORDER FLOW EXPERIMENT METRICS
 """
 
 from dataclasses import dataclass, field
@@ -33,6 +33,8 @@ class ReplayResult:
     win_rate: float = 0.0
 
     setups: dict = field(default_factory=dict)
+
+    order_flow_metrics: dict = field(default_factory=dict)
 
     def calculate(self):
 
