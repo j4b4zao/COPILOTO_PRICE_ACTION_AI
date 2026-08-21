@@ -3,7 +3,7 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC9.7 - CLOSE QUALITY
+RC9.8 - CHART PERSPECTIVE
 
 Responsável pela leitura de Price Action,
 estrutura, padrões de candle e evidências
@@ -43,13 +43,16 @@ from analysis.price_action.outside_bar_dynamics import (
 from analysis.price_action.close_quality_dynamics import (
     CloseQualityDynamics,
 )
+from analysis.price_action.chart_perspective_dynamics import (
+    ChartPerspectiveDynamics,
+)
 
 
 class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC9.7"
+    VERSION = "RC9.8"
 
     ENABLED = True
 
@@ -118,6 +121,8 @@ class PriceAction(EngineBase):
         self._detect_outside_bar_dynamics(context)
 
         self._detect_close_quality_dynamics(context)
+
+        self._detect_chart_perspective_dynamics(context)
 
         self._detect_patterns(context)
 
@@ -251,6 +256,20 @@ class PriceAction(EngineBase):
         metrics = CloseQualityDynamics.analyze(
             context.market.candles.all(),
             trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # PERSPECTIVA DIRETA E INVERSA EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_chart_perspective_dynamics(self, context):
+        metrics = ChartPerspectiveDynamics.analyze(
+            context.market.candles.all()
         )
 
         result = context.price_action

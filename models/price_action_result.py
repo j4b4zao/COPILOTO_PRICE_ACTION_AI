@@ -3,7 +3,7 @@ models/price_action_result.py
 
 Resultado produzido pela PriceAction.
 
-RC7.7 - CLOSE QUALITY
+RC7.8 - CHART PERSPECTIVE
 """
 
 from dataclasses import dataclass
@@ -258,6 +258,26 @@ class PriceActionResult(ResultBase):
     brooks_close_confirmed: bool = False
 
     # ==========================================================
+    # PERSPECTIVA DO GRÁFICO - BROOKS TRENDS CAP. 9
+    # ==========================================================
+
+    brooks_perspective_state: str = "UNKNOWN"
+
+    brooks_perspective_direction: str = "NEUTRAL"
+
+    brooks_perspective_inverse_direction: str = "NEUTRAL"
+
+    brooks_perspective_clarity: str = "UNKNOWN"
+
+    brooks_perspective_efficiency: float = 0.0
+
+    brooks_perspective_consistency: float = 0.0
+
+    brooks_perspective_inverse_consistent: bool = False
+
+    brooks_perspective_confirmed: bool = False
+
+    # ==========================================================
     # PRICE ACTION
     # ==========================================================
 
@@ -492,6 +512,22 @@ class PriceActionResult(ResultBase):
         self.brooks_close_deterioration = False
 
         self.brooks_close_confirmed = False
+
+        self.brooks_perspective_state = "UNKNOWN"
+
+        self.brooks_perspective_direction = "NEUTRAL"
+
+        self.brooks_perspective_inverse_direction = "NEUTRAL"
+
+        self.brooks_perspective_clarity = "UNKNOWN"
+
+        self.brooks_perspective_efficiency = 0.0
+
+        self.brooks_perspective_consistency = 0.0
+
+        self.brooks_perspective_inverse_consistent = False
+
+        self.brooks_perspective_confirmed = False
 
         # Price Action
         self.breakout = False
