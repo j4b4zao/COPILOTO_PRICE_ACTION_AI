@@ -20,6 +20,7 @@ from analysis.market_regime import MarketRegime
 from analysis.multi_timeframe_analysis import MultiTimeframeAnalysis
 from analysis.liquidity_analysis import LiquidityAnalysis
 from analysis.volume_analysis import VolumeAnalysis
+from analysis.order_flow import OrderFlow
 from analysis.price_action.price_action import PriceAction
 
 # ==========================================================
@@ -81,6 +82,8 @@ class AnalysisPipeline:
             LiquidityAnalysis(),
 
             VolumeAnalysis(),
+
+            OrderFlow(),
 
             PriceAction(),
 
@@ -213,6 +216,9 @@ class AnalysisPipeline:
 
             VolumeAnalysis:
                 EventType.VOLUME_UPDATED,
+
+            OrderFlow:
+                EventType.ORDER_FLOW_UPDATED,
 
             PriceAction:
                 EventType.PRICE_ACTION_UPDATED,
