@@ -6,7 +6,7 @@ from ai.engine_base import EngineBase
 class OrderFlow(EngineBase):
 
     NAME = "OrderFlow"
-    VERSION = "RC4.0"
+    VERSION = "RC4.1"
     ENABLED = True
     PRIORITY = 45
     IMBALANCE_THRESHOLD = 0.10
@@ -32,6 +32,17 @@ class OrderFlow(EngineBase):
         result.sell_aggression = state.sell_aggression
         result.delta = state.delta
         result.total_aggression = state.total_aggression
+        result.cumulative_delta = state.cumulative_delta
+        result.recent_delta = state.recent_delta
+        result.average_delta = state.average_delta
+        result.sample_count = state.sample_count
+
+        if state.recent_delta > 0:
+            result.trend = "BUYING"
+        elif state.recent_delta < 0:
+            result.trend = "SELLING"
+        else:
+            result.trend = "BALANCED"
 
         if state.total_aggression <= 0:
             result.pressure = "BALANCED"

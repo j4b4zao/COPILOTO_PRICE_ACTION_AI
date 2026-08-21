@@ -14,6 +14,11 @@ class OrderFlowResult(ResultBase):
     delta: float = 0.0
     total_aggression: float = 0.0
     imbalance_ratio: float = 0.0
+    cumulative_delta: float = 0.0
+    recent_delta: float = 0.0
+    average_delta: float = 0.0
+    sample_count: int = 0
+    trend: str = "INSUFFICIENT_DATA"
 
     def clear(self) -> None:
         ResultBase.clear(self)
@@ -23,3 +28,8 @@ class OrderFlowResult(ResultBase):
         self.delta = 0.0
         self.total_aggression = 0.0
         self.imbalance_ratio = 0.0
+        self.cumulative_delta = 0.0
+        self.recent_delta = 0.0
+        self.average_delta = 0.0
+        self.sample_count = 0
+        self.trend = "INSUFFICIENT_DATA"
