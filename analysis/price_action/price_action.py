@@ -3,7 +3,7 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC9
+RC9.1 - BAR DYNAMICS
 
 Responsável pela leitura de Price Action,
 estrutura, padrões de candle e evidências
@@ -24,13 +24,14 @@ from enums.trend import Trend
 from analysis.price_action.patterns.candlestick_patterns import (
     CandlestickPatterns,
 )
+from analysis.price_action.bar_dynamics import BarDynamics
 
 
 class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC9"
+    VERSION = "RC9.1"
 
     ENABLED = True
 
@@ -86,6 +87,8 @@ class PriceAction(EngineBase):
 
         self._copy_structure(context)
 
+        self._detect_bar_dynamics(context)
+
         self._detect_patterns(context)
 
         self._detect_price_action(context)
@@ -121,6 +124,20 @@ class PriceAction(EngineBase):
         )
 
         result.choch = structure.choch
+
+    # ==========================================================
+    # DINÂMICA DA ÚLTIMA BARRA FECHADA
+    # ==========================================================
+
+    def _detect_bar_dynamics(self, context):
+        metrics = BarDynamics.analyze(
+            context.market.candles.all()
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
 
     # ==========================================================
     # PADRÕES DE CANDLE

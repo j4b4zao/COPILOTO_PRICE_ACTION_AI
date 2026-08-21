@@ -3,7 +3,7 @@ models/price_action_result.py
 
 Resultado produzido pela PriceAction.
 
-RC7
+RC7.1 - BAR DYNAMICS
 """
 
 from dataclasses import dataclass
@@ -54,6 +54,32 @@ class PriceActionResult(ResultBase):
     inside_bar: bool = False
 
     outside_bar: bool = False
+
+    # ==========================================================
+    # DINÂMICA DA BARRA - BROOKS TRENDS CAP. 2
+    # ==========================================================
+
+    bar_classification: str = "UNKNOWN"
+
+    bar_direction: str = "NONE"
+
+    body_ratio: float = 0.0
+
+    relative_body_ratio: float = 0.0
+
+    close_position: float = 0.5
+
+    trend_bar_strength: str = "UNKNOWN"
+
+    climax_direction: str = "NONE"
+
+    climax_length: int = 0
+
+    climax_active: bool = False
+
+    climax_ended: bool = False
+
+    pause_detected: bool = False
 
     # ==========================================================
     # PRICE ACTION
@@ -116,6 +142,28 @@ class PriceActionResult(ResultBase):
         self.inside_bar = False
 
         self.outside_bar = False
+
+        self.bar_classification = "UNKNOWN"
+
+        self.bar_direction = "NONE"
+
+        self.body_ratio = 0.0
+
+        self.relative_body_ratio = 0.0
+
+        self.close_position = 0.5
+
+        self.trend_bar_strength = "UNKNOWN"
+
+        self.climax_direction = "NONE"
+
+        self.climax_length = 0
+
+        self.climax_active = False
+
+        self.climax_ended = False
+
+        self.pause_detected = False
 
         # Price Action
         self.breakout = False
