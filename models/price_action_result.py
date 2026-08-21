@@ -3,7 +3,7 @@ models/price_action_result.py
 
 Resultado produzido pela PriceAction.
 
-RC7.2 - BREAKOUT LIFECYCLE
+RC7.3 - SIGNAL / ENTRY CYCLE
 """
 
 from dataclasses import dataclass
@@ -104,6 +104,26 @@ class PriceActionResult(ResultBase):
     brooks_range_high: float = 0.0
 
     brooks_range_low: float = 0.0
+
+    # ==========================================================
+    # CICLO SINAL / ENTRADA - BROOKS TRENDS CAP. 4
+    # ==========================================================
+
+    brooks_signal_phase: str = "UNKNOWN"
+
+    brooks_signal_direction: str = "NONE"
+
+    brooks_signal_quality: str = "UNKNOWN"
+
+    brooks_signal_context: str = "NEUTRAL"
+
+    brooks_entry_level: float = 0.0
+
+    brooks_entry_triggered: bool = False
+
+    brooks_follow_through: bool = False
+
+    brooks_follow_through_strength: str = "NONE"
 
     # ==========================================================
     # PRICE ACTION
@@ -208,6 +228,22 @@ class PriceActionResult(ResultBase):
         self.brooks_range_high = 0.0
 
         self.brooks_range_low = 0.0
+
+        self.brooks_signal_phase = "UNKNOWN"
+
+        self.brooks_signal_direction = "NONE"
+
+        self.brooks_signal_quality = "UNKNOWN"
+
+        self.brooks_signal_context = "NEUTRAL"
+
+        self.brooks_entry_level = 0.0
+
+        self.brooks_entry_triggered = False
+
+        self.brooks_follow_through = False
+
+        self.brooks_follow_through_strength = "NONE"
 
         # Price Action
         self.breakout = False

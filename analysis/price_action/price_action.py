@@ -3,7 +3,7 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC9.2 - BREAKOUT LIFECYCLE
+RC9.3 - SIGNAL / ENTRY CYCLE
 
 Responsável pela leitura de Price Action,
 estrutura, padrões de candle e evidências
@@ -28,13 +28,16 @@ from analysis.price_action.bar_dynamics import BarDynamics
 from analysis.price_action.breakout_dynamics import (
     BreakoutDynamics,
 )
+from analysis.price_action.signal_entry_dynamics import (
+    SignalEntryDynamics,
+)
 
 
 class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC9.2"
+    VERSION = "RC9.3"
 
     ENABLED = True
 
@@ -94,6 +97,8 @@ class PriceAction(EngineBase):
 
         self._detect_breakout_dynamics(context)
 
+        self._detect_signal_entry_dynamics(context)
+
         self._detect_patterns(context)
 
         self._detect_price_action(context)
@@ -151,6 +156,21 @@ class PriceAction(EngineBase):
     def _detect_breakout_dynamics(self, context):
         metrics = BreakoutDynamics.analyze(
             context.market.candles.all()
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # CICLO SINAL / ENTRADA EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_signal_entry_dynamics(self, context):
+        metrics = SignalEntryDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
         )
 
         result = context.price_action
