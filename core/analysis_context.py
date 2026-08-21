@@ -9,6 +9,7 @@ from dataclasses import dataclass, field
 
 from core.market_state import MarketState
 from core.multi_timeframe_state import MultiTimeframeState
+from core.order_flow_state import OrderFlowState
 
 from external_context.external_market_state import (
     ExternalMarketState,
@@ -19,6 +20,7 @@ from models.regime_result import RegimeResult
 from models.multi_timeframe_result import MultiTimeframeResult
 from models.liquidity_result import LiquidityResult
 from models.volume_result import VolumeResult
+from models.order_flow_result import OrderFlowResult
 from models.price_action_result import PriceActionResult
 
 from models.context_result import ContextResult
@@ -88,6 +90,12 @@ class AnalysisContext:
 
     volume: VolumeResult = field(
         default_factory=VolumeResult
+    )
+
+    order_flow_state: OrderFlowState | None = None
+
+    order_flow: OrderFlowResult = field(
+        default_factory=OrderFlowResult
     )
 
     price_action: PriceActionResult = field(
@@ -210,6 +218,8 @@ class AnalysisContext:
 
         self.volume.clear()
 
+        self.order_flow.clear()
+
         self.price_action.clear()
 
         # ------------------------------------------------------
@@ -290,6 +300,10 @@ class AnalysisContext:
         if self.multi_timeframe is not None:
 
             self.multi_timeframe.clear()
+
+        if self.order_flow_state is not None:
+
+            self.order_flow_state.clear()
 
         self.external_market.clear()
 

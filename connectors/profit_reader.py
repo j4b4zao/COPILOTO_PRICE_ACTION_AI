@@ -133,6 +133,22 @@ class ProfitReader:
         )
 
         # ======================================================
+        # ORDER FLOW (OPCIONAL)
+        # ======================================================
+
+        # Valores acumulados exportados pelo Profit. Células
+        # vazias mantêm o módulo como dado indisponível.
+        dados["agressao_compra"] = self.excel.ler_celula(
+            "Planilha1",
+            f"O{linha}"
+        )
+
+        dados["agressao_venda"] = self.excel.ler_celula(
+            "Planilha1",
+            f"P{linha}"
+        )
+
+        # ======================================================
         # MÉDIA MÓVEL
         # ======================================================
 

@@ -15,6 +15,7 @@ from connectors.profit_reader import ProfitReader
 from core.analysis_context import AnalysisContext
 from core.market_clock import MarketClock
 from core.multi_timeframe_state import MultiTimeframeState
+from core.order_flow_state import OrderFlowState
 from core.renko_state import RenkoState
 from enums.chart_mode import ChartMode
 
@@ -30,6 +31,7 @@ class Collector:
         reader=None,
         multi_timeframe=None,
         renko_state=None,
+        order_flow_state=None,
         chart_mode=None,
         renko_brick_size=None,
         clock=None,
@@ -90,6 +92,12 @@ class Collector:
             else RenkoState(
                 brick_size=brick_size
             )
+        )
+
+        self.order_flow = (
+            order_flow_state
+            if order_flow_state is not None
+            else OrderFlowState()
         )
 
         self.market = self._primary_market()
@@ -206,6 +214,21 @@ class Collector:
 
         timestamp = self.clock.now()
 
+        aggression_buy = self.to_optional_float(
+            dados.get("agressao_compra")
+        )
+        aggression_sell = self.to_optional_float(
+            dados.get("agressao_venda")
+        )
+
+        if aggression_buy is None or aggression_sell is None:
+            self.order_flow.mark_unavailable()
+        else:
+            self.order_flow.update(
+                cumulative_buy=aggression_buy,
+                cumulative_sell=aggression_sell,
+            )
+
         # ======================================================
         # MULTI-TIMEFRAME
         # ======================================================
@@ -260,6 +283,7 @@ class Collector:
         context = AnalysisContext(
             market=self.market,
             multi_timeframe=self.multi_timeframe,
+            order_flow_state=self.order_flow,
         )
 
         return context
@@ -324,3 +348,27 @@ class Collector:
         ):
 
             return 0.0
+
+    @staticmethod
+    def to_optional_float(value):
+
+        if value is None:
+            return None
+
+        if isinstance(value, (int, float)):
+            converted = float(value)
+        else:
+            try:
+                text = str(value).strip()
+                if not text:
+                    return None
+                converted = float(
+                    text.replace(".", "").replace(",", ".")
+                )
+            except (TypeError, ValueError):
+                return None
+
+        if not math.isfinite(converted) or converted < 0:
+            return None
+
+        return converted

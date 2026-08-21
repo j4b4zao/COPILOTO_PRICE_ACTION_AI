@@ -39,6 +39,8 @@ class EventType:
 
     VOLUME_UPDATED = "VOLUME_UPDATED"
 
+    ORDER_FLOW_UPDATED = "ORDER_FLOW_UPDATED"
+
     PRICE_ACTION_UPDATED = "PRICE_ACTION_UPDATED"
 
     # ==========================================================
