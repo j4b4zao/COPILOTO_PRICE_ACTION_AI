@@ -3,7 +3,7 @@ models/price_action_result.py
 
 Resultado produzido pela PriceAction.
 
-RC7.3 - SIGNAL / ENTRY CYCLE
+RC7.4 - REVERSAL BAR QUALITY
 """
 
 from dataclasses import dataclass
@@ -126,6 +126,36 @@ class PriceActionResult(ResultBase):
     brooks_follow_through_strength: str = "NONE"
 
     # ==========================================================
+    # BARRA DE REVERSÃO - BROOKS TRENDS CAP. 5
+    # ==========================================================
+
+    brooks_reversal_candidate: bool = False
+
+    brooks_reversal_direction: str = "NONE"
+
+    brooks_reversal_quality: str = "NONE"
+
+    brooks_reversal_context: str = "NEUTRAL"
+
+    brooks_reversal_body_ratio: float = 0.0
+
+    brooks_reversal_tail_ratio: float = 0.0
+
+    brooks_reversal_opposite_tail_ratio: float = 0.0
+
+    brooks_reversal_overlap_ratio: float = 0.0
+
+    brooks_reversal_relative_range: float = 0.0
+
+    brooks_reversal_reversed_closes: int = 0
+
+    brooks_reversal_reversed_extremes: int = 0
+
+    brooks_reversal_excessive_overlap: bool = False
+
+    brooks_reversal_large_doji_risk: bool = False
+
+    # ==========================================================
     # PRICE ACTION
     # ==========================================================
 
@@ -244,6 +274,32 @@ class PriceActionResult(ResultBase):
         self.brooks_follow_through = False
 
         self.brooks_follow_through_strength = "NONE"
+
+        self.brooks_reversal_candidate = False
+
+        self.brooks_reversal_direction = "NONE"
+
+        self.brooks_reversal_quality = "NONE"
+
+        self.brooks_reversal_context = "NEUTRAL"
+
+        self.brooks_reversal_body_ratio = 0.0
+
+        self.brooks_reversal_tail_ratio = 0.0
+
+        self.brooks_reversal_opposite_tail_ratio = 0.0
+
+        self.brooks_reversal_overlap_ratio = 0.0
+
+        self.brooks_reversal_relative_range = 0.0
+
+        self.brooks_reversal_reversed_closes = 0
+
+        self.brooks_reversal_reversed_extremes = 0
+
+        self.brooks_reversal_excessive_overlap = False
+
+        self.brooks_reversal_large_doji_risk = False
 
         # Price Action
         self.breakout = False
