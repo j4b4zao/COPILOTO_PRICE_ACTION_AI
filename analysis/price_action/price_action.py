@@ -3,7 +3,7 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC9.8 - CHART PERSPECTIVE
+RC9.9 - SECOND ENTRY
 
 Responsável pela leitura de Price Action,
 estrutura, padrões de candle e evidências
@@ -46,13 +46,16 @@ from analysis.price_action.close_quality_dynamics import (
 from analysis.price_action.chart_perspective_dynamics import (
     ChartPerspectiveDynamics,
 )
+from analysis.price_action.second_entry_dynamics import (
+    SecondEntryDynamics,
+)
 
 
 class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC9.8"
+    VERSION = "RC9.9"
 
     ENABLED = True
 
@@ -123,6 +126,8 @@ class PriceAction(EngineBase):
         self._detect_close_quality_dynamics(context)
 
         self._detect_chart_perspective_dynamics(context)
+
+        self._detect_second_entry_dynamics(context)
 
         self._detect_patterns(context)
 
@@ -270,6 +275,21 @@ class PriceAction(EngineBase):
     def _detect_chart_perspective_dynamics(self, context):
         metrics = ChartPerspectiveDynamics.analyze(
             context.market.candles.all()
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # SEGUNDA ENTRADA EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_second_entry_dynamics(self, context):
+        metrics = SecondEntryDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
         )
 
         result = context.price_action
