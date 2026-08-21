@@ -16,6 +16,7 @@ from external_context.external_market_state import (
 
 from models.structure_result import StructureResult
 from models.regime_result import RegimeResult
+from models.multi_timeframe_result import MultiTimeframeResult
 from models.liquidity_result import LiquidityResult
 from models.volume_result import VolumeResult
 from models.price_action_result import PriceActionResult
@@ -56,6 +57,10 @@ class AnalysisContext:
     )
 
     multi_timeframe: MultiTimeframeState | None = None
+
+    multi_timeframe_analysis: MultiTimeframeResult = field(
+        default_factory=MultiTimeframeResult
+    )
 
     # ==========================================================
     # MERCADO EXTERNO
@@ -196,6 +201,8 @@ class AnalysisContext:
         # ------------------------------------------------------
 
         self.regime.clear()
+
+        self.multi_timeframe_analysis.clear()
 
         self.structure.clear()
 

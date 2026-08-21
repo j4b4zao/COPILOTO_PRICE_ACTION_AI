@@ -4,7 +4,7 @@ analysis/analysis_pipeline.py
 Pipeline principal do
 COPILOTO PRICE ACTION AI.
 
-RC14
+RC14.1 - MULTI-TIMEFRAME INFORMATIVO
 """
 
 from core.analysis_context import AnalysisContext
@@ -17,6 +17,7 @@ from core.analysis_context import AnalysisContext
 
 from analysis.market_structure import MarketStructure
 from analysis.market_regime import MarketRegime
+from analysis.multi_timeframe_analysis import MultiTimeframeAnalysis
 from analysis.liquidity_analysis import LiquidityAnalysis
 from analysis.volume_analysis import VolumeAnalysis
 from analysis.price_action.price_action import PriceAction
@@ -72,6 +73,8 @@ class AnalysisPipeline:
         self.price_action_engines = [
 
             MarketRegime(),
+
+            MultiTimeframeAnalysis(),
 
             MarketStructure(),
 
@@ -198,6 +201,9 @@ class AnalysisPipeline:
 
             MarketRegime:
                 EventType.REGIME_UPDATED,
+
+            MultiTimeframeAnalysis:
+                EventType.MULTI_TIMEFRAME_UPDATED,
 
             MarketStructure:
                 EventType.STRUCTURE_UPDATED,
