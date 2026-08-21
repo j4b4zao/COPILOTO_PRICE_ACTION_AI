@@ -3,7 +3,7 @@ models/price_action_result.py
 
 Resultado produzido pela PriceAction.
 
-RC7.9 - SECOND ENTRY
+RC7.10 - LATE ENTRY
 """
 
 from dataclasses import dataclass
@@ -306,6 +306,36 @@ class PriceActionResult(ResultBase):
     brooks_second_entry_confirmed: bool = False
 
     # ==========================================================
+    # ENTRADA TARDIA / PERDIDA - BROOKS TRENDS CAP. 11
+    # ==========================================================
+
+    brooks_late_entry_state: str = "NO_CLEAR_TREND"
+
+    brooks_late_entry_direction: str = "NONE"
+
+    brooks_late_entry_trend_bars: int = 0
+
+    brooks_late_entry_efficiency: float = 0.0
+
+    brooks_late_entry_range_ratio: float = 0.0
+
+    brooks_late_entry_stop_reference: float = 0.0
+
+    brooks_late_entry_stop_distance: float = 0.0
+
+    brooks_late_entry_missed: bool = False
+
+    brooks_late_entry_candidate: bool = False
+
+    brooks_late_entry_pullback_available: bool = False
+
+    brooks_late_entry_climax_risk: bool = False
+
+    brooks_late_entry_reduce_position: bool = False
+
+    brooks_late_entry_confirmed: bool = False
+
+    # ==========================================================
     # PRICE ACTION
     # ==========================================================
 
@@ -580,6 +610,32 @@ class PriceActionResult(ResultBase):
         self.brooks_second_entry_detected = False
 
         self.brooks_second_entry_confirmed = False
+
+        self.brooks_late_entry_state = "NO_CLEAR_TREND"
+
+        self.brooks_late_entry_direction = "NONE"
+
+        self.brooks_late_entry_trend_bars = 0
+
+        self.brooks_late_entry_efficiency = 0.0
+
+        self.brooks_late_entry_range_ratio = 0.0
+
+        self.brooks_late_entry_stop_reference = 0.0
+
+        self.brooks_late_entry_stop_distance = 0.0
+
+        self.brooks_late_entry_missed = False
+
+        self.brooks_late_entry_candidate = False
+
+        self.brooks_late_entry_pullback_available = False
+
+        self.brooks_late_entry_climax_risk = False
+
+        self.brooks_late_entry_reduce_position = False
+
+        self.brooks_late_entry_confirmed = False
 
         # Price Action
         self.breakout = False

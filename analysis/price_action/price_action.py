@@ -3,7 +3,7 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC9.9 - SECOND ENTRY
+RC9.10 - LATE ENTRY
 
 Responsável pela leitura de Price Action,
 estrutura, padrões de candle e evidências
@@ -49,13 +49,16 @@ from analysis.price_action.chart_perspective_dynamics import (
 from analysis.price_action.second_entry_dynamics import (
     SecondEntryDynamics,
 )
+from analysis.price_action.late_entry_dynamics import (
+    LateEntryDynamics,
+)
 
 
 class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC9.9"
+    VERSION = "RC9.10"
 
     ENABLED = True
 
@@ -128,6 +131,8 @@ class PriceAction(EngineBase):
         self._detect_chart_perspective_dynamics(context)
 
         self._detect_second_entry_dynamics(context)
+
+        self._detect_late_entry_dynamics(context)
 
         self._detect_patterns(context)
 
@@ -288,6 +293,21 @@ class PriceAction(EngineBase):
 
     def _detect_second_entry_dynamics(self, context):
         metrics = SecondEntryDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # ENTRADA TARDIA E ENTRADA PERDIDA EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_late_entry_dynamics(self, context):
+        metrics = LateEntryDynamics.analyze(
             context.market.candles.all(),
             trend=context.price_action.trend,
         )
