@@ -4,7 +4,7 @@ analysis/analysis_pipeline.py
 Pipeline principal do
 COPILOTO PRICE ACTION AI.
 
-RC14.1 - MULTI-TIMEFRAME INFORMATIVO
+RC14.2 - MULTI-TIMEFRAME SAFETY GATE
 """
 
 from core.analysis_context import AnalysisContext
