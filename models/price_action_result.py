@@ -3,7 +3,7 @@ models/price_action_result.py
 
 Resultado produzido pela PriceAction.
 
-RC7.13 - CHANNEL LINES
+RC7.14 - CHANNEL BEHAVIOR
 """
 
 from dataclasses import dataclass
@@ -422,6 +422,40 @@ class PriceActionResult(ResultBase):
     brooks_channel_line_valid: bool = False
 
     # ==========================================================
+    # COMPORTAMENTO DO CANAL - BROOKS TRENDS CAP. 15
+    # ==========================================================
+
+    brooks_channel_state: str = "NO_CHANNEL"
+
+    brooks_channel_classification: str = "NONE"
+
+    brooks_channel_behavior: str = "NONE"
+
+    brooks_channel_direction: str = "NONE"
+
+    brooks_channel_location: str = "MIDDLE"
+
+    brooks_channel_width_ratio: float = 0.0
+
+    brooks_channel_slope_strength: float = 0.0
+
+    brooks_channel_overlap: float = 0.0
+
+    brooks_channel_pushes: int = 0
+
+    brooks_channel_outer_zone: bool = False
+
+    brooks_channel_third_push_risk: bool = False
+
+    brooks_channel_two_sided: bool = False
+
+    brooks_channel_countertrend_risk: bool = False
+
+    brooks_channel_measured_target: float = 0.0
+
+    brooks_channel_valid: bool = False
+
+    # ==========================================================
     # PRICE ACTION
     # ==========================================================
 
@@ -796,6 +830,36 @@ class PriceActionResult(ResultBase):
         self.brooks_channel_line_reversal_candidate = False
 
         self.brooks_channel_line_valid = False
+
+        self.brooks_channel_state = "NO_CHANNEL"
+
+        self.brooks_channel_classification = "NONE"
+
+        self.brooks_channel_behavior = "NONE"
+
+        self.brooks_channel_direction = "NONE"
+
+        self.brooks_channel_location = "MIDDLE"
+
+        self.brooks_channel_width_ratio = 0.0
+
+        self.brooks_channel_slope_strength = 0.0
+
+        self.brooks_channel_overlap = 0.0
+
+        self.brooks_channel_pushes = 0
+
+        self.brooks_channel_outer_zone = False
+
+        self.brooks_channel_third_push_risk = False
+
+        self.brooks_channel_two_sided = False
+
+        self.brooks_channel_countertrend_risk = False
+
+        self.brooks_channel_measured_target = 0.0
+
+        self.brooks_channel_valid = False
 
         # Price Action
         self.breakout = False
