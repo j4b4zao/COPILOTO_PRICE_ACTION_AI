@@ -3,7 +3,7 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC9.14 - CHANNEL BEHAVIOR
+RC9.15 - MICROCHANNELS
 
 Responsável pela leitura de Price Action,
 estrutura, padrões de candle e evidências
@@ -64,13 +64,16 @@ from analysis.price_action.channel_line_dynamics import (
 from analysis.price_action.channel_behavior_dynamics import (
     ChannelBehaviorDynamics,
 )
+from analysis.price_action.microchannel_dynamics import (
+    MicrochannelDynamics,
+)
 
 
 class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC9.14"
+    VERSION = "RC9.15"
 
     ENABLED = True
 
@@ -153,6 +156,8 @@ class PriceAction(EngineBase):
         self._detect_channel_line_dynamics(context)
 
         self._detect_channel_behavior_dynamics(context)
+
+        self._detect_microchannel_dynamics(context)
 
         self._detect_patterns(context)
 
@@ -388,6 +393,21 @@ class PriceAction(EngineBase):
             context.market.candles.all(),
             result,
         )
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # MICROCANAIS EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_microchannel_dynamics(self, context):
+        metrics = MicrochannelDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
 
         for name, value in metrics.items():
             setattr(result, name, value)
