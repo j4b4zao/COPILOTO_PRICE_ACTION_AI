@@ -3,7 +3,7 @@ monitor/debug_monitor.py
 
 Debug Monitor
 
-RC10
+RC10.1 - OBSERVABILIDADE MULTI-TIMEFRAME
 
 Monitor oficial do COPILOTO PRICE ACTION AI.
 """
@@ -11,13 +11,14 @@ Monitor oficial do COPILOTO PRICE ACTION AI.
 from datetime import datetime
 
 from core.event_types import EventType
+from monitor.multi_timeframe_monitor import MultiTimeframeMonitor
 
 
 class DebugMonitor:
 
     NAME = "DebugMonitor"
 
-    VERSION = "RC10"
+    VERSION = "RC10.1"
 
     ENABLED = True
 
@@ -54,6 +55,8 @@ class DebugMonitor:
         print("=" * 70)
 
         self._market(context)
+
+        self._multi_timeframe(context)
 
         self._structure(context)
 
@@ -93,6 +96,14 @@ class DebugMonitor:
         print(f"TimeFrame......: {market.timeframe}")
         print(f"Preço..........: {market.last_price:.2f}")
         print(f"Candles........: {market.candle_count}")
+
+    # ==========================================================
+    # MULTI-TIMEFRAME (RC3.4 - INFORMATIVO)
+    # ==========================================================
+
+    def _multi_timeframe(self, context):
+
+        print("\n" + MultiTimeframeMonitor.render(context))
 
     # ==========================================================
     # STRUCTURE

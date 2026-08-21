@@ -4,7 +4,7 @@ app/bot.py
 Controlador principal do
 COPILOTO PRICE ACTION AI.
 
-RC9
+RC10 - OBSERVABILIDADE MULTI-TIMEFRAME
 """
 
 import time
@@ -12,6 +12,7 @@ import time
 from core.system_initializer import SystemInitializer
 
 from logs.logger import Logger
+from monitor.multi_timeframe_monitor import MultiTimeframeMonitor
 
 
 class Bot:
@@ -153,6 +154,14 @@ class Bot:
 
         print(f"Ação............: {decision.action}")
 
+        print("=" * 60)
+
+        print("\n" + "=" * 60)
+        print(
+            MultiTimeframeMonitor.render(
+                context
+            )
+        )
         print("=" * 60)
 
         print("\n" + "=" * 60)
