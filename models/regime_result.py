@@ -29,6 +29,24 @@ class RegimeResult(ResultBase):
 
     confidence: float = 0.0
 
+    # ==========================================================
+    # ESPECTRO PRICE ACTION - AL BROOKS / TRENDS CAP. 1
+    # ==========================================================
+
+    directional_consistency: float = 0.0
+
+    bar_overlap_ratio: float = 0.0
+
+    spectrum_position: float = 0.0
+
+    inertia: str = "UNKNOWN"
+
+    up_steps: int = 0
+
+    down_steps: int = 0
+
+    transition_steps: int = 0
+
     def clear(self):
 
         ResultBase.clear(self)
@@ -48,3 +66,17 @@ class RegimeResult(ResultBase):
         self.strength = 0.0
 
         self.confidence = 0.0
+
+        self.directional_consistency = 0.0
+
+        self.bar_overlap_ratio = 0.0
+
+        self.spectrum_position = 0.0
+
+        self.inertia = "UNKNOWN"
+
+        self.up_steps = 0
+
+        self.down_steps = 0
+
+        self.transition_steps = 0
