@@ -3,7 +3,7 @@ models/price_action_result.py
 
 Resultado produzido pela PriceAction.
 
-RC7.14 - CHANNEL BEHAVIOR
+RC7.15 - MICROCHANNELS
 """
 
 from dataclasses import dataclass
@@ -456,6 +456,36 @@ class PriceActionResult(ResultBase):
     brooks_channel_valid: bool = False
 
     # ==========================================================
+    # MICROCANAIS - BROOKS TRENDS CAP. 16
+    # ==========================================================
+
+    brooks_microchannel_state: str = "NO_MICROCHANNEL"
+
+    brooks_microchannel_direction: str = "NONE"
+
+    brooks_microchannel_strength: str = "NONE"
+
+    brooks_microchannel_bar_count: int = 0
+
+    brooks_microchannel_pullback_count: int = 0
+
+    brooks_microchannel_quality: float = 0.0
+
+    brooks_microchannel_overlap: float = 0.0
+
+    brooks_microchannel_first_break: bool = False
+
+    brooks_microchannel_break_direction: str = "NONE"
+
+    brooks_microchannel_first_break_failure_risk: bool = False
+
+    brooks_microchannel_retest_level: float = 0.0
+
+    brooks_microchannel_active: bool = False
+
+    brooks_microchannel_valid: bool = False
+
+    # ==========================================================
     # PRICE ACTION
     # ==========================================================
 
@@ -860,6 +890,32 @@ class PriceActionResult(ResultBase):
         self.brooks_channel_measured_target = 0.0
 
         self.brooks_channel_valid = False
+
+        self.brooks_microchannel_state = "NO_MICROCHANNEL"
+
+        self.brooks_microchannel_direction = "NONE"
+
+        self.brooks_microchannel_strength = "NONE"
+
+        self.brooks_microchannel_bar_count = 0
+
+        self.brooks_microchannel_pullback_count = 0
+
+        self.brooks_microchannel_quality = 0.0
+
+        self.brooks_microchannel_overlap = 0.0
+
+        self.brooks_microchannel_first_break = False
+
+        self.brooks_microchannel_break_direction = "NONE"
+
+        self.brooks_microchannel_first_break_failure_risk = False
+
+        self.brooks_microchannel_retest_level = 0.0
+
+        self.brooks_microchannel_active = False
+
+        self.brooks_microchannel_valid = False
 
         # Price Action
         self.breakout = False
