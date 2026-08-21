@@ -3,7 +3,7 @@ models/price_action_result.py
 
 Resultado produzido pela PriceAction.
 
-RC7.5 - COMPOSITE SIGNAL PATTERNS
+RC7.6 - OUTSIDE BAR CONTEXT
 """
 
 from dataclasses import dataclass
@@ -194,6 +194,38 @@ class PriceActionResult(ResultBase):
     brooks_composite_context: str = "NEUTRAL"
 
     # ==========================================================
+    # BARRA EXTERNA - BROOKS TRENDS CAP. 7
+    # ==========================================================
+
+    brooks_outside_detected: bool = False
+
+    brooks_outside_direction: str = "NONE"
+
+    brooks_outside_classification: str = "NONE"
+
+    brooks_outside_quality: str = "NONE"
+
+    brooks_outside_context: str = "NEUTRAL"
+
+    brooks_outside_close_position: float = 0.5
+
+    brooks_outside_body_ratio: float = 0.0
+
+    brooks_outside_expansion_ratio: float = 0.0
+
+    brooks_outside_balanced: bool = False
+
+    brooks_outside_range_like: bool = False
+
+    brooks_outside_trapped_side: str = "NONE"
+
+    brooks_double_outside: bool = False
+
+    brooks_outside_follow_through: bool = False
+
+    brooks_outside_failed: bool = False
+
+    # ==========================================================
     # PRICE ACTION
     # ==========================================================
 
@@ -372,6 +404,34 @@ class PriceActionResult(ResultBase):
         self.brooks_exhaustion_bar = False
 
         self.brooks_composite_context = "NEUTRAL"
+
+        self.brooks_outside_detected = False
+
+        self.brooks_outside_direction = "NONE"
+
+        self.brooks_outside_classification = "NONE"
+
+        self.brooks_outside_quality = "NONE"
+
+        self.brooks_outside_context = "NEUTRAL"
+
+        self.brooks_outside_close_position = 0.5
+
+        self.brooks_outside_body_ratio = 0.0
+
+        self.brooks_outside_expansion_ratio = 0.0
+
+        self.brooks_outside_balanced = False
+
+        self.brooks_outside_range_like = False
+
+        self.brooks_outside_trapped_side = "NONE"
+
+        self.brooks_double_outside = False
+
+        self.brooks_outside_follow_through = False
+
+        self.brooks_outside_failed = False
 
         # Price Action
         self.breakout = False
