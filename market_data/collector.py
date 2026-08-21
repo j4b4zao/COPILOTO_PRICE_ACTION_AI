@@ -1,49 +1,81 @@
 """
 market_data/collector.py
 
-Coleta dados do Profit Pro através do Excel
-e transforma os dados em AnalysisContext.
+Coleta dados do Profit Pro através do Excel,
+alimenta M1/M5/M15 e retorna AnalysisContext.
 
-RC10
+RC11 - MULTI-TIMEFRAME
 """
 
 import math
 
-from connectors.excel_connector import ExcelConnector
 from connectors.profit_reader import ProfitReader
 
-from core.candle_builder import CandleBuilder
-from core.market_state import MarketState
-
 from core.analysis_context import AnalysisContext
-
 from core.market_clock import MarketClock
+from core.multi_timeframe_state import MultiTimeframeState
 
 
 class Collector:
 
     NAME = "Collector"
-    VERSION = "RC10"
+    VERSION = "RC11-MULTI-TIMEFRAME"
 
-    def __init__(self):
+    def __init__(
+        self,
+        excel=None,
+        reader=None,
+        multi_timeframe=None,
+        clock=None,
+    ):
 
         # ======================================================
         # EXCEL
         # ======================================================
 
-        self.excel = ExcelConnector()
+        if excel is None:
 
-        self.reader = ProfitReader(
-            self.excel
+            # Import tardio: mantém xlwings restrito ao caminho
+            # de produção e permite testes offline por injeção.
+            from connectors.excel_connector import (
+                ExcelConnector,
+            )
+
+            excel = ExcelConnector()
+
+        self.excel = excel
+
+        self.reader = (
+            reader
+            if reader is not None
+            else ProfitReader(self.excel)
         )
 
         # ======================================================
         # MERCADO
         # ======================================================
 
-        self.market = MarketState()
+        self.multi_timeframe = (
+            multi_timeframe
+            if multi_timeframe is not None
+            else MultiTimeframeState()
+        )
 
-        self.candle_builder = CandleBuilder()
+        # Compatibilidade com o pipeline atual:
+        # context.market continua sendo o mercado M1.
+        self.market = self.multi_timeframe.primary
+
+        self.last_new_candles = {
+            timeframe: False
+            for timeframe
+            in self.multi_timeframe.TIMEFRAMES
+        }
+
+        self.clock = (
+            clock
+            if clock is not None
+            else MarketClock
+        )
 
         # ======================================================
         # CONEXÃO
@@ -91,24 +123,22 @@ class Collector:
         # DADOS BÁSICOS
         # ======================================================
 
-        ativo = dados.get(
-            "ativo"
-        )
+        ativo = str(
+            dados.get("ativo") or ""
+        ).strip()
+
+        if not ativo:
+
+            print(
+                "[DATA WARNING] "
+                "Ativo inválido recebido. "
+                "Leitura ignorada."
+            )
+
+            return None
 
         close = self.to_float(
             dados.get("close")
-        )
-
-        open_price = self.to_float(
-            dados.get("open")
-        )
-
-        high = self.to_float(
-            dados.get("high")
-        )
-
-        low = self.to_float(
-            dados.get("low")
         )
 
         # ======================================================
@@ -140,47 +170,25 @@ class Collector:
             volume = 0.0
 
         # ======================================================
-        # TIMEFRAME
-        # ======================================================
-
-        timeframe = dados.get(
-            "timeframe",
-            "M1"
-        )
-
-        if not timeframe:
-
-            timeframe = "M1"
-
-        # ======================================================
         # TIMESTAMP
         # ======================================================
 
-        timestamp = MarketClock.now()
+        timestamp = self.clock.now()
 
         # ======================================================
-        # CANDLE BUILDER
+        # MULTI-TIMEFRAME
         # ======================================================
 
-        candle, new_candle = (
-            self.candle_builder.update(
-
-                open_price=open_price,
-
-                high=high,
-
-                low=low,
-
-                close=close,
-
-                volume=volume,
-
-                timeframe=timeframe,
-
+        self.last_new_candles = (
+            self.multi_timeframe.update_tick(
+                symbol=ativo,
+                price=close,
+                cumulative_volume=volume,
                 timestamp=timestamp,
-
             )
         )
+
+        candle = self.market.last_candle
 
         # ======================================================
         # CANDLE DEBUG
@@ -190,40 +198,14 @@ class Collector:
             "[CANDLE DEBUG] "
             f"time={timestamp} "
             f"period={candle.timestamp if candle else None} "
-            f"new={new_candle} "
+            f"new={self.last_new_candles} "
             f"price={close:.2f} "
             f"cumulative_volume={volume:.2f} "
             f"candle_volume={candle.volume if candle else None} "
-            f"history_before={self.market.candle_count}"
-        )
-
-        # ======================================================
-        # MARKET STATE
-        # ======================================================
-
-        self.market.update(
-
-            candle=candle,
-
-            symbol=ativo,
-
-            timeframe=timeframe,
-
-            volume=volume,
-
-            timestamp=timestamp,
-
-            new_candle=new_candle,
-
-        )
-
-        # ======================================================
-        # CANDLE HISTORY DEBUG
-        # ======================================================
-
-        print(
-            "[CANDLE DEBUG] "
-            f"history_after={self.market.candle_count}"
+            f"history="
+            f"M1:{self.multi_timeframe.get('M1').candle_count},"
+            f"M5:{self.multi_timeframe.get('M5').candle_count},"
+            f"M15:{self.multi_timeframe.get('M15').candle_count}"
         )
 
         # ======================================================
@@ -231,7 +213,8 @@ class Collector:
         # ======================================================
 
         context = AnalysisContext(
-            market=self.market
+            market=self.market,
+            multi_timeframe=self.multi_timeframe,
         )
 
         return context
