@@ -3,13 +3,15 @@ analysis/market_regime.py
 
 Classificação do regime atual do mercado.
 
-RC2.6 - CLOSED CANDLE REGIME + VOLATILITY
+RC2.7 - PRICE ACTION SPECTRUM
 
 Responsabilidades:
 
 - usar somente candles fechados;
 - classificar tendência de alta, baixa ou range;
 - classificar volatilidade relativa como alta, normal ou baixa;
+- medir o espectro entre tendência e range sem alterar a decisão;
+- identificar inércia informativa do comportamento recente;
 - registrar força, confiança e motivo;
 - não tomar decisão operacional.
 """
@@ -22,7 +24,7 @@ class MarketRegime(EngineBase):
 
     NAME = "MarketRegime"
 
-    VERSION = "RC2.6-CLOSED-CANDLE"
+    VERSION = "RC2.7-PRICE-ACTION-SPECTRUM"
 
     ENABLED = True
 
@@ -83,6 +85,11 @@ class MarketRegime(EngineBase):
         current = recent_closed[-1]
 
         self._classify_volatility(
+            recent_closed,
+            result,
+        )
+
+        self._classify_spectrum(
             recent_closed,
             result,
         )
@@ -159,6 +166,119 @@ class MarketRegime(EngineBase):
         result.validate()
 
         return context
+
+    # ==========================================================
+    # ESPECTRO ENTRE TENDÊNCIA E RANGE
+    # ==========================================================
+
+    @classmethod
+    def _classify_spectrum(
+        cls,
+        closed_candles,
+        result,
+    ) -> None:
+        """Mede direção persistente e sobreposição entre barras.
+
+        A métrica é informativa: 0 representa comportamento mais
+        próximo de range e 1 comportamento mais próximo de tendência.
+        """
+
+        up_steps = 0
+        down_steps = 0
+        transition_steps = 0
+        overlap_ratios = []
+
+        for previous, current in zip(
+            closed_candles,
+            closed_candles[1:],
+        ):
+            if (
+                current.high > previous.high
+                and current.low > previous.low
+            ):
+                up_steps += 1
+            elif (
+                current.high < previous.high
+                and current.low < previous.low
+            ):
+                down_steps += 1
+            else:
+                transition_steps += 1
+
+            overlap = max(
+                0.0,
+                min(previous.high, current.high)
+                - max(previous.low, current.low),
+            )
+            denominator = min(
+                previous.range,
+                current.range,
+            )
+            ratio = (
+                overlap / denominator
+                if denominator > 0.0
+                else 1.0
+            )
+            overlap_ratios.append(
+                min(max(ratio, 0.0), 1.0)
+            )
+
+        step_count = len(closed_candles) - 1
+        dominant_steps = max(up_steps, down_steps)
+        consistency = (
+            dominant_steps / step_count
+            if step_count > 0
+            else 0.0
+        )
+        average_overlap = (
+            sum(overlap_ratios) / len(overlap_ratios)
+            if overlap_ratios
+            else 0.0
+        )
+        spectrum = (
+            0.65 * consistency
+            + 0.35 * (1.0 - average_overlap)
+        )
+
+        result.up_steps = up_steps
+        result.down_steps = down_steps
+        result.transition_steps = transition_steps
+        result.directional_consistency = round(
+            consistency,
+            4,
+        )
+        result.bar_overlap_ratio = round(
+            average_overlap,
+            4,
+        )
+        result.spectrum_position = round(
+            min(max(spectrum, 0.0), 1.0),
+            4,
+        )
+
+        if consistency >= 0.75:
+            result.inertia = "TREND_CONTINUATION"
+        elif (
+            average_overlap >= 0.60
+            and consistency <= 0.25
+            and transition_steps >= dominant_steps
+        ):
+            result.inertia = "RANGE_PERSISTENCE"
+        else:
+            result.inertia = "TRANSITION"
+
+        result.add_reason(
+            "Espectro Price Action: consistência "
+            f"{result.directional_consistency:.2f}, "
+            "sobreposição "
+            f"{result.bar_overlap_ratio:.2f}, "
+            "posição "
+            f"{result.spectrum_position:.2f}."
+        )
+
+        result.add_reason(
+            f"Inércia informativa: {result.inertia}."
+        )
 
     # ==========================================================
     # VOLATILIDADE RELATIVA
