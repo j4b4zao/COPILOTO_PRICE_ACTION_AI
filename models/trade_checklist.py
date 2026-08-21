@@ -45,6 +45,21 @@ class TradeChecklist:
     context: bool = False
 
     # ==========================================================
+    # MULTI-TIMEFRAME INFORMATIVO
+    # ==========================================================
+    #
+    # Estes campos não participam de ready, approved, score
+    # ou completion nesta etapa.
+
+    multi_timeframe_ready: bool = False
+
+    multi_timeframe_aligned: bool = False
+
+    multi_timeframe_conflict: bool = False
+
+    multi_timeframe_status: str = "INSUFFICIENT_DATA"
+
+    # ==========================================================
     # EXECUÇÃO
     # ==========================================================
 
@@ -72,6 +87,14 @@ class TradeChecklist:
         self.volume = False
 
         self.context = False
+
+        self.multi_timeframe_ready = False
+
+        self.multi_timeframe_aligned = False
+
+        self.multi_timeframe_conflict = False
+
+        self.multi_timeframe_status = "INSUFFICIENT_DATA"
 
         self.setup = False
 
