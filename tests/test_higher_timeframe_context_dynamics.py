@@ -44,13 +44,14 @@ def test_neutral_context():
     assert r.direction == "NONE"
 
 
-def test_invalid_direction_is_ignored():
+def test_invalid_direction_is_ignored_and_single_valid_context_remains():
     r = HigherTimeframeContextDynamics().analyze(
         daily="SIDEWAYS",
         weekly="BUY",
         monthly=None,
     )
-    assert r.status == "HIGHER_TIMEFRAME_PARTIAL_ALIGNMENT" or r.status == "HIGHER_TIMEFRAME_NEUTRAL" or r.status == "UNKNOWN"
+    assert r.status == "HIGHER_TIMEFRAME_SINGLE_CONTEXT"
+    assert r.direction == "BUY"
     assert r.execution_allowed
 
 
