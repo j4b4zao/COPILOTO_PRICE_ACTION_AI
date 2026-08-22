@@ -3,7 +3,7 @@ models/book_diagnostics_result.py
 
 Resultado passivo para diagnósticos derivados dos livros de Price Action.
 
-RC5 - Wedge Reversal observation.
+RC6 - Tight Trading Range observation.
 
 Regras:
 - não altera Score, Risk, Decision ou execução;
@@ -27,6 +27,7 @@ class BookDiagnosticsResult(ResultBase):
     breakout_strength: dict = field(default_factory=dict)
     major_trend_reversal: dict = field(default_factory=dict)
     wedge_reversal: dict = field(default_factory=dict)
+    tight_trading_range: dict = field(default_factory=dict)
 
     directional_bias: str = "NONE"
     alignment: str = "NEUTRAL"
@@ -47,6 +48,13 @@ class BookDiagnosticsResult(ResultBase):
     mtr_wedge_confluence: bool = False
     mtr_wedge_conflict: bool = False
 
+    tight_range_active: bool = False
+    no_trade_zone_watch: bool = False
+    range_breakout_confirmed: bool = False
+    range_breakout_direction: str = "NONE"
+    directional_signal_range_conflict: bool = False
+    range_quality_penalty: float = 0.0
+
     def clear(self) -> None:
 
         ResultBase.clear(self)
@@ -58,6 +66,7 @@ class BookDiagnosticsResult(ResultBase):
         self.breakout_strength.clear()
         self.major_trend_reversal.clear()
         self.wedge_reversal.clear()
+        self.tight_trading_range.clear()
 
         self.directional_bias = "NONE"
         self.alignment = "NEUTRAL"
@@ -77,3 +86,10 @@ class BookDiagnosticsResult(ResultBase):
         self.wedge_quality_score = 0.0
         self.mtr_wedge_confluence = False
         self.mtr_wedge_conflict = False
+
+        self.tight_range_active = False
+        self.no_trade_zone_watch = False
+        self.range_breakout_confirmed = False
+        self.range_breakout_direction = "NONE"
+        self.directional_signal_range_conflict = False
+        self.range_quality_penalty = 0.0
