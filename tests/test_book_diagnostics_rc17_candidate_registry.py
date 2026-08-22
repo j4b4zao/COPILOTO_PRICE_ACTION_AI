@@ -1,6 +1,6 @@
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from types import SimpleNamespace
-
-import pytest
 
 from analysis.replay.book_diagnostics_candidate_registry import (
     BookDiagnosticsCandidateRegistry,
@@ -26,9 +26,20 @@ def _report(
     )
 
 
+def _assert_raises(exception_type, function, *args, **kwargs):
+    try:
+        function(*args, **kwargs)
+    except exception_type:
+        return
+    raise AssertionError(f"expected {exception_type.__name__}")
+
+
 def test_new_candidate_starts_researching():
     registry = BookDiagnosticsCandidateRegistry()
-    record = registry.register_evidence(_report(), timestamp="2026-08-22T10:00:00+00:00")
+    record = registry.register_evidence(
+        _report(),
+        timestamp="2026-08-22T10:00:00+00:00",
+    )
     assert record.status == "RESEARCHING"
     assert record.latest_sample_count == 40
     assert len(record.history) == 1
@@ -50,8 +61,11 @@ def test_ready_evidence_moves_candidate_to_manual_review():
 def test_shadow_approval_requires_manual_review():
     registry = BookDiagnosticsCandidateRegistry()
     registry.register_evidence(_report())
-    with pytest.raises(ValueError):
-        registry.approve_for_shadow("CLEAN_DIRECTIONAL_CONTEXT")
+    _assert_raises(
+        ValueError,
+        registry.approve_for_shadow,
+        "CLEAN_DIRECTIONAL_CONTEXT",
+    )
 
 
 def test_manual_review_can_be_approved_for_shadow():
@@ -80,7 +94,7 @@ def test_gate_rejection_marks_candidate_rejected():
     assert record.status == "REJECTED"
 
 
-def test_json_round_trip_preserves_history(tmp_path):
+def test_json_round_trip_preserves_history():
     registry = BookDiagnosticsCandidateRegistry()
     registry.register_evidence(
         _report(
@@ -91,8 +105,11 @@ def test_json_round_trip_preserves_history(tmp_path):
         ),
         timestamp="2026-08-22T10:00:00+00:00",
     )
-    path = registry.save_json(tmp_path / "registry.json")
-    loaded = BookDiagnosticsCandidateRegistry.load_json(path)
+
+    with TemporaryDirectory() as temp_dir:
+        path = registry.save_json(Path(temp_dir) / "registry.json")
+        loaded = BookDiagnosticsCandidateRegistry.load_json(path)
+
     record = loaded.get("CLEAN_DIRECTIONAL_CONTEXT")
     assert record is not None
     assert record.status == "MANUAL_REVIEW"
@@ -103,10 +120,23 @@ def test_json_round_trip_preserves_history(tmp_path):
 def test_filter_by_status():
     registry = BookDiagnosticsCandidateRegistry()
     registry.register_evidence(_report(state="A"))
-    registry.register_evidence(
-        _report(state="B", gate_status="REJECTED")
-    )
+    registry.register_evidence(_report(state="B", gate_status="REJECTED"))
     researching = registry.by_status("RESEARCHING")
     rejected = registry.by_status("REJECTED")
     assert [item["book_state"] for item in researching] == ["A"]
     assert [item["book_state"] for item in rejected] == ["B"]
+
+
+def main():
+    test_new_candidate_starts_researching()
+    test_ready_evidence_moves_candidate_to_manual_review()
+    test_shadow_approval_requires_manual_review()
+    test_manual_review_can_be_approved_for_shadow()
+    test_gate_rejection_marks_candidate_rejected()
+    test_json_round_trip_preserves_history()
+    test_filter_by_status()
+    print("OK - BookDiagnostics RC17 Candidate Registry")
+
+
+if __name__ == "__main__":
+    main()
