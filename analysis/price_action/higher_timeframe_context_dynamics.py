@@ -92,6 +92,10 @@ class HigherTimeframeContextDynamics:
             result.status = "HIGHER_TIMEFRAME_MIXED"
             result.quality_score = 58.0
             result.reasons = ("HIGHER_TIMEFRAME_DIRECTION_CONFLICT",)
+        elif alignment_count == 1 and conflict_count == 0:
+            result.status = "HIGHER_TIMEFRAME_SINGLE_CONTEXT"
+            result.quality_score = 50.0
+            result.reasons = ("ONLY_ONE_DIRECTIONAL_HIGHER_TIMEFRAME",)
         else:
             result.status = "HIGHER_TIMEFRAME_CONFLICT"
             result.direction = "NONE"
