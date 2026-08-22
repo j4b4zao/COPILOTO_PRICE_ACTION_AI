@@ -14,6 +14,9 @@ from core.order_flow_state import OrderFlowState
 from external_context.external_market_state import (
     ExternalMarketState,
 )
+from external_context.economic_calendar_state import (
+    EconomicCalendarState,
+)
 
 from models.structure_result import StructureResult
 from models.regime_result import RegimeResult
@@ -71,6 +74,10 @@ class AnalysisContext:
 
     external_market: ExternalMarketState = field(
         default_factory=ExternalMarketState
+    )
+
+    economic_calendar: EconomicCalendarState = field(
+        default_factory=EconomicCalendarState
     )
 
     # ==========================================================
@@ -321,5 +328,7 @@ class AnalysisContext:
             self.order_flow_state.clear()
 
         self.external_market.clear()
+
+        self.economic_calendar.clear()
 
         self.clear_results()
