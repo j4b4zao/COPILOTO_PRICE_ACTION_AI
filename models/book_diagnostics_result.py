@@ -3,7 +3,7 @@ models/book_diagnostics_result.py
 
 Resultado passivo para diagnósticos derivados dos livros de Price Action.
 
-RC4 - Major Trend Reversal observation.
+RC5 - Wedge Reversal observation.
 
 Regras:
 - não altera Score, Risk, Decision ou execução;
@@ -26,6 +26,7 @@ class BookDiagnosticsResult(ResultBase):
     trend_strength: dict = field(default_factory=dict)
     breakout_strength: dict = field(default_factory=dict)
     major_trend_reversal: dict = field(default_factory=dict)
+    wedge_reversal: dict = field(default_factory=dict)
 
     directional_bias: str = "NONE"
     alignment: str = "NEUTRAL"
@@ -39,6 +40,13 @@ class BookDiagnosticsResult(ResultBase):
     reversal_quality_score: float = 0.0
     trend_reversal_divergence: bool = False
 
+    wedge_watch: bool = False
+    wedge_confirmed: bool = False
+    wedge_direction: str = "NONE"
+    wedge_quality_score: float = 0.0
+    mtr_wedge_confluence: bool = False
+    mtr_wedge_conflict: bool = False
+
     def clear(self) -> None:
 
         ResultBase.clear(self)
@@ -49,6 +57,7 @@ class BookDiagnosticsResult(ResultBase):
         self.trend_strength.clear()
         self.breakout_strength.clear()
         self.major_trend_reversal.clear()
+        self.wedge_reversal.clear()
 
         self.directional_bias = "NONE"
         self.alignment = "NEUTRAL"
@@ -61,3 +70,10 @@ class BookDiagnosticsResult(ResultBase):
         self.reversal_direction = "NONE"
         self.reversal_quality_score = 0.0
         self.trend_reversal_divergence = False
+
+        self.wedge_watch = False
+        self.wedge_confirmed = False
+        self.wedge_direction = "NONE"
+        self.wedge_quality_score = 0.0
+        self.mtr_wedge_confluence = False
+        self.mtr_wedge_conflict = False
