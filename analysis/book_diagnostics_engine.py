@@ -1,7 +1,7 @@
 """
 analysis/book_diagnostics_engine.py
 
-Book Diagnostics Engine RC5 - Experimental / Observational.
+Book Diagnostics Engine RC6 - Experimental / Observational.
 
 Executa diagnósticos passivos selecionados dos livros.
 Não altera Strategy, Score, Risk, Decision nem execução.
@@ -14,12 +14,13 @@ from analysis.price_action.trend_strength_dynamics import TrendStrengthDynamics
 from analysis.price_action.breakout_strength_dynamics import BreakoutStrengthDynamics
 from analysis.price_action.major_trend_reversal_dynamics import MajorTrendReversalDynamics
 from analysis.price_action.wedge_reversal_dynamics import WedgeReversalDynamics
+from analysis.price_action.tight_trading_range_dynamics import TightTradingRangeDynamics
 
 
 class BookDiagnosticsEngine(EngineBase):
 
     NAME = "BookDiagnostics"
-    VERSION = "RC5-WEDGE-OBSERVATIONAL"
+    VERSION = "RC6-TIGHT-RANGE-OBSERVATIONAL"
     ENABLED = True
     PRIORITY = 55
 
@@ -50,12 +51,13 @@ class BookDiagnosticsEngine(EngineBase):
         self._run_breakout_strength(candles, result)
         self._run_major_trend_reversal(candles, context, result)
         self._run_wedge_reversal(candles, context, result)
+        self._run_tight_trading_range(candles, result)
         self._synthesize(result)
 
         result.validate()
         result.add_reason("PASSIVE_DIAGNOSTICS_ONLY")
         result.add_reason("OBSERVATIONAL_PIPELINE_ONLY")
-        result.add_reason("RC5_WEDGE_REVERSAL_EXPERIMENT")
+        result.add_reason("RC6_TIGHT_TRADING_RANGE_EXPERIMENT")
 
         return context
 
@@ -94,6 +96,11 @@ class BookDiagnosticsEngine(EngineBase):
             structural_break=mtr_break,
         )
         result.wedge_reversal.update(metrics.to_dict())
+
+    @staticmethod
+    def _run_tight_trading_range(candles, result) -> None:
+        metrics = TightTradingRangeDynamics().analyze(candles)
+        result.tight_trading_range.update(metrics.to_dict())
 
     @staticmethod
     def _normalize_old_trend(value) -> str:
@@ -140,6 +147,7 @@ class BookDiagnosticsEngine(EngineBase):
             result.add_reason("BOOK_ALIGNMENT_NEUTRAL")
             BookDiagnosticsEngine._apply_reversal_overlay(result)
             BookDiagnosticsEngine._apply_wedge_overlay(result)
+            BookDiagnosticsEngine._apply_tight_range_overlay(result)
             return
 
         buy_count = sum(direction == "BUY" for direction, _ in observations)
@@ -192,6 +200,7 @@ class BookDiagnosticsEngine(EngineBase):
 
         BookDiagnosticsEngine._apply_reversal_overlay(result)
         BookDiagnosticsEngine._apply_wedge_overlay(result)
+        BookDiagnosticsEngine._apply_tight_range_overlay(result)
 
     @staticmethod
     def _apply_reversal_overlay(result) -> None:
@@ -268,3 +277,54 @@ class BookDiagnosticsEngine(EngineBase):
             result.add_reason("MTR_WEDGE_REVERSAL_CONFLICT")
         if result.wedge_confirmed:
             result.add_reason("WEDGE_REVERSAL_CONFIRMED_OBSERVATIONAL_ONLY")
+
+    @staticmethod
+    def _apply_tight_range_overlay(result) -> None:
+        tight = result.tight_trading_range
+        valid = bool(tight.get("valid", False))
+        state = str(tight.get("state", "NONE")).upper()
+        no_trade_zone = bool(tight.get("no_trade_zone", False))
+        breakout_confirmed = bool(tight.get("breakout_confirmed", False))
+        breakout_direction = str(tight.get("breakout_direction", "NONE")).upper()
+        width_atr = float(tight.get("range_width_atr", 0.0) or 0.0)
+        overlap = float(tight.get("overlap_ratio", 0.0) or 0.0)
+        barbwire = bool(tight.get("barbwire", False))
+
+        result.tight_range_active = bool(
+            valid and (
+                no_trade_zone
+                or state in {"TIGHT_TRADING_RANGE", "NO_TRADE_ZONE"}
+            )
+        )
+        result.no_trade_zone_watch = bool(valid and no_trade_zone)
+        result.range_breakout_confirmed = bool(valid and breakout_confirmed)
+        result.range_breakout_direction = (
+            breakout_direction
+            if result.range_breakout_confirmed and breakout_direction in {"UP", "DOWN"}
+            else "NONE"
+        )
+
+        result.directional_signal_range_conflict = bool(
+            result.tight_range_active
+            and result.directional_bias in {"BUY", "SELL"}
+        )
+
+        penalty = 0.0
+        if result.tight_range_active:
+            penalty += 15.0
+        if barbwire:
+            penalty += 10.0
+        if width_atr > 0.0 and width_atr <= 2.0:
+            penalty += 5.0
+        if overlap >= 0.80:
+            penalty += 5.0
+        result.range_quality_penalty = min(35.0, penalty)
+
+        if result.directional_signal_range_conflict:
+            result.add_reason("DIRECTIONAL_SIGNAL_INSIDE_TIGHT_RANGE")
+        if result.no_trade_zone_watch:
+            result.add_reason("TIGHT_RANGE_NO_TRADE_ZONE_OBSERVATIONAL_ONLY")
+        if result.range_breakout_confirmed:
+            result.add_reason(
+                f"TIGHT_RANGE_BREAKOUT_CONFIRMED_{result.range_breakout_direction}"
+            )
