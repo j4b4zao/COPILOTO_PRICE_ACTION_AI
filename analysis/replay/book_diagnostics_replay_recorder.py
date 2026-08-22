@@ -1,19 +1,23 @@
 """
 analysis/replay/book_diagnostics_replay_recorder.py
 
-BookDiagnostics RC8 - Replay/A-B recorder.
+BookDiagnostics RC9 - Replay/A-B recorder + persistence.
 
 Captura, ao final de cada ciclo da pipeline, uma fotografia comparativa entre:
 - decisão oficial do núcleo;
-- síntese observacional do BookDiagnostics RC7.
+- síntese observacional do BookDiagnostics.
 
-O recorder é estritamente passivo: não escreve em AnalysisContext e não altera
-Strategy, Score, Risk, Decision ou execução.
+RC9 adiciona exportação explícita para JSONL e CSV para replay/auditoria.
+O recorder continua estritamente passivo: não escreve em AnalysisContext e não
+altera Strategy, Score, Risk, Decision ou execução.
 """
 
 from __future__ import annotations
 
+import csv
+import json
 from dataclasses import asdict, dataclass
+from pathlib import Path
 
 
 @dataclass(slots=True, frozen=True)
@@ -45,11 +49,17 @@ class BookDiagnosticsReplaySample:
     def to_dict(self) -> dict:
         return asdict(self)
 
+    @classmethod
+    def from_dict(cls, payload: dict) -> "BookDiagnosticsReplaySample":
+        allowed = cls.__dataclass_fields__.keys()
+        clean = {key: payload[key] for key in allowed if key in payload}
+        return cls(**clean)
+
 
 class BookDiagnosticsReplayRecorder:
     """In-memory A/B recorder for passive validation and replay analysis."""
 
-    VERSION = "RC8-REPLAY-AB"
+    VERSION = "RC9-REPLAY-PERSISTENCE"
 
     def __init__(self, max_samples: int = 50000):
         self.max_samples = max(1, int(max_samples))
@@ -120,12 +130,19 @@ class BookDiagnosticsReplayRecorder:
             book_passive_only=bool(getattr(book, "passive_only", True)),
         )
 
+        self._append(sample)
+        return sample
+
+    def add_sample(self, sample: BookDiagnosticsReplaySample) -> None:
+        if not isinstance(sample, BookDiagnosticsReplaySample):
+            raise TypeError("sample must be BookDiagnosticsReplaySample")
+        self._append(sample)
+
+    def _append(self, sample: BookDiagnosticsReplaySample) -> None:
         self._samples.append(sample)
         overflow = len(self._samples) - self.max_samples
         if overflow > 0:
             del self._samples[:overflow]
-
-        return sample
 
     def summary(self) -> dict:
         total = len(self._samples)
@@ -142,6 +159,57 @@ class BookDiagnosticsReplayRecorder:
             "agreement_rate": round(agreements / len(comparable), 4) if comparable else 0.0,
             "conflict_rate": round(conflicts / len(comparable), 4) if comparable else 0.0,
         }
+
+    def export_jsonl(self, path) -> Path:
+        destination = Path(path)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        with destination.open("w", encoding="utf-8", newline="") as handle:
+            for sample in self._samples:
+                handle.write(
+                    json.dumps(sample.to_dict(), ensure_ascii=False, sort_keys=True)
+                    + "\n"
+                )
+        return destination
+
+    def export_csv(self, path) -> Path:
+        destination = Path(path)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        fields = list(BookDiagnosticsReplaySample.__dataclass_fields__.keys())
+        with destination.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fields)
+            writer.writeheader()
+            for sample in self._samples:
+                writer.writerow(sample.to_dict())
+        return destination
+
+    @classmethod
+    def load_jsonl(
+        cls,
+        path,
+        max_samples: int = 50000,
+    ) -> "BookDiagnosticsReplayRecorder":
+        recorder = cls(max_samples=max_samples)
+        source = Path(path)
+        if not source.exists():
+            raise FileNotFoundError(source)
+
+        with source.open("r", encoding="utf-8") as handle:
+            for line_number, line in enumerate(handle, start=1):
+                text = line.strip()
+                if not text:
+                    continue
+                try:
+                    payload = json.loads(text)
+                except json.JSONDecodeError as exc:
+                    raise ValueError(
+                        f"Invalid JSONL at line {line_number}: {exc.msg}"
+                    ) from exc
+                if not isinstance(payload, dict):
+                    raise ValueError(
+                        f"Invalid JSONL at line {line_number}: object expected"
+                    )
+                recorder.add_sample(BookDiagnosticsReplaySample.from_dict(payload))
+        return recorder
 
     @staticmethod
     def _direction_agreement(
