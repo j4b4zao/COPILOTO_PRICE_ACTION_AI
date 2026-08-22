@@ -1,8 +1,11 @@
 """
 analysis/price_action/opening_range_dynamics.py
 
-Brooks Reversals - Chapter 20:
-Opening Range.
+Brooks Reversals - Chapter 19 supplemental diagnostics:
+Opening Patterns and Reversals / opening range resolution.
+
+Note: the actual Chapter 20 is "Gap Openings: Reversals and Continuations"
+and is implemented separately in gap_opening_dynamics.py.
 
 Diagnostic-only layer. It does not alter Score, Risk, Decision or execution.
 """
