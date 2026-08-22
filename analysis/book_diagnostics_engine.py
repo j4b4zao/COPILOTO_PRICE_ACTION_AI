@@ -1,7 +1,7 @@
 """
 analysis/book_diagnostics_engine.py
 
-Book Diagnostics Engine RC1.
+Book Diagnostics Engine RC2 - Observational.
 
 Executa somente diagnósticos passivos selecionados dos livros.
 Não altera Strategy, Score, Risk, Decision nem execução.
@@ -17,7 +17,7 @@ class BookDiagnosticsEngine(EngineBase):
 
     NAME = "BookDiagnostics"
 
-    VERSION = "RC1"
+    VERSION = "RC2-OBSERVATIONAL"
 
     ENABLED = True
 
@@ -64,6 +64,7 @@ class BookDiagnosticsEngine(EngineBase):
 
         result.validate()
         result.add_reason("PASSIVE_DIAGNOSTICS_ONLY")
+        result.add_reason("OBSERVATIONAL_PIPELINE_ONLY")
 
         return context
 

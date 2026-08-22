@@ -4,7 +4,7 @@ analysis/analysis_pipeline.py
 Pipeline principal do
 COPILOTO PRICE ACTION AI.
 
-RC14.2 - MULTI-TIMEFRAME SAFETY GATE
+RC14.3 - BOOK DIAGNOSTICS OBSERVATIONAL
 """
 
 from core.analysis_context import AnalysisContext
@@ -22,6 +22,7 @@ from analysis.liquidity_analysis import LiquidityAnalysis
 from analysis.volume_analysis import VolumeAnalysis
 from analysis.order_flow import OrderFlow
 from analysis.price_action.price_action import PriceAction
+from analysis.book_diagnostics_engine import BookDiagnosticsEngine
 
 # ==========================================================
 
@@ -86,6 +87,8 @@ class AnalysisPipeline:
             OrderFlow(),
 
             PriceAction(),
+
+            BookDiagnosticsEngine(),
 
         ]
 
@@ -222,6 +225,9 @@ class AnalysisPipeline:
 
             PriceAction:
                 EventType.PRICE_ACTION_UPDATED,
+
+            BookDiagnosticsEngine:
+                EventType.BOOK_DIAGNOSTICS_UPDATED,
 
         # ===============================================
         # SMART MONEY

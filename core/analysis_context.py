@@ -22,6 +22,7 @@ from models.liquidity_result import LiquidityResult
 from models.volume_result import VolumeResult
 from models.order_flow_result import OrderFlowResult
 from models.price_action_result import PriceActionResult
+from models.book_diagnostics_result import BookDiagnosticsResult
 
 from models.context_result import ContextResult
 from models.evidence_result import EvidenceResult
@@ -100,6 +101,14 @@ class AnalysisContext:
 
     price_action: PriceActionResult = field(
         default_factory=PriceActionResult
+    )
+
+    # ==========================================================
+    # DIAGNÓSTICOS DOS LIVROS - OBSERVACIONAL
+    # ==========================================================
+
+    book_diagnostics: BookDiagnosticsResult = field(
+        default_factory=BookDiagnosticsResult
     )
 
     # ==========================================================
@@ -221,6 +230,12 @@ class AnalysisContext:
         self.order_flow.clear()
 
         self.price_action.clear()
+
+        # ------------------------------------------------------
+        # DIAGNÓSTICOS DOS LIVROS
+        # ------------------------------------------------------
+
+        self.book_diagnostics.clear()
 
         # ------------------------------------------------------
         # EVIDÊNCIAS

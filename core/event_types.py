@@ -43,6 +43,8 @@ class EventType:
 
     PRICE_ACTION_UPDATED = "PRICE_ACTION_UPDATED"
 
+    BOOK_DIAGNOSTICS_UPDATED = "BOOK_DIAGNOSTICS_UPDATED"
+
     # ==========================================================
     # SMART MONEY
     # ==========================================================
