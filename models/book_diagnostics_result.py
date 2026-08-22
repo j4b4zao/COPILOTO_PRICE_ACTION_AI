@@ -3,7 +3,7 @@ models/book_diagnostics_result.py
 
 Resultado passivo para diagnósticos derivados dos livros de Price Action.
 
-RC1
+RC3 - Experimental breakout-strength observation.
 
 Regras:
 - não altera Score, Risk, Decision ou execução;
@@ -20,33 +20,17 @@ from models.result_base import ResultBase
 @dataclass(slots=True)
 class BookDiagnosticsResult(ResultBase):
 
-    # ==========================================================
-    # CONTROLE
-    # ==========================================================
-
     passive_only: bool = True
 
-    # ==========================================================
-    # DIAGNÓSTICOS RC1
-    # ==========================================================
-
     always_in: dict = field(default_factory=dict)
-
     trend_strength: dict = field(default_factory=dict)
-
-    # ==========================================================
-    # SÍNTESE PASSIVA
-    # ==========================================================
+    breakout_strength: dict = field(default_factory=dict)
 
     directional_bias: str = "NONE"
-
     alignment: str = "NEUTRAL"
-
+    aligned_diagnostics: int = 0
+    conflicting_diagnostics: int = 0
     quality_score: float = 0.0
-
-    # ==========================================================
-    # RESET
-    # ==========================================================
 
     def clear(self) -> None:
 
@@ -55,11 +39,11 @@ class BookDiagnosticsResult(ResultBase):
         self.passive_only = True
 
         self.always_in.clear()
-
         self.trend_strength.clear()
+        self.breakout_strength.clear()
 
         self.directional_bias = "NONE"
-
         self.alignment = "NEUTRAL"
-
+        self.aligned_diagnostics = 0
+        self.conflicting_diagnostics = 0
         self.quality_score = 0.0
