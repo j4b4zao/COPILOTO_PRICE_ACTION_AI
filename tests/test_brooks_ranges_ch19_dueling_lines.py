@@ -48,7 +48,7 @@ def test_dueling_lines_buy_context_is_diagnostic():
     ]
     result = DuelingLinesDynamics().analyze(_bars(values))
     assert result.trend_direction in ("UP", "NONE") or result.valid in (True, False)
-    assert result.continuation_bias implies result.reaction_confirmed
+    assert (not result.continuation_bias) or result.reaction_confirmed
 
 
 def test_current_candle_does_not_confirm_setup():
