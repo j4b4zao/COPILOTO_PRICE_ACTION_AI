@@ -1,15 +1,14 @@
 """
 analysis/replay/book_diagnostics_replay_recorder.py
 
-BookDiagnostics RC9 - Replay/A-B recorder + persistence.
+BookDiagnostics RC10 - Replay/A-B recorder + persistence + outcome inputs.
 
 Captura, ao final de cada ciclo da pipeline, uma fotografia comparativa entre:
 - decisão oficial do núcleo;
 - síntese observacional do BookDiagnostics.
 
-RC9 adiciona exportação explícita para JSONL e CSV para replay/auditoria.
-O recorder continua estritamente passivo: não escreve em AnalysisContext e não
-altera Strategy, Score, Risk, Decision ou execução.
+RC10 preserva também entry/stop/target oficiais para posterior rotulagem de
+resultado futuro. O recorder continua estritamente passivo.
 """
 
 from __future__ import annotations
@@ -33,6 +32,9 @@ class BookDiagnosticsReplaySample:
     official_score: float = 0.0
     official_risk_reward: float = 0.0
     official_setup: str = ""
+    official_entry: float = 0.0
+    official_stop: float = 0.0
+    official_target: float = 0.0
 
     book_state: str = "NEUTRAL"
     book_direction: str = "NONE"
@@ -59,7 +61,7 @@ class BookDiagnosticsReplaySample:
 class BookDiagnosticsReplayRecorder:
     """In-memory A/B recorder for passive validation and replay analysis."""
 
-    VERSION = "RC9-REPLAY-PERSISTENCE"
+    VERSION = "RC10-REPLAY-OUTCOME-INPUTS"
 
     def __init__(self, max_samples: int = 50000):
         self.max_samples = max(1, int(max_samples))
@@ -112,6 +114,9 @@ class BookDiagnosticsReplayRecorder:
             official_score=float(getattr(decision, "score", 0.0) or 0.0),
             official_risk_reward=float(getattr(decision, "risk_reward", 0.0) or 0.0),
             official_setup=str(getattr(decision, "setup", "") or ""),
+            official_entry=float(getattr(decision, "entry", 0.0) or 0.0),
+            official_stop=float(getattr(decision, "stop", 0.0) or 0.0),
+            official_target=float(getattr(decision, "target", 0.0) or 0.0),
             book_state=str(getattr(book, "synthesis_state", "NEUTRAL") or "NEUTRAL"),
             book_direction=book_direction,
             book_score=float(getattr(book, "synthesis_score", 0.0) or 0.0),
