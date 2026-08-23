@@ -10,7 +10,7 @@ from market_data.collector import Collector
 from validation.data_validator import DataValidator
 from analysis.analysis_pipeline import AnalysisPipeline
 from analysis.replay.book_diagnostics_voice_config import VoiceConfig, validate_voice_config
-from analysis.replay.book_diagnostics_voice_service_rc91 import BookDiagnosticsVoiceServiceRC91
+from analysis.replay.book_diagnostics_voice_service_rc94 import BookDiagnosticsVoiceServiceRC94
 from risk.risk_manager import RiskManager
 from filters.market_filter import MarketFilter
 from risk.trade_quality import TradeQuality
@@ -52,7 +52,7 @@ class SystemInitializer:
         self.validator = DataValidator()
         self.pipeline = AnalysisPipeline(event_bus=self.event_bus)
 
-        self.voice = BookDiagnosticsVoiceServiceRC91(config=self.voice_config)
+        self.voice = BookDiagnosticsVoiceServiceRC94(config=self.voice_config)
 
         self.risk = RiskManager()
         self.market_filter = MarketFilter()
