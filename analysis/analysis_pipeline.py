@@ -4,7 +4,7 @@ analysis/analysis_pipeline.py
 Pipeline principal do
 COPILOTO PRICE ACTION AI.
 
-RC14.6 - EXTERNAL CONTEXT OBSERVATIONAL BRIDGE
+RC14.7 - EXTERNAL CONTEXT SCORE A/B OBSERVATIONAL
 """
 
 from core.analysis_context import AnalysisContext
@@ -20,6 +20,7 @@ from analysis.price_action.price_action import PriceAction
 from analysis.book_diagnostics_engine import BookDiagnosticsEngine
 from analysis.replay.book_diagnostics_replay_recorder import BookDiagnosticsReplayRecorder
 from analysis.replay.score_regime_mtf_ab_recorder import ScoreRegimeMtfABRecorder
+from analysis.replay.score_external_context_ab_recorder import ScoreExternalContextABRecorder
 
 from analysis.smart_money.imbalance import Imbalance
 from analysis.smart_money.order_block import OrderBlock
@@ -52,10 +53,11 @@ class AnalysisPipeline:
         self.external_context_service = external_context_service
         self.context = AnalysisContext()
 
-        # Recorders estritamente passivos. Ambos leem o resultado final do ciclo,
+        # Recorders estritamente passivos. Todos leem o resultado final do ciclo,
         # mas nunca escrevem de volta no AnalysisContext.
         self.book_diagnostics_replay = BookDiagnosticsReplayRecorder()
         self.score_regime_mtf_ab = ScoreRegimeMtfABRecorder()
+        self.score_external_context_ab = ScoreExternalContextABRecorder()
 
         self.price_action_engines = [
             MarketRegime(),
@@ -118,6 +120,7 @@ class AnalysisPipeline:
         # Portanto, nenhum deles influencia o ciclo oficial que está sendo medido.
         self.book_diagnostics_replay.record(self.context)
         self.score_regime_mtf_ab.record(self.context)
+        self.score_external_context_ab.record(self.context)
 
         self._publish_loop()
 
