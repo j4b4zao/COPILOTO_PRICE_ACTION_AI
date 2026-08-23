@@ -52,6 +52,18 @@ class TradeChecklist:
     order_flow_structure_alignment: str = "UNAVAILABLE"
     order_flow_structural_confidence: float = 0.0
 
+    # BookDepth informativo: não participa de ready/approved/score/completion.
+    book_depth_ready: bool = False
+    book_depth_aligned: bool = False
+    book_depth_conflict: bool = False
+    book_depth_status: str = "UNAVAILABLE"
+    book_depth_pressure: str = "UNAVAILABLE"
+    book_depth_imbalance: float = 0.0
+    book_depth_spread_ratio: float = 0.0
+    book_depth_concentration_bias: str = "BALANCED"
+    book_depth_confidence: float = 0.0
+    book_depth_duplicate_evidence_risk: bool = False
+
     setup: bool = False
     risk_ok: bool = False
 
@@ -88,6 +100,17 @@ class TradeChecklist:
         self.order_flow_pattern_direction = "NONE"
         self.order_flow_structure_alignment = "UNAVAILABLE"
         self.order_flow_structural_confidence = 0.0
+
+        self.book_depth_ready = False
+        self.book_depth_aligned = False
+        self.book_depth_conflict = False
+        self.book_depth_status = "UNAVAILABLE"
+        self.book_depth_pressure = "UNAVAILABLE"
+        self.book_depth_imbalance = 0.0
+        self.book_depth_spread_ratio = 0.0
+        self.book_depth_concentration_bias = "BALANCED"
+        self.book_depth_confidence = 0.0
+        self.book_depth_duplicate_evidence_risk = False
 
         self.setup = False
         self.risk_ok = False
