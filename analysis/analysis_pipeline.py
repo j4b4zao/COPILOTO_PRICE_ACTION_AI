@@ -1,14 +1,14 @@
 """
 analysis/analysis_pipeline.py
 
-Pipeline principal do
-COPILOTO PRICE ACTION AI.
+Pipeline principal do COPILOTO PRICE ACTION AI.
 
-RC14.9 - ORDER FLOW STRUCTURE SCORE A/B OBSERVATIONAL
+RC15.0 - BOOK DEPTH OBSERVATIONAL BRIDGE
 """
 
 from core.analysis_context import AnalysisContext
 from external_context.external_market_state import ExternalMarketState
+from models.book_depth import BookDepthSnapshot
 
 from analysis.market_structure import MarketStructure
 from analysis.market_regime import MarketRegime
@@ -41,22 +41,21 @@ from core.event_types import EventType
 
 class AnalysisPipeline:
 
-    def __init__(self, event_bus=None, external_context_service=None):
-
-        if (
-            external_context_service is not None
-            and not callable(getattr(external_context_service, "snapshot", None))
+    def __init__(self, event_bus=None, external_context_service=None, book_depth_service=None):
+        if external_context_service is not None and not callable(
+            getattr(external_context_service, "snapshot", None)
         ):
-            raise TypeError(
-                "External context service deve expor snapshot()."
-            )
+            raise TypeError("External context service deve expor snapshot().")
+        if book_depth_service is not None and not callable(
+            getattr(book_depth_service, "snapshot", None)
+        ):
+            raise TypeError("Book depth service deve expor snapshot(symbol).")
 
         self.event_bus = event_bus
         self.external_context_service = external_context_service
+        self.book_depth_service = book_depth_service
         self.context = AnalysisContext()
 
-        # Recorders estritamente passivos. Todos leem o resultado final do ciclo,
-        # mas nunca escrevem de volta no AnalysisContext.
         self.book_diagnostics_replay = BookDiagnosticsReplayRecorder()
         self.score_regime_mtf_ab = ScoreRegimeMtfABRecorder()
         self.score_external_context_ab = ScoreExternalContextABRecorder()
@@ -73,32 +72,12 @@ class AnalysisPipeline:
             PriceAction(),
             BookDiagnosticsEngine(),
         ]
-
-        self.smart_money_engines = [
-            Imbalance(),
-            OrderBlock(),
-            FairValueGap(),
-            LiquidityPool(),
-        ]
-
-        self.ai_engines = [
-            ContextEngine(),
-            StrategyEngine(),
-            ScoreEngine(),
-            RiskManager(),
-            DecisionEngine(),
-        ]
-
-        self.engines = (
-            self.price_action_engines
-            + self.smart_money_engines
-            + self.ai_engines
-        )
-
+        self.smart_money_engines = [Imbalance(), OrderBlock(), FairValueGap(), LiquidityPool()]
+        self.ai_engines = [ContextEngine(), StrategyEngine(), ScoreEngine(), RiskManager(), DecisionEngine()]
+        self.engines = self.price_action_engines + self.smart_money_engines + self.ai_engines
         self.engines.sort(key=lambda engine: engine.PRIORITY)
 
     def executar(self, context):
-
         if not isinstance(context, AnalysisContext):
             raise TypeError(
                 "AnalysisPipeline esperava AnalysisContext, "
@@ -106,61 +85,66 @@ class AnalysisPipeline:
             )
 
         self.context = context
-
-        # O monitor externo é opcional e fail-safe. Falhas externas nunca
-        # interrompem o núcleo WIN/WDO e nunca criam decisão operacional.
         self._refresh_external_context()
-
+        self._refresh_book_depth()
         self.context.clear_results()
 
         for engine in self.engines:
             if not engine.ENABLED:
                 continue
-
             engine.executar(self.context)
             self._publish_engine(engine)
 
-        # Snapshots A/B são criados somente depois do DecisionEngine terminar.
-        # Portanto, nenhum deles influencia o ciclo oficial que está sendo medido.
         self.book_diagnostics_replay.record(self.context)
         self.score_regime_mtf_ab.record(self.context)
         self.score_external_context_ab.record(self.context)
         self.score_order_flow_ab.record(self.context)
         self.score_order_flow_structure_ab.record(self.context)
-
         self._publish_loop()
-
         return self.context
 
     def _refresh_external_context(self) -> None:
-        """Atualiza o snapshot externo sem permitir falha da fonte no núcleo."""
         if self.external_context_service is None:
             return
-
         try:
             state = self.external_context_service.snapshot()
-        except Exception as exc:  # monitor externo não pode derrubar o núcleo
+        except Exception as exc:
             self.context.external_market.clear()
             self.context.external_market.add_reason(
-                "Contexto externo indisponível: "
-                f"{type(exc).__name__}."
+                "Contexto externo indisponível: " f"{type(exc).__name__}."
             )
             return
-
         if not isinstance(state, ExternalMarketState):
             self.context.external_market.clear()
             self.context.external_market.add_reason(
                 "ExternalContextService retornou estado inválido."
             )
             return
-
         self.context.external_market = state
 
-    def _publish_engine(self, engine):
+    def _refresh_book_depth(self) -> None:
+        if self.book_depth_service is None:
+            return
+        symbol = str(getattr(self.context.market, "symbol", "") or "")
+        try:
+            snapshot = self.book_depth_service.snapshot(symbol)
+        except Exception:
+            self.context.book_depth = BookDepthSnapshot.unavailable(
+                symbol=symbol,
+                source="BOOK_DEPTH_SERVICE_ERROR",
+            )
+            return
+        if not isinstance(snapshot, BookDepthSnapshot):
+            self.context.book_depth = BookDepthSnapshot.unavailable(
+                symbol=symbol,
+                source="BOOK_DEPTH_INVALID_SNAPSHOT",
+            )
+            return
+        self.context.book_depth = snapshot
 
+    def _publish_engine(self, engine):
         if self.event_bus is None:
             return
-
         mapping = {
             MarketRegime: EventType.REGIME_UPDATED,
             MultiTimeframeAnalysis: EventType.MULTI_TIMEFRAME_UPDATED,
@@ -180,27 +164,12 @@ class AnalysisPipeline:
             RiskManager: EventType.RISK_UPDATED,
             DecisionEngine: EventType.DECISION_UPDATED,
         }
-
         event_type = mapping.get(type(engine))
-
         if event_type is None:
             return
-
-        self.event_bus.publish(
-            Event(
-                event_type,
-                self.context,
-            )
-        )
+        self.event_bus.publish(Event(event_type, self.context))
 
     def _publish_loop(self):
-
         if self.event_bus is None:
             return
-
-        self.event_bus.publish(
-            Event(
-                EventType.LOOP_COMPLETED,
-                self.context,
-            )
-        )
+        self.event_bus.publish(Event(EventType.LOOP_COMPLETED, self.context))
