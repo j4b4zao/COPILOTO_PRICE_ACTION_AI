@@ -1,4 +1,4 @@
-"""Coleta Profit/Excel com integridade, diagnóstico da fonte e qualidade do Delta."""
+"""Coleta Profit/Excel com integridade, diagnóstico, qualidade e recorder de Delta."""
 
 import math
 
@@ -10,17 +10,19 @@ from core.order_flow_state import OrderFlowState
 from core.renko_state import RenkoState
 from enums.chart_mode import ChartMode
 from market_data.profit_delta_quality_validator import ProfitDeltaQualityValidator
+from market_data.profit_delta_session_recorder import ProfitDeltaSessionRecorder
 from market_data.profit_delta_source_diagnostics import ProfitDeltaSourceDiagnostics
 from market_data.profit_source_integrity import ProfitSourceIntegrityGuard
 
 
 class Collector:
     NAME = "Collector"
-    VERSION = "RC15-PROFIT-DELTA-QUALITY-RUNTIME"
+    VERSION = "RC16-PROFIT-DELTA-SESSION-RECORDER"
 
     def __init__(self, excel=None, reader=None, multi_timeframe=None, renko_state=None,
                  order_flow_state=None, chart_mode=None, renko_brick_size=None, clock=None,
-                 source_guard=None, source_diagnostics=None, delta_quality_validator=None):
+                 source_guard=None, source_diagnostics=None, delta_quality_validator=None,
+                 delta_session_recorder=None):
         if excel is None:
             from connectors.excel_connector import ExcelConnector
             excel = ExcelConnector()
@@ -35,6 +37,7 @@ class Collector:
         self.source_guard = source_guard if source_guard is not None else ProfitSourceIntegrityGuard()
         self.source_diagnostics = source_diagnostics if source_diagnostics is not None else ProfitDeltaSourceDiagnostics()
         self.delta_quality_validator = delta_quality_validator if delta_quality_validator is not None else ProfitDeltaQualityValidator()
+        self.delta_session_recorder = delta_session_recorder if delta_session_recorder is not None else ProfitDeltaSessionRecorder()
         self.last_delta_quality = self.delta_quality_validator.evaluate(self.order_flow, self.source_diagnostics.snapshot)
         self.market = self._primary_market()
         self.last_new_candles = {timeframe: False for timeframe in self.multi_timeframe.TIMEFRAMES}
@@ -102,6 +105,7 @@ class Collector:
         source = self.source_diagnostics.snapshot
         self.last_delta_quality = self.delta_quality_validator.evaluate(self.order_flow, source)
         quality = self.last_delta_quality
+        self.delta_session_recorder.record(source, quality)
         print("[DELTA SOURCE] "
               f"status={source.status} symbol={source.symbol} fresh={source.fresh_snapshots} "
               f"duplicates={source.duplicate_snapshots} aggression={source.aggression_availability_rate:.0%} "
@@ -113,6 +117,9 @@ class Collector:
               f"avg_abs={quality.average_abs_delta:.2f} max_abs={quality.max_abs_delta:.2f} "
               f"zero_rate={quality.zero_delta_rate:.0%} anomalies={quality.anomaly_count} "
               f"reasons={','.join(quality.reasons) if quality.reasons else 'OK'}")
+
+    def delta_session_summary(self) -> dict:
+        return self.delta_session_recorder.summary()
 
     def _primary_market(self):
         return self.renko.market if self.chart_mode == ChartMode.RENKO else self.multi_timeframe.primary
