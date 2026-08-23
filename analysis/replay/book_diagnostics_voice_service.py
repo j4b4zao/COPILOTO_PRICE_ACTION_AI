@@ -1,10 +1,10 @@
 """
-BookDiagnostics RC39/RC40/RC41/RC42/RC46 - Voice Service Integration.
+BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47 - Voice Service Integration.
 
 Expoe a fachada RC38 como servico opcional, usa RC40 como configuracao,
-RC41 para resolver o backend, RC42 para aplicar idioma, perfil, velocidade
-e politica de interrupcao aos eventos de voz, e RC46 para expor diagnosticos
-RC45 sem iniciar audio. Nao altera o nucleo operacional.
+RC41 para resolver o backend, RC42 para aplicar idioma, perfil, velocidade,
+RC46 para diagnosticos seguros e RC47 para teste real de audio somente por
+chamada explicita. Nao altera o nucleo operacional.
 """
 
 from __future__ import annotations
@@ -18,6 +18,7 @@ from analysis.replay.book_diagnostics_tts_backend_registry import (
     get_default_tts_backend_registry,
 )
 from analysis.replay.book_diagnostics_tts_runtime import BookDiagnosticsTTSRuntimeCoordinator
+from analysis.replay.book_diagnostics_voice_audio_test import BookDiagnosticsControlledAudioTest
 from analysis.replay.book_diagnostics_voice_config import VoiceConfig, validate_voice_config
 from analysis.replay.book_diagnostics_voice_diagnostics import BookDiagnosticsVoiceDiagnostics
 from analysis.replay.book_diagnostics_voice_event import BookDiagnosticsVoiceEventFactory
@@ -51,14 +52,7 @@ class VoiceServiceSnapshot:
 class BookDiagnosticsVoiceService:
     VERSION = "RC39-VOICE-SERVICE-INTEGRATION"
 
-    def __init__(
-        self,
-        *,
-        enabled: bool | None = None,
-        config: VoiceConfig | None = None,
-        facade=None,
-        backend_registry: BookDiagnosticsTTSBackendRegistry | None = None,
-    ):
+    def __init__(self, *, enabled: bool | None = None, config: VoiceConfig | None = None, facade=None, backend_registry: BookDiagnosticsTTSBackendRegistry | None = None):
         base = validate_voice_config(config or VoiceConfig())
         if enabled is not None:
             base = base.with_updates(enabled=bool(enabled))
@@ -96,35 +90,35 @@ class BookDiagnosticsVoiceService:
         return self.snapshot()
 
     def diagnostics(self):
-        """Inspeciona capacidades de voz sem habilitar servico nem iniciar fala."""
         return BookDiagnosticsVoiceDiagnostics(
             config=self.config,
             backend_registry=self.backend_registry,
         ).inspect()
 
+    def test_audio(self, *, text: str | None = None):
+        """Executa RC47 somente por chamada explicita e somente apos RC45 READY."""
+        return BookDiagnosticsControlledAudioTest(
+            config=self.config,
+            backend_registry=self.backend_registry,
+        ).run(text=text)
+
     def submit_message(self, message_decision):
-        self._require_enabled()
-        return self.facade.submit_message(message_decision)
+        self._require_enabled(); return self.facade.submit_message(message_decision)
 
     def submit_and_process(self, message_decision):
-        self._require_enabled()
-        return self.facade.submit_and_process(message_decision)
+        self._require_enabled(); return self.facade.submit_and_process(message_decision)
 
     def process_next(self):
-        self._require_enabled()
-        return self.facade.process_next()
+        self._require_enabled(); return self.facade.process_next()
 
     def complete_active(self, *, event_id: str | None = None):
-        self._require_enabled()
-        return self.facade.complete_active(event_id=event_id)
+        self._require_enabled(); return self.facade.complete_active(event_id=event_id)
 
     def fail_active(self, error: str, *, event_id: str | None = None):
-        self._require_enabled()
-        return self.facade.fail_active(error, event_id=event_id)
+        self._require_enabled(); return self.facade.fail_active(error, event_id=event_id)
 
     def stop_active(self) -> bool:
-        self._require_enabled()
-        return self.facade.stop_active()
+        self._require_enabled(); return self.facade.stop_active()
 
     def reset(self):
         if self._facade is not None:
@@ -132,37 +126,12 @@ class BookDiagnosticsVoiceService:
         return self.snapshot()
 
     def snapshot(self) -> VoiceServiceSnapshot:
-        common = dict(
-            version=self.VERSION,
-            enabled=self.enabled,
-            config_version=self.config.version,
-            language=self.config.language,
-            voice_profile=self.config.voice_profile,
-            speech_rate=self.config.speech_rate,
-        )
+        common = dict(version=self.VERSION, enabled=self.enabled, config_version=self.config.version, language=self.config.language, voice_profile=self.config.voice_profile, speech_rate=self.config.speech_rate)
         if self._facade is None:
-            return VoiceServiceSnapshot(
-                available=False,
-                queue_size=0,
-                session_state="IDLE",
-                backend="DISABLED",
-                backend_healthy=False,
-                last_status=None,
-                last_error=None,
-                **common,
-            )
+            return VoiceServiceSnapshot(available=False, queue_size=0, session_state="IDLE", backend="DISABLED", backend_healthy=False, last_status=None, last_error=None, **common)
         payload = self._facade.snapshot().to_dict()
         self._validate_facade_snapshot(payload)
-        return VoiceServiceSnapshot(
-            available=True,
-            queue_size=int(payload["queue_size"]),
-            session_state=str(payload["session_state"]),
-            backend=str(payload["backend"]),
-            backend_healthy=bool(payload["backend_healthy"]),
-            last_status=payload.get("last_status"),
-            last_error=payload.get("last_error"),
-            **common,
-        )
+        return VoiceServiceSnapshot(available=True, queue_size=int(payload["queue_size"]), session_state=str(payload["session_state"]), backend=str(payload["backend"]), backend_healthy=bool(payload["backend_healthy"]), last_status=payload.get("last_status"), last_error=payload.get("last_error"), **common)
 
     def _build_facade(self) -> BookDiagnosticsVoiceRuntimeFacade:
         backend = self.backend_registry.create(self.config.backend)
