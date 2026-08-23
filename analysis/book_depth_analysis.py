@@ -5,9 +5,11 @@ from ai.engine_base import EngineBase
 
 class BookDepthAnalysis(EngineBase):
     NAME = "BookDepthAnalysis"
-    VERSION = "RC1-OBSERVATIONAL"
+    VERSION = "RC1.1-ORDERING-FIX"
     ENABLED = True
-    PRIORITY = 47
+    # Precisa executar depois de PriceAction (50), pois usa o bias do ciclo atual,
+    # e antes do ContextEngine (70), que consome esta evidência observacional.
+    PRIORITY = 55
     TOP_LEVELS = 3
 
     def executar(self, context):

@@ -6,7 +6,7 @@ from ai.engine_base import EngineBase
 class OrderFlow(EngineBase):
 
     NAME = "OrderFlow"
-    VERSION = "RC5.1-PATTERN-STRUCTURE-EVIDENCE"
+    VERSION = "RC5.1.1-STRUCTURE-CONTEXT-FIX"
     ENABLED = True
     PRIORITY = 45
     IMBALANCE_THRESHOLD = 0.10
@@ -195,23 +195,37 @@ class OrderFlow(EngineBase):
         result.pattern_direction = self._pattern_direction(result)
         if result.pattern_direction == "NONE":
             result.structure_alignment = "NEUTRAL"
+            result.structural_pattern_confidence = 0.0
             return
 
-        structure = getattr(context, "market_structure", None)
-        trend = str(getattr(structure, "trend", "") or "").upper()
-        if not trend:
+        # AnalysisContext expõe o resultado estrutural oficial em `structure`.
+        structure = getattr(context, "structure", None)
+        trend_value = getattr(structure, "trend", None)
+        if trend_value is None:
             result.structure_alignment = "UNAVAILABLE"
+            result.structural_pattern_confidence = 0.0
+            return
+
+        # Suporta tanto o Enum Trend quanto strings usadas em testes/adaptadores.
+        trend = str(getattr(trend_value, "value", trend_value) or "").upper()
+        if not trend or trend == "UNKNOWN":
+            result.structure_alignment = "UNAVAILABLE"
+            result.structural_pattern_confidence = 0.0
             return
 
         aligned = (
-            result.pattern_direction == "BUY" and trend in {"BULLISH", "UP", "UPTREND", "TREND_UP"}
+            result.pattern_direction == "BUY"
+            and trend in {"BULLISH", "UP", "UPTREND", "TREND_UP"}
         ) or (
-            result.pattern_direction == "SELL" and trend in {"BEARISH", "DOWN", "DOWNTREND", "TREND_DOWN"}
+            result.pattern_direction == "SELL"
+            and trend in {"BEARISH", "DOWN", "DOWNTREND", "TREND_DOWN"}
         )
         conflicting = (
-            result.pattern_direction == "BUY" and trend in {"BEARISH", "DOWN", "DOWNTREND", "TREND_DOWN"}
+            result.pattern_direction == "BUY"
+            and trend in {"BEARISH", "DOWN", "DOWNTREND", "TREND_DOWN"}
         ) or (
-            result.pattern_direction == "SELL" and trend in {"BULLISH", "UP", "UPTREND", "TREND_UP"}
+            result.pattern_direction == "SELL"
+            and trend in {"BULLISH", "UP", "UPTREND", "TREND_UP"}
         )
 
         if aligned:
@@ -226,7 +240,10 @@ class OrderFlow(EngineBase):
             result.structure_alignment = "NEUTRAL"
             multiplier = 0.80
 
-        result.structural_pattern_confidence = min(1.0, result.pattern_confidence * multiplier)
+        result.structural_pattern_confidence = min(
+            1.0,
+            result.pattern_confidence * multiplier,
+        )
 
     @staticmethod
     def _pattern_direction(result) -> str:
