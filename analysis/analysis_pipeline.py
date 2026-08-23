@@ -3,7 +3,7 @@ analysis/analysis_pipeline.py
 
 Pipeline principal do COPILOTO PRICE ACTION AI.
 
-RC15.4 - MICROSTRUCTURE ELIGIBILITY REPLAY OBSERVATIONAL
+RC15.5 - MICROSTRUCTURE ELIGIBILITY SCORE A/B OBSERVATIONAL
 """
 
 from core.analysis_context import AnalysisContext
@@ -25,6 +25,9 @@ from analysis.replay.score_external_context_ab_recorder import ScoreExternalCont
 from analysis.replay.score_order_flow_ab_recorder import ScoreOrderFlowABRecorder
 from analysis.replay.score_order_flow_structure_ab_recorder import ScoreOrderFlowStructureABRecorder
 from analysis.replay.score_book_depth_ab_recorder import ScoreBookDepthABRecorder
+from analysis.replay.score_microstructure_eligibility_ab_recorder import (
+    ScoreMicrostructureEligibilityABRecorder,
+)
 from analysis.replay.microstructure_confluence_replay_recorder import (
     MicrostructureConfluenceReplayRecorder,
 )
@@ -70,6 +73,7 @@ class AnalysisPipeline:
         self.score_order_flow_ab = ScoreOrderFlowABRecorder()
         self.score_order_flow_structure_ab = ScoreOrderFlowStructureABRecorder()
         self.score_book_depth_ab = ScoreBookDepthABRecorder()
+        self.score_microstructure_eligibility_ab = ScoreMicrostructureEligibilityABRecorder()
         self.microstructure_confluence_replay = MicrostructureConfluenceReplayRecorder()
         self.microstructure_eligibility_replay = MicrostructureEligibilityReplayRecorder()
 
@@ -115,6 +119,7 @@ class AnalysisPipeline:
         self.score_order_flow_ab.record(self.context)
         self.score_order_flow_structure_ab.record(self.context)
         self.score_book_depth_ab.record(self.context)
+        self.score_microstructure_eligibility_ab.record(self.context)
         self.microstructure_confluence_replay.record(self.context)
         self.microstructure_eligibility_replay.record(self.context)
         self._publish_loop()
