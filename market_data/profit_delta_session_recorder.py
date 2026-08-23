@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import csv
+import json
 from collections import Counter
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, fields
+from pathlib import Path
 
 
 @dataclass(slots=True, frozen=True)
@@ -28,11 +31,18 @@ class ProfitDeltaSessionSample:
     def to_dict(self) -> dict:
         return asdict(self)
 
+    @classmethod
+    def from_dict(cls, data: dict) -> "ProfitDeltaSessionSample":
+        if not isinstance(data, dict):
+            raise TypeError("Amostra de sessão Delta deve ser um dict.")
+        names = {field.name for field in fields(cls)}
+        return cls(**{name: data[name] for name in names if name in data})
+
 
 class ProfitDeltaSessionRecorder:
     """Armazena snapshots de saúde/qualidade do Delta durante o pregão."""
 
-    VERSION = "RC1-REAL-DELTA-SESSION-RECORDER"
+    VERSION = "RC2-REAL-DELTA-SESSION-PERSISTENCE"
 
     def __init__(self, max_samples: int = 50000):
         self.max_samples = max(1, int(max_samples))
@@ -48,6 +58,11 @@ class ProfitDeltaSessionRecorder:
 
     def clear(self) -> None:
         self._samples.clear()
+
+    def add_sample(self, sample: ProfitDeltaSessionSample) -> None:
+        if not isinstance(sample, ProfitDeltaSessionSample):
+            raise TypeError("sample deve ser ProfitDeltaSessionSample.")
+        self._append(sample)
 
     def record(self, source_snapshot, quality_report) -> ProfitDeltaSessionSample:
         sample = ProfitDeltaSessionSample(
@@ -68,21 +83,20 @@ class ProfitDeltaSessionRecorder:
             symbol=str(getattr(source_snapshot, "symbol", "") or ""),
             passive_only=True,
         )
-        self._samples.append(sample)
-        overflow = len(self._samples) - self.max_samples
-        if overflow > 0:
-            del self._samples[:overflow]
+        self._append(sample)
         return sample
 
     def summary(self) -> dict:
         total = self.size
         quality = Counter(sample.quality_status for sample in self._samples)
         source = Counter(sample.source_status for sample in self._samples)
+        symbols = Counter(sample.symbol for sample in self._samples if sample.symbol)
         return {
             "version": self.VERSION,
             "samples": total,
             "quality_distribution": dict(quality),
             "source_distribution": dict(source),
+            "symbol_distribution": dict(symbols),
             "valid_rate": self._rate(quality.get("VALID", 0), total),
             "degraded_rate": self._rate(quality.get("DEGRADED", 0), total),
             "low_activity_rate": self._rate(quality.get("LOW_ACTIVITY", 0), total),
@@ -97,6 +111,55 @@ class ProfitDeltaSessionRecorder:
             "passive_only": True,
         }
 
+    def save_jsonl(self, path) -> Path:
+        target = self._path(path, ".jsonl")
+        with target.open("w", encoding="utf-8") as handle:
+            for sample in self._samples:
+                handle.write(json.dumps(sample.to_dict(), ensure_ascii=False) + "\n")
+        return target
+
+    def load_jsonl(self, path, *, clear: bool = True) -> int:
+        source = Path(path)
+        if not source.exists():
+            raise FileNotFoundError(source)
+        loaded = []
+        with source.open("r", encoding="utf-8") as handle:
+            for line_number, line in enumerate(handle, start=1):
+                text = line.strip()
+                if not text:
+                    continue
+                try:
+                    loaded.append(ProfitDeltaSessionSample.from_dict(json.loads(text)))
+                except Exception as exc:
+                    raise ValueError(f"JSONL inválido na linha {line_number}: {exc}") from exc
+        if clear:
+            self.clear()
+        for sample in loaded:
+            self.add_sample(sample)
+        return len(loaded)
+
+    def export_csv(self, path) -> Path:
+        target = self._path(path, ".csv")
+        fieldnames = [field.name for field in fields(ProfitDeltaSessionSample)]
+        with target.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fieldnames)
+            writer.writeheader()
+            for sample in self._samples:
+                writer.writerow(sample.to_dict())
+        return target
+
+    def export_summary_json(self, path) -> Path:
+        target = self._path(path, ".json")
+        with target.open("w", encoding="utf-8") as handle:
+            json.dump(self.summary(), handle, ensure_ascii=False, indent=2)
+        return target
+
+    def _append(self, sample: ProfitDeltaSessionSample) -> None:
+        self._samples.append(sample)
+        overflow = len(self._samples) - self.max_samples
+        if overflow > 0:
+            del self._samples[:overflow]
+
     def _average(self, field: str) -> float:
         if not self._samples:
             return 0.0
@@ -105,3 +168,11 @@ class ProfitDeltaSessionRecorder:
     @staticmethod
     def _rate(value: int, total: int) -> float:
         return round(value / total, 4) if total else 0.0
+
+    @staticmethod
+    def _path(path, suffix: str) -> Path:
+        target = Path(path)
+        if target.suffix.lower() != suffix:
+            target = target.with_suffix(suffix)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        return target
