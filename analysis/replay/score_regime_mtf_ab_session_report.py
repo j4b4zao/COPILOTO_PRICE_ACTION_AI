@@ -1,15 +1,18 @@
 """
 analysis/replay/score_regime_mtf_ab_session_report.py
 
-Score A/B RC4 - Session report.
+Score A/B RC5 - Session report export.
 
 Converte as métricas observacionais do ScoreRegimeMtfABRecorder em um
-relatório compacto de sessão. Não altera Score, Risk, Decision ou Strategy.
+relatório compacto de sessão e permite exportação JSON explícita.
+Não altera Score, Risk, Decision ou Strategy.
 """
 
 from __future__ import annotations
 
+import json
 from dataclasses import asdict, dataclass
+from pathlib import Path
 
 
 @dataclass(slots=True, frozen=True)
@@ -34,7 +37,7 @@ class ScoreRegimeMtfABSessionReport:
 
 
 class ScoreRegimeMtfABSessionReporter:
-    VERSION = "RC4-REGIME-MTF-SCORE-AB-SESSION-REPORT"
+    VERSION = "RC5-REGIME-MTF-SCORE-AB-SESSION-REPORT-EXPORT"
 
     @classmethod
     def build(cls, recorder) -> ScoreRegimeMtfABSessionReport:
@@ -73,6 +76,46 @@ class ScoreRegimeMtfABSessionReporter:
             recommendation=recommendation,
             passive_only=True,
         )
+
+    @classmethod
+    def export_json(cls, recorder, path) -> Path:
+        """Gera um relatório da sessão atual e o salva em JSON."""
+        destination = Path(path)
+        if destination.suffix.lower() != ".json":
+            raise ValueError("Relatório de sessão A/B deve usar extensão .json.")
+
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        report = cls.build(recorder)
+        destination.write_text(
+            json.dumps(report.to_dict(), ensure_ascii=False, indent=2, sort_keys=True),
+            encoding="utf-8",
+        )
+        return destination
+
+    @staticmethod
+    def load_json(path) -> ScoreRegimeMtfABSessionReport:
+        """Carrega um relatório exportado para comparação entre pregões."""
+        source = Path(path)
+        if not source.exists():
+            raise FileNotFoundError(source)
+
+        try:
+            payload = json.loads(source.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"JSON de relatório A/B inválido: {exc.msg}") from exc
+
+        if not isinstance(payload, dict):
+            raise ValueError("Relatório A/B inválido: objeto JSON esperado.")
+
+        allowed = ScoreRegimeMtfABSessionReport.__dataclass_fields__.keys()
+        missing = [field for field in allowed if field not in payload]
+        if missing:
+            raise ValueError(
+                "Relatório A/B inválido: campos ausentes: " + ", ".join(missing)
+            )
+
+        clean = {key: payload[key] for key in allowed}
+        return ScoreRegimeMtfABSessionReport(**clean)
 
     @staticmethod
     def _dominant_effect(summary: dict) -> str:
