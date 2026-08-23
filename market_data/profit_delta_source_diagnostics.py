@@ -85,6 +85,7 @@ class ProfitDeltaSourceDiagnostics:
             self.symbol = symbol
 
         self.order_flow_samples = int(getattr(order_flow, "sample_count", 0) or 0)
+        print(self.render())
 
     @property
     def snapshot(self) -> ProfitDeltaSourceSnapshot:
@@ -108,6 +109,19 @@ class ProfitDeltaSourceDiagnostics:
             last_buy=self.last_buy,
             last_sell=self.last_sell,
             passive_only=True,
+        )
+
+    def render(self) -> str:
+        state = self.snapshot
+        return (
+            "[DELTA SOURCE] "
+            f"status={state.status} symbol={state.symbol or '-'} "
+            f"fresh={state.fresh_snapshots}/{state.total_snapshots} "
+            f"duplicates={state.duplicate_snapshots} "
+            f"aggression={state.aggression_availability_rate:.0%} "
+            f"samples={state.order_flow_samples} "
+            f"resets={state.accumulator_resets} "
+            f"symbol_changes={state.symbol_changes}"
         )
 
     def clear(self) -> None:
