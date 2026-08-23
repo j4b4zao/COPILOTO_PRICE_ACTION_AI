@@ -4,7 +4,7 @@ analysis/analysis_pipeline.py
 Pipeline principal do
 COPILOTO PRICE ACTION AI.
 
-RC14.4 - BOOK DIAGNOSTICS REPLAY/A-B OBSERVATIONAL
+RC14.5 - SCORE REGIME+MTF A/B OBSERVATIONAL
 """
 
 from core.analysis_context import AnalysisContext
@@ -18,6 +18,7 @@ from analysis.order_flow import OrderFlow
 from analysis.price_action.price_action import PriceAction
 from analysis.book_diagnostics_engine import BookDiagnosticsEngine
 from analysis.replay.book_diagnostics_replay_recorder import BookDiagnosticsReplayRecorder
+from analysis.replay.score_regime_mtf_ab_recorder import ScoreRegimeMtfABRecorder
 
 from analysis.smart_money.imbalance import Imbalance
 from analysis.smart_money.order_block import OrderBlock
@@ -41,9 +42,10 @@ class AnalysisPipeline:
         self.event_bus = event_bus
         self.context = AnalysisContext()
 
-        # Recorder estritamente passivo. Ele lê o resultado final do ciclo,
-        # mas nunca escreve de volta no AnalysisContext.
+        # Recorders estritamente passivos. Ambos leem o resultado final do ciclo,
+        # mas nunca escrevem de volta no AnalysisContext.
         self.book_diagnostics_replay = BookDiagnosticsReplayRecorder()
+        self.score_regime_mtf_ab = ScoreRegimeMtfABRecorder()
 
         self.price_action_engines = [
             MarketRegime(),
@@ -97,10 +99,10 @@ class AnalysisPipeline:
             engine.executar(self.context)
             self._publish_engine(engine)
 
-        # O snapshot A/B é criado somente depois do DecisionEngine terminar.
-        # Portanto, compara o núcleo oficial concluído contra a síntese RC7,
-        # sem permitir qualquer influência no ciclo atual.
+        # Snapshots A/B são criados somente depois do DecisionEngine terminar.
+        # Portanto, nenhum deles influencia o ciclo oficial que está sendo medido.
         self.book_diagnostics_replay.record(self.context)
+        self.score_regime_mtf_ab.record(self.context)
 
         self._publish_loop()
 
