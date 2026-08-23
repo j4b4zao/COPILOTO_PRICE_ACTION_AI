@@ -12,6 +12,7 @@ from market_data.collector import Collector
 from validation.data_validator import DataValidator
 
 from analysis.analysis_pipeline import AnalysisPipeline
+from analysis.replay.book_diagnostics_voice_service import BookDiagnosticsVoiceService
 
 from risk.risk_manager import RiskManager
 from filters.market_filter import MarketFilter
@@ -28,7 +29,9 @@ from logs.trade_logger import TradeLogger
 
 class SystemInitializer:
 
-    def __init__(self):
+    def __init__(self, *, voice_enabled: bool = False):
+
+        self.voice_enabled = bool(voice_enabled)
 
         # ==========================================
         # CONEXÃO
@@ -54,6 +57,12 @@ class SystemInitializer:
         # ==========================================
 
         self.pipeline = None
+
+        # ==========================================
+        # VOZ / APRESENTAÇÃO OPCIONAL
+        # ==========================================
+
+        self.voice = None
 
         # ==========================================
         # RISCO
@@ -109,6 +118,14 @@ class SystemInitializer:
 
         self.pipeline = AnalysisPipeline(
             event_bus=self.event_bus
+        )
+
+        # ==========================================
+        # VOZ / APRESENTAÇÃO OPCIONAL
+        # ==========================================
+
+        self.voice = BookDiagnosticsVoiceService(
+            enabled=self.voice_enabled
         )
 
         # ==========================================
