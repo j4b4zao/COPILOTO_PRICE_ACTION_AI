@@ -1,12 +1,13 @@
 """
-BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56 - Voice Service Integration.
+BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56/RC59 - Voice Service Integration.
 
 Expoe a fachada RC38 como servico opcional, usa RC40 como configuracao,
 RC41 para resolver o backend, RC42 para aplicar idioma, perfil, velocidade,
 RC46 para diagnosticos seguros, RC47 para teste real de audio somente por
 chamada explicita, RC50 para expor a trava RC49 no servico, RC54 para
-expor o orquestrador RC53, RC55 para um snapshot consolidado de status e
-RC56 para um relatorio textual de saude. Nao altera o nucleo operacional.
+expor o orquestrador RC53, RC55 para um snapshot consolidado de status,
+RC56 para um relatorio textual de saude e RC59 para expor a projecao RC58.
+Nao altera o nucleo operacional.
 """
 
 from __future__ import annotations
@@ -24,6 +25,9 @@ from analysis.replay.book_diagnostics_voice_audio_test import BookDiagnosticsCon
 from analysis.replay.book_diagnostics_voice_config import VoiceConfig, validate_voice_config
 from analysis.replay.book_diagnostics_voice_diagnostics import BookDiagnosticsVoiceDiagnostics
 from analysis.replay.book_diagnostics_voice_event import BookDiagnosticsVoiceEventFactory
+from analysis.replay.book_diagnostics_voice_health_dashboard_projection import (
+    BookDiagnosticsVoiceHealthDashboardProjector,
+)
 from analysis.replay.book_diagnostics_voice_health_report import BookDiagnosticsVoiceHealthReporter
 from analysis.replay.book_diagnostics_voice_integration_status import BookDiagnosticsVoiceIntegrationStatus
 from analysis.replay.book_diagnostics_voice_orchestrator import BookDiagnosticsVoiceOrchestrator
@@ -99,6 +103,10 @@ class BookDiagnosticsVoiceService:
         """Retorna RC56 derivado exclusivamente do snapshot RC55."""
         return BookDiagnosticsVoiceHealthReporter().build(self.integration_status())
 
+    def dashboard_projection(self):
+        """Retorna RC58 para consumo visual, sem iniciar audio nem o orquestrador."""
+        return BookDiagnosticsVoiceHealthDashboardProjector().project(self.health_report())
+
     def enable(self):
         self.config = self.config.with_updates(enabled=True)
         self.enabled = True
@@ -131,7 +139,6 @@ class BookDiagnosticsVoiceService:
         return result
 
     def readiness(self, *, controlled_test=None):
-        """Avalia RC49 usando o diagnostico atual e o ultimo RC47 quando disponivel."""
         test_result = controlled_test if controlled_test is not None else self._last_controlled_audio_test
         return self._readiness_gate.evaluate(
             diagnostics=self.diagnostics(),
@@ -139,7 +146,6 @@ class BookDiagnosticsVoiceService:
         )
 
     def require_operational_ready(self, *, controlled_test=None):
-        """Bloqueia qualquer futura voz operacional ate RC45 + RC47 estarem aprovados."""
         test_result = controlled_test if controlled_test is not None else self._last_controlled_audio_test
         return self._readiness_gate.require_operational_ready(
             diagnostics=self.diagnostics(),
@@ -147,20 +153,16 @@ class BookDiagnosticsVoiceService:
         )
 
     def clear_audio_validation(self):
-        """Invalida explicitamente a aprovacao RC47 previamente armazenada."""
         self._last_controlled_audio_test = None
         return self.readiness()
 
     def check_projection(self, projection, *, now=None):
-        """Aplica RC53 em modo consulta; nunca despacha voz."""
         return self.orchestrator.check(projection, now=now)
 
     def dispatch_projection(self, projection, *, now=None):
-        """Aplica RC53 em modo dispatch, ainda protegido por RC49/RC50/RC51."""
         return self.orchestrator.dispatch(projection, now=now)
 
     def reset_orchestrator(self):
-        """Limpa apenas cooldown/deduplicacao RC30 mantidos pelo RC53."""
         if self._orchestrator is not None:
             self._orchestrator.reset()
         return self.snapshot()
