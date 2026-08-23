@@ -16,8 +16,6 @@ def _base_context(total=80.0, grade="A", valid=True):
 
 def _flow_buy(context):
     context.order_flow.pressure = "BUY"
-    context.order_flow.flow_momentum = "ACCELERATING_BUY"
-    context.order_flow.pattern_direction = "BUY"
     context.order_flow.structure_alignment = "ALIGNED"
     context.order_flow.structural_pattern_confidence = 0.9
 
@@ -62,8 +60,10 @@ def test_correlated_book_downgrades_and_discounts_bonus():
 def test_promising_independent_gets_half_weight():
     context = _base_context()
     _flow_buy(context)
+    _book_buy(context, confidence=0.35)
     sample = ScoreMicrostructureEligibilityABRecorder().record(context)
     assert sample.eligibility_state == "PROMISING"
+    assert sample.correlated_evidence_count == 0
     assert sample.adjustment == 0.75
 
 
