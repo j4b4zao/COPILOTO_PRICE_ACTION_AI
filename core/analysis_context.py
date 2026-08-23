@@ -204,6 +204,32 @@ class AnalysisContext:
     )
 
     # ==========================================================
+    # PONTE DE CONTEXTO EXTERNO - SOMENTE LEITURA
+    # ==========================================================
+
+    @property
+    def external_valid(self) -> bool:
+        """Indica se o snapshot externo atual é confiável para leitura."""
+        return bool(self.external_market.valid)
+
+    @property
+    def external_risk(self) -> str:
+        """Expõe RISK_ON/RISK_OFF/NEUTRAL sem duplicar estado."""
+        return str(self.external_market.risk_on_off or "NEUTRAL")
+
+    @property
+    def external_bias(self) -> str:
+        """Expõe BULLISH/BEARISH/NEUTRAL como contexto observacional."""
+        return str(self.external_market.global_bias or "NEUTRAL")
+
+    @property
+    def external_confidence(self) -> float:
+        """Confiança do contexto externo; snapshots inválidos valem zero."""
+        if not self.external_market.valid:
+            return 0.0
+        return float(self.external_market.confidence or 0.0)
+
+    # ==========================================================
     # LIMPAR RESULTADOS
     # ==========================================================
 
