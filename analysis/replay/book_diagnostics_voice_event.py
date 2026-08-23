@@ -3,7 +3,7 @@ BookDiagnostics RC31/RC42 - Voice Event Contract.
 
 Converte somente mensagens aprovadas pelo RC30 em eventos estruturados de voz.
 RC42 permite que idioma, perfil, velocidade e politica de interrupcao venham
-do VoiceConfig, sem alterar nenhuma decisao operacional.
+do VoiceConfig, preservando o perfil padrao quando nenhum resolver e injetado.
 """
 
 from __future__ import annotations
@@ -11,7 +11,9 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from hashlib import sha256
 
+from analysis.replay.book_diagnostics_voice_config import VoiceConfig
 from analysis.replay.book_diagnostics_voice_profile_resolver import (
+    BookDiagnosticsVoiceProfileResolver,
     ResolvedVoiceProfile,
     validate_resolved_voice_profile,
 )
@@ -40,25 +42,22 @@ class BookDiagnosticsVoiceEventFactory:
     VERSION = "RC31-VOICE-EVENT-CONTRACT"
     SOURCE_VERSION = "RC30-ASSISTANT-MESSAGE-POLICY"
 
-    def __init__(self, *, profile: ResolvedVoiceProfile):
-        self.profile = validate_resolved_voice_profile(profile)
+    def __init__(self, *, profile: ResolvedVoiceProfile | None = None):
+        resolved = profile or BookDiagnosticsVoiceProfileResolver().resolve(VoiceConfig())
+        self.profile = validate_resolved_voice_profile(resolved)
 
     def build(self, approved_message) -> VoiceEvent:
         payload = self._payload(approved_message)
         self._validate(payload)
-
         text = str(payload.get("text", "") or "").strip()
         priority = str(payload.get("priority", "NORMAL") or "NORMAL").upper()
         event_id = self._event_id(text=text, priority=priority)
-
         return VoiceEvent(
             version=self.VERSION,
             event_id=event_id,
             text=text,
             priority=priority,
-            interrupt_allowed=(
-                priority == "URGENT" and self.profile.allow_urgent_interrupt
-            ),
+            interrupt_allowed=(priority == "URGENT" and self.profile.allow_urgent_interrupt),
             estimated_duration_seconds=self._estimate_duration(text),
             voice_profile=self.profile.voice_profile,
             language=self.profile.language,
