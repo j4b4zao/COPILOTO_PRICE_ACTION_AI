@@ -6,7 +6,7 @@ from ai.engine_base import EngineBase
 class OrderFlow(EngineBase):
 
     NAME = "OrderFlow"
-    VERSION = "RC4.4"
+    VERSION = "RC4.5-DELTA-DYNAMICS"
     ENABLED = True
     PRIORITY = 45
     IMBALANCE_THRESHOLD = 0.10
@@ -15,6 +15,8 @@ class OrderFlow(EngineBase):
     HIGH_QUALITY_THRESHOLD = 0.75
     MEDIUM_QUALITY_THRESHOLD = 0.50
     MATURE_HISTORY_SAMPLES = 20
+    PERSISTENCE_THRESHOLD = 0.70
+    IMPULSE_THRESHOLD = 0.20
 
     def executar(self, context):
         result = context.order_flow
@@ -48,6 +50,9 @@ class OrderFlow(EngineBase):
         result.recent_delta = state.recent_delta
         result.average_delta = state.average_delta
         result.sample_count = state.sample_count
+        result.delta_persistence = state.delta_persistence
+        result.delta_acceleration = state.delta_acceleration
+        result.delta_impulse_ratio = state.delta_impulse_ratio
 
         if state.recent_delta > 0:
             result.trend = "BUYING"
@@ -56,6 +61,7 @@ class OrderFlow(EngineBase):
         else:
             result.trend = "BALANCED"
 
+        self._classify_flow_momentum(state, result)
         self._analyze_patterns(state, result)
 
         if state.total_aggression <= 0:
@@ -79,6 +85,38 @@ class OrderFlow(EngineBase):
 
         result.validate()
         return context
+
+    def _classify_flow_momentum(self, state, result) -> None:
+        if state.sample_count < state.DYNAMICS_WINDOW * 2:
+            result.flow_momentum = "INSUFFICIENT_DATA"
+            result.add_reason("ORDER_FLOW_DYNAMICS_HISTORY_PENDING")
+            return
+
+        persistence = state.delta_persistence
+        acceleration = state.delta_acceleration
+        impulse = state.delta_impulse_ratio
+        direction = 1 if state.recent_delta > 0 else -1 if state.recent_delta < 0 else 0
+
+        if direction == 0 or persistence < self.PERSISTENCE_THRESHOLD:
+            result.flow_momentum = "MIXED"
+            result.add_reason("ORDER_FLOW_MOMENTUM_MIXED")
+            return
+
+        accelerating_same_direction = (
+            direction > 0 and acceleration > 0
+        ) or (
+            direction < 0 and acceleration < 0
+        )
+
+        if accelerating_same_direction and impulse >= self.IMPULSE_THRESHOLD:
+            result.flow_momentum = "ACCELERATING_BUY" if direction > 0 else "ACCELERATING_SELL"
+            result.add_reason(result.flow_momentum)
+        elif accelerating_same_direction:
+            result.flow_momentum = "PERSISTENT_BUY" if direction > 0 else "PERSISTENT_SELL"
+            result.add_reason(result.flow_momentum)
+        else:
+            result.flow_momentum = "FADING_BUY" if direction > 0 else "FADING_SELL"
+            result.add_reason(result.flow_momentum)
 
     def _analyze_patterns(self, state, result) -> None:
         if not state.pattern_ready:
@@ -109,22 +147,14 @@ class OrderFlow(EngineBase):
             elif state.recent_price_change < 0:
                 result.exhaustion = "SELL_EXHAUSTION"
 
-        for pattern in (
-            result.divergence,
-            result.absorption,
-            result.exhaustion,
-        ):
+        for pattern in (result.divergence, result.absorption, result.exhaustion):
             if pattern not in ("NONE", "INSUFFICIENT_DATA"):
                 result.add_reason(pattern)
 
         self._qualify_patterns(state, result)
 
     def _qualify_patterns(self, state, result) -> None:
-        patterns = (
-            result.divergence,
-            result.absorption,
-            result.exhaustion,
-        )
+        patterns = (result.divergence, result.absorption, result.exhaustion)
 
         if all(pattern == "NONE" for pattern in patterns):
             result.pattern_quality = "NONE"
@@ -133,22 +163,12 @@ class OrderFlow(EngineBase):
 
         result.delta_dominance = state.recent_delta_dominance
         result.price_efficiency = state.recent_price_efficiency
-        result.history_maturity = min(
-            1.0,
-            state.sample_count / self.MATURE_HISTORY_SAMPLES,
-        )
+        result.history_maturity = min(1.0, state.sample_count / self.MATURE_HISTORY_SAMPLES)
 
         evidence_strength = result.delta_dominance
-
         if result.exhaustion != "NONE":
-            exhaustion_strength = max(
-                0.0,
-                1.0 - state.aggression_activity_ratio,
-            )
-            evidence_strength = max(
-                evidence_strength,
-                exhaustion_strength,
-            )
+            exhaustion_strength = max(0.0, 1.0 - state.aggression_activity_ratio)
+            evidence_strength = max(evidence_strength, exhaustion_strength)
 
         result.pattern_confidence = min(
             1.0,
@@ -164,10 +184,7 @@ class OrderFlow(EngineBase):
         else:
             result.pattern_quality = "LOW"
 
-        result.pattern_confirmed = (
-            result.pattern_confidence >= self.CONFIRMATION_THRESHOLD
-        )
-
+        result.pattern_confirmed = result.pattern_confidence >= self.CONFIRMATION_THRESHOLD
         if result.pattern_confirmed:
             result.add_reason("ORDER_FLOW_PATTERN_CONFIRMED")
         else:
