@@ -4,7 +4,7 @@ analysis/analysis_pipeline.py
 Pipeline principal do
 COPILOTO PRICE ACTION AI.
 
-RC14.8 - ORDER FLOW SCORE A/B OBSERVATIONAL
+RC14.9 - ORDER FLOW STRUCTURE SCORE A/B OBSERVATIONAL
 """
 
 from core.analysis_context import AnalysisContext
@@ -22,6 +22,7 @@ from analysis.replay.book_diagnostics_replay_recorder import BookDiagnosticsRepl
 from analysis.replay.score_regime_mtf_ab_recorder import ScoreRegimeMtfABRecorder
 from analysis.replay.score_external_context_ab_recorder import ScoreExternalContextABRecorder
 from analysis.replay.score_order_flow_ab_recorder import ScoreOrderFlowABRecorder
+from analysis.replay.score_order_flow_structure_ab_recorder import ScoreOrderFlowStructureABRecorder
 
 from analysis.smart_money.imbalance import Imbalance
 from analysis.smart_money.order_block import OrderBlock
@@ -60,6 +61,7 @@ class AnalysisPipeline:
         self.score_regime_mtf_ab = ScoreRegimeMtfABRecorder()
         self.score_external_context_ab = ScoreExternalContextABRecorder()
         self.score_order_flow_ab = ScoreOrderFlowABRecorder()
+        self.score_order_flow_structure_ab = ScoreOrderFlowStructureABRecorder()
 
         self.price_action_engines = [
             MarketRegime(),
@@ -124,6 +126,7 @@ class AnalysisPipeline:
         self.score_regime_mtf_ab.record(self.context)
         self.score_external_context_ab.record(self.context)
         self.score_order_flow_ab.record(self.context)
+        self.score_order_flow_structure_ab.record(self.context)
 
         self._publish_loop()
 
