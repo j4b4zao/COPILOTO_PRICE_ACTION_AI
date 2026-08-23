@@ -1,10 +1,9 @@
 """
-BookDiagnostics RC43 - Windows SAPI TTS Backend.
+BookDiagnostics RC43/RC44 - Windows SAPI TTS Backend.
 
-Primeiro backend TTS real opcional do projeto. Usa PowerShell + System.Speech
-presentes no Windows, sem dependencia Python externa. O backend somente produz
-audio quando selecionado explicitamente via VoiceConfig.backend="WINDOWS_SAPI".
-NULL_TTS continua sendo o padrao do sistema.
+Backend TTS real opcional do projeto. Usa PowerShell + System.Speech presentes
+no Windows, sem dependencia Python externa. RC44 acrescenta descoberta e
+selecao segura de voz instalada.
 
 Esta camada permanece exclusivamente de apresentacao e nunca altera Strategy,
 Score, Risk, Decision ou Alert.
@@ -20,6 +19,7 @@ from threading import Lock
 from typing import Callable
 
 from analysis.replay.book_diagnostics_tts_backend import TTSResult, _payload, _validate_command
+from analysis.replay.book_diagnostics_windows_voice_discovery import WindowsSAPIVoiceDiscovery
 
 
 class WindowsSAPITTSBackend:
@@ -32,10 +32,15 @@ class WindowsSAPITTSBackend:
         popen_factory: Callable = subprocess.Popen,
         which: Callable[[str], str | None] = shutil.which,
         platform_name: str | None = None,
+        voice_discovery: WindowsSAPIVoiceDiscovery | None = None,
     ):
         self._popen_factory = popen_factory
         self._which = which
         self._platform_name = platform_name
+        self._voice_discovery = voice_discovery or WindowsSAPIVoiceDiscovery(
+            which=which,
+            platform_name=platform_name,
+        )
         self._active_process = None
         self._active_event_id: str | None = None
         self._lock = Lock()
@@ -45,6 +50,15 @@ class WindowsSAPITTSBackend:
         if system != "windows":
             return False
         return self._powershell_executable() is not None
+
+    def available_voices(self):
+        return self._voice_discovery.list_voices()
+
+    def select_voice(self, *, voice_profile: str, language: str):
+        return self._voice_discovery.select(
+            voice_profile=voice_profile,
+            language=language,
+        )
 
     def speak(self, command) -> TTSResult:
         payload = _payload(command)
@@ -60,9 +74,22 @@ class WindowsSAPITTSBackend:
                 error="WINDOWS_SAPI unavailable on this host",
             )
 
+        selection = self.select_voice(
+            voice_profile=str(payload.get("voice_profile", "") or ""),
+            language=str(payload.get("language", "") or ""),
+        )
         encoded_text = base64.b64encode(str(payload["text"]).encode("utf-8")).decode("ascii")
+        encoded_voice = (
+            base64.b64encode(str(selection.selected_voice).encode("utf-8")).decode("ascii")
+            if selection.selected_voice
+            else ""
+        )
         rate = self._sapi_rate(float(payload["speech_rate"]))
-        script = self._powershell_script(encoded_text=encoded_text, rate=rate)
+        script = self._powershell_script(
+            encoded_text=encoded_text,
+            encoded_voice=encoded_voice,
+            rate=rate,
+        )
         executable = self._powershell_executable()
 
         try:
@@ -140,18 +167,25 @@ class WindowsSAPITTSBackend:
 
     @staticmethod
     def _sapi_rate(speech_rate: float) -> int:
-        """Converte RC40 0.5..2.0 para a escala SAPI -10..10."""
         rate = float(speech_rate)
         normalized = (rate - 1.0) / 0.5
         return max(-10, min(10, round(normalized * 4)))
 
     @staticmethod
-    def _powershell_script(*, encoded_text: str, rate: int) -> str:
+    def _powershell_script(*, encoded_text: str, encoded_voice: str, rate: int) -> str:
+        select_voice = ""
+        if encoded_voice:
+            select_voice = (
+                f"$vb = [Convert]::FromBase64String('{encoded_voice}'); "
+                "$vn = [Text.Encoding]::UTF8.GetString($vb); "
+                "$s.SelectVoice($vn); "
+            )
         return (
             "Add-Type -AssemblyName System.Speech; "
             "$s = New-Object System.Speech.Synthesis.SpeechSynthesizer; "
             f"$s.Rate = {int(rate)}; "
-            f"$b = [Convert]::FromBase64String('{encoded_text}'); "
+            + select_voice
+            + f"$b = [Convert]::FromBase64String('{encoded_text}'); "
             "$t = [Text.Encoding]::UTF8.GetString($b); "
             "$s.Speak($t); $s.Dispose();"
         )
