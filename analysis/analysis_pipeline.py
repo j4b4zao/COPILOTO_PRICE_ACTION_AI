@@ -3,7 +3,7 @@ analysis/analysis_pipeline.py
 
 Pipeline principal do COPILOTO PRICE ACTION AI.
 
-RC15.0 - BOOK DEPTH OBSERVATIONAL BRIDGE
+RC15.1 - BOOK DEPTH ANALYSIS OBSERVATIONAL
 """
 
 from core.analysis_context import AnalysisContext
@@ -16,6 +16,7 @@ from analysis.multi_timeframe_analysis import MultiTimeframeAnalysis
 from analysis.liquidity_analysis import LiquidityAnalysis
 from analysis.volume_analysis import VolumeAnalysis
 from analysis.order_flow import OrderFlow
+from analysis.book_depth_analysis import BookDepthAnalysis
 from analysis.price_action.price_action import PriceAction
 from analysis.book_diagnostics_engine import BookDiagnosticsEngine
 from analysis.replay.book_diagnostics_replay_recorder import BookDiagnosticsReplayRecorder
@@ -69,6 +70,7 @@ class AnalysisPipeline:
             LiquidityAnalysis(),
             VolumeAnalysis(),
             OrderFlow(),
+            BookDepthAnalysis(),
             PriceAction(),
             BookDiagnosticsEngine(),
         ]

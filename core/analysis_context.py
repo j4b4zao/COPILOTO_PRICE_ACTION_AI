@@ -14,6 +14,7 @@ from core.order_flow_state import OrderFlowState
 from external_context.external_market_state import ExternalMarketState
 
 from models.book_depth import BookDepthSnapshot
+from models.book_depth_analysis_result import BookDepthAnalysisResult
 from models.structure_result import StructureResult
 from models.regime_result import RegimeResult
 from models.multi_timeframe_result import MultiTimeframeResult
@@ -47,6 +48,7 @@ class AnalysisContext:
 
     external_market: ExternalMarketState = field(default_factory=ExternalMarketState)
     book_depth: BookDepthSnapshot = field(default_factory=BookDepthSnapshot.unavailable)
+    book_depth_analysis: BookDepthAnalysisResult = field(default_factory=BookDepthAnalysisResult)
 
     regime: RegimeResult = field(default_factory=RegimeResult)
     structure: StructureResult = field(default_factory=StructureResult)
@@ -114,6 +116,7 @@ class AnalysisContext:
         self.volume.clear()
         self.order_flow.clear()
         self.price_action.clear()
+        self.book_depth_analysis.clear()
         self.book_diagnostics.clear()
         self.evidence.clear()
         self.imbalance.clear()
