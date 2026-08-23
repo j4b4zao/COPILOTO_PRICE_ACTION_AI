@@ -1,13 +1,13 @@
 """
 brain/context_engine.py
 
-Context Engine RC15.6
+Context Engine RC15.7
 
 Integrações contextuais:
 - External Context RC2.4;
 - Market Regime RC3.0;
 - Multi-timeframe RC3.4;
-- Order Flow RC4.5.
+- Order Flow RC5.1.
 
 Regime, multi-timeframe, contexto externo e Order Flow permanecem evidências
 observacionais: não alteram confluences, valid, score ou bias operacional.
@@ -21,7 +21,7 @@ from models.market_narrative import MarketNarrative
 class ContextEngine(EngineBase):
 
     NAME = "Context Engine"
-    VERSION = "RC15.6-ORDER-FLOW-EVIDENCE"
+    VERSION = "RC15.7-ORDER-FLOW-STRUCTURE-EVIDENCE"
     DESCRIPTION = "Consolida o contexto do mercado."
     PRIORITY = 70
     ENABLED = True
@@ -307,6 +307,15 @@ class ContextEngine(EngineBase):
         checklist.order_flow_delta_impulse_ratio = min(
             max(float(order_flow.delta_impulse_ratio or 0.0), 0.0), 1.0
         )
+        checklist.order_flow_pattern_direction = str(
+            order_flow.pattern_direction or "NONE"
+        ).upper()
+        checklist.order_flow_structure_alignment = str(
+            order_flow.structure_alignment or "UNAVAILABLE"
+        ).upper()
+        checklist.order_flow_structural_confidence = min(
+            max(float(order_flow.structural_pattern_confidence or 0.0), 0.0), 1.0
+        )
 
         momentum = checklist.order_flow_momentum
         buy_states = {"ACCELERATING_BUY", "PERSISTENT_BUY"}
@@ -348,4 +357,47 @@ class ContextEngine(EngineBase):
             checklist.order_flow_status = "INSUFFICIENT_DATA"
             narrative.weaknesses.append(
                 "Order Flow ainda não possui dinâmica de Delta conclusiva."
+            )
+
+        ContextEngine._append_order_flow_structure_pattern_evidence(
+            result, checklist, narrative
+        )
+
+    @staticmethod
+    def _append_order_flow_structure_pattern_evidence(
+        result, checklist, narrative
+    ) -> None:
+        direction = checklist.order_flow_pattern_direction
+        alignment = checklist.order_flow_structure_alignment
+        confidence = checklist.order_flow_structural_confidence
+
+        if direction not in ("BUY", "SELL"):
+            return
+
+        if alignment == "ALIGNED":
+            if result.bias == direction:
+                narrative.strengths.append(
+                    "Absorção/exaustão do Order Flow confirma a estrutura "
+                    f"({confidence:.0%} confiança estrutural)."
+                )
+            elif result.bias in ("BUY", "SELL"):
+                narrative.weaknesses.append(
+                    "Absorção/exaustão do Order Flow possui direção oposta ao "
+                    "contexto operacional, apesar de alinhada à sua estrutura local."
+                )
+            return
+
+        if alignment == "CONFLICT":
+            narrative.weaknesses.append(
+                "Absorção/exaustão do Order Flow conflita com a estrutura de preço "
+                f"({confidence:.0%} confiança ajustada)."
+            )
+        elif alignment == "NEUTRAL":
+            narrative.weaknesses.append(
+                "Absorção/exaustão do Order Flow ocorre em estrutura neutra/lateral "
+                f"({confidence:.0%} confiança ajustada)."
+            )
+        else:
+            narrative.weaknesses.append(
+                "Absorção/exaustão do Order Flow ainda sem estrutura disponível."
             )
