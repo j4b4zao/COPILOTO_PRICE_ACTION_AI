@@ -1,10 +1,11 @@
 """
-BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50 - Voice Service Integration.
+BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54 - Voice Service Integration.
 
 Expoe a fachada RC38 como servico opcional, usa RC40 como configuracao,
 RC41 para resolver o backend, RC42 para aplicar idioma, perfil, velocidade,
 RC46 para diagnosticos seguros, RC47 para teste real de audio somente por
-chamada explicita e RC50 para expor a trava RC49 no servico.
+chamada explicita, RC50 para expor a trava RC49 no servico e RC54 para
+expor o orquestrador RC53 sem conectar automaticamente ao app.main.
 Nao altera o nucleo operacional.
 """
 
@@ -23,6 +24,7 @@ from analysis.replay.book_diagnostics_voice_audio_test import BookDiagnosticsCon
 from analysis.replay.book_diagnostics_voice_config import VoiceConfig, validate_voice_config
 from analysis.replay.book_diagnostics_voice_diagnostics import BookDiagnosticsVoiceDiagnostics
 from analysis.replay.book_diagnostics_voice_event import BookDiagnosticsVoiceEventFactory
+from analysis.replay.book_diagnostics_voice_orchestrator import BookDiagnosticsVoiceOrchestrator
 from analysis.replay.book_diagnostics_voice_profile_resolver import BookDiagnosticsVoiceProfileResolver
 from analysis.replay.book_diagnostics_voice_queue import BookDiagnosticsVoiceQueue
 from analysis.replay.book_diagnostics_voice_readiness_gate import BookDiagnosticsVoiceReadinessGate
@@ -64,6 +66,7 @@ class BookDiagnosticsVoiceService:
         self._facade = facade
         self._last_controlled_audio_test = None
         self._readiness_gate = BookDiagnosticsVoiceReadinessGate()
+        self._orchestrator = None
         if self.enabled and self._facade is None:
             self._facade = self._build_facade()
 
@@ -79,6 +82,13 @@ class BookDiagnosticsVoiceService:
             self._facade = self._build_facade()
         return self._facade
 
+    @property
+    def orchestrator(self) -> BookDiagnosticsVoiceOrchestrator:
+        """Expoe RC53 de forma lazy, sem qualquer chamada automatica pelo bot."""
+        if self._orchestrator is None:
+            self._orchestrator = BookDiagnosticsVoiceOrchestrator.from_voice_service(self)
+        return self._orchestrator
+
     def enable(self):
         self.config = self.config.with_updates(enabled=True)
         self.enabled = True
@@ -89,6 +99,8 @@ class BookDiagnosticsVoiceService:
     def disable(self, *, reset: bool = True):
         if reset and self._facade is not None:
             self._facade.reset()
+        if reset and self._orchestrator is not None:
+            self._orchestrator.reset()
         self.config = self.config.with_updates(enabled=False)
         self.enabled = False
         return self.snapshot()
@@ -129,6 +141,20 @@ class BookDiagnosticsVoiceService:
         self._last_controlled_audio_test = None
         return self.readiness()
 
+    def check_projection(self, projection, *, now=None):
+        """Aplica RC53 em modo consulta; nunca despacha voz."""
+        return self.orchestrator.check(projection, now=now)
+
+    def dispatch_projection(self, projection, *, now=None):
+        """Aplica RC53 em modo dispatch, ainda protegido por RC49/RC50/RC51."""
+        return self.orchestrator.dispatch(projection, now=now)
+
+    def reset_orchestrator(self):
+        """Limpa apenas cooldown/deduplicacao RC30 mantidos pelo RC53."""
+        if self._orchestrator is not None:
+            self._orchestrator.reset()
+        return self.snapshot()
+
     def submit_message(self, message_decision):
         self._require_enabled(); return self.facade.submit_message(message_decision)
 
@@ -150,6 +176,8 @@ class BookDiagnosticsVoiceService:
     def reset(self):
         if self._facade is not None:
             self._facade.reset()
+        if self._orchestrator is not None:
+            self._orchestrator.reset()
         return self.snapshot()
 
     def snapshot(self) -> VoiceServiceSnapshot:
