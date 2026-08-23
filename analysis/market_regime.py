@@ -3,14 +3,14 @@ analysis/market_regime.py
 
 Classificação do regime atual do mercado.
 
-RC2.8 - CLASSIFICATION HARDENING
+RC2.9 - TRANSITION STATE
 
 Responsabilidades:
 - usar somente candles fechados;
-- classificar tendência de alta, baixa ou range pelo comportamento agregado;
+- classificar tendência de alta, baixa, range ou transição;
 - classificar volatilidade relativa como alta, normal ou baixa;
 - medir o espectro entre tendência e range;
-- identificar inércia informativa do comportamento recente;
+- distinguir range persistente de mudança de regime;
 - registrar força, confiança e motivo;
 - não tomar decisão operacional.
 """
@@ -22,7 +22,7 @@ from enums.trend import Trend
 class MarketRegime(EngineBase):
 
     NAME = "MarketRegime"
-    VERSION = "RC2.8-CLASSIFICATION-HARDENING"
+    VERSION = "RC2.9-TRANSITION-STATE"
     ENABLED = True
     PRIORITY = 10
 
@@ -37,6 +37,8 @@ class MarketRegime(EngineBase):
     TREND_SPECTRUM_MIN = 0.50
     RANGE_OVERLAP_MIN = 0.60
     RANGE_SPECTRUM_MAX = 0.40
+    TRANSITION_SPECTRUM_MIN = 0.40
+    TRANSITION_SPECTRUM_MAX = 0.60
 
     def executar(self, context):
         market = context.market
@@ -86,48 +88,47 @@ class MarketRegime(EngineBase):
         )
 
         if trend_candidate and up_steps > down_steps:
-            result.regime = "TREND_UP"
-            result.trend = Trend.UP
-            result.strength = round(
-                min(
-                    1.0,
-                    0.50 * result.directional_consistency
-                    + 0.30 * result.spectrum_position
-                    + 0.20 * directional_dominance,
-                ),
-                4,
-            )
-            result.confidence = round(
-                min(1.0, 0.55 + 0.45 * result.strength),
-                4,
-            )
-            result.add_reason(
-                "Regime de alta confirmado pelo conjunto de candles fechados: "
-                f"{up_steps} passos de alta, {down_steps} de baixa e "
-                f"{result.transition_steps} transições."
-            )
+            cls._set_trend(result, "TREND_UP", Trend.UP, up_steps, down_steps)
             return
 
         if trend_candidate and down_steps > up_steps:
-            result.regime = "TREND_DOWN"
-            result.trend = Trend.DOWN
-            result.strength = round(
-                min(
-                    1.0,
-                    0.50 * result.directional_consistency
-                    + 0.30 * result.spectrum_position
-                    + 0.20 * directional_dominance,
-                ),
-                4,
+            cls._set_trend(result, "TREND_DOWN", Trend.DOWN, down_steps, up_steps)
+            return
+
+        strong_range = (
+            result.bar_overlap_ratio >= cls.RANGE_OVERLAP_MIN
+            or result.spectrum_position <= cls.RANGE_SPECTRUM_MAX
+            or result.inertia == "RANGE_PERSISTENCE"
+        )
+
+        mixed_direction = up_steps > 0 and down_steps > 0
+        transition_band = (
+            cls.TRANSITION_SPECTRUM_MIN
+            < result.spectrum_position
+            < cls.TRANSITION_SPECTRUM_MAX
+        )
+        transition_candidate = (
+            not strong_range
+            and result.inertia == "TRANSITION"
+            and (
+                mixed_direction
+                or transition_band
+                or result.transition_steps > 0
             )
-            result.confidence = round(
-                min(1.0, 0.55 + 0.45 * result.strength),
-                4,
-            )
+        )
+
+        if transition_candidate:
+            result.regime = "TRANSITION"
+            result.trend = Trend.SIDEWAYS
+            uncertainty = 1.0 - abs(result.spectrum_position - 0.50) * 2.0
+            uncertainty = min(max(uncertainty, 0.0), 1.0)
+            result.strength = round(0.30 + 0.30 * uncertainty, 4)
+            result.confidence = round(0.45 + 0.25 * uncertainty, 4)
             result.add_reason(
-                "Regime de baixa confirmado pelo conjunto de candles fechados: "
-                f"{down_steps} passos de baixa, {up_steps} de alta e "
-                f"{result.transition_steps} transições."
+                "Regime TRANSITION: sinais mistos entre tendência e range; "
+                f"passos alta={up_steps}, baixa={down_steps}, "
+                f"transição={result.transition_steps}, "
+                f"espectro={result.spectrum_position:.2f}."
             )
             return
 
@@ -141,18 +142,48 @@ class MarketRegime(EngineBase):
         result.strength = round(min(1.0, 0.35 + 0.45 * range_evidence), 4)
         result.confidence = round(min(1.0, 0.50 + 0.40 * range_evidence), 4)
 
-        if (
-            result.bar_overlap_ratio >= cls.RANGE_OVERLAP_MIN
-            or result.spectrum_position <= cls.RANGE_SPECTRUM_MAX
-        ):
-            reason = "sobreposição elevada ou baixa persistência direcional"
+        if result.bar_overlap_ratio >= cls.RANGE_OVERLAP_MIN:
+            reason = "sobreposição elevada entre candles fechados"
+        elif result.spectrum_position <= cls.RANGE_SPECTRUM_MAX:
+            reason = "baixa persistência direcional"
         else:
-            reason = "direção agregada insuficiente para confirmar tendência"
+            reason = "ausência de dominância direcional suficiente"
 
         result.add_reason(
             "Regime RANGE: "
             f"{reason}; passos alta={up_steps}, baixa={down_steps}, "
             f"transição={result.transition_steps}."
+        )
+
+    @classmethod
+    def _set_trend(cls, result, regime, trend, dominant_steps, opposite_steps) -> None:
+        directional_steps = dominant_steps + opposite_steps
+        directional_dominance = (
+            dominant_steps / directional_steps
+            if directional_steps > 0
+            else 0.0
+        )
+
+        result.regime = regime
+        result.trend = trend
+        result.strength = round(
+            min(
+                1.0,
+                0.50 * result.directional_consistency
+                + 0.30 * result.spectrum_position
+                + 0.20 * directional_dominance,
+            ),
+            4,
+        )
+        result.confidence = round(
+            min(1.0, 0.55 + 0.45 * result.strength),
+            4,
+        )
+        direction = "alta" if trend == Trend.UP else "baixa"
+        result.add_reason(
+            f"Regime de {direction} confirmado pelo conjunto de candles fechados: "
+            f"{dominant_steps} passos dominantes, {opposite_steps} opostos e "
+            f"{result.transition_steps} transições."
         )
 
     @classmethod
