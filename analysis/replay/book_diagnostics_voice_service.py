@@ -1,13 +1,13 @@
 """
-BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56/RC59 - Voice Service Integration.
+BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56/RC59/RC61 - Voice Service Integration.
 
 Expoe a fachada RC38 como servico opcional, usa RC40 como configuracao,
 RC41 para resolver o backend, RC42 para aplicar idioma, perfil, velocidade,
 RC46 para diagnosticos seguros, RC47 para teste real de audio somente por
 chamada explicita, RC50 para expor a trava RC49 no servico, RC54 para
 expor o orquestrador RC53, RC55 para um snapshot consolidado de status,
-RC56 para um relatorio textual de saude e RC59 para expor a projecao RC58.
-Nao altera o nucleo operacional.
+RC56 para um relatorio textual de saude, RC59 para expor a projecao RC58 e
+RC61 para expor o widget visual RC60. Nao altera o nucleo operacional.
 """
 
 from __future__ import annotations
@@ -23,6 +23,9 @@ from analysis.replay.book_diagnostics_tts_backend_registry import (
 from analysis.replay.book_diagnostics_tts_runtime import BookDiagnosticsTTSRuntimeCoordinator
 from analysis.replay.book_diagnostics_voice_audio_test import BookDiagnosticsControlledAudioTest
 from analysis.replay.book_diagnostics_voice_config import VoiceConfig, validate_voice_config
+from analysis.replay.book_diagnostics_voice_dashboard_widget import (
+    BookDiagnosticsVoiceDashboardWidgetBuilder,
+)
 from analysis.replay.book_diagnostics_voice_diagnostics import BookDiagnosticsVoiceDiagnostics
 from analysis.replay.book_diagnostics_voice_event import BookDiagnosticsVoiceEventFactory
 from analysis.replay.book_diagnostics_voice_health_dashboard_projection import (
@@ -90,22 +93,22 @@ class BookDiagnosticsVoiceService:
 
     @property
     def orchestrator(self) -> BookDiagnosticsVoiceOrchestrator:
-        """Expoe RC53 de forma lazy, sem qualquer chamada automatica pelo bot."""
         if self._orchestrator is None:
             self._orchestrator = BookDiagnosticsVoiceOrchestrator.from_voice_service(self)
         return self._orchestrator
 
     def integration_status(self):
-        """Retorna RC55 sem iniciar voz nem forcar criacao do orquestrador."""
         return BookDiagnosticsVoiceIntegrationStatus(voice_service=self).snapshot()
 
     def health_report(self):
-        """Retorna RC56 derivado exclusivamente do snapshot RC55."""
         return BookDiagnosticsVoiceHealthReporter().build(self.integration_status())
 
     def dashboard_projection(self):
-        """Retorna RC58 para consumo visual, sem iniciar audio nem o orquestrador."""
         return BookDiagnosticsVoiceHealthDashboardProjector().project(self.health_report())
+
+    def dashboard_widget(self):
+        """Retorna RC60 para qualquer futura UI, sem iniciar audio/orquestrador."""
+        return BookDiagnosticsVoiceDashboardWidgetBuilder().build(self.dashboard_projection())
 
     def enable(self):
         self.config = self.config.with_updates(enabled=True)
@@ -124,33 +127,20 @@ class BookDiagnosticsVoiceService:
         return self.snapshot()
 
     def diagnostics(self):
-        return BookDiagnosticsVoiceDiagnostics(
-            config=self.config,
-            backend_registry=self.backend_registry,
-        ).inspect()
+        return BookDiagnosticsVoiceDiagnostics(config=self.config, backend_registry=self.backend_registry).inspect()
 
     def test_audio(self, *, text: str | None = None):
-        """Executa RC47 somente por chamada explicita e registra o ultimo resultado."""
-        result = BookDiagnosticsControlledAudioTest(
-            config=self.config,
-            backend_registry=self.backend_registry,
-        ).run(text=text)
+        result = BookDiagnosticsControlledAudioTest(config=self.config, backend_registry=self.backend_registry).run(text=text)
         self._last_controlled_audio_test = result
         return result
 
     def readiness(self, *, controlled_test=None):
         test_result = controlled_test if controlled_test is not None else self._last_controlled_audio_test
-        return self._readiness_gate.evaluate(
-            diagnostics=self.diagnostics(),
-            controlled_test=test_result,
-        )
+        return self._readiness_gate.evaluate(diagnostics=self.diagnostics(), controlled_test=test_result)
 
     def require_operational_ready(self, *, controlled_test=None):
         test_result = controlled_test if controlled_test is not None else self._last_controlled_audio_test
-        return self._readiness_gate.require_operational_ready(
-            diagnostics=self.diagnostics(),
-            controlled_test=test_result,
-        )
+        return self._readiness_gate.require_operational_ready(diagnostics=self.diagnostics(), controlled_test=test_result)
 
     def clear_audio_validation(self):
         self._last_controlled_audio_test = None
