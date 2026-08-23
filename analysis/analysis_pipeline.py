@@ -3,7 +3,7 @@ analysis/analysis_pipeline.py
 
 Pipeline principal do COPILOTO PRICE ACTION AI.
 
-RC15.1 - BOOK DEPTH ANALYSIS OBSERVATIONAL
+RC15.2 - BOOK DEPTH SCORE A/B OBSERVATIONAL
 """
 
 from core.analysis_context import AnalysisContext
@@ -24,6 +24,7 @@ from analysis.replay.score_regime_mtf_ab_recorder import ScoreRegimeMtfABRecorde
 from analysis.replay.score_external_context_ab_recorder import ScoreExternalContextABRecorder
 from analysis.replay.score_order_flow_ab_recorder import ScoreOrderFlowABRecorder
 from analysis.replay.score_order_flow_structure_ab_recorder import ScoreOrderFlowStructureABRecorder
+from analysis.replay.score_book_depth_ab_recorder import ScoreBookDepthABRecorder
 
 from analysis.smart_money.imbalance import Imbalance
 from analysis.smart_money.order_block import OrderBlock
@@ -62,6 +63,7 @@ class AnalysisPipeline:
         self.score_external_context_ab = ScoreExternalContextABRecorder()
         self.score_order_flow_ab = ScoreOrderFlowABRecorder()
         self.score_order_flow_structure_ab = ScoreOrderFlowStructureABRecorder()
+        self.score_book_depth_ab = ScoreBookDepthABRecorder()
 
         self.price_action_engines = [
             MarketRegime(),
@@ -97,11 +99,14 @@ class AnalysisPipeline:
             engine.executar(self.context)
             self._publish_engine(engine)
 
+        # Todos os recorders abaixo executam depois do DecisionEngine e apenas
+        # leem o resultado oficial já fechado do ciclo.
         self.book_diagnostics_replay.record(self.context)
         self.score_regime_mtf_ab.record(self.context)
         self.score_external_context_ab.record(self.context)
         self.score_order_flow_ab.record(self.context)
         self.score_order_flow_structure_ab.record(self.context)
+        self.score_book_depth_ab.record(self.context)
         self._publish_loop()
         return self.context
 
