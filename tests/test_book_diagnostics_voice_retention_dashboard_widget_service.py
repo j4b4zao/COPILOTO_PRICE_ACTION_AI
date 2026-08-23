@@ -18,7 +18,7 @@ def _snapshot(folder: Path, name: str) -> Path:
 def test_rc79_empty_widget_contract(tmp_path):
     service = _service()
     widget = service.retention_dashboard_widget(tmp_path)
-    assert widget.version == "RC78-VOICE-STATUS-RETENTION-DASHBOARD-WIDGET"
+    assert widget.version == "RC78-VOICE-STATUS-RETENTION-DASHBOARD-WIDGET-CONTRACT"
     assert widget.status == "EMPTY"
     assert widget.readonly is True
     assert widget.affects_decision is False
