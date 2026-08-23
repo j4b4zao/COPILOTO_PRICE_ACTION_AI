@@ -1,11 +1,11 @@
 """
 analysis/replay/score_external_context_ab_recorder.py
 
-External Context Score A/B RC2 - scenario metrics.
+External Context Score A/B RC3 - persistence and export.
 
 Compara o score oficial da pipeline com um score hipotético ajustado pelo
-contexto externo, sem escrever em Strategy, Score, Risk ou Decision, e agrega
-métricas por risco externo, status, direção e faixa de confiança.
+contexto externo, sem escrever em Strategy, Score, Risk ou Decision, agrega
+métricas por cenário e permite persistir sessões para análise posterior.
 
 Regra experimental:
 - ALIGNED: até +2 pontos, proporcional à confiança externa;
@@ -15,8 +15,11 @@ Regra experimental:
 
 from __future__ import annotations
 
+import csv
+import json
 from collections import defaultdict
 from dataclasses import asdict, dataclass
+from pathlib import Path
 
 from ai.score_engine_rc13_2 import ScoreEngine as ScoreEngineRC13_2
 
@@ -48,11 +51,19 @@ class ScoreExternalContextABSample:
     def to_dict(self) -> dict:
         return asdict(self)
 
+    @classmethod
+    def from_dict(cls, payload: dict) -> "ScoreExternalContextABSample":
+        if not isinstance(payload, dict):
+            raise TypeError("payload must be dict")
+        allowed = cls.__dataclass_fields__.keys()
+        clean = {key: payload[key] for key in allowed if key in payload}
+        return cls(**clean)
+
 
 class ScoreExternalContextABRecorder:
     """Recorder passivo para validar o efeito hipotético do contexto externo."""
 
-    VERSION = "RC2-EXTERNAL-CONTEXT-SCORE-AB-SCENARIOS"
+    VERSION = "RC3-EXTERNAL-CONTEXT-SCORE-AB-PERSISTENCE"
     MAX_WEIGHT = 2.0
 
     def __init__(self, weight: float = 2.0, max_samples: int = 50000):
@@ -73,6 +84,11 @@ class ScoreExternalContextABRecorder:
 
     def clear(self) -> None:
         self._samples.clear()
+
+    def add_sample(self, sample: ScoreExternalContextABSample) -> None:
+        if not isinstance(sample, ScoreExternalContextABSample):
+            raise TypeError("sample must be ScoreExternalContextABSample")
+        self._append(sample)
 
     def record(self, context) -> ScoreExternalContextABSample:
         score = context.score
@@ -126,11 +142,14 @@ class ScoreExternalContextABRecorder:
             passive_only=True,
         )
 
+        self._append(sample)
+        return sample
+
+    def _append(self, sample: ScoreExternalContextABSample) -> None:
         self._samples.append(sample)
         overflow = len(self._samples) - self.max_samples
         if overflow > 0:
             del self._samples[:overflow]
-        return sample
 
     def summary(self) -> dict:
         return {
@@ -187,6 +206,70 @@ class ScoreExternalContextABRecorder:
             **self._metrics(selected),
             "weight": self.weight,
         }
+
+    def export_jsonl(self, path) -> Path:
+        destination = Path(path)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        with destination.open("w", encoding="utf-8", newline="") as handle:
+            for sample in self._samples:
+                handle.write(
+                    json.dumps(sample.to_dict(), ensure_ascii=False, sort_keys=True)
+                    + "\n"
+                )
+        return destination
+
+    def export_csv(self, path) -> Path:
+        destination = Path(path)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        fields = list(ScoreExternalContextABSample.__dataclass_fields__.keys())
+        with destination.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fields)
+            writer.writeheader()
+            for sample in self._samples:
+                writer.writerow(sample.to_dict())
+        return destination
+
+    def export_metrics_json(self, path) -> Path:
+        destination = Path(path)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        payload = {
+            "summary": self.summary(),
+            "scenarios": self.scenario_summary(),
+        }
+        with destination.open("w", encoding="utf-8") as handle:
+            json.dump(payload, handle, ensure_ascii=False, indent=2, sort_keys=True)
+        return destination
+
+    @classmethod
+    def load_jsonl(
+        cls,
+        path,
+        *,
+        weight: float = 2.0,
+        max_samples: int = 50000,
+    ) -> "ScoreExternalContextABRecorder":
+        recorder = cls(weight=weight, max_samples=max_samples)
+        source = Path(path)
+        if not source.exists():
+            raise FileNotFoundError(source)
+
+        with source.open("r", encoding="utf-8") as handle:
+            for line_number, line in enumerate(handle, start=1):
+                text = line.strip()
+                if not text:
+                    continue
+                try:
+                    payload = json.loads(text)
+                except json.JSONDecodeError as exc:
+                    raise ValueError(
+                        f"Invalid JSONL at line {line_number}: {exc.msg}"
+                    ) from exc
+                if not isinstance(payload, dict):
+                    raise ValueError(
+                        f"Invalid JSONL at line {line_number}: object expected"
+                    )
+                recorder.add_sample(ScoreExternalContextABSample.from_dict(payload))
+        return recorder
 
     def _group_by(self, field: str) -> dict:
         grouped = defaultdict(list)
