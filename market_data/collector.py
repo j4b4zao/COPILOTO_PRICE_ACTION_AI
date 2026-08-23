@@ -4,7 +4,7 @@ market_data/collector.py
 Coleta dados do Profit Pro através do Excel, alimenta M1/M5/M15,
 oferece mercado NORMAL ou RENKO e retorna AnalysisContext.
 
-RC13 - PROFIT SOURCE INTEGRITY
+RC14 - PROFIT DELTA SOURCE DIAGNOSTICS
 """
 
 import math
@@ -16,12 +16,13 @@ from core.multi_timeframe_state import MultiTimeframeState
 from core.order_flow_state import OrderFlowState
 from core.renko_state import RenkoState
 from enums.chart_mode import ChartMode
+from market_data.profit_delta_source_diagnostics import ProfitDeltaSourceDiagnostics
 from market_data.profit_source_integrity import ProfitSourceIntegrityGuard
 
 
 class Collector:
     NAME = "Collector"
-    VERSION = "RC13-PROFIT-SOURCE-INTEGRITY"
+    VERSION = "RC14-PROFIT-DELTA-SOURCE-DIAGNOSTICS"
 
     def __init__(
         self,
@@ -34,6 +35,7 @@ class Collector:
         renko_brick_size=None,
         clock=None,
         source_guard=None,
+        source_diagnostics=None,
     ):
         if excel is None:
             from connectors.excel_connector import ExcelConnector
@@ -61,6 +63,11 @@ class Collector:
         )
         self.source_guard = (
             source_guard if source_guard is not None else ProfitSourceIntegrityGuard()
+        )
+        self.source_diagnostics = (
+            source_diagnostics
+            if source_diagnostics is not None
+            else ProfitDeltaSourceDiagnostics()
         )
         self.market = self._primary_market()
         self.last_new_candles = {
@@ -104,17 +111,19 @@ class Collector:
 
         integrity = self.source_guard.inspect(dados)
         if integrity.symbol_changed:
-            # Acumulados de agressão pertencem ao ativo/contrato anterior.
-            # Nunca carregamos esse baseline para o novo símbolo.
             self.order_flow.clear()
 
         if integrity.duplicate:
-            # Snapshot idêntico pode significar mercado parado ou DDE congelado.
-            # Em ambos os casos não deve gerar tick/candle nem amostra sintética.
             if aggression_buy is None or aggression_sell is None:
                 self.order_flow.mark_unavailable()
             else:
                 self.order_flow.mark_waiting("SOURCE_UNCHANGED")
+            self.source_diagnostics.observe(
+                integrity=integrity,
+                aggression_buy=aggression_buy,
+                aggression_sell=aggression_sell,
+                order_flow=self.order_flow,
+            )
             print("[DATA WAIT] Snapshot do Profit sem mudança; ciclo ignorado.")
             return None
 
@@ -139,6 +148,13 @@ class Collector:
             aggression_buy=aggression_buy,
             aggression_sell=aggression_sell,
             price=close,
+        )
+
+        self.source_diagnostics.observe(
+            integrity=integrity,
+            aggression_buy=aggression_buy,
+            aggression_sell=aggression_sell,
+            order_flow=self.order_flow,
         )
 
         candle = self.market.last_candle
