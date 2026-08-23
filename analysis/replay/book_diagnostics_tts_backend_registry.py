@@ -1,9 +1,9 @@
 """
-BookDiagnostics RC41 - TTS Backend Registry / Factory.
+BookDiagnostics RC41/RC43 - TTS Backend Registry / Factory.
 
 Resolve nomes declarativos do RC40 para instancias de backend TTS sem espalhar
-condicionais pelo sistema. O registry permanece somente na camada de
-apresentacao e nunca altera Strategy, Score, Risk, Decision ou Alert.
+condicionais pelo sistema. NULL_TTS continua sendo o backend padrao seguro;
+WINDOWS_SAPI fica disponivel apenas para selecao explicita.
 """
 
 from __future__ import annotations
@@ -12,6 +12,7 @@ from dataclasses import asdict, dataclass
 from typing import Callable
 
 from analysis.replay.book_diagnostics_tts_backend import NullTTSBackend
+from analysis.replay.book_diagnostics_windows_sapi_backend import WindowsSAPITTSBackend
 
 
 @dataclass(slots=True, frozen=True)
@@ -33,6 +34,7 @@ class BookDiagnosticsTTSBackendRegistry:
     def __init__(self):
         self._factories: dict[str, Callable[[], object]] = {}
         self.register(self.DEFAULT_BACKEND, NullTTSBackend, replace=False)
+        self.register("WINDOWS_SAPI", WindowsSAPITTSBackend, replace=False)
 
     def register(self, name: str, factory: Callable[[], object], *, replace: bool = False):
         key = self._normalize_name(name)
