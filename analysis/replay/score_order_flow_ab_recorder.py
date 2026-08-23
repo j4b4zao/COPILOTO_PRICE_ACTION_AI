@@ -1,7 +1,7 @@
 """
 analysis/replay/score_order_flow_ab_recorder.py
 
-Order Flow Score A/B RC2 - métricas por cenário.
+Order Flow Score A/B RC3 - métricas por cenário + persistência.
 
 Compara o score oficial já calculado pela pipeline com um score hipotético
 ajustado pela dinâmica de Delta do Order Flow. Não reexecuta ScoreEngine e
@@ -10,8 +10,11 @@ não escreve em Strategy, Score, Risk ou Decision.
 
 from __future__ import annotations
 
+import csv
+import json
 from collections import defaultdict
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, fields
+from pathlib import Path
 
 from ai.score_engine_rc13_2 import ScoreEngine as ScoreEngineRC13_2
 
@@ -44,11 +47,26 @@ class ScoreOrderFlowABSample:
     def to_dict(self) -> dict:
         return asdict(self)
 
+    @classmethod
+    def from_dict(cls, payload: dict) -> "ScoreOrderFlowABSample":
+        if not isinstance(payload, dict):
+            raise TypeError("Amostra A/B de Order Flow deve ser um dict.")
+
+        allowed = {field.name for field in fields(cls)}
+        unknown = set(payload) - allowed
+        if unknown:
+            raise ValueError(
+                "Campos desconhecidos na amostra A/B de Order Flow: "
+                + ", ".join(sorted(unknown))
+            )
+
+        return cls(**payload)
+
 
 class ScoreOrderFlowABRecorder:
     """Recorder passivo do efeito hipotético da dinâmica de Order Flow."""
 
-    VERSION = "RC2-ORDER-FLOW-SCORE-AB-SCENARIOS"
+    VERSION = "RC3-ORDER-FLOW-SCORE-AB-PERSISTENCE"
     MAX_WEIGHT = 2.0
     FADING_FACTOR = 0.25
 
@@ -70,6 +88,11 @@ class ScoreOrderFlowABRecorder:
 
     def clear(self) -> None:
         self._samples.clear()
+
+    def add_sample(self, sample: ScoreOrderFlowABSample) -> None:
+        if not isinstance(sample, ScoreOrderFlowABSample):
+            raise TypeError("sample deve ser ScoreOrderFlowABSample.")
+        self._append(sample)
 
     def record(self, context) -> ScoreOrderFlowABSample:
         score = context.score
@@ -128,10 +151,7 @@ class ScoreOrderFlowABRecorder:
             passive_only=True,
         )
 
-        self._samples.append(sample)
-        overflow = len(self._samples) - self.max_samples
-        if overflow > 0:
-            del self._samples[:overflow]
+        self._append(sample)
         return sample
 
     def summary(self) -> dict:
@@ -182,6 +202,70 @@ class ScoreOrderFlowABRecorder:
             **self._metrics(selected),
             "weight": self.weight,
         }
+
+    def export_jsonl(self, path) -> Path:
+        destination = self._prepare_path(path, ".jsonl")
+        with destination.open("w", encoding="utf-8") as handle:
+            for sample in self._samples:
+                handle.write(
+                    json.dumps(sample.to_dict(), ensure_ascii=False, sort_keys=True)
+                    + "\n"
+                )
+        return destination
+
+    def export_csv(self, path) -> Path:
+        destination = self._prepare_path(path, ".csv")
+        fieldnames = [field.name for field in fields(ScoreOrderFlowABSample)]
+        with destination.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fieldnames)
+            writer.writeheader()
+            for sample in self._samples:
+                writer.writerow(sample.to_dict())
+        return destination
+
+    def export_metrics_json(self, path) -> Path:
+        destination = self._prepare_path(path, ".json")
+        payload = {
+            "summary": self.summary(),
+            "scenarios": self.scenario_summary(),
+        }
+        with destination.open("w", encoding="utf-8") as handle:
+            json.dump(payload, handle, ensure_ascii=False, indent=2, sort_keys=True)
+        return destination
+
+    def load_jsonl(self, path, *, clear: bool = False) -> int:
+        source = Path(path)
+        if source.suffix.lower() != ".jsonl":
+            raise ValueError("Arquivo de sessão A/B de Order Flow deve usar .jsonl.")
+        if not source.exists():
+            raise FileNotFoundError(source)
+
+        loaded: list[ScoreOrderFlowABSample] = []
+        with source.open("r", encoding="utf-8") as handle:
+            for line_number, raw_line in enumerate(handle, start=1):
+                line = raw_line.strip()
+                if not line:
+                    continue
+                try:
+                    payload = json.loads(line)
+                    sample = ScoreOrderFlowABSample.from_dict(payload)
+                except (json.JSONDecodeError, TypeError, ValueError) as exc:
+                    raise ValueError(
+                        f"JSONL A/B de Order Flow inválido na linha {line_number}."
+                    ) from exc
+                loaded.append(sample)
+
+        if clear:
+            self.clear()
+        for sample in loaded:
+            self._append(sample)
+        return len(loaded)
+
+    def _append(self, sample: ScoreOrderFlowABSample) -> None:
+        self._samples.append(sample)
+        overflow = len(self._samples) - self.max_samples
+        if overflow > 0:
+            del self._samples[:overflow]
 
     def _group_by(self, field: str) -> dict:
         grouped = defaultdict(list)
@@ -257,3 +341,13 @@ class ScoreOrderFlowABRecorder:
         if total >= 60.0:
             return "C"
         return "REPROVADO"
+
+    @staticmethod
+    def _prepare_path(path, expected_suffix: str) -> Path:
+        destination = Path(path)
+        if destination.suffix.lower() != expected_suffix:
+            raise ValueError(
+                f"Arquivo deve usar extensão {expected_suffix}."
+            )
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        return destination
