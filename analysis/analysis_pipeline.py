@@ -3,7 +3,7 @@ analysis/analysis_pipeline.py
 
 Pipeline principal do COPILOTO PRICE ACTION AI.
 
-RC15.3 - MICROSTRUCTURE CONFLUENCE REPLAY OBSERVATIONAL
+RC15.4 - MICROSTRUCTURE ELIGIBILITY REPLAY OBSERVATIONAL
 """
 
 from core.analysis_context import AnalysisContext
@@ -27,6 +27,9 @@ from analysis.replay.score_order_flow_structure_ab_recorder import ScoreOrderFlo
 from analysis.replay.score_book_depth_ab_recorder import ScoreBookDepthABRecorder
 from analysis.replay.microstructure_confluence_replay_recorder import (
     MicrostructureConfluenceReplayRecorder,
+)
+from analysis.replay.microstructure_eligibility_replay_recorder import (
+    MicrostructureEligibilityReplayRecorder,
 )
 
 from analysis.smart_money.imbalance import Imbalance
@@ -68,6 +71,7 @@ class AnalysisPipeline:
         self.score_order_flow_structure_ab = ScoreOrderFlowStructureABRecorder()
         self.score_book_depth_ab = ScoreBookDepthABRecorder()
         self.microstructure_confluence_replay = MicrostructureConfluenceReplayRecorder()
+        self.microstructure_eligibility_replay = MicrostructureEligibilityReplayRecorder()
 
         self.price_action_engines = [
             MarketRegime(),
@@ -112,6 +116,7 @@ class AnalysisPipeline:
         self.score_order_flow_structure_ab.record(self.context)
         self.score_book_depth_ab.record(self.context)
         self.microstructure_confluence_replay.record(self.context)
+        self.microstructure_eligibility_replay.record(self.context)
         self._publish_loop()
         return self.context
 
