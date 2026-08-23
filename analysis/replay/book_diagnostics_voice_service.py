@@ -1,10 +1,11 @@
 """
-BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47 - Voice Service Integration.
+BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50 - Voice Service Integration.
 
 Expoe a fachada RC38 como servico opcional, usa RC40 como configuracao,
 RC41 para resolver o backend, RC42 para aplicar idioma, perfil, velocidade,
-RC46 para diagnosticos seguros e RC47 para teste real de audio somente por
-chamada explicita. Nao altera o nucleo operacional.
+RC46 para diagnosticos seguros, RC47 para teste real de audio somente por
+chamada explicita e RC50 para expor a trava RC49 no servico.
+Nao altera o nucleo operacional.
 """
 
 from __future__ import annotations
@@ -24,6 +25,7 @@ from analysis.replay.book_diagnostics_voice_diagnostics import BookDiagnosticsVo
 from analysis.replay.book_diagnostics_voice_event import BookDiagnosticsVoiceEventFactory
 from analysis.replay.book_diagnostics_voice_profile_resolver import BookDiagnosticsVoiceProfileResolver
 from analysis.replay.book_diagnostics_voice_queue import BookDiagnosticsVoiceQueue
+from analysis.replay.book_diagnostics_voice_readiness_gate import BookDiagnosticsVoiceReadinessGate
 from analysis.replay.book_diagnostics_voice_runtime_facade import BookDiagnosticsVoiceRuntimeFacade
 
 
@@ -60,6 +62,8 @@ class BookDiagnosticsVoiceService:
         self.enabled = base.enabled
         self.backend_registry = backend_registry or get_default_tts_backend_registry()
         self._facade = facade
+        self._last_controlled_audio_test = None
+        self._readiness_gate = BookDiagnosticsVoiceReadinessGate()
         if self.enabled and self._facade is None:
             self._facade = self._build_facade()
 
@@ -96,11 +100,34 @@ class BookDiagnosticsVoiceService:
         ).inspect()
 
     def test_audio(self, *, text: str | None = None):
-        """Executa RC47 somente por chamada explicita e somente apos RC45 READY."""
-        return BookDiagnosticsControlledAudioTest(
+        """Executa RC47 somente por chamada explicita e registra o ultimo resultado."""
+        result = BookDiagnosticsControlledAudioTest(
             config=self.config,
             backend_registry=self.backend_registry,
         ).run(text=text)
+        self._last_controlled_audio_test = result
+        return result
+
+    def readiness(self, *, controlled_test=None):
+        """Avalia RC49 usando o diagnostico atual e o ultimo RC47 quando disponivel."""
+        test_result = controlled_test if controlled_test is not None else self._last_controlled_audio_test
+        return self._readiness_gate.evaluate(
+            diagnostics=self.diagnostics(),
+            controlled_test=test_result,
+        )
+
+    def require_operational_ready(self, *, controlled_test=None):
+        """Bloqueia qualquer futura voz operacional ate RC45 + RC47 estarem aprovados."""
+        test_result = controlled_test if controlled_test is not None else self._last_controlled_audio_test
+        return self._readiness_gate.require_operational_ready(
+            diagnostics=self.diagnostics(),
+            controlled_test=test_result,
+        )
+
+    def clear_audio_validation(self):
+        """Invalida explicitamente a aprovacao RC47 previamente armazenada."""
+        self._last_controlled_audio_test = None
+        return self.readiness()
 
     def submit_message(self, message_decision):
         self._require_enabled(); return self.facade.submit_message(message_decision)
