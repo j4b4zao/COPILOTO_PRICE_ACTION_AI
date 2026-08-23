@@ -6,7 +6,7 @@ from ai.engine_base import EngineBase
 class OrderFlow(EngineBase):
 
     NAME = "OrderFlow"
-    VERSION = "RC4.5-DELTA-DYNAMICS"
+    VERSION = "RC5.1-PATTERN-STRUCTURE-EVIDENCE"
     ENABLED = True
     PRIORITY = 45
     IMBALANCE_THRESHOLD = 0.10
@@ -62,7 +62,7 @@ class OrderFlow(EngineBase):
             result.trend = "BALANCED"
 
         self._classify_flow_momentum(state, result)
-        self._analyze_patterns(state, result)
+        self._analyze_patterns(state, result, context)
 
         if state.total_aggression <= 0:
             result.pressure = "BALANCED"
@@ -118,7 +118,7 @@ class OrderFlow(EngineBase):
             result.flow_momentum = "FADING_BUY" if direction > 0 else "FADING_SELL"
             result.add_reason(result.flow_momentum)
 
-    def _analyze_patterns(self, state, result) -> None:
+    def _analyze_patterns(self, state, result, context) -> None:
         if not state.pattern_ready:
             result.add_reason("ORDER_FLOW_PATTERN_HISTORY_PENDING")
             return
@@ -152,6 +152,7 @@ class OrderFlow(EngineBase):
                 result.add_reason(pattern)
 
         self._qualify_patterns(state, result)
+        self._qualify_structure(context, result)
 
     def _qualify_patterns(self, state, result) -> None:
         patterns = (result.divergence, result.absorption, result.exhaustion)
@@ -189,3 +190,48 @@ class OrderFlow(EngineBase):
             result.add_reason("ORDER_FLOW_PATTERN_CONFIRMED")
         else:
             result.add_reason("ORDER_FLOW_PATTERN_LOW_CONFIDENCE")
+
+    def _qualify_structure(self, context, result) -> None:
+        result.pattern_direction = self._pattern_direction(result)
+        if result.pattern_direction == "NONE":
+            result.structure_alignment = "NEUTRAL"
+            return
+
+        structure = getattr(context, "market_structure", None)
+        trend = str(getattr(structure, "trend", "") or "").upper()
+        if not trend:
+            result.structure_alignment = "UNAVAILABLE"
+            return
+
+        aligned = (
+            result.pattern_direction == "BUY" and trend in {"BULLISH", "UP", "UPTREND", "TREND_UP"}
+        ) or (
+            result.pattern_direction == "SELL" and trend in {"BEARISH", "DOWN", "DOWNTREND", "TREND_DOWN"}
+        )
+        conflicting = (
+            result.pattern_direction == "BUY" and trend in {"BEARISH", "DOWN", "DOWNTREND", "TREND_DOWN"}
+        ) or (
+            result.pattern_direction == "SELL" and trend in {"BULLISH", "UP", "UPTREND", "TREND_UP"}
+        )
+
+        if aligned:
+            result.structure_alignment = "ALIGNED"
+            multiplier = 1.0
+            result.add_reason("ORDER_FLOW_PATTERN_STRUCTURE_ALIGNED")
+        elif conflicting:
+            result.structure_alignment = "CONFLICT"
+            multiplier = 0.60
+            result.add_reason("ORDER_FLOW_PATTERN_STRUCTURE_CONFLICT")
+        else:
+            result.structure_alignment = "NEUTRAL"
+            multiplier = 0.80
+
+        result.structural_pattern_confidence = min(1.0, result.pattern_confidence * multiplier)
+
+    @staticmethod
+    def _pattern_direction(result) -> str:
+        if result.absorption == "BUY_ABSORPTION" or result.exhaustion == "SELL_EXHAUSTION":
+            return "BUY"
+        if result.absorption == "SELL_ABSORPTION" or result.exhaustion == "BUY_EXHAUSTION":
+            return "SELL"
+        return "NONE"
