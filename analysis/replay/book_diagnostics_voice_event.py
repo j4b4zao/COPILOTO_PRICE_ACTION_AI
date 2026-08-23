@@ -1,19 +1,22 @@
 """
-BookDiagnostics RC31 - Voice Event Contract.
+BookDiagnostics RC31/RC42 - Voice Event Contract.
 
-Converte somente mensagens aprovadas pelo RC30 em eventos estruturados para
-uma futura engine TTS. O contrato descreve COMO a fala deve ser entregue, mas
-nao sintetiza audio e nao altera nenhuma decisao operacional.
-
-Perfil desejado: assistente britanico sofisticado, calmo, preciso e elegante,
-sem imitar ou clonar a voz identificavel de personagem, ator ou pessoa real.
+Converte somente mensagens aprovadas pelo RC30 em eventos estruturados de voz.
+RC42 permite que idioma, perfil, velocidade e politica de interrupcao venham
+do VoiceConfig, preservando o perfil padrao quando nenhum resolver e injetado.
 """
 
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from hashlib import sha256
-import math
+
+from analysis.replay.book_diagnostics_voice_config import VoiceConfig
+from analysis.replay.book_diagnostics_voice_profile_resolver import (
+    BookDiagnosticsVoiceProfileResolver,
+    ResolvedVoiceProfile,
+    validate_resolved_voice_profile,
+)
 
 
 @dataclass(slots=True, frozen=True)
@@ -38,31 +41,27 @@ class VoiceEvent:
 class BookDiagnosticsVoiceEventFactory:
     VERSION = "RC31-VOICE-EVENT-CONTRACT"
     SOURCE_VERSION = "RC30-ASSISTANT-MESSAGE-POLICY"
-    VOICE_PROFILE = "BRITISH_CALM_PRECISE_ASSISTANT"
 
-    def __init__(self, *, words_per_minute: int = 145):
-        if int(words_per_minute) < 90 or int(words_per_minute) > 220:
-            raise ValueError("words_per_minute must be between 90 and 220")
-        self.words_per_minute = int(words_per_minute)
+    def __init__(self, *, profile: ResolvedVoiceProfile | None = None):
+        resolved = profile or BookDiagnosticsVoiceProfileResolver().resolve(VoiceConfig())
+        self.profile = validate_resolved_voice_profile(resolved)
 
     def build(self, approved_message) -> VoiceEvent:
         payload = self._payload(approved_message)
         self._validate(payload)
-
         text = str(payload.get("text", "") or "").strip()
         priority = str(payload.get("priority", "NORMAL") or "NORMAL").upper()
         event_id = self._event_id(text=text, priority=priority)
-
         return VoiceEvent(
             version=self.VERSION,
             event_id=event_id,
             text=text,
             priority=priority,
-            interrupt_allowed=priority == "URGENT",
+            interrupt_allowed=(priority == "URGENT" and self.profile.allow_urgent_interrupt),
             estimated_duration_seconds=self._estimate_duration(text),
-            voice_profile=self.VOICE_PROFILE,
-            language="pt-BR",
-            speech_rate=self.words_per_minute / 145.0,
+            voice_profile=self.profile.voice_profile,
+            language=self.profile.language,
+            speech_rate=self.profile.speech_rate,
             source_version=self.SOURCE_VERSION,
         )
 
@@ -90,7 +89,7 @@ class BookDiagnosticsVoiceEventFactory:
 
     def _estimate_duration(self, text: str) -> float:
         words = max(1, len(text.split()))
-        seconds = words / self.words_per_minute * 60.0
+        seconds = words / self.profile.words_per_minute * 60.0
         return round(max(1.0, seconds), 2)
 
     @staticmethod

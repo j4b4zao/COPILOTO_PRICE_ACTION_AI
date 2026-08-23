@@ -1,31 +1,27 @@
 """
-BookDiagnostics RC39/RC40/RC41 - Voice Service Integration.
+BookDiagnostics RC39/RC40/RC41/RC42 - Voice Service Integration.
 
-Expoe a fachada RC38 como servico opcional, usa RC40 como fonte central de
-configuracao e RC41 para resolver o backend TTS declarado. Continua sem
-alterar Strategy, Score, Risk, Decision ou Alert.
+Expoe a fachada RC38 como servico opcional, usa RC40 como configuracao,
+RC41 para resolver o backend e RC42 para aplicar idioma, perfil, velocidade
+e politica de interrupcao aos eventos de voz. Nao altera o nucleo operacional.
 """
 
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 
-from analysis.replay.book_diagnostics_runtime_event_bridge import (
-    BookDiagnosticsRuntimeEventBridge,
-)
+from analysis.replay.book_diagnostics_runtime_event_bridge import BookDiagnosticsRuntimeEventBridge
 from analysis.replay.book_diagnostics_tts_backend import BookDiagnosticsTTSGateway
 from analysis.replay.book_diagnostics_tts_backend_registry import (
     BookDiagnosticsTTSBackendRegistry,
     get_default_tts_backend_registry,
 )
-from analysis.replay.book_diagnostics_tts_runtime import (
-    BookDiagnosticsTTSRuntimeCoordinator,
-)
+from analysis.replay.book_diagnostics_tts_runtime import BookDiagnosticsTTSRuntimeCoordinator
 from analysis.replay.book_diagnostics_voice_config import VoiceConfig, validate_voice_config
+from analysis.replay.book_diagnostics_voice_event import BookDiagnosticsVoiceEventFactory
+from analysis.replay.book_diagnostics_voice_profile_resolver import BookDiagnosticsVoiceProfileResolver
 from analysis.replay.book_diagnostics_voice_queue import BookDiagnosticsVoiceQueue
-from analysis.replay.book_diagnostics_voice_runtime_facade import (
-    BookDiagnosticsVoiceRuntimeFacade,
-)
+from analysis.replay.book_diagnostics_voice_runtime_facade import BookDiagnosticsVoiceRuntimeFacade
 
 
 @dataclass(slots=True, frozen=True)
@@ -53,23 +49,14 @@ class VoiceServiceSnapshot:
 class BookDiagnosticsVoiceService:
     VERSION = "RC39-VOICE-SERVICE-INTEGRATION"
 
-    def __init__(
-        self,
-        *,
-        enabled: bool | None = None,
-        config: VoiceConfig | None = None,
-        facade=None,
-        backend_registry: BookDiagnosticsTTSBackendRegistry | None = None,
-    ):
+    def __init__(self, *, enabled: bool | None = None, config: VoiceConfig | None = None, facade=None, backend_registry: BookDiagnosticsTTSBackendRegistry | None = None):
         base = validate_voice_config(config or VoiceConfig())
         if enabled is not None:
             base = base.with_updates(enabled=bool(enabled))
-
         self.config = base
         self.enabled = base.enabled
         self.backend_registry = backend_registry or get_default_tts_backend_registry()
         self._facade = facade
-
         if self.enabled and self._facade is None:
             self._facade = self._build_facade()
 
@@ -129,46 +116,21 @@ class BookDiagnosticsVoiceService:
         return self.snapshot()
 
     def snapshot(self) -> VoiceServiceSnapshot:
-        common = dict(
-            version=self.VERSION,
-            enabled=self.enabled,
-            config_version=self.config.version,
-            language=self.config.language,
-            voice_profile=self.config.voice_profile,
-            speech_rate=self.config.speech_rate,
-        )
-
+        common = dict(version=self.VERSION, enabled=self.enabled, config_version=self.config.version, language=self.config.language, voice_profile=self.config.voice_profile, speech_rate=self.config.speech_rate)
         if self._facade is None:
-            return VoiceServiceSnapshot(
-                available=False,
-                queue_size=0,
-                session_state="IDLE",
-                backend="DISABLED",
-                backend_healthy=False,
-                last_status=None,
-                last_error=None,
-                **common,
-            )
-
+            return VoiceServiceSnapshot(available=False, queue_size=0, session_state="IDLE", backend="DISABLED", backend_healthy=False, last_status=None, last_error=None, **common)
         payload = self._facade.snapshot().to_dict()
         self._validate_facade_snapshot(payload)
-        return VoiceServiceSnapshot(
-            available=True,
-            queue_size=int(payload["queue_size"]),
-            session_state=str(payload["session_state"]),
-            backend=str(payload["backend"]),
-            backend_healthy=bool(payload["backend_healthy"]),
-            last_status=payload.get("last_status"),
-            last_error=payload.get("last_error"),
-            **common,
-        )
+        return VoiceServiceSnapshot(available=True, queue_size=int(payload["queue_size"]), session_state=str(payload["session_state"]), backend=str(payload["backend"]), backend_healthy=bool(payload["backend_healthy"]), last_status=payload.get("last_status"), last_error=payload.get("last_error"), **common)
 
     def _build_facade(self) -> BookDiagnosticsVoiceRuntimeFacade:
         backend = self.backend_registry.create(self.config.backend)
         gateway = BookDiagnosticsTTSGateway(backend=backend)
         queue = BookDiagnosticsVoiceQueue(max_size=self.config.queue_max_size)
         runtime = BookDiagnosticsTTSRuntimeCoordinator(queue=queue, gateway=gateway)
-        bridge = BookDiagnosticsRuntimeEventBridge(runtime=runtime)
+        profile = BookDiagnosticsVoiceProfileResolver().resolve(self.config)
+        factory = BookDiagnosticsVoiceEventFactory(profile=profile)
+        bridge = BookDiagnosticsRuntimeEventBridge(factory=factory, runtime=runtime)
         return BookDiagnosticsVoiceRuntimeFacade(bridge=bridge)
 
     def _require_enabled(self):
