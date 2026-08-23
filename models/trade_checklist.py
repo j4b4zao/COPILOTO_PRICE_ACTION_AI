@@ -48,6 +48,9 @@ class TradeChecklist:
     order_flow_delta_persistence: float = 0.0
     order_flow_delta_acceleration: float = 0.0
     order_flow_delta_impulse_ratio: float = 0.0
+    order_flow_pattern_direction: str = "NONE"
+    order_flow_structure_alignment: str = "UNAVAILABLE"
+    order_flow_structural_confidence: float = 0.0
 
     setup: bool = False
     risk_ok: bool = False
@@ -82,6 +85,9 @@ class TradeChecklist:
         self.order_flow_delta_persistence = 0.0
         self.order_flow_delta_acceleration = 0.0
         self.order_flow_delta_impulse_ratio = 0.0
+        self.order_flow_pattern_direction = "NONE"
+        self.order_flow_structure_alignment = "UNAVAILABLE"
+        self.order_flow_structural_confidence = 0.0
 
         self.setup = False
         self.risk_ok = False
