@@ -1,13 +1,14 @@
 """
-BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56/RC59/RC61 - Voice Service Integration.
+BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56/RC59/RC61/RC62 - Voice Service Integration.
 
 Expoe a fachada RC38 como servico opcional, usa RC40 como configuracao,
 RC41 para resolver o backend, RC42 para aplicar idioma, perfil, velocidade,
 RC46 para diagnosticos seguros, RC47 para teste real de audio somente por
 chamada explicita, RC50 para expor a trava RC49 no servico, RC54 para
 expor o orquestrador RC53, RC55 para um snapshot consolidado de status,
-RC56 para um relatorio textual de saude, RC59 para expor a projecao RC58 e
-RC61 para expor o widget visual RC60. Nao altera o nucleo operacional.
+RC56 para um relatorio textual de saude, RC59 para expor a projecao RC58,
+RC61 para expor o widget visual RC60 e RC62 para agrupar os contratos de
+status em um unico bundle readonly. Nao altera o nucleo operacional.
 """
 
 from __future__ import annotations
@@ -38,6 +39,7 @@ from analysis.replay.book_diagnostics_voice_profile_resolver import BookDiagnost
 from analysis.replay.book_diagnostics_voice_queue import BookDiagnosticsVoiceQueue
 from analysis.replay.book_diagnostics_voice_readiness_gate import BookDiagnosticsVoiceReadinessGate
 from analysis.replay.book_diagnostics_voice_runtime_facade import BookDiagnosticsVoiceRuntimeFacade
+from analysis.replay.book_diagnostics_voice_status_bundle import BookDiagnosticsVoiceStatusBundleBuilder
 
 
 @dataclass(slots=True, frozen=True)
@@ -107,8 +109,18 @@ class BookDiagnosticsVoiceService:
         return BookDiagnosticsVoiceHealthDashboardProjector().project(self.health_report())
 
     def dashboard_widget(self):
-        """Retorna RC60 para qualquer futura UI, sem iniciar audio/orquestrador."""
         return BookDiagnosticsVoiceDashboardWidgetBuilder().build(self.dashboard_projection())
+
+    def status_bundle(self):
+        """Retorna RC62 com health, projection e widget em uma unica chamada readonly."""
+        health = self.health_report()
+        projection = BookDiagnosticsVoiceHealthDashboardProjector().project(health)
+        widget = BookDiagnosticsVoiceDashboardWidgetBuilder().build(projection)
+        return BookDiagnosticsVoiceStatusBundleBuilder().build(
+            health_report=health,
+            dashboard_projection=projection,
+            dashboard_widget=widget,
+        )
 
     def enable(self):
         self.config = self.config.with_updates(enabled=True)
