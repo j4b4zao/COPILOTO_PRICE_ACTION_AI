@@ -1,16 +1,18 @@
 """
 analysis/replay/score_regime_mtf_ab_recorder.py
 
-Score A/B RC1 - Regime + MTF observational validation.
+Score A/B RC2 - Regime + MTF scenario metrics.
 
 Compara o score oficial já calculado pela pipeline (baseline) com o score
-hipotético que resultaria do ajuste experimental Regime+MTF RC13.2.
+hipotético que resultaria do ajuste experimental Regime+MTF RC13.2 e agrega
+métricas por regime, alinhamento MTF e direção.
 
 Não reexecuta o ScoreEngine e não escreve em Strategy, Score, Risk ou Decision.
 """
 
 from __future__ import annotations
 
+from collections import defaultdict
 from dataclasses import asdict, dataclass
 
 from ai.score_engine_rc13_2 import ScoreEngine as ScoreEngineRC13_2
@@ -45,7 +47,7 @@ class ScoreRegimeMtfABSample:
 class ScoreRegimeMtfABRecorder:
     """Recorder estritamente passivo para validação A/B do ajuste RC13.2."""
 
-    VERSION = "RC1-REGIME-MTF-SCORE-AB"
+    VERSION = "RC2-REGIME-MTF-SCORE-AB-SCENARIOS"
 
     def __init__(self, weight: float = 3.0, max_samples: int = 50000):
         weight = float(weight)
@@ -100,8 +102,13 @@ class ScoreRegimeMtfABRecorder:
             adjusted_valid=adjusted_valid,
             validity_changed=baseline_valid != adjusted_valid,
             bias=bias,
-            mtf_alignment=str(getattr(mtf, "alignment", "INSUFFICIENT_DATA") or "INSUFFICIENT_DATA"),
-            regime_context=str(getattr(mtf, "regime_context", "UNKNOWN") or "UNKNOWN"),
+            mtf_alignment=str(
+                getattr(mtf, "alignment", "INSUFFICIENT_DATA")
+                or "INSUFFICIENT_DATA"
+            ).upper(),
+            regime_context=str(
+                getattr(mtf, "regime_context", "UNKNOWN") or "UNKNOWN"
+            ).upper(),
             regime_compatible=bool(getattr(mtf, "regime_compatible", False)),
             adjustment=round(adjustment, 2),
             passive_only=True,
@@ -114,19 +121,73 @@ class ScoreRegimeMtfABRecorder:
         return sample
 
     def summary(self) -> dict:
-        total = len(self._samples)
-        positive = sum(sample.delta > 0 for sample in self._samples)
-        negative = sum(sample.delta < 0 for sample in self._samples)
+        metrics = self._metrics(self._samples)
+        return {
+            "version": self.VERSION,
+            **metrics,
+            "weight": self.weight,
+        }
+
+    def scenario_summary(self) -> dict:
+        """Agrupa o A/B por regime, alinhamento MTF e direção do score."""
+        return {
+            "version": self.VERSION,
+            "samples": len(self._samples),
+            "weight": self.weight,
+            "by_regime": self._group_by("regime_context"),
+            "by_alignment": self._group_by("mtf_alignment"),
+            "by_bias": self._group_by("bias"),
+        }
+
+    def scenario(self, *, regime=None, alignment=None, bias=None) -> dict:
+        """Retorna métricas de um recorte específico sem alterar as amostras."""
+        selected = self._samples
+        filters = {}
+
+        if regime is not None:
+            value = str(regime).upper()
+            filters["regime_context"] = value
+            selected = [s for s in selected if s.regime_context == value]
+        if alignment is not None:
+            value = str(alignment).upper()
+            filters["mtf_alignment"] = value
+            selected = [s for s in selected if s.mtf_alignment == value]
+        if bias is not None:
+            value = str(bias).upper()
+            filters["bias"] = value
+            selected = [s for s in selected if s.bias == value]
+
+        return {
+            "version": self.VERSION,
+            "filters": filters,
+            **self._metrics(selected),
+            "weight": self.weight,
+        }
+
+    def _group_by(self, field: str) -> dict:
+        grouped = defaultdict(list)
+        for sample in self._samples:
+            grouped[getattr(sample, field)].append(sample)
+        return {
+            key: self._metrics(values)
+            for key, values in sorted(grouped.items())
+        }
+
+    @staticmethod
+    def _metrics(samples) -> dict:
+        samples = list(samples)
+        total = len(samples)
+        positive = sum(sample.delta > 0 for sample in samples)
+        negative = sum(sample.delta < 0 for sample in samples)
         neutral = total - positive - negative
-        grade_changes = sum(sample.grade_changed for sample in self._samples)
-        validity_changes = sum(sample.validity_changed for sample in self._samples)
+        grade_changes = sum(sample.grade_changed for sample in samples)
+        validity_changes = sum(sample.validity_changed for sample in samples)
         average_delta = (
-            round(sum(sample.delta for sample in self._samples) / total, 4)
+            round(sum(sample.delta for sample in samples) / total, 4)
             if total
             else 0.0
         )
         return {
-            "version": self.VERSION,
             "samples": total,
             "positive_adjustments": positive,
             "negative_adjustments": negative,
@@ -134,7 +195,6 @@ class ScoreRegimeMtfABRecorder:
             "grade_changes": grade_changes,
             "validity_changes": validity_changes,
             "average_delta": average_delta,
-            "weight": self.weight,
         }
 
     @staticmethod
