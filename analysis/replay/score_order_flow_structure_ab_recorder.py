@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections import defaultdict
 from dataclasses import asdict, dataclass
 
 from ai.score_engine_rc13_2 import ScoreEngine as ScoreEngineRC13_2
@@ -22,6 +23,7 @@ class ScoreOrderFlowStructureABSample:
     pattern_direction: str = "NONE"
     structure_alignment: str = "UNAVAILABLE"
     structural_confidence: float = 0.0
+    confidence_bucket: str = "UNAVAILABLE"
     adjustment: float = 0.0
     passive_only: bool = True
 
@@ -32,7 +34,7 @@ class ScoreOrderFlowStructureABSample:
 class ScoreOrderFlowStructureABRecorder:
     """Mede efeito hipotético do padrão estrutural sem alterar o ciclo oficial."""
 
-    VERSION = "RC1-ORDER-FLOW-STRUCTURE-SCORE-AB"
+    VERSION = "RC2-ORDER-FLOW-STRUCTURE-SCORE-AB-SCENARIOS"
     MAX_WEIGHT = 1.5
     CONFLICT_FACTOR = 0.75
     NEUTRAL_FACTOR = 0.25
@@ -98,6 +100,7 @@ class ScoreOrderFlowStructureABRecorder:
             pattern_direction=pattern_direction,
             structure_alignment=alignment,
             structural_confidence=confidence,
+            confidence_bucket=self._confidence_bucket(confidence),
             adjustment=round(adjustment, 2),
             passive_only=True,
         )
@@ -109,24 +112,84 @@ class ScoreOrderFlowStructureABRecorder:
         return sample
 
     def summary(self) -> dict:
-        total = len(self._samples)
-        positive = sum(s.delta > 0 for s in self._samples)
-        negative = sum(s.delta < 0 for s in self._samples)
+        return {
+            "version": self.VERSION,
+            **self._metrics(self._samples),
+            "weight": self.weight,
+        }
+
+    def scenario_summary(self) -> dict:
+        return {
+            "version": self.VERSION,
+            "samples": len(self._samples),
+            "weight": self.weight,
+            "by_alignment": self._group_by("structure_alignment"),
+            "by_pattern_direction": self._group_by("pattern_direction"),
+            "by_bias": self._group_by("bias"),
+            "by_confidence": self._group_by("confidence_bucket"),
+        }
+
+    def scenario(self, *, alignment=None, pattern_direction=None, bias=None, confidence=None) -> dict:
+        selected = self._samples
+        filters = {}
+
+        if alignment is not None:
+            value = str(alignment).upper()
+            filters["structure_alignment"] = value
+            selected = [s for s in selected if s.structure_alignment == value]
+        if pattern_direction is not None:
+            value = str(pattern_direction).upper()
+            filters["pattern_direction"] = value
+            selected = [s for s in selected if s.pattern_direction == value]
+        if bias is not None:
+            value = str(bias).upper()
+            filters["bias"] = value
+            selected = [s for s in selected if s.bias == value]
+        if confidence is not None:
+            value = str(confidence).upper()
+            filters["confidence_bucket"] = value
+            selected = [s for s in selected if s.confidence_bucket == value]
+
+        return {
+            "version": self.VERSION,
+            "filters": filters,
+            **self._metrics(selected),
+            "weight": self.weight,
+        }
+
+    def _group_by(self, field: str) -> dict:
+        grouped = defaultdict(list)
+        for sample in self._samples:
+            grouped[getattr(sample, field)].append(sample)
+        return {
+            key: self._metrics(values)
+            for key, values in sorted(grouped.items())
+        }
+
+    @staticmethod
+    def _metrics(samples) -> dict:
+        samples = list(samples)
+        total = len(samples)
+        positive = sum(s.delta > 0 for s in samples)
+        negative = sum(s.delta < 0 for s in samples)
         neutral = total - positive - negative
         average_delta = (
-            round(sum(s.delta for s in self._samples) / total, 4)
+            round(sum(s.delta for s in samples) / total, 4)
+            if total else 0.0
+        )
+        average_confidence = (
+            round(sum(s.structural_confidence for s in samples) / total, 4)
             if total else 0.0
         )
         return {
-            "version": self.VERSION,
             "samples": total,
             "positive_adjustments": positive,
             "negative_adjustments": negative,
             "neutral_adjustments": neutral,
-            "grade_changes": sum(s.grade_changed for s in self._samples),
-            "validity_changes": sum(s.validity_changed for s in self._samples),
+            "grade_changes": sum(s.grade_changed for s in samples),
+            "validity_changes": sum(s.validity_changed for s in samples),
             "average_delta": average_delta,
-            "weight": self.weight,
+            "average_confidence": average_confidence,
         }
 
     def _adjustment(self, *, bias, pattern_direction, alignment, confidence) -> float:
@@ -144,6 +207,16 @@ class ScoreOrderFlowStructureABRecorder:
             sign = 1.0 if same_bias else -1.0
             return sign * self.weight * self.NEUTRAL_FACTOR * confidence
         return 0.0
+
+    @staticmethod
+    def _confidence_bucket(value: float) -> str:
+        if value <= 0.0:
+            return "UNAVAILABLE"
+        if value < 0.50:
+            return "LOW"
+        if value < 0.75:
+            return "MEDIUM"
+        return "HIGH"
 
     @staticmethod
     def _clamp(value) -> float:
