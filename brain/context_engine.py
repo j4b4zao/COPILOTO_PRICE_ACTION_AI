@@ -1,17 +1,16 @@
 """
 brain/context_engine.py
 
-Context Engine RC15.5
+Context Engine RC15.6
 
 Integrações contextuais:
 - External Context RC2.4;
 - Market Regime RC3.0;
-- Multi-timeframe RC3.4.
+- Multi-timeframe RC3.4;
+- Order Flow RC4.5.
 
-Consolida as análises anteriores em contexto operacional sem gerar entrada
-nem calcular o Score global. Regime, multi-timeframe e contexto externo
-permanecem evidências observacionais: não alteram confluences, valid, score
-ou bias operacional.
+Regime, multi-timeframe, contexto externo e Order Flow permanecem evidências
+observacionais: não alteram confluences, valid, score ou bias operacional.
 """
 
 from ai.engine_base import EngineBase
@@ -22,7 +21,7 @@ from models.market_narrative import MarketNarrative
 class ContextEngine(EngineBase):
 
     NAME = "Context Engine"
-    VERSION = "RC15.5-EXTERNAL-EVIDENCE"
+    VERSION = "RC15.6-ORDER-FLOW-EVIDENCE"
     DESCRIPTION = "Consolida o contexto do mercado."
     PRIORITY = 70
     ENABLED = True
@@ -41,6 +40,7 @@ class ContextEngine(EngineBase):
         structure = context.structure
         liquidity = context.liquidity
         volume = context.volume
+        order_flow = context.order_flow
         price_action = context.price_action
         regime = context.regime
         multi_timeframe = context.multi_timeframe_analysis
@@ -91,16 +91,13 @@ class ContextEngine(EngineBase):
 
         self._append_regime_evidence(result, regime, narrative)
         self._append_multi_timeframe_evidence(
-            result,
-            checklist,
-            multi_timeframe,
-            narrative,
+            result, checklist, multi_timeframe, narrative
         )
         self._append_external_evidence(
-            result,
-            checklist,
-            external_market,
-            narrative,
+            result, checklist, external_market, narrative
+        )
+        self._append_order_flow_evidence(
+            result, checklist, order_flow, narrative
         )
 
         checklist.context = (
@@ -190,10 +187,7 @@ class ContextEngine(EngineBase):
 
     @staticmethod
     def _append_multi_timeframe_evidence(
-        result,
-        checklist,
-        multi_timeframe,
-        narrative,
+        result, checklist, multi_timeframe, narrative
     ) -> None:
         checklist.multi_timeframe_status = multi_timeframe.alignment
 
@@ -206,7 +200,6 @@ class ContextEngine(EngineBase):
         checklist.multi_timeframe_ready = True
         checklist.multi_timeframe_aligned = multi_timeframe.aligned
         checklist.multi_timeframe_conflict = multi_timeframe.conflict
-
         alignment = multi_timeframe.alignment
 
         if alignment in ("BUY", "SELL"):
@@ -226,55 +219,24 @@ class ContextEngine(EngineBase):
                 )
             return
 
-        if alignment == "CONFLICT_REGIME":
+        messages = {
+            "CONFLICT_REGIME": "Multi-timeframe conflita com o regime de mercado estabilizado.",
+            "WAIT_REGIME": "Multi-timeframe possui bias, mas aguarda confirmação do regime.",
+            "CONFLICT_M5": "M5 contradiz o contexto direcional definido pelo M15.",
+            "CONFLICT_M1": "M1 contradiz M15/M5; gatilho ainda não está confirmado.",
+            "WAIT_CONTEXT": "M15 ainda não definiu contexto direcional.",
+            "WAIT_M5": "M15 possui direção, mas M5 ainda não confirmou o setup.",
+            "WAIT_TRIGGER": "M15/M5 estão coerentes; M1 ainda aguarda gatilho.",
+        }
+        if alignment in ("CONFLICT_REGIME", "CONFLICT_M5", "CONFLICT_M1"):
             checklist.multi_timeframe_conflict = True
-            narrative.weaknesses.append(
-                "Multi-timeframe conflita com o regime de mercado estabilizado."
-            )
-            return
-
-        if alignment == "WAIT_REGIME":
-            narrative.weaknesses.append(
-                "Multi-timeframe possui bias, mas aguarda confirmação do regime."
-            )
-            return
-
-        if alignment == "CONFLICT_M5":
-            checklist.multi_timeframe_conflict = True
-            narrative.weaknesses.append(
-                "M5 contradiz o contexto direcional definido pelo M15."
-            )
-            return
-
-        if alignment == "CONFLICT_M1":
-            checklist.multi_timeframe_conflict = True
-            narrative.weaknesses.append(
-                "M1 contradiz M15/M5; gatilho ainda não está confirmado."
-            )
-            return
-
-        if alignment == "WAIT_CONTEXT":
-            narrative.weaknesses.append("M15 ainda não definiu contexto direcional.")
-        elif alignment == "WAIT_M5":
-            narrative.weaknesses.append(
-                "M15 possui direção, mas M5 ainda não confirmou o setup."
-            )
-        elif alignment == "WAIT_TRIGGER":
-            narrative.weaknesses.append(
-                "M15/M5 estão coerentes; M1 ainda aguarda gatilho."
-            )
-        else:
-            narrative.weaknesses.append(
-                "Multi-timeframe aguarda alinhamento completo."
-            )
+        narrative.weaknesses.append(
+            messages.get(alignment, "Multi-timeframe aguarda alinhamento completo.")
+        )
 
     @classmethod
     def _append_external_evidence(
-        cls,
-        result,
-        checklist,
-        external_market,
-        narrative,
+        cls, result, checklist, external_market, narrative
     ) -> None:
         if not external_market.valid:
             checklist.external_context_status = "UNAVAILABLE"
@@ -284,7 +246,6 @@ class ContextEngine(EngineBase):
         checklist.external_context_ready = True
         confidence = min(max(float(external_market.confidence or 0.0), 0.0), 1.0)
         checklist.external_context_confidence = confidence
-
         risk_on_off = str(external_market.risk_on_off or "NEUTRAL").upper()
         global_bias = str(external_market.global_bias or "NEUTRAL").upper()
 
@@ -296,23 +257,14 @@ class ContextEngine(EngineBase):
             return
 
         aligned = (
-            result.bias == "BUY"
-            and risk_on_off == "RISK_ON"
-            and global_bias == "BULLISH"
+            result.bias == "BUY" and risk_on_off == "RISK_ON" and global_bias == "BULLISH"
         ) or (
-            result.bias == "SELL"
-            and risk_on_off == "RISK_OFF"
-            and global_bias == "BEARISH"
+            result.bias == "SELL" and risk_on_off == "RISK_OFF" and global_bias == "BEARISH"
         )
-
         conflict = (
-            result.bias == "BUY"
-            and risk_on_off == "RISK_OFF"
-            and global_bias == "BEARISH"
+            result.bias == "BUY" and risk_on_off == "RISK_OFF" and global_bias == "BEARISH"
         ) or (
-            result.bias == "SELL"
-            and risk_on_off == "RISK_ON"
-            and global_bias == "BULLISH"
+            result.bias == "SELL" and risk_on_off == "RISK_ON" and global_bias == "BULLISH"
         )
 
         if aligned:
@@ -331,4 +283,69 @@ class ContextEngine(EngineBase):
             checklist.external_context_status = "NEUTRAL"
             narrative.weaknesses.append(
                 f"Contexto externo neutro ({confidence:.0%} confiança)."
+            )
+
+    @staticmethod
+    def _append_order_flow_evidence(
+        result, checklist, order_flow, narrative
+    ) -> None:
+        if not order_flow.valid:
+            checklist.order_flow_status = "UNAVAILABLE"
+            narrative.weaknesses.append("Order Flow ainda não disponível.")
+            return
+
+        checklist.order_flow_ready = True
+        checklist.order_flow_momentum = str(
+            order_flow.flow_momentum or "INSUFFICIENT_DATA"
+        ).upper()
+        checklist.order_flow_delta_persistence = min(
+            max(float(order_flow.delta_persistence or 0.0), 0.0), 1.0
+        )
+        checklist.order_flow_delta_acceleration = float(
+            order_flow.delta_acceleration or 0.0
+        )
+        checklist.order_flow_delta_impulse_ratio = min(
+            max(float(order_flow.delta_impulse_ratio or 0.0), 0.0), 1.0
+        )
+
+        momentum = checklist.order_flow_momentum
+        buy_states = {"ACCELERATING_BUY", "PERSISTENT_BUY"}
+        sell_states = {"ACCELERATING_SELL", "PERSISTENT_SELL"}
+        fading_states = {"FADING_BUY", "FADING_SELL"}
+
+        aligned = (
+            result.bias == "BUY" and momentum in buy_states
+        ) or (
+            result.bias == "SELL" and momentum in sell_states
+        )
+        conflict = (
+            result.bias == "BUY" and momentum in sell_states
+        ) or (
+            result.bias == "SELL" and momentum in buy_states
+        )
+
+        if aligned:
+            checklist.order_flow_aligned = True
+            checklist.order_flow_status = "ALIGNED"
+            narrative.strengths.append(
+                "Order Flow confirma direção com dinâmica de Delta sustentada."
+            )
+        elif conflict:
+            checklist.order_flow_conflict = True
+            checklist.order_flow_status = "CONFLICT"
+            narrative.weaknesses.append(
+                "Order Flow conflita com direção pela dinâmica do Delta."
+            )
+        elif momentum in fading_states:
+            checklist.order_flow_status = "FADING"
+            narrative.weaknesses.append(
+                "Order Flow mostra enfraquecimento da pressão agressora."
+            )
+        elif momentum == "MIXED":
+            checklist.order_flow_status = "MIXED"
+            narrative.weaknesses.append("Order Flow apresenta Delta misto.")
+        else:
+            checklist.order_flow_status = "INSUFFICIENT_DATA"
+            narrative.weaknesses.append(
+                "Order Flow ainda não possui dinâmica de Delta conclusiva."
             )

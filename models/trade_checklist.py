@@ -39,6 +39,16 @@ class TradeChecklist:
     external_context_status: str = "UNAVAILABLE"
     external_context_confidence: float = 0.0
 
+    # Order Flow informativo: não participa de ready/approved/score/completion.
+    order_flow_ready: bool = False
+    order_flow_aligned: bool = False
+    order_flow_conflict: bool = False
+    order_flow_status: str = "UNAVAILABLE"
+    order_flow_momentum: str = "INSUFFICIENT_DATA"
+    order_flow_delta_persistence: float = 0.0
+    order_flow_delta_acceleration: float = 0.0
+    order_flow_delta_impulse_ratio: float = 0.0
+
     setup: bool = False
     risk_ok: bool = False
 
@@ -63,6 +73,15 @@ class TradeChecklist:
         self.external_context_conflict = False
         self.external_context_status = "UNAVAILABLE"
         self.external_context_confidence = 0.0
+
+        self.order_flow_ready = False
+        self.order_flow_aligned = False
+        self.order_flow_conflict = False
+        self.order_flow_status = "UNAVAILABLE"
+        self.order_flow_momentum = "INSUFFICIENT_DATA"
+        self.order_flow_delta_persistence = 0.0
+        self.order_flow_delta_acceleration = 0.0
+        self.order_flow_delta_impulse_ratio = 0.0
 
         self.setup = False
         self.risk_ok = False
