@@ -1,5 +1,5 @@
 """
-BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56/RC59/RC61/RC62/RC65/RC66/RC68/RC71/RC74/RC77/RC79 - Voice Service Integration.
+BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56/RC59/RC61/RC62/RC65/RC66/RC68/RC71/RC74/RC77/RC79/RC81 - Voice Service Integration.
 
 Expoe a fachada RC38 como servico opcional, usa RC40 como configuracao,
 RC41 para resolver o backend, RC42 para aplicar idioma, perfil, velocidade,
@@ -11,8 +11,8 @@ RC61 para expor o widget visual RC60, RC62 para agrupar os contratos de
 status, RC65 para expor o envelope RC64, RC66 para persistencia JSON
 explicita, RC68 para rotacao/retencao controlada, RC71 para inspecao
 readonly da retencao RC70, RC74 para expor o resumo RC73, RC77 para
-expor a projecao visual RC76 e RC79 para expor o widget RC78.
-Nao altera o nucleo operacional.
+expor a projecao visual RC76, RC79 para expor o widget RC78 e RC81 para
+expor o bundle RC80. Nao altera o nucleo operacional.
 """
 
 from __future__ import annotations
@@ -43,6 +43,7 @@ from analysis.replay.book_diagnostics_voice_status_bundle import BookDiagnostics
 from analysis.replay.book_diagnostics_voice_status_export import BookDiagnosticsVoiceStatusExporter
 from analysis.replay.book_diagnostics_voice_status_file_export import BookDiagnosticsVoiceStatusFileExporter
 from analysis.replay.book_diagnostics_voice_status_retention import BookDiagnosticsVoiceStatusRetentionManager
+from analysis.replay.book_diagnostics_voice_status_retention_bundle import BookDiagnosticsVoiceStatusRetentionBundleBuilder
 from analysis.replay.book_diagnostics_voice_status_retention_dashboard_projection import BookDiagnosticsVoiceStatusRetentionDashboardProjector
 from analysis.replay.book_diagnostics_voice_status_retention_dashboard_widget import BookDiagnosticsVoiceStatusRetentionDashboardWidgetBuilder
 from analysis.replay.book_diagnostics_voice_status_retention_health import BookDiagnosticsVoiceStatusRetentionHealthReporter
@@ -166,6 +167,19 @@ class BookDiagnosticsVoiceService:
         """Constroi RC78 a partir da projecao RC76, sem mutacao nem audio."""
         projection = self.retention_dashboard_projection(directory, keep=keep, prefix=prefix)
         return BookDiagnosticsVoiceStatusRetentionDashboardWidgetBuilder().build(projection)
+
+    def retention_status_bundle(self, directory, *, keep: int = 20, prefix: str = "voice_status"):
+        """Agrupa RC70/RC73/RC76/RC78 via RC80 em uma fotografia readonly unica."""
+        inspection = self.inspect_status_retention(directory, keep=keep, prefix=prefix)
+        health = BookDiagnosticsVoiceStatusRetentionHealthReporter().build(inspection)
+        projection = BookDiagnosticsVoiceStatusRetentionDashboardProjector().project(health)
+        widget = BookDiagnosticsVoiceStatusRetentionDashboardWidgetBuilder().build(projection)
+        return BookDiagnosticsVoiceStatusRetentionBundleBuilder().build(
+            inspection=inspection,
+            health=health,
+            dashboard_projection=projection,
+            dashboard_widget=widget,
+        )
 
     def enable(self):
         self.config = self.config.with_updates(enabled=True)
