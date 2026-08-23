@@ -1,16 +1,17 @@
 """
 brain/context_engine.py
 
-Context Engine RC15.7
+Context Engine RC15.8
 
 Integrações contextuais:
 - External Context RC2.4;
 - Market Regime RC3.0;
 - Multi-timeframe RC3.4;
-- Order Flow RC5.1.
+- Order Flow RC5.1;
+- BookDepth RC3.
 
-Regime, multi-timeframe, contexto externo e Order Flow permanecem evidências
-observacionais: não alteram confluences, valid, score ou bias operacional.
+Regime, multi-timeframe, contexto externo, Order Flow e BookDepth permanecem
+evidências observacionais: não alteram confluences, valid, score ou bias operacional.
 """
 
 from ai.engine_base import EngineBase
@@ -21,7 +22,7 @@ from models.market_narrative import MarketNarrative
 class ContextEngine(EngineBase):
 
     NAME = "Context Engine"
-    VERSION = "RC15.7-ORDER-FLOW-STRUCTURE-EVIDENCE"
+    VERSION = "RC15.8-BOOK-DEPTH-EVIDENCE"
     DESCRIPTION = "Consolida o contexto do mercado."
     PRIORITY = 70
     ENABLED = True
@@ -45,6 +46,7 @@ class ContextEngine(EngineBase):
         regime = context.regime
         multi_timeframe = context.multi_timeframe_analysis
         external_market = context.external_market
+        book_depth_analysis = context.book_depth_analysis
 
         if structure.valid:
             checklist.structure = True
@@ -98,6 +100,9 @@ class ContextEngine(EngineBase):
         )
         self._append_order_flow_evidence(
             result, checklist, order_flow, narrative
+        )
+        self._append_book_depth_evidence(
+            result, checklist, book_depth_analysis, narrative
         )
 
         checklist.context = (
@@ -400,4 +405,74 @@ class ContextEngine(EngineBase):
         else:
             narrative.weaknesses.append(
                 "Absorção/exaustão do Order Flow ainda sem estrutura disponível."
+            )
+
+    @staticmethod
+    def _append_book_depth_evidence(
+        result, checklist, book_depth, narrative
+    ) -> None:
+        if not book_depth.valid:
+            checklist.book_depth_status = "UNAVAILABLE"
+            narrative.weaknesses.append("BookDepth ainda não disponível.")
+            return
+
+        checklist.book_depth_ready = True
+        checklist.book_depth_pressure = str(
+            book_depth.pressure or "UNAVAILABLE"
+        ).upper()
+        checklist.book_depth_imbalance = max(
+            -1.0, min(1.0, float(book_depth.imbalance or 0.0))
+        )
+        checklist.book_depth_spread_ratio = max(
+            0.0, float(book_depth.spread_ratio or 0.0)
+        )
+        checklist.book_depth_concentration_bias = str(
+            book_depth.concentration_bias or "BALANCED"
+        ).upper()
+        checklist.book_depth_confidence = min(
+            max(float(book_depth.confidence or 0.0), 0.0), 1.0
+        )
+        checklist.book_depth_duplicate_evidence_risk = bool(
+            book_depth.duplicate_evidence_risk
+        )
+
+        pressure = checklist.book_depth_pressure
+        pressure_direction = (
+            "BUY" if pressure == "BID_DOMINANT"
+            else "SELL" if pressure == "ASK_DOMINANT"
+            else "NONE"
+        )
+
+        if pressure_direction == "NONE":
+            checklist.book_depth_status = "NEUTRAL"
+            narrative.weaknesses.append(
+                "BookDepth apresenta pressão de liquidez equilibrada."
+            )
+            return
+
+        if result.bias == pressure_direction:
+            checklist.book_depth_aligned = True
+            checklist.book_depth_status = "ALIGNED"
+            narrative.strengths.append(
+                "BookDepth confirma a direção do Price Action "
+                f"({checklist.book_depth_confidence:.0%} confiança observacional)."
+            )
+        elif result.bias in ("BUY", "SELL"):
+            checklist.book_depth_conflict = True
+            checklist.book_depth_status = "CONFLICT"
+            narrative.weaknesses.append(
+                "BookDepth conflita com a direção do Price Action "
+                f"({checklist.book_depth_confidence:.0%} confiança observacional)."
+            )
+        else:
+            checklist.book_depth_status = "NO_OPERATIONAL_BIAS"
+            narrative.weaknesses.append(
+                "BookDepth possui pressão direcional, mas o Price Action ainda não "
+                "definiu bias operacional."
+            )
+
+        if checklist.book_depth_duplicate_evidence_risk:
+            narrative.weaknesses.append(
+                "BookDepth e Order Flow apontam na mesma direção; evidências "
+                "correlacionadas não devem ser contadas em duplicidade."
             )
