@@ -1,8 +1,9 @@
 """
-BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56/RC59/RC61/RC62/RC65/RC66/RC68/RC71/RC74/RC77/RC79/RC81/RC84/RC85 - Voice Service Integration.
+BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56/RC59/RC61/RC62/RC65/RC66/RC68/RC71/RC74/RC77/RC79/RC81/RC84/RC85/RC88 - Voice Service Integration.
 
 Expoe a fachada RC38 como servico opcional e as camadas observacionais de voz.
-RC85 adiciona persistencia JSON explicita do envelope de retencao RC83.
+RC85 adiciona persistencia JSON explicita do envelope de retencao RC83 e RC88
+expoe a rotacao separada RC87 do historico do proprio status de retencao.
 Nao altera o nucleo operacional.
 """
 
@@ -38,6 +39,7 @@ from analysis.replay.book_diagnostics_voice_status_retention_bundle import BookD
 from analysis.replay.book_diagnostics_voice_status_retention_dashboard_projection import BookDiagnosticsVoiceStatusRetentionDashboardProjector
 from analysis.replay.book_diagnostics_voice_status_retention_dashboard_widget import BookDiagnosticsVoiceStatusRetentionDashboardWidgetBuilder
 from analysis.replay.book_diagnostics_voice_status_retention_export import BookDiagnosticsVoiceStatusRetentionExporter
+from analysis.replay.book_diagnostics_voice_status_retention_export_rotation import BookDiagnosticsVoiceStatusRetentionExportRotationManager
 from analysis.replay.book_diagnostics_voice_status_retention_file_export import BookDiagnosticsVoiceStatusRetentionFileExporter
 from analysis.replay.book_diagnostics_voice_status_retention_health import BookDiagnosticsVoiceStatusRetentionHealthReporter
 from analysis.replay.book_diagnostics_voice_status_retention_inspection import BookDiagnosticsVoiceStatusRetentionInspector
@@ -182,6 +184,29 @@ class BookDiagnosticsVoiceService:
             generated_at=generated_at,
         )
         return BookDiagnosticsVoiceStatusRetentionFileExporter().write(status_export, destination)
+
+    def export_retention_status_rotated(
+        self,
+        source_directory,
+        export_directory,
+        *,
+        source_keep: int = 20,
+        source_prefix: str = "voice_status",
+        export_keep: int = 20,
+        export_prefix: str = "voice_retention_status",
+        generated_at=None,
+    ):
+        """Expoe RC87 sem duplicar politica de rotacao e sem iniciar audio."""
+        return BookDiagnosticsVoiceStatusRetentionExportRotationManager().export_and_rotate(
+            voice_service=self,
+            source_directory=source_directory,
+            export_directory=export_directory,
+            source_keep=source_keep,
+            source_prefix=source_prefix,
+            export_keep=export_keep,
+            export_prefix=export_prefix,
+            generated_at=generated_at,
+        )
 
     def enable(self):
         self.config = self.config.with_updates(enabled=True)
