@@ -1,12 +1,12 @@
 """
-BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55 - Voice Service Integration.
+BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56 - Voice Service Integration.
 
 Expoe a fachada RC38 como servico opcional, usa RC40 como configuracao,
 RC41 para resolver o backend, RC42 para aplicar idioma, perfil, velocidade,
 RC46 para diagnosticos seguros, RC47 para teste real de audio somente por
 chamada explicita, RC50 para expor a trava RC49 no servico, RC54 para
-expor o orquestrador RC53 e RC55 para um snapshot consolidado de status.
-Nao altera o nucleo operacional.
+expor o orquestrador RC53, RC55 para um snapshot consolidado de status e
+RC56 para um relatorio textual de saude. Nao altera o nucleo operacional.
 """
 
 from __future__ import annotations
@@ -24,6 +24,7 @@ from analysis.replay.book_diagnostics_voice_audio_test import BookDiagnosticsCon
 from analysis.replay.book_diagnostics_voice_config import VoiceConfig, validate_voice_config
 from analysis.replay.book_diagnostics_voice_diagnostics import BookDiagnosticsVoiceDiagnostics
 from analysis.replay.book_diagnostics_voice_event import BookDiagnosticsVoiceEventFactory
+from analysis.replay.book_diagnostics_voice_health_report import BookDiagnosticsVoiceHealthReporter
 from analysis.replay.book_diagnostics_voice_integration_status import BookDiagnosticsVoiceIntegrationStatus
 from analysis.replay.book_diagnostics_voice_orchestrator import BookDiagnosticsVoiceOrchestrator
 from analysis.replay.book_diagnostics_voice_profile_resolver import BookDiagnosticsVoiceProfileResolver
@@ -93,6 +94,10 @@ class BookDiagnosticsVoiceService:
     def integration_status(self):
         """Retorna RC55 sem iniciar voz nem forcar criacao do orquestrador."""
         return BookDiagnosticsVoiceIntegrationStatus(voice_service=self).snapshot()
+
+    def health_report(self):
+        """Retorna RC56 derivado exclusivamente do snapshot RC55."""
+        return BookDiagnosticsVoiceHealthReporter().build(self.integration_status())
 
     def enable(self):
         self.config = self.config.with_updates(enabled=True)
