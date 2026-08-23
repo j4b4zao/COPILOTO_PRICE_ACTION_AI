@@ -1,5 +1,5 @@
 """
-BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56/RC59/RC61/RC62 - Voice Service Integration.
+BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56/RC59/RC61/RC62/RC65 - Voice Service Integration.
 
 Expoe a fachada RC38 como servico opcional, usa RC40 como configuracao,
 RC41 para resolver o backend, RC42 para aplicar idioma, perfil, velocidade,
@@ -7,8 +7,8 @@ RC46 para diagnosticos seguros, RC47 para teste real de audio somente por
 chamada explicita, RC50 para expor a trava RC49 no servico, RC54 para
 expor o orquestrador RC53, RC55 para um snapshot consolidado de status,
 RC56 para um relatorio textual de saude, RC59 para expor a projecao RC58,
-RC61 para expor o widget visual RC60 e RC62 para agrupar os contratos de
-status em um unico bundle readonly. Nao altera o nucleo operacional.
+RC61 para expor o widget visual RC60, RC62 para agrupar os contratos de
+status e RC65 para expor o envelope RC64. Nao altera o nucleo operacional.
 """
 
 from __future__ import annotations
@@ -40,6 +40,7 @@ from analysis.replay.book_diagnostics_voice_queue import BookDiagnosticsVoiceQue
 from analysis.replay.book_diagnostics_voice_readiness_gate import BookDiagnosticsVoiceReadinessGate
 from analysis.replay.book_diagnostics_voice_runtime_facade import BookDiagnosticsVoiceRuntimeFacade
 from analysis.replay.book_diagnostics_voice_status_bundle import BookDiagnosticsVoiceStatusBundleBuilder
+from analysis.replay.book_diagnostics_voice_status_export import BookDiagnosticsVoiceStatusExporter
 
 
 @dataclass(slots=True, frozen=True)
@@ -120,6 +121,13 @@ class BookDiagnosticsVoiceService:
             health_report=health,
             dashboard_projection=projection,
             dashboard_widget=widget,
+        )
+
+    def status_export(self, *, generated_at=None):
+        """Retorna RC64 versionado sem escrever em disco nem iniciar audio."""
+        return BookDiagnosticsVoiceStatusExporter().export(
+            self.status_bundle(),
+            generated_at=generated_at,
         )
 
     def enable(self):
