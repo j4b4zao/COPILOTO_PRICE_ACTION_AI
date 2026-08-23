@@ -3,7 +3,7 @@ analysis/market_regime.py
 
 Classificação do regime atual do mercado.
 
-RC2.9 - TRANSITION STATE
+RC3.0 - TRANSITION CONFIRMATION
 
 Responsabilidades:
 - usar somente candles fechados;
@@ -11,6 +11,7 @@ Responsabilidades:
 - classificar volatilidade relativa como alta, normal ou baixa;
 - medir o espectro entre tendência e range;
 - distinguir range persistente de mudança de regime;
+- exigir confirmação mínima antes de trocar um regime estável;
 - registrar força, confiança e motivo;
 - não tomar decisão operacional.
 """
@@ -22,7 +23,7 @@ from enums.trend import Trend
 class MarketRegime(EngineBase):
 
     NAME = "MarketRegime"
-    VERSION = "RC2.9-TRANSITION-STATE"
+    VERSION = "RC3.0-TRANSITION-CONFIRMATION"
     ENABLED = True
     PRIORITY = 10
 
@@ -40,6 +41,13 @@ class MarketRegime(EngineBase):
     TRANSITION_SPECTRUM_MIN = 0.40
     TRANSITION_SPECTRUM_MAX = 0.60
 
+    CHANGE_CONFIRMATIONS_REQUIRED = 2
+
+    def __init__(self):
+        self._confirmed_regime = None
+        self._pending_regime = None
+        self._pending_count = 0
+
     def executar(self, context):
         market = context.market
         result = context.regime
@@ -50,7 +58,6 @@ class MarketRegime(EngineBase):
 
         candles = market.candles.all()
 
-        # O último candle está em formação e não participa da classificação.
         if len(candles) < self.MIN_CLOSED_CANDLES + 1:
             result.skip()
             result.add_reason(
@@ -63,9 +70,85 @@ class MarketRegime(EngineBase):
         self._classify_volatility(recent_closed, result)
         self._classify_spectrum(recent_closed, result)
         self._classify_regime(result)
+        self._confirm_regime_change(result)
 
         result.validate()
         return context
+
+    def _confirm_regime_change(self, result) -> None:
+        raw_regime = result.regime
+
+        result.previous_regime = self._confirmed_regime or "UNKNOWN"
+        result.pending_regime = "UNKNOWN"
+        result.confirmation_count = 0
+        result.regime_changed = False
+
+        # Primeira leitura estável estabelece a linha de base.
+        if self._confirmed_regime is None:
+            if raw_regime != "TRANSITION":
+                self._confirmed_regime = raw_regime
+                self._pending_regime = None
+                self._pending_count = 0
+                result.previous_regime = raw_regime
+                result.add_reason(
+                    f"Regime inicial confirmado como {raw_regime}."
+                )
+            return
+
+        # TRANSITION puro não substitui o último regime confirmado.
+        if raw_regime == "TRANSITION":
+            self._pending_regime = None
+            self._pending_count = 0
+            result.previous_regime = self._confirmed_regime
+            result.add_reason(
+                f"Transição observada; último regime confirmado permanece "
+                f"{self._confirmed_regime}."
+            )
+            return
+
+        # Regime atual segue igual ao confirmado: nenhuma mudança pendente.
+        if raw_regime == self._confirmed_regime:
+            self._pending_regime = None
+            self._pending_count = 0
+            result.previous_regime = self._confirmed_regime
+            return
+
+        # Novo candidato precisa aparecer em ciclos consecutivos.
+        if self._pending_regime == raw_regime:
+            self._pending_count += 1
+        else:
+            self._pending_regime = raw_regime
+            self._pending_count = 1
+
+        result.pending_regime = raw_regime
+        result.confirmation_count = self._pending_count
+        result.previous_regime = self._confirmed_regime
+
+        if self._pending_count < self.CHANGE_CONFIRMATIONS_REQUIRED:
+            result.regime = "TRANSITION"
+            result.trend = Trend.SIDEWAYS
+            result.regime_changed = False
+            result.strength = min(result.strength, 0.60)
+            result.confidence = min(result.confidence, 0.65)
+            result.add_reason(
+                "Mudança de regime aguardando confirmação: "
+                f"{self._confirmed_regime} -> {raw_regime} "
+                f"({self._pending_count}/{self.CHANGE_CONFIRMATIONS_REQUIRED})."
+            )
+            return
+
+        previous = self._confirmed_regime
+        self._confirmed_regime = raw_regime
+        self._pending_regime = None
+        self._pending_count = 0
+
+        result.previous_regime = previous
+        result.pending_regime = "UNKNOWN"
+        result.confirmation_count = self.CHANGE_CONFIRMATIONS_REQUIRED
+        result.regime_changed = True
+        result.add_reason(
+            f"Mudança de regime confirmada: {previous} -> {raw_regime}."
+        )
 
     @classmethod
     def _classify_regime(cls, result) -> None:
@@ -188,7 +271,6 @@ class MarketRegime(EngineBase):
 
     @classmethod
     def _classify_spectrum(cls, closed_candles, result) -> None:
-        """Mede direção persistente e sobreposição entre barras fechadas."""
         up_steps = 0
         down_steps = 0
         transition_steps = 0
@@ -248,7 +330,6 @@ class MarketRegime(EngineBase):
 
     @classmethod
     def _classify_volatility(cls, closed_candles, result) -> None:
-        """Compara amplitude recente com referência sem limites absolutos."""
         reference_candles = closed_candles[:cls.REFERENCE_CANDLES]
         recent_candles = closed_candles[-cls.RECENT_CANDLES:]
 
