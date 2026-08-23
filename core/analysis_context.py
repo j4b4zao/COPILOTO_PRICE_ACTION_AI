@@ -11,10 +11,9 @@ from core.market_state import MarketState
 from core.multi_timeframe_state import MultiTimeframeState
 from core.order_flow_state import OrderFlowState
 
-from external_context.external_market_state import (
-    ExternalMarketState,
-)
+from external_context.external_market_state import ExternalMarketState
 
+from models.book_depth import BookDepthSnapshot
 from models.structure_result import StructureResult
 from models.regime_result import RegimeResult
 from models.multi_timeframe_result import MultiTimeframeResult
@@ -23,329 +22,119 @@ from models.volume_result import VolumeResult
 from models.order_flow_result import OrderFlowResult
 from models.price_action_result import PriceActionResult
 from models.book_diagnostics_result import BookDiagnosticsResult
-
 from models.context_result import ContextResult
 from models.evidence_result import EvidenceResult
-
 from models.imbalance_result import ImbalanceResult
 from models.order_block_result import OrderBlockResult
 from models.fair_value_gap_result import FairValueGapResult
 from models.liquidity_pool_result import LiquidityPoolResult
-
 from models.strategy_result import StrategyResult
 from models.score_result import ScoreResult
 from models.risk_result import RiskResult
 from models.decision_result import DecisionResult
 from models.alert_result import AlertResult
-
 from models.trade_checklist import TradeChecklist
 from models.market_narrative import MarketNarrative
 
 
 @dataclass(slots=True)
 class AnalysisContext:
-    """
-    Contexto compartilhado por todas as engines.
+    """Contexto compartilhado por todas as engines."""
 
-    Cada engine escreve apenas no seu próprio Result.
-    As demais engines apenas consultam esses resultados.
-    """
-
-    # ==========================================================
-    # ESTADO DO MERCADO
-    # ==========================================================
-
-    market: MarketState = field(
-        default_factory=MarketState
-    )
-
+    market: MarketState = field(default_factory=MarketState)
     multi_timeframe: MultiTimeframeState | None = None
+    multi_timeframe_analysis: MultiTimeframeResult = field(default_factory=MultiTimeframeResult)
 
-    multi_timeframe_analysis: MultiTimeframeResult = field(
-        default_factory=MultiTimeframeResult
-    )
+    external_market: ExternalMarketState = field(default_factory=ExternalMarketState)
+    book_depth: BookDepthSnapshot = field(default_factory=BookDepthSnapshot.unavailable)
 
-    # ==========================================================
-    # MERCADO EXTERNO
-    # ==========================================================
-
-    external_market: ExternalMarketState = field(
-        default_factory=ExternalMarketState
-    )
-
-    # ==========================================================
-    # PRICE ACTION
-    # ==========================================================
-
-    regime: RegimeResult = field(
-        default_factory=RegimeResult
-    )
-
-    structure: StructureResult = field(
-        default_factory=StructureResult
-    )
-
-    liquidity: LiquidityResult = field(
-        default_factory=LiquidityResult
-    )
-
-    volume: VolumeResult = field(
-        default_factory=VolumeResult
-    )
-
+    regime: RegimeResult = field(default_factory=RegimeResult)
+    structure: StructureResult = field(default_factory=StructureResult)
+    liquidity: LiquidityResult = field(default_factory=LiquidityResult)
+    volume: VolumeResult = field(default_factory=VolumeResult)
     order_flow_state: OrderFlowState | None = None
+    order_flow: OrderFlowResult = field(default_factory=OrderFlowResult)
+    price_action: PriceActionResult = field(default_factory=PriceActionResult)
 
-    order_flow: OrderFlowResult = field(
-        default_factory=OrderFlowResult
-    )
+    book_diagnostics: BookDiagnosticsResult = field(default_factory=BookDiagnosticsResult)
+    evidence: EvidenceResult = field(default_factory=EvidenceResult)
 
-    price_action: PriceActionResult = field(
-        default_factory=PriceActionResult
-    )
+    imbalance: ImbalanceResult = field(default_factory=ImbalanceResult)
+    order_block: OrderBlockResult = field(default_factory=OrderBlockResult)
+    fair_value_gap: FairValueGapResult = field(default_factory=FairValueGapResult)
+    liquidity_pool: LiquidityPoolResult = field(default_factory=LiquidityPoolResult)
 
-    # ==========================================================
-    # DIAGNÓSTICOS DOS LIVROS - OBSERVACIONAL
-    # ==========================================================
-
-    book_diagnostics: BookDiagnosticsResult = field(
-        default_factory=BookDiagnosticsResult
-    )
-
-    # ==========================================================
-    # EVIDÊNCIAS
-    # ==========================================================
-
-    evidence: EvidenceResult = field(
-        default_factory=EvidenceResult
-    )
-
-    # ==========================================================
-    # SMART MONEY
-    # ==========================================================
-
-    imbalance: ImbalanceResult = field(
-        default_factory=ImbalanceResult
-    )
-
-    order_block: OrderBlockResult = field(
-        default_factory=OrderBlockResult
-    )
-
-    fair_value_gap: FairValueGapResult = field(
-        default_factory=FairValueGapResult
-    )
-
-    liquidity_pool: LiquidityPoolResult = field(
-        default_factory=LiquidityPoolResult
-    )
-
-    # ==========================================================
-    # CONTEXTO
-    # ==========================================================
-
-    context: ContextResult = field(
-        default_factory=ContextResult
-    )
-
-    # ==========================================================
-    # ESTRATÉGIA
-    # ==========================================================
-
-    strategy: StrategyResult = field(
-        default_factory=StrategyResult
-    )
-
-    # ==========================================================
-    # SCORE
-    # ==========================================================
-
-    score: ScoreResult = field(
-        default_factory=ScoreResult
-    )
-
-    # ==========================================================
-    # RISCO
-    # ==========================================================
-
-    risk: RiskResult = field(
-        default_factory=RiskResult
-    )
-
-    # ==========================================================
-    # DECISÃO
-    # ==========================================================
-
-    decision: DecisionResult = field(
-        default_factory=DecisionResult
-    )
-
-    # ==========================================================
-    # ALERTA
-    # ==========================================================
-
-    alert: AlertResult = field(
-        default_factory=AlertResult
-    )
-
-    # ==========================================================
-    # CHECKLIST
-    # ==========================================================
-
-    checklist: TradeChecklist = field(
-        default_factory=TradeChecklist
-    )
-
-    # ==========================================================
-    # NARRATIVA
-    # ==========================================================
-
-    narrative: MarketNarrative = field(
-        default_factory=MarketNarrative
-    )
-
-    # ==========================================================
-    # PONTE DE CONTEXTO EXTERNO - SOMENTE LEITURA
-    # ==========================================================
+    context: ContextResult = field(default_factory=ContextResult)
+    strategy: StrategyResult = field(default_factory=StrategyResult)
+    score: ScoreResult = field(default_factory=ScoreResult)
+    risk: RiskResult = field(default_factory=RiskResult)
+    decision: DecisionResult = field(default_factory=DecisionResult)
+    alert: AlertResult = field(default_factory=AlertResult)
+    checklist: TradeChecklist = field(default_factory=TradeChecklist)
+    narrative: MarketNarrative = field(default_factory=MarketNarrative)
 
     @property
     def external_valid(self) -> bool:
-        """Indica se o snapshot externo atual é confiável para leitura."""
         return bool(self.external_market.valid)
 
     @property
     def external_risk(self) -> str:
-        """Expõe RISK_ON/RISK_OFF/NEUTRAL sem duplicar estado."""
         return str(self.external_market.risk_on_off or "NEUTRAL")
 
     @property
     def external_bias(self) -> str:
-        """Expõe BULLISH/BEARISH/NEUTRAL como contexto observacional."""
         return str(self.external_market.global_bias or "NEUTRAL")
 
     @property
     def external_confidence(self) -> float:
-        """Confiança do contexto externo; snapshots inválidos valem zero."""
         if not self.external_market.valid:
             return 0.0
         return float(self.external_market.confidence or 0.0)
 
-    # ==========================================================
-    # LIMPAR RESULTADOS
-    # ==========================================================
+    @property
+    def book_available(self) -> bool:
+        return bool(self.book_depth.available)
+
+    @property
+    def book_imbalance(self) -> float:
+        return float(self.book_depth.imbalance if self.book_depth.available else 0.0)
+
+    @property
+    def book_liquidity_pressure(self) -> str:
+        if not self.book_depth.available:
+            return "UNAVAILABLE"
+        return self.book_depth.liquidity_pressure
 
     def clear_results(self) -> None:
-        """
-        Limpa todos os resultados da pipeline,
-        preservando os estados de mercado e externo.
-        """
-
-        # ------------------------------------------------------
-        # PRICE ACTION
-        # ------------------------------------------------------
-
+        """Limpa resultados, preservando estados de mercado, externo e Book."""
         self.regime.clear()
-
         self.multi_timeframe_analysis.clear()
-
         self.structure.clear()
-
         self.liquidity.clear()
-
         self.volume.clear()
-
         self.order_flow.clear()
-
         self.price_action.clear()
-
-        # ------------------------------------------------------
-        # DIAGNÓSTICOS DOS LIVROS
-        # ------------------------------------------------------
-
         self.book_diagnostics.clear()
-
-        # ------------------------------------------------------
-        # EVIDÊNCIAS
-        # ------------------------------------------------------
-
         self.evidence.clear()
-
-        # ------------------------------------------------------
-        # SMART MONEY
-        # ------------------------------------------------------
-
         self.imbalance.clear()
-
         self.order_block.clear()
-
         self.fair_value_gap.clear()
-
         self.liquidity_pool.clear()
-
-        # ------------------------------------------------------
-        # CONTEXTO
-        # ------------------------------------------------------
-
         self.context.clear()
-
-        # ------------------------------------------------------
-        # ESTRATÉGIA
-        # ------------------------------------------------------
-
         self.strategy.clear()
-
-        # ------------------------------------------------------
-        # SCORE
-        # ------------------------------------------------------
-
         self.score.clear()
-
-        # ------------------------------------------------------
-        # RISCO
-        # ------------------------------------------------------
-
         self.risk.clear()
-
-        # ------------------------------------------------------
-        # DECISÃO
-        # ------------------------------------------------------
-
         self.decision.clear()
-
-        # ------------------------------------------------------
-        # ALERTA
-        # ------------------------------------------------------
-
         self.alert.clear()
-
-        # ------------------------------------------------------
-        # CHECKLIST
-        # ------------------------------------------------------
-
         self.checklist.clear()
 
-        # ------------------------------------------------------
-        # NARRATIVA
-        # ------------------------------------------------------
-
-    # ==========================================================
-    # RESET COMPLETO
-    # ==========================================================
-
     def reset(self) -> None:
-        """
-        Reinicia completamente o contexto.
-        """
-
+        """Reinicia completamente o contexto."""
         self.market.clear()
-
         if self.multi_timeframe is not None:
-
             self.multi_timeframe.clear()
-
         if self.order_flow_state is not None:
-
             self.order_flow_state.clear()
-
         self.external_market.clear()
-
+        self.book_depth = BookDepthSnapshot.unavailable()
         self.clear_results()
