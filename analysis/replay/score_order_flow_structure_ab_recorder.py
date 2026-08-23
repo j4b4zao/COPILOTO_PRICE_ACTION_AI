@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import csv
+import json
 from collections import defaultdict
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, fields
+from pathlib import Path
 
 from ai.score_engine_rc13_2 import ScoreEngine as ScoreEngineRC13_2
 
@@ -30,11 +33,24 @@ class ScoreOrderFlowStructureABSample:
     def to_dict(self) -> dict:
         return asdict(self)
 
+    @classmethod
+    def from_dict(cls, payload: dict) -> "ScoreOrderFlowStructureABSample":
+        if not isinstance(payload, dict):
+            raise TypeError("Amostra A/B estrutural deve ser um dicionário.")
+        allowed = {field.name for field in fields(cls)}
+        unknown = set(payload) - allowed
+        if unknown:
+            raise ValueError(
+                "Campos desconhecidos na amostra A/B estrutural: "
+                + ", ".join(sorted(unknown))
+            )
+        return cls(**payload)
+
 
 class ScoreOrderFlowStructureABRecorder:
     """Mede efeito hipotético do padrão estrutural sem alterar o ciclo oficial."""
 
-    VERSION = "RC2-ORDER-FLOW-STRUCTURE-SCORE-AB-SCENARIOS"
+    VERSION = "RC3-ORDER-FLOW-STRUCTURE-SCORE-AB-PERSISTENCE"
     MAX_WEIGHT = 1.5
     CONFLICT_FACTOR = 0.75
     NEUTRAL_FACTOR = 0.25
@@ -51,8 +67,18 @@ class ScoreOrderFlowStructureABRecorder:
     def samples(self) -> tuple[ScoreOrderFlowStructureABSample, ...]:
         return tuple(self._samples)
 
+    @property
+    def size(self) -> int:
+        return len(self._samples)
+
     def clear(self) -> None:
         self._samples.clear()
+
+    def add_sample(self, sample: ScoreOrderFlowStructureABSample) -> None:
+        if not isinstance(sample, ScoreOrderFlowStructureABSample):
+            raise TypeError("Amostra A/B estrutural inválida.")
+        self._samples.append(sample)
+        self._trim()
 
     def record(self, context) -> ScoreOrderFlowStructureABSample:
         score = context.score
@@ -104,11 +130,7 @@ class ScoreOrderFlowStructureABRecorder:
             adjustment=round(adjustment, 2),
             passive_only=True,
         )
-
-        self._samples.append(sample)
-        overflow = len(self._samples) - self.max_samples
-        if overflow > 0:
-            del self._samples[:overflow]
+        self.add_sample(sample)
         return sample
 
     def summary(self) -> dict:
@@ -156,6 +178,60 @@ class ScoreOrderFlowStructureABRecorder:
             **self._metrics(selected),
             "weight": self.weight,
         }
+
+    def export_jsonl(self, path) -> Path:
+        target = self._prepare_path(path, ".jsonl")
+        with target.open("w", encoding="utf-8") as handle:
+            for sample in self._samples:
+                handle.write(json.dumps(sample.to_dict(), ensure_ascii=False) + "\n")
+        return target
+
+    def export_csv(self, path) -> Path:
+        target = self._prepare_path(path, ".csv")
+        fieldnames = [field.name for field in fields(ScoreOrderFlowStructureABSample)]
+        with target.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fieldnames)
+            writer.writeheader()
+            for sample in self._samples:
+                writer.writerow(sample.to_dict())
+        return target
+
+    def export_metrics_json(self, path) -> Path:
+        target = self._prepare_path(path, ".json")
+        payload = {
+            "summary": self.summary(),
+            "scenarios": self.scenario_summary(),
+        }
+        with target.open("w", encoding="utf-8") as handle:
+            json.dump(payload, handle, ensure_ascii=False, indent=2)
+        return target
+
+    def load_jsonl(self, path, *, clear: bool = True) -> int:
+        source = Path(path)
+        if source.suffix.lower() != ".jsonl":
+            raise ValueError("Arquivo A/B estrutural deve usar extensão .jsonl.")
+        if not source.exists():
+            raise FileNotFoundError(source)
+
+        loaded: list[ScoreOrderFlowStructureABSample] = []
+        with source.open("r", encoding="utf-8") as handle:
+            for line_number, raw_line in enumerate(handle, start=1):
+                line = raw_line.strip()
+                if not line:
+                    continue
+                try:
+                    payload = json.loads(line)
+                    loaded.append(ScoreOrderFlowStructureABSample.from_dict(payload))
+                except (json.JSONDecodeError, TypeError, ValueError) as exc:
+                    raise ValueError(
+                        f"JSONL A/B estrutural inválido na linha {line_number}."
+                    ) from exc
+
+        if clear:
+            self.clear()
+        for sample in loaded:
+            self.add_sample(sample)
+        return len(loaded)
 
     def _group_by(self, field: str) -> dict:
         grouped = defaultdict(list)
@@ -225,6 +301,19 @@ class ScoreOrderFlowStructureABRecorder:
         except (TypeError, ValueError):
             return 0.0
         return round(min(max(value, 0.0), 1.0), 4)
+
+    def _trim(self) -> None:
+        overflow = len(self._samples) - self.max_samples
+        if overflow > 0:
+            del self._samples[:overflow]
+
+    @staticmethod
+    def _prepare_path(path, extension: str) -> Path:
+        target = Path(path)
+        if target.suffix.lower() != extension:
+            raise ValueError(f"Arquivo deve usar extensão {extension}.")
+        target.parent.mkdir(parents=True, exist_ok=True)
+        return target
 
     @staticmethod
     def _grade(total: float) -> str:
