@@ -1,7 +1,7 @@
 """
 analysis/replay/score_order_flow_ab_recorder.py
 
-Order Flow Score A/B RC1 - validação estritamente observacional.
+Order Flow Score A/B RC2 - métricas por cenário.
 
 Compara o score oficial já calculado pela pipeline com um score hipotético
 ajustado pela dinâmica de Delta do Order Flow. Não reexecuta ScoreEngine e
@@ -10,6 +10,7 @@ não escreve em Strategy, Score, Risk ou Decision.
 
 from __future__ import annotations
 
+from collections import defaultdict
 from dataclasses import asdict, dataclass
 
 from ai.score_engine_rc13_2 import ScoreEngine as ScoreEngineRC13_2
@@ -35,6 +36,7 @@ class ScoreOrderFlowABSample:
     delta_persistence: float = 0.0
     delta_impulse_ratio: float = 0.0
     evidence_strength: float = 0.0
+    strength_bucket: str = "LOW"
     adjustment: float = 0.0
 
     passive_only: bool = True
@@ -46,7 +48,7 @@ class ScoreOrderFlowABSample:
 class ScoreOrderFlowABRecorder:
     """Recorder passivo do efeito hipotético da dinâmica de Order Flow."""
 
-    VERSION = "RC1-ORDER-FLOW-SCORE-AB"
+    VERSION = "RC2-ORDER-FLOW-SCORE-AB-SCENARIOS"
     MAX_WEIGHT = 2.0
     FADING_FACTOR = 0.25
 
@@ -121,6 +123,7 @@ class ScoreOrderFlowABRecorder:
             delta_persistence=persistence,
             delta_impulse_ratio=impulse,
             evidence_strength=evidence_strength,
+            strength_bucket=self._strength_bucket(evidence_strength),
             adjustment=round(adjustment, 2),
             passive_only=True,
         )
@@ -132,25 +135,89 @@ class ScoreOrderFlowABRecorder:
         return sample
 
     def summary(self) -> dict:
-        total = len(self._samples)
-        positive = sum(sample.delta > 0 for sample in self._samples)
-        negative = sum(sample.delta < 0 for sample in self._samples)
+        return {
+            "version": self.VERSION,
+            **self._metrics(self._samples),
+            "weight": self.weight,
+        }
+
+    def scenario_summary(self) -> dict:
+        return {
+            "version": self.VERSION,
+            "samples": len(self._samples),
+            "weight": self.weight,
+            "by_status": self._group_by("order_flow_status"),
+            "by_momentum": self._group_by("flow_momentum"),
+            "by_bias": self._group_by("bias"),
+            "by_strength": self._group_by("strength_bucket"),
+        }
+
+    def scenario(self, *, status=None, momentum=None, bias=None, strength=None) -> dict:
+        selected = self._samples
+        filters = {}
+
+        if status is not None:
+            value = str(status).upper()
+            filters["order_flow_status"] = value
+            selected = [s for s in selected if s.order_flow_status == value]
+
+        if momentum is not None:
+            value = str(momentum).upper()
+            filters["flow_momentum"] = value
+            selected = [s for s in selected if s.flow_momentum == value]
+
+        if bias is not None:
+            value = str(bias).upper()
+            filters["bias"] = value
+            selected = [s for s in selected if s.bias == value]
+
+        if strength is not None:
+            value = str(strength).upper()
+            filters["strength_bucket"] = value
+            selected = [s for s in selected if s.strength_bucket == value]
+
+        return {
+            "version": self.VERSION,
+            "filters": filters,
+            **self._metrics(selected),
+            "weight": self.weight,
+        }
+
+    def _group_by(self, field: str) -> dict:
+        grouped = defaultdict(list)
+        for sample in self._samples:
+            grouped[getattr(sample, field)].append(sample)
+        return {
+            key: self._metrics(values)
+            for key, values in sorted(grouped.items())
+        }
+
+    @staticmethod
+    def _metrics(samples) -> dict:
+        samples = list(samples)
+        total = len(samples)
+        positive = sum(sample.delta > 0 for sample in samples)
+        negative = sum(sample.delta < 0 for sample in samples)
         neutral = total - positive - negative
         average_delta = (
-            round(sum(sample.delta for sample in self._samples) / total, 4)
+            round(sum(sample.delta for sample in samples) / total, 4)
+            if total
+            else 0.0
+        )
+        average_strength = (
+            round(sum(sample.evidence_strength for sample in samples) / total, 4)
             if total
             else 0.0
         )
         return {
-            "version": self.VERSION,
             "samples": total,
             "positive_adjustments": positive,
             "negative_adjustments": negative,
             "neutral_adjustments": neutral,
-            "grade_changes": sum(sample.grade_changed for sample in self._samples),
-            "validity_changes": sum(sample.validity_changed for sample in self._samples),
+            "grade_changes": sum(sample.grade_changed for sample in samples),
+            "validity_changes": sum(sample.validity_changed for sample in samples),
             "average_delta": average_delta,
-            "weight": self.weight,
+            "average_strength": average_strength,
         }
 
     @classmethod
@@ -162,6 +229,14 @@ class ScoreOrderFlowABRecorder:
         if status == "FADING":
             return -(weight * cls.FADING_FACTOR * strength)
         return 0.0
+
+    @staticmethod
+    def _strength_bucket(value: float) -> str:
+        if value < 0.40:
+            return "LOW"
+        if value < 0.70:
+            return "MEDIUM"
+        return "HIGH"
 
     @staticmethod
     def _clamp(value) -> float:
