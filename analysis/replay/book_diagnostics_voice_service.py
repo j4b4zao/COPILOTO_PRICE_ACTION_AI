@@ -1,18 +1,8 @@
 """
-BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56/RC59/RC61/RC62/RC65/RC66/RC68/RC71/RC74/RC77/RC79/RC81/RC84 - Voice Service Integration.
+BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56/RC59/RC61/RC62/RC65/RC66/RC68/RC71/RC74/RC77/RC79/RC81/RC84/RC85 - Voice Service Integration.
 
-Expoe a fachada RC38 como servico opcional, usa RC40 como configuracao,
-RC41 para resolver o backend, RC42 para aplicar idioma, perfil, velocidade,
-RC46 para diagnosticos seguros, RC47 para teste real de audio somente por
-chamada explicita, RC50 para expor a trava RC49 no servico, RC54 para
-expor o orquestrador RC53, RC55 para um snapshot consolidado de status,
-RC56 para um relatorio textual de saude, RC59 para expor a projecao RC58,
-RC61 para expor o widget visual RC60, RC62 para agrupar os contratos de
-status, RC65 para expor o envelope RC64, RC66 para persistencia JSON
-explicita, RC68 para rotacao/retencao controlada, RC71 para inspecao
-readonly da retencao RC70, RC74 para expor o resumo RC73, RC77 para
-expor a projecao visual RC76, RC79 para expor o widget RC78, RC81 para
-expor o bundle RC80 e RC84 para expor o envelope RC83.
+Expoe a fachada RC38 como servico opcional e as camadas observacionais de voz.
+RC85 adiciona persistencia JSON explicita do envelope de retencao RC83.
 Nao altera o nucleo operacional.
 """
 
@@ -48,6 +38,7 @@ from analysis.replay.book_diagnostics_voice_status_retention_bundle import BookD
 from analysis.replay.book_diagnostics_voice_status_retention_dashboard_projection import BookDiagnosticsVoiceStatusRetentionDashboardProjector
 from analysis.replay.book_diagnostics_voice_status_retention_dashboard_widget import BookDiagnosticsVoiceStatusRetentionDashboardWidgetBuilder
 from analysis.replay.book_diagnostics_voice_status_retention_export import BookDiagnosticsVoiceStatusRetentionExporter
+from analysis.replay.book_diagnostics_voice_status_retention_file_export import BookDiagnosticsVoiceStatusRetentionFileExporter
 from analysis.replay.book_diagnostics_voice_status_retention_health import BookDiagnosticsVoiceStatusRetentionHealthReporter
 from analysis.replay.book_diagnostics_voice_status_retention_inspection import BookDiagnosticsVoiceStatusRetentionInspector
 
@@ -148,7 +139,6 @@ class BookDiagnosticsVoiceService:
         )
 
     def inspect_status_retention(self, directory, *, keep: int = 20, prefix: str = "voice_status"):
-        """Consulta RC70 sem criar diretorio, gravar snapshot ou remover arquivo."""
         return BookDiagnosticsVoiceStatusRetentionInspector().inspect(
             directory=directory,
             keep=keep,
@@ -156,22 +146,18 @@ class BookDiagnosticsVoiceService:
         )
 
     def retention_health(self, directory, *, keep: int = 20, prefix: str = "voice_status"):
-        """Resume RC70 via RC73 sem criar, gravar ou remover arquivos."""
         inspection = self.inspect_status_retention(directory, keep=keep, prefix=prefix)
         return BookDiagnosticsVoiceStatusRetentionHealthReporter().build(inspection)
 
     def retention_dashboard_projection(self, directory, *, keep: int = 20, prefix: str = "voice_status"):
-        """Projeta RC73 via RC76 sem criar, gravar ou remover arquivos."""
         health = self.retention_health(directory, keep=keep, prefix=prefix)
         return BookDiagnosticsVoiceStatusRetentionDashboardProjector().project(health)
 
     def retention_dashboard_widget(self, directory, *, keep: int = 20, prefix: str = "voice_status"):
-        """Constroi RC78 a partir da projecao RC76, sem mutacao nem audio."""
         projection = self.retention_dashboard_projection(directory, keep=keep, prefix=prefix)
         return BookDiagnosticsVoiceStatusRetentionDashboardWidgetBuilder().build(projection)
 
     def retention_status_bundle(self, directory, *, keep: int = 20, prefix: str = "voice_status"):
-        """Agrupa RC70/RC73/RC76/RC78 via RC80 em uma fotografia readonly unica."""
         inspection = self.inspect_status_retention(directory, keep=keep, prefix=prefix)
         health = BookDiagnosticsVoiceStatusRetentionHealthReporter().build(inspection)
         projection = BookDiagnosticsVoiceStatusRetentionDashboardProjector().project(health)
@@ -184,9 +170,18 @@ class BookDiagnosticsVoiceService:
         )
 
     def retention_status_export(self, directory, *, keep: int = 20, prefix: str = "voice_status", generated_at=None):
-        """Empacota o bundle RC80 via RC83 sem escrever em disco nem iniciar audio."""
         bundle = self.retention_status_bundle(directory, keep=keep, prefix=prefix)
         return BookDiagnosticsVoiceStatusRetentionExporter().export(bundle, generated_at=generated_at)
+
+    def export_retention_status_file(self, directory, destination, *, keep: int = 20, prefix: str = "voice_status", generated_at=None):
+        """Persiste explicitamente RC83 via RC85; nenhuma exportacao automatica."""
+        status_export = self.retention_status_export(
+            directory,
+            keep=keep,
+            prefix=prefix,
+            generated_at=generated_at,
+        )
+        return BookDiagnosticsVoiceStatusRetentionFileExporter().write(status_export, destination)
 
     def enable(self):
         self.config = self.config.with_updates(enabled=True)
