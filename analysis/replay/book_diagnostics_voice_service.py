@@ -1,5 +1,5 @@
 """
-BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56/RC59/RC61/RC62/RC65/RC66/RC68 - Voice Service Integration.
+BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56/RC59/RC61/RC62/RC65/RC66/RC68/RC71 - Voice Service Integration.
 
 Expoe a fachada RC38 como servico opcional, usa RC40 como configuracao,
 RC41 para resolver o backend, RC42 para aplicar idioma, perfil, velocidade,
@@ -9,7 +9,8 @@ expor o orquestrador RC53, RC55 para um snapshot consolidado de status,
 RC56 para um relatorio textual de saude, RC59 para expor a projecao RC58,
 RC61 para expor o widget visual RC60, RC62 para agrupar os contratos de
 status, RC65 para expor o envelope RC64, RC66 para persistencia JSON
-explicita e RC68 para rotacao/retencao controlada. Nao altera o nucleo operacional.
+explicita, RC68 para rotacao/retencao controlada e RC71 para inspecao
+readonly da retencao RC70. Nao altera o nucleo operacional.
 """
 
 from __future__ import annotations
@@ -25,14 +26,10 @@ from analysis.replay.book_diagnostics_tts_backend_registry import (
 from analysis.replay.book_diagnostics_tts_runtime import BookDiagnosticsTTSRuntimeCoordinator
 from analysis.replay.book_diagnostics_voice_audio_test import BookDiagnosticsControlledAudioTest
 from analysis.replay.book_diagnostics_voice_config import VoiceConfig, validate_voice_config
-from analysis.replay.book_diagnostics_voice_dashboard_widget import (
-    BookDiagnosticsVoiceDashboardWidgetBuilder,
-)
+from analysis.replay.book_diagnostics_voice_dashboard_widget import BookDiagnosticsVoiceDashboardWidgetBuilder
 from analysis.replay.book_diagnostics_voice_diagnostics import BookDiagnosticsVoiceDiagnostics
 from analysis.replay.book_diagnostics_voice_event import BookDiagnosticsVoiceEventFactory
-from analysis.replay.book_diagnostics_voice_health_dashboard_projection import (
-    BookDiagnosticsVoiceHealthDashboardProjector,
-)
+from analysis.replay.book_diagnostics_voice_health_dashboard_projection import BookDiagnosticsVoiceHealthDashboardProjector
 from analysis.replay.book_diagnostics_voice_health_report import BookDiagnosticsVoiceHealthReporter
 from analysis.replay.book_diagnostics_voice_integration_status import BookDiagnosticsVoiceIntegrationStatus
 from analysis.replay.book_diagnostics_voice_orchestrator import BookDiagnosticsVoiceOrchestrator
@@ -44,6 +41,7 @@ from analysis.replay.book_diagnostics_voice_status_bundle import BookDiagnostics
 from analysis.replay.book_diagnostics_voice_status_export import BookDiagnosticsVoiceStatusExporter
 from analysis.replay.book_diagnostics_voice_status_file_export import BookDiagnosticsVoiceStatusFileExporter
 from analysis.replay.book_diagnostics_voice_status_retention import BookDiagnosticsVoiceStatusRetentionManager
+from analysis.replay.book_diagnostics_voice_status_retention_inspection import BookDiagnosticsVoiceStatusRetentionInspector
 
 
 @dataclass(slots=True, frozen=True)
@@ -116,7 +114,6 @@ class BookDiagnosticsVoiceService:
         return BookDiagnosticsVoiceDashboardWidgetBuilder().build(self.dashboard_projection())
 
     def status_bundle(self):
-        """Retorna RC62 com health, projection e widget em uma unica chamada readonly."""
         health = self.health_report()
         projection = BookDiagnosticsVoiceHealthDashboardProjector().project(health)
         widget = BookDiagnosticsVoiceDashboardWidgetBuilder().build(projection)
@@ -127,25 +124,27 @@ class BookDiagnosticsVoiceService:
         )
 
     def status_export(self, *, generated_at=None):
-        """Retorna RC64 versionado sem escrever em disco nem iniciar audio."""
-        return BookDiagnosticsVoiceStatusExporter().export(
-            self.status_bundle(),
-            generated_at=generated_at,
-        )
+        return BookDiagnosticsVoiceStatusExporter().export(self.status_bundle(), generated_at=generated_at)
 
     def export_status_file(self, destination, *, generated_at=None):
-        """Persiste explicitamente RC64 em JSON via RC66, sem iniciar audio."""
         status_export = self.status_export(generated_at=generated_at)
         return BookDiagnosticsVoiceStatusFileExporter().write(status_export, destination)
 
     def export_status_rotated(self, directory, *, keep: int = 20, prefix: str = "voice_status", generated_at=None):
-        """Exporta um snapshot timestampado e aplica retencao RC68 por prefixo explicito."""
         return BookDiagnosticsVoiceStatusRetentionManager().export_and_rotate(
             voice_service=self,
             directory=directory,
             keep=keep,
             prefix=prefix,
             generated_at=generated_at,
+        )
+
+    def inspect_status_retention(self, directory, *, keep: int = 20, prefix: str = "voice_status"):
+        """Consulta RC70 sem criar diretorio, gravar snapshot ou remover arquivo."""
+        return BookDiagnosticsVoiceStatusRetentionInspector().inspect(
+            directory=directory,
+            keep=keep,
+            prefix=prefix,
         )
 
     def enable(self):
