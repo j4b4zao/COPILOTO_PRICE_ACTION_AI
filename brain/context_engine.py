@@ -1,16 +1,17 @@
 """
 brain/context_engine.py
 
-Context Engine RC15.4
+Context Engine RC15.5
 
 Integrações contextuais:
-- External Context RC2.3;
+- External Context RC2.4;
 - Market Regime RC3.0;
 - Multi-timeframe RC3.4.
 
 Consolida as análises anteriores em contexto operacional sem gerar entrada
-nem calcular o Score global. Regime e multi-timeframe permanecem evidências
-observacionais: não alteram confluences, valid, score ou bias operacional.
+nem calcular o Score global. Regime, multi-timeframe e contexto externo
+permanecem evidências observacionais: não alteram confluences, valid, score
+ou bias operacional.
 """
 
 from ai.engine_base import EngineBase
@@ -21,10 +22,12 @@ from models.market_narrative import MarketNarrative
 class ContextEngine(EngineBase):
 
     NAME = "Context Engine"
-    VERSION = "RC15.4-REGIME-MTF-EVIDENCE"
+    VERSION = "RC15.5-EXTERNAL-EVIDENCE"
     DESCRIPTION = "Consolida o contexto do mercado."
     PRIORITY = 70
     ENABLED = True
+
+    EXTERNAL_MIN_CONFIDENCE = 0.50
 
     def executar(self, context):
         result = context.context
@@ -93,7 +96,12 @@ class ContextEngine(EngineBase):
             multi_timeframe,
             narrative,
         )
-        self._append_external_evidence(result, external_market, narrative)
+        self._append_external_evidence(
+            result,
+            checklist,
+            external_market,
+            narrative,
+        )
 
         checklist.context = (
             checklist.structure
@@ -246,9 +254,7 @@ class ContextEngine(EngineBase):
             return
 
         if alignment == "WAIT_CONTEXT":
-            narrative.weaknesses.append(
-                "M15 ainda não definiu contexto direcional."
-            )
+            narrative.weaknesses.append("M15 ainda não definiu contexto direcional.")
         elif alignment == "WAIT_M5":
             narrative.weaknesses.append(
                 "M15 possui direção, mas M5 ainda não confirmou o setup."
@@ -262,37 +268,67 @@ class ContextEngine(EngineBase):
                 "Multi-timeframe aguarda alinhamento completo."
             )
 
-    @staticmethod
-    def _append_external_evidence(result, external_market, narrative) -> None:
+    @classmethod
+    def _append_external_evidence(
+        cls,
+        result,
+        checklist,
+        external_market,
+        narrative,
+    ) -> None:
         if not external_market.valid:
+            checklist.external_context_status = "UNAVAILABLE"
+            narrative.weaknesses.append("Contexto externo ainda não disponível.")
             return
 
-        risk_on_off = external_market.risk_on_off
-        global_bias = external_market.global_bias
+        checklist.external_context_ready = True
+        confidence = min(max(float(external_market.confidence or 0.0), 0.0), 1.0)
+        checklist.external_context_confidence = confidence
 
-        if (
+        risk_on_off = str(external_market.risk_on_off or "NEUTRAL").upper()
+        global_bias = str(external_market.global_bias or "NEUTRAL").upper()
+
+        if confidence < cls.EXTERNAL_MIN_CONFIDENCE:
+            checklist.external_context_status = "LOW_CONFIDENCE"
+            narrative.weaknesses.append(
+                f"Contexto externo com baixa confiança ({confidence:.0%})."
+            )
+            return
+
+        aligned = (
             result.bias == "BUY"
             and risk_on_off == "RISK_ON"
             and global_bias == "BULLISH"
-        ):
-            narrative.strengths.append("Contexto externo confirma direção.")
-        elif (
+        ) or (
+            result.bias == "SELL"
+            and risk_on_off == "RISK_OFF"
+            and global_bias == "BEARISH"
+        )
+
+        conflict = (
             result.bias == "BUY"
             and risk_on_off == "RISK_OFF"
             and global_bias == "BEARISH"
-        ):
-            narrative.weaknesses.append("Contexto externo conflita com direção.")
-        elif (
-            result.bias == "SELL"
-            and risk_on_off == "RISK_OFF"
-            and global_bias == "BEARISH"
-        ):
-            narrative.strengths.append("Contexto externo confirma direção.")
-        elif (
+        ) or (
             result.bias == "SELL"
             and risk_on_off == "RISK_ON"
             and global_bias == "BULLISH"
-        ):
-            narrative.weaknesses.append("Contexto externo conflita com direção.")
+        )
+
+        if aligned:
+            checklist.external_context_aligned = True
+            checklist.external_context_status = "ALIGNED"
+            narrative.strengths.append(
+                f"Contexto externo confirma direção ({confidence:.0%} confiança)."
+            )
+        elif conflict:
+            checklist.external_context_conflict = True
+            checklist.external_context_status = "CONFLICT"
+            narrative.weaknesses.append(
+                f"Contexto externo conflita com direção ({confidence:.0%} confiança)."
+            )
         else:
-            narrative.weaknesses.append("Contexto externo neutro.")
+            checklist.external_context_status = "NEUTRAL"
+            narrative.weaknesses.append(
+                f"Contexto externo neutro ({confidence:.0%} confiança)."
+            )
