@@ -37,6 +37,9 @@ class OrderFlowResult(ResultBase):
     delta_acceleration: float = 0.0
     delta_impulse_ratio: float = 0.0
     flow_momentum: str = "INSUFFICIENT_DATA"
+    pattern_direction: str = "NONE"
+    structure_alignment: str = "UNAVAILABLE"
+    structural_pattern_confidence: float = 0.0
 
     def clear(self) -> None:
         ResultBase.clear(self)
@@ -69,3 +72,6 @@ class OrderFlowResult(ResultBase):
         self.delta_acceleration = 0.0
         self.delta_impulse_ratio = 0.0
         self.flow_momentum = "INSUFFICIENT_DATA"
+        self.pattern_direction = "NONE"
+        self.structure_alignment = "UNAVAILABLE"
+        self.structural_pattern_confidence = 0.0
