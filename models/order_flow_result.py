@@ -33,6 +33,10 @@ class OrderFlowResult(ResultBase):
     pattern_confidence: float = 0.0
     pattern_quality: str = "INSUFFICIENT_DATA"
     pattern_confirmed: bool = False
+    delta_persistence: float = 0.0
+    delta_acceleration: float = 0.0
+    delta_impulse_ratio: float = 0.0
+    flow_momentum: str = "INSUFFICIENT_DATA"
 
     def clear(self) -> None:
         ResultBase.clear(self)
@@ -61,3 +65,7 @@ class OrderFlowResult(ResultBase):
         self.pattern_confidence = 0.0
         self.pattern_quality = "INSUFFICIENT_DATA"
         self.pattern_confirmed = False
+        self.delta_persistence = 0.0
+        self.delta_acceleration = 0.0
+        self.delta_impulse_ratio = 0.0
+        self.flow_momentum = "INSUFFICIENT_DATA"
