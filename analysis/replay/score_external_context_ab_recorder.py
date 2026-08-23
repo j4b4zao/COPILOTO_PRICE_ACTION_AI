@@ -1,10 +1,11 @@
 """
 analysis/replay/score_external_context_ab_recorder.py
 
-External Context Score A/B RC1 - observational validation.
+External Context Score A/B RC2 - scenario metrics.
 
 Compara o score oficial da pipeline com um score hipotético ajustado pelo
-contexto externo, sem escrever em Strategy, Score, Risk ou Decision.
+contexto externo, sem escrever em Strategy, Score, Risk ou Decision, e agrega
+métricas por risco externo, status, direção e faixa de confiança.
 
 Regra experimental:
 - ALIGNED: até +2 pontos, proporcional à confiança externa;
@@ -14,6 +15,7 @@ Regra experimental:
 
 from __future__ import annotations
 
+from collections import defaultdict
 from dataclasses import asdict, dataclass
 
 from ai.score_engine_rc13_2 import ScoreEngine as ScoreEngineRC13_2
@@ -38,6 +40,7 @@ class ScoreExternalContextABSample:
     external_risk: str = "NEUTRAL"
     external_bias: str = "NEUTRAL"
     external_confidence: float = 0.0
+    confidence_bucket: str = "UNAVAILABLE"
     adjustment: float = 0.0
 
     passive_only: bool = True
@@ -49,7 +52,7 @@ class ScoreExternalContextABSample:
 class ScoreExternalContextABRecorder:
     """Recorder passivo para validar o efeito hipotético do contexto externo."""
 
-    VERSION = "RC1-EXTERNAL-CONTEXT-SCORE-AB"
+    VERSION = "RC2-EXTERNAL-CONTEXT-SCORE-AB-SCENARIOS"
     MAX_WEIGHT = 2.0
 
     def __init__(self, weight: float = 2.0, max_samples: int = 50000):
@@ -111,9 +114,14 @@ class ScoreExternalContextABRecorder:
             validity_changed=baseline_valid != adjusted_valid,
             bias=bias,
             external_status=status,
-            external_risk=str(getattr(context, "external_risk", "NEUTRAL") or "NEUTRAL").upper(),
-            external_bias=str(getattr(context, "external_bias", "NEUTRAL") or "NEUTRAL").upper(),
+            external_risk=str(
+                getattr(context, "external_risk", "NEUTRAL") or "NEUTRAL"
+            ).upper(),
+            external_bias=str(
+                getattr(context, "external_bias", "NEUTRAL") or "NEUTRAL"
+            ).upper(),
             external_confidence=confidence,
+            confidence_bucket=self._confidence_bucket(status, confidence),
             adjustment=round(adjustment, 2),
             passive_only=True,
         )
@@ -125,25 +133,96 @@ class ScoreExternalContextABRecorder:
         return sample
 
     def summary(self) -> dict:
-        total = len(self._samples)
-        positive = sum(sample.delta > 0 for sample in self._samples)
-        negative = sum(sample.delta < 0 for sample in self._samples)
+        return {
+            "version": self.VERSION,
+            **self._metrics(self._samples),
+            "weight": self.weight,
+        }
+
+    def scenario_summary(self) -> dict:
+        return {
+            "version": self.VERSION,
+            "samples": len(self._samples),
+            "weight": self.weight,
+            "by_risk": self._group_by("external_risk"),
+            "by_status": self._group_by("external_status"),
+            "by_bias": self._group_by("bias"),
+            "by_confidence": self._group_by("confidence_bucket"),
+        }
+
+    def scenario(
+        self,
+        *,
+        risk=None,
+        status=None,
+        bias=None,
+        confidence=None,
+    ) -> dict:
+        selected = self._samples
+        filters = {}
+
+        if risk is not None:
+            value = str(risk).upper()
+            filters["external_risk"] = value
+            selected = [s for s in selected if s.external_risk == value]
+
+        if status is not None:
+            value = str(status).upper()
+            filters["external_status"] = value
+            selected = [s for s in selected if s.external_status == value]
+
+        if bias is not None:
+            value = str(bias).upper()
+            filters["bias"] = value
+            selected = [s for s in selected if s.bias == value]
+
+        if confidence is not None:
+            value = str(confidence).upper()
+            filters["confidence_bucket"] = value
+            selected = [s for s in selected if s.confidence_bucket == value]
+
+        return {
+            "version": self.VERSION,
+            "filters": filters,
+            **self._metrics(selected),
+            "weight": self.weight,
+        }
+
+    def _group_by(self, field: str) -> dict:
+        grouped = defaultdict(list)
+        for sample in self._samples:
+            grouped[getattr(sample, field)].append(sample)
+        return {
+            key: self._metrics(values)
+            for key, values in sorted(grouped.items())
+        }
+
+    @staticmethod
+    def _metrics(samples) -> dict:
+        samples = list(samples)
+        total = len(samples)
+        positive = sum(sample.delta > 0 for sample in samples)
+        negative = sum(sample.delta < 0 for sample in samples)
         neutral = total - positive - negative
         average_delta = (
-            round(sum(sample.delta for sample in self._samples) / total, 4)
+            round(sum(sample.delta for sample in samples) / total, 4)
+            if total
+            else 0.0
+        )
+        average_confidence = (
+            round(sum(sample.external_confidence for sample in samples) / total, 4)
             if total
             else 0.0
         )
         return {
-            "version": self.VERSION,
             "samples": total,
             "positive_adjustments": positive,
             "negative_adjustments": negative,
             "neutral_adjustments": neutral,
-            "grade_changes": sum(sample.grade_changed for sample in self._samples),
-            "validity_changes": sum(sample.validity_changed for sample in self._samples),
+            "grade_changes": sum(sample.grade_changed for sample in samples),
+            "validity_changes": sum(sample.validity_changed for sample in samples),
             "average_delta": average_delta,
-            "weight": self.weight,
+            "average_confidence": average_confidence,
         }
 
     @staticmethod
@@ -153,6 +232,16 @@ class ScoreExternalContextABRecorder:
         except (TypeError, ValueError):
             return 0.0
         return round(min(max(numeric, 0.0), 1.0), 4)
+
+    @staticmethod
+    def _confidence_bucket(status: str, confidence: float) -> str:
+        if status == "UNAVAILABLE":
+            return "UNAVAILABLE"
+        if confidence < 0.50:
+            return "LOW"
+        if confidence < 0.75:
+            return "MEDIUM"
+        return "HIGH"
 
     @classmethod
     def _adjustment(cls, status: str, confidence: float, weight: float) -> float:
