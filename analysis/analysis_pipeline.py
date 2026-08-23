@@ -4,10 +4,11 @@ analysis/analysis_pipeline.py
 Pipeline principal do
 COPILOTO PRICE ACTION AI.
 
-RC14.5 - SCORE REGIME+MTF A/B OBSERVATIONAL
+RC14.6 - EXTERNAL CONTEXT OBSERVATIONAL BRIDGE
 """
 
 from core.analysis_context import AnalysisContext
+from external_context.external_market_state import ExternalMarketState
 
 from analysis.market_structure import MarketStructure
 from analysis.market_regime import MarketRegime
@@ -37,9 +38,18 @@ from core.event_types import EventType
 
 class AnalysisPipeline:
 
-    def __init__(self, event_bus=None):
+    def __init__(self, event_bus=None, external_context_service=None):
+
+        if (
+            external_context_service is not None
+            and not callable(getattr(external_context_service, "snapshot", None))
+        ):
+            raise TypeError(
+                "External context service deve expor snapshot()."
+            )
 
         self.event_bus = event_bus
+        self.external_context_service = external_context_service
         self.context = AnalysisContext()
 
         # Recorders estritamente passivos. Ambos leem o resultado final do ciclo,
@@ -90,6 +100,11 @@ class AnalysisPipeline:
             )
 
         self.context = context
+
+        # O monitor externo é opcional e fail-safe. Falhas externas nunca
+        # interrompem o núcleo WIN/WDO e nunca criam decisão operacional.
+        self._refresh_external_context()
+
         self.context.clear_results()
 
         for engine in self.engines:
@@ -107,6 +122,30 @@ class AnalysisPipeline:
         self._publish_loop()
 
         return self.context
+
+    def _refresh_external_context(self) -> None:
+        """Atualiza o snapshot externo sem permitir falha da fonte no núcleo."""
+        if self.external_context_service is None:
+            return
+
+        try:
+            state = self.external_context_service.snapshot()
+        except Exception as exc:  # monitor externo não pode derrubar o núcleo
+            self.context.external_market.clear()
+            self.context.external_market.add_reason(
+                "Contexto externo indisponível: "
+                f"{type(exc).__name__}."
+            )
+            return
+
+        if not isinstance(state, ExternalMarketState):
+            self.context.external_market.clear()
+            self.context.external_market.add_reason(
+                "ExternalContextService retornou estado inválido."
+            )
+            return
+
+        self.context.external_market = state
 
     def _publish_engine(self, engine):
 
