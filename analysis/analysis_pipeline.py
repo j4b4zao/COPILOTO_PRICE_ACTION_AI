@@ -26,7 +26,7 @@ from analysis.smart_money.liquidity_pool import LiquidityPool
 
 from brain.context_engine import ContextEngine
 from strategies.strategy_engine import StrategyEngine
-from ai.score_engine import ScoreEngine
+from ai.score_engine_rc13_2 import ScoreEngine
 from risk.risk_manager import RiskManager
 from decision.decision_engine import DecisionEngine
 
