@@ -6,7 +6,7 @@ import ipaddress
 import json
 from dataclasses import dataclass
 from urllib.error import HTTPError
-from urllib.parse import urlparse, urlunparse
+from urllib.parse import urlencode, urlparse, urlunparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 
@@ -59,6 +59,7 @@ class EconomicCalendarHttpAdapter:
         allowed_hosts,
         payload_path=(),
         headers=None,
+        sensitive_query_params=None,
         timeout_seconds=5.0,
         max_response_bytes=1_000_000,
         transport=None,
@@ -73,6 +74,11 @@ class EconomicCalendarHttpAdapter:
             raise ValueError("allowed_hosts não pode ser vazio.")
         self.payload_path = self._path(payload_path)
         self.headers = dict(headers or {})
+        self._sensitive_query_params = {
+            str(key): str(value)
+            for key, value in dict(sensitive_query_params or {}).items()
+            if str(key) and str(value)
+        }
         self.timeout_seconds = float(timeout_seconds)
         self.max_response_bytes = int(max_response_bytes)
         if self.timeout_seconds <= 0:
@@ -91,7 +97,7 @@ class EconomicCalendarHttpAdapter:
     def __call__(self, *, now):
         try:
             response = self.transport.get(
-                url=self.url,
+                url=self._request_url(),
                 headers=self.headers,
                 timeout=self.timeout_seconds,
                 max_bytes=self.max_response_bytes,
@@ -128,6 +134,17 @@ class EconomicCalendarHttpAdapter:
             raise TypeError("Payload final do calendário deve ser uma lista.")
         self._diagnose("OK", response, event_count=len(events))
         return events
+
+    def _request_url(self):
+        if not self._sensitive_query_params:
+            return self.url
+        parsed = urlparse(self.url)
+        public_query = parsed.query
+        secret_query = urlencode(self._sensitive_query_params)
+        query = "&".join(part for part in (public_query, secret_query) if part)
+        return urlunparse(
+            (parsed.scheme, parsed.netloc, parsed.path, parsed.params, query, "")
+        )
 
     def _extract(self, payload):
         current = payload

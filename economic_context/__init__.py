@@ -53,6 +53,9 @@ from economic_context.economic_event_relevance import EconomicEventRelevance
 from economic_context.fail_safe_economic_calendar_provider import FailSafeEconomicCalendarProvider
 from economic_context.normalizing_economic_calendar_fetcher import NormalizingEconomicCalendarFetcher
 from economic_context.trading_economics_calendar_mapper import TradingEconomicsCalendarMapper
+from economic_context.trading_economics_calendar_fetcher import (
+    TradingEconomicsCalendarFetcher,
+)
 from economic_context.trading_economics_config import TradingEconomicsConfig
 
 __all__ = [
@@ -90,6 +93,7 @@ __all__ = [
     "FailSafeEconomicCalendarProvider",
     "NormalizingEconomicCalendarFetcher",
     "TradingEconomicsCalendarMapper",
+    "TradingEconomicsCalendarFetcher",
     "TradingEconomicsConfig",
     "UrllibEconomicCalendarTransport",
 ]
