@@ -44,7 +44,7 @@ class SmartMoneyEngine(EngineBase):
 
             return context
 
-        self.analyze(context)
+        self._analyze(context)
 
         self.calculate_strength(context)
 
@@ -82,7 +82,7 @@ class SmartMoneyEngine(EngineBase):
     # ==========================================================
 
     @abstractmethod
-    def analyze(
+    def _analyze(
         self,
         context: AnalysisContext,
     ):

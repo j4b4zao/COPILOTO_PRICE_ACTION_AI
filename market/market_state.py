@@ -15,6 +15,7 @@ from models.candle import Candle
 from models.candle_history import CandleHistory
 
 
+# LEGACY - DO NOT USE
 class MarketState:
 
     def __init__(self):

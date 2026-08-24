@@ -33,39 +33,34 @@ class StrategyEngine(EngineBase):
 
     def executar(self, context):
 
-        strategy = context.strategy
-        evidence = context.evidence
+         strategy = context.strategy
 
-        strategy.clear()
+         strategy.clear()
 
-        best_result = None
+         best_result = None
 
-        for setup in self.setups:
+         for setup in self.setups:
 
-            if not setup.ENABLED:
-                continue
+              if not setup.ENABLED:
+                 continue
 
-            result = setup.executar(context)
+              result = setup.executar(context)
 
-            if not result.valid:
-                continue
+              if not result.valid:
+                  continue
 
-            if best_result is None:
+              if best_result is None:
+
+                 best_result = result
+
+                 continue
+
+              if result.score > best_result.score:
 
                 best_result = result
 
-                continue
+         if best_result:
 
-            if result.score > best_result.score:
+           context.strategy = best_result
 
-                best_result = result
-
-        if best_result:
-
-            context.strategy = best_result
-
-            evidence.add("SETUP_FOUND")
-
-            evidence.add(best_result.name)
-
-        return context
+         return context

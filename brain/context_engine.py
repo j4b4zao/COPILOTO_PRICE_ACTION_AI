@@ -1,131 +1,425 @@
 """
 brain/context_engine.py
 
-Responsável por interpretar o contexto atual do mercado.
+Context Engine RC15 + External Context RC2.3
 
-Este módulo reúne informações vindas de:
+Responsável por consolidar as análises anteriores
+em um contexto operacional.
 
-- Price Action
-- Market Structure
-- ADX
-- MACD
-- Médias
+Não gera entrada.
+Não calcula o Score global.
 
-e responde:
+Entrega ao StrategyEngine:
 
-- O mercado está em tendência?
-- Está lateral?
-- Está acelerando?
-- Está perdendo força?
-- Vale procurar compras ou vendas?
+- valid
+- bias
+- market_state
+- confluences
+
+O contexto externo é utilizado apenas como
+confirmação, conflito ou neutralidade contextual.
+
+Não altera o Score global.
 """
 
-from typing import Dict
+from ai.engine_base import EngineBase
+
+from enums.trend import Trend
+
+from models.market_narrative import MarketNarrative
 
 
-class ContextEngine:
+class ContextEngine(EngineBase):
 
-    def __init__(self):
+    NAME = "Context Engine"
 
-        self.ADX_FORTE = 25
-        self.ADX_MUITO_FORTE = 40
+    VERSION = "RC15"
 
-    def analisar(self, market) -> Dict:
+    DESCRIPTION = "Consolida o contexto do mercado."
 
-        contexto = {
-            "mercado": "INDEFINIDO",
-            "direcao": "NEUTRO",
-            "forca": "FRACA",
-            "momentum": "NEUTRO",
-            "operavel": False,
-            "motivos": []
-        }
+    PRIORITY = 70
 
-        estrutura = market.estrutura
-        price_action = market.price_action
+    ENABLED = True
 
-        adx = market.adx
-        close = market.close
-        media = market.media
+    # ==========================================================
+    # EXECUTAR
+    # ==========================================================
 
-        # ================================
-        # Estrutura
-        # ================================
+    def executar(self, context):
 
-        if estrutura.get("bos"):
+        result = context.context
 
-            contexto["mercado"] = "TENDENCIA"
+        checklist = context.checklist
 
-            contexto["motivos"].append("BOS confirmado")
+        # ------------------------------------------------------
+        # LIMPAR RESULTADOS DO CONTEXTO
+        # ------------------------------------------------------
 
-        elif estrutura.get("choch"):
+        result.clear()
 
-            contexto["mercado"] = "REVERSAO"
+        checklist.clear()
 
-            contexto["motivos"].append("CHOCH detectado")
+        context.narrative = MarketNarrative()
 
-        else:
+        narrative = context.narrative
 
-            contexto["mercado"] = "LATERAL"
+        # ======================================================
+        # REFERÊNCIAS
+        # ======================================================
 
-        # ================================
-        # Direção
-        # ================================
+        structure = context.structure
 
-        if close > media:
+        liquidity = context.liquidity
 
-            contexto["direcao"] = "COMPRA"
+        volume = context.volume
 
-        elif close < media:
+        price_action = context.price_action
 
-            contexto["direcao"] = "VENDA"
+        external_market = context.external_market
 
-        # ================================
-        # Força
-        # ================================
+        # ======================================================
+        # MARKET STRUCTURE
+        # ======================================================
 
-        if adx >= self.ADX_MUITO_FORTE:
+        if structure.valid:
 
-            contexto["forca"] = "MUITO_FORTE"
+            checklist.structure = True
 
-        elif adx >= self.ADX_FORTE:
+        # ======================================================
+        # TENDÊNCIA
+        # ======================================================
 
-            contexto["forca"] = "FORTE"
+        if structure.trend == Trend.UP:
 
-        else:
+            checklist.trend = True
 
-            contexto["forca"] = "FRACA"
+            result.bias = "BUY"
 
-        # ================================
-        # Momentum
-        # ================================
+            result.market_state = "FAVORABLE"
 
-        sinal = price_action.get("sinal", "")
-
-        if sinal in ["FORTE_COMPRA", "COMPRA"]:
-
-            contexto["momentum"] = "ALTA"
-
-        elif sinal in ["FORTE_VENDA", "VENDA"]:
-
-            contexto["momentum"] = "BAIXA"
-
-        # ================================
-        # Mercado Operável
-        # ================================
-
-        if (
-            contexto["mercado"] != "LATERAL"
-            and contexto["forca"] != "FRACA"
-            and contexto["direcao"] != "NEUTRO"
-        ):
-
-            contexto["operavel"] = True
-
-            contexto["motivos"].append(
-                "Contexto favorável para operação"
+            narrative.strengths.append(
+                "Tendência de alta definida."
             )
 
-        market.contexto = contexto
+        elif structure.trend == Trend.DOWN:
 
-        return contexto
+            checklist.trend = True
+
+            result.bias = "SELL"
+
+            result.market_state = "FAVORABLE"
+
+            narrative.strengths.append(
+                "Tendência de baixa definida."
+            )
+
+        elif structure.trend == Trend.SIDEWAYS:
+
+            result.bias = "NONE"
+
+            result.market_state = "NEUTRAL"
+
+            narrative.weaknesses.append(
+                "Mercado lateral."
+            )
+
+        else:
+
+            result.bias = "NONE"
+
+            result.market_state = "UNDEFINED"
+
+            narrative.weaknesses.append(
+                "Tendência ainda não confirmada."
+            )
+
+        # ======================================================
+        # LIQUIDEZ
+        # ======================================================
+
+        if liquidity.valid:
+
+            checklist.liquidity = True
+
+            narrative.strengths.append(
+                "Liquidez analisada."
+            )
+
+        else:
+
+            narrative.weaknesses.append(
+                "Liquidez ainda não confirmada."
+            )
+
+        # ======================================================
+        # VOLUME
+        # ======================================================
+
+        if volume.valid:
+
+            checklist.volume = True
+
+            if volume.high:
+
+                narrative.strengths.append(
+                    "Volume forte."
+                )
+
+            elif volume.medium:
+
+                narrative.strengths.append(
+                    "Volume médio."
+                )
+
+            else:
+
+                narrative.weaknesses.append(
+                    "Volume fraco."
+                )
+
+        else:
+
+            narrative.weaknesses.append(
+                "Volume ainda não confirmado."
+            )
+
+        # ======================================================
+        # PRICE ACTION
+        # ======================================================
+
+        if price_action.valid:
+
+            checklist.setup = True
+
+            narrative.strengths.append(
+                "Price Action possui evidências."
+            )
+
+        # ======================================================
+        # CONTEXTO EXTERNO
+        # ======================================================
+        #
+        # O contexto externo NÃO altera:
+        #
+        # - result.score
+        # - confluences
+        # - valid
+        #
+        # Ele apenas registra:
+        #
+        # - confirmação
+        # - conflito
+        # - neutralidade
+        #
+        # no MarketNarrative.
+        #
+        # ======================================================
+
+        if external_market.valid:
+
+            risk_on_off = external_market.risk_on_off
+
+            global_bias = external_market.global_bias
+
+            # --------------------------------------------------
+            # BUY + RISK_ON / BULLISH
+            # --------------------------------------------------
+
+            if (
+                result.bias == "BUY"
+                and risk_on_off == "RISK_ON"
+                and global_bias == "BULLISH"
+            ):
+
+                narrative.strengths.append(
+                    "Contexto externo confirma direção."
+                )
+
+            # --------------------------------------------------
+            # BUY + RISK_OFF / BEARISH
+            # --------------------------------------------------
+
+            elif (
+                result.bias == "BUY"
+                and risk_on_off == "RISK_OFF"
+                and global_bias == "BEARISH"
+            ):
+
+                narrative.weaknesses.append(
+                    "Contexto externo conflita com direção."
+                )
+
+            # --------------------------------------------------
+            # SELL + RISK_OFF / BEARISH
+            # --------------------------------------------------
+
+            elif (
+                result.bias == "SELL"
+                and risk_on_off == "RISK_OFF"
+                and global_bias == "BEARISH"
+            ):
+
+                narrative.strengths.append(
+                    "Contexto externo confirma direção."
+                )
+
+            # --------------------------------------------------
+            # SELL + RISK_ON / BULLISH
+            # --------------------------------------------------
+
+            elif (
+                result.bias == "SELL"
+                and risk_on_off == "RISK_ON"
+                and global_bias == "BULLISH"
+            ):
+
+                narrative.weaknesses.append(
+                    "Contexto externo conflita com direção."
+                )
+
+            # --------------------------------------------------
+            # CONTEXTO EXTERNO NEUTRO
+            # --------------------------------------------------
+
+            else:
+
+                narrative.weaknesses.append(
+                    "Contexto externo neutro."
+                )
+
+        # ======================================================
+        # CONTEXTO
+        # ======================================================
+
+        checklist.context = (
+
+            checklist.structure
+
+            and checklist.trend
+
+            and checklist.volume
+
+            and checklist.liquidity
+
+        )
+
+        # ======================================================
+        # CONFLUÊNCIAS
+        # ======================================================
+
+        confluences = 0
+
+        if checklist.structure:
+
+            confluences += 1
+
+        if checklist.trend:
+
+            confluences += 1
+
+        if checklist.volume:
+
+            confluences += 1
+
+        if checklist.liquidity:
+
+            confluences += 1
+
+        if structure.bos_up or structure.bos_down:
+
+            confluences += 1
+
+        if structure.choch:
+
+            confluences += 1
+
+        if price_action.valid:
+
+            confluences += 1
+
+        result.confluences = confluences
+
+        # ======================================================
+        # VALIDADE DO CONTEXTO
+        # ======================================================
+
+        result.valid = (
+
+            checklist.context
+
+            and result.bias in ("BUY", "SELL")
+
+        )
+
+        # ======================================================
+        # SCORE DO CONTEXTO
+        # ======================================================
+
+        # IMPORTANTE:
+        #
+        # Não vamos gerar um score artificial aqui.
+        #
+        # O ScoreEngine será responsável pelo Score global
+        # depois que terminarmos a auditoria das escalas.
+        #
+        result.score = 0.0
+
+        # ======================================================
+        # NARRATIVA
+        # ======================================================
+
+        if result.valid:
+
+            narrative.summary = (
+                "Contexto direcional favorável."
+            )
+
+            narrative.recommendation = (
+                "AGUARDAR SETUP"
+            )
+
+        elif result.market_state == "NEUTRAL":
+
+            narrative.summary = (
+                "Mercado lateral ou sem direção clara."
+            )
+
+            narrative.recommendation = (
+                "AGUARDAR"
+            )
+
+        else:
+
+            narrative.summary = (
+                "Contexto ainda não confirmado."
+            )
+
+            narrative.recommendation = (
+                "AGUARDAR"
+            )
+
+        # ======================================================
+        # CONFIANÇA DA NARRATIVA
+        # ======================================================
+
+        itens = [
+
+            checklist.trend,
+
+            checklist.structure,
+
+            checklist.volume,
+
+            checklist.liquidity,
+
+            checklist.context,
+
+        ]
+
+        narrative.confidence = (
+
+            sum(itens) / len(itens)
+
+        ) * 100
+
+        return context

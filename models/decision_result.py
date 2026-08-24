@@ -2,6 +2,8 @@
 models/decision_result.py
 
 Resultado produzido pelo DecisionEngine.
+
+RC9.1
 """
 
 from __future__ import annotations
@@ -14,40 +16,75 @@ from models.result_base import ResultBase
 @dataclass(slots=True)
 class DecisionResult(ResultBase):
 
-    # Decisão final
+    # ==========================================================
+    # DECISÃO FINAL
+    # ==========================================================
+
     action: str = "WAIT"
 
-    # BUY / SELL / NONE
+    # ==========================================================
+    # DIREÇÃO
+    # ==========================================================
+
+    direction: str = "NONE"
+
+    # ==========================================================
+    # SINAL
+    # ==========================================================
+
     signal: str = "NONE"
 
-    # Nome do setup escolhido
+    # ==========================================================
+    # SETUP
+    # ==========================================================
+
     setup: str = ""
 
-    # Score utilizado
+    # ==========================================================
+    # SCORE
+    # ==========================================================
+
     score: float = 0.0
 
-    # Risco x Retorno
+    # ==========================================================
+    # RISCO / RETORNO
+    # ==========================================================
+
     risk_reward: float = 0.0
 
-    # Entrada
+    # ==========================================================
+    # NÍVEIS
+    # ==========================================================
+
     entry: float = 0.0
 
-    # Stop
     stop: float = 0.0
 
-    # Alvo
     target: float = 0.0
 
-    @property
-    def approved(self):
+    # ==========================================================
+    # APROVAÇÃO
+    # ==========================================================
 
-        return self.action in ("BUY", "SELL")
+    @property
+    def approved(self) -> bool:
+
+        return self.action in (
+            "BUY",
+            "SELL",
+        )
+
+    # ==========================================================
+    # RESET
+    # ==========================================================
 
     def clear(self):
 
         ResultBase.clear(self)
 
         self.action = "WAIT"
+
+        self.direction = "NONE"
 
         self.signal = "NONE"
 

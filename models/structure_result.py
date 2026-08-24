@@ -3,10 +3,11 @@ models/structure_result.py
 
 Resultado produzido pela MarketStructure.
 
-RC7
+RC8
 """
 
 from dataclasses import dataclass
+from typing import Any
 
 from enums.trend import Trend
 from models.result_base import ResultBase
@@ -24,6 +25,10 @@ class StructureResult(ResultBase):
     # ==========================================================
     # SWINGS
     # ==========================================================
+
+    swing_high: Any = None
+
+    swing_low: Any = None
 
     hh: bool = False
 
@@ -72,6 +77,9 @@ class StructureResult(ResultBase):
         self.trend = Trend.UNKNOWN
 
         # Swings
+        self.swing_high = None
+        self.swing_low = None
+
         self.hh = False
         self.hl = False
         self.lh = False

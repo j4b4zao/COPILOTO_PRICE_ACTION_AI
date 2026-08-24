@@ -1,84 +1,64 @@
 """
 market_data/collector.py
 
-Collector RC7
+Coleta dados do Profit Pro através do Excel
+e transforma os dados em AnalysisContext.
 
-Responsável por:
-
-- Ler dados do Profit
-- Validar dados
-- Construir candles
-- Atualizar o MarketState
-- Retornar o AnalysisContext
+RC10
 """
+
+import math
 
 from connectors.excel_connector import ExcelConnector
 from connectors.profit_reader import ProfitReader
 
-from config.settings import EXCEL_PATH
+from core.candle_builder import CandleBuilder
+from core.market_state import MarketState
 
 from core.analysis_context import AnalysisContext
-from core.data_validator import DataValidator
+
 from core.market_clock import MarketClock
-from core.candle_builder import CandleBuilder
 
 
 class Collector:
 
     NAME = "Collector"
-
-    VERSION = "RC7"
+    VERSION = "RC10"
 
     def __init__(self):
 
+        # ======================================================
+        # EXCEL
+        # ======================================================
+
         self.excel = ExcelConnector()
+
+        self.reader = ProfitReader(
+            self.excel
+        )
+
+        # ======================================================
+        # MERCADO
+        # ======================================================
+
+        self.market = MarketState()
+
+        self.candle_builder = CandleBuilder()
+
+        # ======================================================
+        # CONEXÃO
+        # ======================================================
+
+        from config.settings import EXCEL_PATH
 
         if not self.excel.conectar(EXCEL_PATH):
 
             raise RuntimeError(
-                f"Não foi possível conectar ao Excel.\n"
-                f"Arquivo esperado:\n{EXCEL_PATH}"
+                "Não foi possível conectar ao Excel."
             )
 
-        self.reader = ProfitReader(self.excel)
-
-        self.context = AnalysisContext()
-
-        self.builder = CandleBuilder()
-
     # ==========================================================
-    # Conversão segura
-    # ==========================================================
-
-    @staticmethod
-    def to_float(valor):
-
-        if valor is None:
-            return 0.0
-
-        if isinstance(valor, (int, float)):
-            return float(valor)
-
-        texto = str(valor).strip()
-
-        if not texto:
-            return 0.0
-
-        # Ex.: "12345/ABC"
-        if "/" in texto:
-            texto = texto.split("/")[0].strip()
-
-        texto = texto.replace(".", "")
-        texto = texto.replace(",", ".")
-
-        try:
-            return float(texto)
-
-        except ValueError:
-            return 0.0
-
-    # ==========================================================
-    # COLETA
+    # COLETAR DADOS
     # ==========================================================
 
     def get_data(self):
@@ -86,80 +66,221 @@ class Collector:
         dados = self.reader.obter_dados()
 
         if not dados:
+
             return None
 
-        symbol = dados.get("ativo", "")
+        # ======================================================
+        # VOLUME DEBUG
+        # ======================================================
 
-        timeframe = dados.get("timeframe", "M1")
+        raw_volume = dados.get(
+            "volume"
+        )
 
-        open_price = self.to_float(dados.get("open"))
-        high = self.to_float(dados.get("high"))
-        low = self.to_float(dados.get("low"))
-        close = self.to_float(dados.get("close"))
-        volume = self.to_float(dados.get("volume"))
+        volume = self.to_float(
+            raw_volume
+        )
 
-        # ------------------------------------------------------
-        # Validação
-        # ------------------------------------------------------
+        print(
+            "[VOLUME DEBUG] "
+            f"raw={raw_volume!r} "
+            f"converted={volume}"
+        )
 
-        if not DataValidator.validate(
-            symbol,
-            open_price,
-            high,
-            low,
-            close,
-            volume,
-        ):
+        # ======================================================
+        # DADOS BÁSICOS
+        # ======================================================
+
+        ativo = dados.get(
+            "ativo"
+        )
+
+        close = self.to_float(
+            dados.get("close")
+        )
+
+        open_price = self.to_float(
+            dados.get("open")
+        )
+
+        high = self.to_float(
+            dados.get("high")
+        )
+
+        low = self.to_float(
+            dados.get("low")
+        )
+
+        # ======================================================
+        # VALIDAÇÃO DO PREÇO
+        # ======================================================
+
+        if not math.isfinite(close) or close <= 0:
+
+            print(
+                "[DATA WARNING] "
+                f"Preço inválido recebido: {close!r}. "
+                "Leitura ignorada."
+            )
+
             return None
+
+        # ======================================================
+        # VALIDAÇÃO DO VOLUME
+        # ======================================================
+
+        if not math.isfinite(volume) or volume < 0:
+
+            print(
+                "[DATA WARNING] "
+                f"Volume inválido recebido: {volume!r}. "
+                "Volume será tratado como 0.0."
+            )
+
+            volume = 0.0
+
+        # ======================================================
+        # TIMEFRAME
+        # ======================================================
+
+        timeframe = dados.get(
+            "timeframe",
+            "M1"
+        )
+
+        if not timeframe:
+
+            timeframe = "M1"
+
+        # ======================================================
+        # TIMESTAMP
+        # ======================================================
 
         timestamp = MarketClock.now()
 
-        # ------------------------------------------------------
-        # Candle Builder
-        # ------------------------------------------------------
+        # ======================================================
+        # CANDLE BUILDER
+        # ======================================================
 
-        candle, novo_candle = self.builder.update(
-            open_price=open_price,
-            high=high,
-            low=low,
-            close=close,
-            volume=volume,
-            timestamp=timestamp,
+        candle, new_candle = (
+            self.candle_builder.update(
+
+                open_price=open_price,
+
+                high=high,
+
+                low=low,
+
+                close=close,
+
+                volume=volume,
+
+                timeframe=timeframe,
+
+                timestamp=timestamp,
+
+            )
         )
 
-        # ------------------------------------------------------
-        # Atualiza MarketState
-        # ------------------------------------------------------
+        # ======================================================
+        # CANDLE DEBUG
+        # ======================================================
 
-        self.context.market.update(
+        print(
+            "[CANDLE DEBUG] "
+            f"time={timestamp} "
+            f"period={candle.timestamp if candle else None} "
+            f"new={new_candle} "
+            f"price={close:.2f} "
+            f"cumulative_volume={volume:.2f} "
+            f"candle_volume={candle.volume if candle else None} "
+            f"history_before={self.market.candle_count}"
+        )
+
+        # ======================================================
+        # MARKET STATE
+        # ======================================================
+
+        self.market.update(
+
             candle=candle,
-            symbol=symbol,
+
+            symbol=ativo,
+
             timeframe=timeframe,
+
             volume=volume,
+
             timestamp=timestamp,
+
+            new_candle=new_candle,
+
         )
 
-        # ------------------------------------------------------
-        # Limpa resultados da análise anterior
-        # ------------------------------------------------------
+        # ======================================================
+        # CANDLE HISTORY DEBUG
+        # ======================================================
 
-        self.context.clear_results()
+        print(
+            "[CANDLE DEBUG] "
+            f"history_after={self.market.candle_count}"
+        )
 
-        # ------------------------------------------------------
-        # Futuras evoluções (RC8+)
-        # ------------------------------------------------------
-        #
-        # if novo_candle:
-        #     self.context.market.close_candle()
-        #
-        # self.context.market.tick_count += 1
-        #
-        # self.context.market.spread = ...
-        #
-        # self.context.market.book = ...
-        #
-        # self.context.market.times_trades = ...
-        #
-        # ------------------------------------------------------
+        # ======================================================
+        # ANALYSIS CONTEXT
+        # ======================================================
 
-        return self.context
+        context = AnalysisContext(
+            market=self.market
+        )
+
+        return context
+
+    # ==========================================================
+    # CONVERSÃO
+    # ==========================================================
+
+    @staticmethod
+    def to_float(value):
+
+        if value is None:
+
+            return 0.0
+
+        if isinstance(
+            value,
+            (int, float)
+        ):
+
+            return float(value)
+
+        try:
+
+            value = str(
+                value
+            ).strip()
+
+            if not value:
+
+                return 0.0
+
+            value = value.replace(
+                ".",
+                ""
+            )
+
+            value = value.replace(
+                ",",
+                "."
+            )
+
+            return float(
+                value
+            )
+
+        except (
+            ValueError,
+            TypeError
+        ):
+
+            return 0.0

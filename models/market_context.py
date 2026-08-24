@@ -13,6 +13,7 @@ from core.market_state import MarketState
 from models.result_base import ResultBase
 
 
+# LEGACY - DO NOT USE
 class MarketContext:
 
     def __init__(self):

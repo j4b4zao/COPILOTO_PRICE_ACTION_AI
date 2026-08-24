@@ -1,17 +1,18 @@
-```python
 """
 analysis/analysis_pipeline.py
 
 Pipeline principal do
 COPILOTO PRICE ACTION AI.
 
-RC13
+RC14
 """
 
 from core.analysis_context import AnalysisContext
 
 # ==========================================================
+
 # PRICE ACTION
+
 # ==========================================================
 
 from analysis.market_structure import MarketStructure
@@ -20,7 +21,9 @@ from analysis.volume_analysis import VolumeAnalysis
 from analysis.price_action.price_action import PriceAction
 
 # ==========================================================
+
 # SMART MONEY
+
 # ==========================================================
 
 from analysis.smart_money.imbalance import Imbalance
@@ -29,7 +32,9 @@ from analysis.smart_money.fair_value_gap import FairValueGap
 from analysis.smart_money.liquidity_pool import LiquidityPool
 
 # ==========================================================
+
 # IA
+
 # ==========================================================
 
 from brain.context_engine import ContextEngine
@@ -37,11 +42,13 @@ from brain.context_engine import ContextEngine
 from strategies.strategy_engine import StrategyEngine
 
 from ai.score_engine import ScoreEngine
-from risk.risk_engine import RiskEngine
+from risk.risk_manager import RiskManager
 from decision.decision_engine import DecisionEngine
 
 # ==========================================================
+
 # EVENTOS
+
 # ==========================================================
 
 from core.event import Event
@@ -50,15 +57,16 @@ from core.event_types import EventType
 
 class AnalysisPipeline:
 
+
     def __init__(self, event_bus=None):
 
         self.event_bus = event_bus
 
         self.context = AnalysisContext()
 
-        # ======================================================
-        # PRICE ACTION
-        # ======================================================
+    # ======================================================
+    # PRICE ACTION
+    # ======================================================
 
         self.price_action_engines = [
 
@@ -72,9 +80,9 @@ class AnalysisPipeline:
 
         ]
 
-        # ======================================================
-        # SMART MONEY
-        # ======================================================
+    # ======================================================
+    # SMART MONEY
+    # ======================================================
 
         self.smart_money_engines = [
 
@@ -88,9 +96,9 @@ class AnalysisPipeline:
 
         ]
 
-        # ======================================================
-        # IA
-        # ======================================================
+    # ======================================================
+    # IA
+    # ======================================================
 
         self.ai_engines = [
 
@@ -100,7 +108,7 @@ class AnalysisPipeline:
 
             ScoreEngine(),
 
-            RiskEngine(),
+            RiskManager(),
 
             DecisionEngine(),
 
@@ -122,15 +130,34 @@ class AnalysisPipeline:
 
         )
 
-    # ==========================================================
-    # EXECUTAR
-    # ==========================================================
+# ==========================================================
+# EXECUTAR
+# ==========================================================
 
-    def executar(self, market):
+    def executar(self, context):
 
-        self.context.market = market
+    # ======================================================
+    # RECEBER O ANALYSIS CONTEXT DO COLLECTOR
+    # ======================================================
+
+        if not isinstance(context, AnalysisContext):
+
+            raise TypeError(
+                "AnalysisPipeline esperava AnalysisContext, "
+                f"recebeu {type(context).__name__}"
+            )
+
+        self.context = context
+
+    # ======================================================
+    # LIMPAR RESULTADOS DA ANÁLISE ANTERIOR
+    # ======================================================
 
         self.context.clear_results()
+
+    # ======================================================
+    # EXECUTAR ENGINES
+    # ======================================================
 
         for engine in self.engines:
 
@@ -142,13 +169,17 @@ class AnalysisPipeline:
 
             self._publish_engine(engine)
 
+    # ======================================================
+    # FINALIZAR LOOP
+    # ======================================================
+
         self._publish_loop()
 
         return self.context
 
-    # ==========================================================
-    # PUBLICAR ENGINE
-    # ==========================================================
+# ==========================================================
+# PUBLICAR ENGINE
+# ==========================================================
 
     def _publish_engine(self, engine):
 
@@ -158,9 +189,9 @@ class AnalysisPipeline:
 
         mapping = {
 
-            # ===============================================
-            # PRICE ACTION
-            # ===============================================
+        # ===============================================
+        # PRICE ACTION
+        # ===============================================
 
             MarketStructure:
                 EventType.STRUCTURE_UPDATED,
@@ -174,9 +205,9 @@ class AnalysisPipeline:
             PriceAction:
                 EventType.PRICE_ACTION_UPDATED,
 
-            # ===============================================
-            # SMART MONEY
-            # ===============================================
+        # ===============================================
+        # SMART MONEY
+        # ===============================================
 
             Imbalance:
                 EventType.IMBALANCE_UPDATED,
@@ -190,20 +221,20 @@ class AnalysisPipeline:
             LiquidityPool:
                 EventType.LIQUIDITY_POOL_UPDATED,
 
-            # ===============================================
-            # IA
-            # ===============================================
+        # ===============================================
+        # IA
+        # ===============================================
 
             ContextEngine:
                 EventType.CONTEXT_UPDATED,
 
             StrategyEngine:
-                EventType.SETUP_FOUND,
+                EventType.STRATEGY_UPDATED,
 
             ScoreEngine:
                 EventType.SCORE_UPDATED,
 
-            RiskEngine:
+            RiskManager:
                 EventType.RISK_UPDATED,
 
             DecisionEngine:
@@ -229,9 +260,9 @@ class AnalysisPipeline:
 
         )
 
-    # ==========================================================
-    # LOOP
-    # ==========================================================
+# ==========================================================
+# LOOP
+# ==========================================================
 
     def _publish_loop(self):
 
@@ -243,11 +274,11 @@ class AnalysisPipeline:
 
             Event(
 
-                EventType.LOOP_COMPLETED,
+            EventType.LOOP_COMPLETED,
 
-                self.context,
-
-            )
+            self.context,
 
         )
-```
+
+    )
+

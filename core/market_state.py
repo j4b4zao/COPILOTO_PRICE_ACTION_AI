@@ -18,9 +18,7 @@ from models.candle_history import CandleHistory
 
 @dataclass(slots=True)
 class MarketState:
-    """
-    Estado atual do mercado.
-    """
+
 
     # ==========================================================
     # IDENTIFICAÇÃO
@@ -42,7 +40,9 @@ class MarketState:
     # HISTÓRICO
     # ==========================================================
 
-    candles: CandleHistory = field(default_factory=CandleHistory)
+    candles: CandleHistory = field(
+        default_factory=CandleHistory
+    )
 
     # ==========================================================
     # ATUALIZAÇÃO
@@ -55,21 +55,58 @@ class MarketState:
         timeframe: str,
         volume: float = 0.0,
         timestamp: datetime | None = None,
+        new_candle: bool = True,
     ) -> None:
-        """
-        Atualiza o estado atual do mercado.
-        """
 
         self.symbol = symbol
         self.timeframe = timeframe
-
         self.volume = volume
-
         self.last_price = candle.close
-
         self.timestamp = timestamp or datetime.now()
 
-        self.candles.add(candle)
+        # ======================================================
+        # NOVO CANDLE
+        # ======================================================
+
+        if new_candle:
+
+            self.candles.add(candle)
+
+            return
+
+        # ======================================================
+        # ATUALIZAÇÃO DO CANDLE ATUAL
+        # ======================================================
+
+        if self.candles.empty:
+
+            self.candles.add(candle)
+
+            return
+
+        ultimo = self.candles.last()
+
+        if ultimo is None:
+
+            self.candles.add(candle)
+
+            return
+
+        ultimo.high = max(
+            ultimo.high,
+            candle.high,
+        )
+
+        ultimo.low = min(
+            ultimo.low,
+            candle.low,
+        )
+
+        ultimo.close = candle.close
+
+        ultimo.volume = candle.volume
+
+        ultimo.timestamp = candle.timestamp
 
     # ==========================================================
     # CONSULTAS
@@ -87,10 +124,6 @@ class MarketState:
 
     @property
     def ready(self) -> bool:
-        """
-        Indica se existe histórico suficiente
-        para iniciar as análises.
-        """
 
         return self.candles.size >= 5
 
@@ -99,86 +132,7 @@ class MarketState:
 
         return self.candles.size
 
-    # ==========================================================
-    # ALIASES (RC9)
-    # ==========================================================
 
-    @property
-    def history(self) -> CandleHistory:
-        """
-        Alias para manter compatibilidade com
-        códigos antigos que utilizam market.history.
-        """
-
-        return self.candles
-
-    @property
-    def price(self) -> float:
-        """
-        Alias para o último preço.
-        """
-
-        return self.last_price
-
-    @property
-    def open(self) -> float:
-
-        candle = self.last_candle
-
-        if candle is None:
-            return 0.0
-
-        return candle.open
-
-    @property
-    def high(self) -> float:
-
-        candle = self.last_candle
-
-        if candle is None:
-            return 0.0
-
-        return candle.high
-
-    @property
-    def low(self) -> float:
-
-        candle = self.last_candle
-
-        if candle is None:
-            return 0.0
-
-        return candle.low
-
-    @property
-    def close(self) -> float:
-
-        candle = self.last_candle
-
-        if candle is None:
-            return 0.0
-
-        return candle.close
-
-    @property
-    def body(self) -> float:
-
-        candle = self.last_candle
-
-        if candle is None:
-            return 0.0
-
-        return candle.body
-
-    @property
-    def range(self) -> float:
-
-        candle = self.last_candle
-
-        if candle is None:
-            return 0.0
-
-        return candle.range
 
     # ==========================================================
     # CONTROLE
@@ -209,3 +163,4 @@ class MarketState:
             f"price={self.last_price:.2f}, "
             f"candles={self.candle_count})"
         )
+

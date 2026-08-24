@@ -2,7 +2,7 @@
 price_action/setups/pullback_setup.py
 """
 
-from price_action.setups.base_setup import BaseSetup
+from analysis.price_action.setups.base_setup import BaseSetup
 
 
 class PullbackSetup(BaseSetup):

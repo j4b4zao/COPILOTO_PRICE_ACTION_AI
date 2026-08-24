@@ -1,3 +1,5 @@
+# strategies/setups/liquidity_sweep.py
+
 """
 strategies/setups/liquidity_sweep.py
 
@@ -33,7 +35,6 @@ class LiquiditySweep(SetupBase):
         liquidity = context.liquidity
         volume = context.volume
         price = context.price_action
-        market = context.context
 
         # SMART MONEY
 
@@ -41,10 +42,18 @@ class LiquiditySweep(SetupBase):
         fair_value_gap = context.fair_value_gap
 
         # ======================================================
-        # CONTEXTO
+        # PRÉ-CONDIÇÕES LOCAIS DE REVERSÃO
         # ======================================================
 
-        if not market.valid:
+        # Liquidity Sweep é um setup de reversão. Ele não depende
+        # do contexto direcional global, que exige Trend.UP/DOWN.
+        # As confluências abaixo permanecem obrigatórias.
+        if not liquidity.valid:
+
+            return result
+
+        if not volume.valid:
+
             return result
 
         # ======================================================
@@ -57,6 +66,10 @@ class LiquiditySweep(SetupBase):
             # ORDER BLOCK
             # ----------------------------------------------
 
+            if not order_block.valid:
+
+                return result
+
             if not order_block.bullish:
                 return result
 
@@ -66,6 +79,10 @@ class LiquiditySweep(SetupBase):
             # ----------------------------------------------
             # FAIR VALUE GAP
             # ----------------------------------------------
+
+            if not fair_value_gap.valid:
+
+                return result
 
             if not fair_value_gap.bullish:
                 return result
@@ -123,7 +140,7 @@ class LiquiditySweep(SetupBase):
 
                 "Rejeição da Liquidez",
 
-                "Contexto Favorável",
+                "Confluências de Reversão",
 
             ])
 
@@ -165,6 +182,10 @@ class LiquiditySweep(SetupBase):
             # ORDER BLOCK
             # ----------------------------------------------
 
+            if not order_block.valid:
+
+                return result
+
             if not order_block.bearish:
                 return result
 
@@ -174,6 +195,10 @@ class LiquiditySweep(SetupBase):
             # ----------------------------------------------
             # FAIR VALUE GAP
             # ----------------------------------------------
+
+            if not fair_value_gap.valid:
+
+                return result
 
             if not fair_value_gap.bearish:
                 return result
@@ -231,7 +256,7 @@ class LiquiditySweep(SetupBase):
 
                 "Rejeição da Liquidez",
 
-                "Contexto Favorável",
+                "Confluências de Reversão",
 
             ])
 

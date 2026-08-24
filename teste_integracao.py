@@ -1,7 +1,7 @@
 from connectors.excel_connector import ExcelConnector
 from connectors.profit_reader import ProfitReader
 
-from market.market_state import MarketState
+from core.market_state import MarketState
 
 
 
