@@ -1,5 +1,9 @@
 """Contexto econômico observacional do Copiloto Price Action AI."""
 
+from economic_context.economic_calendar_controlled_capture import (
+    EconomicCalendarCaptureResult,
+    EconomicCalendarControlledCapture,
+)
 from economic_context.economic_calendar_engine import EconomicCalendarEngine
 from economic_context.economic_calendar_provider import (
     ControlledEconomicCalendarProvider,
@@ -52,6 +56,8 @@ from economic_context.trading_economics_calendar_mapper import TradingEconomicsC
 
 __all__ = [
     "ControlledEconomicCalendarProvider",
+    "EconomicCalendarCaptureResult",
+    "EconomicCalendarControlledCapture",
     "EconomicCalendarEngine",
     "EconomicCalendarProvider",
     "EconomicCalendarProviderResult",
