@@ -18,6 +18,8 @@ class EconomicCalendarState:
     minutes_to_next: float | None = None
     reasons: tuple[str, ...] = field(default_factory=tuple)
     observational_only: bool = True
+    source: str = ""
+    stale: bool = False
 
     @classmethod
     def unavailable(cls, observed_at: datetime | None = None) -> "EconomicCalendarState":
@@ -42,4 +44,6 @@ class EconomicCalendarState:
             "has_high_impact_window": self.has_high_impact_window,
             "reasons": list(self.reasons),
             "observational_only": self.observational_only,
+            "source": self.source,
+            "stale": self.stale,
         }

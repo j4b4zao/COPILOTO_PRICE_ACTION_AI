@@ -6,16 +6,20 @@ from economic_context.economic_calendar_provider import (
     EconomicCalendarProvider,
 )
 from economic_context.economic_calendar_service import EconomicCalendarService
+from economic_context.economic_calendar_provider_result import EconomicCalendarProviderResult
 from economic_context.economic_calendar_state import EconomicCalendarState
 from economic_context.economic_event import EconomicEvent
 from economic_context.economic_event_relevance import EconomicEventRelevance
+from economic_context.fail_safe_economic_calendar_provider import FailSafeEconomicCalendarProvider
 
 __all__ = [
     "ControlledEconomicCalendarProvider",
     "EconomicCalendarEngine",
     "EconomicCalendarProvider",
+    "EconomicCalendarProviderResult",
     "EconomicCalendarService",
     "EconomicCalendarState",
     "EconomicEvent",
     "EconomicEventRelevance",
+    "FailSafeEconomicCalendarProvider",
 ]
