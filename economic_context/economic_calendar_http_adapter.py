@@ -1,4 +1,4 @@
-"""Adaptador HTTP somente leitura e endurecido para calendário econômico RC8."""
+"""Adaptador HTTP somente leitura e endurecido para calendário econômico RC10."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ import ipaddress
 import json
 from dataclasses import dataclass
 from urllib.error import HTTPError
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlunparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 
@@ -41,14 +41,16 @@ class UrllibEconomicCalendarTransport:
         except HTTPError as exc:
             body = exc.read(max_bytes + 1)
             return EconomicCalendarHttpResponse(
-                status=int(exc.code), headers=dict(exc.headers.items()), body=body,
+                status=int(exc.code),
+                headers=dict(exc.headers.items()),
+                body=body,
                 final_url=exc.geturl(),
             )
 
 
 class EconomicCalendarHttpAdapter:
     NAME = "EconomicCalendarHttpAdapter"
-    VERSION = "RC8"
+    VERSION = "RC10"
 
     def __init__(
         self,
@@ -62,7 +64,11 @@ class EconomicCalendarHttpAdapter:
         transport=None,
     ):
         self.url = str(url).strip()
-        self.allowed_hosts = frozenset(str(host).strip().lower() for host in allowed_hosts if str(host).strip())
+        self.allowed_hosts = frozenset(
+            str(host).strip().lower()
+            for host in allowed_hosts
+            if str(host).strip()
+        )
         if not self.allowed_hosts:
             raise ValueError("allowed_hosts não pode ser vazio.")
         self.payload_path = self._path(payload_path)
@@ -77,15 +83,27 @@ class EconomicCalendarHttpAdapter:
         if not callable(getattr(self.transport, "get", None)):
             raise TypeError("Transport deve expor get().")
         self._validate_url(self.url)
-        self.last_diagnostics = {"status": "NOT_RUN", "source": self.url}
+        self.last_diagnostics = {
+            "status": "NOT_RUN",
+            "source": self._sanitized_url(self.url),
+        }
 
     def __call__(self, *, now):
-        response = self.transport.get(
-            url=self.url,
-            headers=self.headers,
-            timeout=self.timeout_seconds,
-            max_bytes=self.max_response_bytes,
-        )
+        try:
+            response = self.transport.get(
+                url=self.url,
+                headers=self.headers,
+                timeout=self.timeout_seconds,
+                max_bytes=self.max_response_bytes,
+            )
+        except Exception as exc:
+            self.last_diagnostics = {
+                "status": "TRANSPORT_ERROR",
+                "source": self._sanitized_url(self.url),
+                "error_type": type(exc).__name__,
+            }
+            raise RuntimeError("Falha segura no transporte do calendário.") from None
+
         if not isinstance(response, EconomicCalendarHttpResponse):
             raise TypeError("Transport retornou resposta incompatível.")
         self._validate_url(response.final_url)
@@ -102,8 +120,8 @@ class EconomicCalendarHttpAdapter:
         try:
             payload = json.loads(response.body.decode("utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-            self._diagnose("INVALID_JSON", response, error=str(exc))
-            raise ValueError("Resposta JSON inválida.") from exc
+            self._diagnose("INVALID_JSON", response, error=type(exc).__name__)
+            raise ValueError("Resposta JSON inválida.") from None
         events = self._extract(payload)
         if not isinstance(events, list):
             self._diagnose("INVALID_PAYLOAD_SHAPE", response)
@@ -142,11 +160,19 @@ class EconomicCalendarHttpAdapter:
     def _diagnose(self, status, response, **extra):
         self.last_diagnostics = {
             "status": status,
-            "source": self.url,
+            "source": self._sanitized_url(self.url),
+            "final_source": self._sanitized_url(response.final_url),
             "http_status": response.status,
             "response_bytes": len(response.body),
             **extra,
         }
+
+    @staticmethod
+    def _sanitized_url(url):
+        parsed = urlparse(str(url))
+        return urlunparse(
+            (parsed.scheme, parsed.netloc, parsed.path, parsed.params, "", "")
+        )
 
     @staticmethod
     def _header(headers, name):
