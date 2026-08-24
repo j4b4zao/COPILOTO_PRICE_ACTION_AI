@@ -25,7 +25,11 @@ class EconomicCalendarService:
         events = self.provider.get_events(now=now)
         provider_result = getattr(self.provider, "last_result", None)
         if provider_result is not None and not provider_result.valid:
-            return EconomicCalendarState.unavailable(observed_at=now)
+            return EconomicCalendarState.unavailable(
+                observed_at=now,
+                source=provider_result.source,
+                reason="PROVIDER_UNAVAILABLE",
+            )
         relevant = self.relevance.filter(events, symbol=symbol)
         state = self.engine.evaluate(relevant, now=now)
         if provider_result is None:

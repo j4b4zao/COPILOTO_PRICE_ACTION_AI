@@ -22,11 +22,18 @@ class EconomicCalendarState:
     stale: bool = False
 
     @classmethod
-    def unavailable(cls, observed_at: datetime | None = None) -> "EconomicCalendarState":
+    def unavailable(
+        cls,
+        observed_at: datetime | None = None,
+        *,
+        source: str = "",
+        reason: str = "CALENDAR_NOT_LOADED",
+    ) -> "EconomicCalendarState":
         return cls(
             status="UNAVAILABLE",
             observed_at=observed_at or datetime.now(timezone.utc),
-            reasons=("CALENDAR_NOT_LOADED",),
+            reasons=(str(reason).strip().upper() or "CALENDAR_NOT_LOADED",),
+            source=str(source).strip().upper(),
         )
 
     @property

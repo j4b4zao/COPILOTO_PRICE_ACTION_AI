@@ -78,6 +78,8 @@ def teste_falha_inicial_nunca_vira_no_events():
     state = EconomicCalendarService(provider).snapshot(symbol="WINV26", now=NOW)
     assert state.status == "UNAVAILABLE"
     assert state.status != "NO_EVENTS"
+    assert state.source == "EXTERNAL"
+    assert state.reasons == ("PROVIDER_UNAVAILABLE",)
 
 
 def teste_service_identifica_cache_stale():
