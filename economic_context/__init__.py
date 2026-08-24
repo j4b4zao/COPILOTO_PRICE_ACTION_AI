@@ -18,6 +18,11 @@ from economic_context.economic_calendar_session_report import (
     EconomicCalendarSessionAnalyzer,
     EconomicCalendarSessionReport,
 )
+from economic_context.economic_calendar_session_store import EconomicCalendarSessionStore
+from economic_context.economic_calendar_multisession_report import (
+    EconomicCalendarMultiSessionComparator,
+    EconomicCalendarMultiSessionReport,
+)
 from economic_context.economic_calendar_state import EconomicCalendarState
 from economic_context.economic_event import EconomicEvent
 from economic_context.economic_event_relevance import EconomicEventRelevance
@@ -36,6 +41,9 @@ __all__ = [
     "EconomicCalendarSessionRecorder",
     "EconomicCalendarSessionReport",
     "EconomicCalendarSessionSample",
+    "EconomicCalendarSessionStore",
+    "EconomicCalendarMultiSessionComparator",
+    "EconomicCalendarMultiSessionReport",
     "EconomicCalendarService",
     "EconomicCalendarState",
     "EconomicEvent",
