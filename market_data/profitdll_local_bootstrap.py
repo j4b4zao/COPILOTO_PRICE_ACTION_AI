@@ -6,6 +6,7 @@ credenciais fornecidas por variáveis de ambiente no processo local.
 
 from __future__ import annotations
 
+import importlib
 import os
 import time
 from dataclasses import asdict, dataclass
@@ -137,9 +138,20 @@ class ProfitDLLLocalBootstrap:
     @staticmethod
     def _default_loader(path: str):
         try:
-            from profit_dll import initializeDll
+            module = importlib.import_module("profit_dll")
         except ImportError as exc:
             raise RuntimeError(
                 "profit_dll.py/profitTypes.py não estão importáveis no ambiente do projeto."
             ) from exc
-        return initializeDll(path)
+
+        initializer = getattr(module, "initializeDll", None)
+        if callable(initializer):
+            return initializer(path)
+
+        loaded_dll = getattr(module, "profit_dll", None)
+        if loaded_dll is not None:
+            return loaded_dll
+
+        raise RuntimeError(
+            "profit_dll.py foi importado, mas não expõe initializeDll(path) nem o objeto profit_dll carregado."
+        )
