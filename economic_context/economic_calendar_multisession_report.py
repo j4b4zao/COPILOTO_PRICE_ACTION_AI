@@ -41,9 +41,20 @@ class EconomicCalendarMultiSessionComparator:
         summaries = [record.get("summary", {}) for record in records]
         reports = [record.get("report", {}) for record in records]
         count = len(records)
-        total_samples = sum(int(item.get("sample_count", 0) or 0) for item in summaries)
-        avg_availability = sum(float(item.get("availability_rate", 0.0) or 0.0) for item in summaries) / count
-        avg_stale = sum(float(item.get("stale_rate", 0.0) or 0.0) for item in summaries) / count
+        sample_counts = [int(item.get("sample_count", 0) or 0) for item in summaries]
+        total_samples = sum(sample_counts)
+        if total_samples > 0:
+            avg_availability = sum(
+                float(item.get("availability_rate", 0.0) or 0.0) * samples
+                for item, samples in zip(summaries, sample_counts)
+            ) / total_samples
+            avg_stale = sum(
+                float(item.get("stale_rate", 0.0) or 0.0) * samples
+                for item, samples in zip(summaries, sample_counts)
+            ) / total_samples
+        else:
+            avg_availability = 0.0
+            avg_stale = 0.0
 
         if count < self.min_sessions or total_samples < self.min_total_samples:
             return self._report(

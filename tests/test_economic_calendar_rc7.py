@@ -153,6 +153,17 @@ def teste_comparador_identifica_degradacao_total():
     assert result.observational_only is True
 
 
+def teste_comparador_pondera_metricas_por_amostras():
+    records = [
+        record(0, values=summary(samples=100, availability=1.0, stale=0.0)),
+        record(1, values=summary(samples=10, availability=0.0, stale=1.0)),
+        record(2, values=summary(samples=10, availability=0.0, stale=1.0)),
+    ]
+    result = EconomicCalendarMultiSessionComparator(min_total_samples=60).compare(records)
+    assert round(result.average_availability, 4) == round(100 / 120, 4)
+    assert round(result.average_stale_rate, 4) == round(20 / 120, 4)
+
+
 def main():
     tests = [value for name, value in globals().items() if name.startswith("teste_")]
     for test in tests:
