@@ -10,6 +10,11 @@ from economic_context.economic_calendar_provider_result import EconomicCalendarP
 from economic_context.economic_calendar_normalization_result import EconomicCalendarNormalizationResult
 from economic_context.economic_calendar_payload_normalizer import EconomicCalendarPayloadNormalizer
 from economic_context.economic_calendar_runtime import EconomicCalendarRuntime
+from economic_context.economic_calendar_replay_trial_runner import (
+    EconomicCalendarReplayReport,
+    EconomicCalendarReplaySession,
+    EconomicCalendarReplayTrialRunner,
+)
 from economic_context.economic_calendar_session_recorder import (
     EconomicCalendarSessionRecorder,
     EconomicCalendarSessionSample,
@@ -48,6 +53,9 @@ __all__ = [
     "EconomicCalendarProviderResult",
     "EconomicCalendarNormalizationResult",
     "EconomicCalendarPayloadNormalizer",
+    "EconomicCalendarReplayReport",
+    "EconomicCalendarReplaySession",
+    "EconomicCalendarReplayTrialRunner",
     "EconomicCalendarRuntime",
     "EconomicCalendarSessionAnalyzer",
     "EconomicCalendarSessionRecorder",
