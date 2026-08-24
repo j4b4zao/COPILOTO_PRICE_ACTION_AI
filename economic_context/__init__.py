@@ -28,6 +28,12 @@ from economic_context.economic_calendar_http_adapter import (
     EconomicCalendarHttpResponse,
     UrllibEconomicCalendarTransport,
 )
+from economic_context.economic_calendar_trial_gate import (
+    EconomicCalendarTrialDecision,
+    EconomicCalendarTrialEvidence,
+    EconomicCalendarTrialGate,
+    EconomicCalendarTrialPolicy,
+)
 from economic_context.economic_calendar_state import EconomicCalendarState
 from economic_context.economic_event import EconomicEvent
 from economic_context.economic_event_relevance import EconomicEventRelevance
@@ -54,6 +60,10 @@ __all__ = [
     "EconomicCalendarHttpResponse",
     "EconomicCalendarService",
     "EconomicCalendarState",
+    "EconomicCalendarTrialDecision",
+    "EconomicCalendarTrialEvidence",
+    "EconomicCalendarTrialGate",
+    "EconomicCalendarTrialPolicy",
     "EconomicEvent",
     "EconomicEventRelevance",
     "FailSafeEconomicCalendarProvider",
