@@ -18,6 +18,7 @@ class NormalizingEconomicCalendarFetcher:
         self.allow_partial = bool(allow_partial)
         self.normalizer = EconomicCalendarPayloadNormalizer()
         self.last_normalization = None
+        self.normalization_run_count = 0
 
     def __call__(self, *, now):
         payload = self.raw_fetcher(now=now)
@@ -27,6 +28,7 @@ class NormalizingEconomicCalendarFetcher:
             default_timezone=self.default_timezone,
         )
         self.last_normalization = result
+        self.normalization_run_count += 1
 
         if result.received_count > 0 and not result.usable:
             raise ValueError("Nenhum evento válido no payload recebido.")
@@ -45,5 +47,6 @@ class NormalizingEconomicCalendarFetcher:
             "status": "VALID" if self.last_normalization.valid else "PARTIAL",
             "source": self.source,
             "allow_partial": self.allow_partial,
+            "normalization_run_count": self.normalization_run_count,
             **self.last_normalization.snapshot(),
         }

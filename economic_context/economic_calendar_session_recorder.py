@@ -30,12 +30,17 @@ class EconomicCalendarSessionRecorder:
         if max_samples <= 0:
             raise ValueError("max_samples deve ser positivo.")
         self._samples = deque(maxlen=max_samples)
+        self._last_normalization_run_count = 0
 
     def record(self, state: EconomicCalendarState, diagnostics: dict):
         if not isinstance(state, EconomicCalendarState):
             raise TypeError("Recorder requer EconomicCalendarState.")
         provider = diagnostics.get("provider", {})
         normalization = diagnostics.get("normalization", {})
+        run_count = int(normalization.get("normalization_run_count", 0) or 0)
+        is_new_normalization = run_count > self._last_normalization_run_count
+        if is_new_normalization:
+            self._last_normalization_run_count = run_count
         sample = EconomicCalendarSessionSample(
             observed_at=state.observed_at,
             status=state.status,
@@ -43,8 +48,8 @@ class EconomicCalendarSessionRecorder:
             provider_valid=bool(provider.get("valid", False)),
             stale=bool(state.stale or provider.get("stale", False)),
             high_impact_window=state.has_high_impact_window,
-            rejected_count=int(normalization.get("rejected_count", 0) or 0),
-            duplicate_count=int(normalization.get("duplicate_count", 0) or 0),
+            rejected_count=(int(normalization.get("rejected_count", 0) or 0) if is_new_normalization else 0),
+            duplicate_count=(int(normalization.get("duplicate_count", 0) or 0) if is_new_normalization else 0),
         )
         self._samples.append(sample)
         return sample
@@ -82,3 +87,4 @@ class EconomicCalendarSessionRecorder:
 
     def clear(self):
         self._samples.clear()
+        self._last_normalization_run_count = 0

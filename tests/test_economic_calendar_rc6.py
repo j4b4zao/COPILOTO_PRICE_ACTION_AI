@@ -31,7 +31,11 @@ class Raw:
 def diagnostics(valid=True, stale=False, rejected=0, duplicate=0):
     return {
         "provider": {"valid": valid, "stale": stale, "source": "TEST"},
-        "normalization": {"rejected_count": rejected, "duplicate_count": duplicate},
+        "normalization": {
+            "rejected_count": rejected,
+            "duplicate_count": duplicate,
+            "normalization_run_count": 1,
+        },
     }
 
 
@@ -50,7 +54,9 @@ def teste_recorder_registra_amostra_normalizada():
 def teste_summary_calcula_taxas_e_contagens():
     recorder = EconomicCalendarSessionRecorder()
     recorder.record(state(), diagnostics(duplicate=2))
-    recorder.record(state("UNAVAILABLE", stale=True), diagnostics(False, True, rejected=1))
+    second = diagnostics(False, True, rejected=1)
+    second["normalization"]["normalization_run_count"] = 2
+    recorder.record(state("UNAVAILABLE", stale=True), second)
     summary = recorder.summary()
     assert summary["sample_count"] == 2
     assert summary["availability_rate"] == 0.5
@@ -111,6 +117,17 @@ def teste_runtime_grava_sessao_automaticamente():
         runtime.snapshot(symbol="WINV26", now=NOW + timedelta(minutes=minute))
     assert runtime.recorder.summary()["sample_count"] == 3
     assert runtime.diagnostics()["session_report"]["classification"] == "INSUFFICIENT_DATA"
+
+
+def teste_cache_nao_duplica_rejeicoes_da_mesma_normalizacao():
+    raw = Raw([payload()[0], {"title": "inválido"}])
+    runtime = EconomicCalendarRuntime(raw, ttl_minutes=15)
+    runtime.snapshot(symbol="WINV26", now=NOW)
+    runtime.snapshot(symbol="WINV26", now=NOW + timedelta(minutes=1))
+    runtime.snapshot(symbol="WINV26", now=NOW + timedelta(minutes=2))
+    summary = runtime.recorder.summary()
+    assert summary["sample_count"] == 3
+    assert summary["rejected_row_count"] == 1
 
 
 def teste_recorder_clear_e_limite_de_retencao():
