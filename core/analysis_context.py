@@ -12,6 +12,7 @@ from core.multi_timeframe_state import MultiTimeframeState
 from core.order_flow_state import OrderFlowState
 
 from external_context.external_market_state import ExternalMarketState
+from economic_context.economic_calendar_state import EconomicCalendarState
 
 from models.book_depth import BookDepthSnapshot
 from models.book_depth_analysis_result import BookDepthAnalysisResult
@@ -47,6 +48,7 @@ class AnalysisContext:
     multi_timeframe_analysis: MultiTimeframeResult = field(default_factory=MultiTimeframeResult)
 
     external_market: ExternalMarketState = field(default_factory=ExternalMarketState)
+    economic_calendar: EconomicCalendarState = field(default_factory=EconomicCalendarState.unavailable)
     book_depth: BookDepthSnapshot = field(default_factory=BookDepthSnapshot.unavailable)
     book_depth_analysis: BookDepthAnalysisResult = field(default_factory=BookDepthAnalysisResult)
 
@@ -139,5 +141,6 @@ class AnalysisContext:
         if self.order_flow_state is not None:
             self.order_flow_state.clear()
         self.external_market.clear()
+        self.economic_calendar = EconomicCalendarState.unavailable()
         self.book_depth = BookDepthSnapshot.unavailable()
         self.clear_results()

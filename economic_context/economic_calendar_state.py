@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 
 from economic_context.economic_event import EconomicEvent
 
@@ -18,6 +18,14 @@ class EconomicCalendarState:
     minutes_to_next: float | None = None
     reasons: tuple[str, ...] = field(default_factory=tuple)
     observational_only: bool = True
+
+    @classmethod
+    def unavailable(cls, observed_at: datetime | None = None) -> "EconomicCalendarState":
+        return cls(
+            status="UNAVAILABLE",
+            observed_at=observed_at or datetime.now(timezone.utc),
+            reasons=("CALENDAR_NOT_LOADED",),
+        )
 
     @property
     def has_high_impact_window(self) -> bool:
