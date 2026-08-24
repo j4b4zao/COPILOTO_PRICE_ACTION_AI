@@ -23,6 +23,11 @@ from economic_context.economic_calendar_multisession_report import (
     EconomicCalendarMultiSessionComparator,
     EconomicCalendarMultiSessionReport,
 )
+from economic_context.economic_calendar_http_adapter import (
+    EconomicCalendarHttpAdapter,
+    EconomicCalendarHttpResponse,
+    UrllibEconomicCalendarTransport,
+)
 from economic_context.economic_calendar_state import EconomicCalendarState
 from economic_context.economic_event import EconomicEvent
 from economic_context.economic_event_relevance import EconomicEventRelevance
@@ -44,10 +49,13 @@ __all__ = [
     "EconomicCalendarSessionStore",
     "EconomicCalendarMultiSessionComparator",
     "EconomicCalendarMultiSessionReport",
+    "EconomicCalendarHttpAdapter",
+    "EconomicCalendarHttpResponse",
     "EconomicCalendarService",
     "EconomicCalendarState",
     "EconomicEvent",
     "EconomicEventRelevance",
     "FailSafeEconomicCalendarProvider",
     "NormalizingEconomicCalendarFetcher",
+    "UrllibEconomicCalendarTransport",
 ]
