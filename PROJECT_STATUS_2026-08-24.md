@@ -3,9 +3,9 @@
 ## Estado salvo
 
 - Branch oficial: `main`
-- Commit-base deste checkpoint: `27131c772e08a2dfce4a30d5d0692698012c9dac`
-- Último marco: Economic Calendar RC8
-- PRs do calendário incorporados: #292 a #299
+- Commit-base do checkpoint anterior: `27131c772e08a2dfce4a30d5d0692698012c9dac`
+- Último marco: Economic Calendar RC9
+- PRs do calendário incorporados antes desta RC: #292 a #299
 - Testes dedicados do calendário: 84 aprovados
 - Livro de Ofertas e Times & Trades via RTD: adiados para a etapa final por decisão do projeto
 - Modo operacional: copiloto somente leitura; nenhuma execução automática de ordens
@@ -32,11 +32,18 @@
   - recorder e relatório de sessão;
   - persistência JSONL/CSV e comparação multi-pregão;
   - adaptador HTTP seguro e somente leitura.
+- Calendário Econômico RC9:
+  - fontes reais comparadas;
+  - Trading Economics selecionada somente como candidata principal para ensaio controlado;
+  - EODHD mantida como reserva comparativa;
+  - FMP não selecionada por falta de evidência documental suficiente para Brasil;
+  - gates de segurança, timezone, cobertura e multi-pregão formalizados;
+  - nenhuma credencial ou API real conectada.
 
 ## Pendente
 
-1. Economic Calendar RC9: investigar e selecionar fonte real Brasil/EUA.
-2. Validar a fonte escolhida em sessões reais e multi-pregão antes de qualquer influência.
+1. Economic Calendar RC10: sanitizar URL/segredos e criar mapper offline para o payload PascalCase da Trading Economics.
+2. Economic Calendar RC11: ensaio real manual e observacional; validar pelo menos 5 pregões antes de promoção.
 3. Concluir testes integrados ao vivo no PC do usuário com Profit/Excel/ProfitDLL.
 4. Retomar Times & Trades e Livro de Ofertas na etapa final, conforme decisão do projeto.
 5. Consolidar a camada Psicologia do Trader:
@@ -53,11 +60,11 @@
 
 ## Progresso estimado
 
-- Concluído: **82%**
-- Restante: **18%**
+- Concluído: **83%**
+- Restante: **17%**
 
-O percentual considera implementação arquitetural, testes controlados e módulos já incorporados. O trabalho restante tem peso elevado porque inclui fontes reais, observação multi-pregão, integração psicológica e certificação operacional final.
+O percentual considera implementação arquitetural, testes controlados e módulos já incorporados. O trabalho restante tem peso elevado porque inclui fonte real, observação multi-pregão, integração psicológica e certificação operacional final.
 
 ## Próximo ponto de retomada
 
-Retomar pelo **Economic Calendar RC9 — investigação comparativa de fontes reais de calendário econômico com cobertura Brasil e Estados Unidos**, sem conectar credenciais ou alterar o núcleo operacional antes da avaliação.
+Retomar pelo **Economic Calendar RC10 — sanitização de URL e mapper Trading Economics totalmente offline**, sem conectar credenciais ou alterar o núcleo operacional.
