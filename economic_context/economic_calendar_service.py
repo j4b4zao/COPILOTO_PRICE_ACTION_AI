@@ -23,8 +23,28 @@ class EconomicCalendarService:
 
     def snapshot(self, *, symbol: str, now: datetime) -> EconomicCalendarState:
         events = self.provider.get_events(now=now)
+        provider_result = getattr(self.provider, "last_result", None)
+        if provider_result is not None and not provider_result.valid:
+            return EconomicCalendarState.unavailable(
+                observed_at=now,
+                source=provider_result.source,
+                reason="PROVIDER_UNAVAILABLE",
+            )
         relevant = self.relevance.filter(events, symbol=symbol)
-        return self.engine.evaluate(relevant, now=now)
+        state = self.engine.evaluate(relevant, now=now)
+        if provider_result is None:
+            return state
+        return EconomicCalendarState(
+            status=state.status,
+            observed_at=state.observed_at,
+            events=state.events,
+            active_events=state.active_events,
+            next_event=state.next_event,
+            minutes_to_next=state.minutes_to_next,
+            reasons=state.reasons + (("STALE_PROVIDER_CACHE",) if provider_result.stale else ()),
+            source=provider_result.source,
+            stale=provider_result.stale,
+        )
 
     def attach(self, context, *, now: datetime) -> EconomicCalendarState:
         if not hasattr(context, "market") or not hasattr(context, "economic_calendar"):
