@@ -1,7 +1,5 @@
 from types import SimpleNamespace
 
-import pytest
-
 from market_data.profit_rtd_validation_recorder import ProfitRTDValidationRecorder
 
 
@@ -20,6 +18,14 @@ def _receipt(**overrides):
     )
     data.update(overrides)
     return SimpleNamespace(**data)
+
+
+def _assert_raises(exc_type, fn):
+    try:
+        fn()
+    except exc_type:
+        return
+    raise AssertionError(f"Esperava {exc_type.__name__}.")
 
 
 def test_rc9_records_validation_metrics_without_operational_capabilities():
@@ -51,7 +57,7 @@ def test_rc9_records_validation_metrics_without_operational_capabilities():
     assert snapshot.total_source_units == 3
     assert snapshot.contiguous_cycles == 2
     assert snapshot.no_new_trade_cycles == 1
-    assert snapshot.continuity_rate == pytest.approx(0.6667)
+    assert abs(snapshot.continuity_rate - 0.6667) < 0.0001
     assert snapshot.observational_only is True
     assert snapshot.score_influence_allowed is False
     assert snapshot.decision_influence_allowed is False
@@ -91,14 +97,18 @@ def test_rc9_tracks_continuity_loss_and_symbol_reset():
 def test_rc9_rejects_receipt_with_operational_capability():
     recorder = ProfitRTDValidationRecorder()
 
-    with pytest.raises(ValueError):
-        recorder.record(_receipt(score_influence_allowed=True))
-
-    with pytest.raises(ValueError):
-        recorder.record(_receipt(decision_influence_allowed=True))
-
-    with pytest.raises(ValueError):
-        recorder.record(_receipt(order_execution_allowed=True))
+    _assert_raises(
+        ValueError,
+        lambda: recorder.record(_receipt(score_influence_allowed=True)),
+    )
+    _assert_raises(
+        ValueError,
+        lambda: recorder.record(_receipt(decision_influence_allowed=True)),
+    )
+    _assert_raises(
+        ValueError,
+        lambda: recorder.record(_receipt(order_execution_allowed=True)),
+    )
 
 
 def test_rc9_clear_resets_all_validation_metrics():
@@ -112,3 +122,15 @@ def test_rc9_clear_resets_all_validation_metrics():
     assert snapshot.total_new_trades == 0
     assert snapshot.last_symbol == ""
     assert snapshot.last_continuity == ""
+
+
+def main():
+    test_rc9_records_validation_metrics_without_operational_capabilities()
+    test_rc9_tracks_continuity_loss_and_symbol_reset()
+    test_rc9_rejects_receipt_with_operational_capability()
+    test_rc9_clear_resets_all_validation_metrics()
+    print("Profit RTD RC9: OK")
+
+
+if __name__ == "__main__":
+    main()
