@@ -42,6 +42,9 @@ from psychology.trader_psychology_runtime import TraderPsychologyRuntime
 from psychology.trader_psychology_session_journal import (
     TraderPsychologySessionJournal,
 )
+from psychology.trader_psychology_session_review import (
+    TraderPsychologySessionReviewer,
+)
 from psychology.trader_psychology_session_summary import (
     TraderPsychologySessionSummarizer,
 )
@@ -128,6 +131,9 @@ class SystemInitializer:
         self.psychology_session_summarizer = (
             TraderPsychologySessionSummarizer()
         )
+        self.psychology_session_reviewer = (
+            TraderPsychologySessionReviewer()
+        )
         self.voice = None
         self.risk = None
         self.market_filter = None
@@ -137,6 +143,11 @@ class SystemInitializer:
         self.monitor = None
         self.alert = None
         self.logger = None
+
+    def psychology_session_review(self):
+        return self.psychology_session_reviewer.build(
+            self.psychology_session_summary()
+        )
 
     def psychology_session_summary(self):
         entries = (
