@@ -1,5 +1,9 @@
 """Camada observacional de Psicologia do Trader."""
 
+from psychology.psychology_voice_controlled_test import (
+    PsychologyVoiceControlledTest,
+    PsychologyVoiceControlledTestResult,
+)
 from psychology.psychology_voice_readiness import (
     PsychologyVoiceReadiness,
     PsychologyVoiceReadinessSnapshot,
@@ -64,6 +68,8 @@ from psychology.voice_assistant import (
 )
 
 __all__ = [
+    "PsychologyVoiceControlledTest",
+    "PsychologyVoiceControlledTestResult",
     "PsychologyVoiceReadiness",
     "PsychologyVoiceReadinessSnapshot",
     "PsychologyTTSBackendSink",
