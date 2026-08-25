@@ -43,6 +43,8 @@ class TraderPsychologyDashboardExport:
     ]
     latest_sequence: int | None
     updated_at: str | None
+    total_observations: int = 0
+    longest_unchanged_observations: int = 0
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -161,6 +163,10 @@ class TraderPsychologyDashboardExporter:
                 updated_at.isoformat()
                 if updated_at is not None
                 else None
+            ),
+            total_observations=projection.total_observations,
+            longest_unchanged_observations=(
+                projection.longest_unchanged_observations
             ),
         )
 
