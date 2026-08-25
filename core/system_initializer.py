@@ -39,6 +39,9 @@ from psychology.trader_psychology_execution_confirmation_adapter import (
     TraderPsychologyExecutionConfirmationAdapter,
 )
 from psychology.trader_psychology_runtime import TraderPsychologyRuntime
+from psychology.trader_psychology_session_journal import (
+    TraderPsychologySessionJournal,
+)
 from psychology.trader_psychology_session_provider import (
     TraderPsychologySessionProvider,
 )
@@ -118,6 +121,7 @@ class SystemInitializer:
         self.psychology_audited_confirmations = None
         self.psychology_evidence_correlator = None
         self.psychology_evidence_presenter = None
+        self.psychology_session_journal = None
         self.voice = None
         self.risk = None
         self.market_filter = None
@@ -177,6 +181,9 @@ class SystemInitializer:
         self.psychology_evidence_presenter = (
             TraderPsychologyEvidencePresenter()
         )
+        self.psychology_session_journal = (
+            TraderPsychologySessionJournal()
+        )
         self.pipeline = AnalysisPipeline(
             event_bus=self.event_bus,
             psychology_state_provider=self.psychology_session,
@@ -189,6 +196,9 @@ class SystemInitializer:
             ),
             psychology_evidence_presenter=(
                 self.psychology_evidence_presenter
+            ),
+            psychology_session_journal=(
+                self.psychology_session_journal
             ),
         )
 
