@@ -3,6 +3,7 @@
 from pathlib import Path
 from types import MappingProxyType
 import json
+import operator
 import tempfile
 
 from psychology.trader_psychology_session_catalog_file_reader import (
@@ -66,7 +67,7 @@ def teste_payload_raiz_e_mapping_readonly():
         assert isinstance(result.payload, MappingProxyType)
         raises(
             TypeError,
-            lambda: result.payload.__setitem__("status", "ALTERED"),
+            lambda: operator.setitem(result.payload, "status", "ALTERED"),
         )
 
 
@@ -89,7 +90,7 @@ def teste_item_de_session_tambem_e_readonly():
         assert isinstance(session, MappingProxyType)
         raises(
             TypeError,
-            lambda: session.__setitem__("total_entries", 999),
+            lambda: operator.setitem(session, "total_entries", 999),
         )
 
 
@@ -100,7 +101,11 @@ def teste_mutacao_do_snapshot_nao_altera_arquivo_origem():
         result = TraderPsychologySessionCatalogFileReader().read(source)
         raises(
             TypeError,
-            lambda: result.payload.__setitem__("latest_session_id", None),
+            lambda: operator.setitem(
+                result.payload,
+                "latest_session_id",
+                None,
+            ),
         )
         assert source.read_bytes() == before
 
