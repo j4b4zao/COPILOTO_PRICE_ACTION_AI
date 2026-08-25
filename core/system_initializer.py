@@ -29,6 +29,9 @@ from psychology.trader_psychology_confirmation_audit import (
     AuditedTraderPsychologyExecutionConfirmations,
     TraderPsychologyConfirmationAuditLedger,
 )
+from psychology.trader_psychology_dashboard_projection import (
+    TraderPsychologyDashboardProjector,
+)
 from psychology.trader_psychology_evidence_correlator import (
     TraderPsychologyEvidenceCorrelator,
 )
@@ -134,6 +137,9 @@ class SystemInitializer:
         self.psychology_session_reviewer = (
             TraderPsychologySessionReviewer()
         )
+        self.psychology_dashboard_projector = (
+            TraderPsychologyDashboardProjector()
+        )
         self.voice = None
         self.risk = None
         self.market_filter = None
@@ -143,6 +149,18 @@ class SystemInitializer:
         self.monitor = None
         self.alert = None
         self.logger = None
+
+    def psychology_dashboard_projection(self):
+        summary = self.psychology_session_summary()
+        review = self.psychology_session_reviewer.build(
+            summary
+        )
+        readiness = self.psychology_voice_readiness()
+        return self.psychology_dashboard_projector.project(
+            summary=summary,
+            review=review,
+            voice_readiness=readiness,
+        )
 
     def psychology_session_review(self):
         return self.psychology_session_reviewer.build(
