@@ -42,6 +42,9 @@ from psychology.trader_psychology_runtime import TraderPsychologyRuntime
 from psychology.trader_psychology_session_journal import (
     TraderPsychologySessionJournal,
 )
+from psychology.trader_psychology_session_summary import (
+    TraderPsychologySessionSummarizer,
+)
 from psychology.trader_psychology_session_provider import (
     TraderPsychologySessionProvider,
 )
@@ -122,6 +125,9 @@ class SystemInitializer:
         self.psychology_evidence_correlator = None
         self.psychology_evidence_presenter = None
         self.psychology_session_journal = None
+        self.psychology_session_summarizer = (
+            TraderPsychologySessionSummarizer()
+        )
         self.voice = None
         self.risk = None
         self.market_filter = None
@@ -131,6 +137,16 @@ class SystemInitializer:
         self.monitor = None
         self.alert = None
         self.logger = None
+
+    def psychology_session_summary(self):
+        entries = (
+            self.psychology_session_journal.entries
+            if self.psychology_session_journal is not None
+            else ()
+        )
+        return self.psychology_session_summarizer.summarize(
+            entries
+        )
 
     def psychology_voice_readiness(self):
         return self.psychology_voice_readiness_service.inspect(
