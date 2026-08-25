@@ -141,8 +141,8 @@ def teste_contadores_de_voz_sao_preservados():
 
 
 def teste_sem_link_mensagem_fica_explicitamente_nao_vinculada():
-    provider, ledger, _, runtime, _ = build()
-    provider.register_trade_opened(
+    provider, ledger, audited, runtime, _ = build()
+    audited.adapter.publisher.publish_opened(
         quantity=1,
         plan_checklist_passed=True,
         chased_price=True,
