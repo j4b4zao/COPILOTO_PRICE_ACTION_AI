@@ -1,9 +1,10 @@
-"""Leitura, validação e snapshot profundamente readonly do catálogo psicológico (RC44)."""
+"""Leitura, validação, integridade e snapshot readonly do catálogo psicológico (RC45)."""
 
 from __future__ import annotations
 
 from collections.abc import Mapping
 from dataclasses import dataclass
+from hashlib import sha256
 from pathlib import Path
 from types import MappingProxyType
 import json
@@ -17,6 +18,9 @@ class TraderPsychologySessionCatalogFileReadResult:
     total_sessions: int
     latest_session_id: str | None
     payload: Mapping[str, object]
+    sha256: str
+    byte_size: int
+    integrity_verified: bool
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -24,13 +28,13 @@ class TraderPsychologySessionCatalogFileReadResult:
 
 
 class TraderPsychologySessionCatalogFileReader:
-    """Lê documentos de catálogo V1 sem permitir mutação do snapshot retornado."""
+    """Lê e valida documentos V1 sem permitir mutação do snapshot retornado."""
 
     NAME = "TraderPsychologySessionCatalogFileReader"
-    VERSION = "RC44"
+    VERSION = "RC45"
     SCHEMA_VERSION = "TRADER_PSYCHOLOGY_SESSION_CATALOG_V1"
 
-    def read(self, source):
+    def read(self, source, *, expected_sha256=None):
         path = Path(source)
         if not path.is_absolute():
             raise ValueError("source deve ser caminho absoluto.")
@@ -43,8 +47,14 @@ class TraderPsychologySessionCatalogFileReader:
         if not path.is_file():
             raise ValueError("source deve apontar para arquivo regular.")
 
+        raw = path.read_bytes()
+        digest = sha256(raw).hexdigest()
+        expected = self._normalize_expected_sha256(expected_sha256)
+        if expected is not None and digest != expected:
+            raise ValueError("SHA-256 do catálogo não corresponde ao esperado.")
+
         try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
+            payload = json.loads(raw.decode("utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
             raise ValueError("Arquivo de catálogo JSON inválido.") from exc
 
@@ -57,21 +67,31 @@ class TraderPsychologySessionCatalogFileReader:
             total_sessions=payload["total_sessions"],
             latest_session_id=payload["latest_session_id"],
             payload=readonly_payload,
+            sha256=digest,
+            byte_size=len(raw),
+            integrity_verified=expected is not None,
         )
+
+    @staticmethod
+    def _normalize_expected_sha256(value):
+        if value is None:
+            return None
+        if not isinstance(value, str):
+            raise TypeError("expected_sha256 deve ser texto ou None.")
+        normalized = value.strip().casefold()
+        if len(normalized) != 64 or any(
+            character not in "0123456789abcdef" for character in normalized
+        ):
+            raise ValueError("expected_sha256 deve ser SHA-256 hexadecimal válido.")
+        return normalized
 
     def _validate_payload(self, payload):
         if not isinstance(payload, dict):
             raise ValueError("Catálogo deve ser objeto JSON.")
         required = {
-            "schema_version",
-            "generated_at",
-            "status",
-            "total_sessions",
-            "latest_session_id",
-            "sessions",
-            "observational_only",
-            "score_influence_allowed",
-            "order_execution_allowed",
+            "schema_version", "generated_at", "status", "total_sessions",
+            "latest_session_id", "sessions", "observational_only",
+            "score_influence_allowed", "order_execution_allowed",
             "operational_block_allowed",
         }
         if not required.issubset(payload):
@@ -80,9 +100,7 @@ class TraderPsychologySessionCatalogFileReader:
             raise ValueError("Schema de catálogo incompatível.")
         if not isinstance(payload["sessions"], list):
             raise ValueError("sessions deve ser lista.")
-        if isinstance(payload["total_sessions"], bool) or not isinstance(
-            payload["total_sessions"], int
-        ):
+        if isinstance(payload["total_sessions"], bool) or not isinstance(payload["total_sessions"], int):
             raise ValueError("total_sessions deve ser inteiro.")
         if payload["total_sessions"] < 0:
             raise ValueError("total_sessions não pode ser negativo.")
@@ -94,9 +112,7 @@ class TraderPsychologySessionCatalogFileReader:
             raise ValueError("Catálogo EMPTY deve ter zero sessões.")
         if payload["status"] == "AVAILABLE" and payload["total_sessions"] == 0:
             raise ValueError("Catálogo AVAILABLE deve conter sessões.")
-        if payload["latest_session_id"] is not None and not isinstance(
-            payload["latest_session_id"], str
-        ):
+        if payload["latest_session_id"] is not None and not isinstance(payload["latest_session_id"], str):
             raise ValueError("latest_session_id deve ser texto ou None.")
         if payload["observational_only"] is not True:
             raise ValueError("Catálogo deve permanecer observacional.")
@@ -110,12 +126,7 @@ class TraderPsychologySessionCatalogFileReader:
     @classmethod
     def _deep_freeze(cls, value):
         if isinstance(value, dict):
-            return MappingProxyType(
-                {
-                    key: cls._deep_freeze(item)
-                    for key, item in value.items()
-                }
-            )
+            return MappingProxyType({key: cls._deep_freeze(item) for key, item in value.items()})
         if isinstance(value, list):
             return tuple(cls._deep_freeze(item) for item in value)
         return value
