@@ -70,6 +70,7 @@ class AnalysisPipeline:
         psychology_evidence_correlator=None,
         psychology_confirmation_audit=None,
         psychology_evidence_presenter=None,
+        psychology_session_journal=None,
     ):
         if external_context_service is not None and not callable(
             getattr(external_context_service, "snapshot", None)
@@ -126,6 +127,12 @@ class AnalysisPipeline:
             raise TypeError(
                 "Psychology evidence presenter exige correlator e audit."
             )
+        if psychology_session_journal is not None and not callable(
+            getattr(psychology_session_journal, "record", None)
+        ):
+            raise TypeError(
+                "Psychology session journal deve expor record()."
+            )
 
         self.event_bus = event_bus
         self.external_context_service = external_context_service
@@ -138,6 +145,7 @@ class AnalysisPipeline:
         self.psychology_evidence_correlator = psychology_evidence_correlator
         self.psychology_confirmation_audit = psychology_confirmation_audit
         self.psychology_evidence_presenter = psychology_evidence_presenter
+        self.psychology_session_journal = psychology_session_journal
         self.context = AnalysisContext()
 
         self.book_diagnostics_replay = BookDiagnosticsReplayRecorder()
@@ -287,6 +295,17 @@ class AnalysisPipeline:
                 except Exception:
                     # A evidência é explicativa e secundária: sua falha
                     # não apaga o snapshot psicológico principal.
+                    pass
+            session_journal = getattr(
+                self,
+                "psychology_session_journal",
+                None,
+            )
+            if session_journal is not None:
+                try:
+                    session_journal.record(runtime_result)
+                except Exception:
+                    # O diário é observacional e nunca invalida o snapshot.
                     pass
             self.psychology_context_bridge.attach(
                 self.context,
