@@ -4,8 +4,9 @@ from __future__ import annotations
 
 from collections import deque
 from dataclasses import dataclass, replace
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from threading import Lock
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from psychology.trader_psychology_runtime import (
     TraderPsychologyRuntimeResult,
@@ -47,6 +48,7 @@ class TraderPsychologySessionJournal:
         max_entries=500,
         clock=None,
         deduplicate_unchanged=False,
+        session_timezone="UTC",
     ):
         if isinstance(max_entries, bool) or not isinstance(
             max_entries,
@@ -61,8 +63,29 @@ class TraderPsychologySessionJournal:
             raise TypeError(
                 "deduplicate_unchanged deve ser booleano."
             )
+        if not isinstance(session_timezone, str) or not (
+            session_timezone.strip()
+        ):
+            raise TypeError(
+                "session_timezone deve ser string não vazia."
+            )
+        timezone_name = session_timezone.strip()
+        try:
+            timezone_value = ZoneInfo(timezone_name)
+        except ZoneInfoNotFoundError as exc:
+            if timezone_name == "America/Sao_Paulo":
+                timezone_value = timezone(
+                    timedelta(hours=-3),
+                    name="America/Sao_Paulo",
+                )
+            else:
+                raise ValueError(
+                    "session_timezone desconhecido."
+                ) from exc
         self.max_entries = max_entries
         self.deduplicate_unchanged = deduplicate_unchanged
+        self.session_timezone = timezone_name
+        self._session_timezone = timezone_value
         self.clock = clock or (
             lambda: datetime.now(timezone.utc)
         )
@@ -143,7 +166,11 @@ class TraderPsychologySessionJournal:
                     for delivery in runtime_result.voice.deliveries
                 ),
                 last_observed_at=recorded_at,
-                session_date=recorded_at.date().isoformat(),
+                session_date=(
+                    recorded_at.astimezone(
+                        self._session_timezone
+                    ).date().isoformat()
+                ),
             )
             if (
                 self.deduplicate_unchanged
