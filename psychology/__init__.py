@@ -6,6 +6,11 @@ from psychology.coaching_engine import (
     CoachingPolicy,
     CoachingResult,
 )
+from psychology.trader_psychology_confirmation_audit import (
+    AuditedTraderPsychologyExecutionConfirmations,
+    ConfirmationAuditEntry,
+    TraderPsychologyConfirmationAuditLedger,
+)
 from psychology.trader_psychology_context_bridge import (
     TraderPsychologyContextBridge,
 )
@@ -47,6 +52,9 @@ __all__ = [
     "CoachingMessage",
     "CoachingPolicy",
     "CoachingResult",
+    "AuditedTraderPsychologyExecutionConfirmations",
+    "ConfirmationAuditEntry",
+    "TraderPsychologyConfirmationAuditLedger",
     "TraderPsychologyContextBridge",
     "TradeConfirmationResult",
     "TraderPsychologyExecutionConfirmationAdapter",
