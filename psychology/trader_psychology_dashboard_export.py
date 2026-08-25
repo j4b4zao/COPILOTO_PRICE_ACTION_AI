@@ -83,7 +83,7 @@ class TraderPsychologyDashboardExporter:
 
     NAME = "TraderPsychologyDashboardExporter"
     VERSION = "RC31"
-    SCHEMA_VERSION = "TRADER_PSYCHOLOGY_DASHBOARD_V2"
+    SCHEMA_VERSION = "TRADER_PSYCHOLOGY_DASHBOARD_V1"
 
     def __init__(self, *, clock=None):
         self.clock = clock or (
