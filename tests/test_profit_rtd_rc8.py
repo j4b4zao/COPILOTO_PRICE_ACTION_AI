@@ -31,8 +31,16 @@ class FakePipeline:
         self.calls.append((symbol, price))
         return SimpleNamespace(
             symbol=symbol,
+            timestamp="2026-08-25T15:30:00",
+            continuity="CONTIGUOUS",
+            new_trade_count=0,
             state_updated=False,
             baseline_reset=False,
+            source_units=0,
+            observational_only=True,
+            score_influence_allowed=False,
+            decision_influence_allowed=False,
+            order_execution_allowed=False,
         )
 
 

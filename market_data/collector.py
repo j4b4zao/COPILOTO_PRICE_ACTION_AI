@@ -13,17 +13,18 @@ from market_data.profit_delta_quality_validator import ProfitDeltaQualityValidat
 from market_data.profit_delta_session_recorder import ProfitDeltaSessionRecorder
 from market_data.profit_delta_source_diagnostics import ProfitDeltaSourceDiagnostics
 from market_data.profit_source_integrity import ProfitSourceIntegrityGuard
+from market_data.profit_rtd_validation_recorder import ProfitRTDValidationRecorder
 
 
 class Collector:
     NAME = "Collector"
-    VERSION = "RC17-PROFIT-RTD-FEATURE-FLAG"
+    VERSION = "RC18-PROFIT-RTD-VALIDATION-OBSERVABILITY"
 
     def __init__(self, excel=None, reader=None, multi_timeframe=None, renko_state=None,
                  order_flow_state=None, chart_mode=None, renko_brick_size=None, clock=None,
                  source_guard=None, source_diagnostics=None, delta_quality_validator=None,
                  delta_session_recorder=None, enable_profit_rtd_order_flow=None,
-                 profit_rtd_order_flow_pipeline=None):
+                 profit_rtd_order_flow_pipeline=None, profit_rtd_validation_recorder=None):
         if excel is None:
             from connectors.excel_connector import ExcelConnector
             excel = ExcelConnector()
@@ -67,6 +68,11 @@ class Collector:
             delta_session_recorder
             if delta_session_recorder is not None
             else ProfitDeltaSessionRecorder()
+        )
+        self.profit_rtd_validation_recorder = (
+            profit_rtd_validation_recorder
+            if profit_rtd_validation_recorder is not None
+            else ProfitRTDValidationRecorder()
         )
         self.last_delta_quality = self.delta_quality_validator.evaluate(
             self.order_flow,
@@ -128,8 +134,17 @@ class Collector:
                 ativo,
                 price=close,
             )
+            self.profit_rtd_validation_recorder.record(self.last_profit_rtd_receipt)
             diagnostic_buy = self.order_flow.cumulative_buy
             diagnostic_sell = self.order_flow.cumulative_sell
+            validation = self.profit_rtd_validation_recorder.snapshot
+            print(
+                "[PROFIT RTD VALIDATION] "
+                f"cycles={validation.total_cycles} updates={validation.state_updates} "
+                f"new_trades={validation.total_new_trades} resets={validation.baseline_resets} "
+                f"continuity={validation.continuity_rate:.0%} "
+                f"last={validation.last_continuity}"
+            )
         else:
             diagnostic_buy = aggression_buy
             diagnostic_sell = aggression_sell
@@ -232,6 +247,9 @@ class Collector:
 
     def delta_session_summary(self) -> dict:
         return self.delta_session_recorder.summary()
+
+    def profit_rtd_validation_summary(self) -> dict:
+        return self.profit_rtd_validation_recorder.snapshot.to_dict()
 
     def _primary_market(self):
         return (
