@@ -1,4 +1,4 @@
-"""CLI opt-in para sessao real de validacao Profit RTD (RC17)."""
+"""CLI opt-in para sessao real de validacao Profit RTD (RC20)."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ import argparse
 from pathlib import Path
 import sys
 
-from config.settings import ENABLE_ORDER_FLOW_SCORE
+from config.settings import ENABLE_ORDER_FLOW_SCORE, PROFIT_RTD_TIMES_TRADES_PATH
 from market_data.profit_rtd_session_close_utility import ProfitRTDSessionCloseUtility
 from market_data.profit_rtd_validation_session_runner import ProfitRTDValidationSessionRunner
 
@@ -54,9 +54,29 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def _build_real_collector():
+    from connectors.excel_connector import ExcelConnector
     from market_data.collector import Collector
+    from market_data.excel_range_gateway import ExcelRangeGateway
+    from market_data.profit_rtd_order_flow_pipeline import ProfitRTDOrderFlowPipeline
+    from market_data.profit_rtd_workbook_reader import ProfitRTDTimesTradesReader
 
-    return Collector(enable_profit_rtd_order_flow=True)
+    # Collector continua conectado ao Profit.xlsx pelo caminho legado/oficial.
+    collector = Collector(enable_profit_rtd_order_flow=False)
+
+    # T&T usa uma conexao Excel dedicada e separada da cotacao principal.
+    tt_excel = ExcelConnector()
+    if not tt_excel.conectar(PROFIT_RTD_TIMES_TRADES_PATH):
+        raise RuntimeError("Nao foi possivel conectar ao workbook Times & Trades RTD.")
+
+    tt_gateway = ExcelRangeGateway(tt_excel)
+    tt_reader = ProfitRTDTimesTradesReader(tt_gateway)
+    collector.profit_rtd_order_flow_pipeline = ProfitRTDOrderFlowPipeline(
+        tt_reader,
+        collector.order_flow,
+    )
+    collector.enable_profit_rtd_order_flow = True
+    collector.profit_rtd_times_trades_excel = tt_excel
+    return collector
 
 
 def _build_real_preflight(collector):
@@ -64,7 +84,11 @@ def _build_real_preflight(collector):
     from market_data.profit_rtd_live_preflight import ProfitRTDLivePreflight
     from market_data.profit_rtd_workbook_reader import ProfitRTDTimesTradesReader
 
-    gateway = ExcelRangeGateway(collector.excel)
+    tt_excel = getattr(collector, "profit_rtd_times_trades_excel", None)
+    if tt_excel is None:
+        raise RuntimeError("Collector sem conexao dedicada de Times & Trades RTD.")
+
+    gateway = ExcelRangeGateway(tt_excel)
     reader = ProfitRTDTimesTradesReader(gateway)
     return ProfitRTDLivePreflight(reader)
 
@@ -154,7 +178,7 @@ def run_validation_session(
         )
     except Exception as exc:
         print("PROFIT_RTD_SESSION=ERROR")
-        print(f"reason=BOOTSTRAP_ERROR:{type(exc).__name__}")
+        print(f"reason=BOOTSTRAP_ERROR:{type(exc).__name__}:{exc}")
         return 1
 
     _print_receipt(receipt)
