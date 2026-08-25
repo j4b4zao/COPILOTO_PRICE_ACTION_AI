@@ -1,7 +1,5 @@
 from datetime import datetime
 
-import pytest
-
 from market_data.profit_rtd_workbook_reader import ProfitRTDTimesTradesReader
 
 
@@ -14,17 +12,19 @@ class Gateway:
 
 
 def matrix(aggressor="Direto"):
-    rows = [
+    return [
         ["WINV26", "Negócios", None, None, None, None, None, None],
         ["Data", "Compradora", "Valor", "Quantidade", "Vendedora", "Agressor", None, None],
         ["25/08/2026 18:22:49.854", "JP Morgan", 177510.0, 1500.0, "JP Morgan", aggressor, None, None],
         ["-", "-", 0.0, 0.0, "-", "-", None, None],
     ]
-    return rows
 
 
 def test_direto_is_preserved_as_observational_classification():
-    reader = ProfitRTDTimesTradesReader(Gateway(matrix()), clock=lambda: datetime(2026, 8, 25, 18, 23))
+    reader = ProfitRTDTimesTradesReader(
+        Gateway(matrix()),
+        clock=lambda: datetime(2026, 8, 25, 18, 23),
+    )
     payload = reader.read_times_trades("WINV26")
     assert len(payload["trades"]) == 1
     assert payload["trades"][0]["aggressor"] == "Direto"
@@ -36,5 +36,24 @@ def test_direto_is_preserved_as_observational_classification():
 
 def test_unknown_aggressor_remains_rejected():
     reader = ProfitRTDTimesTradesReader(Gateway(matrix("Desconhecido")))
-    with pytest.raises(ValueError, match="Linha RTD do T&T inválida: 3"):
+    try:
         reader.read_times_trades("WINV26")
+    except ValueError as exc:
+        assert "Linha RTD do T&T inválida: 3" in str(exc)
+    else:
+        raise AssertionError("Agressor desconhecido deveria ser rejeitado")
+
+
+def main():
+    tests = [
+        test_direto_is_preserved_as_observational_classification,
+        test_unknown_aggressor_remains_rejected,
+    ]
+    for test in tests:
+        test()
+        print(f"✅ {test.__name__}")
+    print("🏆 PROFIT RTD RC22 APROVADO")
+
+
+if __name__ == "__main__":
+    main()
