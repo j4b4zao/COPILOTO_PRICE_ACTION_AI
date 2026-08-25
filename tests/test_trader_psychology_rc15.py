@@ -2,10 +2,13 @@
 
 from dataclasses import FrozenInstanceError
 
+from analysis.analysis_pipeline import AnalysisPipeline
+from core.analysis_context import AnalysisContext
 from core.event_bus import EventBus
 from psychology import (
     AuditedTraderPsychologyExecutionConfirmations,
     TraderPsychologyConfirmationAuditLedger,
+    TraderPsychologyContextBridge,
     TraderPsychologyEvidenceCorrelator,
     TraderPsychologyEvidencePresenter,
     TraderPsychologyExecutionConfirmationAdapter,
@@ -255,6 +258,45 @@ def teste_estado_neutro_permanece_silencioso():
     assert result.coaching.messages == ()
     assert result.voice.deliveries == ()
     assert sink.calls == []
+
+
+
+def pipeline_result(*, presenter=None):
+    provider, ledger, audited, runtime, sink = build(
+        voice_enabled=True,
+    )
+    open_fomo(audited)
+    pipeline = object.__new__(AnalysisPipeline)
+    pipeline.context = AnalysisContext()
+    pipeline.psychology_state_provider = provider
+    pipeline.psychology_runtime = runtime
+    pipeline.psychology_context_bridge = TraderPsychologyContextBridge()
+    pipeline.psychology_evidence_correlator = (
+        TraderPsychologyEvidenceCorrelator()
+    )
+    pipeline.psychology_confirmation_audit = ledger
+    pipeline.psychology_evidence_presenter = (
+        presenter
+        if presenter is not None
+        else TraderPsychologyEvidencePresenter()
+    )
+    pipeline._refresh_trader_psychology()
+    return pipeline.context.trader_psychology, sink
+
+
+def teste_pipeline_entrega_snapshot_apresentado_sem_audio_duplicado():
+    result, sink = pipeline_result()
+    assert result.evidence.status == "LINKED"
+    assert message(result, "FOMO").evidence_linked
+    assert delivery(result, "FOMO").evidence_linked
+    assert len(sink.calls) == 1
+
+
+def teste_falha_do_presenter_preserva_evidencia_e_coaching():
+    result, sink = pipeline_result(presenter=RaisesPresenter())
+    assert result.evidence.status == "LINKED"
+    assert not message(result, "FOMO").evidence_linked
+    assert len(sink.calls) == 1
 
 
 def main():
