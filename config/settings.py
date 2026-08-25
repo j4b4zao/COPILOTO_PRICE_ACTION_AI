@@ -4,14 +4,21 @@ config/settings.py
 Configurações globais do
 COPILOTO PRICE ACTION AI.
 
-RC8
+RC9
 """
 
 # ==========================================================
-# EXCEL
+# EXCEL / PROFIT WORKBOOKS
 # ==========================================================
 
+# Cotação principal / OHLC / indicadores.
 EXCEL_PATH = r"C:\COPILOTO_PRICE_ACTION_AI\Profit.xlsx"
+
+# Times & Trades RTD dedicado para Order Flow observacional.
+PROFIT_RTD_TIMES_TRADES_PATH = r"C:\COPILOTO_PRICE_ACTION_AI\times&trades.xlsx"
+
+# Livro de Ofertas RTD dedicado. Ainda não é consumido pelo núcleo.
+PROFIT_RTD_ORDER_BOOK_PATH = r"C:\COPILOTO_PRICE_ACTION_AI\livroOfertas.xlsx"
 
 # ==========================================================
 # MARKET
