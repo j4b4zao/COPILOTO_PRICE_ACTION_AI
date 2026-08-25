@@ -57,6 +57,10 @@ from economic_context.trading_economics_calendar_fetcher import (
     TradingEconomicsCalendarFetcher,
 )
 from economic_context.trading_economics_config import TradingEconomicsConfig
+from economic_context.trading_economics_capture_preflight import (
+    TradingEconomicsCapturePreflight,
+    TradingEconomicsPreflightReport,
+)
 from economic_context.trading_economics_controlled_pipeline import (
     TradingEconomicsControlledPipeline,
 )
@@ -98,6 +102,8 @@ __all__ = [
     "TradingEconomicsCalendarMapper",
     "TradingEconomicsCalendarFetcher",
     "TradingEconomicsConfig",
+    "TradingEconomicsCapturePreflight",
+    "TradingEconomicsPreflightReport",
     "TradingEconomicsControlledPipeline",
     "UrllibEconomicCalendarTransport",
 ]
