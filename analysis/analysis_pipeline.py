@@ -3,12 +3,17 @@ analysis/analysis_pipeline.py
 
 Pipeline principal do COPILOTO PRICE ACTION AI.
 
-RC15.5 - MICROSTRUCTURE ELIGIBILITY SCORE A/B OBSERVATIONAL
+RC15.5 + TRADER PSYCHOLOGY RC7 - PIPELINE OBSERVATIONAL
 """
 
 from core.analysis_context import AnalysisContext
 from external_context.external_market_state import ExternalMarketState
 from models.book_depth import BookDepthSnapshot
+from psychology.trader_psychology_context_bridge import (
+    TraderPsychologyContextBridge,
+)
+from psychology.trader_psychology_runtime import TraderPsychologyRuntime
+from psychology.trader_psychology_state import TraderPsychologyState
 
 from analysis.market_structure import MarketStructure
 from analysis.market_regime import MarketRegime
@@ -52,7 +57,15 @@ from core.event_types import EventType
 
 class AnalysisPipeline:
 
-    def __init__(self, event_bus=None, external_context_service=None, book_depth_service=None):
+    def __init__(
+        self,
+        event_bus=None,
+        external_context_service=None,
+        book_depth_service=None,
+        psychology_state_provider=None,
+        psychology_runtime=None,
+        psychology_context_bridge=None,
+    ):
         if external_context_service is not None and not callable(
             getattr(external_context_service, "snapshot", None)
         ):
@@ -61,10 +74,29 @@ class AnalysisPipeline:
             getattr(book_depth_service, "snapshot", None)
         ):
             raise TypeError("Book depth service deve expor snapshot(symbol).")
+        if psychology_state_provider is not None and not callable(
+            getattr(psychology_state_provider, "snapshot", None)
+        ):
+            raise TypeError(
+                "Psychology state provider deve expor snapshot(context)."
+            )
+        if psychology_runtime is not None and not callable(
+            getattr(psychology_runtime, "process", None)
+        ):
+            raise TypeError("Psychology runtime deve expor process(state).")
+        if psychology_context_bridge is not None and not callable(
+            getattr(psychology_context_bridge, "attach", None)
+        ):
+            raise TypeError("Psychology bridge deve expor attach(context, result).")
 
         self.event_bus = event_bus
         self.external_context_service = external_context_service
         self.book_depth_service = book_depth_service
+        self.psychology_state_provider = psychology_state_provider
+        self.psychology_runtime = psychology_runtime or TraderPsychologyRuntime()
+        self.psychology_context_bridge = (
+            psychology_context_bridge or TraderPsychologyContextBridge()
+        )
         self.context = AnalysisContext()
 
         self.book_diagnostics_replay = BookDiagnosticsReplayRecorder()
@@ -122,6 +154,10 @@ class AnalysisPipeline:
         self.score_microstructure_eligibility_ab.record(self.context)
         self.microstructure_confluence_replay.record(self.context)
         self.microstructure_eligibility_replay.record(self.context)
+
+        # A Psicologia roda somente depois do núcleo operacional e dos replays.
+        # Ela anexa um snapshot observacional e nunca retroalimenta as engines.
+        self._refresh_trader_psychology()
         self._publish_loop()
         return self.context
 
@@ -163,6 +199,23 @@ class AnalysisPipeline:
             )
             return
         self.context.book_depth = snapshot
+
+    def _refresh_trader_psychology(self) -> None:
+        if self.psychology_state_provider is None:
+            return
+        try:
+            state = self.psychology_state_provider.snapshot(self.context)
+            if not isinstance(state, TraderPsychologyState):
+                return
+            runtime_result = self.psychology_runtime.process(state)
+            self.psychology_context_bridge.attach(
+                self.context,
+                runtime_result,
+            )
+        except Exception:
+            # Fail-open operacional: psicologia indisponível não interfere
+            # em Score, Risk, Decision, Alert ou execução de ordens.
+            self.context.trader_psychology = None
 
     def _publish_engine(self, engine):
         if self.event_bus is None:
