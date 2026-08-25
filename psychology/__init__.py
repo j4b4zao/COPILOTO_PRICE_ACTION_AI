@@ -73,6 +73,10 @@ from psychology.trader_psychology_session_catalog_export import (
     TraderPsychologySessionCatalogExporter,
     TraderPsychologySessionCatalogExportItem,
 )
+from psychology.trader_psychology_session_catalog_file_export import (
+    TraderPsychologySessionCatalogFileExporter,
+    TraderPsychologySessionCatalogFileExportResult,
+)
 from psychology.trader_psychology_session_catalog import (
     TraderPsychologySessionCatalog,
     TraderPsychologySessionCatalogBuilder,
@@ -146,6 +150,8 @@ __all__ = [
     "TraderPsychologySessionCatalogExport",
     "TraderPsychologySessionCatalogExporter",
     "TraderPsychologySessionCatalogExportItem",
+    "TraderPsychologySessionCatalogFileExporter",
+    "TraderPsychologySessionCatalogFileExportResult",
     "TraderPsychologySessionCatalog",
     "TraderPsychologySessionCatalogBuilder",
     "TraderPsychologySessionCatalogItem",
