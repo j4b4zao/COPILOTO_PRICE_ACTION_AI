@@ -19,6 +19,12 @@ from execution.execution_engine import ExecutionEngine
 from monitor.monitor import Monitor
 from alerts.alert_manager import AlertManager
 from logs.trade_logger import TradeLogger
+from psychology.trader_psychology_session_provider import (
+    TraderPsychologySessionProvider,
+)
+from psychology.trader_psychology_trade_event_bridge import (
+    TraderPsychologyTradeEventBridge,
+)
 
 
 class SystemInitializer:
@@ -35,6 +41,8 @@ class SystemInitializer:
         self.event_bus = None
         self.validator = None
         self.pipeline = None
+        self.psychology_session = None
+        self.psychology_trade_events = None
         self.voice = None
         self.risk = None
         self.market_filter = None
@@ -50,7 +58,16 @@ class SystemInitializer:
         self.collector = Collector()
         self.event_bus = EventBus()
         self.validator = DataValidator()
-        self.pipeline = AnalysisPipeline(event_bus=self.event_bus)
+
+        self.psychology_session = TraderPsychologySessionProvider()
+        self.psychology_trade_events = TraderPsychologyTradeEventBridge(
+            event_bus=self.event_bus,
+            session_provider=self.psychology_session,
+        ).connect()
+        self.pipeline = AnalysisPipeline(
+            event_bus=self.event_bus,
+            psychology_state_provider=self.psychology_session,
+        )
 
         self.voice = BookDiagnosticsVoiceServiceRC97(config=self.voice_config)
 
