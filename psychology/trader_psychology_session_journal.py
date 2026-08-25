@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from collections import deque
 from dataclasses import dataclass, replace
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from threading import Lock
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
@@ -69,15 +69,22 @@ class TraderPsychologySessionJournal:
             raise TypeError(
                 "session_timezone deve ser string não vazia."
             )
+        timezone_name = session_timezone.strip()
         try:
-            timezone_value = ZoneInfo(session_timezone.strip())
+            timezone_value = ZoneInfo(timezone_name)
         except ZoneInfoNotFoundError as exc:
-            raise ValueError(
-                "session_timezone desconhecido."
-            ) from exc
+            if timezone_name == "America/Sao_Paulo":
+                timezone_value = timezone(
+                    timedelta(hours=-3),
+                    name="America/Sao_Paulo",
+                )
+            else:
+                raise ValueError(
+                    "session_timezone desconhecido."
+                ) from exc
         self.max_entries = max_entries
         self.deduplicate_unchanged = deduplicate_unchanged
-        self.session_timezone = session_timezone.strip()
+        self.session_timezone = timezone_name
         self._session_timezone = timezone_value
         self.clock = clock or (
             lambda: datetime.now(timezone.utc)
