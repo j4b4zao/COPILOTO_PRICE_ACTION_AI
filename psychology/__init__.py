@@ -19,6 +19,9 @@ from psychology.trader_psychology_state import TraderPsychologyState
 from psychology.trader_psychology_session_provider import (
     TraderPsychologySessionProvider,
 )
+from psychology.trader_psychology_trade_event_bridge import (
+    TraderPsychologyTradeEventBridge,
+)
 from psychology.trader_psychology_runtime import (
     TraderPsychologyRuntime,
     TraderPsychologyRuntimeResult,
@@ -43,6 +46,7 @@ __all__ = [
     "TraderPsychologySignal",
     "TraderPsychologyState",
     "TraderPsychologySessionProvider",
+    "TraderPsychologyTradeEventBridge",
     "TraderPsychologyRuntime",
     "TraderPsychologyRuntimeResult",
     "NullPsychologyVoiceSink",
