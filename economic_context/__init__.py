@@ -57,6 +57,11 @@ from economic_context.trading_economics_calendar_fetcher import (
     TradingEconomicsCalendarFetcher,
 )
 from economic_context.trading_economics_config import TradingEconomicsConfig
+from economic_context.trading_economics_trial_session_planner import (
+    TradingEconomicsTrialPlan,
+    TradingEconomicsTrialSessionPlan,
+    TradingEconomicsTrialSessionPlanner,
+)
 from economic_context.trading_economics_session_coordinator import (
     TradingEconomicsSessionCoordinator,
     TradingEconomicsSessionResult,
@@ -106,6 +111,9 @@ __all__ = [
     "TradingEconomicsCalendarMapper",
     "TradingEconomicsCalendarFetcher",
     "TradingEconomicsConfig",
+    "TradingEconomicsTrialPlan",
+    "TradingEconomicsTrialSessionPlan",
+    "TradingEconomicsTrialSessionPlanner",
     "TradingEconomicsSessionCoordinator",
     "TradingEconomicsSessionResult",
     "TradingEconomicsCapturePreflight",
