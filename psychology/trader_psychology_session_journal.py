@@ -28,6 +28,7 @@ class TraderPsychologyJournalEntry:
     voice_delivery_codes: tuple[str, ...]
     observation_count: int = 1
     last_observed_at: datetime | None = None
+    session_date: str = ""
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -142,6 +143,7 @@ class TraderPsychologySessionJournal:
                     for delivery in runtime_result.voice.deliveries
                 ),
                 last_observed_at=recorded_at,
+                session_date=recorded_at.date().isoformat(),
             )
             if (
                 self.deduplicate_unchanged
@@ -166,6 +168,7 @@ class TraderPsychologySessionJournal:
     @staticmethod
     def _fingerprint(entry):
         return (
+            entry.session_date,
             entry.status,
             entry.signal_codes,
             entry.pause_recommended,
