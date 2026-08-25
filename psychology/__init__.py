@@ -23,6 +23,9 @@ from psychology.trader_psychology_evidence_correlator import (
     TraderPsychologyEvidenceCorrelator,
     TraderPsychologyEvidenceReport,
 )
+from psychology.trader_psychology_evidence_presenter import (
+    TraderPsychologyEvidencePresenter,
+)
 from psychology.trader_psychology_engine import (
     TraderPsychologyEngine,
     TraderPsychologyPolicy,
@@ -66,6 +69,7 @@ __all__ = [
     "PsychologyEvidenceLink",
     "TraderPsychologyEvidenceCorrelator",
     "TraderPsychologyEvidenceReport",
+    "TraderPsychologyEvidencePresenter",
     "TraderPsychologyEngine",
     "TraderPsychologyPolicy",
     "TraderPsychologyResult",
