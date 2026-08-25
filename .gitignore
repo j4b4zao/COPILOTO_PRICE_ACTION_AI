@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+ambiente/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# IDE and operating system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Profit Pro / Excel DDE local files
+Profit.xlsx
+~$*.xlsx
+*.xlsb
+
+# Runtime data and logs
+logs/*.log
+saida.txt
+data/*.json
+
+# Build and temporary artifacts
+build/
+dist/
+*.egg-info/
+*.zip
+*.bak
+*.tmp

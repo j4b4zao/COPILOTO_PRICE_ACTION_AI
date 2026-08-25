@@ -67,9 +67,6 @@ def preparar_cenario(context):
     context.strategy.probability = 1.0
     context.strategy.quality = "A+"
     context.strategy.priority = 10
-    context.strategy.direction = "BUY"
-    context.strategy.confluences = 5
-
     # ----------------------------------------------------------
     # LIQUIDITY
     #
@@ -121,9 +118,19 @@ def preparar_cenario(context):
     if hasattr(context.structure, "last_low"):
         context.structure.last_low = 172100.0
 
-    # Volume não é necessário para autorizar o risco neste teste.
-    if hasattr(context.volume, "valid"):
-        context.volume.valid = False
+    # Evidências controladas suficientes para que o ScoreEngine
+    # autorize o cenário antes da validação exclusiva do risco.
+    context.volume.valid = True
+    context.volume.high = True
+    context.volume.strength = 100.0
+
+    context.order_block.valid = True
+    context.order_block.bullish = True
+    context.order_block.score = 100.0
+
+    context.fair_value_gap.valid = True
+    context.fair_value_gap.bullish = True
+    context.fair_value_gap.score = 100.0
 
 
 def executar_teste():

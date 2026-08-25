@@ -96,7 +96,6 @@ class MarketState:
             ultimo.high,
             candle.high,
         )
-
         ultimo.low = min(
             ultimo.low,
             candle.low,
@@ -163,4 +162,3 @@ class MarketState:
             f"price={self.last_price:.2f}, "
             f"candles={self.candle_count})"
         )
-

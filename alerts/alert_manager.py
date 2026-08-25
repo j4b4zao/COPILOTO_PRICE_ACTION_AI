@@ -3,7 +3,11 @@ alerts/alert_manager.py
 
 Alert Manager
 
+<<<<<<< HEAD
 RC9.1
+=======
+RC9.2 - ORDER FLOW OBSERVABILITY
+>>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
 """
 
 from datetime import datetime
@@ -15,7 +19,11 @@ class AlertManager(EngineBase):
 
     NAME = "AlertManager"
 
+<<<<<<< HEAD
     VERSION = "RC9.1"
+=======
+    VERSION = "RC9.2"
+>>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
 
     ENABLED = True
 
@@ -61,6 +69,28 @@ class AlertManager(EngineBase):
 
         alert.confidence = decision.confidence
 
+        score = context.score
+
+        if score.order_flow_applied:
+
+            alert.order_flow_applied = True
+
+            alert.order_flow_direction = (
+                score.order_flow_direction
+            )
+
+            alert.order_flow_sampling_mode = (
+                context.order_flow.sampling_mode
+            )
+
+            alert.order_flow_contribution = (
+                score.order_flow_contribution
+            )
+
+            alert.add_reason(
+                "Order Flow aplicado ao score"
+            )
+
         alert.valid = True
 
         alert.add_reason(
@@ -96,6 +126,18 @@ class AlertManager(EngineBase):
         print(
             f"CONF.: {alert.confidence:.2f}"
         )
+<<<<<<< HEAD
+=======
+
+        if alert.order_flow_applied:
+
+            print(
+                "ORDER FLOW: "
+                f"{alert.order_flow_direction} | "
+                f"{alert.order_flow_sampling_mode} | "
+                f"+{alert.order_flow_contribution:.2f} pts"
+            )
+>>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
 
         print("=" * 60)
 

@@ -133,6 +133,34 @@ class ProfitReader:
         )
 
         # ======================================================
+<<<<<<< HEAD
+        # MÉDIA MÓVEL
+        # ======================================================
+
+        # A exportação atual do Profit enviada para análise
+        # não possui mais uma coluna de Média Móvel.
+        #
+        # Mantemos a chave para compatibilidade com módulos
+        # existentes do projeto, sem inventar um valor.
+        dados["media_movel"] = None
+=======
+        # ORDER FLOW (OPCIONAL)
+        # ======================================================
+
+        # Valores acumulados exportados pelo Profit. Células
+        # vazias mantêm o módulo como dado indisponível.
+        dados["agressao_compra"] = self.excel.ler_celula(
+            "Planilha1",
+            f"O{linha}"
+        )
+>>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
+
+        dados["agressao_venda"] = self.excel.ler_celula(
+            "Planilha1",
+            f"P{linha}"
+        )
+
+        # ======================================================
         # MÉDIA MÓVEL
         # ======================================================
 

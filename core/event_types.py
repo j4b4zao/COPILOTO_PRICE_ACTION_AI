@@ -29,13 +29,21 @@ class EventType:
     # PRICE ACTION
     # ==========================================================
 
+    REGIME_UPDATED = "REGIME_UPDATED"
+
+    MULTI_TIMEFRAME_UPDATED = "MULTI_TIMEFRAME_UPDATED"
+
     STRUCTURE_UPDATED = "STRUCTURE_UPDATED"
 
     LIQUIDITY_UPDATED = "LIQUIDITY_UPDATED"
 
     VOLUME_UPDATED = "VOLUME_UPDATED"
 
+    ORDER_FLOW_UPDATED = "ORDER_FLOW_UPDATED"
+
     PRICE_ACTION_UPDATED = "PRICE_ACTION_UPDATED"
+
+    BOOK_DIAGNOSTICS_UPDATED = "BOOK_DIAGNOSTICS_UPDATED"
 
     # ==========================================================
     # SMART MONEY

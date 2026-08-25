@@ -125,10 +125,10 @@ def preparar_cenario(context):
     context.price_action.clear()
 
     context.price_action.valid = True
-    
+
     context.price_action.score = 95.0
 
-   
+
     # ==========================================================
     # VOLUME
     # ==========================================================

@@ -45,6 +45,15 @@ class ScoreResult(ResultBase):
     bias: str = "NONE"
 
     # ==========================================================
+    # EXPERIMENTO ORDER FLOW RC4.5
+    # ==========================================================
+
+    order_flow_experiment_enabled: bool = False
+    order_flow_applied: bool = False
+    order_flow_direction: str = "NONE"
+    order_flow_contribution: float = 0.0
+
+    # ==========================================================
     # UTILIDADES
     # ==========================================================
 
@@ -99,3 +108,8 @@ class ScoreResult(ResultBase):
         self.grade = "REPROVADO"
 
         self.bias = "NONE"
+
+        self.order_flow_experiment_enabled = False
+        self.order_flow_applied = False
+        self.order_flow_direction = "NONE"
+        self.order_flow_contribution = 0.0

@@ -1,7 +1,7 @@
 """
 tests/test_symbol_resolution_provider_rc21.py
 
-Teste offline do SymbolResolutionProvider RC2.1.
+Teste offline do SymbolResolutionProvider RC2.2.
 
 Não utiliza API.
 Não consome créditos.
@@ -312,7 +312,7 @@ def teste_multiplos_exatos():
 
     assert (
         result.final_status
-        == "UNAVAILABLE"
+        == "AMBIGUOUS"
     )
 
     assert (
@@ -377,7 +377,7 @@ def teste_snapshot():
 
     assert (
         snapshot["version"]
-        == "RC2.1"
+        == "RC2.2"
     )
 
     assert (
@@ -396,7 +396,7 @@ def main():
     print("=" * 72)
     print(
         "TESTE SYMBOL RESOLUTION "
-        "PROVIDER RC2.1"
+        "PROVIDER RC2.2"
     )
     print("=" * 72)
 
@@ -422,7 +422,7 @@ def main():
     print()
     print(
         "🏆 SYMBOL RESOLUTION PROVIDER "
-        "RC2.1 APROVADO"
+        "RC2.2 APROVADO"
     )
 
 

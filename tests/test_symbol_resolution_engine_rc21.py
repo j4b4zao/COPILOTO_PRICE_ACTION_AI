@@ -1,7 +1,7 @@
 """
 tests/test_symbol_resolution_engine_rc21.py
 
-Teste offline do SymbolResolutionEngine RC2.1.
+Teste offline do SymbolResolutionEngine RC2.2.
 
 Não utiliza API.
 Não consome créditos.
@@ -40,7 +40,7 @@ def teste_found():
     result = engine.resolve(
         internal_symbol="NASDAQ",
         provider_symbol="TEST_NASDAQ",
-        discovery_status="FOUND",
+        discovery_status="MAPPED",
         reason="Símbolo validado.",
     )
 
@@ -295,7 +295,7 @@ def teste_resolve_many():
         {
             "internal_symbol": "NASDAQ",
             "provider_symbol": "TEST_NASDAQ",
-            "status": "FOUND",
+            "status": "MAPPED",
             "reason": "Encontrado.",
         },
 
@@ -391,7 +391,7 @@ def teste_snapshot():
     engine.resolve(
         internal_symbol="NASDAQ",
         provider_symbol="TEST_NASDAQ",
-        discovery_status="FOUND",
+        discovery_status="MAPPED",
     )
 
     engine.resolve(
@@ -420,7 +420,7 @@ def teste_snapshot():
 
     assert (
         snapshot["version"]
-        == "RC2.1"
+        == "RC2.2"
     )
 
     assert (
@@ -476,7 +476,7 @@ def teste_clear():
     engine.resolve(
         internal_symbol="NASDAQ",
         provider_symbol="TEST_NASDAQ",
-        discovery_status="FOUND",
+        discovery_status="MAPPED",
     )
 
     engine.resolve(
@@ -537,7 +537,7 @@ def main():
     print()
     print("=" * 72)
     print(
-        "TESTE SYMBOL RESOLUTION ENGINE RC2.1"
+        "TESTE SYMBOL RESOLUTION ENGINE RC2.2"
     )
     print("=" * 72)
 
@@ -565,7 +565,7 @@ def main():
     print()
     print(
         "🏆 SYMBOL RESOLUTION ENGINE "
-        "RC2.1 APROVADO"
+        "RC2.2 APROVADO"
     )
 
 

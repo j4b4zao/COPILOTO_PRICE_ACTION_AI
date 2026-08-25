@@ -3,7 +3,11 @@ ai/score_engine.py
 
 ScoreEngine
 
+<<<<<<< HEAD
 RC13
+=======
+RC13.1 - EXPERIMENTO ORDER FLOW OPCIONAL
+>>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
 
 Responsável por transformar as confluências do mercado
 em um score operacional normalizado de 0 a 100.
@@ -20,7 +24,14 @@ Arquitetura:
     Strategy        10%
 
 Total = 100%
+<<<<<<< HEAD
+=======
+
+Order Flow: bônus experimental de até 5 pontos, desativado por padrão.
+>>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
 """
+
+import math
 
 from ai.engine_base import EngineBase
 
@@ -29,7 +40,11 @@ class ScoreEngine(EngineBase):
 
     NAME = "ScoreEngine"
 
+<<<<<<< HEAD
     VERSION = "RC13"
+=======
+    VERSION = "RC13.1"
+>>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
 
     ENABLED = True
 
@@ -63,6 +78,48 @@ class ScoreEngine(EngineBase):
 
     MAX_SCORE = 100.0
 
+<<<<<<< HEAD
+=======
+    MAX_ORDER_FLOW_WEIGHT = 10.0
+
+    def __init__(
+        self,
+        enable_order_flow=None,
+        order_flow_weight=None,
+    ):
+        from config.settings import (
+            ENABLE_ORDER_FLOW_SCORE,
+            ORDER_FLOW_SCORE_WEIGHT,
+        )
+
+        self.enable_order_flow = bool(
+            ENABLE_ORDER_FLOW_SCORE
+            if enable_order_flow is None
+            else enable_order_flow
+        )
+
+        weight = (
+            ORDER_FLOW_SCORE_WEIGHT
+            if order_flow_weight is None
+            else order_flow_weight
+        )
+
+        try:
+            self.order_flow_weight = float(weight)
+        except (TypeError, ValueError):
+            raise ValueError(
+                "Peso experimental de Order Flow deve ser numérico."
+            ) from None
+
+        if (
+            not math.isfinite(self.order_flow_weight)
+            or not 0.0 <= self.order_flow_weight <= self.MAX_ORDER_FLOW_WEIGHT
+        ):
+            raise ValueError(
+                "Peso experimental de Order Flow deve ficar entre 0 e 10."
+            )
+
+>>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
     # ==========================================================
     # EXECUTAR
     # ==========================================================
@@ -73,6 +130,7 @@ class ScoreEngine(EngineBase):
 
         score.clear()
 
+<<<<<<< HEAD
         # ------------------------------------------------------
         # DIREÇÃO
         # ------------------------------------------------------
@@ -92,20 +150,54 @@ class ScoreEngine(EngineBase):
         )
 
         self._score_price_action(
+=======
+        score.order_flow_experiment_enabled = self.enable_order_flow
+
+        # ------------------------------------------------------
+        # DIREÇÃO
+        # ------------------------------------------------------
+
+        self._set_bias(
             context,
             score,
         )
 
+        # ------------------------------------------------------
+        # COMPONENTES
+        # ------------------------------------------------------
+
+        self._score_structure(
+>>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
+            context,
+            score,
+        )
+
+<<<<<<< HEAD
         self._score_liquidity(
+=======
+        self._score_price_action(
+>>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
             context,
             score,
         )
 
+<<<<<<< HEAD
+        self._score_volume(
+=======
+        self._score_liquidity(
+>>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
+            context,
+            score,
+        )
+
+<<<<<<< HEAD
+=======
         self._score_volume(
             context,
             score,
         )
 
+>>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
         self._score_order_block(
             context,
             score,
@@ -126,6 +218,14 @@ class ScoreEngine(EngineBase):
             score,
         )
 
+<<<<<<< HEAD
+=======
+        self._score_order_flow(
+            context,
+            score,
+        )
+
+>>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
         # ------------------------------------------------------
         # TOTAL
         # ------------------------------------------------------
@@ -793,4 +893,68 @@ class ScoreEngine(EngineBase):
                 value,
                 self.WEIGHT_STRATEGY,
             ),
+<<<<<<< HEAD
         )
+=======
+        )
+
+    # ==========================================================
+    # ORDER FLOW EXPERIMENTAL
+    # ==========================================================
+
+    def _score_order_flow(self, context, score):
+        if not self.enable_order_flow or self.order_flow_weight <= 0:
+            return
+
+        order_flow = context.order_flow
+
+        if not order_flow.valid or not order_flow.pattern_confirmed:
+            return
+
+        direction = self._order_flow_direction(order_flow)
+        score.order_flow_direction = direction
+
+        if direction == "NONE" or direction != score.bias:
+            return
+
+        confidence = self._clamp(
+            order_flow.pattern_confidence,
+            minimum=0.0,
+            maximum=1.0,
+        )
+        contribution = round(
+            confidence * self.order_flow_weight,
+            2,
+        )
+
+        if contribution <= 0:
+            return
+
+        score.add_score("OrderFlow", contribution)
+        score.order_flow_applied = True
+        score.order_flow_contribution = contribution
+
+    @staticmethod
+    def _order_flow_direction(order_flow):
+        directions = set()
+
+        if order_flow.divergence == "PRICE_UP_DELTA_DOWN":
+            directions.add("BUY")
+        elif order_flow.divergence == "PRICE_DOWN_DELTA_UP":
+            directions.add("SELL")
+
+        if order_flow.absorption == "BUY_ABSORPTION":
+            directions.add("BUY")
+        elif order_flow.absorption == "SELL_ABSORPTION":
+            directions.add("SELL")
+
+        if order_flow.exhaustion == "BUY_EXHAUSTION":
+            directions.add("SELL")
+        elif order_flow.exhaustion == "SELL_EXHAUSTION":
+            directions.add("BUY")
+
+        if len(directions) != 1:
+            return "NONE"
+
+        return directions.pop()
+>>>>>>> 35766f332590b98fe808b92785ab4018de1333d1

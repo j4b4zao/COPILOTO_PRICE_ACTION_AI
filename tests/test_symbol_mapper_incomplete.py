@@ -1,287 +1,67 @@
-"""
-tests/test_symbol_mapper_incomplete.py
+"""Teste offline de mapa incompleto do SymbolMapper RC2.1."""
 
-Teste de segurança do SymbolMapper.
-
-Simula um provider que não possui
-um dos ativos necessários.
-
-RC1
-"""
-
-from external_context.providers.symbol_discovery import (
-    SymbolDiscovery,
-)
-
-from external_context.providers.symbol_mapper import (
-    SymbolMapper,
-)
-
-from external_context.providers.symbol_map import (
-    ExternalSymbolMap,
-)
+from external_context.providers.symbol_map import ExternalSymbolMap
+from external_context.providers.symbol_mapper import SymbolMapper
 
 
-class IncompleteSymbolDiscovery(SymbolDiscovery):
-
-    NAME = "IncompleteSymbolDiscovery"
-
-    VERSION = "RC1"
-
-    SYMBOLS = (
-        {
-            "symbol": "TEST_US500",
-            "name": "Test S&P 500",
-            "type": "INDEX",
-            "exchange": "TEST",
-        },
-        {
-            "symbol": "TEST_NASDAQ",
-            "name": "Test Nasdaq",
-            "type": "INDEX",
-            "exchange": "TEST",
-        },
-        {
-            "symbol": "TEST_DXY",
-            "name": "Test US Dollar Index",
-            "type": "INDEX",
-            "exchange": "TEST",
-        },
-        {
-            "symbol": "TEST_VIX",
-            "name": "Test Volatility Index",
-            "type": "INDEX",
-            "exchange": "TEST",
-        },
-
-        # US10Y INTENCIONALMENTE AUSENTE
-
-        {
-            "symbol": "TEST_OIL",
-            "name": "Test Oil",
-            "type": "COMMODITY",
-            "exchange": "TEST",
-        },
-        {
-            "symbol": "TEST_GOLD",
-            "name": "Test Gold",
-            "type": "COMMODITY",
-            "exchange": "TEST",
-        },
-    )
-
-    # ==========================================================
-    # SEARCH
-    # ==========================================================
-
-    def search(
-        self,
-        query: str,
-    ) -> list[dict]:
-
-        query = str(
-            query
-        ).strip().upper()
-
-        if not query:
-
-            return []
-
-        results = []
-
-        for item in self.SYMBOLS:
-
-            symbol = str(
-                item["symbol"]
-            ).upper()
-
-            name = str(
-                item["name"]
-            ).upper()
-
-            if (
-                query in symbol
-                or query in name
-            ):
-
-                results.append(
-                    dict(item)
-                )
-
-        return results
-
-    # ==========================================================
-    # VALIDATE
-    # ==========================================================
-
-    def validate_symbol(
-        self,
-        symbol: str,
-    ) -> bool:
-
-        symbol = str(
-            symbol
-        ).strip().upper()
-
-        for item in self.SYMBOLS:
-
-            if (
-                item["symbol"].upper()
-                == symbol
-            ):
-
-                return True
-
-        return False
+EXPECTED_PRESENT = {
+    "US500": "TEST_US500",
+    "NASDAQ": "TEST_NASDAQ",
+    "DXY": "TEST_DXY",
+    "VIX": "TEST_VIX",
+    "OIL": "TEST_OIL",
+    "GOLD": "TEST_GOLD",
+}
 
 
 def main():
-
     print()
     print("=" * 72)
-    print("TESTE SYMBOL MAPPER: MAPA INCOMPLETO")
+    print("TESTE SYMBOL MAPPER RC2.1: MAPA INCOMPLETO")
     print("=" * 72)
 
-    discovery = IncompleteSymbolDiscovery()
-
-    mapper = SymbolMapper(
-        discovery=discovery,
-        provider_name="IncompleteProvider",
+    mapper = SymbolMapper(ExternalSymbolMap.ALL)
+    mapper.process_many(
+        [
+            {
+                "internal_symbol": asset,
+                "provider_symbol": provider_symbol,
+                "status": "FOUND",
+            }
+            for asset, provider_symbol in EXPECTED_PRESENT.items()
+        ]
+        + [
+            {
+                "internal_symbol": "US10Y",
+                "provider_symbol": None,
+                "status": "NOT_FOUND",
+                "reason": "Ativo ausente no provider controlado.",
+            }
+        ]
     )
-
-    mapping = mapper.build()
-
-    print()
-    print("MAPEAMENTO")
-    print("-" * 72)
 
     for asset in ExternalSymbolMap.ALL:
-
-        symbol = mapping.get_symbol(
-            asset
-        )
-
-        print(
-            f"{asset:<10} : "
-            f"{symbol}"
-        )
+        print(f"{asset:<10} : {mapper.get(asset)}")
 
     print()
-    print(
-        f"COUNT        : "
-        f"{mapping.count()}"
-    )
+    print(f"COUNT        : {mapper.count()}")
+    print(f"COMPLETE     : {mapper.is_complete()}")
+    print(f"MISSING      : {mapper.missing()}")
 
-    complete = mapper.is_complete(
-        mapping
-    )
+    assert mapper.count() == len(EXPECTED_PRESENT)
+    assert mapper.is_complete() is False
+    assert mapper.missing() == ["US10Y"]
 
-    print(
-        f"COMPLETE     : "
-        f"{complete}"
-    )
+    for asset, expected_symbol in EXPECTED_PRESENT.items():
+        assert mapper.get(asset) == expected_symbol
+        assert mapper.get_status(asset) == "MAPPED"
 
-    missing = mapper.missing_assets(
-        mapping
-    )
-
-    print(
-        f"MISSING      : "
-        f"{missing}"
-    )
-
-    # ==========================================================
-    # VALIDAÇÃO
-    # ==========================================================
-
-    erros = []
-
-    if mapping.count() != 6:
-
-        erros.append(
-            "O mapa deveria possuir exatamente "
-            "6 ativos."
-        )
-
-    if complete:
-
-        erros.append(
-            "O mapa não poderia ser considerado completo."
-        )
-
-    if missing != ["US10Y"]:
-
-        erros.append(
-            f"Esperado missing=['US10Y'], "
-            f"obtido {missing}"
-        )
-
-    # ==========================================================
-    # VERIFICAR QUE OS OUTROS CONTINUAM PRESENTES
-    # ==========================================================
-
-    expected_present = (
-        "US500",
-        "NASDAQ",
-        "DXY",
-        "VIX",
-        "OIL",
-        "GOLD",
-    )
-
-    for asset in expected_present:
-
-        if not mapping.has_symbol(
-            asset
-        ):
-
-            erros.append(
-                f"{asset} deveria estar presente."
-            )
-
-    # ==========================================================
-    # US10Y DEVE ESTAR AUSENTE
-    # ==========================================================
-
-    if mapping.has_symbol(
-        "US10Y"
-    ):
-
-        erros.append(
-            "US10Y deveria estar ausente."
-        )
-
-    # ==========================================================
-    # RESULTADO
-    # ==========================================================
+    assert mapper.get("US10Y") is None
+    assert mapper.get_status("US10Y") == "NOT_FOUND"
 
     print()
-    print("=" * 72)
-
-    if erros:
-
-        print(
-            "❌ RESULTADO: FALHOU"
-        )
-
-        for erro in erros:
-
-            print(
-                f" - {erro}"
-            )
-
-        return
-
-    print(
-        "✅ MAPA INCOMPLETO DETECTADO CORRETAMENTE"
-    )
-
-    print()
-    print(
-        "🏆 SYMBOL MAPPER INCOMPLETE RC1 APROVADO"
-    )
+    print("✅ MAPA INCOMPLETO DETECTADO CORRETAMENTE")
 
 
 if __name__ == "__main__":
-
     main()

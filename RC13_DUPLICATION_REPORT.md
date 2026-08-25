@@ -1,6 +1,10 @@
 # RC13.5 — Relatório de Duplicações Arquiteturais
 
+<<<<<<< HEAD
 Data da auditoria: 2026-08-06  
+=======
+Data da auditoria: 2026-08-06
+>>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
 Escopo: 219 arquivos Python do workspace (excluídos `.git` e `ambiente`).
 
 ## Método

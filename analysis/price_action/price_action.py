@@ -3,7 +3,7 @@ analysis/price_action/price_action.py
 
 Price Action Engine
 
-RC9
+RC9.16 - HORIZONTAL SWING LINES
 
 Responsável pela leitura de Price Action,
 estrutura, padrões de candle e evidências
@@ -24,13 +24,59 @@ from enums.trend import Trend
 from analysis.price_action.patterns.candlestick_patterns import (
     CandlestickPatterns,
 )
+from analysis.price_action.bar_dynamics import BarDynamics
+from analysis.price_action.breakout_dynamics import (
+    BreakoutDynamics,
+)
+from analysis.price_action.signal_entry_dynamics import (
+    SignalEntryDynamics,
+)
+from analysis.price_action.reversal_bar_dynamics import (
+    ReversalBarDynamics,
+)
+from analysis.price_action.composite_signal_dynamics import (
+    CompositeSignalDynamics,
+)
+from analysis.price_action.outside_bar_dynamics import (
+    OutsideBarDynamics,
+)
+from analysis.price_action.close_quality_dynamics import (
+    CloseQualityDynamics,
+)
+from analysis.price_action.chart_perspective_dynamics import (
+    ChartPerspectiveDynamics,
+)
+from analysis.price_action.second_entry_dynamics import (
+    SecondEntryDynamics,
+)
+from analysis.price_action.late_entry_dynamics import (
+    LateEntryDynamics,
+)
+from analysis.price_action.pattern_evolution_dynamics import (
+    PatternEvolutionDynamics,
+)
+from analysis.price_action.trend_line_dynamics import (
+    TrendLineDynamics,
+)
+from analysis.price_action.channel_line_dynamics import (
+    ChannelLineDynamics,
+)
+from analysis.price_action.channel_behavior_dynamics import (
+    ChannelBehaviorDynamics,
+)
+from analysis.price_action.microchannel_dynamics import (
+    MicrochannelDynamics,
+)
+from analysis.price_action.horizontal_swing_dynamics import (
+    HorizontalSwingDynamics,
+)
 
 
 class PriceAction(EngineBase):
 
     NAME = "PriceAction"
 
-    VERSION = "RC9"
+    VERSION = "RC9.16"
 
     ENABLED = True
 
@@ -86,6 +132,38 @@ class PriceAction(EngineBase):
 
         self._copy_structure(context)
 
+        self._detect_bar_dynamics(context)
+
+        self._detect_breakout_dynamics(context)
+
+        self._detect_signal_entry_dynamics(context)
+
+        self._detect_reversal_bar_dynamics(context)
+
+        self._detect_composite_signal_dynamics(context)
+
+        self._detect_outside_bar_dynamics(context)
+
+        self._detect_close_quality_dynamics(context)
+
+        self._detect_chart_perspective_dynamics(context)
+
+        self._detect_second_entry_dynamics(context)
+
+        self._detect_late_entry_dynamics(context)
+
+        self._detect_pattern_evolution_dynamics(context)
+
+        self._detect_trend_line_dynamics(context)
+
+        self._detect_channel_line_dynamics(context)
+
+        self._detect_channel_behavior_dynamics(context)
+
+        self._detect_microchannel_dynamics(context)
+
+        self._detect_horizontal_swing_dynamics(context)
+
         self._detect_patterns(context)
 
         self._detect_price_action(context)
@@ -121,6 +199,238 @@ class PriceAction(EngineBase):
         )
 
         result.choch = structure.choch
+
+    # ==========================================================
+    # DINÂMICA DA ÚLTIMA BARRA FECHADA
+    # ==========================================================
+
+    def _detect_bar_dynamics(self, context):
+        metrics = BarDynamics.analyze(
+            context.market.candles.all()
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # CICLO DO ROMPIMENTO EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_breakout_dynamics(self, context):
+        metrics = BreakoutDynamics.analyze(
+            context.market.candles.all()
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # CICLO SINAL / ENTRADA EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_signal_entry_dynamics(self, context):
+        metrics = SignalEntryDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # QUALIDADE DA BARRA DE REVERSÃO EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_reversal_bar_dynamics(self, context):
+        metrics = ReversalBarDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # PADRÕES COMPOSTOS EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_composite_signal_dynamics(self, context):
+        metrics = CompositeSignalDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # CONTEXTO DA BARRA EXTERNA EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_outside_bar_dynamics(self, context):
+        metrics = OutsideBarDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # QUALIDADE DO FECHAMENTO EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_close_quality_dynamics(self, context):
+        metrics = CloseQualityDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # PERSPECTIVA DIRETA E INVERSA EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_chart_perspective_dynamics(self, context):
+        metrics = ChartPerspectiveDynamics.analyze(
+            context.market.candles.all()
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # SEGUNDA ENTRADA EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_second_entry_dynamics(self, context):
+        metrics = SecondEntryDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # ENTRADA TARDIA E ENTRADA PERDIDA EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_late_entry_dynamics(self, context):
+        metrics = LateEntryDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # EVOLUÇÃO DE PADRÕES JÁ DIAGNOSTICADOS
+    # ==========================================================
+
+    def _detect_pattern_evolution_dynamics(self, context):
+        result = context.price_action
+        metrics = PatternEvolutionDynamics.analyze(result)
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # LINHA DE TENDÊNCIA EM PONTOS DE SWING FECHADOS
+    # ==========================================================
+
+    def _detect_trend_line_dynamics(self, context):
+        metrics = TrendLineDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # LINHA PARALELA DO CANAL EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_channel_line_dynamics(self, context):
+        metrics = ChannelLineDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # COMPORTAMENTO DO CANAL JÁ PROJETADO
+    # ==========================================================
+
+    def _detect_channel_behavior_dynamics(self, context):
+        result = context.price_action
+        metrics = ChannelBehaviorDynamics.analyze(
+            context.market.candles.all(),
+            result,
+        )
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # MICROCANAIS EM CANDLES FECHADOS
+    # ==========================================================
+
+    def _detect_microchannel_dynamics(self, context):
+        metrics = MicrochannelDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
+
+    # ==========================================================
+    # LINHAS HORIZONTAIS EM PONTOS DE SWING FECHADOS
+    # ==========================================================
+
+    def _detect_horizontal_swing_dynamics(self, context):
+        metrics = HorizontalSwingDynamics.analyze(
+            context.market.candles.all(),
+            trend=context.price_action.trend,
+        )
+
+        result = context.price_action
+
+        for name, value in metrics.items():
+            setattr(result, name, value)
 
     # ==========================================================
     # PADRÕES DE CANDLE

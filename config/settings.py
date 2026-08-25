@@ -19,6 +19,14 @@ EXCEL_PATH = r"C:\COPILOTO_PRICE_ACTION_AI\Profit.xlsx"
 
 DEFAULT_TIMEFRAME = "M1"
 
+# NORMAL mantém o gráfico temporal M1 como mercado principal.
+# RENKO usa tijolos de preço e mantém M1/M5/M15 como contexto.
+CHART_MODE = "NORMAL"
+
+# Tamanho do tijolo em pontos do ativo. Para WIN, 20 pontos
+# correspondem a quatro variações mínimas de 5 pontos.
+RENKO_BRICK_SIZE = 20.0
+
 MIN_HISTORY = 5
 
 # ==========================================================
@@ -38,6 +46,22 @@ DEFAULT_RR = 2.0
 MIN_SCORE = 80
 
 MAX_SCORE = 100
+
+# Experimento RC4.5. Desativado por padrão: quando False, o
+# comportamento e o breakdown do ScoreEngine permanecem iguais.
+ENABLE_ORDER_FLOW_SCORE = False
+
+# Bônus máximo experimental, aplicado apenas a padrão confirmado
+# e alinhado com a direção da estratégia.
+ORDER_FLOW_SCORE_WEIGHT = 5.0
+
+# Experimento RC13.2. Desativado por padrão para preservar o
+# comportamento oficial do score até concluirmos a validação A/B.
+ENABLE_REGIME_MTF_SCORE = False
+
+# Ajuste contextual máximo em pontos. O valor pode ser positivo ou
+# negativo conforme confirmação/conflito, mas nunca excede este teto.
+REGIME_MTF_SCORE_WEIGHT = 3.0
 
 # ==========================================================
 # REPLAY

@@ -509,4 +509,3 @@ class MarketStructure(EngineBase):
         result.valid = True
 
         return context
-

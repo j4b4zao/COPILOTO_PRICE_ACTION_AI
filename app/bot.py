@@ -4,7 +4,7 @@ app/bot.py
 Controlador principal do
 COPILOTO PRICE ACTION AI.
 
-RC9
+RC11 - OBSERVABILIDADE MULTI-TIMEFRAME / ORDER FLOW
 """
 
 import time
@@ -12,6 +12,8 @@ import time
 from core.system_initializer import SystemInitializer
 
 from logs.logger import Logger
+from monitor.multi_timeframe_monitor import MultiTimeframeMonitor
+from monitor.order_flow_monitor import OrderFlowMonitor
 
 
 class Bot:
@@ -153,6 +155,18 @@ class Bot:
 
         print(f"Ação............: {decision.action}")
 
+        print("=" * 60)
+
+        print("\n" + "=" * 60)
+        print(OrderFlowMonitor.render(context))
+        print("=" * 60)
+
+        print("\n" + "=" * 60)
+        print(
+            MultiTimeframeMonitor.render(
+                context
+            )
+        )
         print("=" * 60)
 
         print("\n" + "=" * 60)

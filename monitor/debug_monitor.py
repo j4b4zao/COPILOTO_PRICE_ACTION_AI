@@ -3,7 +3,7 @@ monitor/debug_monitor.py
 
 Debug Monitor
 
-RC10
+RC10.2 - OBSERVABILIDADE MULTI-TIMEFRAME / ORDER FLOW
 
 Monitor oficial do COPILOTO PRICE ACTION AI.
 """
@@ -11,13 +11,15 @@ Monitor oficial do COPILOTO PRICE ACTION AI.
 from datetime import datetime
 
 from core.event_types import EventType
+from monitor.multi_timeframe_monitor import MultiTimeframeMonitor
+from monitor.order_flow_monitor import OrderFlowMonitor
 
 
 class DebugMonitor:
 
     NAME = "DebugMonitor"
 
-    VERSION = "RC10"
+    VERSION = "RC10.2"
 
     ENABLED = True
 
@@ -36,7 +38,7 @@ class DebugMonitor:
 
     def on_loop_completed(self, event):
 
-        self.show(event.payload)
+        self.show(event.data)
 
     # ==========================================================
     # EXIBIÇÃO
@@ -55,11 +57,15 @@ class DebugMonitor:
 
         self._market(context)
 
+        self._multi_timeframe(context)
+
         self._structure(context)
 
         self._liquidity(context)
 
         self._volume(context)
+
+        self._order_flow(context)
 
         self._price_action(context)
 
@@ -93,6 +99,14 @@ class DebugMonitor:
         print(f"TimeFrame......: {market.timeframe}")
         print(f"Preço..........: {market.last_price:.2f}")
         print(f"Candles........: {market.candle_count}")
+
+    # ==========================================================
+    # MULTI-TIMEFRAME (RC3.4 - INFORMATIVO)
+    # ==========================================================
+
+    def _multi_timeframe(self, context):
+
+        print("\n" + MultiTimeframeMonitor.render(context))
 
     # ==========================================================
     # STRUCTURE
@@ -148,6 +162,10 @@ class DebugMonitor:
         print(f"Current........: {v.current:.0f}")
         print(f"Level..........: {v.level}")
         print(f"Strength.......: {v.strength:.2f}")
+
+    def _order_flow(self, context):
+
+        print("\n" + OrderFlowMonitor.render(context))
 
     # ==========================================================
     # PRICE ACTION
@@ -271,6 +289,16 @@ class DebugMonitor:
         print(f"Total..........: {s.total:.2f}")
         print(f"Grade..........: {s.grade}")
         print(f"Confidence.....: {s.confidence:.2f}")
+        print(
+            "OrderFlow Exp..: "
+            f"{s.order_flow_experiment_enabled}"
+        )
+        print(f"OrderFlow Use..: {s.order_flow_applied}")
+        print(f"OrderFlow Dir..: {s.order_flow_direction}")
+        print(
+            "OrderFlow Pts..: "
+            f"{s.order_flow_contribution:.2f}"
+        )
 
         if s.breakdown:
 

@@ -1,0 +1,310 @@
+"""
+BookDiagnostics RC39/RC40/RC41/RC42/RC46/RC47/RC50/RC54/RC55/RC56/RC59/RC61/RC62/RC65/RC66/RC68/RC71/RC74/RC77/RC79/RC81/RC84/RC85/RC88 - Voice Service Integration.
+
+Expoe a fachada RC38 como servico opcional e as camadas observacionais de voz.
+RC85 adiciona persistencia JSON explicita do envelope de retencao RC83 e RC88
+expoe a rotacao separada RC87 do historico do proprio status de retencao.
+Nao altera o nucleo operacional.
+"""
+
+from __future__ import annotations
+
+from dataclasses import asdict, dataclass
+
+from analysis.replay.book_diagnostics_runtime_event_bridge import BookDiagnosticsRuntimeEventBridge
+from analysis.replay.book_diagnostics_tts_backend import BookDiagnosticsTTSGateway
+from analysis.replay.book_diagnostics_tts_backend_registry import (
+    BookDiagnosticsTTSBackendRegistry,
+    get_default_tts_backend_registry,
+)
+from analysis.replay.book_diagnostics_tts_runtime import BookDiagnosticsTTSRuntimeCoordinator
+from analysis.replay.book_diagnostics_voice_audio_test import BookDiagnosticsControlledAudioTest
+from analysis.replay.book_diagnostics_voice_config import VoiceConfig, validate_voice_config
+from analysis.replay.book_diagnostics_voice_dashboard_widget import BookDiagnosticsVoiceDashboardWidgetBuilder
+from analysis.replay.book_diagnostics_voice_diagnostics import BookDiagnosticsVoiceDiagnostics
+from analysis.replay.book_diagnostics_voice_event import BookDiagnosticsVoiceEventFactory
+from analysis.replay.book_diagnostics_voice_health_dashboard_projection import BookDiagnosticsVoiceHealthDashboardProjector
+from analysis.replay.book_diagnostics_voice_health_report import BookDiagnosticsVoiceHealthReporter
+from analysis.replay.book_diagnostics_voice_integration_status import BookDiagnosticsVoiceIntegrationStatus
+from analysis.replay.book_diagnostics_voice_orchestrator import BookDiagnosticsVoiceOrchestrator
+from analysis.replay.book_diagnostics_voice_profile_resolver import BookDiagnosticsVoiceProfileResolver
+from analysis.replay.book_diagnostics_voice_queue import BookDiagnosticsVoiceQueue
+from analysis.replay.book_diagnostics_voice_readiness_gate import BookDiagnosticsVoiceReadinessGate
+from analysis.replay.book_diagnostics_voice_runtime_facade import BookDiagnosticsVoiceRuntimeFacade
+from analysis.replay.book_diagnostics_voice_status_bundle import BookDiagnosticsVoiceStatusBundleBuilder
+from analysis.replay.book_diagnostics_voice_status_export import BookDiagnosticsVoiceStatusExporter
+from analysis.replay.book_diagnostics_voice_status_file_export import BookDiagnosticsVoiceStatusFileExporter
+from analysis.replay.book_diagnostics_voice_status_retention import BookDiagnosticsVoiceStatusRetentionManager
+from analysis.replay.book_diagnostics_voice_status_retention_bundle import BookDiagnosticsVoiceStatusRetentionBundleBuilder
+from analysis.replay.book_diagnostics_voice_status_retention_dashboard_projection import BookDiagnosticsVoiceStatusRetentionDashboardProjector
+from analysis.replay.book_diagnostics_voice_status_retention_dashboard_widget import BookDiagnosticsVoiceStatusRetentionDashboardWidgetBuilder
+from analysis.replay.book_diagnostics_voice_status_retention_export import BookDiagnosticsVoiceStatusRetentionExporter
+from analysis.replay.book_diagnostics_voice_status_retention_export_rotation import BookDiagnosticsVoiceStatusRetentionExportRotationManager
+from analysis.replay.book_diagnostics_voice_status_retention_file_export import BookDiagnosticsVoiceStatusRetentionFileExporter
+from analysis.replay.book_diagnostics_voice_status_retention_health import BookDiagnosticsVoiceStatusRetentionHealthReporter
+from analysis.replay.book_diagnostics_voice_status_retention_inspection import BookDiagnosticsVoiceStatusRetentionInspector
+
+
+@dataclass(slots=True, frozen=True)
+class VoiceServiceSnapshot:
+    version: str
+    enabled: bool
+    available: bool
+    queue_size: int
+    session_state: str
+    backend: str
+    backend_healthy: bool
+    last_status: str | None
+    last_error: str | None
+    config_version: str
+    language: str
+    voice_profile: str
+    speech_rate: float
+    readonly: bool = True
+    affects_decision: bool = False
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+
+class BookDiagnosticsVoiceService:
+    VERSION = "RC39-VOICE-SERVICE-INTEGRATION"
+
+    def __init__(self, *, enabled: bool | None = None, config: VoiceConfig | None = None, facade=None, backend_registry: BookDiagnosticsTTSBackendRegistry | None = None):
+        base = validate_voice_config(config or VoiceConfig())
+        if enabled is not None:
+            base = base.with_updates(enabled=bool(enabled))
+        self.config = base
+        self.enabled = base.enabled
+        self.backend_registry = backend_registry or get_default_tts_backend_registry()
+        self._facade = facade
+        self._last_controlled_audio_test = None
+        self._readiness_gate = BookDiagnosticsVoiceReadinessGate()
+        self._orchestrator = None
+        if self.enabled and self._facade is None:
+            self._facade = self._build_facade()
+
+    @property
+    def available(self) -> bool:
+        return self._facade is not None
+
+    @property
+    def facade(self):
+        if not self.enabled:
+            raise RuntimeError("voice service is disabled")
+        if self._facade is None:
+            self._facade = self._build_facade()
+        return self._facade
+
+    @property
+    def orchestrator(self) -> BookDiagnosticsVoiceOrchestrator:
+        if self._orchestrator is None:
+            self._orchestrator = BookDiagnosticsVoiceOrchestrator.from_voice_service(self)
+        return self._orchestrator
+
+    def integration_status(self):
+        return BookDiagnosticsVoiceIntegrationStatus(voice_service=self).snapshot()
+
+    def health_report(self):
+        return BookDiagnosticsVoiceHealthReporter().build(self.integration_status())
+
+    def dashboard_projection(self):
+        return BookDiagnosticsVoiceHealthDashboardProjector().project(self.health_report())
+
+    def dashboard_widget(self):
+        return BookDiagnosticsVoiceDashboardWidgetBuilder().build(self.dashboard_projection())
+
+    def status_bundle(self):
+        health = self.health_report()
+        projection = BookDiagnosticsVoiceHealthDashboardProjector().project(health)
+        widget = BookDiagnosticsVoiceDashboardWidgetBuilder().build(projection)
+        return BookDiagnosticsVoiceStatusBundleBuilder().build(
+            health_report=health,
+            dashboard_projection=projection,
+            dashboard_widget=widget,
+        )
+
+    def status_export(self, *, generated_at=None):
+        return BookDiagnosticsVoiceStatusExporter().export(self.status_bundle(), generated_at=generated_at)
+
+    def export_status_file(self, destination, *, generated_at=None):
+        status_export = self.status_export(generated_at=generated_at)
+        return BookDiagnosticsVoiceStatusFileExporter().write(status_export, destination)
+
+    def export_status_rotated(self, directory, *, keep: int = 20, prefix: str = "voice_status", generated_at=None):
+        return BookDiagnosticsVoiceStatusRetentionManager().export_and_rotate(
+            voice_service=self,
+            directory=directory,
+            keep=keep,
+            prefix=prefix,
+            generated_at=generated_at,
+        )
+
+    def inspect_status_retention(self, directory, *, keep: int = 20, prefix: str = "voice_status"):
+        return BookDiagnosticsVoiceStatusRetentionInspector().inspect(
+            directory=directory,
+            keep=keep,
+            prefix=prefix,
+        )
+
+    def retention_health(self, directory, *, keep: int = 20, prefix: str = "voice_status"):
+        inspection = self.inspect_status_retention(directory, keep=keep, prefix=prefix)
+        return BookDiagnosticsVoiceStatusRetentionHealthReporter().build(inspection)
+
+    def retention_dashboard_projection(self, directory, *, keep: int = 20, prefix: str = "voice_status"):
+        health = self.retention_health(directory, keep=keep, prefix=prefix)
+        return BookDiagnosticsVoiceStatusRetentionDashboardProjector().project(health)
+
+    def retention_dashboard_widget(self, directory, *, keep: int = 20, prefix: str = "voice_status"):
+        projection = self.retention_dashboard_projection(directory, keep=keep, prefix=prefix)
+        return BookDiagnosticsVoiceStatusRetentionDashboardWidgetBuilder().build(projection)
+
+    def retention_status_bundle(self, directory, *, keep: int = 20, prefix: str = "voice_status"):
+        inspection = self.inspect_status_retention(directory, keep=keep, prefix=prefix)
+        health = BookDiagnosticsVoiceStatusRetentionHealthReporter().build(inspection)
+        projection = BookDiagnosticsVoiceStatusRetentionDashboardProjector().project(health)
+        widget = BookDiagnosticsVoiceStatusRetentionDashboardWidgetBuilder().build(projection)
+        return BookDiagnosticsVoiceStatusRetentionBundleBuilder().build(
+            inspection=inspection,
+            health=health,
+            dashboard_projection=projection,
+            dashboard_widget=widget,
+        )
+
+    def retention_status_export(self, directory, *, keep: int = 20, prefix: str = "voice_status", generated_at=None):
+        bundle = self.retention_status_bundle(directory, keep=keep, prefix=prefix)
+        return BookDiagnosticsVoiceStatusRetentionExporter().export(bundle, generated_at=generated_at)
+
+    def export_retention_status_file(self, directory, destination, *, keep: int = 20, prefix: str = "voice_status", generated_at=None):
+        """Persiste explicitamente RC83 via RC85; nenhuma exportacao automatica."""
+        status_export = self.retention_status_export(
+            directory,
+            keep=keep,
+            prefix=prefix,
+            generated_at=generated_at,
+        )
+        return BookDiagnosticsVoiceStatusRetentionFileExporter().write(status_export, destination)
+
+    def export_retention_status_rotated(
+        self,
+        source_directory,
+        export_directory,
+        *,
+        source_keep: int = 20,
+        source_prefix: str = "voice_status",
+        export_keep: int = 20,
+        export_prefix: str = "voice_retention_status",
+        generated_at=None,
+    ):
+        """Expoe RC87 sem duplicar politica de rotacao e sem iniciar audio."""
+        return BookDiagnosticsVoiceStatusRetentionExportRotationManager().export_and_rotate(
+            voice_service=self,
+            source_directory=source_directory,
+            export_directory=export_directory,
+            source_keep=source_keep,
+            source_prefix=source_prefix,
+            export_keep=export_keep,
+            export_prefix=export_prefix,
+            generated_at=generated_at,
+        )
+
+    def enable(self):
+        self.config = self.config.with_updates(enabled=True)
+        self.enabled = True
+        if self._facade is None:
+            self._facade = self._build_facade()
+        return self.snapshot()
+
+    def disable(self, *, reset: bool = True):
+        if reset and self._facade is not None:
+            self._facade.reset()
+        if reset and self._orchestrator is not None:
+            self._orchestrator.reset()
+        self.config = self.config.with_updates(enabled=False)
+        self.enabled = False
+        return self.snapshot()
+
+    def diagnostics(self):
+        return BookDiagnosticsVoiceDiagnostics(config=self.config, backend_registry=self.backend_registry).inspect()
+
+    def test_audio(self, *, text: str | None = None):
+        result = BookDiagnosticsControlledAudioTest(config=self.config, backend_registry=self.backend_registry).run(text=text)
+        self._last_controlled_audio_test = result
+        return result
+
+    def readiness(self, *, controlled_test=None):
+        test_result = controlled_test if controlled_test is not None else self._last_controlled_audio_test
+        return self._readiness_gate.evaluate(diagnostics=self.diagnostics(), controlled_test=test_result)
+
+    def require_operational_ready(self, *, controlled_test=None):
+        test_result = controlled_test if controlled_test is not None else self._last_controlled_audio_test
+        return self._readiness_gate.require_operational_ready(diagnostics=self.diagnostics(), controlled_test=test_result)
+
+    def clear_audio_validation(self):
+        self._last_controlled_audio_test = None
+        return self.readiness()
+
+    def check_projection(self, projection, *, now=None):
+        return self.orchestrator.check(projection, now=now)
+
+    def dispatch_projection(self, projection, *, now=None):
+        return self.orchestrator.dispatch(projection, now=now)
+
+    def reset_orchestrator(self):
+        if self._orchestrator is not None:
+            self._orchestrator.reset()
+        return self.snapshot()
+
+    def submit_message(self, message_decision):
+        self._require_enabled(); return self.facade.submit_message(message_decision)
+
+    def submit_and_process(self, message_decision):
+        self._require_enabled(); return self.facade.submit_and_process(message_decision)
+
+    def process_next(self):
+        self._require_enabled(); return self.facade.process_next()
+
+    def complete_active(self, *, event_id: str | None = None):
+        self._require_enabled(); return self.facade.complete_active(event_id=event_id)
+
+    def fail_active(self, error: str, *, event_id: str | None = None):
+        self._require_enabled(); return self.facade.fail_active(error, event_id=event_id)
+
+    def stop_active(self) -> bool:
+        self._require_enabled(); return self.facade.stop_active()
+
+    def reset(self):
+        if self._facade is not None:
+            self._facade.reset()
+        if self._orchestrator is not None:
+            self._orchestrator.reset()
+        return self.snapshot()
+
+    def snapshot(self) -> VoiceServiceSnapshot:
+        common = dict(version=self.VERSION, enabled=self.enabled, config_version=self.config.version, language=self.config.language, voice_profile=self.config.voice_profile, speech_rate=self.config.speech_rate)
+        if self._facade is None:
+            return VoiceServiceSnapshot(available=False, queue_size=0, session_state="IDLE", backend="DISABLED", backend_healthy=False, last_status=None, last_error=None, **common)
+        payload = self._facade.snapshot().to_dict()
+        self._validate_facade_snapshot(payload)
+        return VoiceServiceSnapshot(available=True, queue_size=int(payload["queue_size"]), session_state=str(payload["session_state"]), backend=str(payload["backend"]), backend_healthy=bool(payload["backend_healthy"]), last_status=payload.get("last_status"), last_error=payload.get("last_error"), **common)
+
+    def _build_facade(self) -> BookDiagnosticsVoiceRuntimeFacade:
+        backend = self.backend_registry.create(self.config.backend)
+        gateway = BookDiagnosticsTTSGateway(backend=backend)
+        queue = BookDiagnosticsVoiceQueue(max_size=self.config.queue_max_size)
+        runtime = BookDiagnosticsTTSRuntimeCoordinator(queue=queue, gateway=gateway)
+        profile = BookDiagnosticsVoiceProfileResolver().resolve(self.config)
+        factory = BookDiagnosticsVoiceEventFactory(profile=profile)
+        bridge = BookDiagnosticsRuntimeEventBridge(factory=factory, runtime=runtime)
+        return BookDiagnosticsVoiceRuntimeFacade(bridge=bridge)
+
+    def _require_enabled(self):
+        if not self.enabled:
+            raise RuntimeError("voice service is disabled")
+
+    @staticmethod
+    def _validate_facade_snapshot(payload: dict):
+        if str(payload.get("version", "")) != "RC38-VOICE-RUNTIME-FACADE":
+            raise PermissionError("RC39 requires RC38 facade snapshot")
+        if not bool(payload.get("readonly", False)) or bool(payload.get("affects_decision", True)):
+            raise PermissionError("invalid facade snapshot")
