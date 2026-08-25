@@ -173,9 +173,11 @@ class SystemInitializer:
         *,
         overwrite=False,
         generated_at=None,
+        session_id=None,
     ):
         dashboard_export = self.psychology_dashboard_export(
             generated_at=generated_at,
+            session_id=session_id,
         )
         return self.psychology_dashboard_file_exporter.write(
             dashboard_export,
@@ -183,15 +185,24 @@ class SystemInitializer:
             overwrite=overwrite,
         )
 
-    def psychology_dashboard_export(self, *, generated_at=None):
-        projection = self.psychology_dashboard_projection()
+    def psychology_dashboard_export(
+        self,
+        *,
+        generated_at=None,
+        session_id=None,
+    ):
+        projection = self.psychology_dashboard_projection(
+            session_id=session_id,
+        )
         return self.psychology_dashboard_exporter.export(
             projection,
             generated_at=generated_at,
         )
 
-    def psychology_dashboard_projection(self):
-        summary = self.psychology_session_summary()
+    def psychology_dashboard_projection(self, *, session_id=None):
+        summary = self.psychology_session_summary(
+            session_id=session_id,
+        )
         review = self.psychology_session_reviewer.build(
             summary
         )
@@ -202,19 +213,22 @@ class SystemInitializer:
             voice_readiness=readiness,
         )
 
-    def psychology_session_review(self):
+    def psychology_session_review(self, *, session_id=None):
         return self.psychology_session_reviewer.build(
-            self.psychology_session_summary()
+            self.psychology_session_summary(
+                session_id=session_id,
+            )
         )
 
-    def psychology_session_summary(self):
+    def psychology_session_summary(self, *, session_id=None):
         entries = (
             self.psychology_session_journal.entries
             if self.psychology_session_journal is not None
             else ()
         )
         return self.psychology_session_summarizer.summarize(
-            entries
+            entries,
+            session_id=session_id,
         )
 
     def psychology_voice_readiness(self):
