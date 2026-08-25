@@ -52,9 +52,9 @@ class TraderPsychologySessionSummarizer:
     """Agrega somente fatos já registrados no diário."""
 
     NAME = "TraderPsychologySessionSummarizer"
-    VERSION = "RC30"
+    VERSION = "RC37"
 
-    def summarize(self, entries):
+    def summarize(self, entries, *, session_id=None):
         if not isinstance(entries, (list, tuple)):
             raise TypeError("entries deve ser lista ou tupla.")
         if any(
@@ -62,11 +62,25 @@ class TraderPsychologySessionSummarizer:
             for entry in entries
         ):
             raise TypeError("entries contém item incompatível.")
+        if session_id is not None and (
+            not isinstance(session_id, str)
+            or not session_id.strip()
+        ):
+            raise TypeError(
+                "session_id deve ser None ou string não vazia."
+            )
+        requested_session_id = (
+            session_id.strip()
+            if session_id is not None
+            else None
+        )
 
         all_ordered = tuple(
             sorted(entries, key=lambda entry: entry.sequence)
         )
         if not all_ordered:
+            if requested_session_id is not None:
+                raise ValueError("session_id não encontrado.")
             return TraderPsychologySessionSummary(
                 status="EMPTY",
                 total_cycles=0,
@@ -96,18 +110,22 @@ class TraderPsychologySessionSummarizer:
                 updated_at_local=None,
             )
 
-        latest_entry = all_ordered[-1]
-        latest_date = self._session_date(latest_entry)
-        latest_session_id = self._session_id(latest_entry)
+        selected_session_id = (
+            requested_session_id
+            or self._session_id(all_ordered[-1])
+        )
         ordered = tuple(
             entry
             for entry in all_ordered
-            if self._session_id(entry) == latest_session_id
+            if self._session_id(entry) == selected_session_id
         )
+        if not ordered:
+            raise ValueError("session_id não encontrado.")
+        latest_date = self._session_date(ordered[-1])
         ignored = tuple(
             entry
             for entry in all_ordered
-            if self._session_id(entry) != latest_session_id
+            if self._session_id(entry) != selected_session_id
         )
         prior_ignored = len(ignored)
         prior_observations_ignored = sum(
@@ -194,7 +212,7 @@ class TraderPsychologySessionSummarizer:
             ),
             session_date=latest_date,
             session_timezone=ordered[-1].session_timezone,
-            session_id=latest_session_id,
+            session_id=selected_session_id,
             prior_session_entries_ignored=prior_ignored,
             prior_session_observations_ignored=(
                 prior_observations_ignored
