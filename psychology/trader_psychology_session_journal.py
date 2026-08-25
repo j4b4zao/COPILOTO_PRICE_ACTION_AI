@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections import deque
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from threading import Lock
 
@@ -26,6 +26,8 @@ class TraderPsychologyJournalEntry:
     evidence_trade_ids: tuple[str, ...]
     voice_status: str
     voice_delivery_codes: tuple[str, ...]
+    observation_count: int = 1
+    last_observed_at: datetime | None = None
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -38,7 +40,13 @@ class TraderPsychologySessionJournal:
     NAME = "TraderPsychologySessionJournal"
     VERSION = "RC21"
 
-    def __init__(self, *, max_entries=500, clock=None):
+    def __init__(
+        self,
+        *,
+        max_entries=500,
+        clock=None,
+        deduplicate_unchanged=False,
+    ):
         if isinstance(max_entries, bool) or not isinstance(
             max_entries,
             int,
@@ -48,7 +56,12 @@ class TraderPsychologySessionJournal:
             raise ValueError(
                 "max_entries deve ficar entre 1 e 10000."
             )
+        if not isinstance(deduplicate_unchanged, bool):
+            raise TypeError(
+                "deduplicate_unchanged deve ser booleano."
+            )
         self.max_entries = max_entries
+        self.deduplicate_unchanged = deduplicate_unchanged
         self.clock = clock or (
             lambda: datetime.now(timezone.utc)
         )
@@ -100,9 +113,8 @@ class TraderPsychologySessionJournal:
         )
 
         with self._lock:
-            self._sequence += 1
-            entry = TraderPsychologyJournalEntry(
-                sequence=self._sequence,
+            candidate = TraderPsychologyJournalEntry(
+                sequence=self._sequence + 1,
                 recorded_at=recorded_at,
                 status=runtime_result.status,
                 signal_codes=tuple(
@@ -129,9 +141,42 @@ class TraderPsychologySessionJournal:
                     delivery.code
                     for delivery in runtime_result.voice.deliveries
                 ),
+                last_observed_at=recorded_at,
             )
-            self._entries.append(entry)
-            return entry
+            if (
+                self.deduplicate_unchanged
+                and self._entries
+                and self._fingerprint(self._entries[-1])
+                == self._fingerprint(candidate)
+            ):
+                repeated = replace(
+                    self._entries[-1],
+                    observation_count=(
+                        self._entries[-1].observation_count + 1
+                    ),
+                    last_observed_at=recorded_at,
+                )
+                self._entries[-1] = repeated
+                return repeated
+
+            self._sequence += 1
+            self._entries.append(candidate)
+            return candidate
+
+    @staticmethod
+    def _fingerprint(entry):
+        return (
+            entry.status,
+            entry.signal_codes,
+            entry.pause_recommended,
+            entry.pause_reason_codes,
+            entry.coaching_codes,
+            entry.evidence_status,
+            entry.evidence_audit_sequences,
+            entry.evidence_trade_ids,
+            entry.voice_status,
+            entry.voice_delivery_codes,
+        )
 
     def clear(self):
         with self._lock:

@@ -136,7 +136,11 @@ class SystemInitializer:
         self.psychology_audited_confirmations = None
         self.psychology_evidence_correlator = None
         self.psychology_evidence_presenter = None
-        self.psychology_session_journal = None
+        self.psychology_session_journal = (
+            TraderPsychologySessionJournal(
+                deduplicate_unchanged=True,
+            )
+        )
         self.psychology_session_summarizer = (
             TraderPsychologySessionSummarizer()
         )
@@ -260,9 +264,6 @@ class SystemInitializer:
         )
         self.psychology_evidence_presenter = (
             TraderPsychologyEvidencePresenter()
-        )
-        self.psychology_session_journal = (
-            TraderPsychologySessionJournal()
         )
         self.pipeline = AnalysisPipeline(
             event_bus=self.event_bus,
