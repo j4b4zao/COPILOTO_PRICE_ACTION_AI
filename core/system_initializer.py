@@ -262,7 +262,9 @@ class SystemInitializer:
             TraderPsychologyEvidencePresenter()
         )
         self.psychology_session_journal = (
-            TraderPsychologySessionJournal()
+            TraderPsychologySessionJournal(
+                deduplicate_unchanged=True,
+            )
         )
         self.pipeline = AnalysisPipeline(
             event_bus=self.event_bus,
