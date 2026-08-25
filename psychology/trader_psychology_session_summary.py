@@ -31,6 +31,8 @@ class TraderPsychologySessionSummary:
     updated_at: datetime | None
     total_observations: int = 0
     longest_unchanged_observations: int = 0
+    session_date: str | None = None
+    prior_session_entries_ignored: int = 0
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -41,7 +43,7 @@ class TraderPsychologySessionSummarizer:
     """Agrega somente fatos já registrados no diário."""
 
     NAME = "TraderPsychologySessionSummarizer"
-    VERSION = "RC22"
+    VERSION = "RC29"
 
     def summarize(self, entries):
         if not isinstance(entries, (list, tuple)):
@@ -52,10 +54,10 @@ class TraderPsychologySessionSummarizer:
         ):
             raise TypeError("entries contém item incompatível.")
 
-        ordered = tuple(
+        all_ordered = tuple(
             sorted(entries, key=lambda entry: entry.sequence)
         )
-        if not ordered:
+        if not all_ordered:
             return TraderPsychologySessionSummary(
                 status="EMPTY",
                 total_cycles=0,
@@ -75,7 +77,20 @@ class TraderPsychologySessionSummarizer:
                 updated_at=None,
                 total_observations=0,
                 longest_unchanged_observations=0,
+                session_date=None,
+                prior_session_entries_ignored=0,
             )
+
+        latest_date = max(
+            entry.recorded_at.date()
+            for entry in all_ordered
+        )
+        ordered = tuple(
+            entry
+            for entry in all_ordered
+            if entry.recorded_at.date() == latest_date
+        )
+        prior_ignored = len(all_ordered) - len(ordered)
 
         counts = Counter(
             code
@@ -148,4 +163,6 @@ class TraderPsychologySessionSummarizer:
                 entry.observation_count
                 for entry in ordered
             ),
+            session_date=latest_date.isoformat(),
+            prior_session_entries_ignored=prior_ignored,
         )
