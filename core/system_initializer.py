@@ -60,6 +60,9 @@ from psychology.trader_psychology_session_catalog_file_export import (
 from psychology.trader_psychology_session_catalog_file_reader import (
     TraderPsychologySessionCatalogFileReader,
 )
+from psychology.trader_psychology_session_catalog_integrity_facade import (
+    TraderPsychologySessionCatalogIntegrityFacade,
+)
 from psychology.trader_psychology_session_journal import (
     TraderPsychologySessionJournal,
 )
@@ -166,6 +169,11 @@ class SystemInitializer:
         self.psychology_session_catalog_file_reader = (
             TraderPsychologySessionCatalogFileReader()
         )
+        self.psychology_session_catalog_integrity = (
+            TraderPsychologySessionCatalogIntegrityFacade(
+                reader=self.psychology_session_catalog_file_reader,
+            )
+        )
         self.psychology_session_summarizer = (
             TraderPsychologySessionSummarizer()
         )
@@ -239,6 +247,17 @@ class SystemInitializer:
 
     def read_psychology_session_catalog_file(self, source):
         return self.psychology_session_catalog_file_reader.read(source)
+
+    def verify_psychology_session_catalog_file(
+        self,
+        source,
+        *,
+        expected_sha256=None,
+    ):
+        return self.psychology_session_catalog_integrity.read(
+            source,
+            expected_sha256=expected_sha256,
+        )
 
     def export_psychology_session_catalog_file(
         self,
