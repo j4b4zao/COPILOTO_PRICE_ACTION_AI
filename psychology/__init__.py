@@ -45,6 +45,10 @@ from psychology.trader_psychology_engine import (
     TraderPsychologySignal,
 )
 from psychology.trader_psychology_state import TraderPsychologyState
+from psychology.trader_psychology_session_journal import (
+    TraderPsychologyJournalEntry,
+    TraderPsychologySessionJournal,
+)
 from psychology.trader_psychology_session_provider import (
     TraderPsychologySessionProvider,
 )
@@ -93,6 +97,8 @@ __all__ = [
     "TraderPsychologyResult",
     "TraderPsychologySignal",
     "TraderPsychologyState",
+    "TraderPsychologyJournalEntry",
+    "TraderPsychologySessionJournal",
     "TraderPsychologySessionProvider",
     "TraderPsychologyTradeEventBridge",
     "TradeEventPublicationResult",
