@@ -45,6 +45,11 @@ from psychology.trader_psychology_engine import (
     TraderPsychologySignal,
 )
 from psychology.trader_psychology_state import TraderPsychologyState
+from psychology.trader_psychology_dashboard_export import (
+    TraderPsychologyDashboardExport,
+    TraderPsychologyDashboardExporter,
+    TraderPsychologyDashboardExportMessage,
+)
 from psychology.trader_psychology_dashboard_projection import (
     TraderPsychologyDashboardMessage,
     TraderPsychologyDashboardProjection,
@@ -111,6 +116,9 @@ __all__ = [
     "TraderPsychologyResult",
     "TraderPsychologySignal",
     "TraderPsychologyState",
+    "TraderPsychologyDashboardExport",
+    "TraderPsychologyDashboardExporter",
+    "TraderPsychologyDashboardExportMessage",
     "TraderPsychologyDashboardMessage",
     "TraderPsychologyDashboardProjection",
     "TraderPsychologyDashboardProjector",
