@@ -102,6 +102,50 @@ jobs:
             exit 1
           fi
 
+  profit-rtd-offline-tests:
+    name: Profit RTD offline gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Compile Profit RTD sources
+        run: python -m compileall -q market_data tests/test_profit_rtd_rc*.py
+
+      - name: Run Profit RTD offline tests
+        env:
+          PYTHONPATH: .
+        shell: bash
+        run: |
+          passed=0
+          failed=0
+
+          for test_file in tests/test_profit_rtd_rc*.py; do
+            echo "::group::$test_file"
+
+            if python "$test_file"; then
+              passed=$((passed + 1))
+            else
+              failed=$((failed + 1))
+            fi
+
+            echo "::endgroup::"
+          done
+
+          echo "Profit RTD test files passed: $passed"
+          echo "Profit RTD test files failed: $failed"
+
+          if [ "$failed" -ne 0 ]; then
+            exit 1
+          fi
+
   legacy-offline-audit:
     name: Legacy offline audit (non-blocking)
     runs-on: ubuntu-latest
