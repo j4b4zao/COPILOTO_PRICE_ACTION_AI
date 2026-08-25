@@ -163,8 +163,24 @@ class TraderPsychologyEvidenceCorrelator:
         if code == "STOP_SEQUENCE":
             count = runtime.state.consecutive_losses
             return negative[-count:] if count > 0 else ()
-        if code in {"FOMO", "OUTSIDE_PLAN"}:
-            return latest_open
+        if code == "FOMO":
+            if latest_open and (
+                self._fact_bool(latest_open[-1], "chased_price")
+                or self._fact_bool(
+                    latest_open[-1],
+                    "skipped_confirmation",
+                )
+            ):
+                return latest_open
+            return ()
+        if code == "OUTSIDE_PLAN":
+            if latest_open and not self._fact_bool(
+                latest_open[-1],
+                "plan_checklist_passed",
+                default=True,
+            ):
+                return latest_open
+            return ()
         if code == "RUSHED_REENTRY":
             return self._latest_loss_and_open(
                 negative,
@@ -240,6 +256,8 @@ class TraderPsychologyEvidenceCorrelator:
     def _latest_loss_and_open(losses, latest_open):
         if not losses or not latest_open:
             return ()
+        if losses[-1].sequence >= latest_open[-1].sequence:
+            return ()
         return (losses[-1], latest_open[-1])
 
     @staticmethod
@@ -252,6 +270,11 @@ class TraderPsychologyEvidenceCorrelator:
             seen.add(entry.sequence)
             unique.append(entry)
         return tuple(unique)
+
+    @staticmethod
+    def _fact_bool(entry, name, *, default=False):
+        value = dict(entry.facts).get(name, default)
+        return value if isinstance(value, bool) else default
 
     @staticmethod
     def _fact_number(entry, name):
