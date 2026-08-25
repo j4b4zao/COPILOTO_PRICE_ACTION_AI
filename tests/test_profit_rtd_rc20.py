@@ -1,4 +1,4 @@
-from pathlib import Path
+from pathlib import PureWindowsPath
 import inspect
 
 from config import settings
@@ -24,9 +24,9 @@ class FakeExcelFactory:
 
 
 def test_settings_separate_workbooks():
-    assert Path(settings.EXCEL_PATH).name == "Profit.xlsx"
-    assert Path(settings.PROFIT_RTD_TIMES_TRADES_PATH).name == "times&trades.xlsx"
-    assert Path(settings.PROFIT_RTD_ORDER_BOOK_PATH).name == "livroOfertas.xlsx"
+    assert PureWindowsPath(settings.EXCEL_PATH).name == "Profit.xlsx"
+    assert PureWindowsPath(settings.PROFIT_RTD_TIMES_TRADES_PATH).name == "times&trades.xlsx"
+    assert PureWindowsPath(settings.PROFIT_RTD_ORDER_BOOK_PATH).name == "livroOfertas.xlsx"
     assert settings.EXCEL_PATH != settings.PROFIT_RTD_TIMES_TRADES_PATH
     assert settings.PROFIT_RTD_TIMES_TRADES_PATH != settings.PROFIT_RTD_ORDER_BOOK_PATH
 
