@@ -234,11 +234,21 @@ class AnalysisPipeline:
             if not isinstance(state, TraderPsychologyState):
                 return
             runtime_result = self.psychology_runtime.process(state)
-            if self.psychology_evidence_correlator is not None:
+            evidence_correlator = getattr(
+                self,
+                "psychology_evidence_correlator",
+                None,
+            )
+            confirmation_audit = getattr(
+                self,
+                "psychology_confirmation_audit",
+                None,
+            )
+            if evidence_correlator is not None and confirmation_audit is not None:
                 try:
-                    evidence = self.psychology_evidence_correlator.correlate(
+                    evidence = evidence_correlator.correlate(
                         runtime_result,
-                        self.psychology_confirmation_audit.entries,
+                        confirmation_audit.entries,
                     )
                     runtime_result = replace(
                         runtime_result,
