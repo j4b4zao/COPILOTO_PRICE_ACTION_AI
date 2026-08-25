@@ -18,7 +18,7 @@ from market_data.profit_rtd_validation_recorder import ProfitRTDValidationRecord
 
 class Collector:
     NAME = "Collector"
-    VERSION = "RC18-PROFIT-RTD-VALIDATION-OBSERVABILITY"
+    VERSION = "RC19-PROFIT-RTD-VALIDATION-SESSION-EXPORT"
 
     def __init__(self, excel=None, reader=None, multi_timeframe=None, renko_state=None,
                  order_flow_state=None, chart_mode=None, renko_brick_size=None, clock=None,
@@ -250,6 +250,16 @@ class Collector:
 
     def profit_rtd_validation_summary(self) -> dict:
         return self.profit_rtd_validation_recorder.snapshot.to_dict()
+
+    def export_profit_rtd_validation_session(self, target, *, overwrite: bool = False):
+        from market_data.profit_rtd_validation_exporter import ProfitRTDValidationExporter
+
+        exporter = ProfitRTDValidationExporter()
+        return exporter.export(
+            self.profit_rtd_validation_recorder.snapshot,
+            target,
+            overwrite=overwrite,
+        )
 
     def _primary_market(self):
         return (
