@@ -13,6 +13,9 @@ from core.order_flow_state import OrderFlowState
 
 from external_context.external_market_state import ExternalMarketState
 from economic_context.economic_calendar_state import EconomicCalendarState
+from psychology.trader_psychology_runtime import (
+    TraderPsychologyRuntimeResult,
+)
 
 from models.book_depth import BookDepthSnapshot
 from models.book_depth_analysis_result import BookDepthAnalysisResult
@@ -76,6 +79,7 @@ class AnalysisContext:
     alert: AlertResult = field(default_factory=AlertResult)
     checklist: TradeChecklist = field(default_factory=TradeChecklist)
     narrative: MarketNarrative = field(default_factory=MarketNarrative)
+    trader_psychology: TraderPsychologyRuntimeResult | None = None
 
     @property
     def external_valid(self) -> bool:
@@ -132,6 +136,7 @@ class AnalysisContext:
         self.decision.clear()
         self.alert.clear()
         self.checklist.clear()
+        self.trader_psychology = None
 
     def reset(self) -> None:
         """Reinicia completamente o contexto."""
