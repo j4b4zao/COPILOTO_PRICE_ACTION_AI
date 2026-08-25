@@ -32,6 +32,7 @@ from psychology.trader_psychology_evidence_presenter import (
 from psychology.trader_psychology_execution_confirmation_adapter import (
     TraderPsychologyExecutionConfirmationAdapter,
 )
+from psychology.trader_psychology_runtime import TraderPsychologyRuntime
 from psychology.trader_psychology_session_provider import (
     TraderPsychologySessionProvider,
 )
@@ -41,16 +42,54 @@ from psychology.trader_psychology_trade_event_bridge import (
 from psychology.trader_psychology_trade_event_publisher import (
     TraderPsychologyTradeEventPublisher,
 )
+from psychology.voice_assistant import (
+    VoiceAssistant,
+    VoiceAssistantConfig,
+)
 
 
 class SystemInitializer:
 
-    def __init__(self, *, voice_enabled: bool | None = None, voice_config: VoiceConfig | None = None):
+    def __init__(
+        self,
+        *,
+        voice_enabled: bool | None = None,
+        voice_config: VoiceConfig | None = None,
+        psychology_voice_config: VoiceAssistantConfig | None = None,
+        psychology_voice_sink=None,
+    ):
         config = validate_voice_config(voice_config or VoiceConfig())
         if voice_enabled is not None:
             config = config.with_updates(enabled=bool(voice_enabled))
         self.voice_config = config
         self.voice_enabled = config.enabled
+
+        psychology_config = (
+            psychology_voice_config or VoiceAssistantConfig()
+        )
+        if not isinstance(psychology_config, VoiceAssistantConfig):
+            raise TypeError(
+                "psychology_voice_config deve ser VoiceAssistantConfig."
+            )
+        if psychology_voice_sink is not None and not callable(
+            getattr(psychology_voice_sink, "speak", None)
+        ):
+            raise TypeError(
+                "psychology_voice_sink deve expor speak()."
+            )
+        if psychology_config.enabled and psychology_voice_sink is None:
+            raise ValueError(
+                "Voz psicológica habilitada exige sink explícito."
+            )
+        self.psychology_voice_config = psychology_config
+        self.psychology_voice_sink = psychology_voice_sink
+        self.psychology_voice = VoiceAssistant(
+            config=psychology_config,
+            sink=psychology_voice_sink,
+        )
+        self.psychology_runtime = TraderPsychologyRuntime(
+            voice_assistant=self.psychology_voice,
+        )
 
         self.connection = None
         self.collector = None
@@ -114,6 +153,7 @@ class SystemInitializer:
         self.pipeline = AnalysisPipeline(
             event_bus=self.event_bus,
             psychology_state_provider=self.psychology_session,
+            psychology_runtime=self.psychology_runtime,
             psychology_evidence_correlator=(
                 self.psychology_evidence_correlator
             ),
