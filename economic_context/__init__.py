@@ -57,6 +57,10 @@ from economic_context.trading_economics_calendar_fetcher import (
     TradingEconomicsCalendarFetcher,
 )
 from economic_context.trading_economics_config import TradingEconomicsConfig
+from economic_context.trading_economics_trial_evaluator import (
+    TradingEconomicsTrialEvaluation,
+    TradingEconomicsTrialEvaluator,
+)
 from economic_context.trading_economics_trial_manifest import (
     TradingEconomicsTrialManifest,
     TradingEconomicsTrialManifestBuilder,
@@ -120,6 +124,8 @@ __all__ = [
     "TradingEconomicsCalendarMapper",
     "TradingEconomicsCalendarFetcher",
     "TradingEconomicsConfig",
+    "TradingEconomicsTrialEvaluation",
+    "TradingEconomicsTrialEvaluator",
     "TradingEconomicsTrialManifest",
     "TradingEconomicsTrialManifestBuilder",
     "TradingEconomicsTrialManifestEntry",
