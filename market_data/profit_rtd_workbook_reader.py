@@ -112,12 +112,12 @@ class ProfitRTDBookDepthReader(ProfitRTDWorkbookReader):
 class ProfitRTDTimesTradesReader(ProfitRTDWorkbookReader):
     """Lê T&T0 sem produzir decisão, score ou ordem."""
 
-    VERSION = "RC22-PROFIT-RTD-TIMES-TRADES-DIRETO"
+    VERSION = "RC23-PROFIT-RTD-TIMES-TRADES-LEILAO"
     EXPECTED_TAB = "Negócios"
     EXPECTED_HEADERS = ("Data", "Compradora", "Valor", "Quantidade", "Vendedora", "Agressor")
-    # O Profit usa "Direto" para negócio direto/cross. Ele é preservado como
-    # classificação observacional; não é convertido em compra ou venda agressora.
-    VALID_AGGRESSORS = {"Comprador", "Vendedor", "RLP", "Direto"}
+    # Classificações observadas no Profit. Direto e Leilão são preservados
+    # literalmente e nunca inferidos como compra/venda agressora.
+    VALID_AGGRESSORS = {"Comprador", "Vendedor", "RLP", "Direto", "Leilão"}
 
     def read_times_trades(self, symbol):
         matrix = self._matrix()
