@@ -46,6 +46,8 @@ class TraderPsychologyDashboardProjection:
     ]
     latest_sequence: int | None
     updated_at: datetime | None
+    total_observations: int = 0
+    longest_unchanged_observations: int = 0
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -152,4 +154,8 @@ class TraderPsychologyDashboardProjector:
             ),
             latest_sequence=summary.last_sequence,
             updated_at=summary.updated_at,
+            total_observations=summary.total_observations,
+            longest_unchanged_observations=(
+                summary.longest_unchanged_observations
+            ),
         )

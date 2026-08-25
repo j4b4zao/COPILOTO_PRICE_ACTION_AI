@@ -29,6 +29,8 @@ class TraderPsychologySessionSummary:
     last_sequence: int | None
     started_at: datetime | None
     updated_at: datetime | None
+    total_observations: int = 0
+    longest_unchanged_observations: int = 0
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -71,6 +73,8 @@ class TraderPsychologySessionSummarizer:
                 last_sequence=None,
                 started_at=None,
                 updated_at=None,
+                total_observations=0,
+                longest_unchanged_observations=0,
             )
 
         counts = Counter(
@@ -132,5 +136,16 @@ class TraderPsychologySessionSummarizer:
             first_sequence=ordered[0].sequence,
             last_sequence=ordered[-1].sequence,
             started_at=ordered[0].recorded_at,
-            updated_at=ordered[-1].recorded_at,
+            updated_at=(
+                ordered[-1].last_observed_at
+                or ordered[-1].recorded_at
+            ),
+            total_observations=sum(
+                entry.observation_count
+                for entry in ordered
+            ),
+            longest_unchanged_observations=max(
+                entry.observation_count
+                for entry in ordered
+            ),
         )
