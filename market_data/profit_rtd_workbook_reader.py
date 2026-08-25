@@ -157,7 +157,7 @@ class ProfitRTDBookDepthReader(ProfitRTDWorkbookReader):
 class ProfitRTDTimesTradesReader(ProfitRTDWorkbookReader):
     """Lê T&T0 sem produzir decisão, score ou ordem."""
 
-    VERSION = "RC1-PROFIT-RTD-TIMES-TRADES-READER"
+    VERSION = "RC21-PROFIT-RTD-TIMES-TRADES-PLACEHOLDER"
     EXPECTED_TAB = "Negócios"
     EXPECTED_HEADERS = (
         "Data",
@@ -177,6 +177,8 @@ class ProfitRTDTimesTradesReader(ProfitRTDWorkbookReader):
 
         for row_number, row in enumerate(matrix[2:], start=3):
             if all(self._text(value) == "" for value in row[:6]):
+                continue
+            if self._is_profit_placeholder_row(row):
                 continue
             try:
                 timestamp = self._timestamp(row[0])
@@ -217,6 +219,37 @@ class ProfitRTDTimesTradesReader(ProfitRTDWorkbookReader):
             "score_influence_allowed": False,
             "order_execution_allowed": False,
         }
+
+    @classmethod
+    def _is_profit_placeholder_row(cls, row):
+        """Reconhece somente o placeholder estático emitido pelo Profit no T&T."""
+        if len(row) < 6:
+            return False
+        texts = tuple(cls._text(value) for value in row[:6])
+        return (
+            texts[0] == "-"
+            and texts[1] == "-"
+            and texts[4] == "-"
+            and texts[5] == "-"
+            and cls._is_zero(row[2])
+            and cls._is_zero(row[3])
+        )
+
+    @classmethod
+    def _is_zero(cls, value):
+        if isinstance(value, bool):
+            return False
+        if isinstance(value, (int, float)):
+            return float(value) == 0.0
+        text = cls._text(value)
+        if not text:
+            return False
+        if "," in text:
+            text = text.replace(".", "").replace(",", ".")
+        try:
+            return float(text) == 0.0
+        except ValueError:
+            return False
 
     def _validate_layout(self, matrix):
         tab = self._text(matrix[0][1])
