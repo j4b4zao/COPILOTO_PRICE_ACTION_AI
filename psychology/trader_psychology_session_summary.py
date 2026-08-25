@@ -85,14 +85,13 @@ class TraderPsychologySessionSummarizer:
                 prior_session_entries_ignored=0,
             )
 
-        latest_date = max(
-            self._session_date(entry)
-            for entry in all_ordered
-        )
+        latest_entry = all_ordered[-1]
+        latest_date = self._session_date(latest_entry)
+        latest_session_id = self._session_id(latest_entry)
         ordered = tuple(
             entry
             for entry in all_ordered
-            if self._session_date(entry) == latest_date
+            if self._session_id(entry) == latest_session_id
         )
         prior_ignored = len(all_ordered) - len(ordered)
 
@@ -169,11 +168,18 @@ class TraderPsychologySessionSummarizer:
             ),
             session_date=latest_date,
             session_timezone=ordered[-1].session_timezone,
-            session_id=(
-                ordered[-1].session_id
-                or f"{latest_date}@{ordered[-1].session_timezone}"
-            ),
+            session_id=latest_session_id,
             prior_session_entries_ignored=prior_ignored,
+        )
+
+    @classmethod
+    def _session_id(cls, entry):
+        return (
+            entry.session_id
+            or (
+                f"{cls._session_date(entry)}"
+                f"@{entry.session_timezone}"
+            )
         )
 
     @staticmethod
