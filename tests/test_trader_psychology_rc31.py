@@ -96,12 +96,12 @@ def teste_json_expoe_fuso_explicitamente():
     assert payload["session_date"] == "2026-08-25"
 
 
-def teste_schema_e_versionado_para_novo_contrato():
+def teste_schema_compativel_e_preservado():
     result = system_with(
         populated()
     ).psychology_dashboard_export(generated_at=MOMENT)
     assert result.schema_version == (
-        "TRADER_PSYCHOLOGY_DASHBOARD_V2"
+        "TRADER_PSYCHOLOGY_DASHBOARD_V1"
     )
 
 
