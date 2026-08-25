@@ -17,6 +17,12 @@ ambiente/
 .env
 .env.*
 !.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.json
 
 # IDE and operating system
 .vscode/
@@ -33,6 +39,7 @@ Profit.xlsx
 logs/*.log
 saida.txt
 data/*.json
+*.calendar-replay.json
 
 # Build and temporary artifacts
 build/
