@@ -19,6 +19,9 @@ from execution.execution_engine import ExecutionEngine
 from monitor.monitor import Monitor
 from alerts.alert_manager import AlertManager
 from logs.trade_logger import TradeLogger
+from psychology.psychology_voice_controlled_test import (
+    PsychologyVoiceControlledTest,
+)
 from psychology.psychology_voice_readiness import (
     PsychologyVoiceReadiness,
 )
@@ -96,6 +99,11 @@ class SystemInitializer:
         self.psychology_voice_readiness_service = (
             PsychologyVoiceReadiness()
         )
+        self.psychology_voice_controlled_test = (
+            PsychologyVoiceControlledTest(
+                readiness=self.psychology_voice_readiness_service,
+            )
+        )
 
         self.connection = None
         self.collector = None
@@ -124,6 +132,13 @@ class SystemInitializer:
         return self.psychology_voice_readiness_service.inspect(
             config=self.psychology_voice_config,
             sink=self.psychology_voice_sink,
+        )
+
+    def test_psychology_voice(self, confirmation=""):
+        return self.psychology_voice_controlled_test.run(
+            config=self.psychology_voice_config,
+            sink=self.psychology_voice_sink,
+            confirmation=confirmation,
         )
 
     def inicializar(self):
