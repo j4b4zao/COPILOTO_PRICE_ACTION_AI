@@ -4,7 +4,7 @@ config/settings.py
 Configurações globais do
 COPILOTO PRICE ACTION AI.
 
-RC7
+RC8
 """
 
 # ==========================================================
@@ -28,6 +28,14 @@ CHART_MODE = "NORMAL"
 RENKO_BRICK_SIZE = 20.0
 
 MIN_HISTORY = 5
+
+# ==========================================================
+# ORDER FLOW / PROFIT RTD
+# ==========================================================
+
+# RC8: fonte deduplicada Times & Trades RTD. Desativada por padrão
+# para preservar integralmente o fluxo legado de agressão do Profit.
+ENABLE_PROFIT_RTD_ORDER_FLOW = False
 
 # ==========================================================
 # RISK
