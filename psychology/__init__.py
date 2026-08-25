@@ -1,5 +1,9 @@
 """Camada observacional de Psicologia do Trader."""
 
+from psychology.psychology_tts_sink import (
+    PsychologyTTSBackendSink,
+    WindowsSAPIPsychologyVoiceSink,
+)
 from psychology.coaching_engine import (
     CoachingEngine,
     CoachingMessage,
@@ -56,6 +60,8 @@ from psychology.voice_assistant import (
 )
 
 __all__ = [
+    "PsychologyTTSBackendSink",
+    "WindowsSAPIPsychologyVoiceSink",
     "CoachingEngine",
     "CoachingMessage",
     "CoachingPolicy",
