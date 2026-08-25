@@ -134,7 +134,9 @@ def teste_pipeline_anexa_snapshot_psicologico():
     provider.trace = pipeline_trace
     context = pipeline.executar(AnalysisContext())
     assert context.trader_psychology is not None
-    assert context.trader_psychology.status == "ATTENTION"
+    assert context.trader_psychology.status == "PAUSE_RECOMMENDED"
+    assert context.trader_psychology.pause_recommended
+    assert not context.trader_psychology.operational_block_allowed
 
 
 def teste_provider_executa_depois_do_decision_engine():
