@@ -31,6 +31,7 @@ class TraderPsychologyJournalEntry:
     last_observed_at: datetime | None = None
     session_date: str = ""
     session_timezone: str = "UTC"
+    session_id: str = ""
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -137,6 +138,11 @@ class TraderPsychologySessionJournal:
             )
         )
 
+        session_date = recorded_at.astimezone(
+            self._session_timezone
+        ).date().isoformat()
+        session_id = f"{session_date}@{self.session_timezone}"
+
         with self._lock:
             candidate = TraderPsychologyJournalEntry(
                 sequence=self._sequence + 1,
@@ -167,12 +173,9 @@ class TraderPsychologySessionJournal:
                     for delivery in runtime_result.voice.deliveries
                 ),
                 last_observed_at=recorded_at,
-                session_date=(
-                    recorded_at.astimezone(
-                        self._session_timezone
-                    ).date().isoformat()
-                ),
+                session_date=session_date,
                 session_timezone=self.session_timezone,
+                session_id=session_id,
             )
             if (
                 self.deduplicate_unchanged
@@ -197,6 +200,7 @@ class TraderPsychologySessionJournal:
     @staticmethod
     def _fingerprint(entry):
         return (
+            entry.session_id,
             entry.session_date,
             entry.status,
             entry.signal_codes,

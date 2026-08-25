@@ -50,6 +50,7 @@ class TraderPsychologyDashboardProjection:
     longest_unchanged_observations: int = 0
     session_date: str | None = None
     session_timezone: str | None = None
+    session_id: str | None = None
     prior_session_entries_ignored: int = 0
     observational_only: bool = True
     score_influence_allowed: bool = False
@@ -163,6 +164,7 @@ class TraderPsychologyDashboardProjector:
             ),
             session_date=summary.session_date,
             session_timezone=summary.session_timezone,
+            session_id=summary.session_id,
             prior_session_entries_ignored=(
                 summary.prior_session_entries_ignored
             ),

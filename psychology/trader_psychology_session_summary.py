@@ -33,6 +33,7 @@ class TraderPsychologySessionSummary:
     longest_unchanged_observations: int = 0
     session_date: str | None = None
     session_timezone: str | None = None
+    session_id: str | None = None
     prior_session_entries_ignored: int = 0
     observational_only: bool = True
     score_influence_allowed: bool = False
@@ -80,6 +81,7 @@ class TraderPsychologySessionSummarizer:
                 longest_unchanged_observations=0,
                 session_date=None,
                 session_timezone=None,
+                session_id=None,
                 prior_session_entries_ignored=0,
             )
 
@@ -167,6 +169,10 @@ class TraderPsychologySessionSummarizer:
             ),
             session_date=latest_date,
             session_timezone=ordered[-1].session_timezone,
+            session_id=(
+                ordered[-1].session_id
+                or f"{latest_date}@{ordered[-1].session_timezone}"
+            ),
             prior_session_entries_ignored=prior_ignored,
         )
 
