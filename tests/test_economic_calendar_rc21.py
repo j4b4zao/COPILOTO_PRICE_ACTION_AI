@@ -23,7 +23,7 @@ def runbook():
 
 def teste_env_local_permanece_ignorado():
     text = gitignore()
-    assert ".env\\n" in text
+    assert ".env" in text.splitlines()
     assert ".env.*" in text
 
 
