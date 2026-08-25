@@ -30,6 +30,9 @@ class CoachingMessage:
     text: str
     priority: int
     voice_candidate: bool
+    evidence_linked: bool = False
+    evidence_audit_sequences: tuple[int, ...] = ()
+    evidence_trade_ids: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
