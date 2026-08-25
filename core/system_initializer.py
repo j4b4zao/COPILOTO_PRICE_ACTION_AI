@@ -25,6 +25,9 @@ from psychology.trader_psychology_session_provider import (
 from psychology.trader_psychology_trade_event_bridge import (
     TraderPsychologyTradeEventBridge,
 )
+from psychology.trader_psychology_trade_event_publisher import (
+    TraderPsychologyTradeEventPublisher,
+)
 
 
 class SystemInitializer:
@@ -43,6 +46,7 @@ class SystemInitializer:
         self.pipeline = None
         self.psychology_session = None
         self.psychology_trade_events = None
+        self.psychology_trade_publisher = None
         self.voice = None
         self.risk = None
         self.market_filter = None
@@ -64,6 +68,11 @@ class SystemInitializer:
             event_bus=self.event_bus,
             session_provider=self.psychology_session,
         ).connect()
+        self.psychology_trade_publisher = (
+            TraderPsychologyTradeEventPublisher(
+                event_bus=self.event_bus,
+            )
+        )
         self.pipeline = AnalysisPipeline(
             event_bus=self.event_bus,
             psychology_state_provider=self.psychology_session,
