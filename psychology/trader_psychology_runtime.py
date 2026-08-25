@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from psychology.coaching_engine import CoachingEngine, CoachingResult
 from psychology.trader_psychology_engine import (
@@ -10,6 +11,11 @@ from psychology.trader_psychology_engine import (
     TraderPsychologyResult,
 )
 from psychology.trader_psychology_state import TraderPsychologyState
+if TYPE_CHECKING:
+    from psychology.trader_psychology_evidence_correlator import (
+        TraderPsychologyEvidenceReport,
+    )
+
 from psychology.voice_assistant import (
     VoiceAssistant,
     VoiceAssistantResult,
@@ -24,6 +30,7 @@ class TraderPsychologyRuntimeResult:
     coaching: CoachingResult
     voice: VoiceAssistantResult
     pause_recommended: bool
+    evidence: TraderPsychologyEvidenceReport | None = None
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
