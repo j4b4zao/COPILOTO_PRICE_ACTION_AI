@@ -52,6 +52,7 @@ class TraderPsychologyDashboardProjection:
     session_timezone: str | None = None
     session_id: str | None = None
     prior_session_entries_ignored: int = 0
+    prior_session_observations_ignored: int = 0
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -167,5 +168,8 @@ class TraderPsychologyDashboardProjector:
             session_id=summary.session_id,
             prior_session_entries_ignored=(
                 summary.prior_session_entries_ignored
+            ),
+            prior_session_observations_ignored=(
+                summary.prior_session_observations_ignored
             ),
         )
