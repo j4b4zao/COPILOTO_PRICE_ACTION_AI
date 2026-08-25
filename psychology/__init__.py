@@ -13,6 +13,13 @@ from psychology.trader_psychology_engine import (
     TraderPsychologySignal,
 )
 from psychology.trader_psychology_state import TraderPsychologyState
+from psychology.voice_assistant import (
+    NullPsychologyVoiceSink,
+    VoiceAssistant,
+    VoiceAssistantConfig,
+    VoiceAssistantResult,
+    VoiceDelivery,
+)
 
 __all__ = [
     "CoachingEngine",
@@ -24,4 +31,9 @@ __all__ = [
     "TraderPsychologyResult",
     "TraderPsychologySignal",
     "TraderPsychologyState",
+    "NullPsychologyVoiceSink",
+    "VoiceAssistant",
+    "VoiceAssistantConfig",
+    "VoiceAssistantResult",
+    "VoiceDelivery",
 ]
