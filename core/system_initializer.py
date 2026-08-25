@@ -23,6 +23,9 @@ from psychology.trader_psychology_confirmation_audit import (
     AuditedTraderPsychologyExecutionConfirmations,
     TraderPsychologyConfirmationAuditLedger,
 )
+from psychology.trader_psychology_evidence_correlator import (
+    TraderPsychologyEvidenceCorrelator,
+)
 from psychology.trader_psychology_execution_confirmation_adapter import (
     TraderPsychologyExecutionConfirmationAdapter,
 )
@@ -57,6 +60,7 @@ class SystemInitializer:
         self.psychology_execution_confirmations = None
         self.psychology_confirmation_audit = None
         self.psychology_audited_confirmations = None
+        self.psychology_evidence_correlator = None
         self.voice = None
         self.risk = None
         self.market_filter = None
@@ -96,6 +100,9 @@ class SystemInitializer:
                 adapter=self.psychology_execution_confirmations,
                 ledger=self.psychology_confirmation_audit,
             )
+        )
+        self.psychology_evidence_correlator = (
+            TraderPsychologyEvidenceCorrelator()
         )
         self.pipeline = AnalysisPipeline(
             event_bus=self.event_bus,

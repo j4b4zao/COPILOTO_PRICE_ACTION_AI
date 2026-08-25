@@ -18,6 +18,11 @@ from psychology.trader_psychology_execution_confirmation_adapter import (
     TradeConfirmationResult,
     TraderPsychologyExecutionConfirmationAdapter,
 )
+from psychology.trader_psychology_evidence_correlator import (
+    PsychologyEvidenceLink,
+    TraderPsychologyEvidenceCorrelator,
+    TraderPsychologyEvidenceReport,
+)
 from psychology.trader_psychology_engine import (
     TraderPsychologyEngine,
     TraderPsychologyPolicy,
@@ -58,6 +63,9 @@ __all__ = [
     "TraderPsychologyContextBridge",
     "TradeConfirmationResult",
     "TraderPsychologyExecutionConfirmationAdapter",
+    "PsychologyEvidenceLink",
+    "TraderPsychologyEvidenceCorrelator",
+    "TraderPsychologyEvidenceReport",
     "TraderPsychologyEngine",
     "TraderPsychologyPolicy",
     "TraderPsychologyResult",
