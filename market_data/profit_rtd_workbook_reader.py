@@ -15,9 +15,7 @@ class ProfitRTDWorkbookReader:
 
     def __init__(self, gateway, *, clock=None):
         if not callable(getattr(gateway, "read_range", None)):
-            raise TypeError(
-                "gateway deve expor read_range(sheet, range)."
-            )
+            raise TypeError("gateway deve expor read_range(sheet, range).")
         self.gateway = gateway
         self.clock = clock or datetime.now
         if not callable(self.clock):
@@ -79,14 +77,7 @@ class ProfitRTDBookDepthReader(ProfitRTDWorkbookReader):
     VERSION = "RC1-PROFIT-RTD-BOOK-READER"
     EXPECTED_TAB = "Ofertas"
     EXPECTED_HEADERS = (
-        "Hora",
-        "Agente",
-        "Qtde",
-        "Compra",
-        "Venda",
-        "Qtde",
-        "Agente",
-        "Hora",
+        "Hora", "Agente", "Qtde", "Compra", "Venda", "Qtde", "Agente", "Hora",
     )
 
     def read_book_depth(self, symbol):
@@ -95,55 +86,19 @@ class ProfitRTDBookDepthReader(ProfitRTDWorkbookReader):
         workbook_symbol = self._symbol(matrix, symbol)
         bids = []
         asks = []
-
         for row_number, row in enumerate(matrix[2:], start=3):
             if all(self._text(value) == "" for value in row[:8]):
                 continue
             try:
-                bid = {
-                    "price": self._positive_float(
-                        "preço de compra",
-                        row[3],
-                    ),
-                    "quantity": self._positive_float(
-                        "quantidade de compra",
-                        row[2],
-                    ),
-                    "orders": 0,
-                    "agent": self._text(row[1]),
-                    "time": self._text(row[0]),
-                }
-                ask = {
-                    "price": self._positive_float(
-                        "preço de venda",
-                        row[4],
-                    ),
-                    "quantity": self._positive_float(
-                        "quantidade de venda",
-                        row[5],
-                    ),
-                    "orders": 0,
-                    "agent": self._text(row[6]),
-                    "time": self._text(row[7]),
-                }
+                bid = {"price": self._positive_float("preço de compra", row[3]), "quantity": self._positive_float("quantidade de compra", row[2]), "orders": 0, "agent": self._text(row[1]), "time": self._text(row[0])}
+                ask = {"price": self._positive_float("preço de venda", row[4]), "quantity": self._positive_float("quantidade de venda", row[5]), "orders": 0, "agent": self._text(row[6]), "time": self._text(row[7])}
             except (TypeError, ValueError) as exc:
-                raise ValueError(
-                    f"Linha RTD do Book inválida: {row_number}."
-                ) from exc
+                raise ValueError(f"Linha RTD do Book inválida: {row_number}.") from exc
             bids.append(bid)
             asks.append(ask)
-
         if not bids or not asks:
             raise ValueError("Book RTD sem níveis disponíveis.")
-
-        return {
-            "symbol": workbook_symbol,
-            "timestamp": self._now().isoformat(),
-            "bids": bids,
-            "asks": asks,
-            "source": self.SOURCE,
-            "passive_only": True,
-        }
+        return {"symbol": workbook_symbol, "timestamp": self._now().isoformat(), "bids": bids, "asks": asks, "source": self.SOURCE, "passive_only": True}
 
     def _validate_layout(self, matrix):
         tab = self._text(matrix[0][1])
@@ -157,24 +112,18 @@ class ProfitRTDBookDepthReader(ProfitRTDWorkbookReader):
 class ProfitRTDTimesTradesReader(ProfitRTDWorkbookReader):
     """Lê T&T0 sem produzir decisão, score ou ordem."""
 
-    VERSION = "RC21-PROFIT-RTD-TIMES-TRADES-PLACEHOLDER"
+    VERSION = "RC22-PROFIT-RTD-TIMES-TRADES-DIRETO"
     EXPECTED_TAB = "Negócios"
-    EXPECTED_HEADERS = (
-        "Data",
-        "Compradora",
-        "Valor",
-        "Quantidade",
-        "Vendedora",
-        "Agressor",
-    )
-    VALID_AGGRESSORS = {"Comprador", "Vendedor", "RLP"}
+    EXPECTED_HEADERS = ("Data", "Compradora", "Valor", "Quantidade", "Vendedora", "Agressor")
+    # O Profit usa "Direto" para negócio direto/cross. Ele é preservado como
+    # classificação observacional; não é convertido em compra ou venda agressora.
+    VALID_AGGRESSORS = {"Comprador", "Vendedor", "RLP", "Direto"}
 
     def read_times_trades(self, symbol):
         matrix = self._matrix()
         self._validate_layout(matrix)
         workbook_symbol = self._symbol(matrix, symbol)
         trades = []
-
         for row_number, row in enumerate(matrix[2:], start=3):
             if all(self._text(value) == "" for value in row[:6]):
                 continue
@@ -188,28 +137,18 @@ class ProfitRTDTimesTradesReader(ProfitRTDWorkbookReader):
                 trade = {
                     "timestamp": timestamp,
                     "buyer": self._text(row[1]),
-                    "price": self._positive_float(
-                        "preço do negócio",
-                        row[2],
-                    ),
-                    "quantity": self._positive_float(
-                        "quantidade do negócio",
-                        row[3],
-                    ),
+                    "price": self._positive_float("preço do negócio", row[2]),
+                    "quantity": self._positive_float("quantidade do negócio", row[3]),
                     "seller": self._text(row[4]),
                     "aggressor": aggressor,
                 }
                 if not trade["buyer"] or not trade["seller"]:
                     raise ValueError("Agentes do negócio são obrigatórios.")
             except (TypeError, ValueError) as exc:
-                raise ValueError(
-                    f"Linha RTD do T&T inválida: {row_number}."
-                ) from exc
+                raise ValueError(f"Linha RTD do T&T inválida: {row_number}.") from exc
             trades.append(trade)
-
         if not trades:
             raise ValueError("T&T RTD sem negócios disponíveis.")
-
         return {
             "symbol": workbook_symbol,
             "timestamp": self._now().isoformat(),
@@ -227,12 +166,8 @@ class ProfitRTDTimesTradesReader(ProfitRTDWorkbookReader):
             return False
         texts = tuple(cls._text(value) for value in row[:6])
         return (
-            texts[0] == "-"
-            and texts[1] == "-"
-            and texts[4] == "-"
-            and texts[5] == "-"
-            and cls._is_zero(row[2])
-            and cls._is_zero(row[3])
+            texts[0] == "-" and texts[1] == "-" and texts[4] == "-" and texts[5] == "-"
+            and cls._is_zero(row[2]) and cls._is_zero(row[3])
         )
 
     @classmethod
@@ -265,10 +200,7 @@ class ProfitRTDTimesTradesReader(ProfitRTDWorkbookReader):
         if not text:
             raise ValueError("Data do negócio é obrigatória.")
         try:
-            parsed = datetime.strptime(
-                text,
-                "%d/%m/%Y %H:%M:%S.%f",
-            )
+            parsed = datetime.strptime(text, "%d/%m/%Y %H:%M:%S.%f")
         except ValueError as exc:
             raise ValueError("Data do negócio inválida.") from exc
         return parsed.isoformat(timespec="milliseconds")
