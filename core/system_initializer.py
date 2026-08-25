@@ -32,6 +32,9 @@ from psychology.trader_psychology_confirmation_audit import (
 from psychology.trader_psychology_dashboard_export import (
     TraderPsychologyDashboardExporter,
 )
+from psychology.trader_psychology_dashboard_file_export import (
+    TraderPsychologyDashboardFileExporter,
+)
 from psychology.trader_psychology_dashboard_projection import (
     TraderPsychologyDashboardProjector,
 )
@@ -146,6 +149,9 @@ class SystemInitializer:
         self.psychology_dashboard_exporter = (
             TraderPsychologyDashboardExporter()
         )
+        self.psychology_dashboard_file_exporter = (
+            TraderPsychologyDashboardFileExporter()
+        )
         self.voice = None
         self.risk = None
         self.market_filter = None
@@ -155,6 +161,22 @@ class SystemInitializer:
         self.monitor = None
         self.alert = None
         self.logger = None
+
+    def export_psychology_dashboard_file(
+        self,
+        destination,
+        *,
+        overwrite=False,
+        generated_at=None,
+    ):
+        dashboard_export = self.psychology_dashboard_export(
+            generated_at=generated_at,
+        )
+        return self.psychology_dashboard_file_exporter.write(
+            dashboard_export,
+            destination,
+            overwrite=overwrite,
+        )
 
     def psychology_dashboard_export(self, *, generated_at=None):
         projection = self.psychology_dashboard_projection()

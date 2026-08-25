@@ -50,6 +50,10 @@ from psychology.trader_psychology_dashboard_export import (
     TraderPsychologyDashboardExporter,
     TraderPsychologyDashboardExportMessage,
 )
+from psychology.trader_psychology_dashboard_file_export import (
+    TraderPsychologyDashboardFileExporter,
+    TraderPsychologyDashboardFileExportResult,
+)
 from psychology.trader_psychology_dashboard_projection import (
     TraderPsychologyDashboardMessage,
     TraderPsychologyDashboardProjection,
@@ -119,6 +123,8 @@ __all__ = [
     "TraderPsychologyDashboardExport",
     "TraderPsychologyDashboardExporter",
     "TraderPsychologyDashboardExportMessage",
+    "TraderPsychologyDashboardFileExporter",
+    "TraderPsychologyDashboardFileExportResult",
     "TraderPsychologyDashboardMessage",
     "TraderPsychologyDashboardProjection",
     "TraderPsychologyDashboardProjector",
