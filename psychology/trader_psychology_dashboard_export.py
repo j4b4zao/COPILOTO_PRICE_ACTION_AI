@@ -51,6 +51,8 @@ class TraderPsychologyDashboardExport:
     prior_session_entries_ignored: int = 0
     prior_session_observations_ignored: int = 0
     observed_span_seconds: float = 0.0
+    started_at_local: str | None = None
+    updated_at_local: str | None = None
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -186,6 +188,8 @@ class TraderPsychologyDashboardExporter:
             observed_span_seconds=(
                 projection.observed_span_seconds
             ),
+            started_at_local=projection.started_at_local,
+            updated_at_local=projection.updated_at_local,
         )
 
     @staticmethod

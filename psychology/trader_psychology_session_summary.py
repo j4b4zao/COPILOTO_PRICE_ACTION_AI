@@ -9,6 +9,9 @@ from datetime import datetime
 from psychology.trader_psychology_session_journal import (
     TraderPsychologyJournalEntry,
 )
+from psychology.trader_psychology_session_time import (
+    to_session_iso,
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -37,6 +40,8 @@ class TraderPsychologySessionSummary:
     prior_session_entries_ignored: int = 0
     prior_session_observations_ignored: int = 0
     observed_span_seconds: float = 0.0
+    started_at_local: str | None = None
+    updated_at_local: str | None = None
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -87,6 +92,8 @@ class TraderPsychologySessionSummarizer:
                 prior_session_entries_ignored=0,
                 prior_session_observations_ignored=0,
                 observed_span_seconds=0.0,
+                started_at_local=None,
+                updated_at_local=None,
             )
 
         latest_entry = all_ordered[-1]
@@ -193,6 +200,14 @@ class TraderPsychologySessionSummarizer:
                 prior_observations_ignored
             ),
             observed_span_seconds=observed_span_seconds,
+            started_at_local=to_session_iso(
+                started_at,
+                ordered[-1].session_timezone,
+            ),
+            updated_at_local=to_session_iso(
+                updated_at,
+                ordered[-1].session_timezone,
+            ),
         )
 
     @classmethod

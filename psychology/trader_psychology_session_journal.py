@@ -4,12 +4,14 @@ from __future__ import annotations
 
 from collections import deque
 from dataclasses import dataclass, replace
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from threading import Lock
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from psychology.trader_psychology_runtime import (
     TraderPsychologyRuntimeResult,
+)
+from psychology.trader_psychology_session_time import (
+    resolve_session_timezone,
 )
 
 
@@ -65,25 +67,10 @@ class TraderPsychologySessionJournal:
             raise TypeError(
                 "deduplicate_unchanged deve ser booleano."
             )
-        if not isinstance(session_timezone, str) or not (
-            session_timezone.strip()
-        ):
-            raise TypeError(
-                "session_timezone deve ser string não vazia."
-            )
+        timezone_value = resolve_session_timezone(
+            session_timezone
+        )
         timezone_name = session_timezone.strip()
-        try:
-            timezone_value = ZoneInfo(timezone_name)
-        except ZoneInfoNotFoundError as exc:
-            if timezone_name == "America/Sao_Paulo":
-                timezone_value = timezone(
-                    timedelta(hours=-3),
-                    name="America/Sao_Paulo",
-                )
-            else:
-                raise ValueError(
-                    "session_timezone desconhecido."
-                ) from exc
         self.max_entries = max_entries
         self.deduplicate_unchanged = deduplicate_unchanged
         self.session_timezone = timezone_name

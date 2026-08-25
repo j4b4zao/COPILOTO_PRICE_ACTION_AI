@@ -54,6 +54,8 @@ class TraderPsychologyDashboardProjection:
     prior_session_entries_ignored: int = 0
     prior_session_observations_ignored: int = 0
     observed_span_seconds: float = 0.0
+    started_at_local: str | None = None
+    updated_at_local: str | None = None
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -174,4 +176,6 @@ class TraderPsychologyDashboardProjector:
                 summary.prior_session_observations_ignored
             ),
             observed_span_seconds=summary.observed_span_seconds,
+            started_at_local=summary.started_at_local,
+            updated_at_local=summary.updated_at_local,
         )
