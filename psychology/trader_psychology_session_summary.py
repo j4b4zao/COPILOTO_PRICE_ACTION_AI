@@ -43,7 +43,7 @@ class TraderPsychologySessionSummarizer:
     """Agrega somente fatos já registrados no diário."""
 
     NAME = "TraderPsychologySessionSummarizer"
-    VERSION = "RC29"
+    VERSION = "RC30"
 
     def summarize(self, entries):
         if not isinstance(entries, (list, tuple)):
@@ -82,13 +82,13 @@ class TraderPsychologySessionSummarizer:
             )
 
         latest_date = max(
-            entry.recorded_at.date()
+            self._session_date(entry)
             for entry in all_ordered
         )
         ordered = tuple(
             entry
             for entry in all_ordered
-            if entry.recorded_at.date() == latest_date
+            if self._session_date(entry) == latest_date
         )
         prior_ignored = len(all_ordered) - len(ordered)
 
@@ -163,6 +163,13 @@ class TraderPsychologySessionSummarizer:
                 entry.observation_count
                 for entry in ordered
             ),
-            session_date=latest_date.isoformat(),
+            session_date=latest_date,
             prior_session_entries_ignored=prior_ignored,
+        )
+
+    @staticmethod
+    def _session_date(entry):
+        return (
+            entry.session_date
+            or entry.recorded_at.date().isoformat()
         )
