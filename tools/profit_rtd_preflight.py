@@ -6,7 +6,6 @@ import argparse
 import sys
 
 from config.settings import ENABLE_ORDER_FLOW_SCORE, EXCEL_PATH
-from connectors.excel_connector import ExcelConnector
 from market_data.excel_range_gateway import ExcelRangeGateway
 from market_data.profit_rtd_live_preflight import ProfitRTDLivePreflight
 from market_data.profit_rtd_workbook_reader import ProfitRTDTimesTradesReader
@@ -23,8 +22,17 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def run_preflight(symbol: str, *, excel_factory=ExcelConnector) -> int:
-    excel = excel_factory()
+def _default_excel_factory():
+    # xlwings só é necessário no Windows/ambiente real. O import tardio
+    # mantém o CLI importável nos gates offline Linux do GitHub Actions.
+    from connectors.excel_connector import ExcelConnector
+
+    return ExcelConnector
+
+
+def run_preflight(symbol: str, *, excel_factory=None) -> int:
+    factory = excel_factory or _default_excel_factory()
+    excel = factory()
     if not excel.conectar(EXCEL_PATH):
         print("PROFIT_RTD_PREFLIGHT=ERROR")
         print("reason=EXCEL_CONNECT_FAILED")
