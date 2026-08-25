@@ -1,11 +1,11 @@
-"""CLI para executar o preflight Profit RTD no ambiente real (RC15)."""
+"""CLI para executar o preflight Profit RTD no ambiente real (RC20)."""
 
 from __future__ import annotations
 
 import argparse
 import sys
 
-from config.settings import ENABLE_ORDER_FLOW_SCORE, EXCEL_PATH
+from config.settings import ENABLE_ORDER_FLOW_SCORE, PROFIT_RTD_TIMES_TRADES_PATH
 from market_data.excel_range_gateway import ExcelRangeGateway
 from market_data.profit_rtd_live_preflight import ProfitRTDLivePreflight
 from market_data.profit_rtd_workbook_reader import ProfitRTDTimesTradesReader
@@ -33,9 +33,9 @@ def _default_excel_factory():
 def run_preflight(symbol: str, *, excel_factory=None) -> int:
     factory = excel_factory or _default_excel_factory()
     excel = factory()
-    if not excel.conectar(EXCEL_PATH):
+    if not excel.conectar(PROFIT_RTD_TIMES_TRADES_PATH):
         print("PROFIT_RTD_PREFLIGHT=ERROR")
-        print("reason=EXCEL_CONNECT_FAILED")
+        print("reason=TIMES_TRADES_EXCEL_CONNECT_FAILED")
         return 1
 
     gateway = ExcelRangeGateway(excel)
