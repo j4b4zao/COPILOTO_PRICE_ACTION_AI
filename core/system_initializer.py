@@ -54,6 +54,9 @@ from psychology.trader_psychology_session_catalog import (
 from psychology.trader_psychology_session_catalog_export import (
     TraderPsychologySessionCatalogExporter,
 )
+from psychology.trader_psychology_session_catalog_file_export import (
+    TraderPsychologySessionCatalogFileExporter,
+)
 from psychology.trader_psychology_session_journal import (
     TraderPsychologySessionJournal,
 )
@@ -154,6 +157,9 @@ class SystemInitializer:
         self.psychology_session_catalog_exporter = (
             TraderPsychologySessionCatalogExporter()
         )
+        self.psychology_session_catalog_file_exporter = (
+            TraderPsychologySessionCatalogFileExporter()
+        )
         self.psychology_session_summarizer = (
             TraderPsychologySessionSummarizer()
         )
@@ -223,6 +229,22 @@ class SystemInitializer:
             summary=summary,
             review=review,
             voice_readiness=readiness,
+        )
+
+    def export_psychology_session_catalog_file(
+        self,
+        destination,
+        *,
+        overwrite=False,
+        generated_at=None,
+    ):
+        catalog_export = self.psychology_session_catalog_export(
+            generated_at=generated_at,
+        )
+        return self.psychology_session_catalog_file_exporter.write(
+            catalog_export,
+            destination,
+            overwrite=overwrite,
         )
 
     def psychology_session_catalog_export(
