@@ -69,6 +69,7 @@ class AnalysisPipeline:
         psychology_context_bridge=None,
         psychology_evidence_correlator=None,
         psychology_confirmation_audit=None,
+        psychology_evidence_presenter=None,
     ):
         if external_context_service is not None and not callable(
             getattr(external_context_service, "snapshot", None)
@@ -112,6 +113,19 @@ class AnalysisPipeline:
                 "Psychology evidence correlator e confirmation audit "
                 "devem ser configurados juntos."
             )
+        if psychology_evidence_presenter is not None and not callable(
+            getattr(psychology_evidence_presenter, "enrich", None)
+        ):
+            raise TypeError(
+                "Psychology evidence presenter deve expor enrich()."
+            )
+        if (
+            psychology_evidence_presenter is not None
+            and psychology_evidence_correlator is None
+        ):
+            raise TypeError(
+                "Psychology evidence presenter exige correlator e audit."
+            )
 
         self.event_bus = event_bus
         self.external_context_service = external_context_service
@@ -123,6 +137,7 @@ class AnalysisPipeline:
         )
         self.psychology_evidence_correlator = psychology_evidence_correlator
         self.psychology_confirmation_audit = psychology_confirmation_audit
+        self.psychology_evidence_presenter = psychology_evidence_presenter
         self.context = AnalysisContext()
 
         self.book_diagnostics_replay = BookDiagnosticsReplayRecorder()
@@ -254,6 +269,21 @@ class AnalysisPipeline:
                         runtime_result,
                         evidence=evidence,
                     )
+                    evidence_presenter = getattr(
+                        self,
+                        "psychology_evidence_presenter",
+                        None,
+                    )
+                    if evidence_presenter is not None:
+                        try:
+                            runtime_result = evidence_presenter.enrich(
+                                runtime_result,
+                                evidence,
+                            )
+                        except Exception:
+                            # A apresentação é secundária e nunca invalida
+                            # o relatório nem reenvia áudio.
+                            pass
                 except Exception:
                     # A evidência é explicativa e secundária: sua falha
                     # não apaga o snapshot psicológico principal.

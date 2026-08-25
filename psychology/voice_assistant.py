@@ -34,6 +34,9 @@ class VoiceDelivery:
     code: str
     priority: str
     status: str
+    evidence_linked: bool = False
+    evidence_audit_sequences: tuple[int, ...] = ()
+    evidence_trade_ids: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
