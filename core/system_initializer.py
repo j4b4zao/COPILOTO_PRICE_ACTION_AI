@@ -139,6 +139,7 @@ class SystemInitializer:
         self.psychology_session_journal = (
             TraderPsychologySessionJournal(
                 deduplicate_unchanged=True,
+                session_timezone="America/Sao_Paulo",
             )
         )
         self.psychology_session_summarizer = (
