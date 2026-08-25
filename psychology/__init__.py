@@ -6,6 +6,9 @@ from psychology.coaching_engine import (
     CoachingPolicy,
     CoachingResult,
 )
+from psychology.trader_psychology_context_bridge import (
+    TraderPsychologyContextBridge,
+)
 from psychology.trader_psychology_engine import (
     TraderPsychologyEngine,
     TraderPsychologyPolicy,
@@ -30,6 +33,7 @@ __all__ = [
     "CoachingMessage",
     "CoachingPolicy",
     "CoachingResult",
+    "TraderPsychologyContextBridge",
     "TraderPsychologyEngine",
     "TraderPsychologyPolicy",
     "TraderPsychologyResult",
