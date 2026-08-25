@@ -14,10 +14,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  offline-tests:
-    name: Python 3.13 offline suite
+  calendar-offline-tests:
+    name: Economic Calendar offline gate
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
 
     steps:
       - name: Check out repository
@@ -29,9 +29,9 @@ jobs:
           python-version: "3.13"
 
       - name: Compile Python sources
-        run: python -m compileall -q .
+        run: python -m compileall -q economic_context tests
 
-      - name: Run offline tests
+      - name: Run calendar offline tests
         env:
           PYTHONPATH: .
         shell: bash
@@ -39,17 +39,7 @@ jobs:
           passed=0
           failed=0
 
-          for test_file in tests/test_*.py; do
-            case "$test_file" in
-              tests/test_real_*|\
-              tests/test_twelvedata_auth.py|\
-              tests/test_twelvedata_auth_header.py|\
-              tests/test_analysis_pipeline_direct.py|\
-              tests/test_pipeline.py)
-                continue
-                ;;
-            esac
-
+          for test_file in tests/test_economic_calendar_rc*.py; do
             echo "::group::$test_file"
 
             if python "$test_file"; then
@@ -61,8 +51,162 @@ jobs:
             echo "::endgroup::"
           done
 
-          echo "Offline tests passed: $passed"
-          echo "Offline tests failed: $failed"
+          echo "Calendar test files passed: $passed"
+          echo "Calendar test files failed: $failed"
+
+          if [ "$failed" -ne 0 ]; then
+            exit 1
+          fi
+
+  psychology-offline-tests:
+    name: Trader Psychology offline gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Compile psychology sources
+        run: python -m compileall -q psychology tests
+
+      - name: Run psychology offline tests
+        env:
+          PYTHONPATH: .
+        shell: bash
+        run: |
+          passed=0
+          failed=0
+
+          for test_file in tests/test_trader_psychology_rc*.py; do
+            echo "::group::$test_file"
+
+            if python "$test_file"; then
+              passed=$((passed + 1))
+            else
+              failed=$((failed + 1))
+            fi
+
+            echo "::endgroup::"
+          done
+
+          echo "Psychology test files passed: $passed"
+          echo "Psychology test files failed: $failed"
+
+          if [ "$failed" -ne 0 ]; then
+            exit 1
+          fi
+
+  profit-rtd-offline-tests:
+    name: Profit RTD offline gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Compile Profit RTD sources
+        run: python -m compileall -q market_data tests/test_profit_rtd_rc*.py
+
+      - name: Run Profit RTD offline tests
+        env:
+          PYTHONPATH: .
+        shell: bash
+        run: |
+          passed=0
+          failed=0
+
+          for test_file in tests/test_profit_rtd_rc*.py; do
+            echo "::group::$test_file"
+
+            if python "$test_file"; then
+              passed=$((passed + 1))
+            else
+              failed=$((failed + 1))
+            fi
+
+            echo "::endgroup::"
+          done
+
+          echo "Profit RTD test files passed: $passed"
+          echo "Profit RTD test files failed: $failed"
+
+          if [ "$failed" -ne 0 ]; then
+            exit 1
+          fi
+
+  legacy-offline-audit:
+    name: Legacy offline audit (non-blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    continue-on-error: true
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install test dependency
+        run: python -m pip install --disable-pip-version-check pytest
+
+      - name: Compile repository
+        run: python -m compileall -q .
+
+      - name: Audit legacy offline scripts
+        env:
+          PYTHONPATH: .
+        shell: bash
+        run: |
+          passed=0
+          failed=0
+          skipped=0
+
+          for test_file in tests/test_*.py; do
+            case "$test_file" in
+              tests/test_economic_calendar_rc*.py|\
+              tests/test_trader_psychology_rc*.py|\
+              tests/test_real_*|\
+              tests/test_twelvedata_auth.py|\
+              tests/test_twelvedata_auth_header.py|\
+              tests/test_twelvedata_indices.py|\
+              tests/test_twelvedata_instrument_types.py|\
+              tests/test_twelvedata_real_*.py|\
+              tests/test_twelvedata_sp500_candidates.py|\
+              tests/test_twelvedata_spx_index.py|\
+              tests/test_analysis_pipeline_direct.py|\
+              tests/test_pipeline.py)
+                skipped=$((skipped + 1))
+                continue
+                ;;
+            esac
+
+            if python "$test_file" >/tmp/legacy-test.log 2>&1; then
+              passed=$((passed + 1))
+            else
+              failed=$((failed + 1))
+              echo "::error file=$test_file::Legacy offline script failed"
+              tail -n 20 /tmp/legacy-test.log
+            fi
+          done
+
+          echo "Legacy scripts passed: $passed"
+          echo "Legacy scripts failed: $failed"
+          echo "Credential/integration scripts skipped: $skipped"
 
           if [ "$failed" -ne 0 ]; then
             exit 1

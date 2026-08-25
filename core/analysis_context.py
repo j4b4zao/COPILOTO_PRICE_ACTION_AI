@@ -12,6 +12,10 @@ from core.multi_timeframe_state import MultiTimeframeState
 from core.order_flow_state import OrderFlowState
 
 from external_context.external_market_state import ExternalMarketState
+from economic_context.economic_calendar_state import EconomicCalendarState
+from psychology.trader_psychology_runtime import (
+    TraderPsychologyRuntimeResult,
+)
 
 from models.book_depth import BookDepthSnapshot
 from models.book_depth_analysis_result import BookDepthAnalysisResult
@@ -47,6 +51,7 @@ class AnalysisContext:
     multi_timeframe_analysis: MultiTimeframeResult = field(default_factory=MultiTimeframeResult)
 
     external_market: ExternalMarketState = field(default_factory=ExternalMarketState)
+    economic_calendar: EconomicCalendarState = field(default_factory=EconomicCalendarState.unavailable)
     book_depth: BookDepthSnapshot = field(default_factory=BookDepthSnapshot.unavailable)
     book_depth_analysis: BookDepthAnalysisResult = field(default_factory=BookDepthAnalysisResult)
 
@@ -74,6 +79,7 @@ class AnalysisContext:
     alert: AlertResult = field(default_factory=AlertResult)
     checklist: TradeChecklist = field(default_factory=TradeChecklist)
     narrative: MarketNarrative = field(default_factory=MarketNarrative)
+    trader_psychology: TraderPsychologyRuntimeResult | None = None
 
     @property
     def external_valid(self) -> bool:
@@ -130,6 +136,7 @@ class AnalysisContext:
         self.decision.clear()
         self.alert.clear()
         self.checklist.clear()
+        self.trader_psychology = None
 
     def reset(self) -> None:
         """Reinicia completamente o contexto."""
@@ -139,5 +146,6 @@ class AnalysisContext:
         if self.order_flow_state is not None:
             self.order_flow_state.clear()
         self.external_market.clear()
+        self.economic_calendar = EconomicCalendarState.unavailable()
         self.book_depth = BookDepthSnapshot.unavailable()
         self.clear_results()

@@ -1,174 +1,86 @@
-"""
-connectors/profit_reader.py
+"""Leitor da linha de cotações RTD do Profit Pro (RC2)."""
 
-Leitor dos dados do Profit Pro através do Excel.
-
-A linha padrão da planilha representa o ativo principal
-analisado pelo Copiloto.
-
-RC11
-"""
+from __future__ import annotations
 
 
 class ProfitReader:
+    """Lê o layout A1:N2 verificado no Profit.xlsx RTD."""
+
+    NAME = "ProfitReader"
+    VERSION = "RC12-PROFIT-RTD-QUOTE-LAYOUT"
+    SHEET = "Planilha1"
+    EXPECTED_HEADERS = (
+        "Asset",
+        "Data",
+        "Hora",
+        "Último",
+        "Abertura",
+        "Máximo",
+        "Mínimo",
+        "Strike",
+        "Média",
+        "Volume",
+        "Vencimento",
+        "ADX",
+        "MACD Histograma",
+        "Média Móvel",
+    )
+    HEADER_COLUMNS = tuple("ABCDEFGHIJKLMN")
 
     def __init__(self, excel, linha=2):
+        if not callable(getattr(excel, "ler_celula", None)):
+            raise TypeError("excel deve expor ler_celula(aba, célula).")
+        if isinstance(linha, bool) or not isinstance(linha, int):
+            raise TypeError("linha deve ser inteira.")
+        if linha < 2:
+            raise ValueError("linha de dados deve ser maior ou igual a 2.")
 
         self.excel = excel
-
-        # ======================================================
-        # LINHA DO ATIVO
-        # ======================================================
-
-        # Linha padrão:
-        #   linha 2 = ativo principal do Copiloto
-        #
-        # Futuramente:
-        #   linha 3 = segundo ativo / WDO
-        #
-        # O contrato do ativo é definido no Profit/DDE.
         self.linha = linha
+        self._layout_validated = False
 
     def obter_dados(self):
-
-        dados = {}
-
+        self._validate_layout()
         linha = self.linha
 
-        # ======================================================
-        # IDENTIFICAÇÃO
-        # ======================================================
+        return {
+            "ativo": self._read("A", linha),
+            "data": self._read("B", linha),
+            "hora": self._read("C", linha),
+            "close": self._read("D", linha),
+            "open": self._read("E", linha),
+            "high": self._read("F", linha),
+            "low": self._read("G", linha),
+            "strike": self._read("H", linha),
+            "media": self._read("I", linha),
+            "negocios": None,
+            "volume": self._read("J", linha),
+            "vencimento": self._read("K", linha),
+            "adx": self._read("L", linha),
+            "macd": self._read("M", linha),
+            "media_movel": self._read("N", linha),
+            # O arquivo enviado não contém acumuladores de agressão.
+            # As chaves continuam presentes para manter o Order Flow
+            # explicitamente indisponível, sem fabricar valores.
+            "agressao_compra": self._read("O", linha),
+            "agressao_venda": self._read("P", linha),
+        }
 
-        dados["ativo"] = self.excel.ler_celula(
-            "Planilha1",
-            f"A{linha}"
+    def _validate_layout(self):
+        if self._layout_validated:
+            return
+        observed = tuple(
+            str(self._read(column, 1) or "").strip()
+            for column in self.HEADER_COLUMNS
         )
+        if observed != self.EXPECTED_HEADERS:
+            raise ValueError(
+                "Cabeçalhos da cotação Profit RTD incompatíveis."
+            )
+        self._layout_validated = True
 
-        # ======================================================
-        # DATA / HORA
-        # ======================================================
-
-        dados["data"] = self.excel.ler_celula(
-            "Planilha1",
-            f"B{linha}"
+    def _read(self, column, row):
+        return self.excel.ler_celula(
+            self.SHEET,
+            f"{column}{row}",
         )
-
-        dados["hora"] = self.excel.ler_celula(
-            "Planilha1",
-            f"C{linha}"
-        )
-
-        # ======================================================
-        # OHLC
-        # ======================================================
-
-        dados["close"] = self.excel.ler_celula(
-            "Planilha1",
-            f"D{linha}"
-        )
-
-        dados["open"] = self.excel.ler_celula(
-            "Planilha1",
-            f"E{linha}"
-        )
-
-        dados["high"] = self.excel.ler_celula(
-            "Planilha1",
-            f"F{linha}"
-        )
-
-        dados["low"] = self.excel.ler_celula(
-            "Planilha1",
-            f"G{linha}"
-        )
-
-        # ======================================================
-        # ESTATÍSTICAS
-        # ======================================================
-
-        # Média
-        dados["media"] = self.excel.ler_celula(
-            "Planilha1",
-            f"I{linha}"
-        )
-
-        # Número de negócios
-        #
-        # IMPORTANTE:
-        # NEGÓCIOS não é tratado como volume.
-        dados["negocios"] = self.excel.ler_celula(
-            "Planilha1",
-            f"J{linha}"
-        )
-
-        # Volume
-        #
-        # O Profit agora exporta o campo Volume em K.
-        dados["volume"] = self.excel.ler_celula(
-            "Planilha1",
-            f"K{linha}"
-        )
-
-        # ======================================================
-        # VENCIMENTO
-        # ======================================================
-
-        dados["vencimento"] = self.excel.ler_celula(
-            "Planilha1",
-            f"L{linha}"
-        )
-
-        # ======================================================
-        # INDICADORES
-        # ======================================================
-
-        dados["adx"] = self.excel.ler_celula(
-            "Planilha1",
-            f"M{linha}"
-        )
-
-        dados["macd"] = self.excel.ler_celula(
-            "Planilha1",
-            f"N{linha}"
-        )
-
-        # ======================================================
-<<<<<<< HEAD
-        # MÉDIA MÓVEL
-        # ======================================================
-
-        # A exportação atual do Profit enviada para análise
-        # não possui mais uma coluna de Média Móvel.
-        #
-        # Mantemos a chave para compatibilidade com módulos
-        # existentes do projeto, sem inventar um valor.
-        dados["media_movel"] = None
-=======
-        # ORDER FLOW (OPCIONAL)
-        # ======================================================
-
-        # Valores acumulados exportados pelo Profit. Células
-        # vazias mantêm o módulo como dado indisponível.
-        dados["agressao_compra"] = self.excel.ler_celula(
-            "Planilha1",
-            f"O{linha}"
-        )
->>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
-
-        dados["agressao_venda"] = self.excel.ler_celula(
-            "Planilha1",
-            f"P{linha}"
-        )
-
-        # ======================================================
-        # MÉDIA MÓVEL
-        # ======================================================
-
-        # A exportação atual do Profit enviada para análise
-        # não possui mais uma coluna de Média Móvel.
-        #
-        # Mantemos a chave para compatibilidade com módulos
-        # existentes do projeto, sem inventar um valor.
-        dados["media_movel"] = None
-
-        return dados
