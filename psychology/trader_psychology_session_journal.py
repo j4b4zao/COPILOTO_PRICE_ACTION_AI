@@ -30,6 +30,7 @@ class TraderPsychologyJournalEntry:
     observation_count: int = 1
     last_observed_at: datetime | None = None
     session_date: str = ""
+    session_timezone: str = "UTC"
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -171,6 +172,7 @@ class TraderPsychologySessionJournal:
                         self._session_timezone
                     ).date().isoformat()
                 ),
+                session_timezone=self.session_timezone,
             )
             if (
                 self.deduplicate_unchanged

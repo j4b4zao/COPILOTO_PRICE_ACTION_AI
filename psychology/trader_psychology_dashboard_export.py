@@ -46,6 +46,7 @@ class TraderPsychologyDashboardExport:
     total_observations: int = 0
     longest_unchanged_observations: int = 0
     session_date: str | None = None
+    session_timezone: str | None = None
     prior_session_entries_ignored: int = 0
     observational_only: bool = True
     score_influence_allowed: bool = False
@@ -81,7 +82,7 @@ class TraderPsychologyDashboardExporter:
     """Cria documento versionado; não escreve arquivos."""
 
     NAME = "TraderPsychologyDashboardExporter"
-    VERSION = "RC25"
+    VERSION = "RC31"
     SCHEMA_VERSION = "TRADER_PSYCHOLOGY_DASHBOARD_V1"
 
     def __init__(self, *, clock=None):
@@ -171,6 +172,7 @@ class TraderPsychologyDashboardExporter:
                 projection.longest_unchanged_observations
             ),
             session_date=projection.session_date,
+            session_timezone=projection.session_timezone,
             prior_session_entries_ignored=(
                 projection.prior_session_entries_ignored
             ),
