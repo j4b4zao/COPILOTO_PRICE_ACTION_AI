@@ -19,6 +19,9 @@ from execution.execution_engine import ExecutionEngine
 from monitor.monitor import Monitor
 from alerts.alert_manager import AlertManager
 from logs.trade_logger import TradeLogger
+from psychology.trader_psychology_execution_confirmation_adapter import (
+    TraderPsychologyExecutionConfirmationAdapter,
+)
 from psychology.trader_psychology_session_provider import (
     TraderPsychologySessionProvider,
 )
@@ -47,6 +50,7 @@ class SystemInitializer:
         self.psychology_session = None
         self.psychology_trade_events = None
         self.psychology_trade_publisher = None
+        self.psychology_execution_confirmations = None
         self.voice = None
         self.risk = None
         self.market_filter = None
@@ -71,6 +75,11 @@ class SystemInitializer:
         self.psychology_trade_publisher = (
             TraderPsychologyTradeEventPublisher(
                 event_bus=self.event_bus,
+            )
+        )
+        self.psychology_execution_confirmations = (
+            TraderPsychologyExecutionConfirmationAdapter(
+                publisher=self.psychology_trade_publisher,
             )
         )
         self.pipeline = AnalysisPipeline(
