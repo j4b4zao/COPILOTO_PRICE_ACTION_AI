@@ -107,6 +107,12 @@ class SystemInitializer:
         self.pipeline = AnalysisPipeline(
             event_bus=self.event_bus,
             psychology_state_provider=self.psychology_session,
+            psychology_evidence_correlator=(
+                self.psychology_evidence_correlator
+            ),
+            psychology_confirmation_audit=(
+                self.psychology_confirmation_audit
+            ),
         )
 
         self.voice = BookDiagnosticsVoiceServiceRC97(config=self.voice_config)
