@@ -50,6 +50,7 @@ class TraderPsychologyDashboardExport:
     session_id: str | None = None
     prior_session_entries_ignored: int = 0
     prior_session_observations_ignored: int = 0
+    observed_span_seconds: float = 0.0
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -181,6 +182,9 @@ class TraderPsychologyDashboardExporter:
             ),
             prior_session_observations_ignored=(
                 projection.prior_session_observations_ignored
+            ),
+            observed_span_seconds=(
+                projection.observed_span_seconds
             ),
         )
 

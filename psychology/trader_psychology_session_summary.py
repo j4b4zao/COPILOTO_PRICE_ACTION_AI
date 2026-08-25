@@ -36,6 +36,7 @@ class TraderPsychologySessionSummary:
     session_id: str | None = None
     prior_session_entries_ignored: int = 0
     prior_session_observations_ignored: int = 0
+    observed_span_seconds: float = 0.0
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -85,6 +86,7 @@ class TraderPsychologySessionSummarizer:
                 session_id=None,
                 prior_session_entries_ignored=0,
                 prior_session_observations_ignored=0,
+                observed_span_seconds=0.0,
             )
 
         latest_entry = all_ordered[-1]
@@ -116,6 +118,15 @@ class TraderPsychologySessionSummarizer:
                 counts.items(),
                 key=lambda item: (-item[1], item[0]),
             )
+        )
+        started_at = ordered[0].recorded_at
+        updated_at = (
+            ordered[-1].last_observed_at
+            or ordered[-1].recorded_at
+        )
+        observed_span_seconds = max(
+            0.0,
+            (updated_at - started_at).total_seconds(),
         )
         evidence_trade_ids = tuple(
             dict.fromkeys(
@@ -164,11 +175,8 @@ class TraderPsychologySessionSummarizer:
             ),
             first_sequence=ordered[0].sequence,
             last_sequence=ordered[-1].sequence,
-            started_at=ordered[0].recorded_at,
-            updated_at=(
-                ordered[-1].last_observed_at
-                or ordered[-1].recorded_at
-            ),
+            started_at=started_at,
+            updated_at=updated_at,
             total_observations=sum(
                 entry.observation_count
                 for entry in ordered
@@ -184,6 +192,7 @@ class TraderPsychologySessionSummarizer:
             prior_session_observations_ignored=(
                 prior_observations_ignored
             ),
+            observed_span_seconds=observed_span_seconds,
         )
 
     @classmethod
