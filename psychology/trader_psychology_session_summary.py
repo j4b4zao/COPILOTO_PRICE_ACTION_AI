@@ -35,6 +35,7 @@ class TraderPsychologySessionSummary:
     session_timezone: str | None = None
     session_id: str | None = None
     prior_session_entries_ignored: int = 0
+    prior_session_observations_ignored: int = 0
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -83,6 +84,7 @@ class TraderPsychologySessionSummarizer:
                 session_timezone=None,
                 session_id=None,
                 prior_session_entries_ignored=0,
+                prior_session_observations_ignored=0,
             )
 
         latest_entry = all_ordered[-1]
@@ -93,7 +95,16 @@ class TraderPsychologySessionSummarizer:
             for entry in all_ordered
             if self._session_id(entry) == latest_session_id
         )
-        prior_ignored = len(all_ordered) - len(ordered)
+        ignored = tuple(
+            entry
+            for entry in all_ordered
+            if self._session_id(entry) != latest_session_id
+        )
+        prior_ignored = len(ignored)
+        prior_observations_ignored = sum(
+            entry.observation_count
+            for entry in ignored
+        )
 
         counts = Counter(
             code
@@ -170,6 +181,9 @@ class TraderPsychologySessionSummarizer:
             session_timezone=ordered[-1].session_timezone,
             session_id=latest_session_id,
             prior_session_entries_ignored=prior_ignored,
+            prior_session_observations_ignored=(
+                prior_observations_ignored
+            ),
         )
 
     @classmethod
