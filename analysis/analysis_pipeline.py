@@ -6,6 +6,8 @@ Pipeline principal do COPILOTO PRICE ACTION AI.
 RC15.5 + TRADER PSYCHOLOGY RC7 - PIPELINE OBSERVATIONAL
 """
 
+from dataclasses import replace
+
 from core.analysis_context import AnalysisContext
 from external_context.external_market_state import ExternalMarketState
 from models.book_depth import BookDepthSnapshot
@@ -65,6 +67,8 @@ class AnalysisPipeline:
         psychology_state_provider=None,
         psychology_runtime=None,
         psychology_context_bridge=None,
+        psychology_evidence_correlator=None,
+        psychology_confirmation_audit=None,
     ):
         if external_context_service is not None and not callable(
             getattr(external_context_service, "snapshot", None)
@@ -88,6 +92,26 @@ class AnalysisPipeline:
             getattr(psychology_context_bridge, "attach", None)
         ):
             raise TypeError("Psychology bridge deve expor attach(context, result).")
+        if psychology_evidence_correlator is not None and not callable(
+            getattr(psychology_evidence_correlator, "correlate", None)
+        ):
+            raise TypeError(
+                "Psychology evidence correlator deve expor correlate()."
+            )
+        if psychology_confirmation_audit is not None and not hasattr(
+            psychology_confirmation_audit,
+            "entries",
+        ):
+            raise TypeError(
+                "Psychology confirmation audit deve expor entries."
+            )
+        if (psychology_evidence_correlator is None) != (
+            psychology_confirmation_audit is None
+        ):
+            raise TypeError(
+                "Psychology evidence correlator e confirmation audit "
+                "devem ser configurados juntos."
+            )
 
         self.event_bus = event_bus
         self.external_context_service = external_context_service
@@ -97,6 +121,8 @@ class AnalysisPipeline:
         self.psychology_context_bridge = (
             psychology_context_bridge or TraderPsychologyContextBridge()
         )
+        self.psychology_evidence_correlator = psychology_evidence_correlator
+        self.psychology_confirmation_audit = psychology_confirmation_audit
         self.context = AnalysisContext()
 
         self.book_diagnostics_replay = BookDiagnosticsReplayRecorder()
@@ -208,6 +234,20 @@ class AnalysisPipeline:
             if not isinstance(state, TraderPsychologyState):
                 return
             runtime_result = self.psychology_runtime.process(state)
+            if self.psychology_evidence_correlator is not None:
+                try:
+                    evidence = self.psychology_evidence_correlator.correlate(
+                        runtime_result,
+                        self.psychology_confirmation_audit.entries,
+                    )
+                    runtime_result = replace(
+                        runtime_result,
+                        evidence=evidence,
+                    )
+                except Exception:
+                    # A evidência é explicativa e secundária: sua falha
+                    # não apaga o snapshot psicológico principal.
+                    pass
             self.psychology_context_bridge.attach(
                 self.context,
                 runtime_result,
