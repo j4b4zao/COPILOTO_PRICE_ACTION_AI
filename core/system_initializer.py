@@ -48,6 +48,9 @@ from psychology.trader_psychology_execution_confirmation_adapter import (
     TraderPsychologyExecutionConfirmationAdapter,
 )
 from psychology.trader_psychology_runtime import TraderPsychologyRuntime
+from psychology.trader_psychology_session_catalog import (
+    TraderPsychologySessionCatalogBuilder,
+)
 from psychology.trader_psychology_session_journal import (
     TraderPsychologySessionJournal,
 )
@@ -142,6 +145,9 @@ class SystemInitializer:
                 session_timezone="America/Sao_Paulo",
             )
         )
+        self.psychology_session_catalog_builder = (
+            TraderPsychologySessionCatalogBuilder()
+        )
         self.psychology_session_summarizer = (
             TraderPsychologySessionSummarizer()
         )
@@ -211,6 +217,16 @@ class SystemInitializer:
             summary=summary,
             review=review,
             voice_readiness=readiness,
+        )
+
+    def psychology_session_catalog(self):
+        entries = (
+            self.psychology_session_journal.entries
+            if self.psychology_session_journal is not None
+            else ()
+        )
+        return self.psychology_session_catalog_builder.build(
+            entries
         )
 
     def psychology_session_review(self, *, session_id=None):
