@@ -45,6 +45,8 @@ class TraderPsychologyDashboardExport:
     updated_at: str | None
     total_observations: int = 0
     longest_unchanged_observations: int = 0
+    session_date: str | None = None
+    prior_session_entries_ignored: int = 0
     observational_only: bool = True
     score_influence_allowed: bool = False
     order_execution_allowed: bool = False
@@ -167,6 +169,10 @@ class TraderPsychologyDashboardExporter:
             total_observations=projection.total_observations,
             longest_unchanged_observations=(
                 projection.longest_unchanged_observations
+            ),
+            session_date=projection.session_date,
+            prior_session_entries_ignored=(
+                projection.prior_session_entries_ignored
             ),
         )
 
