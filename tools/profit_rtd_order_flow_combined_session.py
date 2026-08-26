@@ -34,11 +34,11 @@ def build_parser():
 
 def _build_sources():
     from connectors.excel_connector import ExcelConnector
+    from market_data.book_depth_level2_provider import NormalizedLevel2BookDepthProvider
     from market_data.collector import Collector
     from market_data.excel_range_gateway import ExcelRangeGateway
-    from market_data.profit_rtd_book_depth_reader import ProfitRTDBookDepthReader
     from market_data.profit_rtd_order_flow_pipeline import ProfitRTDOrderFlowPipeline
-    from market_data.profit_rtd_workbook_reader import ProfitRTDTimesTradesReader
+    from market_data.profit_rtd_workbook_reader import ProfitRTDBookDepthReader, ProfitRTDTimesTradesReader
 
     collector = Collector(enable_profit_rtd_order_flow=False)
 
@@ -54,10 +54,11 @@ def _build_sources():
     if not book_excel.conectar(PROFIT_RTD_ORDER_BOOK_PATH):
         raise RuntimeError("Nao foi possivel conectar ao Livro de Ofertas RTD.")
     book_reader = ProfitRTDBookDepthReader(ExcelRangeGateway(book_excel))
-    return collector, book_reader
+    book_provider = NormalizedLevel2BookDepthProvider(book_reader, source="PROFIT_RTD", max_levels=50)
+    return collector, book_provider
 
 
-def run(symbol, *, cycles, interval, output_dir, execute=False):
+def run(symbol, *, cycles, interval, output_dir, execute=False, sleeper=time.sleep):
     if not execute:
         print("PROFIT_RTD_ORDER_FLOW_COMBINED=NOT_STARTED")
         print("reason=EXECUTE_FLAG_REQUIRED")
@@ -71,12 +72,12 @@ def run(symbol, *, cycles, interval, output_dir, execute=False):
         print("reason=INVALID_CYCLES_OR_INTERVAL")
         return 2
 
-    symbol = str(symbol or "").upper()
+    symbol = str(symbol or "").strip().upper()
     target = Path(output_dir).expanduser().resolve()
     target.mkdir(parents=True, exist_ok=True)
 
     try:
-        collector, book_reader = _build_sources()
+        collector, book_provider = _build_sources()
     except Exception as exc:
         print("PROFIT_RTD_ORDER_FLOW_COMBINED=ERROR")
         print(f"reason=BOOTSTRAP_ERROR:{type(exc).__name__}:{exc}")
@@ -95,8 +96,8 @@ def run(symbol, *, cycles, interval, output_dir, execute=False):
 
     for cycle in range(1, int(cycles) + 1):
         try:
-            market = collector.get_data()
-            book = book_reader.read(symbol)
+            collector.get_data()
+            book = book_provider.snapshot(symbol)
             source_report = book_diag.observe(book)
             book_report = book_validator.evaluate(book, source_report)
             delta_report = delta_validator.evaluate(collector.order_flow)
@@ -104,7 +105,8 @@ def run(symbol, *, cycles, interval, output_dir, execute=False):
         except Exception as exc:
             collection_errors += 1
             print(f"[ORDER FLOW COMBINED] cycle={cycle}/{cycles} error={type(exc).__name__}:{exc}")
-            time.sleep(float(interval))
+            if cycle < int(cycles) and float(interval) > 0:
+                sleeper(float(interval))
             continue
 
         alignment = context.directional_alignment
@@ -137,7 +139,8 @@ def run(symbol, *, cycles, interval, output_dir, execute=False):
             f"delta={context.recent_delta:.2f} dominance={context.delta_dominance:.4f} "
             f"imbalance={context.book_imbalance:.4f} spread={context.book_spread:.2f}"
         )
-        time.sleep(float(interval))
+        if cycle < int(cycles) and float(interval) > 0:
+            sleeper(float(interval))
 
     completed = len(samples)
     status = "COMPLETED" if completed == int(cycles) and collection_errors == 0 else "COMPLETED_WITH_WARNINGS"
