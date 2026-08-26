@@ -1,8 +1,9 @@
-"""RC39 - reconciliação Excel RTD x WorkbookReader x Book Snapshot.
+"""RC39/RC53.1 - reconciliação Excel RTD x WorkbookReader x Book Snapshot.
 
 Congela uma única matriz A1:H52 por ciclo e compara as quantidades brutas
 Compra/Venda com o payload do ProfitRTDBookDepthReader e o BookDepthSnapshot.
-Estritamente observacional: não altera thresholds, Score, Decision ou execução.
+RC53.1 também captura o preço Último real do Profit.xlsx no mesmo ciclo,
+sem usar proxy e sem alterar Score, Decision ou execução.
 """
 from __future__ import annotations
 
@@ -14,7 +15,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-from config.settings import ENABLE_ORDER_FLOW_SCORE, PROFIT_RTD_ORDER_BOOK_PATH
+from config.settings import ENABLE_ORDER_FLOW_SCORE, EXCEL_PATH, PROFIT_RTD_ORDER_BOOK_PATH
 from connectors.excel_connector import ExcelConnector
 from market_data.book_depth_level2_provider import NormalizedLevel2BookDepthProvider
 from market_data.excel_range_gateway import ExcelRangeGateway
@@ -51,6 +52,23 @@ def _number(value):
     return number
 
 
+def _price_number(value):
+    if isinstance(value, bool):
+        raise TypeError("preço booleano inválido")
+    if isinstance(value, (int, float)):
+        number = float(value)
+    else:
+        text = str(value or "").strip()
+        if not text:
+            raise ValueError("preço vazio")
+        if "," in text:
+            text = text.replace(".", "").replace(",", ".")
+        number = float(text)
+    if not math.isfinite(number) or number <= 0:
+        raise ValueError("preço deve ser positivo e finito")
+    return number
+
+
 def _raw_totals(matrix):
     if not isinstance(matrix, (list, tuple)) or len(matrix) < 3:
         raise ValueError("matriz RTD inválida")
@@ -81,6 +99,20 @@ def _build_excel_gateway():
     if not excel.conectar(PROFIT_RTD_ORDER_BOOK_PATH):
         raise RuntimeError("Não foi possível conectar ao Livro de Ofertas RTD.")
     return ExcelRangeGateway(excel), excel
+
+
+def _build_price_excel():
+    excel = ExcelConnector()
+    if not excel.conectar(EXCEL_PATH):
+        raise RuntimeError("Não foi possível conectar ao Profit.xlsx para capturar o preço.")
+    return excel
+
+
+def _read_last_price(price_excel, symbol):
+    observed_symbol = str(price_excel.ler_celula("Planilha1", "A2") or "").strip().upper()
+    if observed_symbol and observed_symbol != symbol:
+        raise ValueError(f"PRICE_SYMBOL_MISMATCH:{observed_symbol}!={symbol}")
+    return _price_number(price_excel.ler_celula("Planilha1", "D2"))
 
 
 def reconcile_matrix(matrix, symbol):
@@ -142,7 +174,8 @@ def run(symbol, *, cycles, interval, output_dir, execute=False, sleeper=time.sle
     target = Path(output_dir).expanduser().resolve()
     target.mkdir(parents=True, exist_ok=True)
     try:
-        gateway, excel = _build_excel_gateway()
+        gateway, book_excel = _build_excel_gateway()
+        price_excel = _build_price_excel()
     except Exception as exc:
         print("PROFIT_RTD_BOOK_RECONCILIATION=ERROR")
         print(f"reason=BOOTSTRAP_ERROR:{type(exc).__name__}:{exc}")
@@ -153,12 +186,15 @@ def run(symbol, *, cycles, interval, output_dir, execute=False, sleeper=time.sle
     mismatch_cycles = 0
     negative_raw = 0
     positive_raw = 0
+    missing_price = 0
     for cycle in range(1, int(cycles) + 1):
         try:
             matrix = gateway.read_range("Planilha1", "A1:H52")
+            last_price = _read_last_price(price_excel, symbol)
             result = reconcile_matrix(matrix, symbol)
             result["cycle"] = cycle
             result["timestamp"] = datetime.now().isoformat(timespec="milliseconds")
+            result["last_price"] = last_price
             samples.append(result)
             mismatch_cycles += not result["all_match"]
             positive_raw += result["raw_imbalance"] > 0
@@ -166,10 +202,13 @@ def run(symbol, *, cycles, interval, output_dir, execute=False, sleeper=time.sle
             print(
                 f"[BOOK RECON] cycle={cycle}/{cycles} raw_bid={result['raw_bid_quantity']:.2f} "
                 f"raw_ask={result['raw_ask_quantity']:.2f} raw_imb={result['raw_imbalance']:.6f} "
-                f"snap_imb={result['snapshot_imbalance']:.6f} match={result['all_match']}"
+                f"snap_imb={result['snapshot_imbalance']:.6f} last_price={last_price:.2f} "
+                f"match={result['all_match']}"
             )
         except Exception as exc:
             errors += 1
+            if "preço" in str(exc).lower() or "PRICE_" in str(exc):
+                missing_price += 1
             print(f"[BOOK RECON] cycle={cycle}/{cycles} error={type(exc).__name__}:{exc}")
         if cycle < int(cycles) and float(interval) > 0:
             sleeper(float(interval))
@@ -181,6 +220,8 @@ def run(symbol, *, cycles, interval, output_dir, execute=False, sleeper=time.sle
         reasons.append("EXCEL_READER_SNAPSHOT_MISMATCH")
     if negative_raw == 0 and completed:
         reasons.append("NO_NEGATIVE_RAW_IMBALANCE_OBSERVED")
+    if missing_price:
+        reasons.append("MISSING_SYNCHRONIZED_LAST_PRICE")
     if errors:
         reasons.append("COLLECTION_ERRORS_OR_SKIPPED_CYCLES")
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -193,6 +234,8 @@ def run(symbol, *, cycles, interval, output_dir, execute=False, sleeper=time.sle
         "mismatch_cycles": int(mismatch_cycles),
         "positive_raw_imbalance_count": int(positive_raw),
         "negative_raw_imbalance_count": int(negative_raw),
+        "price_capture": completed > 0 and missing_price == 0,
+        "missing_price_count": int(missing_price),
         "collection_errors": errors,
         "observational_only": True,
         "score_influence_allowed": False,
@@ -209,6 +252,8 @@ def run(symbol, *, cycles, interval, output_dir, execute=False, sleeper=time.sle
     print(f"mismatch_cycles={mismatch_cycles}")
     print(f"positive_raw_imbalance_count={positive_raw}")
     print(f"negative_raw_imbalance_count={negative_raw}")
+    print(f"price_capture={completed > 0 and missing_price == 0}")
+    print(f"missing_price_count={missing_price}")
     print(f"collection_errors={errors}")
     print("observational_only=True")
     print("score_influence_allowed=False")
@@ -220,7 +265,7 @@ def run(symbol, *, cycles, interval, output_dir, execute=False, sleeper=time.sle
 
 
 def main(argv=None):
-    p = argparse.ArgumentParser(description="Reconcilia Excel RTD, WorkbookReader e Book Snapshot.")
+    p = argparse.ArgumentParser(description="Reconcilia Excel RTD, WorkbookReader e Book Snapshot com captura de preço.")
     p.add_argument("symbol")
     p.add_argument("--cycles", required=True, type=int)
     p.add_argument("--interval", type=float, default=0.25)
