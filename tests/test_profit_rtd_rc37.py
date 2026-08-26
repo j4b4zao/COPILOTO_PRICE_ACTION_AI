@@ -1,5 +1,7 @@
 from market_data.order_flow_delta_book_symmetry import OrderFlowDeltaBookSymmetryAnalyzer
 
+# CI retrigger marker for clean RC37 PR; no functional change.
+
 def _s(delta,dom,imb):
     return {"recent_delta":delta,"dominance":dom,"imbalance":imb,"delta_threshold":0.35,"book_threshold":0.06}
 
