@@ -28,10 +28,9 @@ class BookDepthQualityReport:
 
 
 class BookDepthQualityValidator:
-    VERSION = "RC1-BOOK-DEPTH-QUALITY"
+    VERSION = "RC28-BOOK-DEPTH-QUALITY-STALENESS"
     MIN_LEVELS = 3
     MAX_SPREAD_RATIO = 0.002
-    MAX_DUPLICATE_RATE = 0.80
     MIN_AVAILABILITY_RATE = 0.80
 
     def evaluate(self, snapshot, source_snapshot=None) -> BookDepthQualityReport:
@@ -73,9 +72,8 @@ class BookDepthQualityValidator:
         if spread_ratio > self.MAX_SPREAD_RATIO:
             anomalies += 1
             reasons.append("WIDE_SPREAD")
-        if duplicate_rate >= self.MAX_DUPLICATE_RATE:
-            anomalies += 1
-            reasons.append("EXCESSIVE_DUPLICATION")
+        # duplicate_rate permanece uma métrica histórica informativa. A fonte
+        # decide degradação apenas quando há staleness consecutivo real.
         if availability_rate and availability_rate < self.MIN_AVAILABILITY_RATE:
             anomalies += 1
             reasons.append("LOW_AVAILABILITY")
