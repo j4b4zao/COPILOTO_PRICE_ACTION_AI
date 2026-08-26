@@ -18,7 +18,7 @@ from market_data.profit_rtd_validation_recorder import ProfitRTDValidationRecord
 
 class Collector:
     NAME = "Collector"
-    VERSION = "RC19-PROFIT-RTD-VALIDATION-SESSION-EXPORT"
+    VERSION = "RC25-PROFIT-RTD-VOLUME-HOLD"
 
     def __init__(self, excel=None, reader=None, multi_timeframe=None, renko_state=None,
                  order_flow_state=None, chart_mode=None, renko_brick_size=None, clock=None,
@@ -84,6 +84,7 @@ class Collector:
         }
         self.last_closed_renko_bricks = 0
         self.clock = clock if clock is not None else MarketClock
+        self.last_valid_volume = None
 
         self.enable_profit_rtd_order_flow = bool(
             ENABLE_PROFIT_RTD_ORDER_FLOW
@@ -105,8 +106,22 @@ class Collector:
             return None
 
         raw_volume = dados.get("volume")
-        volume = self.to_float(raw_volume)
-        print(f"[VOLUME DEBUG] raw={raw_volume!r} converted={volume}")
+        volume, volume_held = self._resolve_cumulative_volume(raw_volume)
+        print(
+            f"[VOLUME DEBUG] raw={raw_volume!r} converted={volume} "
+            f"held_last_valid={volume_held}"
+        )
+        if volume is None:
+            print(
+                "[DATA WARNING] Volume acumulado indisponível e ainda sem baseline válido. "
+                "Leitura ignorada."
+            )
+            return None
+        if volume_held:
+            print(
+                "[DATA WARNING] Volume acumulado indisponível nesta leitura; "
+                "mantendo último valor válido para evitar reset artificial."
+            )
 
         ativo = str(dados.get("ativo") or "").strip()
         if not ativo:
@@ -117,13 +132,6 @@ class Collector:
         if not math.isfinite(close) or close <= 0:
             print(f"[DATA WARNING] Preço inválido recebido: {close!r}. Leitura ignorada.")
             return None
-
-        if not math.isfinite(volume) or volume < 0:
-            print(
-                f"[DATA WARNING] Volume inválido recebido: {volume!r}. "
-                "Volume será tratado como 0.0."
-            )
-            volume = 0.0
 
         aggression_buy = self.to_optional_float(dados.get("agressao_compra"))
         aggression_sell = self.to_optional_float(dados.get("agressao_venda"))
@@ -304,6 +312,15 @@ class Collector:
             sampling_mode="RENKO_CLOSE",
             source_units=self.last_closed_renko_bricks,
         )
+
+    def _resolve_cumulative_volume(self, raw_volume):
+        converted = self.to_optional_float(raw_volume)
+        if converted is not None:
+            self.last_valid_volume = converted
+            return converted, False
+        if self.last_valid_volume is not None:
+            return self.last_valid_volume, True
+        return None, False
 
     @staticmethod
     def to_float(value):
