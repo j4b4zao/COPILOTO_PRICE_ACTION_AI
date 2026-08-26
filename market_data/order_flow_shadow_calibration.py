@@ -1,4 +1,4 @@
-"""Shadow calibration observacional para Order Flow consolidado (RC32)."""
+"""Shadow calibration observacional para Order Flow consolidado."""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ class OrderFlowShadowResult:
     changed: bool
     delta_threshold: float
     book_threshold: float
+    recent_delta: float
     dominance: float
     imbalance: float
     observational_only: bool = True
@@ -26,7 +27,7 @@ class OrderFlowShadowResult:
 class OrderFlowShadowCalibration:
     """Reclassifica apenas para estudo, sem alterar o contexto oficial."""
 
-    VERSION = "RC32-ORDER-FLOW-SHADOW-CALIBRATION"
+    VERSION = "RC35-ORDER-FLOW-SHADOW-DIRECTION-FIX"
 
     def __init__(self, *, delta_threshold: float = 0.35, book_threshold: float = 0.062149):
         if not 0 < float(delta_threshold) <= 1:
@@ -37,14 +38,20 @@ class OrderFlowShadowCalibration:
         self.book_threshold = float(book_threshold)
 
     def evaluate(self, context) -> OrderFlowShadowResult:
-        dominance = float(getattr(context, "delta_dominance", 0.0) or 0.0)
+        recent_delta = float(getattr(context, "recent_delta", 0.0) or 0.0)
+        dominance = abs(float(getattr(context, "delta_dominance", 0.0) or 0.0))
         imbalance = float(getattr(context, "book_imbalance", 0.0) or 0.0)
         official = str(getattr(context, "directional_alignment", "NEUTRAL") or "NEUTRAL")
         status = str(getattr(context, "status", "NO_DATA") or "NO_DATA")
 
         shadow = "NEUTRAL"
         if status == "READY":
-            delta_signal = 1 if dominance >= self.delta_threshold else -1 if dominance <= -self.delta_threshold else 0
+            delta_signal = 0
+            if dominance >= self.delta_threshold:
+                if recent_delta > 0:
+                    delta_signal = 1
+                elif recent_delta < 0:
+                    delta_signal = -1
             book_signal = 1 if imbalance >= self.book_threshold else -1 if imbalance <= -self.book_threshold else 0
             if delta_signal == 1 and book_signal == 1:
                 shadow = "BULLISH_ALIGNED"
@@ -59,6 +66,7 @@ class OrderFlowShadowCalibration:
             changed=official != shadow,
             delta_threshold=self.delta_threshold,
             book_threshold=self.book_threshold,
+            recent_delta=round(recent_delta, 4),
             dominance=round(dominance, 6),
             imbalance=round(imbalance, 6),
         )
