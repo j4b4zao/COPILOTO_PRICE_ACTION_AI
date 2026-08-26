@@ -1,4 +1,4 @@
-"""Sessao observacional RC32: compara alinhamento oficial vs shadow em T&T + Book RTD."""
+"""Sessao observacional RC32/RC36: compara alinhamento oficial vs shadow em T&T + Book RTD."""
 
 from __future__ import annotations
 
@@ -18,6 +18,7 @@ from market_data.order_flow_observational_context import OrderFlowObservationalC
 from market_data.profit_delta_quality_validator import ProfitDeltaQualityValidator
 
 MAX_CYCLES = 3600
+DIRECTION_LOGIC_VERSION = "RC35_SIGNED_DELTA"
 
 
 def build_parser():
@@ -100,10 +101,12 @@ def run(symbol, *, cycles, interval, delta_threshold, book_threshold, output_dir
             "official_alignment": result.official_alignment,
             "shadow_alignment": result.shadow_alignment,
             "changed": result.changed,
+            "recent_delta": result.recent_delta,
             "dominance": result.dominance,
             "imbalance": result.imbalance,
             "delta_threshold": result.delta_threshold,
             "book_threshold": result.book_threshold,
+            "direction_logic_version": DIRECTION_LOGIC_VERSION,
             "observational_only": True,
             "score_influence_allowed": False,
             "decision_influence_allowed": False,
@@ -112,7 +115,7 @@ def run(symbol, *, cycles, interval, delta_threshold, book_threshold, output_dir
         print(
             f"[ORDER FLOW SHADOW] cycle={cycle}/{cycles} status={context.status} "
             f"official={result.official_alignment} shadow={result.shadow_alignment} changed={result.changed} "
-            f"dominance={result.dominance:.4f} imbalance={result.imbalance:.4f}"
+            f"delta={result.recent_delta:.2f} dominance={result.dominance:.4f} imbalance={result.imbalance:.4f}"
         )
         if cycle < int(cycles) and float(interval) > 0:
             sleeper(float(interval))
@@ -129,6 +132,7 @@ def run(symbol, *, cycles, interval, delta_threshold, book_threshold, output_dir
         "completed_cycles": completed,
         "delta_threshold": float(delta_threshold),
         "book_threshold": float(book_threshold),
+        "direction_logic_version": DIRECTION_LOGIC_VERSION,
         "official_counts": official_counts,
         "shadow_counts": shadow_counts,
         "changed_count": changed_count,
@@ -148,6 +152,7 @@ def run(symbol, *, cycles, interval, delta_threshold, book_threshold, output_dir
     print(f"completed_cycles={completed}")
     print(f"delta_threshold={float(delta_threshold):.6f}")
     print(f"book_threshold={float(book_threshold):.6f}")
+    print(f"direction_logic_version={DIRECTION_LOGIC_VERSION}")
     print(f"official_bullish={official_counts.get('BULLISH_ALIGNED', 0)}")
     print(f"official_bearish={official_counts.get('BEARISH_ALIGNED', 0)}")
     print(f"official_divergent={official_counts.get('DIVERGENT', 0)}")
