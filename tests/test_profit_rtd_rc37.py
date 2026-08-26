@@ -1,5 +1,7 @@
 from market_data.order_flow_delta_book_symmetry import OrderFlowDeltaBookSymmetryAnalyzer
 
+# RC37 offline-gate retrigger marker; no functional change.
+
 def _s(delta,dom,imb):
     return {"recent_delta":delta,"dominance":dom,"imbalance":imb,"delta_threshold":0.35,"book_threshold":0.06}
 def _session(samples):
