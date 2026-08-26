@@ -11,6 +11,7 @@ class BookDepthSourceReport:
     total_snapshots: int = 0
     fresh_snapshots: int = 0
     duplicate_snapshots: int = 0
+    consecutive_duplicates: int = 0
     unavailable_snapshots: int = 0
     invalid_snapshots: int = 0
     symbol_changes: int = 0
@@ -31,15 +32,19 @@ class BookDepthSourceReport:
 class BookDepthSourceDiagnostics:
     """Mede saúde básica da fonte Level 2 sem efeito operacional."""
 
-    VERSION = "RC1-BOOK-DEPTH-SOURCE-DIAGNOSTICS"
+    VERSION = "RC28-BOOK-DEPTH-STALENESS-DIAGNOSTICS"
     MIN_READY_FRESH = 3
     MIN_LEVELS_PER_SIDE = 3
-    MAX_DUPLICATE_RATE = 0.80
+    # Em polling de 250 ms, 20 snapshots iguais consecutivos equivalem a ~5 s.
+    # A taxa histórica de duplicação permanece informativa, mas não degrada a fonte
+    # sozinha porque o RTD do Profit atualiza em rajadas entre snapshots repetidos.
+    MAX_CONSECUTIVE_DUPLICATES = 20
 
     def __init__(self):
         self.total_snapshots = 0
         self.fresh_snapshots = 0
         self.duplicate_snapshots = 0
+        self.consecutive_duplicates = 0
         self.unavailable_snapshots = 0
         self.invalid_snapshots = 0
         self.symbol_changes = 0
@@ -65,8 +70,10 @@ class BookDepthSourceDiagnostics:
             duplicate = fingerprint == self._last_fingerprint
             if duplicate:
                 self.duplicate_snapshots += 1
+                self.consecutive_duplicates += 1
             else:
                 self.fresh_snapshots += 1
+                self.consecutive_duplicates = 0
                 self._last_fingerprint = fingerprint
             self._last_snapshot = snapshot
         except Exception:
@@ -85,12 +92,13 @@ class BookDepthSourceDiagnostics:
         asks = tuple(getattr(snap, "asks", ()) or ()) if snap is not None else ()
         spread = float(getattr(snap, "spread", 0.0) or 0.0) if snap is not None else 0.0
         imbalance = float(getattr(snap, "imbalance", 0.0) or 0.0) if snap is not None else 0.0
-        status = self._status(len(bids), len(asks), duplicate_rate, availability_rate)
+        status = self._status(len(bids), len(asks), availability_rate)
         return BookDepthSourceReport(
             status=status,
             total_snapshots=total,
             fresh_snapshots=self.fresh_snapshots,
             duplicate_snapshots=self.duplicate_snapshots,
+            consecutive_duplicates=self.consecutive_duplicates,
             unavailable_snapshots=self.unavailable_snapshots,
             invalid_snapshots=self.invalid_snapshots,
             symbol_changes=self.symbol_changes,
@@ -108,7 +116,7 @@ class BookDepthSourceDiagnostics:
     def clear(self) -> None:
         self.__init__()
 
-    def _status(self, bid_levels, ask_levels, duplicate_rate, availability_rate):
+    def _status(self, bid_levels, ask_levels, availability_rate):
         if self.total_snapshots == 0:
             return "NO_DATA"
         if availability_rate <= 0.0:
@@ -117,7 +125,7 @@ class BookDepthSourceDiagnostics:
             return "DEGRADED"
         if bid_levels < self.MIN_LEVELS_PER_SIDE or ask_levels < self.MIN_LEVELS_PER_SIDE:
             return "SHALLOW"
-        if duplicate_rate >= self.MAX_DUPLICATE_RATE and self.total_snapshots >= 5:
+        if self.consecutive_duplicates >= self.MAX_CONSECUTIVE_DUPLICATES:
             return "DEGRADED"
         if self.fresh_snapshots < self.MIN_READY_FRESH:
             return "INITIALIZING"
