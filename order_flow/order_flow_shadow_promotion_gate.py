@@ -1,19 +1,18 @@
-"""RC34 - Fail-safe promotion gate for Order Flow shadow calibration.
+"""Gate observacional multi-sessao para calibracao shadow de Order Flow (RC34).
 
-This module does NOT promote thresholds and does NOT enable operational influence.
-It only evaluates whether accumulated RC32 shadow sessions contain enough balanced
-observational evidence to become a *candidate* for a future promotion review.
+O gate nunca promove thresholds automaticamente. Ele apenas informa quando a
+amostra acumulada ficou suficientemente ampla e bidirecional para uma revisao
+humana futura. Score, Decision e execucao permanecem bloqueados.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Iterable
 
-from order_flow.order_flow_shadow_stability import OrderFlowShadowStabilityAnalyzer
+from market_data.order_flow_shadow_stability import OrderFlowShadowStabilityAnalyzer
 
 
-@dataclass(frozen=True)
+@dataclass(slots=True, frozen=True)
 class ShadowPromotionGateResult:
     status: str
     sessions: int
@@ -33,7 +32,7 @@ class ShadowPromotionGateResult:
 
 
 class OrderFlowShadowPromotionGate:
-    """Evaluate multi-session evidence without changing official thresholds."""
+    VERSION = "RC34-MULTISESSION-PROMOTION-GATE"
 
     def __init__(
         self,
@@ -46,29 +45,22 @@ class OrderFlowShadowPromotionGate:
         self.min_samples = int(min_samples)
         self.min_directional_samples = int(min_directional_samples)
         self.min_directional_runs = int(min_directional_runs)
-        self.stability = OrderFlowShadowStabilityAnalyzer(min_samples=120)
 
-    def analyze(self, sessions: Iterable[dict]) -> ShadowPromotionGateResult:
-        payloads = list(sessions)
+    def evaluate(self, sessions: list[dict]) -> ShadowPromotionGateResult:
         reasons: list[str] = []
-
-        if len(payloads) < self.min_sessions:
+        if len(sessions) < self.min_sessions:
             reasons.append("INSUFFICIENT_SESSIONS")
 
-        report = self.stability.analyze(payloads)
-        samples = int(report.samples)
-        if samples < self.min_samples:
+        report = OrderFlowShadowStabilityAnalyzer().evaluate(sessions)
+        if report.samples < self.min_samples:
             reasons.append("INSUFFICIENT_TOTAL_SAMPLES")
 
-        counts = getattr(report, "shadow_counts", {}) or {}
-        bullish = int(counts.get("BULLISH_ALIGNED", 0))
-        bearish = int(counts.get("BEARISH_ALIGNED", 0))
-        divergent = int(counts.get("DIVERGENT", 0))
-        neutral = int(counts.get("NEUTRAL", 0))
-
-        run_stats = getattr(report, "run_stats", {}) or {}
-        bullish_runs = int((run_stats.get("BULLISH_ALIGNED") or {}).get("runs", 0))
-        bearish_runs = int((run_stats.get("BEARISH_ALIGNED") or {}).get("runs", 0))
+        bullish = int(report.shadow_counts.get("BULLISH_ALIGNED", 0))
+        bearish = int(report.shadow_counts.get("BEARISH_ALIGNED", 0))
+        divergent = int(report.shadow_counts.get("DIVERGENT", 0))
+        neutral = int(report.shadow_counts.get("NEUTRAL", 0))
+        bullish_runs = int(report.shadow_runs["BULLISH_ALIGNED"]["runs"])
+        bearish_runs = int(report.shadow_runs["BEARISH_ALIGNED"]["runs"])
 
         if bullish < self.min_directional_samples:
             reasons.append("INSUFFICIENT_BULLISH_EVIDENCE")
@@ -78,22 +70,19 @@ class OrderFlowShadowPromotionGate:
             reasons.append("INSUFFICIENT_BULLISH_RUNS")
         if bearish_runs < self.min_directional_runs:
             reasons.append("INSUFFICIENT_BEARISH_RUNS")
-
-        balance = str(getattr(report, "directional_balance_status", "UNKNOWN"))
-        if balance != "BALANCED_SAMPLE":
+        if report.directional_balance_status != "BALANCED":
             reasons.append("DIRECTIONAL_SAMPLE_NOT_BALANCED")
 
-        status = "CANDIDATE_FOR_REVIEW" if not reasons else "KEEP_SHADOW"
         return ShadowPromotionGateResult(
-            status=status,
-            sessions=len(payloads),
-            samples=samples,
+            status="CANDIDATE_FOR_REVIEW" if not reasons else "KEEP_SHADOW",
+            sessions=report.sessions,
+            samples=report.samples,
             bullish_samples=bullish,
             bearish_samples=bearish,
             divergent_samples=divergent,
             neutral_samples=neutral,
             bullish_runs=bullish_runs,
             bearish_runs=bearish_runs,
-            directional_balance_status=balance,
+            directional_balance_status=report.directional_balance_status,
             reasons=tuple(reasons) if reasons else ("OK",),
         )
