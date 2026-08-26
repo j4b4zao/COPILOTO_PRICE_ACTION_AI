@@ -35,7 +35,7 @@ class OrderFlowObservationalContext:
 class OrderFlowObservationalContextBuilder:
     """Funde relatórios já validados de T&T/Delta e Book sem efeito operacional."""
 
-    VERSION = "RC29-ORDER-FLOW-OBSERVATIONAL-CONTEXT"
+    VERSION = "RC35-ORDER-FLOW-DIRECTION-FIX"
     DELTA_ALIGN_THRESHOLD = 0.10
     BOOK_ALIGN_THRESHOLD = 0.10
 
@@ -46,7 +46,7 @@ class OrderFlowObservationalContextBuilder:
 
         recent_delta = float(getattr(delta_report, "recent_delta", 0.0) or 0.0)
         aggression = float(getattr(delta_report, "recent_total_aggression", 0.0) or 0.0)
-        dominance = float(getattr(delta_report, "dominance", 0.0) or 0.0)
+        dominance = abs(float(getattr(delta_report, "dominance", 0.0) or 0.0))
         persistence = float(getattr(delta_report, "persistence", 0.0) or 0.0)
         acceleration = float(getattr(delta_report, "acceleration", 0.0) or 0.0)
 
@@ -67,9 +67,10 @@ class OrderFlowObservationalContextBuilder:
         alignment = "NEUTRAL"
         delta_signal = 0
         if dominance >= cls.DELTA_ALIGN_THRESHOLD:
-            delta_signal = 1
-        elif dominance <= -cls.DELTA_ALIGN_THRESHOLD:
-            delta_signal = -1
+            if recent_delta > 0:
+                delta_signal = 1
+            elif recent_delta < 0:
+                delta_signal = -1
 
         book_signal = 0
         if imbalance >= cls.BOOK_ALIGN_THRESHOLD:
@@ -85,8 +86,6 @@ class OrderFlowObservationalContextBuilder:
             elif delta_signal and book_signal and delta_signal != book_signal:
                 alignment = "DIVERGENT"
                 reasons.append("DELTA_BOOK_DIVERGENCE")
-            else:
-                alignment = "NEUTRAL"
 
         if delta_ready and book_ready:
             status = "READY"
