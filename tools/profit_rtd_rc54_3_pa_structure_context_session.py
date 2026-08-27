@@ -46,6 +46,7 @@ def snapshot_context(context, micro):
         'spread': micro.book_spread,
         'last_price': _last_price(context),
         'structure': {
+            'valid': bool(getattr(structure, 'valid', False)),
             'trend': _enum_value(structure.trend),
             'hh': bool(structure.hh),
             'hl': bool(structure.hl),
