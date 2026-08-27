@@ -30,7 +30,26 @@ def _to_float(value):
         return None
 
 
-def _sample(snapshot, source, quality, last_price, cycle):
+def _read_synchronized_price(quote_reader, symbol: str, *, attempts: int = 2):
+    """Lê preço atual sem forward-fill; repete leitura apenas no mesmo ciclo."""
+    symbol = str(symbol or '').strip().upper()
+    attempts = max(1, int(attempts))
+    last_reason = 'NO_PRICE'
+    for attempt in range(1, attempts + 1):
+        quote = quote_reader.obter_dados()
+        quote_symbol = str(quote.get('ativo') or '').strip().upper()
+        price = _to_float(quote.get('close'))
+        if quote_symbol and quote_symbol != symbol:
+            last_reason = 'SYMBOL_MISMATCH'
+            continue
+        if price is None:
+            last_reason = 'PRICE_MISSING'
+            continue
+        return price, attempt, 'OK'
+    return None, attempts, last_reason
+
+
+def _sample(snapshot, source, quality, last_price, cycle, price_attempts, price_reason):
     return {
         'cycle': int(cycle),
         'symbol': str(getattr(source, 'symbol', '') or ''),
@@ -41,13 +60,15 @@ def _sample(snapshot, source, quality, last_price, cycle):
         'spread': float(getattr(quality, 'spread', 0.0) or 0.0),
         'imbalance': float(getattr(quality, 'imbalance', 0.0) or 0.0),
         'last_price': last_price,
+        'price_read_attempts': int(price_attempts),
+        'price_read_reason': str(price_reason),
         'available': bool(getattr(snapshot, 'available', False)),
         'anomaly_count': int(getattr(quality, 'anomaly_count', 0) or 0),
         'passive_only': True,
     }
 
 
-def run_session(symbol: str, *, cycles: int = 600, interval: float = 0.25, output_dir=None, sleeper=time.sleep):
+def run_session(symbol: str, *, cycles: int = 600, interval: float = 0.25, output_dir=None, sleeper=time.sleep, price_attempts: int = 2):
     symbol = str(symbol or '').strip().upper()
     if not symbol:
         raise ValueError('symbol é obrigatório.')
@@ -55,6 +76,8 @@ def run_session(symbol: str, *, cycles: int = 600, interval: float = 0.25, outpu
         raise ValueError('cycles deve ser inteiro >= 1.')
     if isinstance(interval, bool) or float(interval) < 0:
         raise ValueError('interval deve ser >= 0.')
+    if isinstance(price_attempts, bool) or int(price_attempts) < 1:
+        raise ValueError('price_attempts deve ser inteiro >= 1.')
 
     book_excel = ExcelConnector()
     quote_excel = ExcelConnector()
@@ -73,25 +96,26 @@ def run_session(symbol: str, *, cycles: int = 600, interval: float = 0.25, outpu
     rows = []
     collection_errors = 0
     missing_price_count = 0
+    recovered_price_reads = 0
 
     for cycle in range(1, int(cycles) + 1):
         try:
             snapshot = provider.snapshot(symbol)
             source = diagnostics.observe(snapshot)
             quality = validator.evaluate(snapshot, source)
-            quote = quote_reader.obter_dados()
-            quote_symbol = str(quote.get('ativo') or '').strip().upper()
-            last_price = _to_float(quote.get('close'))
-            if quote_symbol and quote_symbol != symbol:
-                last_price = None
+            last_price, attempts_used, price_reason = _read_synchronized_price(
+                quote_reader, symbol, attempts=int(price_attempts)
+            )
+            if attempts_used > 1 and last_price is not None:
+                recovered_price_reads += 1
             if last_price is None:
                 missing_price_count += 1
-            rows.append(_sample(snapshot, source, quality, last_price, cycle))
+            rows.append(_sample(snapshot, source, quality, last_price, cycle, attempts_used, price_reason))
             print(
                 '[BOOK EXT SYNC] '
                 f'cycle={cycle}/{cycles} quality={quality.status} '
                 f'imbalance={float(getattr(quality, "imbalance", 0.0) or 0.0):.4f} '
-                f'last_price={last_price}'
+                f'last_price={last_price} attempts={attempts_used}'
             )
         except Exception as exc:
             collection_errors += 1
@@ -112,6 +136,8 @@ def run_session(symbol: str, *, cycles: int = 600, interval: float = 0.25, outpu
         'symbol': symbol,
         'requested_cycles': int(cycles),
         'completed_cycles': completed,
+        'price_attempts': int(price_attempts),
+        'recovered_price_reads': recovered_price_reads,
         'missing_price_count': missing_price_count,
         'collection_errors': collection_errors,
         'price_capture': price_capture,
@@ -134,15 +160,16 @@ def run_session(symbol: str, *, cycles: int = 600, interval: float = 0.25, outpu
 
 
 def main(argv=None):
-    p = argparse.ArgumentParser(description='Sessão estendida Book RTD + preço sincronizado.')
+    p = argparse.ArgumentParser(description='Sessão estendida Book RTD + preço sincronizado robusto.')
     p.add_argument('symbol')
     p.add_argument('--cycles', type=int, default=600)
     p.add_argument('--interval', type=float, default=0.25)
+    p.add_argument('--price-attempts', type=int, default=2)
     p.add_argument('--output-dir')
     a = p.parse_args(argv)
-    r = run_session(a.symbol, cycles=a.cycles, interval=a.interval, output_dir=a.output_dir)
+    r = run_session(a.symbol, cycles=a.cycles, interval=a.interval, output_dir=a.output_dir, price_attempts=a.price_attempts)
     print(f"PROFIT_RTD_BOOK_EXTENDED_SYNCHRONIZED_SESSION={r['status']}")
-    for key in ('symbol','requested_cycles','completed_cycles','missing_price_count','collection_errors','price_capture','observational_only','predictive_claim_allowed','score_influence_allowed','decision_influence_allowed','order_execution_allowed'):
+    for key in ('symbol','requested_cycles','completed_cycles','price_attempts','recovered_price_reads','missing_price_count','collection_errors','price_capture','observational_only','predictive_claim_allowed','score_influence_allowed','decision_influence_allowed','order_execution_allowed'):
         print(f'{key}={r[key]}')
     print('reasons=' + ('|'.join(r['reasons']) if r['reasons'] else 'OK'))
     print(f"output_path={r['output_path']}")
