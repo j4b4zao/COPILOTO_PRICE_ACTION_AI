@@ -126,8 +126,21 @@ jobs:
         run: |
           passed=0
           failed=0
+          skipped_excel=0
 
           for test_file in tests/test_profit_rtd_rc*.py; do
+            case "$test_file" in
+              tests/test_profit_rtd_rc39.py|\
+              tests/test_profit_rtd_rc53_1.py|\
+              tests/test_profit_rtd_rc53_8_2.py|\
+              tests/test_profit_rtd_rc53_8_3.py|\
+              tests/test_profit_rtd_rc54_1.py)
+                echo "::notice file=$test_file::Skipped on Linux offline gate: requires Excel/xlwings integration boundary"
+                skipped_excel=$((skipped_excel + 1))
+                continue
+                ;;
+            esac
+
             echo "::group::$test_file"
 
             if python "$test_file"; then
@@ -141,6 +154,7 @@ jobs:
 
           echo "Profit RTD test files passed: $passed"
           echo "Profit RTD test files failed: $failed"
+          echo "Profit RTD Excel/xlwings integration files skipped on Linux: $skipped_excel"
 
           if [ "$failed" -ne 0 ]; then
             exit 1
