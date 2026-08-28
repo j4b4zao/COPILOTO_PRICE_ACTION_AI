@@ -26,13 +26,23 @@ def evaluate_session(payload):
         or ''
     ).upper()
 
-    context_ready = bool(_read_field(payload, summary, 'context_ready_at_start', False))
+    warm_ready = warmup_status == 'WARM_HISTORY_READY'
+    context_ready_raw = bool(_read_field(payload, summary, 'context_ready_at_start', False))
+
+    # Compatibility normalization:
+    # WARM_HISTORY_READY is emitted only after the warm-history gate observes
+    # context_ready(context) == True. Older RC54.8-era payloads may nevertheless
+    # contain context_ready_at_start=False because that field was produced with
+    # pre-separation semantics. Preserve the raw value for auditability, but use
+    # the warm-up gate as the authoritative start-readiness evidence.
+    context_ready_inferred_from_warmup = warm_ready and not context_ready_raw
+    context_ready = context_ready_raw or warm_ready
+
     analyzable = int(_read_field(payload, summary, 'analyzable_samples', len(samples)) or 0)
     missing_price = int(_read_field(payload, summary, 'missing_price_count', 0) or 0)
     collection_errors = int(_read_field(payload, summary, 'collection_errors', 0) or 0)
 
     valid_status = status in {'COMPLETED', 'COMPLETED_WITH_WARNINGS'}
-    warm_ready = warmup_status == 'WARM_HISTORY_READY'
     has_samples = analyzable > 0 and bool(samples)
     numeric_prices = bool(samples) and all(isinstance(s.get('last_price'), (int, float)) for s in samples)
     synchronized_price = missing_price == 0 and numeric_prices
@@ -54,7 +64,9 @@ def evaluate_session(payload):
         'eligible_for_rc54_5': eligible,
         'status': status,
         'warmup_status': warmup_status,
+        'context_ready_at_start_raw': context_ready_raw,
         'context_ready_at_start': context_ready,
+        'context_ready_inferred_from_warmup': context_ready_inferred_from_warmup,
         'analyzable_samples': analyzable,
         'missing_price_count': missing_price,
         'collection_errors': collection_errors,
@@ -82,7 +94,19 @@ def main(argv=None):
     a = p.parse_args(argv)
     r = load_and_evaluate(a.session_json)
     print('PROFIT_RTD_RC54_5_5=' + ('SESSION_ELIGIBLE' if r['eligible_for_rc54_5'] else 'SESSION_REJECTED'))
-    for key in ('path','status','warmup_status','context_ready_at_start','analyzable_samples','missing_price_count','collection_errors','synchronized_price_verified','eligible_for_rc54_5'):
+    for key in (
+        'path',
+        'status',
+        'warmup_status',
+        'context_ready_at_start_raw',
+        'context_ready_at_start',
+        'context_ready_inferred_from_warmup',
+        'analyzable_samples',
+        'missing_price_count',
+        'collection_errors',
+        'synchronized_price_verified',
+        'eligible_for_rc54_5',
+    ):
         print(f'{key}={r[key]}')
     print('reasons=' + ('|'.join(r['reasons']) if r['reasons'] else 'OK'))
     print('observational_only=True')
