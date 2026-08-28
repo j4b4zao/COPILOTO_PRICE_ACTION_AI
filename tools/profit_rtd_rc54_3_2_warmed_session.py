@@ -29,7 +29,10 @@ def run_warmed_session(symbol, *, cycles=600, interval=0.25, max_warmup_cycles=4
             'symbol': symbol, 'warmup': {k: v for k, v in warm.items() if k not in {'context','collector','pipeline'}},
             'requested_cycles': int(cycles), 'analyzable_samples': 0, 'skipped_cycles': 0, 'collection_errors': 0,
             'collection_error_details': [], 'missing_price_count': 0, 'price_capture': False,
-            'context_ready_at_start': False, 'samples': [], 'observational_only': True,
+            'data_ready': False, 'context_ready_at_start': False, 'trade_context_ready_at_end': False,
+            'trade_context_ready_samples': 0, 'context_not_ready_samples': 0,
+            'trade_context_reasons': ['WARM_HISTORY_NOT_READY'],
+            'samples': [], 'observational_only': True,
             'predictive_claim_allowed': False, 'score_influence_allowed': False,
             'decision_influence_allowed': False, 'order_execution_allowed': False,
             'reasons': ['WARM_HISTORY_NOT_READY'],
@@ -81,9 +84,14 @@ def run_warmed_session(symbol, *, cycles=600, interval=0.25, max_warmup_cycles=4
             sleeper(float(interval))
 
     complete = len(samples) + skipped_cycles + collection_errors == int(cycles)
-    # price_capture describes synchronized price availability in captured samples only.
-    # A collection exception is reported independently and must not erase valid price evidence.
+    # price_capture/data_ready describe synchronized market-data integrity only.
+    # Trade-context readiness is reported independently because a valid SIDEWAYS/NONE
+    # market state is not a data-source failure.
     price_capture = bool(samples) and missing_price_count == 0
+    data_ready = complete and not collection_errors and price_capture
+    trade_context_ready_samples = len(samples) - context_not_ready_samples
+    trade_context_ready_at_end = bool(samples) and bool(samples[-1].get('context_ready', False))
+
     reasons = []
     if not complete:
         reasons.append('CYCLE_ACCOUNTING_MISMATCH')
@@ -93,8 +101,12 @@ def run_warmed_session(symbol, *, cycles=600, interval=0.25, max_warmup_cycles=4
         reasons.append('MISSING_SYNCHRONIZED_PRICE')
     if not samples:
         reasons.append('NO_ANALYZABLE_SAMPLES')
+
+    trade_context_reasons = []
     if context_not_ready_samples:
-        reasons.append('CONTEXT_READINESS_DROPPED_DURING_SESSION')
+        trade_context_reasons.append('CONTEXT_READINESS_DROPPED_DURING_SESSION')
+    if samples and not trade_context_ready_at_end:
+        trade_context_reasons.append('TRADE_CONTEXT_NOT_READY_AT_END')
 
     payload = {
         'status': 'COMPLETED' if not reasons else 'COMPLETED_WITH_WARNINGS',
@@ -102,8 +114,11 @@ def run_warmed_session(symbol, *, cycles=600, interval=0.25, max_warmup_cycles=4
         'warmup': {k: v for k, v in warm.items() if k not in {'context','collector','pipeline'}},
         'requested_cycles': int(cycles), 'analyzable_samples': len(samples), 'skipped_cycles': skipped_cycles,
         'collection_errors': collection_errors, 'collection_error_details': collection_error_details,
-        'missing_price_count': missing_price_count, 'price_capture': price_capture,
-        'context_ready_at_start': True, 'context_not_ready_samples': context_not_ready_samples,
+        'missing_price_count': missing_price_count, 'price_capture': price_capture, 'data_ready': data_ready,
+        'context_ready_at_start': True, 'trade_context_ready_at_end': trade_context_ready_at_end,
+        'trade_context_ready_samples': trade_context_ready_samples,
+        'context_not_ready_samples': context_not_ready_samples,
+        'trade_context_reasons': trade_context_reasons,
         'samples': samples, 'observational_only': True, 'predictive_claim_allowed': False,
         'score_influence_allowed': False, 'decision_influence_allowed': False, 'order_execution_allowed': False,
         'reasons': reasons,
@@ -132,10 +147,18 @@ def main(argv=None):
     print('warmup_status=' + r['warmup']['status'])
     print('warmup_cycles=' + str(r['warmup']['warmup_cycles']))
     print('context_ready_at_start=' + str(r['context_ready_at_start']))
-    for key in ('requested_cycles','analyzable_samples','skipped_cycles','collection_errors','missing_price_count','price_capture'):
+    for key in ('requested_cycles','analyzable_samples','skipped_cycles','collection_errors','missing_price_count','price_capture','data_ready'):
         print(f'{key}={r[key]}')
+    if 'trade_context_ready_at_end' in r:
+        print(f"trade_context_ready_at_end={r['trade_context_ready_at_end']}")
+    if 'trade_context_ready_samples' in r:
+        print(f"trade_context_ready_samples={r['trade_context_ready_samples']}")
     if 'context_not_ready_samples' in r:
         print(f"context_not_ready_samples={r['context_not_ready_samples']}")
+    if r.get('trade_context_reasons'):
+        print('trade_context_reasons=' + '|'.join(r['trade_context_reasons']))
+    else:
+        print('trade_context_reasons=OK')
     if r.get('collection_error_details'):
         print('collection_error_details=' + json.dumps(r['collection_error_details'], ensure_ascii=False, separators=(',', ':')))
     print('observational_only=True')
