@@ -5,15 +5,31 @@ import json
 from pathlib import Path
 
 
+def _read_field(payload, summary, key, default=None):
+    if key in summary:
+        return summary.get(key)
+    if key in payload:
+        return payload.get(key)
+    return default
+
+
 def evaluate_session(payload):
     summary = payload.get('summary') if isinstance(payload.get('summary'), dict) else payload
     samples = payload.get('samples') or []
-    status = str(summary.get('status', '')).upper()
-    warmup_status = str(summary.get('warmup_status', '')).upper()
-    context_ready = bool(summary.get('context_ready_at_start'))
-    analyzable = int(summary.get('analyzable_samples', len(samples)) or 0)
-    missing_price = int(summary.get('missing_price_count', 0) or 0)
-    collection_errors = int(summary.get('collection_errors', 0) or 0)
+    warmup = payload.get('warmup') if isinstance(payload.get('warmup'), dict) else {}
+
+    status = str(_read_field(payload, summary, 'status', '') or '').upper()
+
+    warmup_status = str(
+        _read_field(payload, summary, 'warmup_status', None)
+        or warmup.get('status', '')
+        or ''
+    ).upper()
+
+    context_ready = bool(_read_field(payload, summary, 'context_ready_at_start', False))
+    analyzable = int(_read_field(payload, summary, 'analyzable_samples', len(samples)) or 0)
+    missing_price = int(_read_field(payload, summary, 'missing_price_count', 0) or 0)
+    collection_errors = int(_read_field(payload, summary, 'collection_errors', 0) or 0)
 
     valid_status = status in {'COMPLETED', 'COMPLETED_WITH_WARNINGS'}
     warm_ready = warmup_status == 'WARM_HISTORY_READY'

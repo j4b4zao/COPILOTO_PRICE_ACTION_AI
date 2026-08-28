@@ -21,6 +21,27 @@ assert r['eligible_for_rc54_5'] is True
 assert r['collection_errors'] == 1
 assert r['synchronized_price_verified'] is True
 
+rc54_8 = {
+    'status': 'COMPLETED',
+    'warmup': {
+        'status': 'WARM_HISTORY_READY',
+        'warmup_cycles': 820,
+    },
+    'context_ready_at_start': True,
+    'analyzable_samples': 2,
+    'missing_price_count': 0,
+    'collection_errors': 0,
+    'samples': [sample(100.0), sample(101.0)],
+}
+r = evaluate_session(rc54_8)
+assert r['eligible_for_rc54_5'] is True
+assert r['status'] == 'COMPLETED'
+assert r['warmup_status'] == 'WARM_HISTORY_READY'
+assert r['context_ready_at_start'] is True
+assert r['collection_errors'] == 0
+assert r['synchronized_price_verified'] is True
+assert r['reasons'] == []
+
 bad_warmup = {
     'summary': {
         'status': 'ABORTED_CONTEXT_NOT_READY',
