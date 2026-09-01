@@ -1,0 +1,83 @@
+{
+  "status": "POST_RC54_MORE_CROSS_SESSION_EVIDENCE_REQUIRED",
+  "schema_version": "POST_RC54_SELECTION_MANIFEST_V1",
+  "historical_exposure_cutoff": "2026-09-01T11:41:43.435",
+  "freeze": "data/profit_rtd_post_rc54_selection/post_rc54_selection_freeze_20260901_114143.json",
+  "eligible_sessions": [
+    {
+      "path": "data/profit_rtd_post_rc54_selection/profit_rtd_rc54_3_2_WINV26_20260901_151014.json",
+      "sha256": "47c25a3fdebe9c6f571d1f57175456aecd14413d296bca6a950f2e941b5a2a74",
+      "first_timestamp": "2026-09-01T15:02:03.490",
+      "last_timestamp": "2026-09-01T15:10:13.189",
+      "data_ready": true,
+      "analyzable_samples": 330,
+      "trade_context_ready_samples": 330,
+      "excluded_not_ready_samples": 0,
+      "identifiable_contexts": ["BUY"],
+      "distinct_microbuckets": [
+        "CONTEXT_BUY_MICRO_NEUTRAL",
+        "CONTEXT_BUY_MICRO_SELL"
+      ]
+    },
+    {
+      "path": "data/profit_rtd_post_rc54_selection/profit_rtd_rc54_3_2_WINV26_20260901_153903.json",
+      "sha256": "65b0d3fe20d2dcf644e9d34746187dfe6d1f56f74fb130b860643bbc873666c1",
+      "first_timestamp": "2026-09-01T15:30:03.605",
+      "last_timestamp": "2026-09-01T15:39:03.205",
+      "data_ready": true,
+      "analyzable_samples": 341,
+      "trade_context_ready_samples": 341,
+      "excluded_not_ready_samples": 0,
+      "identifiable_contexts": ["SELL"],
+      "distinct_microbuckets": [
+        "CONTEXT_SELL_DIVERGENT_TT_SELL_BOOK_BUY",
+        "CONTEXT_SELL_MICRO_BUY",
+        "CONTEXT_SELL_MICRO_NEUTRAL"
+      ]
+    },
+    {
+      "path": "data/profit_rtd_post_rc54_selection/profit_rtd_rc54_3_2_WINV26_20260901_165549.json",
+      "sha256": "83fe8a4725f58f9552a8aade73ed70ba38893f698f29c9dc223ce39ea6405253",
+      "first_timestamp": "2026-09-01T16:44:02.509",
+      "last_timestamp": "2026-09-01T16:55:47.768",
+      "data_ready": true,
+      "analyzable_samples": 422,
+      "trade_context_ready_samples": 317,
+      "excluded_not_ready_samples": 105,
+      "identifiable_contexts": [],
+      "distinct_microbuckets": [
+        "CONTEXT_BUY_MICRO_NEUTRAL",
+        "CONTEXT_SELL_MICRO_NEUTRAL"
+      ]
+    },
+    {
+      "path": "data/profit_rtd_post_rc54_selection/profit_rtd_rc54_3_2_WINV26_20260901_171919.json",
+      "sha256": "8302e1dd6e84934ffb89f31a32456de1eed76aaa480f355bc50d2c80c5b5bd99",
+      "first_timestamp": "2026-09-01T17:12:02.057",
+      "last_timestamp": "2026-09-01T17:19:19.828",
+      "data_ready": true,
+      "analyzable_samples": 272,
+      "trade_context_ready_samples": 186,
+      "excluded_not_ready_samples": 86,
+      "identifiable_contexts": ["SELL"],
+      "distinct_microbuckets": [
+        "CONTEXT_SELL_DIVERGENT_TT_SELL_BOOK_BUY",
+        "CONTEXT_SELL_MICRO_BUY",
+        "CONTEXT_SELL_MICRO_NEUTRAL"
+      ]
+    }
+  ],
+  "eligible_session_count": 4,
+  "minimum_sessions_before_candidate_freeze": 3,
+  "robustness_evaluated": true,
+  "robustness_candidates": [],
+  "minimum_additional_sessions_lower_bound": 1,
+  "threshold_met_buckets": ["CONTEXT_SELL_MICRO_NEUTRAL"],
+  "candidate_frozen": false,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "order_execution_allowed": false
+}

@@ -1,0 +1,422 @@
+# RC54 Current Status
+
+Checkpoint: 2026-09-01 (America/Sao_Paulo)
+
+## Current verdict
+
+- Research state: `OOS_DIRECTIONAL_BEHAVIOR_NOT_CONFIRMED`.
+- Robustness candidates: `CONTEXT_SELL_MICRO_NEUTRAL`.
+- Candidate freeze: completed in
+  `data/profit_rtd_rc54_3_2/rc54_candidate_freeze_20260831_1010.json`.
+- Frozen selection cutoff: `2026-08-31T10:09:58.526000`.
+- RC54.8/OOS: completed over eight eligible holdouts. Two independent sessions
+  contain 393 total candidate occurrences, satisfying the frozen coverage gate.
+  Zero of four horizons passed directional support; verdict:
+  `OOS_DIRECTIONAL_BEHAVIOR_NOT_CONFIRMED`.
+- Operational influence: prohibited for ScoreEngine, RiskManager,
+  DecisionEngine, alerts, and order execution.
+
+## Post-RC54 transition guardrail
+
+- RC54 is closed with a negative OOS verdict for
+  `CONTEXT_SELL_MICRO_NEUTRAL`; additional evaluation of the same frozen
+  candidate is not required for this phase.
+- Every selection and holdout sample through `2026-09-01T11:41:43.435` is now
+  exposed historical evidence. None of the eight RC54 OOS files may be used to
+  choose a replacement candidate.
+- A subsequent research cycle must collect a fresh selection set whose first
+  timestamp is strictly later than that boundary, store it outside both the
+  frozen RC54 selection directory and the RC54 `oos` directory, and build a new
+  manifest.
+- Only that fresh selection set may pass through context audit, incremental
+  analysis, cross-session robustness, candidate freeze, and then a new unseen
+  OOS phase.
+- The existing `RC55` test name in the repository belongs to the separate book
+  diagnostics voice integration and must not be reused as the identifier for
+  this research transition.
+- The transition is frozen in
+  `data/profit_rtd_post_rc54_selection/post_rc54_selection_freeze_20260901_114143.json`;
+  fresh selection sessions must be written only to
+  `data/profit_rtd_post_rc54_selection`.
+- The first fresh-selection attempt on 2026-09-01 passed market-activity
+  preflight but remained `SIDEWAYS + PriceAction NONE` through all 1800 warm-up
+  cycles. It ended `ABORTED_CONTEXT_NOT_READY`; no session file was created and
+  the fresh selection set remains empty.
+- The second attempt produced the first eligible fresh-selection session:
+  `profit_rtd_rc54_3_2_WINV26_20260901_151014.json`. It is `COMPLETED` with
+  `data_ready=True`, 330 analyzable BUY-ready samples, 270 skipped cycles, zero
+  collection errors, and timestamps `2026-09-01T15:02:03.490` through
+  `2026-09-01T15:10:13.189`.
+- BUY is incrementally identifiable across 321 `CONTEXT_BUY_MICRO_NEUTRAL` and
+  9 `CONTEXT_BUY_MICRO_SELL` samples. No candidate is frozen: the new selection
+  has only 2/3 minimum independent sessions. Its manifest is
+  `data/profit_rtd_post_rc54_selection/post_rc54_selection_manifest_20260901.json`.
+- The third attempt produced the second eligible fresh-selection session:
+  `profit_rtd_rc54_3_2_WINV26_20260901_153903.json`. It is `COMPLETED` with
+  `data_ready=True`, 341 analyzable SELL-ready samples, 259 skipped cycles,
+  zero collection errors, and timestamps `2026-09-01T15:30:03.605` through
+  `2026-09-01T15:39:03.205`.
+- SELL is incrementally identifiable across 325 `CONTEXT_SELL_MICRO_NEUTRAL`,
+  10 `CONTEXT_SELL_DIVERGENT_TT_SELL_BOOK_BUY`, and 6
+  `CONTEXT_SELL_MICRO_BUY` samples. SHA-256:
+  `65b0d3fe20d2dcf644e9d34746187dfe6d1f56f74fb130b860643bbc873666c1`.
+- The two fresh sessions deliberately cover opposite directions and remain
+  selection evidence only. The minimum gate is still unmet, robustness has not
+  been evaluated, and no post-RC54 candidate or OOS cutoff is frozen.
+- The fourth fresh-selection attempt passed the real-market-activity preflight
+  and reached `history_ready=True`, with at least 24 M1 candles and 859
+  analyzable updates observed during warm-up, but remained
+  `SIDEWAYS + PriceAction NONE`. The runner ended without starting the 600-cycle
+  session and created no evidence file. This is a clean non-ready trade context,
+  not a technical warning; the manifest remains unchanged at 2/3 sessions.
+- The fifth attempt produced the third eligible fresh-selection session:
+  `profit_rtd_rc54_3_2_WINV26_20260901_165549.json`. It is `COMPLETED` with
+  `data_ready=True`, 422 analyzable samples, 178 skipped cycles, zero collection
+  errors, and timestamps `2026-09-01T16:44:02.509` through
+  `2026-09-01T16:55:47.768`. SHA-256:
+  `83fe8a4725f58f9552a8aade73ed70ba38893f698f29c9dc223ce39ea6405253`.
+- RC54.4 accepted 317 context-ready samples (172
+  `CONTEXT_BUY_MICRO_NEUTRAL` and 145 `CONTEXT_SELL_MICRO_NEUTRAL`) and cleanly
+  excluded 105 lateral samples. Neither direction is incrementally identifiable
+  within this session because each has only one distinct microbucket.
+- The fresh-selection minimum is now met at 3/3 independent sessions. This is
+  only permission to evaluate cross-session robustness; `candidate_frozen`
+  remains false and no new OOS phase is authorized yet.
+- RC54.5 accumulated exactly the three fresh manifest paths: 1093 technical
+  samples, 988 context-ready samples, and 105 clean lateral exclusions. No
+  bucket met the combined 30-occurrence/3-session threshold. The two dominant
+  buckets have ample occurrences but only two supporting sessions: 493
+  `CONTEXT_BUY_MICRO_NEUTRAL` and 470 `CONTEXT_SELL_MICRO_NEUTRAL`.
+- RC54.7 returned `MORE_CROSS_SESSION_EVIDENCE_REQUIRED`, zero robustness
+  candidates, and zero consistent horizons for every bucket. Its evidence-gap
+  lower bound is two additional independent sessions for each observed bucket.
+- Therefore the selection cycle remains open for additional fresh sessions.
+  No candidate is frozen, no cutoff is established, and OOS validation remains
+  prohibited until a genuinely robust candidate exists.
+- The next attempt produced the fourth eligible fresh-selection session:
+  `profit_rtd_rc54_3_2_WINV26_20260901_171919.json`. It is `COMPLETED` with
+  `data_ready=True`, 272 analyzable samples, 328 skipped cycles, zero collection
+  errors, and timestamps `2026-09-01T17:12:02.057` through
+  `2026-09-01T17:19:19.828`. SHA-256:
+  `8302e1dd6e84934ffb89f31a32456de1eed76aaa480f355bc50d2c80c5b5bd99`.
+- RC54.4 accepted 186 SELL-ready samples across three microbuckets (123
+  `CONTEXT_SELL_MICRO_NEUTRAL`, 62 `CONTEXT_SELL_MICRO_BUY`, and 1
+  `CONTEXT_SELL_DIVERGENT_TT_SELL_BOOK_BUY`) and excluded 86 clean lateral
+  samples. The fresh manifest now contains four eligible sessions.
+- With four fresh sessions, RC54.5 reports 1365 technical samples, 1174
+  context-ready samples, and 191 clean lateral exclusions.
+  `CONTEXT_SELL_MICRO_NEUTRAL` now passes the accumulation threshold with 593
+  occurrences across three sessions.
+- RC54.7 still returns `MORE_CROSS_SESSION_EVIDENCE_REQUIRED` and zero robust
+  candidates. `CONTEXT_SELL_MICRO_NEUTRAL` has three supporting sessions but
+  only two sessions with nonzero horizon means; its lower-bound evidence gap is
+  one additional independent session. `CONTEXT_SELL_MICRO_BUY` also has a
+  one-session lower-bound gap. No freeze or OOS transition is authorized.
+- The following fifth-session attempt was stopped by preflight as
+  `MARKET_ACTIVITY_NOT_READY`, with insufficient analyzable updates,
+  insufficient price movement, and no new M1 candle progress. No warm-up or
+  600-cycle session started, no evidence file was created, and the fresh
+  manifest remains unchanged at four eligible sessions. Resume only after a
+  future preflight observes real RTD market activity.
+- A subsequent confirmation preflight returned the same three
+  `MARKET_ACTIVITY_NOT_READY` reasons and again stopped before warm-up. No file
+  was created and the manifest remained unchanged. Further live attempts are
+  closed for this inactive window.
+
+## Next live action
+
+- Current clean checkpoint: four eligible fresh-selection sessions, zero active
+  RC54 runners, no partial session file, and `candidate_frozen=False`.
+- On the next active-market window, run RC54.5.4 for `WINV26` with the existing
+  90-cycle activity preflight, 600-cycle session, 1800-cycle maximum warm-up,
+  and `require_trade_context_at_start` into
+  `data/profit_rtd_post_rc54_selection`.
+- Accept a fifth session only when it is `COMPLETED`, explicitly
+  `data_ready=True`, and its first timestamp is strictly later than
+  `2026-09-01T11:41:43.435`. Audit it with RC54.4, append its exact path and hash
+  to the fresh manifest, then rerun RC54.5 and RC54.7 over all five explicit
+  manifest paths.
+- Do not freeze a candidate merely because the fifth session exists. Freeze and
+  establish a new OOS cutoff only if RC54.7 returns a genuine robustness
+  candidate. Otherwise keep collecting fresh selection evidence.
+
+## Implemented readiness semantics
+
+- `data_ready` represents technical RTD, collection, continuity, synchronized
+  price, and Delta integrity.
+- `trade_context_ready` represents directional MarketStructure plus PriceAction
+  readiness.
+- `trade_context_ready_at_start` is the canonical session-start field;
+  `context_ready_at_start` remains a legacy alias.
+- `SIDEWAYS + PriceAction NONE` is a non-ready trade context, not a technical
+  warning by itself.
+- Technical failures remain warnings and exclude a session when
+  `data_ready` is not explicitly true.
+- Missing `data_ready` is never inferred as true, including in direct calls to
+  RC54.4, RC54.5, RC54.5.5, RC54.7, RC54.8, or the recomposer.
+- RC54.5.5 keeps `trade_context_ready_at_start=False` under diagnostic
+  `trade_context_reasons`; it does not convert clean lateral data into a technical
+  rejection.
+
+## Evidence inventory
+
+- Discovered sessions: 14.
+- Accepted selection sessions: 8.
+- Rejected sessions: 6 (`DATA_READY_NOT_TRUE` in all six), with overlapping
+  technical evidence: 2 `COLLECTION_ERRORS_PRESENT`, 1
+  `DELTA_FAILURES_PRESENT`, and 1 `SYNCHRONIZED_PRICE_NOT_VERIFIED`.
+- Accepted OOS sessions inside the frozen selection inventory: 0. The separate
+  holdout registry currently contains eight eligible OOS sessions.
+- Three accepted sessions contain zero directional-ready samples. They remain
+  technically valid lateral evidence and contribute no RC54.7 bucket vote.
+- Full report:
+  `data/profit_rtd_rc54_3_2/rc54_full_inventory_20260831_1010.json`.
+
+The accepted sessions end at:
+
+- `20260828_103407`
+- `20260828_115900`
+- `20260828_130401`
+- `20260828_154015`
+- `20260828_155916`
+- `20260828_164858`
+- `20260831_085053`
+- `20260831_100958`
+
+## Evidence gap
+
+- BUY is incrementally identifiable only in the session ending at 11:59.
+- SELL is incrementally identifiable in the sessions ending at 10:34 on
+  2026-08-28 and 08:50 on 2026-08-31.
+- The other four accepted sessions do not contain enough within-context
+  microbucket diversity to identify an incremental effect.
+- `CONTEXT_SELL_MICRO_NEUTRAL` now has three supporting sessions with non-zero
+  votes, zero evidence deficit, and consistent negative incremental signs at
+  horizons 1, 3, 5, and 10. It is the first RC54.7 robustness candidate.
+- `CONTEXT_SELL_DIVERGENT_TT_SELL_BOOK_BUY`, `CONTEXT_SELL_MICRO_BUY`, and
+  `CONTEXT_SELL_MICRO_SELL` each have a lower bound of one additional session;
+  the remaining observed buckets need at least two.
+
+## Latest frozen-selection live session
+
+- Selection session: `profit_rtd_rc54_3_2_WINV26_20260831_100958.json`. This is
+  not an OOS holdout; the latest eligible OOS session is documented separately
+  below.
+- Preflight confirmed market activity; the directional-at-start gate waited
+  through `SIDEWAYS + PriceAction NONE` and started only at `DOWN + SELL`.
+- Result: `COMPLETED`, `data_ready=True`, 600 requested cycles, 351 analyzable
+  samples, 249 skipped cycles, and zero collection errors.
+- All 351 analyzable samples were trade-context-ready. SELL was incrementally
+  identifiable across four distinct microbuckets.
+- The session remains `observational_only=True`; every Score, Risk, Decision,
+  alert, and execution influence flag remains false.
+
+## Next live collection
+
+Run only when market activity is confirmed and no other RC54 runner is active:
+
+```powershell
+python tools/profit_rtd_rc54_5_4_orchestrated_session_runner.py WINV26 `
+  --preflight-cycles 90 `
+  --preflight-interval 0.25 `
+  --cycles 600 `
+  --interval 0.25 `
+  --max-warmup-cycles 1800 `
+  --require-trade-context-at-start `
+  --concise-output `
+  --progress-every 50 `
+  --output-dir data/profit_rtd_rc54_3_2/oos
+```
+
+Accept the resulting session as evidence only with `data_ready=True`. Record
+`incrementally_identifiable_contexts` and the distinct microbuckets for BUY and
+SELL. Lack of identifiability is diagnostic only and does not invalidate clean
+technical data.
+
+Do not run selection discovery over `oos`. Refresh the frozen selection
+inventory only when explicitly performing a new selection phase; ordinary OOS
+collection updates only the separate holdout registry. The selection-only
+recomposition command remains:
+
+```powershell
+python tools/profit_rtd_rc54_offline_recomposer.py `
+  --discover-dir data/profit_rtd_rc54_3_2 `
+  --output data/profit_rtd_rc54_3_2/rc54_full_inventory_latest.json
+```
+
+## Candidate and OOS guardrail
+
+The frozen candidate is `CONTEXT_SELL_MICRO_NEUTRAL` and the selection cutoff is
+`2026-08-31T10:09:58.526000`. Accept only newly collected holdout sessions whose
+first sample is strictly later than this cutoff. Never mix a selection path or
+SHA-256-identical file into OOS. Run RC54.8 only after at least two eligible OOS
+sessions jointly contain at least 30 candidate occurrences.
+
+## OOS collection
+
+- Registry: `oos/rc54_oos_registry_20260831.json`.
+- Eighth eligible holdout:
+  `oos/profit_rtd_rc54_3_2_WINV26_20260901_114143.json`.
+- First/last timestamps: `2026-09-01T11:32:04.023` /
+  `2026-09-01T11:41:43.435`, strictly after the frozen cutoff.
+- Technical result: `COMPLETED`, `data_ready=True`, 600 requested cycles, 348
+  analyzable samples, 252 skipped cycles, zero collection errors, 107
+  trade-context-ready SELL samples, and 241 clean lateral samples excluded from
+  the context audit.
+- SELL was incrementally identifiable across 3
+  `CONTEXT_SELL_DIVERGENT_TT_SELL_BOOK_BUY` and 104
+  `CONTEXT_SELL_MICRO_NEUTRAL` samples. SHA-256:
+  `dbecfc080ca8b2b3ec49c3c17fa31f145f5b40dec8be2c386e212ca1b8974a2b`.
+- RC54.8 then evaluated all eight registered holdouts: 393 candidate occurrences
+  across two sessions, but zero supported horizons. Candidate mean deltas were
+  -0.51, -1.61, -2.49, and -4.28 points at horizons 1, 3, 5, and 10; favorable
+  rates were 36.6%, 50.8%, 52.2%, and 54.0%, respectively. The frozen candidate
+  failed OOS directional confirmation and is not eligible for promotion.
+- Seventh eligible holdout:
+  `oos/profit_rtd_rc54_3_2_WINV26_20260901_110243.json`.
+- First/last timestamps: `2026-09-01T10:55:00.963` /
+  `2026-09-01T11:02:42.884`, strictly after the frozen cutoff.
+- Technical result: `COMPLETED`, `data_ready=True`, 600 requested cycles, 292
+  analyzable and trade-context-ready SELL samples, 308 skipped cycles, and zero
+  collection errors.
+- SELL was incrementally identifiable across two microbuckets: 3
+  `CONTEXT_SELL_MICRO_BUY` and 289 `CONTEXT_SELL_MICRO_NEUTRAL`. This is the
+  first OOS session containing the frozen candidate. The 30-occurrence threshold
+  is exceeded, but a second independent candidate-containing session is still
+  required before RC54.8. SHA-256:
+  `915d695dd304169c28ec411ab788cb4ffb8ab7cdda63a0ce78eb3653573ab0a6`.
+- Sixth eligible holdout:
+  `oos/profit_rtd_rc54_3_2_WINV26_20260901_103632.json`.
+- First/last timestamps: `2026-09-01T10:29:00.983` /
+  `2026-09-01T10:36:31.048`, strictly after the frozen cutoff.
+- Technical result: `COMPLETED`, `data_ready=True`, 600 requested cycles, 280
+  analyzable samples, 320 skipped cycles, zero collection errors, 225
+  trade-context-ready BUY samples, and 55 clean lateral samples excluded from
+  the context audit.
+- BUY was incrementally identifiable across four microbuckets: 3
+  `CONTEXT_BUY_DIVERGENT_TT_BUY_BOOK_SELL`, 7 `CONTEXT_BUY_MICRO_BUY`, 181
+  `CONTEXT_BUY_MICRO_NEUTRAL`, and 34 `CONTEXT_BUY_MICRO_SELL`. The frozen SELL
+  candidate occurred zero times. SHA-256:
+  `6ba0d8367794678659d31e77cd56f0439fe214f233117d401eb1c3444f85eb3d`.
+- Fifth eligible holdout:
+  `oos/profit_rtd_rc54_3_2_WINV26_20260901_100355.json`.
+- First/last timestamps: `2026-09-01T09:56:00.662` /
+  `2026-09-01T10:03:54.599`, strictly after the frozen cutoff.
+- Technical result: `COMPLETED`, `data_ready=True`, 600 requested cycles, 309
+  analyzable and trade-context-ready samples, 291 skipped cycles, and zero
+  collection errors.
+- BUY was incrementally identifiable across five microbuckets: 73
+  `CONTEXT_BUY_DIVERGENT_TT_BUY_BOOK_SELL`, 3
+  `CONTEXT_BUY_DIVERGENT_TT_SELL_BOOK_BUY`, 9 `CONTEXT_BUY_MICRO_BUY`, 190
+  `CONTEXT_BUY_MICRO_NEUTRAL`, and 34 `CONTEXT_BUY_MICRO_SELL`. The frozen SELL
+  candidate occurred zero times. SHA-256:
+  `224c18db1a84e41b4ad748fe9d9a56e9a0e1a7dd6f075b2e7025a852c4e840c1`.
+- The 2026-09-01 opening attempt passed market-activity preflight and observed
+  981 analyzable updates forming 26 candles, with `history_ready=True`, but
+  remained `SIDEWAYS + PriceAction NONE` through all 1800 warm-up cycles. It
+  ended as `ABORTED_CONTEXT_NOT_READY`; no session file was created and the OOS
+  registry was unchanged.
+- The sixth OOS attempt after 17:20 was rejected by preflight as
+  `MARKET_ACTIVITY_NOT_READY` due to insufficient analyzable updates,
+  insufficient price movement, and no new M1 candle progress. No warm-up or
+  session started, no evidence file was created, and the registry was unchanged.
+- A confirmation preflight at 17:30 returned the same three activity failures.
+  It also stopped before warm-up and left the OOS evidence set unchanged.
+- The final preflight at 17:44 again returned `MARKET_ACTIVITY_NOT_READY` with
+  the same reasons and stopped before warm-up. Live collection was closed for
+  this window; resume only after a future preflight observes real RTD activity.
+- Fourth eligible holdout:
+  `oos/profit_rtd_rc54_3_2_WINV26_20260831_172044.json`.
+- First/last timestamps: `2026-08-31T17:13:01.102` /
+  `2026-08-31T17:20:44.961`, strictly after the frozen cutoff.
+- Technical result: `COMPLETED`, `data_ready=True`, 600 requested cycles, 292
+  analyzable and trade-context-ready samples, 308 skipped cycles, and zero
+  collection errors.
+- BUY was incrementally identifiable across two buckets: 216
+  `CONTEXT_BUY_MICRO_NEUTRAL` and 76
+  `CONTEXT_BUY_DIVERGENT_TT_SELL_BOOK_BUY`. The frozen SELL candidate occurred
+  zero times. SHA-256:
+  `468568d0b06aac01b5c304baef83033c896cf508b6033c2f32d3d787a3242faa`.
+- The fourth OOS attempt at 16:17 passed market-activity preflight and observed
+  1010 analyzable updates forming 27 candles, with `history_ready=True`, but
+  remained `SIDEWAYS + PriceAction NONE` through all 1800 warm-up cycles. It
+  ended as `ABORTED_CONTEXT_NOT_READY`; `session_started=False`, no session file
+  was created, and the OOS registry was not changed.
+- The second OOS attempt at 13:00 passed market-activity preflight but exhausted
+  all 1800 warm-up cycles in `SIDEWAYS + PriceAction NONE`. It ended as
+  `ABORTED_CONTEXT_NOT_READY`; no session file was created and the OOS registry
+  was not changed.
+- Second eligible holdout:
+  `oos/profit_rtd_rc54_3_2_WINV26_20260831_144615.json`.
+- First/last timestamps: `2026-08-31T14:37:01.681` /
+  `2026-08-31T14:46:15.921`, strictly after the frozen cutoff.
+- Technical result: `COMPLETED`, `data_ready=True`, 600 requested cycles, 377
+  analyzable and trade-context-ready samples, 223 skipped cycles, and zero
+  collection errors.
+- The second holdout contained 323 `CONTEXT_BUY_MICRO_NEUTRAL` and 54
+  `CONTEXT_BUY_MICRO_SELL` samples, with zero occurrences of the frozen
+  `CONTEXT_SELL_MICRO_NEUTRAL` candidate.
+- SHA-256:
+  `c374486a4f1e21602ca39d1a337f14c5be67efd95619ea4e075cb34db13a8dc4`.
+- Third eligible holdout:
+  `oos/profit_rtd_rc54_3_2_WINV26_20260831_161119.json`.
+- First/last timestamps: `2026-08-31T16:02:02.177` /
+  `2026-08-31T16:11:18.812`, strictly after the frozen cutoff.
+- Technical result: `COMPLETED`, `data_ready=True`, 372 analyzable samples, 228
+  skipped cycles, zero collection errors, 276 trade-context-ready samples, and
+  96 clean lateral samples excluded from the context audit.
+- The third holdout was BUY-only and contained zero occurrences of the frozen
+  SELL candidate. SHA-256:
+  `80a74ea9b057b183c339907808519eff59414676ea424acd7c1cc5090d1313ed`.
+- First holdout: `oos/profit_rtd_rc54_3_2_WINV26_20260831_112656.json`.
+- First/last timestamps: `2026-08-31T11:19:00.588` /
+  `2026-08-31T11:26:56.293`, strictly after the frozen cutoff.
+- Technical result: `COMPLETED`, `data_ready=True`, 600 requested cycles, 293
+  analyzable samples, 307 skipped cycles, and zero collection errors.
+- RC54.4 accepted 259 BUY-ready samples and excluded 34 later lateral
+  `SIDEWAYS + PriceAction NONE` samples without a technical warning.
+- Frozen candidate occurrences: 0. This is valid OOS market coverage but adds
+  no candidate coverage; RC54.8 was not executed.
+- SHA-256:
+  `eba8002e09e9c3276eabbd227a3bf2c4f20218a39d2e43c0d2d57d7d2f55e97b`.
+
+## Verification checkpoint
+
+- 18 RC54 test files pass.
+- After the four-session post-RC54 robustness update, all four fresh-selection
+  paths and SHA-256 hashes were revalidated. Each session is `COMPLETED`, has
+  `data_ready=True`, starts strictly after `2026-09-01T11:41:43.435`, is unique,
+  and is outside the RC54 OOS directory. The fresh manifest is valid and still
+  declares `candidate_frozen=False`.
+- All 18 RC54 standalone test programs were run again after this validation and
+  passed, including the offline recomposer and global operational-isolation
+  test.
+- After the 17:30 inactive-market preflight, all 18 RC54 test programs were run
+  again and passed. The frozen inventory hash, all eight selection hashes, and
+  all four OOS hashes were revalidated; selection and OOS remain disjoint, and
+  every holdout starts strictly after the frozen cutoff.
+- After the 2026-08-31 live session, all 18 RC54 test files pass as standalone
+  test programs, including the offline recomposer and global operational
+  isolation checks. The bundled runtime does not include the optional `pytest`
+  package.
+- The global AST isolation test passes.
+- Every RC54 utility declares `risk_influence_allowed=False`.
+- All reports retain observational-only and no-influence flags.
+- Changes are saved locally and remain uncommitted.
+
+## Version-control safety
+
+The repository is a mixed dirty worktree. It contains unrelated staged and
+unstaged changes in operational modules, spreadsheets, generated bytecode, older
+RC phases, and research utilities. Several RC54 files are partially staged
+(`AM`), so the index does not necessarily contain the same version that passed
+the tests described above.
+
+Do not use bulk `git add`, `git commit -a`, checkout/reset, or cleanup commands.
+Before any commit, review both the staged and unstaged diff for each explicit
+RC54 path, isolate only the intended files, and rerun the RC54 suite against the
+exact content to be committed. In particular, do not include existing changes
+to ScoreEngine, RiskManager, DecisionEngine, alerts, strategies, spreadsheets,
+or generated `__pycache__` files as part of RC54.3.3.
+
+The normative procedure is in `docs/rc54_readiness_evidence_protocol.md`.

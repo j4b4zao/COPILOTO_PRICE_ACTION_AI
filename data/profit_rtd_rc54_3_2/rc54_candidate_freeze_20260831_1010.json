@@ -1,0 +1,31 @@
+{
+  "status": "RC54_CANDIDATE_SELECTION_FREEZE_COMPLETED",
+  "schema_version": "RC54_CANDIDATE_FREEZE_V1",
+  "candidate": "CONTEXT_SELL_MICRO_NEUTRAL",
+  "selection_cutoff": "2026-08-31T10:09:58.526000",
+  "source_inventory": "data/profit_rtd_rc54_3_2/rc54_full_inventory_20260831_1010.json",
+  "source_inventory_sha256": "5cff184dbb441a91e17474558f1876d794727aa4eb9f27c9c14698d6ab35417a",
+  "selection_session_count": 8,
+  "selection_sessions": [
+    {"path": "data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260828_103407.json", "sha256": "740c248c9fd49bdbccb25105b7532546ebbe28b730af19264e45379cd30221a9"},
+    {"path": "data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260828_115900.json", "sha256": "624f1e2b0b9d3bf49d4827f07d911ae4bffbff4963273ed9b1925a0f9ce42c05"},
+    {"path": "data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260828_130401.json", "sha256": "8ab9a1df0ed9c1416a171bd2197aeb7a50be67654da934a40569a691cbb5180f"},
+    {"path": "data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260828_154015.json", "sha256": "6ec3f0a4a39d58016cac8b73de4715009ea4489d968104e106bdeb2419616349"},
+    {"path": "data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260828_155916.json", "sha256": "2d6a53ff68633aa34f44d22ce0025197ef0c8cac4e5b7e55e51bb91b52af83cd"},
+    {"path": "data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260828_164858.json", "sha256": "3954bcf2fa8fad061785b16dfb81bc8dee9da74963d635fe46b4f06f93ff26e2"},
+    {"path": "data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260831_085053.json", "sha256": "d95eb01d4a9214af7af4057930d5c6ac5a7ac483c044a1bb8c3b5f692ca72c71"},
+    {"path": "data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260831_100958.json", "sha256": "32dec47807221e297b0948aeb149f33da6811804e18a534983ad39b3a21adaa0"}
+  ],
+  "robustness_snapshot": {
+    "supported_sessions": 3,
+    "consistent_horizons": 4,
+    "minimum_additional_sessions_lower_bound": 0
+  },
+  "oos_sessions_registered": 0,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "order_execution_allowed": false
+}

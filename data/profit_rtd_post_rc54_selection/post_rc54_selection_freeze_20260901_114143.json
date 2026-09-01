@@ -1,0 +1,20 @@
+{
+  "status": "POST_RC54_FRESH_SELECTION_OPEN",
+  "schema_version": "POST_RC54_SELECTION_FREEZE_V1",
+  "prior_phase": "RC54",
+  "prior_verdict": "OOS_DIRECTIONAL_BEHAVIOR_NOT_CONFIRMED",
+  "historical_exposure_cutoff": "2026-09-01T11:41:43.435",
+  "prior_oos_registry": "data/profit_rtd_rc54_3_2/oos/rc54_oos_registry_20260831.json",
+  "prior_oos_registry_sha256": "bac06c4f7fec0a26ad16b5b0ed33c230c69cbd95a451b96e4158779166a7a658",
+  "fresh_selection_directory": "data/profit_rtd_post_rc54_selection",
+  "eligible_session_rule": "FIRST_TIMESTAMP_STRICTLY_AFTER_HISTORICAL_EXPOSURE_CUTOFF_AND_DATA_READY_TRUE",
+  "prior_selection_reuse_allowed": false,
+  "prior_oos_reuse_allowed": false,
+  "candidate_frozen": false,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "order_execution_allowed": false
+}
