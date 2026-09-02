@@ -176,7 +176,15 @@ def teste_link_simbolico_de_destino_e_rejeitado():
         original = root / "original.json"
         original.write_text("original", encoding="utf-8")
         link = root / "link.json"
-        link.symlink_to(original)
+        try:
+            link.symlink_to(original)
+        except OSError as exc:
+            # Windows may deny symlink creation when Developer Mode or the
+            # SeCreateSymbolicLinkPrivilege is unavailable. In that environment
+            # the exporter's symlink rejection cannot be exercised.
+            if getattr(exc, "winerror", None) == 1314:
+                return
+            raise
         raises(
             ValueError,
             lambda: TraderPsychologyDashboardFileExporter().write(

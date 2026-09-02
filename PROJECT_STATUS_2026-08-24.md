@@ -1,5 +1,23 @@
 # COPILOTO PRICE ACTION AI — Checkpoint 24/08/2026
 
+## Atualização offline — 02/09/2026
+
+- A cadeia `TraderPsychologyState → TraderPsychologyEngine → CoachingEngine →
+  VoiceAssistant` está implementada e permanece estritamente observacional.
+- Os 47 arquivos de teste `test_trader_psychology*` passaram integralmente com
+  saída UTF-8.
+- O teste de exportação RC26 foi tornado portátil no Windows: quando o sistema
+  não concede o privilégio necessário para criar um link simbólico temporário,
+  somente esse cenário não aplicável é ignorado; os demais controles de caminho,
+  sobrescrita, integridade e isolamento continuam obrigatórios.
+- As fronteiras com inicialização, readiness, adaptador operacional somente
+  leitura, orquestração e dashboard foram revalidadas. Os 10 casos funcionais do
+  serviço de readiness RC50 passaram sob `pytest`.
+- Nenhuma capacidade de Score, Risk, Decision, alerta operacional ou execução de
+  ordens foi aberta por essa validação.
+- O estado atual do ciclo de evidência Order Flow/RC54 está documentado em
+  `docs/rc54_current_status.md`.
+
 ## Estado salvo
 
 - Branch oficial: `main`
