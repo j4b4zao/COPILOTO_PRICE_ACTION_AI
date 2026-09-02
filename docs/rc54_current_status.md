@@ -1,6 +1,27 @@
 # RC54 Current Status
 
-Checkpoint: 2026-09-01 (America/Sao_Paulo)
+Checkpoint: 2026-09-02 (America/Sao_Paulo)
+
+## Post-RC54 OOS checkpoint (2026-09-02)
+
+- Selection remains frozen over exactly five sessions with candidate
+  `CONTEXT_SELL_MICRO_NEUTRAL` and cutoff `2026-09-02T11:01:20.258`.
+- Two independent post-cutoff OOS sessions are now technically eligible. The
+  second is `data/profit_rtd_post_rc54_oos/profit_rtd_rc54_3_2_WINV26_20260902_151351.json`
+  (SHA-256 `c1610f83355add22922b70ba161c012846be4dcdb2f9a4086676889ddcc78549`):
+  `COMPLETED`, `data_ready=True`, 378 analyzable samples, 222 skipped cycles,
+  zero collection errors, and all 378 samples trade-context-ready.
+- RC54.4 identified BUY across three microbuckets: 6
+  `CONTEXT_BUY_DIVERGENT_TT_SELL_BOOK_BUY`, 17 `CONTEXT_BUY_MICRO_BUY`, and
+  355 `CONTEXT_BUY_MICRO_NEUTRAL`. This session contains zero occurrences of
+  the frozen SELL candidate.
+- RC54.8 ran with the five frozen selection paths and exactly the two separate
+  OOS holdouts. Manifest valid: 5 selection accepted, 2 OOS accepted, zero
+  rejected. Aggregate candidate coverage remains 63 occurrences in only one
+  OOS session, so the verdict is `MORE_OOS_CANDIDATE_COVERAGE_REQUIRED`.
+- Continue collecting independent OOS sessions until at least two sessions
+  contain the frozen candidate. This is observational evidence only and does
+  not authorize ScoreEngine, RiskManager, DecisionEngine, alerts, or execution.
 
 ## Current verdict
 
@@ -122,23 +143,62 @@ Checkpoint: 2026-09-01 (America/Sao_Paulo)
   `MARKET_ACTIVITY_NOT_READY` reasons and again stopped before warm-up. No file
   was created and the manifest remained unchanged. Further live attempts are
   closed for this inactive window.
+- On 2026-09-02, market activity preflight passed and the fifth eligible fresh
+  selection session completed as
+  `profit_rtd_rc54_3_2_WINV26_20260902_110120.json`. It has
+  `data_ready=True`, 316 analyzable samples, 284 skipped cycles, zero collection
+  errors, and timestamps `2026-09-02T10:53:02.112` through
+  `2026-09-02T11:01:20.258`. RC54.4 accepted 184 SELL-ready samples and cleanly
+  excluded 132 later lateral samples.
+- SELL is incrementally identifiable across three microbuckets: 169
+  `CONTEXT_SELL_MICRO_NEUTRAL`, 9
+  `CONTEXT_SELL_DIVERGENT_TT_BUY_BOOK_SELL`, and 6
+  `CONTEXT_SELL_MICRO_SELL`. Session SHA-256:
+  `20a52b04990d8eb5073a652d4e4ae521e36bab8113c71bff785c8b07fdde58b8`.
+- The explicit five-session recomposition accepted 5/5 paths and RC54.7 now
+  reports `CONTEXT_SELL_MICRO_NEUTRAL` as a genuine robustness candidate: four
+  supporting sessions, three nonzero sessions at every horizon, four consistent
+  horizons, and evidence-gap lower bound zero.
+- The post-RC54 selection is now frozen in
+  `data/profit_rtd_post_rc54_selection/post_rc54_candidate_freeze_20260902_110120.json`
+  with cutoff `2026-09-02T11:01:20.258`. The five frozen selection paths and
+  their hashes must never be mixed with the new unseen OOS phase.
+- Two post-freeze OOS attempts passed the real-market-activity preflight but
+  remained `SIDEWAYS + PriceAction NONE` for all 1800 warm-up cycles. The first
+  observed 1042 analyzable updates and 28 M1 candles; the second observed 1086
+  analyzable updates and 30 M1 candles. Both ended
+  `ABORTED_CONTEXT_NOT_READY` before the 600-cycle session started.
+- Neither attempt created an OOS file. The OOS directory remains empty, zero
+  eligible holdouts are registered, and RC54.8 remains prohibited until at
+  least two eligible unseen sessions jointly contain at least 30 occurrences of
+  the frozen candidate.
+- Two later attempts also spent the full 1800-cycle warm-up in a clean lateral
+  context and created no file. A following attempt finally opened the gate at
+  `DOWN + SELL` and completed the first eligible unseen OOS session:
+  `data/profit_rtd_post_rc54_oos/profit_rtd_rc54_3_2_WINV26_20260902_143834.json`.
+- The first eligible OOS session is `COMPLETED`, `data_ready=True`, with 367
+  analyzable samples, 233 skipped cycles, zero collection errors, and timestamps
+  `2026-09-02T14:29:01.945` through `2026-09-02T14:38:34.769`. Its SHA-256 is
+  `9fc07b7502b2f2b33ce8d15ed56bb4e87d8196027a35f2319b34365468b9c023`.
+- RC54.4 accepted 247 context-ready samples and excluded 120 clean lateral
+  samples. The frozen candidate occurred 63 times. SELL is incrementally
+  identifiable across three SELL microbuckets; BUY has only one microbucket and
+  is not incrementally identifiable.
+- The occurrence gate is met, but the independent-session gate remains 1/2.
+  RC54.8 is still prohibited. Registry:
+  `data/profit_rtd_post_rc54_oos/post_rc54_oos_registry_20260902.json`.
 
 ## Next live action
 
-- Current clean checkpoint: four eligible fresh-selection sessions, zero active
-  RC54 runners, no partial session file, and `candidate_frozen=False`.
-- On the next active-market window, run RC54.5.4 for `WINV26` with the existing
-  90-cycle activity preflight, 600-cycle session, 1800-cycle maximum warm-up,
-  and `require_trade_context_at_start` into
-  `data/profit_rtd_post_rc54_selection`.
-- Accept a fifth session only when it is `COMPLETED`, explicitly
-  `data_ready=True`, and its first timestamp is strictly later than
-  `2026-09-01T11:41:43.435`. Audit it with RC54.4, append its exact path and hash
-  to the fresh manifest, then rerun RC54.5 and RC54.7 over all five explicit
-  manifest paths.
-- Do not freeze a candidate merely because the fifth session exists. Freeze and
-  establish a new OOS cutoff only if RC54.7 returns a genuine robustness
-  candidate. Otherwise keep collecting fresh selection evidence.
+- Current clean checkpoint: five frozen fresh-selection sessions, zero active
+  RC54 runners, no partial file, and `candidate_frozen=True` for
+  `CONTEXT_SELL_MICRO_NEUTRAL`.
+- Start a new unseen OOS phase only with sessions whose first timestamp is
+  strictly later than `2026-09-02T11:01:20.258`, stored outside the frozen
+  selection directory. Require at least two eligible OOS sessions and 30 total
+  candidate occurrences before RC54.8.
+- Never add new paths to the frozen selection manifest, never use the five
+  frozen paths to select another candidate, and never mix selection with OOS.
 
 ## Implemented readiness semantics
 

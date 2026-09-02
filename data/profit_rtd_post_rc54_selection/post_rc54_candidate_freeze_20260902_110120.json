@@ -1,0 +1,29 @@
+{
+  "status": "POST_RC54_CANDIDATE_SELECTION_FREEZE_COMPLETED",
+  "schema_version": "POST_RC54_CANDIDATE_FREEZE_V1",
+  "candidate": "CONTEXT_SELL_MICRO_NEUTRAL",
+  "selection_cutoff": "2026-09-02T11:01:20.258",
+  "source_recomposition": "data/profit_rtd_post_rc54_selection/post_rc54_recomposition_20260902_110120.json",
+  "source_recomposition_sha256": "074c906d388656516cea98275ebd9dd6817b5f91d52d1f902faadef449c876bc",
+  "selection_session_count": 5,
+  "selection_sessions": [
+    {"path": "data/profit_rtd_post_rc54_selection/profit_rtd_rc54_3_2_WINV26_20260901_151014.json", "sha256": "47c25a3fdebe9c6f571d1f57175456aecd14413d296bca6a950f2e941b5a2a74"},
+    {"path": "data/profit_rtd_post_rc54_selection/profit_rtd_rc54_3_2_WINV26_20260901_153903.json", "sha256": "65b0d3fe20d2dcf644e9d34746187dfe6d1f56f74fb130b860643bbc873666c1"},
+    {"path": "data/profit_rtd_post_rc54_selection/profit_rtd_rc54_3_2_WINV26_20260901_165549.json", "sha256": "83fe8a4725f58f9552a8aade73ed70ba38893f698f29c9dc223ce39ea6405253"},
+    {"path": "data/profit_rtd_post_rc54_selection/profit_rtd_rc54_3_2_WINV26_20260901_171919.json", "sha256": "8302e1dd6e84934ffb89f31a32456de1eed76aaa480f355bc50d2c80c5b5bd99"},
+    {"path": "data/profit_rtd_post_rc54_selection/profit_rtd_rc54_3_2_WINV26_20260902_110120.json", "sha256": "20a52b04990d8eb5073a652d4e4ae521e36bab8113c71bff785c8b07fdde58b8"}
+  ],
+  "robustness_snapshot": {
+    "supported_sessions": 4,
+    "nonzero_sessions_by_horizon": {"1": 3, "3": 3, "5": 3, "10": 3},
+    "consistent_horizons": 4,
+    "minimum_additional_sessions_lower_bound": 0
+  },
+  "oos_sessions_registered": 0,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "order_execution_allowed": false
+}
