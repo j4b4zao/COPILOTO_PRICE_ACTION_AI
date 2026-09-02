@@ -17,6 +17,15 @@
   ordens foi aberta por essa validação.
 - O estado atual do ciclo de evidência Order Flow/RC54 está documentado em
   `docs/rc54_current_status.md`.
+- A fronteira de dashboard/voz também foi auditada offline: os 11 arquivos de
+  teste específicos de projeção, widget, integração de serviço e retenção
+  concluíram suas asserções com sucesso (incluindo 60 casos executados via
+  `pytest`), e os três módulos principais de `dashboard/` passaram por análise
+  sintática somente leitura.
+- O processo `pytest` do ambiente local permanece aberto após atingir 100% em
+  algumas baterias de voz/dashboard; as asserções terminam, mas o teardown do
+  runner ainda deve ser investigado separadamente. Nenhum indício de falha
+  funcional ou alteração de decisão foi observado.
 
 ## Estado salvo
 
