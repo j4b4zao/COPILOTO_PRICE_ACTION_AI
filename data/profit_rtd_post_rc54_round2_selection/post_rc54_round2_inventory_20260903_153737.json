@@ -1,0 +1,676 @@
+{
+  "status": "RC54_OFFLINE_RECOMPOSITION_COMPLETED",
+  "schema_version": "RC54_OFFLINE_RECOMPOSITION_V1",
+  "inventory_mode": false,
+  "manifest_valid": true,
+  "manifest": [
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_post_rc54_round2_selection\\profit_rtd_rc54_3_2_WINV26_20260903_105250.json",
+      "role": "SELECTION",
+      "sha256": "b1367a9c4967dc9cf853bb751fceda480e4775bc35a29ee2626f600b3acebff3",
+      "eligible": true,
+      "reasons": [],
+      "status": "COMPLETED",
+      "data_ready": true,
+      "samples": 336,
+      "ready_samples": 261,
+      "collection_errors": 0,
+      "missing_price_count": 0,
+      "delta_failure_samples": 0,
+      "price_capture": true,
+      "requested_cycles": 600,
+      "analyzable_samples": 336,
+      "skipped_cycles": 264,
+      "first_timestamp": "2026-09-03T10:44:02.874000",
+      "last_timestamp": "2026-09-03T10:52:50.808000"
+    },
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_post_rc54_round2_selection\\profit_rtd_rc54_3_2_WINV26_20260903_153737.json",
+      "role": "SELECTION",
+      "sha256": "677545ffaf818d99b63fde25f273317b14175797c98b209bd87168f174517ab8",
+      "eligible": true,
+      "reasons": [],
+      "status": "COMPLETED",
+      "data_ready": true,
+      "samples": 382,
+      "ready_samples": 382,
+      "collection_errors": 0,
+      "missing_price_count": 0,
+      "delta_failure_samples": 0,
+      "price_capture": true,
+      "requested_cycles": 600,
+      "analyzable_samples": 382,
+      "skipped_cycles": 218,
+      "first_timestamp": "2026-09-03T15:28:02.216000",
+      "last_timestamp": "2026-09-03T15:37:37.172000"
+    }
+  ],
+  "inventory_summary": {
+    "discovered_sessions": 2,
+    "accepted_selection_sessions": 2,
+    "accepted_oos_sessions": 0,
+    "rejected_sessions": 0,
+    "rejection_reasons": {}
+  },
+  "accepted_selection_paths": [
+    "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_post_rc54_round2_selection\\profit_rtd_rc54_3_2_WINV26_20260903_105250.json",
+    "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_post_rc54_round2_selection\\profit_rtd_rc54_3_2_WINV26_20260903_153737.json"
+  ],
+  "accepted_oos_paths": [],
+  "selection_cutoff": null,
+  "candidate": null,
+  "context_reports": {
+    "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_post_rc54_round2_selection\\profit_rtd_rc54_3_2_WINV26_20260903_105250.json": {
+      "status": "RC54_4_CONTEXT_QUALIFIED_ORDER_FLOW_AUDIT_COMPLETED",
+      "samples": 336,
+      "ready_samples": 261,
+      "excluded_not_ready_samples": 75,
+      "bucket_counts": {
+        "CONTEXT_SELL_MICRO_NEUTRAL": 189,
+        "CONTEXT_SELL_DIVERGENT_TT_SELL_BOOK_BUY": 6,
+        "CONTEXT_SELL_MICRO_BUY": 31,
+        "CONTEXT_BUY_MICRO_NEUTRAL": 35
+      },
+      "buckets": {
+        "CONTEXT_SELL_MICRO_NEUTRAL": {
+          "occurrences": 189,
+          "horizons": {
+            "1": {
+              "n": 188,
+              "mean_delta": -0.1595744680851064,
+              "median_delta": 0.0,
+              "positive_rate": 0.3670212765957447,
+              "negative_rate": 0.324468085106383,
+              "zero_rate": 0.30851063829787234
+            },
+            "3": {
+              "n": 188,
+              "mean_delta": 0.4521276595744681,
+              "median_delta": 5.0,
+              "positive_rate": 0.5212765957446809,
+              "negative_rate": 0.42021276595744683,
+              "zero_rate": 0.05851063829787234
+            },
+            "5": {
+              "n": 188,
+              "mean_delta": 0.0797872340425532,
+              "median_delta": 5.0,
+              "positive_rate": 0.5053191489361702,
+              "negative_rate": 0.4521276595744681,
+              "zero_rate": 0.0425531914893617
+            },
+            "10": {
+              "n": 186,
+              "mean_delta": 0.5913978494623656,
+              "median_delta": 5.0,
+              "positive_rate": 0.5268817204301075,
+              "negative_rate": 0.42473118279569894,
+              "zero_rate": 0.04838709677419355
+            }
+          }
+        },
+        "CONTEXT_SELL_DIVERGENT_TT_SELL_BOOK_BUY": {
+          "occurrences": 6,
+          "horizons": {
+            "1": {
+              "n": 6,
+              "mean_delta": 16.666666666666668,
+              "median_delta": 22.5,
+              "positive_rate": 0.8333333333333334,
+              "negative_rate": 0.16666666666666666,
+              "zero_rate": 0.0
+            },
+            "3": {
+              "n": 6,
+              "mean_delta": 43.333333333333336,
+              "median_delta": 40.0,
+              "positive_rate": 1.0,
+              "negative_rate": 0.0,
+              "zero_rate": 0.0
+            },
+            "5": {
+              "n": 6,
+              "mean_delta": 83.33333333333333,
+              "median_delta": 90.0,
+              "positive_rate": 1.0,
+              "negative_rate": 0.0,
+              "zero_rate": 0.0
+            },
+            "10": {
+              "n": 6,
+              "mean_delta": 128.33333333333334,
+              "median_delta": 132.5,
+              "positive_rate": 1.0,
+              "negative_rate": 0.0,
+              "zero_rate": 0.0
+            }
+          }
+        },
+        "CONTEXT_SELL_MICRO_BUY": {
+          "occurrences": 31,
+          "horizons": {
+            "1": {
+              "n": 31,
+              "mean_delta": 4.516129032258065,
+              "median_delta": 0.0,
+              "positive_rate": 0.45161290322580644,
+              "negative_rate": 0.2903225806451613,
+              "zero_rate": 0.25806451612903225
+            },
+            "3": {
+              "n": 29,
+              "mean_delta": 10.689655172413794,
+              "median_delta": 10.0,
+              "positive_rate": 0.6551724137931034,
+              "negative_rate": 0.3103448275862069,
+              "zero_rate": 0.034482758620689655
+            },
+            "5": {
+              "n": 27,
+              "mean_delta": 19.25925925925926,
+              "median_delta": 15.0,
+              "positive_rate": 0.7407407407407407,
+              "negative_rate": 0.25925925925925924,
+              "zero_rate": 0.0
+            },
+            "10": {
+              "n": 24,
+              "mean_delta": 32.291666666666664,
+              "median_delta": 27.5,
+              "positive_rate": 0.75,
+              "negative_rate": 0.25,
+              "zero_rate": 0.0
+            }
+          }
+        },
+        "CONTEXT_BUY_MICRO_NEUTRAL": {
+          "occurrences": 35,
+          "horizons": {
+            "1": {
+              "n": 34,
+              "mean_delta": -0.29411764705882354,
+              "median_delta": 0.0,
+              "positive_rate": 0.29411764705882354,
+              "negative_rate": 0.2647058823529412,
+              "zero_rate": 0.4411764705882353
+            },
+            "3": {
+              "n": 32,
+              "mean_delta": 0.3125,
+              "median_delta": 0.0,
+              "positive_rate": 0.5,
+              "negative_rate": 0.5,
+              "zero_rate": 0.0
+            },
+            "5": {
+              "n": 30,
+              "mean_delta": -1.8333333333333333,
+              "median_delta": -2.5,
+              "positive_rate": 0.43333333333333335,
+              "negative_rate": 0.5,
+              "zero_rate": 0.06666666666666667
+            },
+            "10": {
+              "n": 25,
+              "mean_delta": -6.0,
+              "median_delta": -5.0,
+              "positive_rate": 0.36,
+              "negative_rate": 0.64,
+              "zero_rate": 0.0
+            }
+          }
+        }
+      },
+      "incremental_identifiability_by_context": {
+        "BUY": {
+          "distinct_micro_buckets": [
+            "CONTEXT_BUY_MICRO_NEUTRAL"
+          ],
+          "distinct_micro_bucket_count": 1,
+          "incremental_effect_identifiable": false
+        },
+        "SELL": {
+          "distinct_micro_buckets": [
+            "CONTEXT_SELL_DIVERGENT_TT_SELL_BOOK_BUY",
+            "CONTEXT_SELL_MICRO_BUY",
+            "CONTEXT_SELL_MICRO_NEUTRAL"
+          ],
+          "distinct_micro_bucket_count": 3,
+          "incremental_effect_identifiable": true
+        }
+      },
+      "incrementally_identifiable_contexts": [
+        "SELL"
+      ],
+      "observational_only": true,
+      "predictive_claim_allowed": false,
+      "score_influence_allowed": false,
+      "risk_influence_allowed": false,
+      "decision_influence_allowed": false,
+      "order_execution_allowed": false
+    },
+    "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_post_rc54_round2_selection\\profit_rtd_rc54_3_2_WINV26_20260903_153737.json": {
+      "status": "RC54_4_CONTEXT_QUALIFIED_ORDER_FLOW_AUDIT_COMPLETED",
+      "samples": 382,
+      "ready_samples": 382,
+      "excluded_not_ready_samples": 0,
+      "bucket_counts": {
+        "CONTEXT_BUY_MICRO_NEUTRAL": 382
+      },
+      "buckets": {
+        "CONTEXT_BUY_MICRO_NEUTRAL": {
+          "occurrences": 382,
+          "horizons": {
+            "1": {
+              "n": 381,
+              "mean_delta": 0.17060367454068243,
+              "median_delta": 0.0,
+              "positive_rate": 0.28608923884514437,
+              "negative_rate": 0.28083989501312334,
+              "zero_rate": 0.4330708661417323
+            },
+            "3": {
+              "n": 379,
+              "mean_delta": 0.5145118733509235,
+              "median_delta": 0.0,
+              "positive_rate": 0.42216358839050133,
+              "negative_rate": 0.43271767810026385,
+              "zero_rate": 0.14511873350923482
+            },
+            "5": {
+              "n": 377,
+              "mean_delta": 0.8222811671087533,
+              "median_delta": 0.0,
+              "positive_rate": 0.4535809018567639,
+              "negative_rate": 0.4350132625994695,
+              "zero_rate": 0.11140583554376658
+            },
+            "10": {
+              "n": 372,
+              "mean_delta": 1.8010752688172043,
+              "median_delta": 5.0,
+              "positive_rate": 0.5188172043010753,
+              "negative_rate": 0.3978494623655914,
+              "zero_rate": 0.08333333333333333
+            }
+          }
+        }
+      },
+      "incremental_identifiability_by_context": {
+        "BUY": {
+          "distinct_micro_buckets": [
+            "CONTEXT_BUY_MICRO_NEUTRAL"
+          ],
+          "distinct_micro_bucket_count": 1,
+          "incremental_effect_identifiable": false
+        }
+      },
+      "incrementally_identifiable_contexts": [],
+      "observational_only": true,
+      "predictive_claim_allowed": false,
+      "score_influence_allowed": false,
+      "risk_influence_allowed": false,
+      "decision_influence_allowed": false,
+      "order_execution_allowed": false
+    }
+  },
+  "robustness": {
+    "status": "RC54_7_SESSION_CONSISTENCY_ROBUSTNESS_COMPLETED",
+    "session_count": 2,
+    "min_sessions": 3,
+    "min_occurrences_per_session": 5,
+    "buckets": {
+      "CONTEXT_BUY_MICRO_NEUTRAL": {
+        "context": "BUY",
+        "supported_sessions": 2,
+        "min_sessions": 3,
+        "min_occurrences_per_session": 5,
+        "consistent_horizons": 0,
+        "session_rows": [
+          {
+            "session_id": 0,
+            "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_post_rc54_round2_selection\\profit_rtd_rc54_3_2_WINV26_20260903_105250.json",
+            "occurrences": 35,
+            "horizons": {
+              "1": {
+                "bucket_mean_delta": -0.29411764705882354,
+                "context_baseline_mean_delta": -0.29411764705882354,
+                "incremental_mean_delta": 0.0
+              },
+              "3": {
+                "bucket_mean_delta": 0.3125,
+                "context_baseline_mean_delta": 0.3125,
+                "incremental_mean_delta": 0.0
+              },
+              "5": {
+                "bucket_mean_delta": -1.8333333333333333,
+                "context_baseline_mean_delta": -1.8333333333333333,
+                "incremental_mean_delta": 0.0
+              },
+              "10": {
+                "bucket_mean_delta": -6.0,
+                "context_baseline_mean_delta": -6.0,
+                "incremental_mean_delta": 0.0
+              }
+            }
+          },
+          {
+            "session_id": 1,
+            "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_post_rc54_round2_selection\\profit_rtd_rc54_3_2_WINV26_20260903_153737.json",
+            "occurrences": 382,
+            "horizons": {
+              "1": {
+                "bucket_mean_delta": 0.17060367454068243,
+                "context_baseline_mean_delta": 0.17060367454068243,
+                "incremental_mean_delta": 0.0
+              },
+              "3": {
+                "bucket_mean_delta": 0.5145118733509235,
+                "context_baseline_mean_delta": 0.5145118733509235,
+                "incremental_mean_delta": 0.0
+              },
+              "5": {
+                "bucket_mean_delta": 0.8222811671087533,
+                "context_baseline_mean_delta": 0.8222811671087533,
+                "incremental_mean_delta": 0.0
+              },
+              "10": {
+                "bucket_mean_delta": 1.8010752688172043,
+                "context_baseline_mean_delta": 1.8010752688172043,
+                "incremental_mean_delta": 0.0
+              }
+            }
+          }
+        ],
+        "horizon_consistency": {
+          "1": {
+            "nonzero_sessions": 0,
+            "minimum_nonzero_sessions": 3,
+            "majority_sign": 0,
+            "consistency_rate": null,
+            "consistent_two_thirds": false
+          },
+          "3": {
+            "nonzero_sessions": 0,
+            "minimum_nonzero_sessions": 3,
+            "majority_sign": 0,
+            "consistency_rate": null,
+            "consistent_two_thirds": false
+          },
+          "5": {
+            "nonzero_sessions": 0,
+            "minimum_nonzero_sessions": 3,
+            "majority_sign": 0,
+            "consistency_rate": null,
+            "consistent_two_thirds": false
+          },
+          "10": {
+            "nonzero_sessions": 0,
+            "minimum_nonzero_sessions": 3,
+            "majority_sign": 0,
+            "consistency_rate": null,
+            "consistent_two_thirds": false
+          }
+        },
+        "evidence_gap": {
+          "supporting_session_deficit": 1,
+          "nonzero_session_deficit_by_horizon": {
+            "1": 3,
+            "3": 3,
+            "5": 3,
+            "10": 3
+          },
+          "minimum_additional_sessions_lower_bound": 3
+        },
+        "robustness_candidate": false
+      },
+      "CONTEXT_SELL_DIVERGENT_TT_SELL_BOOK_BUY": {
+        "context": "SELL",
+        "supported_sessions": 1,
+        "min_sessions": 3,
+        "min_occurrences_per_session": 5,
+        "consistent_horizons": 0,
+        "session_rows": [
+          {
+            "session_id": 0,
+            "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_post_rc54_round2_selection\\profit_rtd_rc54_3_2_WINV26_20260903_105250.json",
+            "occurrences": 6,
+            "horizons": {
+              "1": {
+                "bucket_mean_delta": 16.666666666666668,
+                "context_baseline_mean_delta": 0.9333333333333333,
+                "incremental_mean_delta": 15.733333333333334
+              },
+              "3": {
+                "bucket_mean_delta": 43.333333333333336,
+                "context_baseline_mean_delta": 2.937219730941704,
+                "incremental_mean_delta": 40.39611360239163
+              },
+              "5": {
+                "bucket_mean_delta": 83.33333333333333,
+                "context_baseline_mean_delta": 4.683257918552036,
+                "incremental_mean_delta": 78.6500754147813
+              },
+              "10": {
+                "bucket_mean_delta": 128.33333333333334,
+                "context_baseline_mean_delta": 7.662037037037037,
+                "incremental_mean_delta": 120.6712962962963
+              }
+            }
+          }
+        ],
+        "horizon_consistency": {
+          "1": {
+            "nonzero_sessions": 1,
+            "minimum_nonzero_sessions": 3,
+            "majority_sign": 1,
+            "consistency_rate": 1.0,
+            "consistent_two_thirds": false
+          },
+          "3": {
+            "nonzero_sessions": 1,
+            "minimum_nonzero_sessions": 3,
+            "majority_sign": 1,
+            "consistency_rate": 1.0,
+            "consistent_two_thirds": false
+          },
+          "5": {
+            "nonzero_sessions": 1,
+            "minimum_nonzero_sessions": 3,
+            "majority_sign": 1,
+            "consistency_rate": 1.0,
+            "consistent_two_thirds": false
+          },
+          "10": {
+            "nonzero_sessions": 1,
+            "minimum_nonzero_sessions": 3,
+            "majority_sign": 1,
+            "consistency_rate": 1.0,
+            "consistent_two_thirds": false
+          }
+        },
+        "evidence_gap": {
+          "supporting_session_deficit": 2,
+          "nonzero_session_deficit_by_horizon": {
+            "1": 2,
+            "3": 2,
+            "5": 2,
+            "10": 2
+          },
+          "minimum_additional_sessions_lower_bound": 2
+        },
+        "robustness_candidate": false
+      },
+      "CONTEXT_SELL_MICRO_BUY": {
+        "context": "SELL",
+        "supported_sessions": 1,
+        "min_sessions": 3,
+        "min_occurrences_per_session": 5,
+        "consistent_horizons": 0,
+        "session_rows": [
+          {
+            "session_id": 0,
+            "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_post_rc54_round2_selection\\profit_rtd_rc54_3_2_WINV26_20260903_105250.json",
+            "occurrences": 31,
+            "horizons": {
+              "1": {
+                "bucket_mean_delta": 4.516129032258065,
+                "context_baseline_mean_delta": 0.9333333333333333,
+                "incremental_mean_delta": 3.5827956989247314
+              },
+              "3": {
+                "bucket_mean_delta": 10.689655172413794,
+                "context_baseline_mean_delta": 2.937219730941704,
+                "incremental_mean_delta": 7.752435441472089
+              },
+              "5": {
+                "bucket_mean_delta": 19.25925925925926,
+                "context_baseline_mean_delta": 4.683257918552036,
+                "incremental_mean_delta": 14.576001340707222
+              },
+              "10": {
+                "bucket_mean_delta": 32.291666666666664,
+                "context_baseline_mean_delta": 7.662037037037037,
+                "incremental_mean_delta": 24.629629629629626
+              }
+            }
+          }
+        ],
+        "horizon_consistency": {
+          "1": {
+            "nonzero_sessions": 1,
+            "minimum_nonzero_sessions": 3,
+            "majority_sign": 1,
+            "consistency_rate": 1.0,
+            "consistent_two_thirds": false
+          },
+          "3": {
+            "nonzero_sessions": 1,
+            "minimum_nonzero_sessions": 3,
+            "majority_sign": 1,
+            "consistency_rate": 1.0,
+            "consistent_two_thirds": false
+          },
+          "5": {
+            "nonzero_sessions": 1,
+            "minimum_nonzero_sessions": 3,
+            "majority_sign": 1,
+            "consistency_rate": 1.0,
+            "consistent_two_thirds": false
+          },
+          "10": {
+            "nonzero_sessions": 1,
+            "minimum_nonzero_sessions": 3,
+            "majority_sign": 1,
+            "consistency_rate": 1.0,
+            "consistent_two_thirds": false
+          }
+        },
+        "evidence_gap": {
+          "supporting_session_deficit": 2,
+          "nonzero_session_deficit_by_horizon": {
+            "1": 2,
+            "3": 2,
+            "5": 2,
+            "10": 2
+          },
+          "minimum_additional_sessions_lower_bound": 2
+        },
+        "robustness_candidate": false
+      },
+      "CONTEXT_SELL_MICRO_NEUTRAL": {
+        "context": "SELL",
+        "supported_sessions": 1,
+        "min_sessions": 3,
+        "min_occurrences_per_session": 5,
+        "consistent_horizons": 0,
+        "session_rows": [
+          {
+            "session_id": 0,
+            "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_post_rc54_round2_selection\\profit_rtd_rc54_3_2_WINV26_20260903_105250.json",
+            "occurrences": 189,
+            "horizons": {
+              "1": {
+                "bucket_mean_delta": -0.1595744680851064,
+                "context_baseline_mean_delta": 0.9333333333333333,
+                "incremental_mean_delta": -1.0929078014184397
+              },
+              "3": {
+                "bucket_mean_delta": 0.4521276595744681,
+                "context_baseline_mean_delta": 2.937219730941704,
+                "incremental_mean_delta": -2.4850920713672355
+              },
+              "5": {
+                "bucket_mean_delta": 0.0797872340425532,
+                "context_baseline_mean_delta": 4.683257918552036,
+                "incremental_mean_delta": -4.6034706845094835
+              },
+              "10": {
+                "bucket_mean_delta": 0.5913978494623656,
+                "context_baseline_mean_delta": 7.662037037037037,
+                "incremental_mean_delta": -7.070639187574671
+              }
+            }
+          }
+        ],
+        "horizon_consistency": {
+          "1": {
+            "nonzero_sessions": 1,
+            "minimum_nonzero_sessions": 3,
+            "majority_sign": -1,
+            "consistency_rate": 1.0,
+            "consistent_two_thirds": false
+          },
+          "3": {
+            "nonzero_sessions": 1,
+            "minimum_nonzero_sessions": 3,
+            "majority_sign": -1,
+            "consistency_rate": 1.0,
+            "consistent_two_thirds": false
+          },
+          "5": {
+            "nonzero_sessions": 1,
+            "minimum_nonzero_sessions": 3,
+            "majority_sign": -1,
+            "consistency_rate": 1.0,
+            "consistent_two_thirds": false
+          },
+          "10": {
+            "nonzero_sessions": 1,
+            "minimum_nonzero_sessions": 3,
+            "majority_sign": -1,
+            "consistency_rate": 1.0,
+            "consistent_two_thirds": false
+          }
+        },
+        "evidence_gap": {
+          "supporting_session_deficit": 2,
+          "nonzero_session_deficit_by_horizon": {
+            "1": 2,
+            "3": 2,
+            "5": 2,
+            "10": 2
+          },
+          "minimum_additional_sessions_lower_bound": 2
+        },
+        "robustness_candidate": false
+      }
+    },
+    "robustness_candidates": [],
+    "verdict": "MORE_CROSS_SESSION_EVIDENCE_REQUIRED",
+    "observational_only": true,
+    "predictive_claim_allowed": false,
+    "score_influence_allowed": false,
+    "risk_influence_allowed": false,
+    "decision_influence_allowed": false,
+    "order_execution_allowed": false
+  },
+  "oos": null,
+  "verdict": "MORE_CROSS_SESSION_EVIDENCE_REQUIRED",
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "order_execution_allowed": false
+}
