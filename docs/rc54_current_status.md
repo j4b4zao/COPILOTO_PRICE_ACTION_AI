@@ -2,6 +2,25 @@
 
 Checkpoint: 2026-09-03 (America/Sao_Paulo)
 
+## Post-RC54 OOS closure (2026-09-03 09:50)
+
+- Fourth eligible OOS session:
+  `data/profit_rtd_post_rc54_oos/profit_rtd_rc54_3_2_WINV26_20260903_095011.json`
+  (SHA-256 `b0a6e74a3bd42f82771e0dd31ba80d8c7df6b573799844cf2c75e0b74b1b694a`).
+  It is `COMPLETED`, `data_ready=True`, starts at
+  `2026-09-03T09:42:02.214`, has 313 analyzable and trade-context-ready
+  samples, 287 skipped cycles, and zero collection errors.
+- RC54.4 identified SELL across four distinct microbuckets: 65
+  `CONTEXT_SELL_DIVERGENT_TT_SELL_BOOK_BUY`, 6 `CONTEXT_SELL_MICRO_BUY`,
+  239 `CONTEXT_SELL_MICRO_NEUTRAL`, and 3 `CONTEXT_SELL_MICRO_SELL`.
+- The frozen candidate now has 302 occurrences across two independent OOS
+  sessions. RC54.8 accepted exactly 5 frozen selection sessions and 4 separate
+  OOS holdouts, with zero rejected sessions and no path/hash overlap.
+- None of the four OOS horizons passed directional support. The final verdict
+  is `OOS_DIRECTIONAL_BEHAVIOR_NOT_CONFIRMED`; this candidate is not eligible
+  for promotion. The result remains observational only, with no influence on
+  ScoreEngine, RiskManager, DecisionEngine, alerts, or execution.
+
 ## Post-RC54 OOS checkpoint (2026-09-02)
 
 - Third eligible OOS session:
