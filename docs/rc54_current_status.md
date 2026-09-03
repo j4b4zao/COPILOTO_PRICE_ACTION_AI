@@ -2,6 +2,33 @@
 
 Checkpoint: 2026-09-03 (America/Sao_Paulo)
 
+## Post-RC54 round 2 fourth eligible selection session (2026-09-03 17:02)
+
+- The fourth eligible round 2 selection session is
+  `data/profit_rtd_post_rc54_round2_selection/profit_rtd_rc54_3_2_WINV26_20260903_170243.json`
+  (SHA-256 `84d0c10796087c9aacfd4f637aed47fc35f8ee66009ca80ddc76c20128c96565`).
+  It starts at `2026-09-03T16:52:01.809`, strictly after the round 2 temporal
+  boundary, and ends at `2026-09-03T17:02:43.082`.
+- Technical result: `COMPLETED`, `data_ready=True`, 421 analyzable and
+  trade-context-ready SELL samples, 179 skipped cycles, zero collection
+  errors, zero delta failures, and zero context-not-ready samples.
+- RC54.4 found 19 `CONTEXT_SELL_DIVERGENT_TT_BUY_BOOK_SELL`, 327
+  `CONTEXT_SELL_MICRO_NEUTRAL`, and 75 `CONTEXT_SELL_MICRO_SELL` samples.
+  SELL is incrementally identifiable across three distinct microbuckets.
+- The explicit four-session inventory is
+  `data/profit_rtd_post_rc54_round2_selection/post_rc54_round2_inventory_20260903_170243.json`
+  (SHA-256 `43f5cc1172c5bb8e9d17bf2985f38a690bab8ed49ca7235d536ba95c1107e2bd`).
+  It accepts exactly four selection sessions, rejects none, contains no OOS
+  paths, and returns `MORE_CROSS_SESSION_EVIDENCE_REQUIRED` with no robustness
+  candidate.
+- `CONTEXT_SELL_MICRO_NEUTRAL` now has 636 occurrences across three sessions,
+  but still has an evidence-gap lower bound of one additional session. The
+  other observed SELL microbuckets require at least two additional supporting
+  sessions; `CONTEXT_BUY_MICRO_NEUTRAL` requires at least three.
+- No candidate freeze, OOS collection, or RC54.8 is authorized. All outputs
+  remain observational only with zero influence on ScoreEngine, RiskManager,
+  DecisionEngine, alerts, and execution.
+
 ## Post-RC54 round 2 third eligible selection session (2026-09-03 16:21)
 
 - The third eligible round 2 selection session is
