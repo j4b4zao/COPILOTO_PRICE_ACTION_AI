@@ -2,6 +2,30 @@
 
 Checkpoint: 2026-09-03 (America/Sao_Paulo)
 
+## Post-RC54 round 2 first eligible selection session (2026-09-03 10:52)
+
+- The second attempt produced the first eligible round 2 selection session:
+  `data/profit_rtd_post_rc54_round2_selection/profit_rtd_rc54_3_2_WINV26_20260903_105250.json`
+  (SHA-256 `b1367a9c4967dc9cf853bb751fceda480e4775bc35a29ee2626f600b3acebff3`).
+  It starts at `2026-09-03T10:44:02.874`, strictly after the round 2 temporal
+  boundary, and ends at `2026-09-03T10:52:50.808`.
+- Technical result: `COMPLETED`, `data_ready=True`, 336 analyzable samples,
+  264 skipped cycles, zero collection errors, zero delta failures, 261
+  trade-context-ready samples, and 75 lateral samples excluded from RC54.4.
+- RC54.4 found 35 `CONTEXT_BUY_MICRO_NEUTRAL`, 6
+  `CONTEXT_SELL_DIVERGENT_TT_SELL_BOOK_BUY`, 31 `CONTEXT_SELL_MICRO_BUY`, and
+  189 `CONTEXT_SELL_MICRO_NEUTRAL` samples. SELL is incrementally identifiable
+  across three microbuckets; BUY has only one microbucket.
+- The explicit one-session inventory is
+  `data/profit_rtd_post_rc54_round2_selection/post_rc54_round2_inventory_20260903_105250.json`
+  (SHA-256 `7396a1697efc272c768257e9198c89ea65757ff1676c41db31fcb68c99dde052`).
+  It accepts one selection session, rejects none, contains no OOS paths, and
+  returns `MORE_CROSS_SESSION_EVIDENCE_REQUIRED` with no robustness candidate.
+- At least two additional supporting sessions are required for the observed
+  SELL microbuckets; no candidate freeze or OOS collection is authorized.
+  All outputs remain observational only with zero influence on ScoreEngine,
+  RiskManager, DecisionEngine, alerts, and execution.
+
 ## Post-RC54 round 2 selection attempt (2026-09-03)
 
 - A new, isolated selection cycle was opened in
