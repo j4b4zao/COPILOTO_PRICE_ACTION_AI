@@ -2,6 +2,35 @@
 
 Checkpoint: 2026-09-03 (America/Sao_Paulo)
 
+## Post-RC54 round 2 third eligible selection session (2026-09-03 16:21)
+
+- The third eligible round 2 selection session is
+  `data/profit_rtd_post_rc54_round2_selection/profit_rtd_rc54_3_2_WINV26_20260903_162139.json`
+  (SHA-256 `4e01c493dbabe9e0550ccf481dfff32a1cc72d5eb24c2bbf483c1aaa65e152b7`).
+  It starts at `2026-09-03T16:13:02.062`, strictly after the round 2 temporal
+  boundary, and ends at `2026-09-03T16:21:39.765`.
+- Technical result: `COMPLETED`, `data_ready=True`, 341 analyzable samples,
+  259 skipped cycles, zero collection errors, zero delta failures, and
+  `trade_context_ready_at_start=True`. The context later returned to
+  `SIDEWAYS + PriceAction NONE`; 221 clean not-ready samples were excluded
+  without converting the session to `COMPLETED_WITH_WARNINGS`.
+- RC54.4 accepted 120 `CONTEXT_SELL_MICRO_NEUTRAL` samples and excluded the
+  221 lateral samples. SELL has only one distinct microbucket in this session
+  and is not incrementally identifiable by itself.
+- The explicit three-session inventory is
+  `data/profit_rtd_post_rc54_round2_selection/post_rc54_round2_inventory_20260903_162139.json`
+  (SHA-256 `f8bc699e8259911af782c663e43ae126d1edb4ca586bddff08c952388b77372c`).
+  It accepts exactly three selection sessions, rejects none, contains no OOS
+  paths, and returns `MORE_CROSS_SESSION_EVIDENCE_REQUIRED` with no robustness
+  candidate.
+- `CONTEXT_SELL_MICRO_NEUTRAL` now has 309 occurrences across two sessions,
+  but its incremental evidence-gap lower bound remains two additional
+  sessions. `CONTEXT_BUY_MICRO_NEUTRAL` requires at least three additional
+  sessions; the other observed SELL microbuckets require at least two.
+- No candidate freeze, OOS collection, or RC54.8 is authorized. All outputs
+  remain observational only with zero influence on ScoreEngine, RiskManager,
+  DecisionEngine, alerts, and execution.
+
 ## Post-RC54 round 2 second eligible selection session (2026-09-03 15:37)
 
 - The next eligible round 2 selection session is
