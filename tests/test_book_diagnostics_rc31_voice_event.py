@@ -1,4 +1,16 @@
 from analysis.replay.book_diagnostics_voice_event import BookDiagnosticsVoiceEventFactory
+from analysis.replay.book_diagnostics_voice_profile_resolver import ResolvedVoiceProfile
+
+
+def _profile(words_per_minute=145):
+    return ResolvedVoiceProfile(
+        version="RC42-VOICE-PROFILE-RESOLVER",
+        language="pt-BR",
+        voice_profile="BRITISH_CALM_PRECISE_ASSISTANT",
+        speech_rate=words_per_minute / 145,
+        words_per_minute=words_per_minute,
+        allow_urgent_interrupt=True,
+    )
 
 
 def _message(priority="NORMAL", text="Leitura do mercado. Contexto estavel para observacao.", **changes):
@@ -52,7 +64,7 @@ def test_different_text_changes_event_id():
 
 
 def test_duration_is_positive_and_rate_configurable():
-    event = BookDiagnosticsVoiceEventFactory(words_per_minute=120).build(
+    event = BookDiagnosticsVoiceEventFactory(profile=_profile(120)).build(
         _message(text="Esta e uma mensagem um pouco mais longa para estimar a duracao da fala.")
     )
     assert event.estimated_duration_seconds > 1.0
@@ -72,7 +84,7 @@ def test_decision_affecting_message_is_rejected():
 
 
 def test_invalid_speech_rate_is_rejected():
-    _raises(ValueError, lambda: BookDiagnosticsVoiceEventFactory(words_per_minute=250))
+    _raises(ValueError, lambda: BookDiagnosticsVoiceEventFactory(profile=_profile(250)))
 
 
 if __name__ == "__main__":

@@ -1,8 +1,23 @@
 # RC54 Current Status
 
-Checkpoint: 2026-09-02 (America/Sao_Paulo)
+Checkpoint: 2026-09-03 (America/Sao_Paulo)
 
 ## Post-RC54 OOS checkpoint (2026-09-02)
+
+- Third eligible OOS session:
+  `data/profit_rtd_post_rc54_oos/profit_rtd_rc54_3_2_WINV26_20260903_090850.json`
+  (SHA-256 `135ffc39fbe9f4603bc22110e9507279f2d66a8976d4424d75b64a45c0c3ad04`).
+  It is `COMPLETED`, `data_ready=True`, starts at
+  `2026-09-03T09:00:01.644`, has 335 analyzable samples, 265 skipped cycles,
+  zero collection errors, and 335 trade-context-ready samples.
+- RC54.4 identified three BUY microbuckets: 41
+  `CONTEXT_BUY_DIVERGENT_TT_SELL_BOOK_BUY`, 17 `CONTEXT_BUY_MICRO_BUY`, and
+  277 `CONTEXT_BUY_MICRO_NEUTRAL`. The frozen SELL candidate occurred zero
+  times.
+- RC54.8 recomposition now accepts 5 frozen selection sessions and 3 separate
+  OOS holdouts, with zero rejected sessions. Candidate coverage remains 63
+  occurrences in only one holdout; verdict remains
+  `MORE_OOS_CANDIDATE_COVERAGE_REQUIRED`.
 
 - Selection remains frozen over exactly five sessions with candidate
   `CONTEXT_SELL_MICRO_NEUTRAL` and cutoff `2026-09-02T11:01:20.258`.

@@ -16,7 +16,12 @@ from models.result_base import ResultStatus
 class FakeExcel:
 
     def __init__(self, cells=None):
-        self.cells = cells or {}
+        self.cells = dict(cells or {})
+        for column, header in zip(
+            ProfitReader.HEADER_COLUMNS,
+            ProfitReader.EXPECTED_HEADERS,
+        ):
+            self.cells.setdefault(f"{column}1", header)
         self.connected = False
 
     def conectar(self, path):

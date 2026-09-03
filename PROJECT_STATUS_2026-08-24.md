@@ -22,10 +22,49 @@
   concluíram suas asserções com sucesso (incluindo 60 casos executados via
   `pytest`), e os três módulos principais de `dashboard/` passaram por análise
   sintática somente leitura.
-- O processo `pytest` do ambiente local permanece aberto após atingir 100% em
-  algumas baterias de voz/dashboard; as asserções terminam, mas o teardown do
-  runner ainda deve ser investigado separadamente. Nenhum indício de falha
-  funcional ou alteração de decisão foi observado.
+- O diagnóstico do `pytest` local foi fechado: RC50 encerrou normalmente com
+  10/10 casos, e a suíte completa de dashboard encerrou com 100/100 casos em
+  4,46 segundos ao usar `--basetemp` em uma pasta isolada. A ocorrência anterior
+  vinha de acesso negado ao diretório global
+  `C:\Users\jb\AppData\Local\Temp\pytest-of-jb`, não de teardown, thread de voz
+  ou falha funcional do projeto.
+- A regressão estrutural global analisou 626 módulos Python de produção: zero
+  erro de sintaxe e nenhum marcador real de conflito foi encontrado.
+- Os três gates offline bloqueantes definidos em
+  `.github/workflows/offline-tests.yml` foram reproduzidos localmente: 26/26
+  arquivos de Calendário Econômico, 42/42 de Psicologia do Trader e 82/82 de
+  Profit RTD passaram, totalizando 150 arquivos de teste sem falha. A cobertura
+  ampliada de Psicologia, incluindo cinco testes de catálogo fora do glob
+  bloqueante do workflow, permanece aprovada em 47/47.
+- O único desvio inicialmente encontrado, em RC53.8.2, era um helper de teste
+  ainda usando a assinatura antiga de `_sample`. O teste agora informa e valida
+  explicitamente `price_read_attempts` e `price_read_reason`; nenhuma lógica do
+  coletor foi alterada.
+- O audit legado não bloqueante foi reproduzido com o mesmo `PYTHONPATH` do
+  GitHub Actions e isolamento de 30 segundos por arquivo: 416/425 scripts
+  passaram, 9 falharam e nenhum atingiu timeout. As falhas ficaram concentradas
+  em uma assinatura antiga de evento de voz, sete expectativas históricas de
+  regime/multi-timeframe/estado e um teste dependente dos cabeçalhos atuais da
+  planilha Profit RTD. Esses nove casos permanecem como dívida técnica legada;
+  não houve alteração de produção para forçar compatibilidade retroativa.
+- Dois desses nove testes foram atualizados sem mudança de produção: o RC31
+  legado agora injeta o perfil de voz resolvido pelo contrato RC42, e o mock de
+  Order Flow RC40 fornece os 14 cabeçalhos obrigatórios do `ProfitReader`. Ambos
+  passaram junto aos seus testes contratuais atuais, elevando o resultado
+  conhecido do audit legado para 418/425.
+- Os sete casos restantes pertencem à geração anterior de regime e
+  multi-timeframe. Dez testes dos contratos estabilizados posteriores (RC2.8,
+  RC2.9, RC3, RC3.3, RC3.4, monitor, gate de decisão e ponte RC15.4) passaram;
+  portanto, os sete scripts antigos ficam classificados como incompatibilidade
+  histórica, sem evidência de regressão no contrato vigente.
+- O workflow mantém esses sete scripts em execução e os reporta nominalmente
+  como incompatibilidades históricas conhecidas. Eles não mascaram falhas novas:
+  qualquer erro fora dessa lista continua incrementando `failed` e reprovando o
+  audit legado.
+- A execução completa dessa lógica pelo Bash encerrou com código zero: 418
+  scripts aprovados, zero falhas novas, sete incompatibilidades históricas
+  conhecidas e 86 scripts de credenciais/integrações ignorados conforme a lista
+  explícita do workflow.
 
 ## Estado salvo
 

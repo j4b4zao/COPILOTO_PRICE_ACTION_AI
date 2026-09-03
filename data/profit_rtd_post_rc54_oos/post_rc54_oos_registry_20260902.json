@@ -46,9 +46,29 @@
         "CONTEXT_BUY_MICRO_BUY",
         "CONTEXT_BUY_MICRO_NEUTRAL"
       ]
+    },
+    {
+      "path": "data/profit_rtd_post_rc54_oos/profit_rtd_rc54_3_2_WINV26_20260903_090850.json",
+      "sha256": "135ffc39fbe9f4603bc22110e9507279f2d66a8976d4424d75b64a45c0c3ad04",
+      "first_timestamp": "2026-09-03T09:00:01.644",
+      "last_timestamp": "2026-09-03T09:08:50.208",
+      "status": "COMPLETED",
+      "data_ready": true,
+      "analyzable_samples": 335,
+      "skipped_cycles": 265,
+      "collection_errors": 0,
+      "trade_context_ready_samples": 335,
+      "excluded_not_ready_samples": 0,
+      "candidate_occurrences": 0,
+      "identifiable_contexts": ["BUY"],
+      "distinct_microbuckets": [
+        "CONTEXT_BUY_DIVERGENT_TT_SELL_BOOK_BUY",
+        "CONTEXT_BUY_MICRO_BUY",
+        "CONTEXT_BUY_MICRO_NEUTRAL"
+      ]
     }
   ],
-  "eligible_session_count": 2,
+  "eligible_session_count": 3,
   "candidate_occurrences_total": 63,
   "minimum_oos_sessions": 2,
   "minimum_candidate_occurrences": 30,
@@ -56,7 +76,7 @@
   "occurrence_gate_met": true,
   "rc54_8_authorized": true,
   "rc54_8_executed": true,
-  "rc54_8_output": "data/profit_rtd_post_rc54_oos/post_rc54_rc54_8_oos_20260902_151351.json",
+  "rc54_8_output": "data/profit_rtd_post_rc54_oos/post_rc54_rc54_8_oos_20260903_090850.json",
   "rc54_8_verdict": "MORE_OOS_CANDIDATE_COVERAGE_REQUIRED",
   "sessions_with_candidate": 1,
   "candidate_session_coverage_met": false,
