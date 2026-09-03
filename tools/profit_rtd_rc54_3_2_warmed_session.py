@@ -53,7 +53,7 @@ def run_warmed_session(symbol, *, cycles=600, interval=0.25, max_warmup_cycles=4
             'samples': [], 'observational_only': True,
             'predictive_claim_allowed': False, 'score_influence_allowed': False, 'risk_influence_allowed': False,
             'decision_influence_allowed': False, 'order_execution_allowed': False,
-            'reasons': ['WARM_HISTORY_NOT_READY'],
+            'reasons': [str(warm.get('status') or 'WARM_HISTORY_NOT_READY')],
         }
 
     collector = warm['collector']

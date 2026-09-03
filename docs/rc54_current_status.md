@@ -2,6 +2,20 @@
 
 Checkpoint: 2026-09-03 (America/Sao_Paulo)
 
+## Post-RC54 round 2 selection attempt (2026-09-03)
+
+- A new, isolated selection cycle was opened in
+  `data/profit_rtd_post_rc54_round2_selection`, with every previously observed
+  session excluded and temporal boundary `2026-09-03T09:50:10.594`.
+- The first attempt passed the 90-cycle real-market-activity preflight, built
+  25 candles and 876 analyzable warm-up samples, but remained
+  `SIDEWAYS + PriceAction NONE` through all 1800 warm-up cycles. The 600-cycle
+  session did not start and no evidence file was created.
+- The abort diagnostic now distinguishes `WARM_TRADE_CONTEXT_NOT_READY` from
+  genuinely insufficient history (`WARM_HISTORY_NOT_READY`). This changes only
+  reporting; readiness gates, observational isolation, ScoreEngine,
+  RiskManager, DecisionEngine, alerts, and execution are unchanged.
+
 ## Post-RC54 OOS closure (2026-09-03 09:50)
 
 - Fourth eligible OOS session:

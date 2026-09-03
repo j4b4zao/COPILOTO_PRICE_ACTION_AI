@@ -99,7 +99,7 @@ def run():
         assert 'order_execution_allowed=False' in rendered
 
         mod.run_warmed_session = lambda *args, **kwargs: {
-            'status': 'ABORTED_CONTEXT_NOT_READY', 'reasons': ['WARM_HISTORY_NOT_READY']
+            'status': 'ABORTED_CONTEXT_NOT_READY', 'reasons': ['WARM_TRADE_CONTEXT_NOT_READY']
         }
         r = mod.run_orchestrated_session('WINV26', require_trade_context_at_start=True)
         assert r['status'] == 'SESSION_ABORTED_AFTER_PREFLIGHT'
@@ -117,6 +117,7 @@ def run():
         assert 'warmup_started=True' in warmup_abort_rendered
         assert 'session_started=False' in warmup_abort_rendered
         assert 'session_status=ABORTED_CONTEXT_NOT_READY' in warmup_abort_rendered
+        assert 'session_reasons=WARM_TRADE_CONTEXT_NOT_READY' in warmup_abort_rendered
     finally:
         mod.check_market_activity = original_preflight
         mod.run_warmed_session = original_session

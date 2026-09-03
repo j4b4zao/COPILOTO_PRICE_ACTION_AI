@@ -91,8 +91,14 @@ def warm_history(symbol, *, interval=0.25, max_warmup_cycles=4800, require_trade
 
     structure_trend = _enum_value(last_context.structure.trend) if last_context is not None else 'UNKNOWN'
     pa_bias = str(last_context.price_action.bias or 'NONE').strip().upper() if last_context is not None else 'NONE'
+    last_history_ready = history_ready(last_context) if last_context is not None else False
+    status = (
+        'WARM_TRADE_CONTEXT_NOT_READY'
+        if last_history_ready and require_trade_context
+        else 'WARM_HISTORY_NOT_READY'
+    )
     return {
-        'status': 'WARM_HISTORY_NOT_READY',
+        'status': status,
         'ready': False,
         'warmup_cycles': int(max_warmup_cycles),
         'analyzable_samples': analyzable,

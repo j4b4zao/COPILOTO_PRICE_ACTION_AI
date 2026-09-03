@@ -76,6 +76,16 @@ def run():
     assert r['ready'] is True
     assert r['trade_context_ready'] is False
 
+    lateral_required = FakeCollector([_ctx('SIDEWAYS', True, 'NONE', 12)])
+    r = warm_history(
+        'WINV26', interval=0, max_warmup_cycles=1,
+        require_trade_context=True,
+        collector=lateral_required, pipeline=FakePipeline(),
+    )
+    assert r['ready'] is False
+    assert r['status'] == 'WARM_TRADE_CONTEXT_NOT_READY'
+    assert r['trade_context_ready'] is False
+
     coverage_gate = FakeCollector([
         _ctx('SIDEWAYS', True, 'NONE', 12),
         _ctx('DOWN', True, 'SELL', 12),
