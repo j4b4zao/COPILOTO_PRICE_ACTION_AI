@@ -1,6 +1,35 @@
 # RC54 Current Status
 
-Checkpoint: 2026-09-03 (America/Sao_Paulo)
+Checkpoint: 2026-09-04 (America/Sao_Paulo)
+
+## Post-RC54 round 2 fifth eligible selection session (2026-09-04 08:56)
+
+- The fifth eligible round 2 selection session is
+  `data/profit_rtd_post_rc54_round2_selection/profit_rtd_rc54_3_2_WINV26_20260904_085625.json`.
+  It starts at `2026-09-04T08:47:02.010`, strictly after the round 2 temporal
+  boundary, and ends at `2026-09-04T08:56:24.553`.
+- Preflight reported real market activity. Warm-up reached `DOWN + SELL` after
+  1428 cycles, then the 600-cycle session completed with `data_ready=True` and
+  `trade_context_ready=True`: 351 analyzable samples, 249 unchanged/invalid
+  source skips, zero collection errors, zero Delta failures/not-ready samples,
+  and zero trade-context-not-ready samples.
+- RC54.4 accepted all 351 samples in `CONTEXT_SELL_MICRO_NEUTRAL`. Because this
+  was the only SELL microbucket in the session, its within-session incremental
+  effect is not identifiable. Session SHA-256:
+  `b7f109a13c7674507a4691e72a1a7b89cf6d445477b2eacb190be1fef46e2700`.
+- The explicit five-session inventory is
+  `data/profit_rtd_post_rc54_round2_selection/post_rc54_round2_inventory_20260904_085625.json`
+  (SHA-256 `f72018885206b0a58306eda3d9be5a674626dec1e358d2f0c7fb8bf83bbea711`).
+  It accepts all five selection sessions, rejects none, contains no OOS paths,
+  and still reports `MORE_CROSS_SESSION_EVIDENCE_REQUIRED` with no robustness
+  candidate.
+- `CONTEXT_SELL_MICRO_NEUTRAL` now has 987 occurrences across four sessions,
+  but only two sessions provide a nonzero within-SELL comparison. It has zero
+  consistent horizons and a lower-bound gap of one additional suitable SELL
+  session containing multiple microbuckets. A candidate is not frozen and
+  RC54.8 remains blocked.
+- This evidence remains `observational_only=True`; ScoreEngine, RiskManager,
+  DecisionEngine, alerts, and execution are unchanged and uninfluenced.
 
 ## Post-RC54 round 2 fourth eligible selection session (2026-09-03 17:02)
 
