@@ -21,11 +21,12 @@ def test_audit_counts_only_false_to_true_edges_and_separates_horizons(tmp_path):
     rows += [_row(103), _row(104, inside=True)]
     rows += [_row(105), _row(106), _row(107), _row(108), _row(109), _row(110)]
     path.write_text(json.dumps({"data_ready": True, "samples": rows}), encoding="utf-8")
-    result = audit([path], minimum_sample=1)
+    result = audit([path], minimum_sample=1, minimum_sessions=1)
     assert result["edge_occurrences"] == 2
     assert result["evidence_rows"] == 6
     assert {bucket["key"].rsplit("|", 1)[-1] for bucket in result["buckets"]} == {"H1", "H3", "H5"}
     assert result["volume_status"] == "NOT_CAPTURED_IN_RC54_SESSION_SCHEMA"
+    assert all(bucket["sessions"] == 1 for bucket in result["buckets"])
 
 
 def test_audit_rejects_session_without_data_ready(tmp_path):

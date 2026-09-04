@@ -38,7 +38,7 @@ def _price(row):
     return value if value > 0 else None
 
 
-def audit(paths, *, timeframe="M1", minimum_sample=30):
+def audit(paths, *, timeframe="M1", minimum_sample=30, minimum_sessions=3):
     evidence = []
     accepted, rejected, edge_occurrences = [], [], 0
     for raw_path in paths:
@@ -70,6 +70,7 @@ def audit(paths, *, timeframe="M1", minimum_sample=30):
                                 continue
                             evidence.append(
                                 PriceActionEvidence(
+                                    session_id=path.name,
                                     pattern=pattern,
                                     regime=regime,
                                     timeframe=timeframe,
@@ -81,7 +82,9 @@ def audit(paths, *, timeframe="M1", minimum_sample=30):
                 previous_active[pattern] = active
 
     report = PriceActionEvidenceObserver.analyze(
-        tuple(evidence), minimum_sample_per_bucket=minimum_sample
+        tuple(evidence),
+        minimum_sample_per_bucket=minimum_sample,
+        minimum_sessions_per_bucket=minimum_sessions,
     )
     return {
         "status": report.status,
@@ -96,7 +99,10 @@ def audit(paths, *, timeframe="M1", minimum_sample=30):
                 "mean_forward_return": bucket.mean_forward_return,
                 "positive_rate": bucket.positive_rate,
                 "mean_volume_ratio": bucket.mean_volume_ratio,
+                "sessions": bucket.sessions,
+                "maximum_session_share": bucket.maximum_session_share,
                 "sample_sufficient": bucket.sample_sufficient,
+                "cross_session_sufficient": bucket.cross_session_sufficient,
             }
             for bucket in report.buckets
         ],
@@ -119,9 +125,15 @@ def main():
     parser.add_argument("paths", nargs="+")
     parser.add_argument("--timeframe", default="M1")
     parser.add_argument("--minimum-sample", type=int, default=30)
+    parser.add_argument("--minimum-sessions", type=int, default=3)
     parser.add_argument("--output")
     args = parser.parse_args()
-    result = audit(args.paths, timeframe=args.timeframe, minimum_sample=args.minimum_sample)
+    result = audit(
+        args.paths,
+        timeframe=args.timeframe,
+        minimum_sample=args.minimum_sample,
+        minimum_sessions=args.minimum_sessions,
+    )
     text = json.dumps(result, indent=2, sort_keys=True)
     if args.output:
         output = Path(args.output)

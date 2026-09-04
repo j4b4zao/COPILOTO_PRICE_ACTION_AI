@@ -13,6 +13,7 @@ from statistics import fmean
 
 @dataclass(frozen=True, slots=True)
 class PriceActionEvidence:
+    session_id: str
     pattern: str
     regime: str
     timeframe: str
@@ -23,7 +24,7 @@ class PriceActionEvidence:
     baseline_volume: float | None = None
 
     def __post_init__(self) -> None:
-        for name in ("pattern", "regime", "timeframe", "location_context"):
+        for name in ("session_id", "pattern", "regime", "timeframe", "location_context"):
             value = getattr(self, name)
             if not isinstance(value, str) or not value.strip():
                 raise ValueError(f"{name} deve ser texto nao vazio.")
@@ -49,7 +50,10 @@ class PriceActionEvidenceBucket:
     mean_forward_return: float
     positive_rate: float
     mean_volume_ratio: float | None
+    sessions: int
+    maximum_session_share: float
     sample_sufficient: bool
+    cross_session_sufficient: bool
 
 
 @dataclass(frozen=True, slots=True)
@@ -78,6 +82,7 @@ class PriceActionEvidenceObserver:
         evidence: tuple[PriceActionEvidence, ...],
         *,
         minimum_sample_per_bucket: int = 30,
+        minimum_sessions_per_bucket: int = 3,
     ) -> PriceActionEvidenceReport:
         if not isinstance(evidence, tuple):
             raise TypeError("evidence deve ser tuple.")
@@ -85,6 +90,10 @@ class PriceActionEvidenceObserver:
                 or not isinstance(minimum_sample_per_bucket, int)
                 or minimum_sample_per_bucket < 1):
             raise ValueError("minimum_sample_per_bucket deve ser inteiro positivo.")
+        if (isinstance(minimum_sessions_per_bucket, bool)
+                or not isinstance(minimum_sessions_per_bucket, int)
+                or minimum_sessions_per_bucket < 1):
+            raise ValueError("minimum_sessions_per_bucket deve ser inteiro positivo.")
 
         grouped: dict[str, list[PriceActionEvidence]] = {}
         for item in evidence:
@@ -110,6 +119,10 @@ class PriceActionEvidenceObserver:
                 for item in items
                 if item.volume is not None
             )
+            session_counts: dict[str, int] = {}
+            for item in items:
+                session_counts[item.session_id] = session_counts.get(item.session_id, 0) + 1
+            sessions = len(session_counts)
             buckets.append(
                 PriceActionEvidenceBucket(
                     key=key,
@@ -117,16 +130,25 @@ class PriceActionEvidenceObserver:
                     mean_forward_return=fmean(returns),
                     positive_rate=sum(value > 0 for value in returns) / len(returns),
                     mean_volume_ratio=fmean(volume_ratios) if volume_ratios else None,
+                    sessions=sessions,
+                    maximum_session_share=max(session_counts.values()) / len(items),
                     sample_sufficient=len(items) >= minimum_sample_per_bucket,
+                    cross_session_sufficient=sessions >= minimum_sessions_per_bucket,
                 )
             )
 
-        insufficient = tuple(bucket.key for bucket in buckets if not bucket.sample_sufficient)
+        insufficient = tuple(
+            bucket.key for bucket in buckets
+            if not bucket.sample_sufficient or not bucket.cross_session_sufficient
+        )
         reasons = []
         if not buckets:
             reasons.append("NO_PRICE_ACTION_EVIDENCE")
         if insufficient:
-            reasons.append("INSUFFICIENT_CONTEXT_SAMPLE")
+            if any(not bucket.sample_sufficient for bucket in buckets):
+                reasons.append("INSUFFICIENT_CONTEXT_SAMPLE")
+            if any(not bucket.cross_session_sufficient for bucket in buckets):
+                reasons.append("INSUFFICIENT_CROSS_SESSION_RECURRENCE")
         return PriceActionEvidenceReport(
             status=(
                 "EVIDENCE_READY"
