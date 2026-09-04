@@ -23,7 +23,7 @@ PATTERNS = (
 HORIZONS = (1, 3, 5, 10)
 
 
-def _multi_horizon_groups(buckets):
+def _multi_horizon_groups(buckets, *, exact_candle_identity=False):
     grouped = {}
     for bucket in buckets:
         base_key, horizon = bucket.key.rsplit("|", 1)
@@ -50,6 +50,8 @@ def _multi_horizon_groups(buckets):
             bucket.consistent_direction == "NONE" for bucket in present
         ):
             reasons.append("DIRECTION_CONFLICT_ACROSS_HORIZONS")
+        if not exact_candle_identity:
+            reasons.append("EXACT_CANDLE_IDENTITY_REQUIRED")
         reports.append({
             "key": key,
             "required_horizons": list(required),
@@ -128,7 +130,9 @@ def audit(paths, *, timeframe="M1", minimum_sample=30, minimum_sessions=3):
         minimum_sample_per_bucket=minimum_sample,
         minimum_sessions_per_bucket=minimum_sessions,
     )
-    multi_horizon = _multi_horizon_groups(report.buckets)
+    multi_horizon = _multi_horizon_groups(
+        report.buckets, exact_candle_identity=False
+    )
     return {
         "status": report.status,
         "accepted_sessions": accepted,
@@ -163,6 +167,14 @@ def audit(paths, *, timeframe="M1", minimum_sample=30, minimum_sessions=3):
         ],
         "reasons": list(report.reasons),
         "deduplication": "FALSE_TO_TRUE_PATTERN_EDGE_PER_SESSION",
+        "deduplication_quality": "PROXY_ONLY",
+        "exact_candle_identity_available": False,
+        "eligible_for_hypothesis_freeze_from_schema": False,
+        "schema_limitations": [
+            "CANDLE_ID_NOT_CAPTURED",
+            "CANDLE_TIMESTAMP_NOT_CAPTURED",
+            "CANDLE_VOLUME_NOT_CAPTURED",
+        ],
         "volume_status": "NOT_CAPTURED_IN_RC54_SESSION_SCHEMA",
         "observational_only": report.observational_only,
         "predictive_claim_allowed": report.predictive_claim_allowed,

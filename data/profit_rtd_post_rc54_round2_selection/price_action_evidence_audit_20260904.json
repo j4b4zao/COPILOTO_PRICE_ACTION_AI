@@ -2387,8 +2387,11 @@
   ],
   "decision_influence_allowed": false,
   "deduplication": "FALSE_TO_TRUE_PATTERN_EDGE_PER_SESSION",
+  "deduplication_quality": "PROXY_ONLY",
   "edge_occurrences": 292,
+  "eligible_for_hypothesis_freeze_from_schema": false,
   "evidence_rows": 1159,
+  "exact_candle_identity_available": false,
   "hypothesis_freeze_candidates": [],
   "insufficient_buckets": [
     "BEARISH_ENGULFING|DOWN|M1|COUNTER_TREND|H1",
@@ -2521,7 +2524,8 @@
       "key": "BEARISH_ENGULFING|DOWN|M1|COUNTER_TREND",
       "missing_horizons": [],
       "reasons": [
-        "HORIZON_SAMPLE_INSUFFICIENT"
+        "HORIZON_SAMPLE_INSUFFICIENT",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2543,7 +2547,8 @@
       "missing_horizons": [],
       "reasons": [
         "HORIZON_SAMPLE_INSUFFICIENT",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2567,7 +2572,8 @@
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2591,7 +2597,8 @@
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2615,7 +2622,8 @@
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2639,7 +2647,8 @@
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2662,7 +2671,8 @@
       "reasons": [
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
-        "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED"
+        "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2685,7 +2695,8 @@
       "reasons": [
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2707,7 +2718,8 @@
       "missing_horizons": [],
       "reasons": [
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2730,7 +2742,8 @@
       "reasons": [
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
-        "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED"
+        "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2754,7 +2767,8 @@
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2778,7 +2792,8 @@
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2801,7 +2816,8 @@
       "reasons": [
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2824,7 +2840,8 @@
       "reasons": [
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2848,7 +2865,8 @@
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2872,7 +2890,8 @@
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2895,7 +2914,8 @@
       "reasons": [
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
-        "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED"
+        "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2918,7 +2938,8 @@
       "reasons": [
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2941,7 +2962,8 @@
       "reasons": [
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2965,7 +2987,8 @@
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -2989,7 +3012,8 @@
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -3013,7 +3037,8 @@
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -3037,7 +3062,8 @@
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -3058,7 +3084,8 @@
       "key": "OUTSIDE_BAR|DOWN|M1|WITH_TREND",
       "missing_horizons": [],
       "reasons": [
-        "HORIZON_SAMPLE_INSUFFICIENT"
+        "HORIZON_SAMPLE_INSUFFICIENT",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -3082,7 +3109,8 @@
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -3103,7 +3131,8 @@
       "key": "SHOOTING_STAR|DOWN|M1|COUNTER_TREND",
       "missing_horizons": [],
       "reasons": [
-        "HORIZON_SAMPLE_INSUFFICIENT"
+        "HORIZON_SAMPLE_INSUFFICIENT",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -3124,7 +3153,8 @@
       "key": "SHOOTING_STAR|DOWN|M1|WITH_TREND",
       "missing_horizons": [],
       "reasons": [
-        "HORIZON_SAMPLE_INSUFFICIENT"
+        "HORIZON_SAMPLE_INSUFFICIENT",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -3148,7 +3178,8 @@
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -3172,7 +3203,8 @@
         "HORIZON_SAMPLE_INSUFFICIENT",
         "HORIZON_RECURRENCE_INSUFFICIENT",
         "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
-        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS",
+        "EXACT_CANDLE_IDENTITY_REQUIRED"
       ],
       "required_horizons": [
         "H1",
@@ -3192,6 +3224,11 @@
   ],
   "rejected_sessions": [],
   "risk_influence_allowed": false,
+  "schema_limitations": [
+    "CANDLE_ID_NOT_CAPTURED",
+    "CANDLE_TIMESTAMP_NOT_CAPTURED",
+    "CANDLE_VOLUME_NOT_CAPTURED"
+  ],
   "score_influence_allowed": false,
   "status": "MORE_EVIDENCE_REQUIRED",
   "volume_status": "NOT_CAPTURED_IN_RC54_SESSION_SCHEMA"

@@ -27,6 +27,8 @@ def test_audit_counts_only_false_to_true_edges_and_separates_horizons(tmp_path):
     assert result["evidence_rows"] == 6
     assert {bucket["key"].rsplit("|", 1)[-1] for bucket in result["buckets"]} == {"H1", "H3", "H5"}
     assert result["volume_status"] == "NOT_CAPTURED_IN_RC54_SESSION_SCHEMA"
+    assert result["deduplication_quality"] == "PROXY_ONLY"
+    assert result["eligible_for_hypothesis_freeze_from_schema"] is False
     assert all(bucket["sessions"] == 1 for bucket in result["buckets"])
 
 
@@ -68,6 +70,17 @@ def test_multi_horizon_gate_accepts_only_complete_stable_group():
         _bucket(3, "NEGATIVE"),
         _bucket(5, "NEGATIVE"),
         _bucket(10, "NEGATIVE"),
-    ])
+    ], exact_candle_identity=True)
     assert reports[0]["eligible_for_hypothesis_freeze"] is True
     assert reports[0]["consistent_direction"] == "NEGATIVE"
+
+
+def test_proxy_occurrences_can_never_freeze_a_hypothesis():
+    reports = _multi_horizon_groups([
+        _bucket(1, "NEGATIVE"),
+        _bucket(3, "NEGATIVE"),
+        _bucket(5, "NEGATIVE"),
+        _bucket(10, "NEGATIVE"),
+    ])
+    assert reports[0]["eligible_for_hypothesis_freeze"] is False
+    assert "EXACT_CANDLE_IDENTITY_REQUIRED" in reports[0]["reasons"]
