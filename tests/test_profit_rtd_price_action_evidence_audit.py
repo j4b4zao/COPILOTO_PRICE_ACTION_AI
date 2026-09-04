@@ -1,6 +1,7 @@
 import json
+from types import SimpleNamespace
 
-from tools.profit_rtd_price_action_evidence_audit import audit
+from tools.profit_rtd_price_action_evidence_audit import _multi_horizon_groups, audit
 
 
 def _row(price, *, inside=False, trend="SIDEWAYS"):
@@ -38,3 +39,35 @@ def test_audit_rejects_session_without_data_ready(tmp_path):
     assert result["status"] == "MORE_EVIDENCE_REQUIRED"
     assert result["score_influence_allowed"] is False
     assert result["order_execution_allowed"] is False
+
+
+def _bucket(horizon, direction, *, ready=True):
+    return SimpleNamespace(
+        key=f"DOJI|DOWN|M1|WITH_TREND|H{horizon}",
+        sample_sufficient=ready,
+        cross_session_sufficient=ready,
+        directional_stability_sufficient=ready,
+        consistent_direction=direction,
+    )
+
+
+def test_multi_horizon_gate_requires_same_direction_at_every_horizon():
+    reports = _multi_horizon_groups([
+        _bucket(1, "POSITIVE"),
+        _bucket(3, "NEGATIVE"),
+        _bucket(5, "NEGATIVE"),
+        _bucket(10, "NEGATIVE"),
+    ])
+    assert reports[0]["eligible_for_hypothesis_freeze"] is False
+    assert "DIRECTION_CONFLICT_ACROSS_HORIZONS" in reports[0]["reasons"]
+
+
+def test_multi_horizon_gate_accepts_only_complete_stable_group():
+    reports = _multi_horizon_groups([
+        _bucket(1, "NEGATIVE"),
+        _bucket(3, "NEGATIVE"),
+        _bucket(5, "NEGATIVE"),
+        _bucket(10, "NEGATIVE"),
+    ])
+    assert reports[0]["eligible_for_hypothesis_freeze"] is True
+    assert reports[0]["consistent_direction"] == "NEGATIVE"

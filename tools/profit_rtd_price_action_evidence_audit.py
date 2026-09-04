@@ -23,6 +23,48 @@ PATTERNS = (
 HORIZONS = (1, 3, 5, 10)
 
 
+def _multi_horizon_groups(buckets):
+    grouped = {}
+    for bucket in buckets:
+        base_key, horizon = bucket.key.rsplit("|", 1)
+        grouped.setdefault(base_key, {})[horizon] = bucket
+    reports = []
+    required = tuple(f"H{horizon}" for horizon in HORIZONS)
+    for key, horizons in sorted(grouped.items()):
+        reasons = []
+        missing = tuple(horizon for horizon in required if horizon not in horizons)
+        if missing:
+            reasons.append("MISSING_REQUIRED_HORIZON")
+        present = tuple(horizons[horizon] for horizon in required if horizon in horizons)
+        if any(not bucket.sample_sufficient for bucket in present):
+            reasons.append("HORIZON_SAMPLE_INSUFFICIENT")
+        if any(not bucket.cross_session_sufficient for bucket in present):
+            reasons.append("HORIZON_RECURRENCE_INSUFFICIENT")
+        if any(not bucket.directional_stability_sufficient for bucket in present):
+            reasons.append("HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED")
+        directions = tuple(dict.fromkeys(
+            bucket.consistent_direction for bucket in present
+            if bucket.consistent_direction != "NONE"
+        ))
+        if len(directions) != 1 or any(
+            bucket.consistent_direction == "NONE" for bucket in present
+        ):
+            reasons.append("DIRECTION_CONFLICT_ACROSS_HORIZONS")
+        reports.append({
+            "key": key,
+            "required_horizons": list(required),
+            "missing_horizons": list(missing),
+            "directions": {
+                horizon: horizons[horizon].consistent_direction
+                for horizon in required if horizon in horizons
+            },
+            "consistent_direction": directions[0] if len(directions) == 1 else "NONE",
+            "eligible_for_hypothesis_freeze": not reasons,
+            "reasons": reasons or ["ALL_HORIZON_GATES_MET"],
+        })
+    return reports
+
+
 def _rows(payload):
     if not isinstance(payload, dict) or payload.get("data_ready") is not True:
         return []
@@ -86,6 +128,7 @@ def audit(paths, *, timeframe="M1", minimum_sample=30, minimum_sessions=3):
         minimum_sample_per_bucket=minimum_sample,
         minimum_sessions_per_bucket=minimum_sessions,
     )
+    multi_horizon = _multi_horizon_groups(report.buckets)
     return {
         "status": report.status,
         "accepted_sessions": accepted,
@@ -113,6 +156,11 @@ def audit(paths, *, timeframe="M1", minimum_sample=30, minimum_sessions=3):
             for bucket in report.buckets
         ],
         "insufficient_buckets": list(report.insufficient_buckets),
+        "multi_horizon_groups": multi_horizon,
+        "hypothesis_freeze_candidates": [
+            item["key"] for item in multi_horizon
+            if item["eligible_for_hypothesis_freeze"]
+        ],
         "reasons": list(report.reasons),
         "deduplication": "FALSE_TO_TRUE_PATTERN_EDGE_PER_SESSION",
         "volume_status": "NOT_CAPTURED_IN_RC54_SESSION_SCHEMA",
