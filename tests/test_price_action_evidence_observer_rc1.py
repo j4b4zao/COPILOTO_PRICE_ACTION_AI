@@ -51,6 +51,8 @@ def test_ready_requires_minimum_sample_in_every_context_bucket():
     assert report.buckets[0].maximum_session_share == 0.5
     assert report.buckets[0].consistent_direction == "POSITIVE"
     assert report.buckets[0].directional_session_share == 1.0
+    assert report.buckets[0].additional_observations_lower_bound == 0
+    assert report.buckets[0].additional_sessions_lower_bound == 0
 
 
 def test_does_not_mix_forward_horizons():
@@ -109,4 +111,17 @@ def test_aggregate_mean_does_not_replace_directional_session_stability():
     assert bucket.mean_forward_return == 3.0
     assert bucket.consistent_direction == "NONE"
     assert bucket.directional_stability_sufficient is False
+    assert bucket.additional_sessions_lower_bound == 3
     assert "DIRECTIONAL_STABILITY_NOT_CONFIRMED" in report.reasons
+
+
+def test_evidence_gap_reports_occurrences_and_sessions_without_relaxing_gates():
+    report = PriceActionEvidenceObserver.analyze(
+        (_item(session="S1", ret=-1.0), _item(session="S1", ret=-2.0)),
+        minimum_sample_per_bucket=30,
+        minimum_sessions_per_bucket=3,
+    )
+    bucket = report.buckets[0]
+    assert bucket.additional_observations_lower_bound == 28
+    assert bucket.additional_sessions_lower_bound == 2
+    assert report.status == "MORE_EVIDENCE_REQUIRED"

@@ -107,6 +107,8 @@ def audit(paths, *, timeframe="M1", minimum_sample=30, minimum_sessions=3):
                 "sample_sufficient": bucket.sample_sufficient,
                 "cross_session_sufficient": bucket.cross_session_sufficient,
                 "directional_stability_sufficient": bucket.directional_stability_sufficient,
+                "additional_observations_lower_bound": bucket.additional_observations_lower_bound,
+                "additional_sessions_lower_bound": bucket.additional_sessions_lower_bound,
             }
             for bucket in report.buckets
         ],

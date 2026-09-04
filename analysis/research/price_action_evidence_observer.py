@@ -58,6 +58,8 @@ class PriceActionEvidenceBucket:
     sample_sufficient: bool
     cross_session_sufficient: bool
     directional_stability_sufficient: bool
+    additional_observations_lower_bound: int
+    additional_sessions_lower_bound: int
 
 
 @dataclass(frozen=True, slots=True)
@@ -80,6 +82,16 @@ class PriceActionEvidenceObserver:
 
     NAME = "PriceActionEvidenceObserver"
     VERSION = "RC1"
+
+    @staticmethod
+    def _directional_session_gap(
+        *, dominant_sessions: int, sessions: int, minimum_share: float
+    ) -> int:
+        additional = 0
+        while ((dominant_sessions + additional) / (sessions + additional)
+               < minimum_share):
+            additional += 1
+        return additional
 
     @staticmethod
     def analyze(
@@ -149,6 +161,12 @@ class PriceActionEvidenceObserver:
                 direction = "NEGATIVE"
             else:
                 direction = "NONE"
+            recurrence_gap = max(0, minimum_sessions_per_bucket - sessions)
+            directional_gap = PriceActionEvidenceObserver._directional_session_gap(
+                dominant_sessions=dominant_sessions,
+                sessions=sessions,
+                minimum_share=minimum_directional_session_share,
+            )
             buckets.append(
                 PriceActionEvidenceBucket(
                     key=key,
@@ -167,6 +185,12 @@ class PriceActionEvidenceObserver:
                         sessions >= minimum_sessions_per_bucket
                         and direction != "NONE"
                         and directional_share >= minimum_directional_session_share
+                    ),
+                    additional_observations_lower_bound=max(
+                        0, minimum_sample_per_bucket - len(items)
+                    ),
+                    additional_sessions_lower_bound=max(
+                        recurrence_gap, directional_gap
                     ),
                 )
             )
