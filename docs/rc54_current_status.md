@@ -2,6 +2,32 @@
 
 Checkpoint: 2026-09-04 (America/Sao_Paulo)
 
+## Post-RC54 round 2 candidate freeze (2026-09-04 09:34)
+
+- The sixth eligible selection session is
+  `data/profit_rtd_post_rc54_round2_selection/profit_rtd_rc54_3_2_WINV26_20260904_093458.json`
+  (SHA-256 `0d6da45e97e44c38b211ded28a66132c7bea78bfa44864b67b34530df7482825`).
+  It spans `2026-09-04T09:26:02.327` through `2026-09-04T09:34:58.256` and
+  completed with `data_ready=True`, 354 analyzable SELL-ready samples, 246
+  source skips, and zero collection, Delta, or context-readiness failures.
+- RC54.4 found three SELL microbuckets: 24
+  `CONTEXT_SELL_DIVERGENT_TT_BUY_BOOK_SELL`, 5 `CONTEXT_SELL_MICRO_BUY`, and
+  325 `CONTEXT_SELL_MICRO_NEUTRAL`; SELL is incrementally identifiable.
+- The explicit six-session inventory is
+  `data/profit_rtd_post_rc54_round2_selection/post_rc54_round2_inventory_20260904_093458.json`
+  (SHA-256 `405002f7bfbfe23c1e88d5b84ef27f067b013284e850e9f0f58baf346363c8cd`).
+  It accepts all six sessions, rejects none, and contains no OOS paths.
+- RC54.7 now reports `CONTEXT_SELL_MICRO_NEUTRAL` as a robustness candidate:
+  five supported sessions, three nonzero incremental sessions, four consistent
+  horizons with a two-thirds negative majority, and evidence-gap lower bound 0.
+- The candidate and all six selection paths/hashes are frozen in
+  `data/profit_rtd_post_rc54_round2_selection/post_rc54_round2_candidate_freeze_20260904_093458.json`
+  with selection cutoff `2026-09-04T09:34:58.256`. Future evidence must be
+  written to a separate OOS directory and start strictly after this cutoff.
+- RC54.8 must wait for at least two eligible OOS sessions jointly containing at
+  least 30 candidate occurrences. The result remains observational only and has
+  no influence on ScoreEngine, RiskManager, DecisionEngine, alerts, or execution.
+
 ## Post-RC54 round 2 fifth eligible selection session (2026-09-04 08:56)
 
 - The fifth eligible round 2 selection session is

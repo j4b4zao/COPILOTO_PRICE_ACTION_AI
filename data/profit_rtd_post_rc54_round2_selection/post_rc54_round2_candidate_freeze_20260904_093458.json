@@ -1,0 +1,29 @@
+{
+  "status": "RC54_CANDIDATE_SELECTION_FREEZE_COMPLETED",
+  "schema_version": "RC54_CANDIDATE_FREEZE_V1",
+  "candidate": "CONTEXT_SELL_MICRO_NEUTRAL",
+  "selection_cutoff": "2026-09-04T09:34:58.256",
+  "source_inventory": "data/profit_rtd_post_rc54_round2_selection/post_rc54_round2_inventory_20260904_093458.json",
+  "source_inventory_sha256": "405002f7bfbfe23c1e88d5b84ef27f067b013284e850e9f0f58baf346363c8cd",
+  "selection_session_count": 6,
+  "selection_sessions": [
+    {"path": "data/profit_rtd_post_rc54_round2_selection/profit_rtd_rc54_3_2_WINV26_20260903_105250.json", "sha256": "b1367a9c4967dc9cf853bb751fceda480e4775bc35a29ee2626f600b3acebff3"},
+    {"path": "data/profit_rtd_post_rc54_round2_selection/profit_rtd_rc54_3_2_WINV26_20260903_153737.json", "sha256": "677545ffaf818d99b63fde25f273317b14175797c98b209bd87168f174517ab8"},
+    {"path": "data/profit_rtd_post_rc54_round2_selection/profit_rtd_rc54_3_2_WINV26_20260903_162139.json", "sha256": "4e01c493dbabe9e0550ccf481dfff32a1cc72d5eb24c2bbf483c1aaa65e152b7"},
+    {"path": "data/profit_rtd_post_rc54_round2_selection/profit_rtd_rc54_3_2_WINV26_20260903_170243.json", "sha256": "84d0c10796087c9aacfd4f637aed47fc35f8ee66009ca80ddc76c20128c96565"},
+    {"path": "data/profit_rtd_post_rc54_round2_selection/profit_rtd_rc54_3_2_WINV26_20260904_085625.json", "sha256": "b7f109a13c7674507a4691e72a1a7b89cf6d445477b2eacb190be1fef46e2700"},
+    {"path": "data/profit_rtd_post_rc54_round2_selection/profit_rtd_rc54_3_2_WINV26_20260904_093458.json", "sha256": "0d6da45e97e44c38b211ded28a66132c7bea78bfa44864b67b34530df7482825"}
+  ],
+  "robustness_snapshot": {
+    "supported_sessions": 5,
+    "consistent_horizons": 4,
+    "minimum_additional_sessions_lower_bound": 0
+  },
+  "oos_sessions_registered": 0,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "order_execution_allowed": false
+}
