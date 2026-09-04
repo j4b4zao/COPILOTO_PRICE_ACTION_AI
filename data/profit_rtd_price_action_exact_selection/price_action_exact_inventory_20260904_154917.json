@@ -1,0 +1,694 @@
+{
+  "accepted_sessions": [
+    "profit_rtd_rc54_3_2_WINV26_20260904_154917.json"
+  ],
+  "alert_influence_allowed": false,
+  "buckets": [
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "NONE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 0.0,
+      "directional_stability_sufficient": false,
+      "key": "BULLISH_ENGULFING|UP|M1|WITH_TREND|H1",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": 0.0,
+      "mean_volume_ratio": 0.5985944856840947,
+      "observations": 1,
+      "positive_rate": 0.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": 0.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "NEGATIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "BULLISH_ENGULFING|UP|M1|WITH_TREND|H3",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": -30.0,
+      "mean_volume_ratio": 0.5985944856840947,
+      "observations": 1,
+      "positive_rate": 0.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": -30.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "NEGATIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "BULLISH_ENGULFING|UP|M1|WITH_TREND|H5",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": -5.0,
+      "mean_volume_ratio": 0.5985944856840947,
+      "observations": 1,
+      "positive_rate": 0.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": -5.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "NEGATIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "DOJI|DOWN|M1|WITH_TREND|H1",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": -45.0,
+      "mean_volume_ratio": 0.622580516724057,
+      "observations": 1,
+      "positive_rate": 0.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": -45.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "POSITIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "DOJI|DOWN|M1|WITH_TREND|H10",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": 95.0,
+      "mean_volume_ratio": 0.622580516724057,
+      "observations": 1,
+      "positive_rate": 1.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": 95.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "POSITIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "DOJI|DOWN|M1|WITH_TREND|H3",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": 85.0,
+      "mean_volume_ratio": 0.622580516724057,
+      "observations": 1,
+      "positive_rate": 1.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": 85.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "POSITIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "DOJI|DOWN|M1|WITH_TREND|H5",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": 100.0,
+      "mean_volume_ratio": 0.622580516724057,
+      "observations": 1,
+      "positive_rate": 1.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": 100.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "POSITIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "DOJI|UP|M1|WITH_TREND|H1",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": 55.0,
+      "mean_volume_ratio": 0.5602253892734462,
+      "observations": 1,
+      "positive_rate": 1.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": 55.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "NEGATIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "DOJI|UP|M1|WITH_TREND|H3",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": -45.0,
+      "mean_volume_ratio": 0.5602253892734462,
+      "observations": 1,
+      "positive_rate": 0.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": -45.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "NEGATIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "INSIDE_BAR|DOWN|M1|WITH_TREND|H1",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": -45.0,
+      "mean_volume_ratio": 0.622580516724057,
+      "observations": 1,
+      "positive_rate": 0.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": -45.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "POSITIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "INSIDE_BAR|DOWN|M1|WITH_TREND|H10",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": 95.0,
+      "mean_volume_ratio": 0.622580516724057,
+      "observations": 1,
+      "positive_rate": 1.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": 95.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "POSITIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "INSIDE_BAR|DOWN|M1|WITH_TREND|H3",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": 85.0,
+      "mean_volume_ratio": 0.622580516724057,
+      "observations": 1,
+      "positive_rate": 1.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": 85.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "POSITIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "INSIDE_BAR|DOWN|M1|WITH_TREND|H5",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": 100.0,
+      "mean_volume_ratio": 0.622580516724057,
+      "observations": 1,
+      "positive_rate": 1.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": 100.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "POSITIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "INSIDE_BAR|SIDEWAYS|M1|NEUTRAL|H1",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": 45.0,
+      "mean_volume_ratio": 0.9047745852521568,
+      "observations": 1,
+      "positive_rate": 1.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": 45.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "POSITIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "INSIDE_BAR|SIDEWAYS|M1|NEUTRAL|H3",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": 25.0,
+      "mean_volume_ratio": 0.9047745852521568,
+      "observations": 1,
+      "positive_rate": 1.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": 25.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "POSITIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "INSIDE_BAR|SIDEWAYS|M1|NEUTRAL|H5",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": 70.0,
+      "mean_volume_ratio": 0.9047745852521568,
+      "observations": 1,
+      "positive_rate": 1.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": 70.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "NEGATIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "INSIDE_BAR|UP|M1|COUNTER_TREND|H1",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": -70.0,
+      "mean_volume_ratio": 1.005056655982362,
+      "observations": 1,
+      "positive_rate": 0.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": -70.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "NEGATIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "OUTSIDE_BAR|DOWN|M1|WITH_TREND|H1",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": -5.0,
+      "mean_volume_ratio": null,
+      "observations": 1,
+      "positive_rate": 0.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": -5.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "POSITIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "OUTSIDE_BAR|DOWN|M1|WITH_TREND|H10",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": 120.0,
+      "mean_volume_ratio": null,
+      "observations": 1,
+      "positive_rate": 1.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": 120.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "NEGATIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "OUTSIDE_BAR|DOWN|M1|WITH_TREND|H3",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": -5.0,
+      "mean_volume_ratio": null,
+      "observations": 1,
+      "positive_rate": 0.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": -5.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "POSITIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "OUTSIDE_BAR|DOWN|M1|WITH_TREND|H5",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": 50.0,
+      "mean_volume_ratio": null,
+      "observations": 1,
+      "positive_rate": 1.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": 50.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "NEGATIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "SHOOTING_STAR|UP|M1|COUNTER_TREND|H1",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": -10.0,
+      "mean_volume_ratio": 0.6242288307107278,
+      "observations": 1,
+      "positive_rate": 0.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": -10.0
+      },
+      "sessions": 1
+    },
+    {
+      "additional_observations_lower_bound": 29,
+      "additional_sessions_lower_bound": 2,
+      "consistent_direction": "POSITIVE",
+      "cross_session_sufficient": false,
+      "directional_session_share": 1.0,
+      "directional_stability_sufficient": false,
+      "key": "SHOOTING_STAR|UP|M1|COUNTER_TREND|H3",
+      "maximum_session_share": 1.0,
+      "mean_forward_return": 15.0,
+      "mean_volume_ratio": 0.6242288307107278,
+      "observations": 1,
+      "positive_rate": 1.0,
+      "sample_sufficient": false,
+      "session_mean_returns": {
+        "profit_rtd_rc54_3_2_WINV26_20260904_154917.json": 15.0
+      },
+      "sessions": 1
+    }
+  ],
+  "decision_influence_allowed": false,
+  "deduplication": "LAST_REVISION_PER_EXACT_CANDLE_ID",
+  "deduplication_quality": "EXACT_CANDLE",
+  "edge_occurrences": 9,
+  "eligible_for_hypothesis_freeze_from_schema": true,
+  "evidence_rows": 23,
+  "exact_candle_identity_available": true,
+  "hypothesis_freeze_candidates": [],
+  "insufficient_buckets": [
+    "BULLISH_ENGULFING|UP|M1|WITH_TREND|H1",
+    "BULLISH_ENGULFING|UP|M1|WITH_TREND|H3",
+    "BULLISH_ENGULFING|UP|M1|WITH_TREND|H5",
+    "DOJI|DOWN|M1|WITH_TREND|H1",
+    "DOJI|DOWN|M1|WITH_TREND|H10",
+    "DOJI|DOWN|M1|WITH_TREND|H3",
+    "DOJI|DOWN|M1|WITH_TREND|H5",
+    "DOJI|UP|M1|WITH_TREND|H1",
+    "DOJI|UP|M1|WITH_TREND|H3",
+    "INSIDE_BAR|DOWN|M1|WITH_TREND|H1",
+    "INSIDE_BAR|DOWN|M1|WITH_TREND|H10",
+    "INSIDE_BAR|DOWN|M1|WITH_TREND|H3",
+    "INSIDE_BAR|DOWN|M1|WITH_TREND|H5",
+    "INSIDE_BAR|SIDEWAYS|M1|NEUTRAL|H1",
+    "INSIDE_BAR|SIDEWAYS|M1|NEUTRAL|H3",
+    "INSIDE_BAR|SIDEWAYS|M1|NEUTRAL|H5",
+    "INSIDE_BAR|UP|M1|COUNTER_TREND|H1",
+    "OUTSIDE_BAR|DOWN|M1|WITH_TREND|H1",
+    "OUTSIDE_BAR|DOWN|M1|WITH_TREND|H10",
+    "OUTSIDE_BAR|DOWN|M1|WITH_TREND|H3",
+    "OUTSIDE_BAR|DOWN|M1|WITH_TREND|H5",
+    "SHOOTING_STAR|UP|M1|COUNTER_TREND|H1",
+    "SHOOTING_STAR|UP|M1|COUNTER_TREND|H3"
+  ],
+  "multi_horizon_groups": [
+    {
+      "consistent_direction": "NEGATIVE",
+      "directions": {
+        "H1": "NONE",
+        "H3": "NEGATIVE",
+        "H5": "NEGATIVE"
+      },
+      "eligible_for_hypothesis_freeze": false,
+      "key": "BULLISH_ENGULFING|UP|M1|WITH_TREND",
+      "missing_horizons": [
+        "H10"
+      ],
+      "reasons": [
+        "MISSING_REQUIRED_HORIZON",
+        "HORIZON_SAMPLE_INSUFFICIENT",
+        "HORIZON_RECURRENCE_INSUFFICIENT",
+        "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+      ],
+      "required_horizons": [
+        "H1",
+        "H3",
+        "H5",
+        "H10"
+      ]
+    },
+    {
+      "consistent_direction": "NONE",
+      "directions": {
+        "H1": "NEGATIVE",
+        "H10": "POSITIVE",
+        "H3": "POSITIVE",
+        "H5": "POSITIVE"
+      },
+      "eligible_for_hypothesis_freeze": false,
+      "key": "DOJI|DOWN|M1|WITH_TREND",
+      "missing_horizons": [],
+      "reasons": [
+        "HORIZON_SAMPLE_INSUFFICIENT",
+        "HORIZON_RECURRENCE_INSUFFICIENT",
+        "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+      ],
+      "required_horizons": [
+        "H1",
+        "H3",
+        "H5",
+        "H10"
+      ]
+    },
+    {
+      "consistent_direction": "NONE",
+      "directions": {
+        "H1": "POSITIVE",
+        "H3": "NEGATIVE"
+      },
+      "eligible_for_hypothesis_freeze": false,
+      "key": "DOJI|UP|M1|WITH_TREND",
+      "missing_horizons": [
+        "H5",
+        "H10"
+      ],
+      "reasons": [
+        "MISSING_REQUIRED_HORIZON",
+        "HORIZON_SAMPLE_INSUFFICIENT",
+        "HORIZON_RECURRENCE_INSUFFICIENT",
+        "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+      ],
+      "required_horizons": [
+        "H1",
+        "H3",
+        "H5",
+        "H10"
+      ]
+    },
+    {
+      "consistent_direction": "NONE",
+      "directions": {
+        "H1": "NEGATIVE",
+        "H10": "POSITIVE",
+        "H3": "POSITIVE",
+        "H5": "POSITIVE"
+      },
+      "eligible_for_hypothesis_freeze": false,
+      "key": "INSIDE_BAR|DOWN|M1|WITH_TREND",
+      "missing_horizons": [],
+      "reasons": [
+        "HORIZON_SAMPLE_INSUFFICIENT",
+        "HORIZON_RECURRENCE_INSUFFICIENT",
+        "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+      ],
+      "required_horizons": [
+        "H1",
+        "H3",
+        "H5",
+        "H10"
+      ]
+    },
+    {
+      "consistent_direction": "POSITIVE",
+      "directions": {
+        "H1": "POSITIVE",
+        "H3": "POSITIVE",
+        "H5": "POSITIVE"
+      },
+      "eligible_for_hypothesis_freeze": false,
+      "key": "INSIDE_BAR|SIDEWAYS|M1|NEUTRAL",
+      "missing_horizons": [
+        "H10"
+      ],
+      "reasons": [
+        "MISSING_REQUIRED_HORIZON",
+        "HORIZON_SAMPLE_INSUFFICIENT",
+        "HORIZON_RECURRENCE_INSUFFICIENT",
+        "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED"
+      ],
+      "required_horizons": [
+        "H1",
+        "H3",
+        "H5",
+        "H10"
+      ]
+    },
+    {
+      "consistent_direction": "NEGATIVE",
+      "directions": {
+        "H1": "NEGATIVE"
+      },
+      "eligible_for_hypothesis_freeze": false,
+      "key": "INSIDE_BAR|UP|M1|COUNTER_TREND",
+      "missing_horizons": [
+        "H3",
+        "H5",
+        "H10"
+      ],
+      "reasons": [
+        "MISSING_REQUIRED_HORIZON",
+        "HORIZON_SAMPLE_INSUFFICIENT",
+        "HORIZON_RECURRENCE_INSUFFICIENT",
+        "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED"
+      ],
+      "required_horizons": [
+        "H1",
+        "H3",
+        "H5",
+        "H10"
+      ]
+    },
+    {
+      "consistent_direction": "NONE",
+      "directions": {
+        "H1": "NEGATIVE",
+        "H10": "POSITIVE",
+        "H3": "NEGATIVE",
+        "H5": "POSITIVE"
+      },
+      "eligible_for_hypothesis_freeze": false,
+      "key": "OUTSIDE_BAR|DOWN|M1|WITH_TREND",
+      "missing_horizons": [],
+      "reasons": [
+        "HORIZON_SAMPLE_INSUFFICIENT",
+        "HORIZON_RECURRENCE_INSUFFICIENT",
+        "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+      ],
+      "required_horizons": [
+        "H1",
+        "H3",
+        "H5",
+        "H10"
+      ]
+    },
+    {
+      "consistent_direction": "NONE",
+      "directions": {
+        "H1": "NEGATIVE",
+        "H3": "POSITIVE"
+      },
+      "eligible_for_hypothesis_freeze": false,
+      "key": "SHOOTING_STAR|UP|M1|COUNTER_TREND",
+      "missing_horizons": [
+        "H5",
+        "H10"
+      ],
+      "reasons": [
+        "MISSING_REQUIRED_HORIZON",
+        "HORIZON_SAMPLE_INSUFFICIENT",
+        "HORIZON_RECURRENCE_INSUFFICIENT",
+        "HORIZON_DIRECTIONAL_STABILITY_NOT_CONFIRMED",
+        "DIRECTION_CONFLICT_ACROSS_HORIZONS"
+      ],
+      "required_horizons": [
+        "H1",
+        "H3",
+        "H5",
+        "H10"
+      ]
+    }
+  ],
+  "observational_only": true,
+  "order_execution_allowed": false,
+  "predictive_claim_allowed": false,
+  "reasons": [
+    "INSUFFICIENT_CONTEXT_SAMPLE",
+    "INSUFFICIENT_CROSS_SESSION_RECURRENCE",
+    "DIRECTIONAL_STABILITY_NOT_CONFIRMED"
+  ],
+  "rejected_sessions": [],
+  "risk_influence_allowed": false,
+  "schema_limitations": [],
+  "score_influence_allowed": false,
+  "status": "MORE_EVIDENCE_REQUIRED",
+  "volume_status": "CANDLE_VOLUME_CAPTURED"
+}
