@@ -3,11 +3,7 @@ alerts/alert_manager.py
 
 Alert Manager
 
-<<<<<<< HEAD
-RC9.1
-=======
 RC9.2 - ORDER FLOW OBSERVABILITY
->>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
 """
 
 from datetime import datetime
@@ -19,11 +15,7 @@ class AlertManager(EngineBase):
 
     NAME = "AlertManager"
 
-<<<<<<< HEAD
-    VERSION = "RC9.1"
-=======
     VERSION = "RC9.2"
->>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
 
     ENABLED = True
 
@@ -126,8 +118,6 @@ class AlertManager(EngineBase):
         print(
             f"CONF.: {alert.confidence:.2f}"
         )
-<<<<<<< HEAD
-=======
 
         if alert.order_flow_applied:
 
@@ -137,7 +127,6 @@ class AlertManager(EngineBase):
                 f"{alert.order_flow_sampling_mode} | "
                 f"+{alert.order_flow_contribution:.2f} pts"
             )
->>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
 
         print("=" * 60)
 

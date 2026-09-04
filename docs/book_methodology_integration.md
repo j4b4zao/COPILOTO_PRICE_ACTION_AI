@@ -102,3 +102,41 @@ tamper-evident; altered history is rejected before an entry can be appended. It
 also adds rolling pair correlation over exact timestamp intersections. A measured
 correlation remains descriptive and explicitly disallows predictive or operational
 claims. Provider integration and lead/lag hypothesis testing remain deferred.
+
+## Candlestick and Elder evidence increment
+
+Additional references reviewed:
+
+- *The Candlestick Trading Bible* (Portuguese translation supplied by the user).
+- Alexander Elder, *Trading for a Living* (Portuguese edition supplied by the user).
+
+The project already detects doji, hammer, shooting star, bullish/bearish
+engulfing, inside bar, and outside bar. Those operational definitions were not
+changed. The books' diagrams and narratives do not justify competing detectors
+or automatic score increases.
+
+The viable increment is an offline evidence protocol. Each existing pattern
+classification is evaluated separately by market regime, timeframe, and
+location context. Forward return and optional relative volume are reported per
+bucket. Every bucket must meet its own minimum sample; aggregation across
+different contexts is forbidden. A pattern name describes candle geometry, not
+a trade direction or a predictive claim.
+
+Elder's multi-timeframe and price/volume ideas are retained as testable research
+hypotheses. The live project already has multi-timeframe analysis, so Triple
+Screen is not added as a second operational gate. Instead, future offline
+experiments may compare results across frozen horizon combinations and measure
+whether volume confirmation is stable OOS. Force Index and Elder-Ray remain
+deferred until their inputs, formula variants, costs, and comparison baselines
+are frozen in a dedicated protocol.
+
+Excluded from implementation:
+
+- claims that a candle pattern is inherently high-probability or predictive;
+- universal confluence, support/resistance, Fibonacci, or fixed risk rules;
+- inferred institutional intent or crowd psychology treated as ground truth;
+- any new effect on ScoreEngine, RiskManager, DecisionEngine, alerts, or orders.
+
+`analysis/research/price_action_evidence_observer.py` implements the isolated
+bucket report. It is not imported by the analysis pipeline. All operational and
+predictive permissions are hard-disabled in its result contract.

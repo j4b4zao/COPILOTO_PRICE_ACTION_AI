@@ -3,11 +3,7 @@ ai/score_engine.py
 
 ScoreEngine
 
-<<<<<<< HEAD
-RC13
-=======
 RC13.1 - EXPERIMENTO ORDER FLOW OPCIONAL
->>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
 
 Responsável por transformar as confluências do mercado
 em um score operacional normalizado de 0 a 100.
@@ -24,11 +20,8 @@ Arquitetura:
     Strategy        10%
 
 Total = 100%
-<<<<<<< HEAD
-=======
 
 Order Flow: bônus experimental de até 5 pontos, desativado por padrão.
->>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
 """
 
 import math
@@ -40,11 +33,7 @@ class ScoreEngine(EngineBase):
 
     NAME = "ScoreEngine"
 
-<<<<<<< HEAD
-    VERSION = "RC13"
-=======
     VERSION = "RC13.1"
->>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
 
     ENABLED = True
 
@@ -78,8 +67,6 @@ class ScoreEngine(EngineBase):
 
     MAX_SCORE = 100.0
 
-<<<<<<< HEAD
-=======
     MAX_ORDER_FLOW_WEIGHT = 10.0
 
     def __init__(
@@ -119,7 +106,6 @@ class ScoreEngine(EngineBase):
                 "Peso experimental de Order Flow deve ficar entre 0 e 10."
             )
 
->>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
     # ==========================================================
     # EXECUTAR
     # ==========================================================
@@ -130,27 +116,6 @@ class ScoreEngine(EngineBase):
 
         score.clear()
 
-<<<<<<< HEAD
-        # ------------------------------------------------------
-        # DIREÇÃO
-        # ------------------------------------------------------
-
-        self._set_bias(
-            context,
-            score,
-        )
-
-        # ------------------------------------------------------
-        # COMPONENTES
-        # ------------------------------------------------------
-
-        self._score_structure(
-            context,
-            score,
-        )
-
-        self._score_price_action(
-=======
         score.order_flow_experiment_enabled = self.enable_order_flow
 
         # ------------------------------------------------------
@@ -167,37 +132,25 @@ class ScoreEngine(EngineBase):
         # ------------------------------------------------------
 
         self._score_structure(
->>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
             context,
             score,
         )
 
-<<<<<<< HEAD
-        self._score_liquidity(
-=======
         self._score_price_action(
->>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
             context,
             score,
         )
 
-<<<<<<< HEAD
-        self._score_volume(
-=======
         self._score_liquidity(
->>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
             context,
             score,
         )
 
-<<<<<<< HEAD
-=======
         self._score_volume(
             context,
             score,
         )
 
->>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
         self._score_order_block(
             context,
             score,
@@ -218,14 +171,11 @@ class ScoreEngine(EngineBase):
             score,
         )
 
-<<<<<<< HEAD
-=======
         self._score_order_flow(
             context,
             score,
         )
 
->>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
         # ------------------------------------------------------
         # TOTAL
         # ------------------------------------------------------
@@ -893,9 +843,6 @@ class ScoreEngine(EngineBase):
                 value,
                 self.WEIGHT_STRATEGY,
             ),
-<<<<<<< HEAD
-        )
-=======
         )
 
     # ==========================================================
@@ -957,4 +904,3 @@ class ScoreEngine(EngineBase):
             return "NONE"
 
         return directions.pop()
->>>>>>> 35766f332590b98fe808b92785ab4018de1333d1

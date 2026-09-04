@@ -109,8 +109,6 @@ class TrendBreakout(SetupBase):
         # ======================================================
 
         return result
-<<<<<<< HEAD
-
     # ==========================================================
     # VALIDAR COMPRA
     # ==========================================================
@@ -189,86 +187,6 @@ class TrendBreakout(SetupBase):
         if not price.breakout:
             return False
 
-=======
-    # ==========================================================
-    # VALIDAR COMPRA
-    # ==========================================================
-
-    def _validar_compra(
-        self,
-        structure,
-        volume,
-        liquidity,
-        price,
-        order_block,
-        fair_value_gap,
-    ) -> bool:
-
-        if structure.trend != Trend.UP:
-            return False
-
-        if not structure.bos_up:
-            return False
-
-        if not order_block.bullish:
-            return False
-
-        if order_block.mitigated:
-            return False
-
-        if not fair_value_gap.bullish:
-            return False
-
-        if fair_value_gap.filled:
-            return False
-
-        if not price.breakout:
-            return False
-
-        if volume.low:
-            return False
-
-        if liquidity.sell_side:
-            return False
-
-        return True
-
-    # ==========================================================
-    # VALIDAR VENDA
-    # ==========================================================
-
-    def _validar_venda(
-        self,
-        structure,
-        volume,
-        liquidity,
-        price,
-        order_block,
-        fair_value_gap,
-    ) -> bool:
-
-        if structure.trend != Trend.DOWN:
-            return False
-
-        if not structure.bos_down:
-            return False
-
-        if not order_block.bearish:
-            return False
-
-        if order_block.mitigated:
-            return False
-
-        if not fair_value_gap.bearish:
-            return False
-
-        if fair_value_gap.filled:
-            return False
-
-        if not price.breakout:
-            return False
-
->>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
         if volume.low:
             return False
 
@@ -355,7 +273,3 @@ class TrendBreakout(SetupBase):
         result.classify()
 
         return result
-<<<<<<< HEAD
-
-=======
->>>>>>> 35766f332590b98fe808b92785ab4018de1333d1
