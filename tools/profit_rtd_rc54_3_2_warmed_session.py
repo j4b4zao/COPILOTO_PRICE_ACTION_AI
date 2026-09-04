@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import time
 from datetime import datetime
 from pathlib import Path
@@ -12,6 +13,44 @@ from market_data.order_flow_observational_context import OrderFlowObservationalC
 from market_data.profit_delta_quality_validator import ProfitDeltaQualityValidator
 from tools.profit_rtd_rc54_3_pa_structure_context_session import snapshot_context
 from tools.profit_rtd_rc54_3_2_warm_history_gate import context_ready, warm_history
+
+
+def snapshot_candle_evidence(context):
+    market = getattr(context, 'market', None)
+    candle = getattr(market, 'last_candle', None)
+    timestamp = getattr(candle, 'timestamp', None)
+    timeframe = str(getattr(market, 'timeframe', '') or '').strip().upper()
+    symbol = str(getattr(market, 'symbol', '') or '').strip().upper()
+    values = {}
+    for name in ('open', 'high', 'low', 'close', 'volume'):
+        raw = getattr(candle, name, None)
+        try:
+            value = float(raw)
+        except (TypeError, ValueError):
+            value = None
+        values[name] = value if value is not None and math.isfinite(value) else None
+    timestamp_text = timestamp.isoformat() if isinstance(timestamp, datetime) else None
+    ohlc_ready = all(values[name] is not None for name in ('open', 'high', 'low', 'close'))
+    volume_ready = values['volume'] is not None and values['volume'] >= 0
+    identity_ready = bool(symbol and timeframe and timestamp_text)
+    return {
+        'status': 'CANDLE_EVIDENCE_READY' if identity_ready and ohlc_ready and volume_ready else 'CANDLE_EVIDENCE_NOT_READY',
+        'candle_id': f'{symbol}|{timeframe}|{timestamp_text}' if identity_ready else None,
+        'symbol': symbol or None,
+        'timeframe': timeframe or None,
+        'timestamp': timestamp_text,
+        **values,
+        'identity_ready': identity_ready,
+        'ohlc_ready': ohlc_ready,
+        'volume_ready': volume_ready,
+        'closed_candle_claim_allowed': False,
+        'observational_only': True,
+        'score_influence_allowed': False,
+        'risk_influence_allowed': False,
+        'decision_influence_allowed': False,
+        'alert_influence_allowed': False,
+        'order_execution_allowed': False,
+    }
 
 
 def data_ready(sample):
@@ -85,6 +124,7 @@ def run_warmed_session(symbol, *, cycles=600, interval=0.25, max_warmup_cycles=4
                 delta_report = delta_validator.evaluate(collector.order_flow)
                 micro = builder.build(delta_report=delta_report, book_report=book_report, symbol=symbol)
                 item = snapshot_context(context, micro)
+                item['candle_evidence'] = snapshot_candle_evidence(context)
                 item['data_ready'] = data_ready(item)
                 item['trade_context_ready'] = context_ready(context)
                 # Kept for consumers of RC54.3.2 session files.
