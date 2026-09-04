@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from statistics import fmean
 from pathlib import Path
 
 from analysis.research.price_action_evidence_observer import (
@@ -82,9 +83,51 @@ def _price(row):
     return value if value > 0 else None
 
 
+def _has_exact_candle_identity(rows):
+    return bool(rows) and all(
+        isinstance(row.get("candle_evidence"), dict)
+        and row["candle_evidence"].get("status") == "CANDLE_EVIDENCE_READY"
+        and bool(row["candle_evidence"].get("candle_id"))
+        for row in rows
+    )
+
+
+def _last_revision_per_candle(rows):
+    latest = {}
+    for row in rows:
+        latest[row["candle_evidence"]["candle_id"]] = row
+    return list(latest.values())
+
+
+def _candle_price(row):
+    try:
+        value = float(row["candle_evidence"]["close"])
+    except (KeyError, TypeError, ValueError):
+        return None
+    return value if value > 0 else None
+
+
+def _volume_pair(rows, index):
+    try:
+        current = float(rows[index]["candle_evidence"]["volume"])
+    except (KeyError, TypeError, ValueError):
+        return None, None
+    prior = []
+    for row in rows[max(0, index - 20):index]:
+        try:
+            value = float(row["candle_evidence"]["volume"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if value >= 0:
+            prior.append(value)
+    baseline = fmean(prior) if prior and fmean(prior) > 0 else None
+    return (current, baseline) if baseline is not None else (None, None)
+
+
 def audit(paths, *, timeframe="M1", minimum_sample=30, minimum_sessions=3):
     evidence = []
     accepted, rejected, edge_occurrences = [], [], 0
+    sessions = []
     for raw_path in paths:
         path = Path(raw_path)
         payload = json.loads(path.read_text(encoding="utf-8"))
@@ -93,14 +136,27 @@ def audit(paths, *, timeframe="M1", minimum_sample=30, minimum_sessions=3):
             rejected.append(path.name)
             continue
         accepted.append(path.name)
+        sessions.append((path, rows))
+
+    schema_modes = {
+        "EXACT_CANDLE" if _has_exact_candle_identity(rows) else "SNAPSHOT_PROXY"
+        for _, rows in sessions
+    }
+    if len(schema_modes) > 1:
+        raise ValueError("MIXED_EXACT_AND_PROXY_SESSION_SCHEMAS_NOT_ALLOWED")
+    exact_identity = schema_modes == {"EXACT_CANDLE"}
+
+    for path, source_rows in sessions:
+        rows = _last_revision_per_candle(source_rows) if exact_identity else source_rows
         previous_active = {pattern: False for pattern in PATTERNS}
         for index, row in enumerate(rows):
             pa = row.get("price_action") if isinstance(row, dict) else None
             pa = pa if isinstance(pa, dict) else {}
             for pattern in PATTERNS:
                 active = pa.get(pattern) is True
-                if active and not previous_active[pattern]:
-                    base = _price(row)
+                occurrence = active if exact_identity else active and not previous_active[pattern]
+                if occurrence:
+                    base = _candle_price(row) if exact_identity else _price(row)
                     if base is not None:
                         edge_occurrences += 1
                         regime = str(pa.get("trend") or row.get("structure", {}).get("trend") or "UNKNOWN")
@@ -109,9 +165,10 @@ def audit(paths, *, timeframe="M1", minimum_sample=30, minimum_sessions=3):
                             target_index = index + horizon
                             if target_index >= len(rows):
                                 continue
-                            target = _price(rows[target_index])
+                            target = _candle_price(rows[target_index]) if exact_identity else _price(rows[target_index])
                             if target is None:
                                 continue
+                            volume, baseline_volume = _volume_pair(rows, index) if exact_identity else (None, None)
                             evidence.append(
                                 PriceActionEvidence(
                                     session_id=path.name,
@@ -121,6 +178,8 @@ def audit(paths, *, timeframe="M1", minimum_sample=30, minimum_sessions=3):
                                     location_context=location,
                                     horizon_steps=horizon,
                                     forward_return=target - base,
+                                    volume=volume,
+                                    baseline_volume=baseline_volume,
                                 )
                             )
                 previous_active[pattern] = active
@@ -131,7 +190,7 @@ def audit(paths, *, timeframe="M1", minimum_sample=30, minimum_sessions=3):
         minimum_sessions_per_bucket=minimum_sessions,
     )
     multi_horizon = _multi_horizon_groups(
-        report.buckets, exact_candle_identity=False
+        report.buckets, exact_candle_identity=exact_identity
     )
     return {
         "status": report.status,
@@ -166,16 +225,22 @@ def audit(paths, *, timeframe="M1", minimum_sample=30, minimum_sessions=3):
             if item["eligible_for_hypothesis_freeze"]
         ],
         "reasons": list(report.reasons),
-        "deduplication": "FALSE_TO_TRUE_PATTERN_EDGE_PER_SESSION",
-        "deduplication_quality": "PROXY_ONLY",
-        "exact_candle_identity_available": False,
-        "eligible_for_hypothesis_freeze_from_schema": False,
-        "schema_limitations": [
+        "deduplication": (
+            "LAST_REVISION_PER_EXACT_CANDLE_ID"
+            if exact_identity else "FALSE_TO_TRUE_PATTERN_EDGE_PER_SESSION"
+        ),
+        "deduplication_quality": "EXACT_CANDLE" if exact_identity else "PROXY_ONLY",
+        "exact_candle_identity_available": exact_identity,
+        "eligible_for_hypothesis_freeze_from_schema": exact_identity,
+        "schema_limitations": [] if exact_identity else [
             "CANDLE_ID_NOT_CAPTURED",
             "CANDLE_TIMESTAMP_NOT_CAPTURED",
             "CANDLE_VOLUME_NOT_CAPTURED",
         ],
-        "volume_status": "NOT_CAPTURED_IN_RC54_SESSION_SCHEMA",
+        "volume_status": (
+            "CANDLE_VOLUME_CAPTURED"
+            if exact_identity else "NOT_CAPTURED_IN_RC54_SESSION_SCHEMA"
+        ),
         "observational_only": report.observational_only,
         "predictive_claim_allowed": report.predictive_claim_allowed,
         "score_influence_allowed": report.score_influence_allowed,
