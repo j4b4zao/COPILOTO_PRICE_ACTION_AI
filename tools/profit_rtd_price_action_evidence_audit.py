@@ -1,0 +1,134 @@
+"""Extrai evidencias de price action de sessoes RC54 sem duplicar snapshots."""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+from analysis.research.price_action_evidence_observer import (
+    PriceActionEvidence,
+    PriceActionEvidenceObserver,
+)
+
+PATTERNS = (
+    "bullish_engulfing",
+    "bearish_engulfing",
+    "hammer",
+    "shooting_star",
+    "doji",
+    "inside_bar",
+    "outside_bar",
+)
+HORIZONS = (1, 3, 5, 10)
+
+
+def _rows(payload):
+    if not isinstance(payload, dict) or payload.get("data_ready") is not True:
+        return []
+    value = payload.get("samples")
+    return value if isinstance(value, list) else []
+
+
+def _price(row):
+    try:
+        value = float(row.get("last_price"))
+    except (AttributeError, TypeError, ValueError):
+        return None
+    return value if value > 0 else None
+
+
+def audit(paths, *, timeframe="M1", minimum_sample=30):
+    evidence = []
+    accepted, rejected, edge_occurrences = [], [], 0
+    for raw_path in paths:
+        path = Path(raw_path)
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        rows = _rows(payload)
+        if not rows:
+            rejected.append(path.name)
+            continue
+        accepted.append(path.name)
+        previous_active = {pattern: False for pattern in PATTERNS}
+        for index, row in enumerate(rows):
+            pa = row.get("price_action") if isinstance(row, dict) else None
+            pa = pa if isinstance(pa, dict) else {}
+            for pattern in PATTERNS:
+                active = pa.get(pattern) is True
+                if active and not previous_active[pattern]:
+                    base = _price(row)
+                    if base is not None:
+                        edge_occurrences += 1
+                        regime = str(pa.get("trend") or row.get("structure", {}).get("trend") or "UNKNOWN")
+                        location = str(pa.get("brooks_signal_context") or "UNSPECIFIED")
+                        for horizon in HORIZONS:
+                            target_index = index + horizon
+                            if target_index >= len(rows):
+                                continue
+                            target = _price(rows[target_index])
+                            if target is None:
+                                continue
+                            evidence.append(
+                                PriceActionEvidence(
+                                    pattern=pattern,
+                                    regime=regime,
+                                    timeframe=timeframe,
+                                    location_context=location,
+                                    horizon_steps=horizon,
+                                    forward_return=target - base,
+                                )
+                            )
+                previous_active[pattern] = active
+
+    report = PriceActionEvidenceObserver.analyze(
+        tuple(evidence), minimum_sample_per_bucket=minimum_sample
+    )
+    return {
+        "status": report.status,
+        "accepted_sessions": accepted,
+        "rejected_sessions": rejected,
+        "edge_occurrences": edge_occurrences,
+        "evidence_rows": len(evidence),
+        "buckets": [
+            {
+                "key": bucket.key,
+                "observations": bucket.observations,
+                "mean_forward_return": bucket.mean_forward_return,
+                "positive_rate": bucket.positive_rate,
+                "mean_volume_ratio": bucket.mean_volume_ratio,
+                "sample_sufficient": bucket.sample_sufficient,
+            }
+            for bucket in report.buckets
+        ],
+        "insufficient_buckets": list(report.insufficient_buckets),
+        "reasons": list(report.reasons),
+        "deduplication": "FALSE_TO_TRUE_PATTERN_EDGE_PER_SESSION",
+        "volume_status": "NOT_CAPTURED_IN_RC54_SESSION_SCHEMA",
+        "observational_only": report.observational_only,
+        "predictive_claim_allowed": report.predictive_claim_allowed,
+        "score_influence_allowed": report.score_influence_allowed,
+        "risk_influence_allowed": report.risk_influence_allowed,
+        "decision_influence_allowed": report.decision_influence_allowed,
+        "alert_influence_allowed": report.alert_influence_allowed,
+        "order_execution_allowed": report.order_execution_allowed,
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("paths", nargs="+")
+    parser.add_argument("--timeframe", default="M1")
+    parser.add_argument("--minimum-sample", type=int, default=30)
+    parser.add_argument("--output")
+    args = parser.parse_args()
+    result = audit(args.paths, timeframe=args.timeframe, minimum_sample=args.minimum_sample)
+    text = json.dumps(result, indent=2, sort_keys=True)
+    if args.output:
+        output = Path(args.output)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(text, encoding="utf-8")
+    print(text)
+
+
+if __name__ == "__main__":
+    main()

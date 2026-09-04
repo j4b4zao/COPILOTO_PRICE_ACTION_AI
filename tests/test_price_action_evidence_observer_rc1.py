@@ -6,12 +6,13 @@ from analysis.research.price_action_evidence_observer import (
 )
 
 
-def _item(*, pattern="DOJI", regime="SIDEWAYS", timeframe="M1", location="MID", ret=0.0, volume=None, baseline=None):
+def _item(*, pattern="DOJI", regime="SIDEWAYS", timeframe="M1", location="MID", horizon=1, ret=0.0, volume=None, baseline=None):
     return PriceActionEvidence(
         pattern=pattern,
         regime=regime,
         timeframe=timeframe,
         location_context=location,
+        horizon_steps=horizon,
         forward_return=ret,
         volume=volume,
         baseline_volume=baseline,
@@ -42,6 +43,13 @@ def test_ready_requires_minimum_sample_in_every_context_bucket():
     )
     assert report.status == "EVIDENCE_READY"
     assert report.insufficient_buckets == ()
+
+
+def test_does_not_mix_forward_horizons():
+    report = PriceActionEvidenceObserver.analyze(
+        (_item(horizon=1), _item(horizon=5)), minimum_sample_per_bucket=1
+    )
+    assert {bucket.key.rsplit("|", 1)[-1] for bucket in report.buckets} == {"H1", "H5"}
 
 
 def test_empty_and_partial_volume_are_explicitly_not_ready_or_invalid():

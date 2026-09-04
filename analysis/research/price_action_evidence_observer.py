@@ -17,6 +17,7 @@ class PriceActionEvidence:
     regime: str
     timeframe: str
     location_context: str
+    horizon_steps: int
     forward_return: float
     volume: float | None = None
     baseline_volume: float | None = None
@@ -26,6 +27,10 @@ class PriceActionEvidence:
             value = getattr(self, name)
             if not isinstance(value, str) or not value.strip():
                 raise ValueError(f"{name} deve ser texto nao vazio.")
+        if (isinstance(self.horizon_steps, bool)
+                or not isinstance(self.horizon_steps, int)
+                or self.horizon_steps < 1):
+            raise ValueError("horizon_steps deve ser inteiro positivo.")
         if not math.isfinite(float(self.forward_return)):
             raise ValueError("forward_return deve ser finito.")
         if (self.volume is None) != (self.baseline_volume is None):
@@ -92,6 +97,7 @@ class PriceActionEvidenceObserver:
                     item.regime,
                     item.timeframe,
                     item.location_context,
+                    f"H{item.horizon_steps}",
                 )
             )
             grouped.setdefault(key, []).append(item)
