@@ -52,8 +52,12 @@ class PriceActionEvidenceBucket:
     mean_volume_ratio: float | None
     sessions: int
     maximum_session_share: float
+    session_mean_returns: tuple[tuple[str, float], ...]
+    consistent_direction: str
+    directional_session_share: float
     sample_sufficient: bool
     cross_session_sufficient: bool
+    directional_stability_sufficient: bool
 
 
 @dataclass(frozen=True, slots=True)
@@ -83,6 +87,7 @@ class PriceActionEvidenceObserver:
         *,
         minimum_sample_per_bucket: int = 30,
         minimum_sessions_per_bucket: int = 3,
+        minimum_directional_session_share: float = 2 / 3,
     ) -> PriceActionEvidenceReport:
         if not isinstance(evidence, tuple):
             raise TypeError("evidence deve ser tuple.")
@@ -94,6 +99,11 @@ class PriceActionEvidenceObserver:
                 or not isinstance(minimum_sessions_per_bucket, int)
                 or minimum_sessions_per_bucket < 1):
             raise ValueError("minimum_sessions_per_bucket deve ser inteiro positivo.")
+        if (not math.isfinite(minimum_directional_session_share)
+                or not 0.5 < minimum_directional_session_share <= 1.0):
+            raise ValueError(
+                "minimum_directional_session_share deve estar em (0.5, 1.0]."
+            )
 
         grouped: dict[str, list[PriceActionEvidence]] = {}
         for item in evidence:
@@ -120,9 +130,25 @@ class PriceActionEvidenceObserver:
                 if item.volume is not None
             )
             session_counts: dict[str, int] = {}
+            session_returns: dict[str, list[float]] = {}
             for item in items:
                 session_counts[item.session_id] = session_counts.get(item.session_id, 0) + 1
+                session_returns.setdefault(item.session_id, []).append(float(item.forward_return))
             sessions = len(session_counts)
+            session_means = tuple(
+                (session_id, fmean(values))
+                for session_id, values in sorted(session_returns.items())
+            )
+            positive_sessions = sum(value > 0 for _, value in session_means)
+            negative_sessions = sum(value < 0 for _, value in session_means)
+            dominant_sessions = max(positive_sessions, negative_sessions)
+            directional_share = dominant_sessions / sessions
+            if positive_sessions > negative_sessions:
+                direction = "POSITIVE"
+            elif negative_sessions > positive_sessions:
+                direction = "NEGATIVE"
+            else:
+                direction = "NONE"
             buckets.append(
                 PriceActionEvidenceBucket(
                     key=key,
@@ -132,14 +158,24 @@ class PriceActionEvidenceObserver:
                     mean_volume_ratio=fmean(volume_ratios) if volume_ratios else None,
                     sessions=sessions,
                     maximum_session_share=max(session_counts.values()) / len(items),
+                    session_mean_returns=session_means,
+                    consistent_direction=direction,
+                    directional_session_share=directional_share,
                     sample_sufficient=len(items) >= minimum_sample_per_bucket,
                     cross_session_sufficient=sessions >= minimum_sessions_per_bucket,
+                    directional_stability_sufficient=(
+                        sessions >= minimum_sessions_per_bucket
+                        and direction != "NONE"
+                        and directional_share >= minimum_directional_session_share
+                    ),
                 )
             )
 
         insufficient = tuple(
             bucket.key for bucket in buckets
-            if not bucket.sample_sufficient or not bucket.cross_session_sufficient
+            if (not bucket.sample_sufficient
+                or not bucket.cross_session_sufficient
+                or not bucket.directional_stability_sufficient)
         )
         reasons = []
         if not buckets:
@@ -149,6 +185,8 @@ class PriceActionEvidenceObserver:
                 reasons.append("INSUFFICIENT_CONTEXT_SAMPLE")
             if any(not bucket.cross_session_sufficient for bucket in buckets):
                 reasons.append("INSUFFICIENT_CROSS_SESSION_RECURRENCE")
+            if any(not bucket.directional_stability_sufficient for bucket in buckets):
+                reasons.append("DIRECTIONAL_STABILITY_NOT_CONFIRMED")
         return PriceActionEvidenceReport(
             status=(
                 "EVIDENCE_READY"

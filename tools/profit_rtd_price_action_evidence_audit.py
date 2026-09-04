@@ -101,8 +101,12 @@ def audit(paths, *, timeframe="M1", minimum_sample=30, minimum_sessions=3):
                 "mean_volume_ratio": bucket.mean_volume_ratio,
                 "sessions": bucket.sessions,
                 "maximum_session_share": bucket.maximum_session_share,
+                "session_mean_returns": dict(bucket.session_mean_returns),
+                "consistent_direction": bucket.consistent_direction,
+                "directional_session_share": bucket.directional_session_share,
                 "sample_sufficient": bucket.sample_sufficient,
                 "cross_session_sufficient": bucket.cross_session_sufficient,
+                "directional_stability_sufficient": bucket.directional_stability_sufficient,
             }
             for bucket in report.buckets
         ],

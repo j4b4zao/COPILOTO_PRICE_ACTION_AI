@@ -41,7 +41,7 @@ def test_separates_pattern_regime_timeframe_and_location_without_signal():
 
 def test_ready_requires_minimum_sample_in_every_context_bucket():
     report = PriceActionEvidenceObserver.analyze(
-        (_item(session="S1", ret=0.01), _item(session="S2", ret=-0.01)),
+        (_item(session="S1", ret=0.01), _item(session="S2", ret=0.02)),
         minimum_sample_per_bucket=2,
         minimum_sessions_per_bucket=2,
     )
@@ -49,6 +49,8 @@ def test_ready_requires_minimum_sample_in_every_context_bucket():
     assert report.insufficient_buckets == ()
     assert report.buckets[0].sessions == 2
     assert report.buckets[0].maximum_session_share == 0.5
+    assert report.buckets[0].consistent_direction == "POSITIVE"
+    assert report.buckets[0].directional_session_share == 1.0
 
 
 def test_does_not_mix_forward_horizons():
@@ -91,3 +93,20 @@ def test_occurrence_count_alone_does_not_replace_session_recurrence():
     assert report.buckets[0].cross_session_sufficient is False
     assert report.buckets[0].maximum_session_share == 1.0
     assert "INSUFFICIENT_CROSS_SESSION_RECURRENCE" in report.reasons
+
+
+def test_aggregate_mean_does_not_replace_directional_session_stability():
+    report = PriceActionEvidenceObserver.analyze(
+        (
+            _item(session="S1", ret=10.0),
+            _item(session="S2", ret=-1.0),
+            _item(session="S3", ret=0.0),
+        ),
+        minimum_sample_per_bucket=3,
+        minimum_sessions_per_bucket=3,
+    )
+    bucket = report.buckets[0]
+    assert bucket.mean_forward_return == 3.0
+    assert bucket.consistent_direction == "NONE"
+    assert bucket.directional_stability_sufficient is False
+    assert "DIRECTIONAL_STABILITY_NOT_CONFIRMED" in report.reasons
