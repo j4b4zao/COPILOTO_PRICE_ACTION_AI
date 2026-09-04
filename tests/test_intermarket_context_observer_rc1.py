@@ -49,6 +49,36 @@ class IntermarketContextObserverTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             IntermarketPoint("equity", datetime(2026, 9, 4), 100.0)
 
+    def test_rolling_correlation_uses_only_exactly_aligned_window(self):
+        start = datetime(2026, 9, 4, 12, tzinfo=timezone.utc)
+        points = []
+        for index in range(5):
+            stamp = start + timedelta(minutes=index)
+            points.extend((
+                IntermarketPoint("equity", stamp, float(index)),
+                IntermarketPoint("usdbrl", stamp, float(10 - index)),
+            ))
+        result = IntermarketContextObserver.rolling_correlation(
+            tuple(points), asset_a="equity", asset_b="usdbrl", window_size=5
+        )
+        self.assertEqual(result.status, "RELATIONSHIP_OBSERVED")
+        self.assertAlmostEqual(result.correlation, -1.0)
+        self.assertFalse(result.predictive_claim_allowed)
+
+    def test_relationship_rejects_unaligned_or_constant_evidence(self):
+        start = datetime(2026, 9, 4, 12, tzinfo=timezone.utc)
+        points = tuple(
+            IntermarketPoint(asset, start + timedelta(minutes=index), value)
+            for index, (asset, value) in enumerate((
+                ("equity", 1.0), ("usdbrl", 2.0), ("equity", 3.0)
+            ))
+        )
+        result = IntermarketContextObserver.rolling_correlation(
+            points, asset_a="equity", asset_b="usdbrl", window_size=3
+        )
+        self.assertEqual(result.status, "DATA_NOT_READY")
+        self.assertIn("INSUFFICIENT_ALIGNED_OBSERVATIONS", result.reasons)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -95,3 +95,10 @@ RC1 now includes steps 2 and 3 as isolated foundations: regime samples are
 reported separately and any missing, stale, or future-dated intermarket input
 produces `DATA_NOT_READY`. Rolling relationships and provider integration remain
 deferred.
+
+The next RC1 increment adds a SHA-256 hash-chained journal. Thesis, invalidation,
+disconfirming evidence, rule violations, outcomes, and violation cost in R become
+tamper-evident; altered history is rejected before an entry can be appended. It
+also adds rolling pair correlation over exact timestamp intersections. A measured
+correlation remains descriptive and explicitly disallows predictive or operational
+claims. Provider integration and lead/lag hypothesis testing remain deferred.
