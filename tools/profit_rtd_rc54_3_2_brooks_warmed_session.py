@@ -1,4 +1,4 @@
-"""RC54.3.2 warmed session com enriquecimento Brooks First Pullback.
+"""RC54.3.2 warmed session com enriquecimento Brooks de pesquisa.
 
 Este runner preserva o RC54.3.2 original e adiciona somente evidencia
 observacional ao bloco ``price_action`` de cada amostra. Nenhuma informacao
@@ -8,7 +8,7 @@ execucao.
 A implementacao e deliberadamente derivada: o runner validado
 ``profit_rtd_rc54_3_2_warmed_session`` continua intacto. Aqui apenas
 substituimos, durante esta execucao, a funcao de snapshot usada por ele por
-uma versao que chama ``enrich_price_action_snapshot``.
+uma versao enriquecida para pesquisa Brooks.
 """
 
 from __future__ import annotations
@@ -28,7 +28,16 @@ _ORIGINAL_SNAPSHOT_CONTEXT = base.snapshot_context
 def snapshot_context_with_brooks(context, micro):
     """Snapshot RC54.3 enriquecido apenas com evidencia Brooks de pesquisa."""
     item = _ORIGINAL_SNAPSHOT_CONTEXT(context, micro)
-    return enrich_price_action_snapshot(item, context)
+    item = enrich_price_action_snapshot(item, context)
+
+    pa_snapshot = item.get("price_action")
+    pa_result = getattr(context, "price_action", None)
+    if isinstance(pa_snapshot, dict) and pa_result is not None:
+        pa_snapshot["brooks_reversal_context"] = str(
+            getattr(pa_result, "brooks_reversal_context", "NEUTRAL") or "NEUTRAL"
+        )
+
+    return item
 
 
 def run_warmed_session(
@@ -59,6 +68,15 @@ def run_warmed_session(
         base.snapshot_context = previous
 
     result["brooks_first_pullback_capture"] = True
+    result["brooks_major_reversal_context_capture"] = True
+    result["brooks_research_only"] = True
+    result["brooks_predictive_claim_allowed"] = False
+    result["brooks_score_influence_allowed"] = False
+    result["brooks_risk_influence_allowed"] = False
+    result["brooks_decision_influence_allowed"] = False
+    result["brooks_alert_influence_allowed"] = False
+    result["brooks_order_execution_allowed"] = False
+
     result["brooks_first_pullback_research_only"] = True
     result["brooks_first_pullback_predictive_claim_allowed"] = False
     result["brooks_first_pullback_score_influence_allowed"] = False
@@ -72,8 +90,7 @@ def run_warmed_session(
 def main(argv=None):
     parser = argparse.ArgumentParser(
         description=(
-            "RC54.3.2 warmed session com evidencia observacional "
-            "BROOKS_TREND_PULLBACK_V1."
+            "RC54.3.2 warmed session com evidencia observacional Brooks."
         )
     )
     parser.add_argument("symbol")
@@ -103,13 +120,14 @@ def main(argv=None):
         "collection_errors",
         "data_ready",
         "brooks_first_pullback_capture",
-        "brooks_first_pullback_research_only",
-        "brooks_first_pullback_predictive_claim_allowed",
-        "brooks_first_pullback_score_influence_allowed",
-        "brooks_first_pullback_risk_influence_allowed",
-        "brooks_first_pullback_decision_influence_allowed",
-        "brooks_first_pullback_alert_influence_allowed",
-        "brooks_first_pullback_order_execution_allowed",
+        "brooks_major_reversal_context_capture",
+        "brooks_research_only",
+        "brooks_predictive_claim_allowed",
+        "brooks_score_influence_allowed",
+        "brooks_risk_influence_allowed",
+        "brooks_decision_influence_allowed",
+        "brooks_alert_influence_allowed",
+        "brooks_order_execution_allowed",
     ):
         if key in result:
             print(f"{key}={result[key]}")
