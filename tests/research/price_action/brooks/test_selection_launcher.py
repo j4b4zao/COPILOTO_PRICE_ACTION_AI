@@ -101,6 +101,11 @@ def test_main_returns_zero_when_all_sessions_are_eligible(tmp_path, monkeypatch)
         lambda *args, **kwargs: {
             **_runner_result("WINV26", 1),
             "launcher": "BROOKS_SELECTION_LAUNCHER_V1",
+            "selection_outcome": {
+                "status": "VALID_SELECTION",
+                "counts_as_selection_evidence": True,
+                "retry_when_real_source_active": False,
+            },
             "report_path": str(tmp_path / "report.json"),
         },
     )

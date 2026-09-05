@@ -79,9 +79,11 @@ def test_wrong_response_direction_does_not_match():
 
 
 def test_opposite_choch_before_failure_invalidates_sequence():
+    opposite_choch = row("2026-09-07T15:01:00", choch=True)
+    opposite_choch["structure"]["trend"] = "DOWN"
     result = audit_payload(payload([
         row("2026-09-07T15:00:00", phase="BREAKOUT_PENDING", breakout_direction="UP"),
-        row("2026-09-07T15:01:00", choch="UP"),
+        opposite_choch,
         row("2026-09-07T15:02:00", phase="BREAKOUT_FAILED", breakout_direction="UP", failed=True),
     ]))
     assert result["matched_sequence_count"] == 0
