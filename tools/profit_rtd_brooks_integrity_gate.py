@@ -94,6 +94,22 @@ def _result_safety(name, result):
     )
 
 
+def _registry_entries(registry_module):
+    registry_type = getattr(registry_module, "BrooksResearchRegistry", None)
+    if registry_type is None:
+        return None
+    entries_method = getattr(registry_type, "entries", None)
+    if not callable(entries_method):
+        return None
+    try:
+        entries = entries_method()
+    except Exception:
+        return None
+    if not isinstance(entries, tuple):
+        return None
+    return entries
+
+
 def run_integrity_gate():
     checks = []
     modules = {}
@@ -110,16 +126,18 @@ def run_integrity_gate():
 
     registry_module = modules.get("research.price_action.brooks.registry")
     if registry_module is not None:
-        registry = getattr(registry_module, "BROOKS_RESEARCH_REGISTRY", None)
+        entries = _registry_entries(registry_module)
         expected_count = 7
+        actual_count = len(entries) if entries is not None else "INVALID"
         checks.append(GateCheck(
             "BROOKS_RESEARCH_REGISTRY:COUNT",
-            isinstance(registry, dict) and len(registry) == expected_count,
-            f"expected={expected_count};actual={len(registry) if isinstance(registry, dict) else 'INVALID'}",
+            entries is not None and len(entries) == expected_count,
+            f"expected={expected_count};actual={actual_count}",
         ))
-        if isinstance(registry, dict):
-            for name, entry in registry.items():
-                checks.append(_result_safety(f"REGISTRY:{name}", entry))
+        if entries is not None:
+            for entry in entries:
+                entry_name = getattr(entry, "name", "UNKNOWN")
+                checks.append(_result_safety(f"REGISTRY:{entry_name}", entry))
 
     passed = all(check.passed for check in checks)
     return {
