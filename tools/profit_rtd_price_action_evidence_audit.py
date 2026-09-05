@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from datetime import datetime
 from statistics import fmean
 from pathlib import Path
 
@@ -75,6 +76,19 @@ def _rows(payload):
     return value if isinstance(value, list) else []
 
 
+def _session_interval(rows):
+    timestamps = []
+    for row in rows:
+        value = row.get("timestamp") if isinstance(row, dict) else None
+        if not isinstance(value, str):
+            continue
+        try:
+            timestamps.append(datetime.fromisoformat(value).timestamp())
+        except ValueError:
+            continue
+    return (min(timestamps), max(timestamps)) if timestamps else None
+
+
 def _price(row):
     try:
         value = float(row.get("last_price"))
@@ -127,16 +141,44 @@ def _volume_pair(rows, index):
 def audit(paths, *, timeframe="M1", minimum_sample=30, minimum_sessions=3):
     evidence = []
     accepted, rejected, edge_occurrences = [], [], 0
-    sessions = []
+    rejected_details = []
+    candidates = []
     for raw_path in paths:
         path = Path(raw_path)
         payload = json.loads(path.read_text(encoding="utf-8"))
         rows = _rows(payload)
         if not rows:
             rejected.append(path.name)
+            rejected_details.append({"session": path.name, "reason": "DATA_NOT_READY"})
+            continue
+        candidates.append((path, rows, _session_interval(rows)))
+
+    candidates.sort(key=lambda item: (
+        item[2] is None,
+        item[2][0] if item[2] is not None else float("inf"),
+        item[0].name,
+    ))
+    sessions = []
+    accepted_intervals = []
+    for path, rows, interval in candidates:
+        overlap = next((
+            prior_name for prior_name, prior_interval in accepted_intervals
+            if interval is not None
+            and interval[0] <= prior_interval[1]
+            and prior_interval[0] <= interval[1]
+        ), None)
+        if overlap is not None:
+            rejected.append(path.name)
+            rejected_details.append({
+                "session": path.name,
+                "reason": "TEMPORAL_OVERLAP",
+                "overlaps_with": overlap,
+            })
             continue
         accepted.append(path.name)
         sessions.append((path, rows))
+        if interval is not None:
+            accepted_intervals.append((path.name, interval))
 
     schema_modes = {
         "EXACT_CANDLE" if _has_exact_candle_identity(rows) else "SNAPSHOT_PROXY"
@@ -196,6 +238,7 @@ def audit(paths, *, timeframe="M1", minimum_sample=30, minimum_sessions=3):
         "status": report.status,
         "accepted_sessions": accepted,
         "rejected_sessions": rejected,
+        "rejected_session_details": rejected_details,
         "edge_occurrences": edge_occurrences,
         "evidence_rows": len(evidence),
         "buckets": [

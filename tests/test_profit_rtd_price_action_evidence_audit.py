@@ -27,6 +27,12 @@ def _exact_row(price, candle_id, *, inside=False, volume=100):
     return row
 
 
+def _timestamped_exact_row(price, candle_id, timestamp, *, inside=False):
+    row = _exact_row(price, candle_id, inside=inside)
+    row["timestamp"] = timestamp
+    return row
+
+
 def test_audit_counts_only_false_to_true_edges_and_separates_horizons(tmp_path):
     path = tmp_path / "session.json"
     rows = [_row(100), _row(101, inside=True), _row(102, inside=True)]
@@ -132,3 +138,30 @@ def test_exact_and_proxy_sessions_cannot_be_mixed(tmp_path):
     import pytest
     with pytest.raises(ValueError, match="MIXED_EXACT_AND_PROXY"):
         audit([exact, proxy])
+
+
+def test_audit_rejects_temporally_overlapping_sessions(tmp_path):
+    first = tmp_path / "first.json"
+    overlap = tmp_path / "overlap.json"
+    later = tmp_path / "later.json"
+    first.write_text(json.dumps({"data_ready": True, "samples": [
+        _timestamped_exact_row(100, "C1", "2026-09-04T10:00:00"),
+        _timestamped_exact_row(101, "C2", "2026-09-04T10:10:00"),
+    ]}), encoding="utf-8")
+    overlap.write_text(json.dumps({"data_ready": True, "samples": [
+        _timestamped_exact_row(102, "C3", "2026-09-04T10:05:00"),
+        _timestamped_exact_row(103, "C4", "2026-09-04T10:15:00"),
+    ]}), encoding="utf-8")
+    later.write_text(json.dumps({"data_ready": True, "samples": [
+        _timestamped_exact_row(104, "C5", "2026-09-04T10:20:00"),
+    ]}), encoding="utf-8")
+
+    result = audit([later, overlap, first], minimum_sample=1, minimum_sessions=1)
+
+    assert result["accepted_sessions"] == ["first.json", "later.json"]
+    assert result["rejected_sessions"] == ["overlap.json"]
+    assert result["rejected_session_details"] == [{
+        "session": "overlap.json",
+        "reason": "TEMPORAL_OVERLAP",
+        "overlaps_with": "first.json",
+    }]
