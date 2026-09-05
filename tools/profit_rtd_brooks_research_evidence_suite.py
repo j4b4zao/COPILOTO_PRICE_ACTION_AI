@@ -6,6 +6,14 @@ promover hipotese e sem alterar Score, Risk, Decision, Alert ou execucao.
 A suite mantem selecao e OOS explicitamente separados. O modo OOS exige um
 cutoff informado e rejeita sessoes cujo inicio nao seja estritamente posterior
 ao cutoff.
+
+Os auditores Brooks foram criados em etapas diferentes e nao possuem todos a
+mesma API publica. Esta suite normaliza esses contratos sem alterar nenhum dos
+auditores ja validados:
+
+- usa ``audit(paths)`` quando o modulo expoe auditoria por caminhos;
+- usa ``audit_sessions(payloads)`` para auditoria multi-session por payload;
+- usa ``audit_payload(payload)`` quando apenas uma sessao foi fornecida.
 """
 from __future__ import annotations
 
@@ -14,23 +22,14 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from tools.profit_rtd_brooks_breakout_pullback_audit import audit as audit_breakout_pullback
-from tools.profit_rtd_brooks_failed_breakout_audit import audit as audit_failed_breakout
-from tools.profit_rtd_brooks_major_trend_reversal_audit import audit as audit_major_trend_reversal
-from tools.profit_rtd_brooks_trading_range_reversal_audit import audit as audit_trading_range_reversal
-from tools.profit_rtd_brooks_trend_pullback_audit import audit as audit_trend_pullback
-from tools.profit_rtd_brooks_wedge_three_pushes_audit import audit as audit_wedge_three_pushes
+import tools.profit_rtd_brooks_breakout_pullback_audit as breakout_pullback_audit
+import tools.profit_rtd_brooks_failed_breakout_audit as failed_breakout_audit
+import tools.profit_rtd_brooks_major_trend_reversal_audit as major_trend_reversal_audit
+import tools.profit_rtd_brooks_trading_range_reversal_audit as trading_range_reversal_audit
+import tools.profit_rtd_brooks_trend_pullback_audit as trend_pullback_audit
+import tools.profit_rtd_brooks_wedge_three_pushes_audit as wedge_three_pushes_audit
 from tools.profit_rtd_price_action_evidence_audit import _session_interval
 
-
-AUDITORS = {
-    "BROOKS_BREAKOUT_PULLBACK_V1": audit_breakout_pullback,
-    "BROOKS_TREND_PULLBACK_V1": audit_trend_pullback,
-    "BROOKS_FAILED_BREAKOUT_V1": audit_failed_breakout,
-    "BROOKS_MAJOR_TREND_REVERSAL_V1": audit_major_trend_reversal,
-    "BROOKS_WEDGE_THREE_PUSHES_V1": audit_wedge_three_pushes,
-    "BROOKS_TRADING_RANGE_REVERSAL_V1": audit_trading_range_reversal,
-}
 
 MANAGEMENT_RESEARCH = "BROOKS_STOP_TARGET_RULES_V1"
 
@@ -51,6 +50,64 @@ def _safety():
 def _load(path):
     source = Path(path)
     return source, json.loads(source.read_text(encoding="utf-8"))
+
+
+def _call_auditor(module, paths):
+    """Normaliza as APIs historicas dos auditores Brooks.
+
+    A funcao recebe caminhos aceitos pela suite e devolve o relatorio nativo
+    do auditor. Nenhuma semantica do auditor e reinterpretada aqui.
+    """
+    normalized_paths = [str(Path(path)) for path in paths]
+
+    audit_fn = getattr(module, "audit", None)
+    if callable(audit_fn):
+        return audit_fn(normalized_paths)
+
+    payloads = [
+        json.loads(Path(path).read_text(encoding="utf-8"))
+        for path in normalized_paths
+    ]
+
+    audit_sessions_fn = getattr(module, "audit_sessions", None)
+    audit_payload_fn = getattr(module, "audit_payload", None)
+
+    if len(payloads) == 1 and callable(audit_payload_fn):
+        return audit_payload_fn(payloads[0])
+
+    if callable(audit_sessions_fn):
+        return audit_sessions_fn(payloads)
+
+    if callable(audit_payload_fn):
+        return {
+            "status": "MULTI_SESSION_ADAPTER_COMPLETED",
+            "eligible_sessions": len(payloads),
+            "sessions": [audit_payload_fn(payload) for payload in payloads],
+            "hypothesis_freeze_allowed": False,
+            **_safety(),
+        }
+
+    raise AttributeError(
+        f"Auditor module {getattr(module, '__name__', module)!r} exposes no "
+        "supported audit contract"
+    )
+
+
+def _auditor(module):
+    def run(paths):
+        return _call_auditor(module, paths)
+
+    return run
+
+
+AUDITORS = {
+    "BROOKS_BREAKOUT_PULLBACK_V1": _auditor(breakout_pullback_audit),
+    "BROOKS_TREND_PULLBACK_V1": _auditor(trend_pullback_audit),
+    "BROOKS_FAILED_BREAKOUT_V1": _auditor(failed_breakout_audit),
+    "BROOKS_MAJOR_TREND_REVERSAL_V1": _auditor(major_trend_reversal_audit),
+    "BROOKS_WEDGE_THREE_PUSHES_V1": _auditor(wedge_three_pushes_audit),
+    "BROOKS_TRADING_RANGE_REVERSAL_V1": _auditor(trading_range_reversal_audit),
+}
 
 
 def _interval_from_payload(payload):
@@ -125,6 +182,7 @@ def _eligible_paths(paths, *, mode, selection_cutoff=None):
 
 
 def build_report(paths, *, mode="SELECTION", selection_cutoff=None):
+    paths = list(paths)
     mode = str(mode or "SELECTION").strip().upper()
     if mode not in {"SELECTION", "OOS"}:
         raise ValueError("mode must be SELECTION or OOS")
@@ -161,7 +219,7 @@ def build_report(paths, *, mode="SELECTION", selection_cutoff=None):
         "suite": "BROOKS_RESEARCH_EVIDENCE_SUITE_V1",
         "mode": mode,
         "selection_cutoff": selection_cutoff,
-        "input_sessions": len(list(paths)),
+        "input_sessions": len(paths),
         "eligible_sessions": len(accepted),
         "accepted_sessions": [Path(p).name for p in accepted],
         "rejected_sessions": rejected,
