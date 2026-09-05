@@ -70,6 +70,19 @@ def run():
         assert result['manifest_valid'] is False
         assert result['manifest'][1]['reasons'] == ['DUPLICATE_CONTENT']
 
+        overlapping = td / 'overlapping.json'
+        make_session(overlapping, base + timedelta(seconds=5))
+        result = recompose([overlapping, clean[0]])
+        assert result['manifest_valid'] is False
+        by_path = {row['path']: row for row in result['manifest']}
+        rejected_overlap = by_path[str(overlapping.resolve())]
+        assert rejected_overlap['eligible'] is False
+        assert rejected_overlap['reasons'] == ['TEMPORAL_OVERLAP']
+        assert rejected_overlap['overlaps_with'] == str(clean[0].resolve())
+        assert result['inventory_summary']['rejection_reasons'] == {
+            'TEMPORAL_OVERLAP': 1,
+        }
+
         invalid = td / 'invalid.json'
         make_session(invalid, base + timedelta(hours=4), data_ready=False)
         result = recompose([invalid])

@@ -66,14 +66,14 @@ A session is eligible only when all conditions are true:
 4. `observational_only=True`;
 5. samples exist and timestamps are valid and strictly increasing;
 6. the file is not a duplicate by resolved path or SHA-256 content;
-7. for exact-candle price-action research, its sample interval does not overlap
-   another session admitted to the same selection evidence set.
+7. its sample interval does not overlap another session admitted to the same
+   selection or OOS evidence role.
 
-The exact-candle and Brooks auditors retain overlapping evidence for
-traceability but quarantine it from clean recomposition. Their rejection record
-must identify `TEMPORAL_OVERLAP` and the already admitted session that conflicts
-with it. Never count overlapping files as independent exact-candle sessions,
-even when their paths or hashes differ.
+The offline recomposer and the exact-candle/Brooks auditors retain overlapping
+evidence for traceability but quarantine it from clean recomposition. Their
+rejection record must identify `TEMPORAL_OVERLAP` and the already admitted
+session that conflicts with it. Never count overlapping files as independent
+sessions, even when their paths or hashes differ.
 
 Technical failures are never reclassified as market context failures. A session
 with `data_ready=False` is excluded from RC54.7 and RC54.8. Missing

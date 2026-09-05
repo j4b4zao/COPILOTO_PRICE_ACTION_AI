@@ -110,6 +110,33 @@ def _mark_duplicates(rows):
         row['duplicate_of'] = duplicate_of
 
 
+def _mark_temporal_overlaps(rows):
+    for role in ('SELECTION', 'OOS'):
+        accepted = []
+        candidates = sorted(
+            (
+                row for row in rows
+                if row['role'] == role and row['eligible']
+                and row['first_timestamp'] and row['last_timestamp']
+            ),
+            key=lambda row: (_timestamp(row['first_timestamp']), row['path']),
+        )
+        for row in candidates:
+            start = _timestamp(row['first_timestamp'])
+            end = _timestamp(row['last_timestamp'])
+            conflict = next((
+                prior for prior in accepted
+                if start <= _timestamp(prior['last_timestamp'])
+                and _timestamp(prior['first_timestamp']) <= end
+            ), None)
+            if conflict is not None:
+                row['eligible'] = False
+                row['reasons'].append('TEMPORAL_OVERLAP')
+                row['overlaps_with'] = conflict['path']
+                continue
+            accepted.append(row)
+
+
 def recompose(
     selection_paths,
     *,
@@ -130,6 +157,7 @@ def recompose(
     rows = [inspect_session(path, 'SELECTION') for path in selection_paths]
     rows += [inspect_session(path, 'OOS') for path in holdout_paths]
     _mark_duplicates(rows)
+    _mark_temporal_overlaps(rows)
 
     cutoff = _timestamp(selection_cutoff) if selection_cutoff else None
     if holdout_paths and cutoff is None:
