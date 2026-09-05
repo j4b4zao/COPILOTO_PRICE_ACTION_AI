@@ -3,7 +3,26 @@
 Este modulo NAO cria sinais operacionais. Ele apenas procura uma sequencia
 explicitamente demonstravel nos campos ja capturados pelos JSONs RC54:
 
-    tendencia -> breakout -> pullback -> rejeicao -> retomada
+    tendencia -> breakout -> pullback/teste -> rejeicao/defesa -> retomada
+
+Semantica importante
+-------------------
+O produtor SignalEntryDynamics nao possui fases PULLBACK ou REJECTION. As
+fases reais capturadas por ``brooks_signal_phase`` sao SETUP_PENDING,
+ENTRY_TRIGGERED, FOLLOW_THROUGH e ENTRY_STALLED.
+
+O produtor BreakoutDynamics, por outro lado, emite BREAKOUT_TESTED quando o
+candle volta ao nivel rompido e fecha preservando o lado do breakout. Por
+isso, nesta auditoria de pesquisa:
+
+- BREAKOUT_PENDING alinhado representa um breakout explicito do produtor;
+- BREAKOUT_TESTED alinhado representa simultaneamente o teste/pullback do
+  nivel e a defesa/rejeicao desse nivel;
+- ENTRY_TRIGGERED ou FOLLOW_THROUGH alinhado, ocorrendo depois do teste,
+  representa retomada explicita.
+
+Estrutura BOS continua sendo aceita como evidencia explicita de breakout.
+BREAKOUT_TESTED nunca e usado como inicio de uma nova sequencia.
 
 Nao ha inferencia por retorno futuro e nenhum candle isolado e convertido em
 setup. Quando a sequencia nao pode ser provada, o resultado permanece como
@@ -22,6 +41,22 @@ from research.price_action.brooks.breakout_pullback import (
     BrooksBreakoutPullbackResearch,
 )
 from tools.profit_rtd_price_action_evidence_audit import _session_interval
+
+
+_SIGNAL_PHASES_EMITTED = {
+    "SETUP_PENDING",
+    "ENTRY_TRIGGERED",
+    "FOLLOW_THROUGH",
+    "ENTRY_STALLED",
+}
+
+_BREAKOUT_PHASES_EMITTED = {
+    "RANGE",
+    "BREAKOUT_PENDING",
+    "BREAKOUT_TESTED",
+    "BREAKOUT_CONFIRMED",
+    "BREAKOUT_FAILED",
+}
 
 
 def _rows(payload):
@@ -73,69 +108,83 @@ def _direction_for_trend(trend):
     return "NONE"
 
 
+def _expected_directions(direction):
+    if direction == "BUY":
+        return {"BUY", "UP", "BULL", "BULLISH"}
+    if direction == "SELL":
+        return {"SELL", "DOWN", "BEAR", "BEARISH"}
+    return set()
+
+
+def _direction_aligned(value, direction):
+    return _text(value) in _expected_directions(direction)
+
+
 def _breakout_explicit(row, direction):
     structure = row.get("structure") or {}
     pa = row.get("price_action") or {}
+
     if direction == "BUY" and structure.get("bos_up") is True:
         return True, "STRUCTURE_BOS_UP"
     if direction == "SELL" and structure.get("bos_down") is True:
         return True, "STRUCTURE_BOS_DOWN"
 
     phase = _text(pa.get("brooks_breakout_phase"))
-    pa_direction = _text(pa.get("brooks_breakout_direction"))
-    aligned = (
-        pa_direction in {"BUY", "UP", "BULL", "BULLISH"}
-        if direction == "BUY"
-        else pa_direction in {"SELL", "DOWN", "BEAR", "BEARISH"}
-    )
-    if aligned and "BREAKOUT" in phase and "FAIL" not in phase:
-        return True, "PA_BROOKS_BREAKOUT_PHASE"
+    if (
+        phase == "BREAKOUT_PENDING"
+        and _direction_aligned(pa.get("brooks_breakout_direction"), direction)
+    ):
+        return True, "PA_BROOKS_BREAKOUT_PENDING"
+
     return False, None
 
 
-def _pullback_explicit(row, direction):
+def _pullback_rejection_explicit(row, direction):
+    """Retorna teste/pullback + defesa apenas quando o produtor os prova.
+
+    BreakoutDynamics define BREAKOUT_TESTED assim:
+    - UP: low toca/ultrapassa o nivel e close termina >= nivel;
+    - DOWN: high toca/ultrapassa o nivel e close termina <= nivel.
+
+    O mesmo candle demonstra o retorno ao nivel e sua defesa. Nao usamos
+    padrao de candle generico nem retorno futuro para fabricar esse estado.
+    """
+
     pa = row.get("price_action") or {}
-    phase = _text(pa.get("brooks_signal_phase"))
-    signal_direction = _text(pa.get("brooks_signal_direction"))
-    expected = (
-        {"BUY", "UP", "BULL", "BULLISH"}
-        if direction == "BUY"
-        else {"SELL", "DOWN", "BEAR", "BEARISH"}
+    phase = _text(pa.get("brooks_breakout_phase"))
+    aligned = _direction_aligned(
+        pa.get("brooks_breakout_direction"),
+        direction,
     )
-    if "PULLBACK" in phase and signal_direction in expected | {"", "NONE"}:
-        return True, "PA_BROOKS_SIGNAL_PULLBACK"
-    return False, None
 
+    if phase == "BREAKOUT_TESTED" and aligned:
+        return (
+            True,
+            "PA_BROOKS_BREAKOUT_TESTED",
+            True,
+            "PA_BROOKS_BREAKOUT_TEST_HELD",
+        )
 
-def _rejection_explicit(row, direction):
-    pa = row.get("price_action") or {}
-    phase = _text(pa.get("brooks_signal_phase"))
-    signal_direction = _text(pa.get("brooks_signal_direction"))
-    expected = (
-        {"BUY", "UP", "BULL", "BULLISH"}
-        if direction == "BUY"
-        else {"SELL", "DOWN", "BEAR", "BEARISH"}
-    )
-    if "REJECT" in phase and signal_direction in expected | {"", "NONE"}:
-        return True, "PA_BROOKS_SIGNAL_REJECTION"
-    if pa.get("brooks_entry_triggered") is True and signal_direction in expected:
-        return True, "PA_BROOKS_ENTRY_TRIGGERED"
-    return False, None
+    return False, None, False, None
 
 
 def _resumption_explicit(row, direction):
     pa = row.get("price_action") or {}
-    breakout_direction = _text(pa.get("brooks_breakout_direction"))
-    signal_direction = _text(pa.get("brooks_signal_direction"))
-    expected = (
-        {"BUY", "UP", "BULL", "BULLISH"}
-        if direction == "BUY"
-        else {"SELL", "DOWN", "BEAR", "BEARISH"}
-    )
-    if pa.get("brooks_follow_through") is True and signal_direction in expected:
-        return True, "PA_BROOKS_FOLLOW_THROUGH"
-    if pa.get("brooks_breakout_follow_through") is True and breakout_direction in expected:
-        return True, "PA_BROOKS_BREAKOUT_FOLLOW_THROUGH"
+    signal_direction = pa.get("brooks_signal_direction")
+    if not _direction_aligned(signal_direction, direction):
+        return False, None
+
+    signal_phase = _text(pa.get("brooks_signal_phase"))
+
+    if pa.get("brooks_follow_through") is True and signal_phase == "FOLLOW_THROUGH":
+        return True, "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+
+    if pa.get("brooks_entry_triggered") is True and signal_phase in {
+        "ENTRY_TRIGGERED",
+        "FOLLOW_THROUGH",
+    }:
+        return True, "PA_BROOKS_SIGNAL_ENTRY_TRIGGERED"
+
     return False, None
 
 
@@ -146,6 +195,28 @@ def _structure_invalidated(row, direction):
     if direction == "SELL":
         return structure.get("choch") is True and _text(structure.get("trend")) == "UP"
     return False
+
+
+def _producer_phase_coverage(rows):
+    signal_phases = sorted({
+        _text((row.get("price_action") or {}).get("brooks_signal_phase"))
+        for row in rows
+        if _text((row.get("price_action") or {}).get("brooks_signal_phase"))
+    })
+    breakout_phases = sorted({
+        _text((row.get("price_action") or {}).get("brooks_breakout_phase"))
+        for row in rows
+        if _text((row.get("price_action") or {}).get("brooks_breakout_phase"))
+    })
+    return {
+        "observed_signal_phases": signal_phases,
+        "observed_breakout_phases": breakout_phases,
+        "signal_phase_contract": sorted(_SIGNAL_PHASES_EMITTED),
+        "breakout_phase_contract": sorted(_BREAKOUT_PHASES_EMITTED),
+        "pullback_source": "BROOKS_BREAKOUT_PHASE_BREAKOUT_TESTED",
+        "rejection_source": "BROOKS_BREAKOUT_PHASE_BREAKOUT_TESTED_HOLD",
+        "resumption_source": "BROOKS_SIGNAL_ENTRY_OR_FOLLOW_THROUGH_AFTER_TEST",
+    }
 
 
 def audit_session(path, *, max_sequence_candles=20):
@@ -178,7 +249,11 @@ def audit_session(path, *, max_sequence_candles=20):
         direction = _direction_for_trend(trend)
         if direction == "NONE":
             continue
-        breakout_detected, breakout_source = _breakout_explicit(breakout_row, direction)
+
+        breakout_detected, breakout_source = _breakout_explicit(
+            breakout_row,
+            direction,
+        )
         if not breakout_detected:
             continue
 
@@ -188,7 +263,9 @@ def audit_session(path, *, max_sequence_candles=20):
                 "source": breakout_source,
             }
         }
-        pullback = rejection = resumption = False
+        pullback = False
+        rejection = False
+        resumption = False
         invalidated = False
 
         end = min(len(rows), index + 1 + int(max_sequence_candles))
@@ -202,20 +279,22 @@ def audit_session(path, *, max_sequence_candles=20):
                 break
 
             if not pullback:
-                pullback, source_name = _pullback_explicit(row, direction)
-                if pullback:
-                    evidence["pullback"] = {
-                        "candle_id": row["candle_evidence"]["candle_id"],
-                        "source": source_name,
-                    }
-                continue
+                (
+                    pullback,
+                    pullback_source,
+                    rejection,
+                    rejection_source,
+                ) = _pullback_rejection_explicit(row, direction)
 
-            if not rejection:
-                rejection, source_name = _rejection_explicit(row, direction)
-                if rejection:
+                if pullback:
+                    candle_id = row["candle_evidence"]["candle_id"]
+                    evidence["pullback"] = {
+                        "candle_id": candle_id,
+                        "source": pullback_source,
+                    }
                     evidence["rejection"] = {
-                        "candle_id": row["candle_evidence"]["candle_id"],
-                        "source": source_name,
+                        "candle_id": candle_id,
+                        "source": rejection_source,
                     }
                 continue
 
@@ -252,8 +331,16 @@ def audit_session(path, *, max_sequence_candles=20):
         else:
             incomplete.append(item)
 
-    status = "MATCHES_OBSERVED" if sequences else "INSUFFICIENT_SEQUENCE_EVIDENCE"
-    reasons = [] if sequences else ["NO_COMPLETE_EXPLICIT_BREAKOUT_PULLBACK_SEQUENCE"]
+    status = (
+        "MATCHES_OBSERVED"
+        if sequences
+        else "INSUFFICIENT_SEQUENCE_EVIDENCE"
+    )
+    reasons = (
+        []
+        if sequences
+        else ["NO_COMPLETE_EXPLICIT_BREAKOUT_PULLBACK_SEQUENCE"]
+    )
     return {
         "session": source.name,
         "status": status,
@@ -262,6 +349,7 @@ def audit_session(path, *, max_sequence_candles=20):
         "incomplete_candidates": len(incomplete),
         "sequences": sequences,
         "incomplete": incomplete,
+        "producer_phase_coverage": _producer_phase_coverage(rows),
         "reasons": reasons,
         **_safety(),
     }
@@ -296,7 +384,8 @@ def audit(paths, *, max_sequence_candles=20):
     accepted_intervals = []
     for path, interval in candidates:
         overlap = next((
-            prior_name for prior_name, prior_interval in accepted_intervals
+            prior_name
+            for prior_name, prior_interval in accepted_intervals
             if interval is not None
             and interval[0] <= prior_interval[1]
             and prior_interval[0] <= interval[1]
@@ -310,20 +399,38 @@ def audit(paths, *, max_sequence_candles=20):
                 **_safety(),
             })
             continue
-        result = audit_session(path, max_sequence_candles=max_sequence_candles)
+
+        result = audit_session(
+            path,
+            max_sequence_candles=max_sequence_candles,
+        )
         sessions.append(result)
         if (
             interval is not None
-            and result.get("status") in {"MATCHES_OBSERVED", "INSUFFICIENT_SEQUENCE_EVIDENCE"}
+            and result.get("status") in {
+                "MATCHES_OBSERVED",
+                "INSUFFICIENT_SEQUENCE_EVIDENCE",
+            }
         ):
             accepted_intervals.append((path.name, interval))
-    complete = sum(item.get("complete_sequences", 0) for item in sessions)
+
+    complete = sum(
+        item.get("complete_sequences", 0)
+        for item in sessions
+    )
     eligible_sessions = sum(
-        item.get("status") in {"MATCHES_OBSERVED", "INSUFFICIENT_SEQUENCE_EVIDENCE"}
+        item.get("status") in {
+            "MATCHES_OBSERVED",
+            "INSUFFICIENT_SEQUENCE_EVIDENCE",
+        }
         for item in sessions
     )
     return {
-        "status": "MATCHES_OBSERVED" if complete else "MORE_EVIDENCE_REQUIRED",
+        "status": (
+            "MATCHES_OBSERVED"
+            if complete
+            else "MORE_EVIDENCE_REQUIRED"
+        ),
         "eligible_sessions": eligible_sessions,
         "sessions": sessions,
         "complete_sequences": complete,
@@ -344,7 +451,10 @@ def main(argv=None):
     parser.add_argument("--output")
     args = parser.parse_args(argv)
 
-    result = audit(args.paths, max_sequence_candles=args.max_sequence_candles)
+    result = audit(
+        args.paths,
+        max_sequence_candles=args.max_sequence_candles,
+    )
     text = json.dumps(result, indent=2, sort_keys=True)
     if args.output:
         output = Path(args.output)
