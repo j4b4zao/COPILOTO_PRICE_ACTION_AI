@@ -18,7 +18,10 @@ import json
 
 import tools.profit_rtd_rc54_3_2_warmed_session as base
 from tools.profit_rtd_brooks_first_pullback_capture import (
-    enrich_price_action_snapshot,
+    enrich_price_action_snapshot as enrich_first_pullback_snapshot,
+)
+from tools.profit_rtd_brooks_wedge_three_pushes_capture import (
+    enrich_price_action_snapshot as enrich_wedge_three_pushes_snapshot,
 )
 
 
@@ -28,7 +31,8 @@ _ORIGINAL_SNAPSHOT_CONTEXT = base.snapshot_context
 def snapshot_context_with_brooks(context, micro):
     """Snapshot RC54.3 enriquecido apenas com evidencia Brooks de pesquisa."""
     item = _ORIGINAL_SNAPSHOT_CONTEXT(context, micro)
-    item = enrich_price_action_snapshot(item, context)
+    item = enrich_first_pullback_snapshot(item, context)
+    item = enrich_wedge_three_pushes_snapshot(item, context)
 
     pa_snapshot = item.get("price_action")
     pa_result = getattr(context, "price_action", None)
@@ -69,6 +73,7 @@ def run_warmed_session(
 
     result["brooks_first_pullback_capture"] = True
     result["brooks_major_reversal_context_capture"] = True
+    result["brooks_wedge_three_pushes_capture"] = True
     result["brooks_research_only"] = True
     result["brooks_predictive_claim_allowed"] = False
     result["brooks_score_influence_allowed"] = False
@@ -121,6 +126,7 @@ def main(argv=None):
         "data_ready",
         "brooks_first_pullback_capture",
         "brooks_major_reversal_context_capture",
+        "brooks_wedge_three_pushes_capture",
         "brooks_research_only",
         "brooks_predictive_claim_allowed",
         "brooks_score_influence_allowed",
