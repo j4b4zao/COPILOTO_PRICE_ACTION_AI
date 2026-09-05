@@ -1,7 +1,9 @@
 """Launcher operacional de um comando para coletas Brooks em SELECTION.
 
 Foi desenhado para uso manual em mercado aberto. Encapsula o Selection Runner,
-define caminhos de saida previsiveis e grava um relatorio JSON da execucao.
+define caminhos de saida previsiveis, classifica o outcome da tentativa e grava
+um relatorio JSON da execucao.
+
 Nao executa OOS e nao permite qualquer influencia operacional.
 """
 from __future__ import annotations
@@ -11,6 +13,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
+from tools.profit_rtd_brooks_selection_outcome import classify_report
 from tools.profit_rtd_brooks_selection_runner import run_selection
 
 DEFAULT_OUTPUT_DIR = "data/profit_rtd_brooks_selection"
@@ -52,11 +55,17 @@ def launch_selection(
     report_path = build_report_path(symbol, report_dir=report_dir, now=now)
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
-    result = {
+    base_report = {
         **result,
         "launcher": "BROOKS_SELECTION_LAUNCHER_V1",
         "report_path": str(report_path),
     }
+    selection_outcome = classify_report(base_report)
+    result = {
+        **base_report,
+        "selection_outcome": selection_outcome,
+    }
+
     report_path.write_text(
         json.dumps(result, indent=2, sort_keys=True, ensure_ascii=False),
         encoding="utf-8",
@@ -88,6 +97,7 @@ def main(argv=None):
     )
 
     manifest = result.get("manifest") or {}
+    outcome = result.get("selection_outcome") or {}
     print("BROOKS_SELECTION_LAUNCHER=" + str(result.get("launcher")))
     print("mode=" + str(result.get("mode")))
     print("symbol=" + str(result.get("symbol")))
@@ -96,13 +106,13 @@ def main(argv=None):
     print("eligible_sessions=" + str(manifest.get("eligible_sessions")))
     print("rejected_sessions=" + str(manifest.get("rejected_sessions")))
     print("selection_cutoff=" + str(manifest.get("selection_cutoff")))
+    print("selection_outcome=" + str(outcome.get("status")))
+    print("counts_as_selection_evidence=" + str(outcome.get("counts_as_selection_evidence")))
+    print("retry_when_real_source_active=" + str(outcome.get("retry_when_real_source_active")))
     print("report_path=" + str(result.get("report_path")))
 
-    ok = (
-        result.get("produced_session_files") == result.get("requested_sessions")
-        and manifest.get("rejected_sessions") == 0
-    )
-    return 0 if ok else 2
+    status = outcome.get("status")
+    return 0 if status in {"VALID_SELECTION", "NO_VALID_SOURCE"} else 2
 
 
 if __name__ == "__main__":
