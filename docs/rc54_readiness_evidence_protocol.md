@@ -46,6 +46,13 @@ current research need.
 It does not change collection or analysis. Errors, readiness/structure transitions,
 and periodic checkpoints remain visible; the default verbose mode remains available.
 
+RC54.5.4 holds a symbol-specific exclusive lock for the entire preflight,
+warm-up, and session lifecycle. If another runner for the same symbol already
+holds the lock, the new attempt returns `ABORTED_RUNNER_ALREADY_ACTIVE`; it must
+not start preflight, warm-up, or capture. The automatic lock supplements the
+operator/process check and is not a substitute for confirming that Excel and
+RTD are connected to the intended workbook and symbol.
+
 If the market is closed, the preflight fails, or the directional gate reaches
 its limit, no 600-cycle session is accepted as evidence.
 
@@ -58,7 +65,15 @@ A session is eligible only when all conditions are true:
 3. `data_ready=True` explicitly;
 4. `observational_only=True`;
 5. samples exist and timestamps are valid and strictly increasing;
-6. the file is not a duplicate by resolved path or SHA-256 content.
+6. the file is not a duplicate by resolved path or SHA-256 content;
+7. for exact-candle price-action research, its sample interval does not overlap
+   another session admitted to the same selection evidence set.
+
+The exact-candle and Brooks auditors retain overlapping evidence for
+traceability but quarantine it from clean recomposition. Their rejection record
+must identify `TEMPORAL_OVERLAP` and the already admitted session that conflicts
+with it. Never count overlapping files as independent exact-candle sessions,
+even when their paths or hashes differ.
 
 Technical failures are never reclassified as market context failures. A session
 with `data_ready=False` is excluded from RC54.7 and RC54.8. Missing
