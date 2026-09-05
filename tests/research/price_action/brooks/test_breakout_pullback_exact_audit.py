@@ -1,6 +1,6 @@
 import json
 
-from tools.profit_rtd_brooks_breakout_pullback_audit import audit_session
+from tools.profit_rtd_brooks_breakout_pullback_audit import audit, audit_session
 
 
 def _row(candle_id, *, trend="UP", bos_up=False, bos_down=False, phase="UNKNOWN", signal_phase="UNKNOWN", signal_direction="NONE", entry=False, follow=False, breakout_follow=False, breakout_direction="NONE", choch=False):
@@ -132,3 +132,28 @@ def test_safety_flags_are_always_off_operationally(tmp_path):
     assert result["decision_influence_allowed"] is False
     assert result["alert_influence_allowed"] is False
     assert result["order_execution_allowed"] is False
+
+
+def test_multi_session_audit_rejects_temporal_overlap(tmp_path):
+    first = tmp_path / "first.json"
+    overlap = tmp_path / "overlap.json"
+    later = tmp_path / "later.json"
+    payloads = (
+        (first, "2026-09-04T10:00:00", "2026-09-04T10:10:00", "A"),
+        (overlap, "2026-09-04T10:05:00", "2026-09-04T10:15:00", "B"),
+        (later, "2026-09-04T10:20:00", "2026-09-04T10:21:00", "C"),
+    )
+    for path, start, end, prefix in payloads:
+        rows = [_row(f"{prefix}1"), _row(f"{prefix}2")]
+        rows[0]["timestamp"] = start
+        rows[1]["timestamp"] = end
+        path.write_text(json.dumps({"data_ready": True, "samples": rows}), encoding="utf-8")
+
+    result = audit([later, overlap, first])
+
+    assert result["eligible_sessions"] == 2
+    rejected = next(item for item in result["sessions"] if item["session"] == "overlap.json")
+    assert rejected["status"] == "SESSION_NOT_ELIGIBLE"
+    assert rejected["reasons"] == ["TEMPORAL_OVERLAP"]
+    assert rejected["overlaps_with"] == "first.json"
+    assert rejected["order_execution_allowed"] is False

@@ -21,6 +21,7 @@ from research.price_action.brooks.breakout_pullback import (
     BreakoutPullbackObservation,
     BrooksBreakoutPullbackResearch,
 )
+from tools.profit_rtd_price_action_evidence_audit import _session_interval
 
 
 def _rows(payload):
@@ -280,10 +281,42 @@ def _safety():
 
 
 def audit(paths, *, max_sequence_candles=20):
-    sessions = [
-        audit_session(path, max_sequence_candles=max_sequence_candles)
-        for path in paths
-    ]
+    candidates = []
+    for raw_path in paths:
+        path = Path(raw_path)
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        candidates.append((path, _session_interval(_rows(payload))))
+    candidates.sort(key=lambda item: (
+        item[1] is None,
+        item[1][0] if item[1] is not None else float("inf"),
+        item[0].name,
+    ))
+
+    sessions = []
+    accepted_intervals = []
+    for path, interval in candidates:
+        overlap = next((
+            prior_name for prior_name, prior_interval in accepted_intervals
+            if interval is not None
+            and interval[0] <= prior_interval[1]
+            and prior_interval[0] <= interval[1]
+        ), None)
+        if overlap is not None:
+            sessions.append({
+                "session": path.name,
+                "status": "SESSION_NOT_ELIGIBLE",
+                "reasons": ["TEMPORAL_OVERLAP"],
+                "overlaps_with": overlap,
+                **_safety(),
+            })
+            continue
+        result = audit_session(path, max_sequence_candles=max_sequence_candles)
+        sessions.append(result)
+        if (
+            interval is not None
+            and result.get("status") in {"MATCHES_OBSERVED", "INSUFFICIENT_SEQUENCE_EVIDENCE"}
+        ):
+            accepted_intervals.append((path.name, interval))
     complete = sum(item.get("complete_sequences", 0) for item in sessions)
     eligible_sessions = sum(
         item.get("status") in {"MATCHES_OBSERVED", "INSUFFICIENT_SEQUENCE_EVIDENCE"}
