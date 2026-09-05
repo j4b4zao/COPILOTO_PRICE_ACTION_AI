@@ -34,6 +34,15 @@ def _norm(value):
     return str(value or "").strip().upper()
 
 
+def _direction(value):
+    value = _norm(value)
+    if value in {"UP", "BUY", "BULL", "BULLISH"}:
+        return "UP"
+    if value in {"DOWN", "SELL", "BEAR", "BEARISH"}:
+        return "DOWN"
+    return "NONE"
+
+
 def _candle_ts(row):
     evidence = row.get("candle_evidence") or {}
     raw = evidence.get("timestamp")
@@ -114,11 +123,21 @@ def _opposite_response(row, breakout_direction):
 
 
 def _opposite_choch(row, breakout_direction):
+    """Detecta CHOCH contrario usando o contrato real do RC17.
+
+    ``structure.choch`` e booleano. A direcao e inferida pela tendencia
+    estrutural exposta no mesmo snapshot, a mesma convencao usada pelo
+    auditor de Major Trend Reversal.
+    """
     structure = _structure(row)
-    choch = _norm(structure.get("choch"))
+    if not bool(structure.get("choch")):
+        return False
+    trend = _direction(structure.get("trend"))
     if breakout_direction == "UP":
-        return choch in {"UP", "BULL", "BULLISH"}
-    return choch in {"DOWN", "BEAR", "BEARISH"}
+        return trend == "DOWN"
+    if breakout_direction == "DOWN":
+        return trend == "UP"
+    return False
 
 
 def audit_payload(payload, *, max_sequence_window=MAX_SEQUENCE_WINDOW):
