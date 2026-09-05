@@ -1,0 +1,44 @@
+{
+  "status": "CLEAN_SELECTION_MANIFEST",
+  "generated_on": "2026-09-05",
+  "selection_policy": "NON_OVERLAPPING_EXACT_CANDLE_SESSIONS_ONLY",
+  "accepted_sessions": [
+    {
+      "file": "profit_rtd_rc54_3_2_WINV26_20260904_154917.json",
+      "sha256": "c2b3dccc2f740a902ca3c244673d40fc3edf0d714f20d8f44029d093bf9a4d68",
+      "first_sample_timestamp": "2026-09-04T15:37:02.106",
+      "last_sample_timestamp": "2026-09-04T15:49:17.166",
+      "samples": 474
+    },
+    {
+      "file": "profit_rtd_rc54_3_2_WINV26_20260904_163915.json",
+      "sha256": "ca3b70a19b1261d68edbb4a10575bf7bc53b63cd60f7e179be81006f8d42f936",
+      "first_sample_timestamp": "2026-09-04T16:23:02.186",
+      "last_sample_timestamp": "2026-09-04T16:39:15.684",
+      "samples": 571
+    },
+    {
+      "file": "profit_rtd_rc54_3_2_WINV26_20260904_172520.json",
+      "sha256": "aa1dd90e9ee94a3632db0cc29f4ff10385f410524a2fd29b61f217d7b1626254",
+      "first_sample_timestamp": "2026-09-04T17:17:03.537",
+      "last_sample_timestamp": "2026-09-04T17:23:57.804",
+      "samples": 271
+    }
+  ],
+  "quarantined_sessions": [
+    {
+      "file": "profit_rtd_rc54_3_2_WINV26_20260904_164118.json",
+      "sha256": "8c4743796c40466be53200f91ed537e1491ddd053654dc3d99557b077e5b8b88",
+      "first_sample_timestamp": "2026-09-04T16:26:01.483",
+      "last_sample_timestamp": "2026-09-04T16:41:18.092",
+      "samples": 557,
+      "reason": "TEMPORAL_OVERLAP_WITH_163915"
+    }
+  ],
+  "observational_only": true,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false
+}

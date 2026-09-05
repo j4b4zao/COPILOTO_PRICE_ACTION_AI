@@ -1,0 +1,132 @@
+{
+  "alert_influence_allowed": false,
+  "complete_sequences": 0,
+  "decision_influence_allowed": false,
+  "eligible_sessions": 3,
+  "hypothesis_freeze_allowed": false,
+  "observational_only": true,
+  "order_execution_allowed": false,
+  "predictive_claim_allowed": false,
+  "reasons": [
+    "NO_COMPLETE_EXPLICIT_BREAKOUT_PULLBACK_SEQUENCE"
+  ],
+  "research_only": true,
+  "risk_influence_allowed": false,
+  "score_influence_allowed": false,
+  "sessions": [
+    {
+      "alert_influence_allowed": false,
+      "complete_sequences": 0,
+      "decision_influence_allowed": false,
+      "exact_candles": 13,
+      "incomplete": [
+        {
+          "direction": "BUY",
+          "evidence": {
+            "breakout": {
+              "candle_id": "WINV26|M1|2026-09-04T15:43:00",
+              "source": "STRUCTURE_BOS_UP"
+            }
+          },
+          "invalidated": false,
+          "matched": false,
+          "reasons": [
+            "PULLBACK_NOT_CONFIRMED",
+            "REJECTION_NOT_CONFIRMED",
+            "RESUMPTION_NOT_CONFIRMED"
+          ],
+          "sequence_complete": false
+        }
+      ],
+      "incomplete_candidates": 1,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "reasons": [
+        "NO_COMPLETE_EXPLICIT_BREAKOUT_PULLBACK_SEQUENCE"
+      ],
+      "research_only": true,
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "sequences": [],
+      "session": "profit_rtd_rc54_3_2_WINV26_20260904_154917.json",
+      "status": "INSUFFICIENT_SEQUENCE_EVIDENCE"
+    },
+    {
+      "alert_influence_allowed": false,
+      "complete_sequences": 0,
+      "decision_influence_allowed": false,
+      "exact_candles": 17,
+      "incomplete": [
+        {
+          "direction": "BUY",
+          "evidence": {
+            "breakout": {
+              "candle_id": "WINV26|M1|2026-09-04T16:38:00",
+              "source": "STRUCTURE_BOS_UP"
+            }
+          },
+          "invalidated": false,
+          "matched": false,
+          "reasons": [
+            "PULLBACK_NOT_CONFIRMED",
+            "REJECTION_NOT_CONFIRMED",
+            "RESUMPTION_NOT_CONFIRMED"
+          ],
+          "sequence_complete": false
+        },
+        {
+          "direction": "BUY",
+          "evidence": {
+            "breakout": {
+              "candle_id": "WINV26|M1|2026-09-04T16:39:00",
+              "source": "STRUCTURE_BOS_UP"
+            }
+          },
+          "invalidated": false,
+          "matched": false,
+          "reasons": [
+            "PULLBACK_NOT_CONFIRMED",
+            "REJECTION_NOT_CONFIRMED",
+            "RESUMPTION_NOT_CONFIRMED"
+          ],
+          "sequence_complete": false
+        }
+      ],
+      "incomplete_candidates": 2,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "reasons": [
+        "NO_COMPLETE_EXPLICIT_BREAKOUT_PULLBACK_SEQUENCE"
+      ],
+      "research_only": true,
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "sequences": [],
+      "session": "profit_rtd_rc54_3_2_WINV26_20260904_163915.json",
+      "status": "INSUFFICIENT_SEQUENCE_EVIDENCE"
+    },
+    {
+      "alert_influence_allowed": false,
+      "complete_sequences": 0,
+      "decision_influence_allowed": false,
+      "exact_candles": 7,
+      "incomplete": [],
+      "incomplete_candidates": 0,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "reasons": [
+        "NO_COMPLETE_EXPLICIT_BREAKOUT_PULLBACK_SEQUENCE"
+      ],
+      "research_only": true,
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "sequences": [],
+      "session": "profit_rtd_rc54_3_2_WINV26_20260904_172520.json",
+      "status": "INSUFFICIENT_SEQUENCE_EVIDENCE"
+    }
+  ],
+  "status": "MORE_EVIDENCE_REQUIRED"
+}
