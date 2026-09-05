@@ -4,11 +4,6 @@ Este runner preserva o RC54.3.2 original e adiciona somente evidencia
 observacional ao bloco ``price_action`` de cada amostra. Nenhuma informacao
 deste modulo altera PriceActionResult, Score, Risk, Decision, Alert ou
 execucao.
-
-A implementacao e deliberadamente derivada: o runner validado
-``profit_rtd_rc54_3_2_warmed_session`` continua intacto. Aqui apenas
-substituimos, durante esta execucao, a funcao de snapshot usada por ele por
-uma versao enriquecida para pesquisa Brooks.
 """
 
 from __future__ import annotations
@@ -23,16 +18,19 @@ from tools.profit_rtd_brooks_first_pullback_capture import (
 from tools.profit_rtd_brooks_wedge_three_pushes_capture import (
     enrich_price_action_snapshot as enrich_wedge_three_pushes_snapshot,
 )
+from tools.profit_rtd_brooks_trading_range_capture import (
+    enrich_price_action_snapshot as enrich_trading_range_snapshot,
+)
 
 
 _ORIGINAL_SNAPSHOT_CONTEXT = base.snapshot_context
 
 
 def snapshot_context_with_brooks(context, micro):
-    """Snapshot RC54.3 enriquecido apenas com evidencia Brooks de pesquisa."""
     item = _ORIGINAL_SNAPSHOT_CONTEXT(context, micro)
     item = enrich_first_pullback_snapshot(item, context)
     item = enrich_wedge_three_pushes_snapshot(item, context)
+    item = enrich_trading_range_snapshot(item, context)
 
     pa_snapshot = item.get("price_action")
     pa_result = getattr(context, "price_action", None)
@@ -54,7 +52,6 @@ def run_warmed_session(
     output_dir=None,
     sleeper=None,
 ):
-    """Executa RC54.3.2 com captura Brooks sem modificar o runner original."""
     previous = base.snapshot_context
     base.snapshot_context = snapshot_context_with_brooks
     try:
@@ -74,6 +71,7 @@ def run_warmed_session(
     result["brooks_first_pullback_capture"] = True
     result["brooks_major_reversal_context_capture"] = True
     result["brooks_wedge_three_pushes_capture"] = True
+    result["brooks_trading_range_capture"] = True
     result["brooks_research_only"] = True
     result["brooks_predictive_claim_allowed"] = False
     result["brooks_score_influence_allowed"] = False
@@ -94,9 +92,7 @@ def run_warmed_session(
 
 def main(argv=None):
     parser = argparse.ArgumentParser(
-        description=(
-            "RC54.3.2 warmed session com evidencia observacional Brooks."
-        )
+        description="RC54.3.2 warmed session com evidencia observacional Brooks."
     )
     parser.add_argument("symbol")
     parser.add_argument("--cycles", type=int, default=600)
@@ -113,43 +109,23 @@ def main(argv=None):
         output_dir=args.output_dir,
     )
 
-    print(
-        "PROFIT_RTD_RC54_3_2_BROOKS_WARMED_SESSION="
-        + str(result.get("status"))
-    )
+    print("PROFIT_RTD_RC54_3_2_BROOKS_WARMED_SESSION=" + str(result.get("status")))
     for key in (
-        "symbol",
-        "requested_cycles",
-        "analyzable_samples",
-        "skipped_cycles",
-        "collection_errors",
-        "data_ready",
-        "brooks_first_pullback_capture",
-        "brooks_major_reversal_context_capture",
-        "brooks_wedge_three_pushes_capture",
-        "brooks_research_only",
-        "brooks_predictive_claim_allowed",
-        "brooks_score_influence_allowed",
-        "brooks_risk_influence_allowed",
-        "brooks_decision_influence_allowed",
-        "brooks_alert_influence_allowed",
-        "brooks_order_execution_allowed",
+        "symbol", "requested_cycles", "analyzable_samples", "skipped_cycles",
+        "collection_errors", "data_ready", "brooks_first_pullback_capture",
+        "brooks_major_reversal_context_capture", "brooks_wedge_three_pushes_capture",
+        "brooks_trading_range_capture", "brooks_research_only",
+        "brooks_predictive_claim_allowed", "brooks_score_influence_allowed",
+        "brooks_risk_influence_allowed", "brooks_decision_influence_allowed",
+        "brooks_alert_influence_allowed", "brooks_order_execution_allowed",
     ):
         if key in result:
             print(f"{key}={result[key]}")
     if result.get("collection_error_details"):
-        print(
-            "collection_error_details="
-            + json.dumps(
-                result["collection_error_details"],
-                ensure_ascii=False,
-                separators=(",", ":"),
-            )
-        )
-    print(
-        "reasons="
-        + ("|".join(result.get("reasons") or []) if result.get("reasons") else "OK")
-    )
+        print("collection_error_details=" + json.dumps(
+            result["collection_error_details"], ensure_ascii=False, separators=(",", ":")
+        ))
+    print("reasons=" + ("|".join(result.get("reasons") or []) if result.get("reasons") else "OK"))
     if result.get("output_path"):
         print("output_path=" + str(result["output_path"]))
     return 0 if result.get("status") == "COMPLETED" else 2
