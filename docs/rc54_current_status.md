@@ -1,6 +1,32 @@
 # RC54 Current Status
 
-Checkpoint: 2026-09-04 (America/Sao_Paulo)
+Checkpoint: 2026-09-05 (America/Sao_Paulo)
+
+## Exact-candle clean selection checkpoint (2026-09-05)
+
+- The exact-candle selection evidence was recomposed from three independent
+  sessions: `154917`, `163915`, and `172520`. Together they provide 27 edge
+  occurrences, 73 horizon evidence rows, 49 context buckets, and 16
+  multi-horizon groups.
+- The clean inventory is
+  `data/profit_rtd_price_action_exact_selection/price_action_exact_inventory_clean_20260905.json`.
+  Its verdict is `MORE_EVIDENCE_REQUIRED`: all 49 buckets remain below at least
+  one gate and there are zero hypothesis-freeze candidates. The reported gaps
+  are insufficient context sample, insufficient cross-session recurrence, and
+  unconfirmed directional stability.
+- Session `164118` is preserved but quarantined because its interval overlaps
+  session `163915`; it is excluded from the clean inventory and from the clean
+  Brooks audit. Paths, timestamps, sample counts, SHA-256 hashes, and the
+  exclusion reason are recorded in
+  `data/profit_rtd_price_action_exact_selection/exact_selection_integrity_manifest_20260905.json`.
+- The clean Brooks breakout/pullback audit accepted the same three independent
+  sessions, observed zero complete explicit sequences, and returned
+  `MORE_EVIDENCE_REQUIRED`. No predictive claim or hypothesis freeze is
+  permitted from this result.
+- The checkpoint is committed and published on branch `projetocopiloto` at
+  commit `1349d9c`. Focused verification passed: 25 tests.
+- All artifacts remain `observational_only=True`; influence on ScoreEngine,
+  RiskManager, DecisionEngine, alerts, and order execution remains disabled.
 
 ## Post-RC54 round 2 candidate freeze (2026-09-04 09:34)
 
