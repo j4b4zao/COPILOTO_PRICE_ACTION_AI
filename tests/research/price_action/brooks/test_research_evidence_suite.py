@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -178,3 +179,58 @@ def test_report_never_allows_freeze_promotion_or_predictive_claim(tmp_path, monk
     assert report["decision_influence_allowed"] is False
     assert report["alert_influence_allowed"] is False
     assert report["order_execution_allowed"] is False
+
+
+def test_adapter_prefers_path_audit_contract(tmp_path):
+    path = _write_session(tmp_path, "a.json", ["2026-09-07T09:00:00"])
+    calls = []
+
+    def audit(paths):
+        calls.append(paths)
+        return {"status": "PATH_AUDIT"}
+
+    module = SimpleNamespace(audit=audit)
+    result = suite._call_auditor(module, [path])
+
+    assert result["status"] == "PATH_AUDIT"
+    assert calls == [[str(path)]]
+
+
+def test_adapter_uses_single_payload_contract(tmp_path):
+    path = _write_session(tmp_path, "a.json", ["2026-09-07T09:00:00"])
+    calls = []
+
+    def audit_payload(payload):
+        calls.append(payload)
+        return {"status": "PAYLOAD_AUDIT"}
+
+    module = SimpleNamespace(audit_payload=audit_payload)
+    result = suite._call_auditor(module, [path])
+
+    assert result["status"] == "PAYLOAD_AUDIT"
+    assert len(calls) == 1
+    assert calls[0]["data_ready"] is True
+
+
+def test_adapter_uses_multi_session_payload_contract(tmp_path):
+    first = _write_session(tmp_path, "a.json", ["2026-09-07T09:00:00"])
+    second = _write_session(tmp_path, "b.json", ["2026-09-07T10:00:00"])
+    calls = []
+
+    def audit_sessions(payloads):
+        calls.append(payloads)
+        return {"status": "MULTI_PAYLOAD_AUDIT", "count": len(payloads)}
+
+    module = SimpleNamespace(audit_sessions=audit_sessions)
+    result = suite._call_auditor(module, [first, second])
+
+    assert result["status"] == "MULTI_PAYLOAD_AUDIT"
+    assert result["count"] == 2
+    assert len(calls) == 1
+    assert len(calls[0]) == 2
+
+
+def test_adapter_rejects_unsupported_contract(tmp_path):
+    path = _write_session(tmp_path, "a.json", ["2026-09-07T09:00:00"])
+    with pytest.raises(AttributeError, match="supported audit contract"):
+        suite._call_auditor(SimpleNamespace(), [path])
