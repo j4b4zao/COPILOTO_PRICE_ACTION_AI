@@ -3,12 +3,59 @@ from __future__ import annotations
 import argparse
 import contextlib
 import json
+import os
 import re
 import sys
+import tempfile
+from pathlib import Path
 
 from tools.profit_rtd_rc54_5_3_market_activity_preflight import check_market_activity
 from tools.profit_rtd_rc54_3_2_warmed_session import run_warmed_session
 from tools.profit_rtd_rc54_4_context_qualified_order_flow_auditor import incremental_identifiability
+
+
+class RunnerAlreadyActiveError(RuntimeError):
+    pass
+
+
+@contextlib.contextmanager
+def _runner_lock(symbol, lock_dir=None):
+    safe_symbol = re.sub(r'[^A-Z0-9_.-]+', '_', str(symbol or '').strip().upper()) or 'UNKNOWN'
+    directory = Path(lock_dir or tempfile.gettempdir())
+    directory.mkdir(parents=True, exist_ok=True)
+    path = directory / f'copiloto_rc54_{safe_symbol}.lock'
+    if not path.exists():
+        path.touch(exist_ok=True)
+    handle = None
+    locked = False
+    try:
+        try:
+            handle = path.open('r+b')
+            if path.stat().st_size == 0:
+                handle.write(b'0')
+                handle.flush()
+            handle.seek(0)
+            if os.name == 'nt':
+                import msvcrt
+                msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+            else:
+                import fcntl
+                fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            locked = True
+        except OSError as exc:
+            raise RunnerAlreadyActiveError(str(path)) from exc
+        yield path
+    finally:
+        if locked and handle is not None:
+            handle.seek(0)
+            if os.name == 'nt':
+                import msvcrt
+                msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+            else:
+                import fcntl
+                fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+        if handle is not None:
+            handle.close()
 
 
 class _ConciseProgress:
@@ -63,7 +110,7 @@ def _call_with_output(function, *, concise_output, progress_every, **kwargs):
     return result
 
 
-def run_orchestrated_session(
+def _run_orchestrated_session_unlocked(
     symbol,
     *,
     preflight_cycles=120,
@@ -138,6 +185,34 @@ def run_orchestrated_session(
         'decision_influence_allowed': False,
         'order_execution_allowed': False,
     }
+
+
+def run_orchestrated_session(symbol, *, lock_dir=None, **kwargs):
+    try:
+        with _runner_lock(symbol, lock_dir=lock_dir):
+            return _run_orchestrated_session_unlocked(symbol, **kwargs)
+    except RunnerAlreadyActiveError:
+        normalized_symbol = str(symbol or '').strip().upper()
+        return {
+            'status': 'ABORTED_RUNNER_ALREADY_ACTIVE',
+            'symbol': normalized_symbol,
+            'preflight': {
+                'status': 'RUNNER_ALREADY_ACTIVE',
+                'active': False,
+                'reasons': ['RC54_RUNNER_ALREADY_ACTIVE'],
+            },
+            'warmup_started': False,
+            'session_started': False,
+            'session': None,
+            'incremental_identifiability_by_context': {},
+            'incrementally_identifiable_contexts': [],
+            'observational_only': True,
+            'predictive_claim_allowed': False,
+            'score_influence_allowed': False,
+            'risk_influence_allowed': False,
+            'decision_influence_allowed': False,
+            'order_execution_allowed': False,
+        }
 
 
 def main(argv=None):

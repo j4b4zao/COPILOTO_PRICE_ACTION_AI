@@ -1,5 +1,6 @@
 import contextlib
 import io
+import tempfile
 
 from tools import profit_rtd_rc54_5_4_orchestrated_session_runner as mod
 
@@ -35,6 +36,16 @@ def run():
             called['session'] += 1
             return {'status': 'COMPLETED'}
         mod.run_warmed_session = fake_session
+        tmp_path = tempfile.mkdtemp()
+        with mod._runner_lock('WINV26', lock_dir=tmp_path):
+            locked = mod.run_orchestrated_session('WINV26', lock_dir=tmp_path)
+        assert locked['status'] == 'ABORTED_RUNNER_ALREADY_ACTIVE'
+        assert locked['preflight']['status'] == 'RUNNER_ALREADY_ACTIVE'
+        assert locked['warmup_started'] is False
+        assert locked['session_started'] is False
+        assert locked['score_influence_allowed'] is False
+        assert locked['order_execution_allowed'] is False
+
         r = mod.run_orchestrated_session('WINV26')
         assert r['status'] == 'ABORTED_MARKET_ACTIVITY_NOT_READY'
         assert r['session_started'] is False
