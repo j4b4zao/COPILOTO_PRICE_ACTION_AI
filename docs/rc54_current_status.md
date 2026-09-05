@@ -28,6 +28,27 @@ Checkpoint: 2026-09-05 (America/Sao_Paulo)
 - All artifacts remain `observational_only=True`; influence on ScoreEngine,
   RiskManager, DecisionEngine, alerts, and order execution remains disabled.
 
+### Next exact-candle selection step
+
+- Do not start a weekend or inactive-market RTD session. Resume only after the
+  market-activity preflight confirms real updates and new M1 candle progress.
+- Continue writing unbiased, independent sessions to the exact-candle selection
+  directory. Do not target or stop a session because a particular candle
+  pattern appears.
+- Never run concurrent collectors. The two exact-evidence auditors now reject
+  temporal overlap automatically and report the conflicting session.
+- Recompose the inventory after every eligible session using the complete clean
+  selection set. Do not create an OOS directory or cutoff until a hypothesis
+  passes every sample, cross-session, directional-stability, and multi-horizon
+  gate and is frozen beforehand.
+- The nearest current bucket family is
+  `SHOOTING_STAR|SIDEWAYS|M1|NEUTRAL`: H1 and H3 each have 4 observations from
+  2 sessions, so their lower-bound gaps are 26 observations and 1 independent
+  session. This is a collection diagnostic, not a selected candidate.
+- Brooks breakout/pullback evidence still has zero complete explicit sequences;
+  absence of a sequence must not invalidate an otherwise technically valid
+  exact-candle session.
+
 ## Post-RC54 round 2 candidate freeze (2026-09-04 09:34)
 
 - The sixth eligible selection session is
