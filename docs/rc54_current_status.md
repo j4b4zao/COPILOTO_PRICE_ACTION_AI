@@ -30,6 +30,10 @@ Checkpoint: 2026-09-05 (America/Sao_Paulo)
 
 ### Next exact-candle selection step
 
+- The RC54.5.4 orchestrator now holds a symbol-specific exclusive lock across
+  preflight, warm-up, and capture. A concurrent attempt returns
+  `ABORTED_RUNNER_ALREADY_ACTIVE` before accessing the market collector. This
+  guard was published in commit `3afe4ab`.
 - Do not start a weekend or inactive-market RTD session. Resume only after the
   market-activity preflight confirms real updates and new M1 candle progress.
 - Continue writing unbiased, independent sessions to the exact-candle selection
@@ -48,6 +52,9 @@ Checkpoint: 2026-09-05 (America/Sao_Paulo)
 - Brooks breakout/pullback evidence still has zero complete explicit sequences;
   absence of a sequence must not invalidate an otherwise technically valid
   exact-candle session.
+- Offline regression after the overlap and runner-lock protections passed all
+  33 collected Pytest cases plus all 19 RC54 standalone programs, with zero
+  failures. No live RTD collection was started during this verification.
 
 ## Post-RC54 round 2 candidate freeze (2026-09-04 09:34)
 
