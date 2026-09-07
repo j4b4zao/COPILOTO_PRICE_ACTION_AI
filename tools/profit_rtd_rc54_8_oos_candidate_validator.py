@@ -8,6 +8,12 @@ from pathlib import Path
 from tools.profit_rtd_rc54_4_context_qualified_order_flow_auditor import HORIZONS, _bucket, _num, _stats
 
 
+REGISTERED_CANDIDATES = frozenset({
+    'CONTEXT_SELL_DIVERGENT_TT_SELL_BOOK_BUY',
+    'CONTEXT_SELL_MICRO_NEUTRAL',
+})
+
+
 def _timestamp(value):
     try:
         return datetime.fromisoformat(str(value))
@@ -21,7 +27,7 @@ def _trade_context_ready(sample):
 
 def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min_sessions=2):
     candidate = str(candidate or '').strip().upper()
-    if not candidate.startswith(('CONTEXT_BUY_', 'CONTEXT_SELL_')):
+    if candidate not in REGISTERED_CANDIDATES:
         raise ValueError('RC54_8_REQUIRES_PRE_REGISTERED_DIRECTIONAL_CANDIDATE')
     cutoff = _timestamp(selection_cutoff)
     paths = [str(Path(path)) for path in holdout_paths]
