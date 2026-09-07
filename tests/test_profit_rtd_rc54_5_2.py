@@ -23,6 +23,9 @@ def run():
         good.write_text(json.dumps({
             'phase': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE',
             'status': 'COMPLETED_WITH_WARNINGS',
+            'warmup_status': 'WARM_HISTORY_READY',
+            'context_ready_at_start': False,
+            'analyzable_samples': 4,
             'price_capture': False,
             'missing_price_count': 0,
             'collection_errors': 1,
@@ -33,14 +36,22 @@ def run():
         s = r['session_summaries'][0]
         assert s['price_evidence'] == 'LEGACY_VERIFIED_FROM_SAMPLES'
         assert s['collection_errors'] == 1
+        assert s['readiness_gate'] == 'SESSION_ELIGIBLE'
+        assert s['context_ready_at_start_raw'] is False
+        assert s['context_ready_at_start'] is True
+        assert s['context_ready_inferred_from_warmup'] is True
 
         bad = Path(td) / 'legacy_bad.json'
         samples = [_sample(100), _sample(None)]
         bad.write_text(json.dumps({
             'phase': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE',
             'status': 'COMPLETED_WITH_WARNINGS',
+            'warmup_status': 'WARM_HISTORY_READY',
+            'context_ready_at_start': False,
+            'analyzable_samples': 2,
             'price_capture': False,
             'missing_price_count': 1,
+            'collection_errors': 0,
             'observational_only': True,
             'samples': samples,
         }), encoding='utf-8')
