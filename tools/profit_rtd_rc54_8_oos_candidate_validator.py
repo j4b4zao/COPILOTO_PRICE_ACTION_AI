@@ -67,8 +67,11 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
             raise ValueError(f'RC54_8_REQUIRES_OBSERVATIONAL_ONLY:{path}')
 
         samples = payload.get('samples') or []
-        if not samples or any(_timestamp(sample.get('timestamp')) <= cutoff for sample in samples):
+        timestamps = [_timestamp(sample.get('timestamp')) for sample in samples]
+        if not samples or any(ts <= cutoff for ts in timestamps):
             raise ValueError(f'RC54_8_REJECTS_PRE_SELECTION_EVIDENCE:{path}')
+        if any(curr <= prev for prev, curr in zip(timestamps, timestamps[1:])):
+            raise ValueError(f'RC54_8_REQUIRES_STRICTLY_INCREASING_TIMESTAMPS:{path}')
 
         session_identity = _session_identity(payload, samples)
         if session_identity in seen_session_identities:
