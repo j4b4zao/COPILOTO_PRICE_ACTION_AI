@@ -54,6 +54,7 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
     sessions_with_candidate = 0
     total_occurrences = 0
     seen_session_identities = set()
+    seen_intervals_by_symbol = {}
 
     for path in paths:
         payload = json.loads(Path(path).read_text(encoding='utf-8'))
@@ -77,6 +78,14 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
         if session_identity in seen_session_identities:
             raise ValueError(f'RC54_8_REQUIRES_UNIQUE_SESSION_IDENTITIES:{path}')
         seen_session_identities.add(session_identity)
+
+        symbol = session_identity[0]
+        first_ts = timestamps[0]
+        last_ts = timestamps[-1]
+        intervals = seen_intervals_by_symbol.setdefault(symbol, [])
+        if any(first_ts <= prior_last and prior_first <= last_ts for prior_first, prior_last in intervals):
+            raise ValueError(f'RC54_8_REQUIRES_NON_OVERLAPPING_HOLDOUT_SESSIONS:{path}')
+        intervals.append((first_ts, last_ts))
 
         indices = [i for i, sample in enumerate(samples) if _trade_context_ready(sample) and _bucket(sample) == candidate]
         sessions_with_candidate += bool(indices)
