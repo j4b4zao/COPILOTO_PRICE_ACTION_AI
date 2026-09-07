@@ -57,6 +57,7 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
     usable_occurrences = 0
     seen_session_identities = set()
     seen_intervals_by_symbol = {}
+    expected_symbol = None
 
     for path in paths:
         payload = json.loads(Path(path).read_text(encoding='utf-8'))
@@ -82,6 +83,11 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
         seen_session_identities.add(session_identity)
 
         symbol = session_identity[0]
+        if expected_symbol is None:
+            expected_symbol = symbol
+        elif symbol != expected_symbol:
+            raise ValueError(f'RC54_8_REQUIRES_SINGLE_SYMBOL_HOLDOUT:{path}')
+
         first_ts = timestamps[0]
         last_ts = timestamps[-1]
         intervals = seen_intervals_by_symbol.setdefault(symbol, [])
@@ -144,6 +150,7 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
     return {
         'status': 'RC54_8_OOS_CANDIDATE_VALIDATION_COMPLETED', 'candidate': candidate,
         'selection_cutoff': cutoff.isoformat(), 'holdout_session_count': len(paths),
+        'symbol': expected_symbol,
         'sessions_with_candidate': sessions_with_candidate, 'candidate_occurrences': total_occurrences,
         'sessions_with_usable_candidate': sessions_with_usable_candidate,
         'usable_candidate_occurrences': usable_occurrences,
@@ -164,7 +171,7 @@ def main(argv=None):
     a = p.parse_args(argv)
     r = audit(a.candidate, a.selection_cutoff, a.holdout_paths, min_occurrences=a.min_occurrences, min_sessions=a.min_sessions)
     print('PROFIT_RTD_RC54_8=COMPLETED')
-    for key in ('status','candidate','selection_cutoff','holdout_session_count','sessions_with_candidate','candidate_occurrences','sessions_with_usable_candidate','usable_candidate_occurrences','min_occurrences','min_sessions','coverage_met','supported_horizons','verdict'):
+    for key in ('status','candidate','selection_cutoff','holdout_session_count','symbol','sessions_with_candidate','candidate_occurrences','sessions_with_usable_candidate','usable_candidate_occurrences','min_occurrences','min_sessions','coverage_met','supported_horizons','verdict'):
         print(f'{key}={r[key]}')
     print('horizons=' + json.dumps(r['horizons'], sort_keys=True, separators=(',', ':')))
     print('session_rows=' + json.dumps(r['session_rows'], ensure_ascii=False, separators=(',', ':')))
