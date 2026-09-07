@@ -25,7 +25,12 @@ def make_session(path, bias, micro_bucket, prices):
     payload = {
         'phase': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE',
         'status': 'COMPLETED',
+        'warmup_status': 'WARM_HISTORY_READY',
+        'context_ready_at_start': True,
+        'analyzable_samples': len(samples),
         'price_capture': True,
+        'missing_price_count': 0,
+        'collection_errors': 0,
         'observational_only': True,
         'samples': samples,
     }
