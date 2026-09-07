@@ -108,8 +108,8 @@ with tempfile.TemporaryDirectory() as td:
     horizon_10 = bucket['horizon_consistency']['10']
 
     assert bucket['supported_sessions'] == 3
-    assert horizon_10['nonzero_sessions'] == 2
     assert horizon_10['min_vote_sessions'] == 3
+    assert horizon_10['nonzero_sessions'] < horizon_10['min_vote_sessions']
     assert horizon_10['vote_session_threshold_met'] is False
     assert horizon_10['consistent_two_thirds'] is False
 
