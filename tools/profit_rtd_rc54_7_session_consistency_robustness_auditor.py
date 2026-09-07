@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import statistics
 from collections import defaultdict
 from pathlib import Path
 
@@ -102,6 +101,7 @@ def audit(paths, min_sessions=3, min_occurrences_per_session=5):
         for h in HORIZONS:
             votes = sign_votes[str(h)]
             nonzero = [v for v in votes if v != 0]
+            vote_session_threshold_met = len(nonzero) >= int(min_sessions)
             if not nonzero:
                 majority_sign = 0
                 consistency_rate = None
@@ -112,11 +112,17 @@ def audit(paths, min_sessions=3, min_occurrences_per_session=5):
                 majority_sign = 1 if positives > negatives else -1 if negatives > positives else 0
                 majority_count = max(positives, negatives)
                 consistency_rate = majority_count / len(nonzero)
-                consistent = majority_sign != 0 and consistency_rate >= (2 / 3)
+                consistent = (
+                    vote_session_threshold_met
+                    and majority_sign != 0
+                    and consistency_rate >= (2 / 3)
+                )
             if consistent:
                 consistent_horizons += 1
             horizon_consistency[str(h)] = {
                 'nonzero_sessions': len(nonzero),
+                'min_vote_sessions': int(min_sessions),
+                'vote_session_threshold_met': vote_session_threshold_met,
                 'majority_sign': majority_sign,
                 'consistency_rate': consistency_rate,
                 'consistent_two_thirds': consistent,
