@@ -53,6 +53,8 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
     session_rows = []
     sessions_with_candidate = 0
     total_occurrences = 0
+    sessions_with_usable_candidate = 0
+    usable_occurrences = 0
     seen_session_identities = set()
     seen_intervals_by_symbol = {}
 
@@ -91,10 +93,14 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
         sessions_with_candidate += bool(indices)
         total_occurrences += len(indices)
         local = {str(h): 0 for h in HORIZONS}
+        local_usable_occurrences = 0
+
         for i in indices:
             p0 = _num(samples[i].get('last_price'))
             if p0 is None:
                 continue
+
+            occurrence_usable = False
             for h in HORIZONS:
                 j = i + h
                 if j >= len(samples) or any(not _trade_context_ready(samples[k]) for k in range(i, j + 1)):
@@ -103,15 +109,23 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
                 if p1 is not None:
                     deltas[str(h)].append(p1 - p0)
                     local[str(h)] += 1
+                    occurrence_usable = True
+
+            if occurrence_usable:
+                local_usable_occurrences += 1
+
+        sessions_with_usable_candidate += bool(local_usable_occurrences)
+        usable_occurrences += local_usable_occurrences
         session_rows.append({
             'path': path,
             'session_identity': list(session_identity),
             'samples': len(samples),
             'candidate_occurrences': len(indices),
+            'usable_candidate_occurrences': local_usable_occurrences,
             'horizon_observations': local,
         })
 
-    coverage_met = total_occurrences >= min_occurrences and sessions_with_candidate >= min_sessions
+    coverage_met = usable_occurrences >= min_occurrences and sessions_with_usable_candidate >= min_sessions
     side = 'BUY' if candidate.startswith('CONTEXT_BUY_') else 'SELL'
     horizons = {}
     supported_horizons = 0
@@ -131,6 +145,8 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
         'status': 'RC54_8_OOS_CANDIDATE_VALIDATION_COMPLETED', 'candidate': candidate,
         'selection_cutoff': cutoff.isoformat(), 'holdout_session_count': len(paths),
         'sessions_with_candidate': sessions_with_candidate, 'candidate_occurrences': total_occurrences,
+        'sessions_with_usable_candidate': sessions_with_usable_candidate,
+        'usable_candidate_occurrences': usable_occurrences,
         'min_occurrences': min_occurrences, 'min_sessions': min_sessions,
         'coverage_met': coverage_met, 'supported_horizons': supported_horizons,
         'horizons': horizons, 'session_rows': session_rows, 'verdict': verdict,
@@ -148,7 +164,7 @@ def main(argv=None):
     a = p.parse_args(argv)
     r = audit(a.candidate, a.selection_cutoff, a.holdout_paths, min_occurrences=a.min_occurrences, min_sessions=a.min_sessions)
     print('PROFIT_RTD_RC54_8=COMPLETED')
-    for key in ('status','candidate','selection_cutoff','holdout_session_count','sessions_with_candidate','candidate_occurrences','min_occurrences','min_sessions','coverage_met','supported_horizons','verdict'):
+    for key in ('status','candidate','selection_cutoff','holdout_session_count','sessions_with_candidate','candidate_occurrences','sessions_with_usable_candidate','usable_candidate_occurrences','min_occurrences','min_sessions','coverage_met','supported_horizons','verdict'):
         print(f'{key}={r[key]}')
     print('horizons=' + json.dumps(r['horizons'], sort_keys=True, separators=(',', ':')))
     print('session_rows=' + json.dumps(r['session_rows'], ensure_ascii=False, separators=(',', ':')))
