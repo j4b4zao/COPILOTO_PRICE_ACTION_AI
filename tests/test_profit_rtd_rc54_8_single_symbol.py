@@ -1,8 +1,7 @@
 import json
+import tempfile
 from datetime import datetime, timedelta
 from pathlib import Path
-
-import pytest
 
 from tools.profit_rtd_rc54_8_oos_candidate_validator import audit
 
@@ -34,11 +33,23 @@ def _write_session(path: Path, *, symbol: str, start: datetime):
     path.write_text(json.dumps(payload), encoding='utf-8')
 
 
-def test_mixed_symbols_are_rejected(tmp_path):
-    win = tmp_path / 'win.json'
-    wdo = tmp_path / 'wdo.json'
-    _write_session(win, symbol='WINV26', start=CUTOFF + timedelta(minutes=1))
-    _write_session(wdo, symbol='WDOU26', start=CUTOFF + timedelta(minutes=3))
+def run():
+    with tempfile.TemporaryDirectory() as td:
+        td = Path(td)
+        win = td / 'win.json'
+        wdo = td / 'wdo.json'
+        _write_session(win, symbol='WINV26', start=CUTOFF + timedelta(minutes=1))
+        _write_session(wdo, symbol='WDOU26', start=CUTOFF + timedelta(minutes=3))
 
-    with pytest.raises(ValueError, match='RC54_8_REQUIRES_SINGLE_SYMBOL_HOLDOUT'):
-        audit(CANDIDATE, CUTOFF.isoformat(), [win, wdo], min_occurrences=1, min_sessions=1)
+        try:
+            audit(CANDIDATE, CUTOFF.isoformat(), [win, wdo], min_occurrences=1, min_sessions=1)
+        except ValueError as exc:
+            assert 'RC54_8_REQUIRES_SINGLE_SYMBOL_HOLDOUT' in str(exc)
+        else:
+            raise AssertionError('mixed symbols must be rejected')
+
+    print('PROFIT_RTD_RC54_8_SINGLE_SYMBOL=OK')
+
+
+if __name__ == '__main__':
+    run()
