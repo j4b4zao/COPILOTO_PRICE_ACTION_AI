@@ -25,6 +25,13 @@ def _trade_context_ready(sample):
     return bool(sample.get('trade_context_ready', sample.get('context_ready', False)))
 
 
+def _session_identity(payload, samples):
+    symbol = str(payload.get('symbol') or '').strip().upper()
+    first = _timestamp(samples[0].get('timestamp')).isoformat()
+    last = _timestamp(samples[-1].get('timestamp')).isoformat()
+    return symbol, first, last, len(samples)
+
+
 def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min_sessions=2):
     candidate = str(candidate or '').strip().upper()
     if candidate not in REGISTERED_CANDIDATES:
@@ -46,6 +53,7 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
     session_rows = []
     sessions_with_candidate = 0
     total_occurrences = 0
+    seen_session_identities = set()
 
     for path in paths:
         payload = json.loads(Path(path).read_text(encoding='utf-8'))
@@ -61,6 +69,12 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
         samples = payload.get('samples') or []
         if not samples or any(_timestamp(sample.get('timestamp')) <= cutoff for sample in samples):
             raise ValueError(f'RC54_8_REJECTS_PRE_SELECTION_EVIDENCE:{path}')
+
+        session_identity = _session_identity(payload, samples)
+        if session_identity in seen_session_identities:
+            raise ValueError(f'RC54_8_REQUIRES_UNIQUE_SESSION_IDENTITIES:{path}')
+        seen_session_identities.add(session_identity)
+
         indices = [i for i, sample in enumerate(samples) if _trade_context_ready(sample) and _bucket(sample) == candidate]
         sessions_with_candidate += bool(indices)
         total_occurrences += len(indices)
@@ -77,7 +91,13 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
                 if p1 is not None:
                     deltas[str(h)].append(p1 - p0)
                     local[str(h)] += 1
-        session_rows.append({'path': path, 'samples': len(samples), 'candidate_occurrences': len(indices), 'horizon_observations': local})
+        session_rows.append({
+            'path': path,
+            'session_identity': list(session_identity),
+            'samples': len(samples),
+            'candidate_occurrences': len(indices),
+            'horizon_observations': local,
+        })
 
     coverage_met = total_occurrences >= min_occurrences and sessions_with_candidate >= min_sessions
     side = 'BUY' if candidate.startswith('CONTEXT_BUY_') else 'SELL'
