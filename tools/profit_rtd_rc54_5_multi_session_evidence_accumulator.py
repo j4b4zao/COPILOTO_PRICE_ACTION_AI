@@ -7,6 +7,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from tools.profit_rtd_rc54_4_context_qualified_order_flow_auditor import HORIZONS, _bucket
+from tools.profit_rtd_rc54_5_5_session_readiness_report import evaluate_session
 
 
 def _num(value):
@@ -57,7 +58,16 @@ def _load_session(path):
         raise ValueError(f'RC54_5_REQUIRES_SYNCHRONIZED_PRICE:{path}')
     if not payload.get('observational_only', False):
         raise ValueError(f'RC54_5_REQUIRES_OBSERVATIONAL_ONLY:{path}')
+
+    # RC54.5.6: enforce RC54.5.5 readiness inside the accumulator itself.
+    # This prevents callers from bypassing the explicit post-collection gate.
+    readiness = evaluate_session(payload)
+    if not readiness['eligible_for_rc54_5']:
+        reasons = '|'.join(readiness['reasons']) if readiness['reasons'] else 'UNKNOWN'
+        raise ValueError(f'RC54_5_SESSION_READINESS_REJECTED:{reasons}:{path}')
+
     payload['_rc54_5_price_evidence'] = price_evidence
+    payload['_rc54_5_readiness'] = readiness
     return payload
 
 
@@ -101,11 +111,16 @@ def accumulate(paths, min_occurrences=30, min_sessions=3):
                 if p1 is not None:
                     pooled[bucket][h].append(p1 - p0)
 
+        readiness = payload.get('_rc54_5_readiness') or {}
         session_summaries.append({
             'path': path,
             'samples': len(samples),
             'ready_samples': len(ready_indices),
             'price_evidence': payload.get('_rc54_5_price_evidence'),
+            'readiness_gate': 'SESSION_ELIGIBLE',
+            'context_ready_at_start_raw': readiness.get('context_ready_at_start_raw'),
+            'context_ready_at_start': readiness.get('context_ready_at_start'),
+            'context_ready_inferred_from_warmup': readiness.get('context_ready_inferred_from_warmup'),
             'collection_errors': int(payload.get('collection_errors') or 0),
             'bucket_counts': dict(sorted(local.items())),
         })
