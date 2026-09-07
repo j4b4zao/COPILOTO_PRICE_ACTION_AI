@@ -12,6 +12,8 @@ REGISTERED_CANDIDATES = frozenset({
     'CONTEXT_SELL_DIVERGENT_TT_SELL_BOOK_BUY',
     'CONTEXT_SELL_MICRO_NEUTRAL',
 })
+MIN_HORIZON_OBSERVATIONS = 10
+MIN_HORIZON_SESSIONS = 2
 
 
 def _timestamp(value):
@@ -50,6 +52,7 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
         raise ValueError('RC54_8_REQUIRES_UNIQUE_HOLDOUT_SESSIONS')
 
     deltas = {str(h): [] for h in HORIZONS}
+    horizon_session_counts = {str(h): 0 for h in HORIZONS}
     session_rows = []
     sessions_with_candidate = 0
     total_occurrences = 0
@@ -120,6 +123,10 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
             if occurrence_usable:
                 local_usable_occurrences += 1
 
+        for h in HORIZONS:
+            if local[str(h)] > 0:
+                horizon_session_counts[str(h)] += 1
+
         sessions_with_usable_candidate += bool(local_usable_occurrences)
         usable_occurrences += local_usable_occurrences
         session_rows.append({
@@ -140,9 +147,30 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
         favorable_rate = stats['positive_rate'] if side == 'BUY' else stats['negative_rate']
         mean = stats['mean_delta']
         favorable_mean = isinstance(mean, (int, float)) and (mean > 0 if side == 'BUY' else mean < 0)
-        supported = bool(coverage_met and favorable_mean and favorable_rate is not None and favorable_rate >= 0.55)
+        horizon_observations = len(deltas[str(h)])
+        horizon_sessions = horizon_session_counts[str(h)]
+        horizon_coverage_met = (
+            horizon_observations >= MIN_HORIZON_OBSERVATIONS
+            and horizon_sessions >= MIN_HORIZON_SESSIONS
+        )
+        supported = bool(
+            coverage_met
+            and horizon_coverage_met
+            and favorable_mean
+            and favorable_rate is not None
+            and favorable_rate >= 0.55
+        )
         supported_horizons += supported
-        horizons[str(h)] = {**stats, 'favorable_rate': favorable_rate, 'direction_supported': supported}
+        horizons[str(h)] = {
+            **stats,
+            'favorable_rate': favorable_rate,
+            'horizon_observations': horizon_observations,
+            'horizon_sessions': horizon_sessions,
+            'min_horizon_observations': MIN_HORIZON_OBSERVATIONS,
+            'min_horizon_sessions': MIN_HORIZON_SESSIONS,
+            'horizon_coverage_met': horizon_coverage_met,
+            'direction_supported': supported,
+        }
 
     verdict = ('MORE_OOS_CANDIDATE_COVERAGE_REQUIRED' if not coverage_met else
                'OOS_DIRECTIONAL_BEHAVIOR_AVAILABLE_FOR_FURTHER_OBSERVATIONAL_VALIDATION' if supported_horizons >= 2 else
@@ -155,6 +183,8 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
         'sessions_with_usable_candidate': sessions_with_usable_candidate,
         'usable_candidate_occurrences': usable_occurrences,
         'min_occurrences': min_occurrences, 'min_sessions': min_sessions,
+        'min_horizon_observations': MIN_HORIZON_OBSERVATIONS,
+        'min_horizon_sessions': MIN_HORIZON_SESSIONS,
         'coverage_met': coverage_met, 'supported_horizons': supported_horizons,
         'horizons': horizons, 'session_rows': session_rows, 'verdict': verdict,
         'observational_only': True, 'predictive_claim_allowed': False,
@@ -171,7 +201,7 @@ def main(argv=None):
     a = p.parse_args(argv)
     r = audit(a.candidate, a.selection_cutoff, a.holdout_paths, min_occurrences=a.min_occurrences, min_sessions=a.min_sessions)
     print('PROFIT_RTD_RC54_8=COMPLETED')
-    for key in ('status','candidate','selection_cutoff','holdout_session_count','symbol','sessions_with_candidate','candidate_occurrences','sessions_with_usable_candidate','usable_candidate_occurrences','min_occurrences','min_sessions','coverage_met','supported_horizons','verdict'):
+    for key in ('status','candidate','selection_cutoff','holdout_session_count','symbol','sessions_with_candidate','candidate_occurrences','sessions_with_usable_candidate','usable_candidate_occurrences','min_occurrences','min_sessions','min_horizon_observations','min_horizon_sessions','coverage_met','supported_horizons','verdict'):
         print(f'{key}={r[key]}')
     print('horizons=' + json.dumps(r['horizons'], sort_keys=True, separators=(',', ':')))
     print('session_rows=' + json.dumps(r['session_rows'], ensure_ascii=False, separators=(',', ':')))
