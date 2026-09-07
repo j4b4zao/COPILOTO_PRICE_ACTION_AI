@@ -36,9 +36,11 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
         raise ValueError('RC54_8_REQUIRES_POSITIVE_COVERAGE_THRESHOLDS')
 
     cutoff = _timestamp(selection_cutoff)
-    paths = [str(Path(path)) for path in holdout_paths]
+    paths = [str(Path(path).resolve()) for path in holdout_paths]
     if not paths:
         raise ValueError('RC54_8_REQUIRES_HOLDOUT_SESSION')
+    if len(paths) != len(set(paths)):
+        raise ValueError('RC54_8_REQUIRES_UNIQUE_HOLDOUT_SESSIONS')
 
     deltas = {str(h): [] for h in HORIZONS}
     session_rows = []
