@@ -29,6 +29,12 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
     candidate = str(candidate or '').strip().upper()
     if candidate not in REGISTERED_CANDIDATES:
         raise ValueError('RC54_8_REQUIRES_PRE_REGISTERED_DIRECTIONAL_CANDIDATE')
+
+    min_occurrences = int(min_occurrences)
+    min_sessions = int(min_sessions)
+    if min_occurrences < 1 or min_sessions < 1:
+        raise ValueError('RC54_8_REQUIRES_POSITIVE_COVERAGE_THRESHOLDS')
+
     cutoff = _timestamp(selection_cutoff)
     paths = [str(Path(path)) for path in holdout_paths]
     if not paths:
@@ -71,7 +77,7 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
                     local[str(h)] += 1
         session_rows.append({'path': path, 'samples': len(samples), 'candidate_occurrences': len(indices), 'horizon_observations': local})
 
-    coverage_met = total_occurrences >= int(min_occurrences) and sessions_with_candidate >= int(min_sessions)
+    coverage_met = total_occurrences >= min_occurrences and sessions_with_candidate >= min_sessions
     side = 'BUY' if candidate.startswith('CONTEXT_BUY_') else 'SELL'
     horizons = {}
     supported_horizons = 0
@@ -91,7 +97,7 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
         'status': 'RC54_8_OOS_CANDIDATE_VALIDATION_COMPLETED', 'candidate': candidate,
         'selection_cutoff': cutoff.isoformat(), 'holdout_session_count': len(paths),
         'sessions_with_candidate': sessions_with_candidate, 'candidate_occurrences': total_occurrences,
-        'min_occurrences': int(min_occurrences), 'min_sessions': int(min_sessions),
+        'min_occurrences': min_occurrences, 'min_sessions': min_sessions,
         'coverage_met': coverage_met, 'supported_horizons': supported_horizons,
         'horizons': horizons, 'session_rows': session_rows, 'verdict': verdict,
         'observational_only': True, 'predictive_claim_allowed': False,
