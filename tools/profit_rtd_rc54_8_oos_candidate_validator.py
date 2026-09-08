@@ -6,12 +6,13 @@ from datetime import datetime
 from pathlib import Path
 
 from tools.profit_rtd_rc54_4_context_qualified_order_flow_auditor import HORIZONS, _bucket, _num, _stats
+from tools.profit_rtd_rc54_7_selection_manifest import (
+    ROBUSTNESS_CANDIDATES,
+    validate_manifest,
+)
 
 
-REGISTERED_CANDIDATES = frozenset({
-    'CONTEXT_SELL_DIVERGENT_TT_SELL_BOOK_BUY',
-    'CONTEXT_SELL_MICRO_NEUTRAL',
-})
+REGISTERED_CANDIDATES = frozenset(ROBUSTNESS_CANDIDATES)
 MIN_HORIZON_OBSERVATIONS = 10
 MIN_HORIZON_SESSIONS = 2
 
@@ -35,6 +36,13 @@ def _session_identity(payload, samples):
 
 
 def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min_sessions=2):
+    """Low-level RC54.8 audit primitive.
+
+    Production callers should use ``audit_from_manifest`` so the selection
+    cutoff and candidate registry come from the frozen RC54.7 manifest.
+    This function remains available for deterministic unit fixtures and
+    backwards-compatible internal tests.
+    """
     candidate = str(candidate or '').strip().upper()
     if candidate not in REGISTERED_CANDIDATES:
         raise ValueError('RC54_8_REQUIRES_PRE_REGISTERED_DIRECTIONAL_CANDIDATE')
@@ -194,14 +202,42 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
     }
 
 
+def audit_from_manifest(candidate, selection_manifest, holdout_paths, *, min_occurrences=30, min_sessions=2):
+    frozen = validate_manifest(selection_manifest)
+    normalized_candidate = str(candidate or '').strip().upper()
+    if normalized_candidate not in frozen['robustness_candidates']:
+        raise ValueError('RC54_8_REQUIRES_CANDIDATE_FROM_SELECTION_MANIFEST')
+    result = audit(
+        normalized_candidate,
+        frozen['selection_cutoff'],
+        holdout_paths,
+        min_occurrences=min_occurrences,
+        min_sessions=min_sessions,
+    )
+    result['selection_manifest_schema'] = frozen['schema']
+    result['selection_manifest_sha256'] = frozen['manifest_sha256']
+    return result
+
+
 def main(argv=None):
-    p = argparse.ArgumentParser(description='RC54.8: valida candidato congelado em holdouts posteriores.')
-    p.add_argument('candidate'); p.add_argument('selection_cutoff'); p.add_argument('holdout_paths', nargs='+')
-    p.add_argument('--min-occurrences', type=int, default=30); p.add_argument('--min-sessions', type=int, default=2)
+    p = argparse.ArgumentParser(description='RC54.8: valida candidato congelado em holdouts posteriores usando manifesto RC54.7.')
+    p.add_argument('candidate')
+    p.add_argument('selection_manifest_path')
+    p.add_argument('holdout_paths', nargs='+')
+    p.add_argument('--min-occurrences', type=int, default=30)
+    p.add_argument('--min-sessions', type=int, default=2)
     a = p.parse_args(argv)
-    r = audit(a.candidate, a.selection_cutoff, a.holdout_paths, min_occurrences=a.min_occurrences, min_sessions=a.min_sessions)
+
+    selection_manifest = json.loads(Path(a.selection_manifest_path).read_text(encoding='utf-8'))
+    r = audit_from_manifest(
+        a.candidate,
+        selection_manifest,
+        a.holdout_paths,
+        min_occurrences=a.min_occurrences,
+        min_sessions=a.min_sessions,
+    )
     print('PROFIT_RTD_RC54_8=COMPLETED')
-    for key in ('status','candidate','selection_cutoff','holdout_session_count','symbol','sessions_with_candidate','candidate_occurrences','sessions_with_usable_candidate','usable_candidate_occurrences','min_occurrences','min_sessions','min_horizon_observations','min_horizon_sessions','coverage_met','supported_horizons','verdict'):
+    for key in ('status','candidate','selection_cutoff','selection_manifest_schema','selection_manifest_sha256','holdout_session_count','symbol','sessions_with_candidate','candidate_occurrences','sessions_with_usable_candidate','usable_candidate_occurrences','min_occurrences','min_sessions','min_horizon_observations','min_horizon_sessions','coverage_met','supported_horizons','verdict'):
         print(f'{key}={r[key]}')
     print('horizons=' + json.dumps(r['horizons'], sort_keys=True, separators=(',', ':')))
     print('session_rows=' + json.dumps(r['session_rows'], ensure_ascii=False, separators=(',', ':')))
