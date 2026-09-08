@@ -5,6 +5,7 @@ from pathlib import Path
 
 from tools.profit_rtd_rc54_7_selection_manifest import manifest
 from tools.profit_rtd_rc54_8_oos_candidate_validator import audit_from_manifest
+from tools.profit_rtd_rc54_session_integrity import seal_session_payload
 
 
 CANDIDATE = 'CONTEXT_SELL_MICRO_NEUTRAL'
@@ -21,13 +22,13 @@ def make_session(path, *, start, prices):
             'alignment': 'NEUTRAL',
             'trade_context_ready': True,
         })
-    payload = {
+    payload = seal_session_payload({
         'phase': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE',
         'status': 'COMPLETED',
         'data_ready': True,
         'observational_only': True,
         'samples': samples,
-    }
+    })
     Path(path).write_text(json.dumps(payload), encoding='utf-8')
 
 
@@ -47,6 +48,9 @@ def run():
         assert r['selection_cutoff'] == cutoff.isoformat()
         assert r['selection_manifest_schema'] == frozen['schema']
         assert r['selection_manifest_sha256'] == frozen['manifest_sha256']
+        assert r['session_integrity_required'] is True
+        assert all(row.get('session_id') for row in r['session_rows'])
+        assert all(row.get('evidence_sha256') for row in r['session_rows'])
         assert r['coverage_met'] is True
 
         tampered = dict(frozen)
