@@ -12,6 +12,7 @@ from market_data.order_flow_observational_context import OrderFlowObservationalC
 from market_data.profit_delta_quality_validator import ProfitDeltaQualityValidator
 from tools.profit_rtd_rc54_3_pa_structure_context_session import snapshot_context
 from tools.profit_rtd_rc54_3_2_warm_history_gate import context_ready, warm_history
+from tools.profit_rtd_rc54_session_integrity import seal_session_payload
 
 
 def run_warmed_session(symbol, *, cycles=600, interval=0.25, max_warmup_cycles=4800, output_dir=None, sleeper=time.sleep):
@@ -123,6 +124,7 @@ def run_warmed_session(symbol, *, cycles=600, interval=0.25, max_warmup_cycles=4
         'score_influence_allowed': False, 'decision_influence_allowed': False, 'order_execution_allowed': False,
         'reasons': reasons,
     }
+    payload = seal_session_payload(payload)
 
     target = Path(output_dir or r'C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_rc54_3_2')
     target.mkdir(parents=True, exist_ok=True)
@@ -149,6 +151,10 @@ def main(argv=None):
     print('context_ready_at_start=' + str(r['context_ready_at_start']))
     for key in ('requested_cycles','analyzable_samples','skipped_cycles','collection_errors','missing_price_count','price_capture','data_ready'):
         print(f'{key}={r[key]}')
+    if 'session_id' in r:
+        print(f"session_id={r['session_id']}")
+    if 'evidence_sha256' in r:
+        print(f"evidence_sha256={r['evidence_sha256']}")
     if 'trade_context_ready_at_end' in r:
         print(f"trade_context_ready_at_end={r['trade_context_ready_at_end']}")
     if 'trade_context_ready_samples' in r:
