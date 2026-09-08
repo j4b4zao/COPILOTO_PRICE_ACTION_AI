@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from pathlib import Path
 
 import tools.profit_rtd_rc54_3_2_warmed_session as base
 from tools.profit_rtd_brooks_first_pullback_capture import (
@@ -24,6 +25,29 @@ from tools.profit_rtd_brooks_trading_range_capture import (
 
 
 _ORIGINAL_SNAPSHOT_CONTEXT = base.snapshot_context
+
+
+def _brooks_session_flags():
+    return {
+        "brooks_first_pullback_capture": True,
+        "brooks_major_reversal_context_capture": True,
+        "brooks_wedge_three_pushes_capture": True,
+        "brooks_trading_range_capture": True,
+        "brooks_research_only": True,
+        "brooks_predictive_claim_allowed": False,
+        "brooks_score_influence_allowed": False,
+        "brooks_risk_influence_allowed": False,
+        "brooks_decision_influence_allowed": False,
+        "brooks_alert_influence_allowed": False,
+        "brooks_order_execution_allowed": False,
+        "brooks_first_pullback_research_only": True,
+        "brooks_first_pullback_predictive_claim_allowed": False,
+        "brooks_first_pullback_score_influence_allowed": False,
+        "brooks_first_pullback_risk_influence_allowed": False,
+        "brooks_first_pullback_decision_influence_allowed": False,
+        "brooks_first_pullback_alert_influence_allowed": False,
+        "brooks_first_pullback_order_execution_allowed": False,
+    }
 
 
 def snapshot_context_with_brooks(context, micro):
@@ -68,25 +92,15 @@ def run_warmed_session(
     finally:
         base.snapshot_context = previous
 
-    result["brooks_first_pullback_capture"] = True
-    result["brooks_major_reversal_context_capture"] = True
-    result["brooks_wedge_three_pushes_capture"] = True
-    result["brooks_trading_range_capture"] = True
-    result["brooks_research_only"] = True
-    result["brooks_predictive_claim_allowed"] = False
-    result["brooks_score_influence_allowed"] = False
-    result["brooks_risk_influence_allowed"] = False
-    result["brooks_decision_influence_allowed"] = False
-    result["brooks_alert_influence_allowed"] = False
-    result["brooks_order_execution_allowed"] = False
+    flags = _brooks_session_flags()
+    result.update(flags)
 
-    result["brooks_first_pullback_research_only"] = True
-    result["brooks_first_pullback_predictive_claim_allowed"] = False
-    result["brooks_first_pullback_score_influence_allowed"] = False
-    result["brooks_first_pullback_risk_influence_allowed"] = False
-    result["brooks_first_pullback_decision_influence_allowed"] = False
-    result["brooks_first_pullback_alert_influence_allowed"] = False
-    result["brooks_first_pullback_order_execution_allowed"] = False
+    output_path = result.get("output_path")
+    if output_path:
+        path = Path(output_path)
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        payload.update(flags)
+        path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     return result
 
 

@@ -70,13 +70,14 @@ def test_snapshot_enrichment_adds_explicit_first_pullback_fields(monkeypatch):
     assert pa["order_execution_allowed"] is False
 
 
-def test_derived_runner_restores_original_snapshot_and_sets_safety_metadata(monkeypatch):
+def test_derived_runner_restores_original_snapshot_and_sets_safety_metadata(monkeypatch, tmp_path):
     original = object()
     monkeypatch.setattr(runner.base, "snapshot_context", original)
+    saved_path = tmp_path / "session.json"
 
     def fake_run(symbol, **kwargs):
         assert runner.base.snapshot_context is runner.snapshot_context_with_brooks
-        return {
+        payload = {
             "status": "COMPLETED",
             "symbol": symbol,
             "requested_cycles": 1,
@@ -86,6 +87,8 @@ def test_derived_runner_restores_original_snapshot_and_sets_safety_metadata(monk
             "data_ready": True,
             "reasons": [],
         }
+        saved_path.write_text(json.dumps(payload), encoding="utf-8")
+        return {**payload, "output_path": str(saved_path)}
 
     monkeypatch.setattr(runner.base, "run_warmed_session", fake_run)
 
@@ -100,6 +103,13 @@ def test_derived_runner_restores_original_snapshot_and_sets_safety_metadata(monk
     assert result["brooks_first_pullback_decision_influence_allowed"] is False
     assert result["brooks_first_pullback_alert_influence_allowed"] is False
     assert result["brooks_first_pullback_order_execution_allowed"] is False
+    persisted = json.loads(saved_path.read_text(encoding="utf-8"))
+    assert persisted["brooks_first_pullback_capture"] is True
+    assert persisted["brooks_major_reversal_context_capture"] is True
+    assert persisted["brooks_wedge_three_pushes_capture"] is True
+    assert persisted["brooks_trading_range_capture"] is True
+    assert persisted["brooks_score_influence_allowed"] is False
+    assert persisted["brooks_order_execution_allowed"] is False
 
 
 def test_derived_runner_restores_original_snapshot_after_failure(monkeypatch):
