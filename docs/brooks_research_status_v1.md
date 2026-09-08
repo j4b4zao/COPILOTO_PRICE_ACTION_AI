@@ -116,6 +116,24 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
 - O JSON confirmou a persistencia dos flags Brooks e de isolamento. A sessao
   permanece somente diagnostica; nao cria cutoff, freeze, promocao ou OOS.
 
+### Sessao real aceita de 2026-09-08 15:25
+
+- Um novo preflight aprovou a fonte com 47 amostras analisaveis, 33 mudancas
+  de preco, crescimento de 1 candle M1 e zero erros em 90 ciclos.
+- Com o tratamento neutro de `Direto`/`Leilao` ativo, a sessao `SELECTION` de
+  600 ciclos terminou `COMPLETED`, `data_ready=True` e sem warnings: 355
+  amostras analisaveis, 245 skips, zero erros de coleta, zero preco ausente e
+  zero falhas ou indisponibilidade Delta.
+- Houve 320 amostras com contexto de trade nao pronto, sem contaminarem a
+  prontidao tecnica. Ao final, a sessao observou `DOWN + SELL` e terminou com
+  `trade_context_ready=True`.
+- O manifesto unitario aceitou a sessao: `eligible_sessions=1`,
+  `rejected_sessions=0`, `VALID_SELECTION`. Os flags Brooks e todas as travas
+  de isolamento operacional foram persistidos.
+- Este aceite adiciona evidencia de selecao, mas nao autoriza promocao nem OOS
+  isoladamente. O proximo passo e consolidar todas as sessoes elegiveis no
+  manifesto/evidence suite antes de qualquer freeze formal.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
