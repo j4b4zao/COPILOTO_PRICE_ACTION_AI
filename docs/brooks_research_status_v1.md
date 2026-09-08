@@ -99,6 +99,23 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
   Nao existe selection cutoff, freeze, promocao ou permissao OOS decorrente
   desta tentativa.
 
+### Tentativa real de 2026-09-08 15:03
+
+- O preflight RTD confirmou atividade real: 46 amostras analisaveis, 22
+  mudancas de preco, crescimento de 1 candle M1 e zero erros em 90 ciclos.
+- O warm-up confirmou estrutura apos 789 ciclos e iniciou uma sessao
+  enriquecida `SELECTION` de 600 ciclos. A sessao produziu 332 amostras
+  analisaveis, 267 skips, zero falhas Delta e 1 erro de coleta.
+- `SIDEWAYS + PA NONE` permaneceu apenas como contexto de trade nao pronto; os
+  332 ciclos correspondentes nao entraram nos motivos de warning. A rejeicao
+  ocorreu exclusivamente por `COLLECTION_ERRORS_PRESENT`/`DATA_READY_REQUIRED`.
+- O erro tecnico foi uma classificacao valida `Direto` ou `Leilao` aceita pelo
+  leitor RC22/RC23, mas ainda rejeitada pelos agregadores RC3/RC5. Esses tipos
+  passaram a compor somente o volume total, sem inferir lado, alterar Delta ou
+  deixar de rejeitar classificacoes desconhecidas.
+- O JSON confirmou a persistencia dos flags Brooks e de isolamento. A sessao
+  permanece somente diagnostica; nao cria cutoff, freeze, promocao ou OOS.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell

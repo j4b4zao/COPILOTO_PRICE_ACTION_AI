@@ -82,6 +82,31 @@ def teste_delta_exclui_rlp_da_direcao():
     assert snapshot.aggression_pressure == "BUY"
 
 
+def teste_direto_e_leilao_entram_so_no_volume_total():
+    payload = ProfitRTDTimesTradesReader(
+        Gateway(trades_matrix()), clock=clock
+    ).read_times_trades("WINV26")
+    payload["trades"].extend(
+        [
+            {"quantity": 30.0, "aggressor": "Direto"},
+            {"quantity": 10.0, "aggressor": "Leilão"},
+        ]
+    )
+    snapshot = ProfitRTDOrderFlowWindowBuilder.build(payload)
+    assert snapshot.classified_aggression_quantity == 140.0
+    assert snapshot.rlp_quantity == 20.0
+    assert snapshot.total_traded_quantity == 200.0
+    assert snapshot.delta == 60.0
+
+
+def teste_snapshot_rejeita_agressor_desconhecido():
+    payload = ProfitRTDTimesTradesReader(
+        Gateway(trades_matrix()), clock=clock
+    ).read_times_trades("WINV26")
+    payload["trades"][0]["aggressor"] = "Desconhecido"
+    raises(ValueError, lambda: ProfitRTDOrderFlowWindowBuilder.build(payload))
+
+
 def teste_pressao_vendedora_e_balanceada_sao_deterministicas():
     payload = ProfitRTDTimesTradesReader(
         Gateway(trades_matrix()), clock=clock

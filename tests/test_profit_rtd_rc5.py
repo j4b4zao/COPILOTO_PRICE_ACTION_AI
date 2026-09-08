@@ -65,6 +65,27 @@ def teste_rlp_fica_separado_do_delta_classificado():
     assert result.delta_ratio == 1.0
 
 
+def teste_direto_e_leilao_ficam_neutros_no_delta():
+    result = ProfitRTDIncrementalAggressionBuilder.build(
+        batch((trade(30, "Direto"), trade(20, "Leilão"), trade(10, "Comprador")))
+    )
+    assert result.buyer_aggression == 10.0
+    assert result.seller_aggression == 0.0
+    assert result.rlp_quantity == 0.0
+    assert result.classified_aggression == 10.0
+    assert result.total_traded_quantity == 60.0
+    assert result.delta == 10.0
+
+
+def teste_agressor_desconhecido_continua_rejeitado():
+    raises(
+        ValueError,
+        lambda: ProfitRTDIncrementalAggressionBuilder.build(
+            batch((trade(10, "Desconhecido"),))
+        ),
+    )
+
+
 def teste_venda_dominante_classifica_sell():
     result = ProfitRTDIncrementalAggressionBuilder.build(
         batch((trade(10, "Comprador"), trade(40, "Vendedor")))

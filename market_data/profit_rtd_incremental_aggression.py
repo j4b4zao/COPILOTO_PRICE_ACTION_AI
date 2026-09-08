@@ -64,6 +64,9 @@ class ProfitRTDIncrementalAggressionBuilder:
                 sell += quantity
             elif aggressor == "RLP":
                 rlp += quantity
+            elif aggressor in {"Direto", "Leilão"}:
+                # Classificações válidas do Profit sem lado agressor inferível.
+                pass
             else:
                 raise ValueError("Agressor incompatível com T&T RTD.")
             total += quantity
