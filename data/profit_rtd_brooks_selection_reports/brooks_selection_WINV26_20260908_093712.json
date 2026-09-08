@@ -1,0 +1,112 @@
+{
+  "alert_influence_allowed": false,
+  "completed_runs": 0,
+  "decision_influence_allowed": false,
+  "hypothesis_freeze_allowed": false,
+  "launcher": "BROOKS_SELECTION_LAUNCHER_V1",
+  "manifest": {
+    "alert_influence_allowed": false,
+    "decision_influence_allowed": false,
+    "eligible_sessions": 0,
+    "evidence_suite": "BROOKS_RESEARCH_EVIDENCE_SUITE_V1",
+    "hypothesis_freeze_allowed": false,
+    "input_sessions": 1,
+    "manifest": "BROOKS_SELECTION_SESSION_MANIFEST_V1",
+    "mode": "SELECTION",
+    "observational_only": true,
+    "oos_allowed_from_manifest": false,
+    "order_execution_allowed": false,
+    "predictive_claim_allowed": false,
+    "promotion_allowed": false,
+    "rejected": [
+      {
+        "analyzable_samples": 395,
+        "eligible": false,
+        "end": "2026-09-08T09:37:00",
+        "missing_capture_flags": [
+          "brooks_first_pullback_capture",
+          "brooks_major_reversal_context_capture",
+          "brooks_wedge_three_pushes_capture",
+          "brooks_trading_range_capture"
+        ],
+        "path": "data\\profit_rtd_brooks_selection\\profit_rtd_rc54_3_2_WINV26_20260908_093712.json",
+        "reasons": [
+          "DATA_READY_REQUIRED",
+          "BROOKS_CAPTURE_FLAGS_REQUIRED",
+          "BROOKS_SAFETY_CONTRACT_VIOLATION"
+        ],
+        "safety_violations": [
+          "brooks_predictive_claim_allowed",
+          "brooks_score_influence_allowed",
+          "brooks_risk_influence_allowed",
+          "brooks_decision_influence_allowed",
+          "brooks_alert_influence_allowed",
+          "brooks_order_execution_allowed"
+        ],
+        "samples": 395,
+        "session": "profit_rtd_rc54_3_2_WINV26_20260908_093712.json",
+        "sha256": "4c811688b58fff01ae9d3196a803fe58cafca61676490eafb000ea28bb7b2555",
+        "start": "2026-09-08T09:27:00"
+      }
+    ],
+    "rejected_sessions": 1,
+    "research_only": true,
+    "risk_influence_allowed": false,
+    "score_influence_allowed": false,
+    "selection_cutoff": null,
+    "sessions": []
+  },
+  "mode": "SELECTION",
+  "observational_only": true,
+  "oos_execution_allowed": false,
+  "order_execution_allowed": false,
+  "predictive_claim_allowed": false,
+  "produced_session_files": 1,
+  "promotion_allowed": false,
+  "report_path": "data\\profit_rtd_brooks_selection_reports\\brooks_selection_WINV26_20260908_093712.json",
+  "requested_sessions": 1,
+  "research_only": true,
+  "risk_influence_allowed": false,
+  "runner": "BROOKS_SELECTION_RUNNER_V1",
+  "runs": [
+    {
+      "analyzable_samples": 395,
+      "collection_errors": 3,
+      "data_ready": false,
+      "index": 0,
+      "output_path": "data\\profit_rtd_brooks_selection\\profit_rtd_rc54_3_2_WINV26_20260908_093712.json",
+      "reasons": [
+        "COLLECTION_ERRORS_PRESENT"
+      ],
+      "status": "COMPLETED_WITH_WARNINGS"
+    }
+  ],
+  "score_influence_allowed": false,
+  "selection_outcome": {
+    "alert_influence_allowed": false,
+    "counts_as_oos_evidence": false,
+    "counts_as_selection_evidence": false,
+    "decision_influence_allowed": false,
+    "eligible_sessions": 0,
+    "hypothesis_freeze_allowed": false,
+    "mode": "SELECTION",
+    "observational_only": true,
+    "order_execution_allowed": false,
+    "outcome": "BROOKS_SELECTION_OUTCOME_V1",
+    "predictive_claim_allowed": false,
+    "produced_session_files": 1,
+    "promotion_allowed": false,
+    "reasons": [
+      "MANIFEST_REJECTIONS_PRESENT"
+    ],
+    "rejected_sessions": 1,
+    "requested_sessions": 1,
+    "research_only": true,
+    "retry_when_real_source_active": false,
+    "risk_influence_allowed": false,
+    "score_influence_allowed": false,
+    "selection_cutoff": null,
+    "status": "REJECTED"
+  },
+  "symbol": "WINV26"
+}

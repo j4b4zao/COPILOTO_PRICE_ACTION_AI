@@ -83,6 +83,22 @@ A revisao de 2026-09-05 confirmou que o MarketStructure RC17 produz `structure.c
 
 Nao coletar nova evidencia real durante mercado fechado/inativo.
 
+### Tentativa real de 2026-09-08 09:37
+
+- O preflight RTD confirmou atividade real: 51 atualizacoes analisaveis, 34
+  mudancas de preco e crescimento de 2 candles M1 em 90 ciclos.
+- Uma sessao enriquecida foi executada em modo `SELECTION`: 600 ciclos, 395
+  amostras analisaveis, 202 skips, 3 erros de coleta e zero falhas Delta.
+- Os tres erros foram `Agressor incompativel com T&T RTD`; por isso a sessao
+  terminou `COMPLETED_WITH_WARNINGS`, `data_ready=False` e foi rejeitada pelo
+  manifesto. Ela nao conta como evidencia de selecao.
+- O arquivo persistido tambem revelou que os flags Brooks eram adicionados ao
+  retorno somente depois da gravacao. O runner foi corrigido para persistir os
+  mesmos flags de captura e seguranca no JSON; a correcao esta em `88c2761`.
+- A sessao e o relatorio rejeitados sao preservados apenas como diagnostico.
+  Nao existe selection cutoff, freeze, promocao ou permissao OOS decorrente
+  desta tentativa.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
