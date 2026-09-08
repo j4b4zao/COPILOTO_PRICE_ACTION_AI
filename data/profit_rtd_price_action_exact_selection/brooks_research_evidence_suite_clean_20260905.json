@@ -1,0 +1,621 @@
+{
+  "accepted_sessions": [
+    "profit_rtd_rc54_3_2_WINV26_20260904_154917.json",
+    "profit_rtd_rc54_3_2_WINV26_20260904_163915.json",
+    "profit_rtd_rc54_3_2_WINV26_20260904_172520.json"
+  ],
+  "alert_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "eligible_sessions": 3,
+  "hypothesis_freeze_allowed": false,
+  "input_sessions": 3,
+  "mode": "SELECTION",
+  "observational_only": true,
+  "order_execution_allowed": false,
+  "predictive_claim_allowed": false,
+  "promotion_allowed": false,
+  "rejected_sessions": [],
+  "research_only": true,
+  "risk_influence_allowed": false,
+  "score_influence_allowed": false,
+  "selection_cutoff": null,
+  "setups": {
+    "BROOKS_BREAKOUT_PULLBACK_V1": {
+      "alert_influence_allowed": false,
+      "complete_sequences": 0,
+      "decision_influence_allowed": false,
+      "eligible_sessions": 3,
+      "hypothesis_freeze_allowed": false,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "reasons": [
+        "NO_COMPLETE_EXPLICIT_BREAKOUT_PULLBACK_SEQUENCE"
+      ],
+      "research_only": true,
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "sessions": [
+        {
+          "alert_influence_allowed": false,
+          "complete_sequences": 0,
+          "decision_influence_allowed": false,
+          "exact_candles": 13,
+          "incomplete": [
+            {
+              "direction": "BUY",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-04T15:43:00",
+                  "source": "STRUCTURE_BOS_UP"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_NOT_CONFIRMED",
+                "REJECTION_NOT_CONFIRMED",
+                "RESUMPTION_NOT_CONFIRMED"
+              ],
+              "sequence_complete": false
+            }
+          ],
+          "incomplete_candidates": 1,
+          "observational_only": true,
+          "order_execution_allowed": false,
+          "predictive_claim_allowed": false,
+          "producer_phase_coverage": {
+            "breakout_phase_contract": [
+              "BREAKOUT_CONFIRMED",
+              "BREAKOUT_FAILED",
+              "BREAKOUT_PENDING",
+              "BREAKOUT_TESTED",
+              "RANGE"
+            ],
+            "observed_breakout_phases": [
+              "RANGE"
+            ],
+            "observed_signal_phases": [
+              "ENTRY_STALLED",
+              "ENTRY_TRIGGERED"
+            ],
+            "pullback_source": "BROOKS_BREAKOUT_PHASE_BREAKOUT_TESTED",
+            "rejection_source": "BROOKS_BREAKOUT_PHASE_BREAKOUT_TESTED_HOLD",
+            "resumption_source": "BROOKS_SIGNAL_ENTRY_OR_FOLLOW_THROUGH_AFTER_TEST",
+            "signal_phase_contract": [
+              "ENTRY_STALLED",
+              "ENTRY_TRIGGERED",
+              "FOLLOW_THROUGH",
+              "SETUP_PENDING"
+            ]
+          },
+          "reasons": [
+            "NO_COMPLETE_EXPLICIT_BREAKOUT_PULLBACK_SEQUENCE"
+          ],
+          "research_only": true,
+          "risk_influence_allowed": false,
+          "score_influence_allowed": false,
+          "sequences": [],
+          "session": "profit_rtd_rc54_3_2_WINV26_20260904_154917.json",
+          "status": "INSUFFICIENT_SEQUENCE_EVIDENCE"
+        },
+        {
+          "alert_influence_allowed": false,
+          "complete_sequences": 0,
+          "decision_influence_allowed": false,
+          "exact_candles": 17,
+          "incomplete": [
+            {
+              "direction": "BUY",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-04T16:38:00",
+                  "source": "STRUCTURE_BOS_UP"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_NOT_CONFIRMED",
+                "REJECTION_NOT_CONFIRMED",
+                "RESUMPTION_NOT_CONFIRMED"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "BUY",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-04T16:39:00",
+                  "source": "STRUCTURE_BOS_UP"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_NOT_CONFIRMED",
+                "REJECTION_NOT_CONFIRMED",
+                "RESUMPTION_NOT_CONFIRMED"
+              ],
+              "sequence_complete": false
+            }
+          ],
+          "incomplete_candidates": 2,
+          "observational_only": true,
+          "order_execution_allowed": false,
+          "predictive_claim_allowed": false,
+          "producer_phase_coverage": {
+            "breakout_phase_contract": [
+              "BREAKOUT_CONFIRMED",
+              "BREAKOUT_FAILED",
+              "BREAKOUT_PENDING",
+              "BREAKOUT_TESTED",
+              "RANGE"
+            ],
+            "observed_breakout_phases": [
+              "RANGE"
+            ],
+            "observed_signal_phases": [
+              "ENTRY_STALLED",
+              "ENTRY_TRIGGERED",
+              "FOLLOW_THROUGH",
+              "SETUP_PENDING"
+            ],
+            "pullback_source": "BROOKS_BREAKOUT_PHASE_BREAKOUT_TESTED",
+            "rejection_source": "BROOKS_BREAKOUT_PHASE_BREAKOUT_TESTED_HOLD",
+            "resumption_source": "BROOKS_SIGNAL_ENTRY_OR_FOLLOW_THROUGH_AFTER_TEST",
+            "signal_phase_contract": [
+              "ENTRY_STALLED",
+              "ENTRY_TRIGGERED",
+              "FOLLOW_THROUGH",
+              "SETUP_PENDING"
+            ]
+          },
+          "reasons": [
+            "NO_COMPLETE_EXPLICIT_BREAKOUT_PULLBACK_SEQUENCE"
+          ],
+          "research_only": true,
+          "risk_influence_allowed": false,
+          "score_influence_allowed": false,
+          "sequences": [],
+          "session": "profit_rtd_rc54_3_2_WINV26_20260904_163915.json",
+          "status": "INSUFFICIENT_SEQUENCE_EVIDENCE"
+        },
+        {
+          "alert_influence_allowed": false,
+          "complete_sequences": 0,
+          "decision_influence_allowed": false,
+          "exact_candles": 7,
+          "incomplete": [],
+          "incomplete_candidates": 0,
+          "observational_only": true,
+          "order_execution_allowed": false,
+          "predictive_claim_allowed": false,
+          "producer_phase_coverage": {
+            "breakout_phase_contract": [
+              "BREAKOUT_CONFIRMED",
+              "BREAKOUT_FAILED",
+              "BREAKOUT_PENDING",
+              "BREAKOUT_TESTED",
+              "RANGE"
+            ],
+            "observed_breakout_phases": [
+              "RANGE"
+            ],
+            "observed_signal_phases": [
+              "ENTRY_STALLED",
+              "ENTRY_TRIGGERED",
+              "FOLLOW_THROUGH",
+              "SETUP_PENDING"
+            ],
+            "pullback_source": "BROOKS_BREAKOUT_PHASE_BREAKOUT_TESTED",
+            "rejection_source": "BROOKS_BREAKOUT_PHASE_BREAKOUT_TESTED_HOLD",
+            "resumption_source": "BROOKS_SIGNAL_ENTRY_OR_FOLLOW_THROUGH_AFTER_TEST",
+            "signal_phase_contract": [
+              "ENTRY_STALLED",
+              "ENTRY_TRIGGERED",
+              "FOLLOW_THROUGH",
+              "SETUP_PENDING"
+            ]
+          },
+          "reasons": [
+            "NO_COMPLETE_EXPLICIT_BREAKOUT_PULLBACK_SEQUENCE"
+          ],
+          "research_only": true,
+          "risk_influence_allowed": false,
+          "score_influence_allowed": false,
+          "sequences": [],
+          "session": "profit_rtd_rc54_3_2_WINV26_20260904_172520.json",
+          "status": "INSUFFICIENT_SEQUENCE_EVIDENCE"
+        }
+      ],
+      "status": "MORE_EVIDENCE_REQUIRED"
+    },
+    "BROOKS_FAILED_BREAKOUT_V1": {
+      "accepted_session_count": 3,
+      "accepted_sessions": [
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "deduplication": "EXACT_CANDLE_LAST_REVISION",
+            "exact_candle_identity_available": true,
+            "hypothesis_freeze_allowed": false,
+            "matched_sequence_count": 0,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequence_count": 0,
+            "sequences": [],
+            "status": "AUDIT_COMPLETED"
+          },
+          "session_index": 0
+        },
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "deduplication": "EXACT_CANDLE_LAST_REVISION",
+            "exact_candle_identity_available": true,
+            "hypothesis_freeze_allowed": false,
+            "matched_sequence_count": 0,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequence_count": 0,
+            "sequences": [],
+            "status": "AUDIT_COMPLETED"
+          },
+          "session_index": 1
+        },
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "deduplication": "EXACT_CANDLE_LAST_REVISION",
+            "exact_candle_identity_available": true,
+            "hypothesis_freeze_allowed": false,
+            "matched_sequence_count": 0,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequence_count": 0,
+            "sequences": [],
+            "status": "AUDIT_COMPLETED"
+          },
+          "session_index": 2
+        }
+      ],
+      "alert_influence_allowed": false,
+      "decision_influence_allowed": false,
+      "hypothesis_freeze_allowed": false,
+      "matched_sequence_count": 0,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "rejected_session_count": 0,
+      "rejected_sessions": [],
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "status": "MULTI_SESSION_AUDIT_COMPLETED"
+    },
+    "BROOKS_MAJOR_TREND_REVERSAL_V1": {
+      "accepted_session_count": 0,
+      "accepted_sessions": [],
+      "alert_influence_allowed": false,
+      "decision_influence_allowed": false,
+      "hypothesis_freeze_allowed": false,
+      "matched_sequence_count": 0,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "rejected_session_count": 3,
+      "rejected_sessions": [
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "hypothesis_freeze_allowed": false,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "reasons": [
+              "REVERSAL_CONTEXT_EVIDENCE_REQUIRED"
+            ],
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequences": [],
+            "status": "SESSION_NOT_ELIGIBLE"
+          },
+          "reason": "SESSION_NOT_ELIGIBLE",
+          "session_index": 0
+        },
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "hypothesis_freeze_allowed": false,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "reasons": [
+              "REVERSAL_CONTEXT_EVIDENCE_REQUIRED"
+            ],
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequences": [],
+            "status": "SESSION_NOT_ELIGIBLE"
+          },
+          "reason": "SESSION_NOT_ELIGIBLE",
+          "session_index": 1
+        },
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "hypothesis_freeze_allowed": false,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "reasons": [
+              "REVERSAL_CONTEXT_EVIDENCE_REQUIRED"
+            ],
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequences": [],
+            "status": "SESSION_NOT_ELIGIBLE"
+          },
+          "reason": "SESSION_NOT_ELIGIBLE",
+          "session_index": 2
+        }
+      ],
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "status": "MULTI_SESSION_AUDIT_COMPLETED"
+    },
+    "BROOKS_STOP_TARGET_RULES_V1": {
+      "alert_influence_allowed": false,
+      "decision_influence_allowed": false,
+      "eligible_sessions": 3,
+      "hypothesis_freeze_allowed": false,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "reasons": [
+        "STOP_TARGET_REMAINS_COMPARATIVE_RESEARCH_ONLY"
+      ],
+      "research_only": true,
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "status": "CLASSIFIER_ONLY_NO_EXACT_AUDITOR"
+    },
+    "BROOKS_TRADING_RANGE_REVERSAL_V1": {
+      "accepted_session_count": 0,
+      "accepted_sessions": [],
+      "alert_influence_allowed": false,
+      "decision_influence_allowed": false,
+      "hypothesis_freeze_allowed": false,
+      "matched_sequence_count": 0,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "rejected_session_count": 3,
+      "rejected_sessions": [
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "hypothesis_freeze_allowed": false,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "reasons": [
+              "TRADING_RANGE_EVIDENCE_REQUIRED"
+            ],
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequences": [],
+            "status": "SESSION_NOT_ELIGIBLE"
+          },
+          "reason": "SESSION_NOT_ELIGIBLE",
+          "session_index": 0
+        },
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "hypothesis_freeze_allowed": false,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "reasons": [
+              "TRADING_RANGE_EVIDENCE_REQUIRED"
+            ],
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequences": [],
+            "status": "SESSION_NOT_ELIGIBLE"
+          },
+          "reason": "SESSION_NOT_ELIGIBLE",
+          "session_index": 1
+        },
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "hypothesis_freeze_allowed": false,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "reasons": [
+              "TRADING_RANGE_EVIDENCE_REQUIRED"
+            ],
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequences": [],
+            "status": "SESSION_NOT_ELIGIBLE"
+          },
+          "reason": "SESSION_NOT_ELIGIBLE",
+          "session_index": 2
+        }
+      ],
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "status": "MULTI_SESSION_AUDIT_COMPLETED"
+    },
+    "BROOKS_TREND_PULLBACK_V1": {
+      "alert_influence_allowed": false,
+      "complete_sequences": 0,
+      "decision_influence_allowed": false,
+      "eligible_sessions": 0,
+      "hypothesis_freeze_allowed": false,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "reasons": [
+        "NO_COMPLETE_EXPLICIT_TREND_PULLBACK_SEQUENCE"
+      ],
+      "research_only": true,
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "sessions": [
+        {
+          "alert_influence_allowed": false,
+          "decision_influence_allowed": false,
+          "exact_candles": 13,
+          "missing_pullback_evidence_rows": 13,
+          "observational_only": true,
+          "order_execution_allowed": false,
+          "predictive_claim_allowed": false,
+          "pullback_evidence_rows": 0,
+          "reasons": [
+            "FIRST_PULLBACK_SEQUENCE_EVIDENCE_REQUIRED"
+          ],
+          "research_only": true,
+          "risk_influence_allowed": false,
+          "score_influence_allowed": false,
+          "session": "profit_rtd_rc54_3_2_WINV26_20260904_154917.json",
+          "status": "SESSION_NOT_ELIGIBLE"
+        },
+        {
+          "alert_influence_allowed": false,
+          "decision_influence_allowed": false,
+          "exact_candles": 17,
+          "missing_pullback_evidence_rows": 17,
+          "observational_only": true,
+          "order_execution_allowed": false,
+          "predictive_claim_allowed": false,
+          "pullback_evidence_rows": 0,
+          "reasons": [
+            "FIRST_PULLBACK_SEQUENCE_EVIDENCE_REQUIRED"
+          ],
+          "research_only": true,
+          "risk_influence_allowed": false,
+          "score_influence_allowed": false,
+          "session": "profit_rtd_rc54_3_2_WINV26_20260904_163915.json",
+          "status": "SESSION_NOT_ELIGIBLE"
+        },
+        {
+          "alert_influence_allowed": false,
+          "decision_influence_allowed": false,
+          "exact_candles": 7,
+          "missing_pullback_evidence_rows": 7,
+          "observational_only": true,
+          "order_execution_allowed": false,
+          "predictive_claim_allowed": false,
+          "pullback_evidence_rows": 0,
+          "reasons": [
+            "FIRST_PULLBACK_SEQUENCE_EVIDENCE_REQUIRED"
+          ],
+          "research_only": true,
+          "risk_influence_allowed": false,
+          "score_influence_allowed": false,
+          "session": "profit_rtd_rc54_3_2_WINV26_20260904_172520.json",
+          "status": "SESSION_NOT_ELIGIBLE"
+        }
+      ],
+      "status": "MORE_EVIDENCE_REQUIRED"
+    },
+    "BROOKS_WEDGE_THREE_PUSHES_V1": {
+      "accepted_session_count": 0,
+      "accepted_sessions": [],
+      "alert_influence_allowed": false,
+      "decision_influence_allowed": false,
+      "hypothesis_freeze_allowed": false,
+      "matched_sequence_count": 0,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "rejected_session_count": 3,
+      "rejected_sessions": [
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "hypothesis_freeze_allowed": false,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "reasons": [
+              "THREE_PUSHES_EVIDENCE_REQUIRED"
+            ],
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequences": [],
+            "status": "SESSION_NOT_ELIGIBLE"
+          },
+          "reason": "SESSION_NOT_ELIGIBLE",
+          "session_index": 0
+        },
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "hypothesis_freeze_allowed": false,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "reasons": [
+              "THREE_PUSHES_EVIDENCE_REQUIRED"
+            ],
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequences": [],
+            "status": "SESSION_NOT_ELIGIBLE"
+          },
+          "reason": "SESSION_NOT_ELIGIBLE",
+          "session_index": 1
+        },
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "hypothesis_freeze_allowed": false,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "reasons": [
+              "THREE_PUSHES_EVIDENCE_REQUIRED"
+            ],
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequences": [],
+            "status": "SESSION_NOT_ELIGIBLE"
+          },
+          "reason": "SESSION_NOT_ELIGIBLE",
+          "session_index": 2
+        }
+      ],
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "status": "MULTI_SESSION_AUDIT_COMPLETED"
+    }
+  },
+  "suite": "BROOKS_RESEARCH_EVIDENCE_SUITE_V1"
+}

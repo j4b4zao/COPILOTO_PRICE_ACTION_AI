@@ -50,9 +50,25 @@ Os testes desta camada validam contratos, semantica, isolamento, sequencias e in
 
 ## Testes controlados confirmados
 
-Total Brooks confirmado ate esta consolidacao: **215 testes aprovados**.
+Total Brooks confirmado ate esta consolidacao: **271 testes aprovados**.
 
 Esse total inclui os classificadores, auditores EXACT_CANDLE, capture helpers, runners, Registry/Suite, Evidence Suite, Selection Manifest, Selection Runner, Selection Launcher e os testes especificos do contrato Failed Breakout/CHOCH.
+
+## Baseline EXACT_CANDLE anterior ao runner enriquecido
+
+- A Evidence Suite V1 foi executada em modo `SELECTION` sobre as tres sessoes
+  independentes `154917`, `163915` e `172520`; todas foram admitidas e nenhuma
+  sobreposicao temporal foi encontrada.
+- O relatorio foi salvo em
+  `data/profit_rtd_price_action_exact_selection/brooks_research_evidence_suite_clean_20260905.json`.
+- Breakout Pullback aceitou as tres sessoes, mas observou zero sequencias
+  completas. Failed Breakout tambem aceitou as tres e observou zero matches.
+- Trend Pullback e as familias enriquecidas de Major Trend Reversal, Wedge e
+  Trading Range nao encontraram sessoes elegiveis porque essas capturas antigas
+  nao possuem todos os campos explicitos dos novos contratos.
+- O resultado e apenas um baseline parcial: `hypothesis_freeze_allowed=False`,
+  `promotion_allowed=False` e `oos_collection_allowed=False`. A proxima coleta
+  pelo launcher Brooks permanece em modo `SELECTION`.
 
 ## Failed Breakout / CHOCH
 
