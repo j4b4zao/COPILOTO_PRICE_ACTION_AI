@@ -6,10 +6,8 @@ from datetime import datetime
 from pathlib import Path
 
 from tools.profit_rtd_rc54_4_context_qualified_order_flow_auditor import HORIZONS, _bucket, _num, _stats
-from tools.profit_rtd_rc54_7_selection_manifest import (
-    ROBUSTNESS_CANDIDATES,
-    validate_manifest,
-)
+from tools.profit_rtd_rc54_7_selection_manifest import ROBUSTNESS_CANDIDATES, validate_manifest
+from tools.profit_rtd_rc54_session_integrity import validate_session_integrity
 
 
 REGISTERED_CANDIDATES = frozenset(ROBUSTNESS_CANDIDATES)
@@ -35,13 +33,19 @@ def _session_identity(payload, samples):
     return symbol, first, last, len(samples)
 
 
-def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min_sessions=2):
+def audit(
+    candidate,
+    selection_cutoff,
+    holdout_paths,
+    *,
+    min_occurrences=30,
+    min_sessions=2,
+    require_session_integrity=False,
+):
     """Low-level RC54.8 audit primitive.
 
-    Production callers should use ``audit_from_manifest`` so the selection
-    cutoff and candidate registry come from the frozen RC54.7 manifest.
-    This function remains available for deterministic unit fixtures and
-    backwards-compatible internal tests.
+    Production callers use ``audit_from_manifest``. The optional integrity
+    switch remains false here only for deterministic legacy/unit fixtures.
     """
     candidate = str(candidate or '').strip().upper()
     if candidate not in REGISTERED_CANDIDATES:
@@ -67,11 +71,25 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
     sessions_with_usable_candidate = 0
     usable_occurrences = 0
     seen_session_identities = set()
+    seen_session_ids = set()
+    seen_evidence_hashes = set()
     seen_intervals_by_symbol = {}
     expected_symbol = None
 
     for path in paths:
         payload = json.loads(Path(path).read_text(encoding='utf-8'))
+        integrity = None
+        if require_session_integrity:
+            integrity = validate_session_integrity(payload)
+            session_id = integrity['session_id']
+            evidence_hash = integrity['evidence_sha256']
+            if session_id in seen_session_ids:
+                raise ValueError(f'RC54_8_REQUIRES_UNIQUE_PERSISTED_SESSION_IDS:{path}')
+            if evidence_hash in seen_evidence_hashes:
+                raise ValueError(f'RC54_8_REQUIRES_UNIQUE_SESSION_EVIDENCE_HASHES:{path}')
+            seen_session_ids.add(session_id)
+            seen_evidence_hashes.add(evidence_hash)
+
         if payload.get('phase') != 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE':
             raise ValueError(f'RC54_8_REQUIRES_RC54_3_2_SESSION:{path}')
         if payload.get('status') not in {'COMPLETED', 'COMPLETED_WITH_WARNINGS'}:
@@ -116,7 +134,6 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
             p0 = _num(samples[i].get('last_price'))
             if p0 is None:
                 continue
-
             occurrence_usable = False
             for h in HORIZONS:
                 j = i + h
@@ -127,7 +144,6 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
                     deltas[str(h)].append(p1 - p0)
                     local[str(h)] += 1
                     occurrence_usable = True
-
             if occurrence_usable:
                 local_usable_occurrences += 1
 
@@ -137,14 +153,17 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
 
         sessions_with_usable_candidate += bool(local_usable_occurrences)
         usable_occurrences += local_usable_occurrences
-        session_rows.append({
+        row = {
             'path': path,
             'session_identity': list(session_identity),
             'samples': len(samples),
             'candidate_occurrences': len(indices),
             'usable_candidate_occurrences': local_usable_occurrences,
             'horizon_observations': local,
-        })
+        }
+        if integrity is not None:
+            row.update(integrity)
+        session_rows.append(row)
 
     coverage_met = usable_occurrences >= min_occurrences and sessions_with_usable_candidate >= min_sessions
     side = 'BUY' if candidate.startswith('CONTEXT_BUY_') else 'SELL'
@@ -180,23 +199,35 @@ def audit(candidate, selection_cutoff, holdout_paths, *, min_occurrences=30, min
             'direction_supported': supported,
         }
 
-    verdict = ('MORE_OOS_CANDIDATE_COVERAGE_REQUIRED' if not coverage_met else
-               'OOS_DIRECTIONAL_BEHAVIOR_AVAILABLE_FOR_FURTHER_OBSERVATIONAL_VALIDATION' if supported_horizons >= 2 else
-               'OOS_DIRECTIONAL_BEHAVIOR_NOT_CONFIRMED')
+    verdict = (
+        'MORE_OOS_CANDIDATE_COVERAGE_REQUIRED' if not coverage_met else
+        'OOS_DIRECTIONAL_BEHAVIOR_AVAILABLE_FOR_FURTHER_OBSERVATIONAL_VALIDATION' if supported_horizons >= 2 else
+        'OOS_DIRECTIONAL_BEHAVIOR_NOT_CONFIRMED'
+    )
     return {
-        'status': 'RC54_8_OOS_CANDIDATE_VALIDATION_COMPLETED', 'candidate': candidate,
-        'selection_cutoff': cutoff.isoformat(), 'holdout_session_count': len(paths),
+        'status': 'RC54_8_OOS_CANDIDATE_VALIDATION_COMPLETED',
+        'candidate': candidate,
+        'selection_cutoff': cutoff.isoformat(),
+        'holdout_session_count': len(paths),
         'symbol': expected_symbol,
-        'sessions_with_candidate': sessions_with_candidate, 'candidate_occurrences': total_occurrences,
+        'sessions_with_candidate': sessions_with_candidate,
+        'candidate_occurrences': total_occurrences,
         'sessions_with_usable_candidate': sessions_with_usable_candidate,
         'usable_candidate_occurrences': usable_occurrences,
-        'min_occurrences': min_occurrences, 'min_sessions': min_sessions,
+        'min_occurrences': min_occurrences,
+        'min_sessions': min_sessions,
         'min_horizon_observations': MIN_HORIZON_OBSERVATIONS,
         'min_horizon_sessions': MIN_HORIZON_SESSIONS,
-        'coverage_met': coverage_met, 'supported_horizons': supported_horizons,
-        'horizons': horizons, 'session_rows': session_rows, 'verdict': verdict,
-        'observational_only': True, 'predictive_claim_allowed': False,
-        'score_influence_allowed': False, 'risk_influence_allowed': False,
+        'session_integrity_required': bool(require_session_integrity),
+        'coverage_met': coverage_met,
+        'supported_horizons': supported_horizons,
+        'horizons': horizons,
+        'session_rows': session_rows,
+        'verdict': verdict,
+        'observational_only': True,
+        'predictive_claim_allowed': False,
+        'score_influence_allowed': False,
+        'risk_influence_allowed': False,
         'decision_influence_allowed': False,
         'order_execution_allowed': False,
     }
@@ -213,6 +244,7 @@ def audit_from_manifest(candidate, selection_manifest, holdout_paths, *, min_occ
         holdout_paths,
         min_occurrences=min_occurrences,
         min_sessions=min_sessions,
+        require_session_integrity=True,
     )
     result['selection_manifest_schema'] = frozen['schema']
     result['selection_manifest_sha256'] = frozen['manifest_sha256']
@@ -237,7 +269,7 @@ def main(argv=None):
         min_sessions=a.min_sessions,
     )
     print('PROFIT_RTD_RC54_8=COMPLETED')
-    for key in ('status','candidate','selection_cutoff','selection_manifest_schema','selection_manifest_sha256','holdout_session_count','symbol','sessions_with_candidate','candidate_occurrences','sessions_with_usable_candidate','usable_candidate_occurrences','min_occurrences','min_sessions','min_horizon_observations','min_horizon_sessions','coverage_met','supported_horizons','verdict'):
+    for key in ('status','candidate','selection_cutoff','selection_manifest_schema','selection_manifest_sha256','holdout_session_count','symbol','sessions_with_candidate','candidate_occurrences','sessions_with_usable_candidate','usable_candidate_occurrences','min_occurrences','min_sessions','min_horizon_observations','min_horizon_sessions','session_integrity_required','coverage_met','supported_horizons','verdict'):
         print(f'{key}={r[key]}')
     print('horizons=' + json.dumps(r['horizons'], sort_keys=True, separators=(',', ':')))
     print('session_rows=' + json.dumps(r['session_rows'], ensure_ascii=False, separators=(',', ':')))
