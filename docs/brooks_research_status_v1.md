@@ -134,6 +134,23 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
   isoladamente. O proximo passo e consolidar todas as sessoes elegiveis no
   manifesto/evidence suite antes de qualquer freeze formal.
 
+### Consolidacao offline apos a sessao 15:25
+
+- O Selection Ledger encontrou 3 tentativas: 1 `VALID_SELECTION` e 2
+  `REJECTED`. Somente a sessao `152552` conta como evidencia; as duas rejeitadas
+  permanecem em quarentena diagnostica.
+- A Research Evidence Suite aceitou exclusivamente a sessao limpa, sem
+  rejeicoes internas. Foram auditados 9 candles EXACT_CANDLE.
+- Breakout Pullback e Trend Pullback ainda possuem zero sequencias completas.
+  O Trend Pullback observou 1 candidato SELL incompleto, invalidado por
+  `TRADING_RANGE_TRANSITION`.
+- Failed Breakout observou 2 sequencias DOWN, ambas sem falha de breakout
+  confirmada. Major Trend Reversal, Wedge e Trading Range Reversal tiveram zero
+  sequencias.
+- `hypothesis_freeze_allowed=False`, `promotion_allowed=False` e a separacao
+  operacional permanece integral. Sao necessarias novas sessoes independentes
+  de selecao antes de considerar um cutoff formal ou qualquer fase OOS.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
