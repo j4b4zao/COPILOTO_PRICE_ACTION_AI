@@ -151,6 +151,24 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
   operacional permanece integral. Sao necessarias novas sessoes independentes
   de selecao antes de considerar um cutoff formal ou qualquer fase OOS.
 
+### Segunda sessao real aceita de 2026-09-08 15:44
+
+- O preflight aprovou a fonte com 51 amostras analisaveis, 26 mudancas de
+  preco, crescimento de 1 candle M1 e zero erros em 90 ciclos.
+- A sessao independente `SELECTION` de 600 ciclos terminou `COMPLETED`,
+  `data_ready=True`: 336 amostras analisaveis, 264 skips, zero erros de coleta,
+  zero preco ausente e zero falhas ou indisponibilidade Delta.
+- Houve 311 amostras com contexto de trade nao pronto sem gerar warning
+  tecnico. A sessao terminou em `UP + BUY`, com `trade_context_ready=True`.
+- A Evidence Suite conjunta aceitou as sessoes `152552` e `154439`, sem
+  sobreposicao ou rejeicao. Cada sessao forneceu 9 candles EXACT_CANDLE.
+- Failed Breakout passou a cobrir duas sequencias DOWN e duas UP, todas sem
+  falha confirmada. Breakout Pullback e Trend Pullback continuam com zero
+  sequencias completas; as demais familias tambem nao produziram matches.
+- Mesmo com cobertura direcional BUY/SELL, `hypothesis_freeze_allowed=False` e
+  `promotion_allowed=False`. A coleta continua em `SELECTION`; OOS permanece
+  bloqueado ate evidencia suficiente e congelamento formal separado.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
