@@ -74,7 +74,7 @@ def test_excel_connect_failure_returns_one(capsys):
     out = capsys.readouterr().out
     assert code == 1
     assert "PROFIT_RTD_PREFLIGHT=ERROR" in out
-    assert "reason=EXCEL_CONNECT_FAILED" in out
+    assert "reason=TIMES_TRADES_EXCEL_CONNECT_FAILED" in out
 
 
 def main():
@@ -103,7 +103,7 @@ def main():
         assert cli.run_preflight(
             "WINV26", excel_factory=lambda: _FakeExcel(connect_ok=False)
         ) == 1
-    assert "EXCEL_CONNECT_FAILED" in capture.buffer.getvalue()
+    assert "TIMES_TRADES_EXCEL_CONNECT_FAILED" in capture.buffer.getvalue()
 
     print("Profit RTD RC15 tests: OK")
 

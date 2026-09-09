@@ -41,7 +41,7 @@ def test_rc29_bullish_alignment_is_observational_only():
 
 def test_rc29_bearish_alignment():
     ctx = OrderFlowObservationalContextBuilder.build(
-        delta_report=_delta(dominance=-0.5),
+        delta_report=_delta(dominance=0.5, recent_delta=-120.0),
         book_report=_book(imbalance=-0.30),
         symbol="WINV26",
     )
