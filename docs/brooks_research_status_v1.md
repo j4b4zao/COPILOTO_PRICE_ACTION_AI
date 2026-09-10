@@ -326,6 +326,19 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
 - O veredito permanece `MORE_INDEPENDENT_SELECTION_EVIDENCE_REQUIRED`; o
   relatorio nunca libera freeze, OOS, promocao ou influencia operacional.
 
+### Captura Stop/Target para sessoes futuras
+
+- A captura `BROOKS_STOP_TARGET_RULES_V1` foi adicionada ao runner Brooks para
+  novas sessoes, sem reconstruir artificialmente as 11 sessoes anteriores.
+- Quando uma entrada Brooks estiver explicitamente disparada, a captura usa o
+  fechamento e o extremo oposto do proprio candle-sinal apenas para registrar
+  a geometria observacional do stop.
+- Um alvo so e registrado quando existe range estrutural valido e o limite
+  oposto fica no lado correto da entrada. A captura nao cria alvo 2R sintetico.
+- Os campos sao research-only; Score, Risk, Decision, Alert e execucao
+  permanecem sem influencia. O auditor EXACT_CANDLE de evolucao Stop/Target
+  continua como proxima etapa e dependera de novas sessoes com essa captura.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell

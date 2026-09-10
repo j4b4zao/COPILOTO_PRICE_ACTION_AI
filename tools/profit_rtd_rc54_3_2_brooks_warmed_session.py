@@ -22,6 +22,9 @@ from tools.profit_rtd_brooks_wedge_three_pushes_capture import (
 from tools.profit_rtd_brooks_trading_range_capture import (
     enrich_price_action_snapshot as enrich_trading_range_snapshot,
 )
+from tools.profit_rtd_brooks_stop_target_capture import (
+    enrich_price_action_snapshot as enrich_stop_target_snapshot,
+)
 
 
 _ORIGINAL_SNAPSHOT_CONTEXT = base.snapshot_context
@@ -33,6 +36,7 @@ def _brooks_session_flags():
         "brooks_major_reversal_context_capture": True,
         "brooks_wedge_three_pushes_capture": True,
         "brooks_trading_range_capture": True,
+        "brooks_stop_target_capture": True,
         "brooks_research_only": True,
         "brooks_predictive_claim_allowed": False,
         "brooks_score_influence_allowed": False,
@@ -55,6 +59,7 @@ def snapshot_context_with_brooks(context, micro):
     item = enrich_first_pullback_snapshot(item, context)
     item = enrich_wedge_three_pushes_snapshot(item, context)
     item = enrich_trading_range_snapshot(item, context)
+    item = enrich_stop_target_snapshot(item, context)
 
     pa_snapshot = item.get("price_action")
     pa_result = getattr(context, "price_action", None)
@@ -128,7 +133,8 @@ def main(argv=None):
         "symbol", "requested_cycles", "analyzable_samples", "skipped_cycles",
         "collection_errors", "data_ready", "brooks_first_pullback_capture",
         "brooks_major_reversal_context_capture", "brooks_wedge_three_pushes_capture",
-        "brooks_trading_range_capture", "brooks_research_only",
+        "brooks_trading_range_capture", "brooks_stop_target_capture",
+        "brooks_research_only",
         "brooks_predictive_claim_allowed", "brooks_score_influence_allowed",
         "brooks_risk_influence_allowed", "brooks_decision_influence_allowed",
         "brooks_alert_influence_allowed", "brooks_order_execution_allowed",
