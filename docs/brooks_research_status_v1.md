@@ -312,6 +312,20 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
 - `hypothesis_freeze_allowed=False` e `promotion_allowed=False`; OOS permanece
   bloqueado e toda a evidencia continua exclusivamente observacional.
 
+### Diagnostico offline de lacunas apos onze sessoes
+
+- O `BROOKS_EVIDENCE_GAP_REPORT_V1` consolidou 98 candles EXACT_CANDLE nas 11
+  sessoes limpas, sem reabrir Excel/Profit e sem reinterpretar os auditores.
+- Failed Breakout produziu 17 sequencias candidatas e zero matches; 13 ficaram
+  explicitamente em `BREAKOUT_FAILURE_NOT_OBSERVED`.
+- Trend Pullback produziu 1 candidato incompleto, invalidado por
+  `TRADING_RANGE_TRANSITION`. Breakout Pullback permaneceu sem sequencia
+  completa, embora todas as fases do contrato tenham aparecido no agregado.
+- Major Trend Reversal, Wedge e Trading Range Reversal permaneceram sem
+  sequencia candidata. Stop/Target continua `CLASSIFIER_ONLY_NO_EXACT_AUDITOR`.
+- O veredito permanece `MORE_INDEPENDENT_SELECTION_EVIDENCE_REQUIRED`; o
+  relatorio nunca libera freeze, OOS, promocao ou influencia operacional.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
