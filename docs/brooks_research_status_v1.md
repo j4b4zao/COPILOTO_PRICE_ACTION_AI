@@ -294,6 +294,24 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
 - `hypothesis_freeze_allowed=False` e `promotion_allowed=False`; OOS permanece
   bloqueado e toda a evidencia continua exclusivamente observacional.
 
+### Decima primeira sessao real aceita de 2026-09-10 17:16
+
+- Uma primeira tentativa foi interrompida ainda no warm-up porque o Excel
+  entregou timestamp no campo de volume e depois uma planilha com layout que
+  nao era Times & Trades. Nenhum artefato dessa tentativa foi produzido.
+- Depois da reabertura explicita de `times&trades.xlsx` e `livroOfertas.xlsx`,
+  o preflight de 90 ciclos declarou `MARKET_ACTIVITY_READY`: 52 amostras
+  analisaveis, 20 mudancas de preco, crescimento de 1 candle e zero erros.
+- A sessao limpa `SELECTION` de 600 ciclos terminou `COMPLETED` e
+  `data_ready=True`: 255 amostras analisaveis, 345 skips, zero erros de coleta,
+  zero preco ausente e zero falhas ou indisponibilidade Delta.
+- Todas as 255 amostras tiveram contexto de trade nao pronto; a sessao terminou
+  `trade_context_ready=False`, sem warning ou rejeicao tecnica.
+- A Evidence Suite aceitou as onze sessoes limpas, sem sobreposicao ou
+  rejeicao, e permanece sem sequencia completa ou match suficiente.
+- `hypothesis_freeze_allowed=False` e `promotion_allowed=False`; OOS permanece
+  bloqueado e toda a evidencia continua exclusivamente observacional.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
