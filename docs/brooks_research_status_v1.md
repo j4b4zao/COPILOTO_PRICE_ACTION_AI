@@ -233,6 +233,20 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
 - `hypothesis_freeze_allowed=False` e `promotion_allowed=False`; a evidencia
   continua exclusivamente observacional em `SELECTION` e OOS segue bloqueado.
 
+### Setima sessao real aceita de 2026-09-10 09:39
+
+- O preflight de 90 ciclos declarou `MARKET_ACTIVITY_READY`: 45 amostras
+  analisaveis, 35 mudancas de preco, crescimento de 1 candle e `reasons=OK`.
+- A sessao `SELECTION` de 600 ciclos terminou `COMPLETED` e `data_ready=True`:
+  365 amostras analisaveis, 235 skips, zero erros de coleta, zero preco ausente
+  e zero falhas ou indisponibilidade Delta.
+- Todas as 365 amostras tiveram contexto de trade nao pronto; a sessao terminou
+  `trade_context_ready=False`, sem warning ou rejeicao tecnica.
+- A Evidence Suite aceitou as sete sessoes limpas, sem sobreposicao ou
+  rejeicao. Nenhuma familia produziu sequencia completa ou match suficiente.
+- `hypothesis_freeze_allowed=False` e `promotion_allowed=False`; OOS permanece
+  bloqueado e toda a evidencia continua exclusivamente observacional.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
