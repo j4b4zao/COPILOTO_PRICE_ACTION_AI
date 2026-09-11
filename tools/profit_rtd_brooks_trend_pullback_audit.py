@@ -101,13 +101,16 @@ def _counter_direction(direction):
 def _captured_pullback_direction(pa, trend_direction):
     """Resolve a semantica do campo de direcao sem inventar evidencia.
 
-    O produtor historico gravou ``brooks_first_pullback_direction`` com a
-    direcao da tendencia inferida por FirstPullbackSequenceDynamics. Capturas
-    novas gravam tambem ``brooks_first_pullback_counter_direction``. Para JSONs
-    antigos, quando o campo legado esta alinhado com a tendencia, a direcao do
-    pullback e a contra-direcao implicita pelo proprio detector de sequencia.
-    Caso contrario, preservamos o valor legado, mantendo compatibilidade com
-    evidencias sinteticas antigas que ja gravavam a contra-direcao.
+    ``trend_direction`` usa o contrato operacional BUY/SELL. O produtor
+    historico gravou ``brooks_first_pullback_direction`` com a direcao da
+    tendencia inferida por FirstPullbackSequenceDynamics (UP/DOWN). Capturas
+    novas gravam tambem ``brooks_first_pullback_counter_direction``.
+
+    Para JSONs antigos, quando o campo legado esta alinhado com a tendencia,
+    a direcao do pullback e a contra-direcao implicita pelo proprio detector de
+    sequencia. Caso contrario, preservamos o valor legado, mantendo
+    compatibilidade com evidencias sinteticas antigas que ja gravavam a
+    contra-direcao.
     """
     explicit_counter = _text(pa.get("brooks_first_pullback_counter_direction"))
     if explicit_counter != "NONE":
