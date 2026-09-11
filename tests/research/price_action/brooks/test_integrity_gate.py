@@ -7,7 +7,7 @@ def test_real_integrity_gate_passes():
     result = gate.run_integrity_gate()
     assert result["status"] == "PASS"
     assert result["failed_check_count"] == 0
-    assert result["expected_module_count"] == 18
+    assert result["expected_module_count"] == 19
 
 
 def test_global_gate_safety_is_fail_closed():

@@ -1,0 +1,107 @@
+{
+  "alert_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "eligible_sessions": 11,
+  "evidence_gaps": [
+    "EXACT_CANDLE_AUDITOR_NOT_AVAILABLE",
+    "NO_CANDIDATE_SEQUENCE",
+    "NO_COMPLETE_SEQUENCE",
+    "NO_MATCHED_SEQUENCE"
+  ],
+  "families": {
+    "BROOKS_BREAKOUT_PULLBACK_V1": {
+      "candidate_sequences": 0,
+      "complete_sequences": 0,
+      "eligible_sessions": 11,
+      "exact_candles": 98,
+      "gap": "NO_COMPLETE_SEQUENCE",
+      "incomplete_reason_counts": {},
+      "matched_sequences": 0,
+      "observed_breakout_phases": [
+        "BREAKOUT_CONFIRMED",
+        "BREAKOUT_FAILED",
+        "BREAKOUT_PENDING",
+        "BREAKOUT_TESTED",
+        "RANGE"
+      ]
+    },
+    "BROOKS_FAILED_BREAKOUT_V1": {
+      "candidate_sequences": 17,
+      "complete_sequences": 17,
+      "eligible_sessions": 11,
+      "exact_candles": null,
+      "gap": "NO_MATCHED_SEQUENCE",
+      "incomplete_reason_counts": {
+        "BREAKOUT_FAILURE_NOT_OBSERVED": 13
+      },
+      "matched_sequences": 0,
+      "observed_breakout_phases": []
+    },
+    "BROOKS_MAJOR_TREND_REVERSAL_V1": {
+      "candidate_sequences": 0,
+      "complete_sequences": 0,
+      "eligible_sessions": 11,
+      "exact_candles": null,
+      "gap": "NO_CANDIDATE_SEQUENCE",
+      "incomplete_reason_counts": {},
+      "matched_sequences": 0,
+      "observed_breakout_phases": []
+    },
+    "BROOKS_STOP_TARGET_RULES_V1": {
+      "candidate_sequences": null,
+      "complete_sequences": null,
+      "eligible_sessions": 11,
+      "exact_candles": null,
+      "gap": "EXACT_CANDLE_AUDITOR_NOT_AVAILABLE",
+      "incomplete_reason_counts": {},
+      "matched_sequences": null,
+      "observed_breakout_phases": []
+    },
+    "BROOKS_TRADING_RANGE_REVERSAL_V1": {
+      "candidate_sequences": 0,
+      "complete_sequences": 0,
+      "eligible_sessions": 11,
+      "exact_candles": null,
+      "gap": "NO_CANDIDATE_SEQUENCE",
+      "incomplete_reason_counts": {},
+      "matched_sequences": 0,
+      "observed_breakout_phases": []
+    },
+    "BROOKS_TREND_PULLBACK_V1": {
+      "candidate_sequences": 1,
+      "complete_sequences": 0,
+      "eligible_sessions": 11,
+      "exact_candles": 98,
+      "gap": "NO_COMPLETE_SEQUENCE",
+      "incomplete_reason_counts": {
+        "TRADING_RANGE_TRANSITION": 1
+      },
+      "matched_sequences": 0,
+      "observed_breakout_phases": []
+    },
+    "BROOKS_WEDGE_THREE_PUSHES_V1": {
+      "candidate_sequences": 0,
+      "complete_sequences": 0,
+      "eligible_sessions": 11,
+      "exact_candles": null,
+      "gap": "NO_CANDIDATE_SEQUENCE",
+      "incomplete_reason_counts": {},
+      "matched_sequences": 0,
+      "observed_breakout_phases": []
+    }
+  },
+  "hypothesis_freeze_allowed": false,
+  "mode": "SELECTION",
+  "observational_only": true,
+  "oos_collection_allowed": false,
+  "order_execution_allowed": false,
+  "predictive_claim_allowed": false,
+  "promotion_allowed": false,
+  "rejected_sessions": 0,
+  "report": "BROOKS_EVIDENCE_GAP_REPORT_V1",
+  "research_only": true,
+  "risk_influence_allowed": false,
+  "score_influence_allowed": false,
+  "source_suite": "BROOKS_RESEARCH_EVIDENCE_SUITE_V1",
+  "verdict": "MORE_INDEPENDENT_SELECTION_EVIDENCE_REQUIRED"
+}

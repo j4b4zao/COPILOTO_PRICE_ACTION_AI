@@ -108,6 +108,7 @@ def test_derived_runner_restores_original_snapshot_and_sets_safety_metadata(monk
     assert persisted["brooks_major_reversal_context_capture"] is True
     assert persisted["brooks_wedge_three_pushes_capture"] is True
     assert persisted["brooks_trading_range_capture"] is True
+    assert persisted["brooks_stop_target_capture"] is True
     assert persisted["brooks_score_influence_allowed"] is False
     assert persisted["brooks_order_execution_allowed"] is False
 

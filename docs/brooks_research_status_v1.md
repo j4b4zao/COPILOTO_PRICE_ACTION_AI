@@ -294,6 +294,51 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
 - `hypothesis_freeze_allowed=False` e `promotion_allowed=False`; OOS permanece
   bloqueado e toda a evidencia continua exclusivamente observacional.
 
+### Decima primeira sessao real aceita de 2026-09-10 17:16
+
+- Uma primeira tentativa foi interrompida ainda no warm-up porque o Excel
+  entregou timestamp no campo de volume e depois uma planilha com layout que
+  nao era Times & Trades. Nenhum artefato dessa tentativa foi produzido.
+- Depois da reabertura explicita de `times&trades.xlsx` e `livroOfertas.xlsx`,
+  o preflight de 90 ciclos declarou `MARKET_ACTIVITY_READY`: 52 amostras
+  analisaveis, 20 mudancas de preco, crescimento de 1 candle e zero erros.
+- A sessao limpa `SELECTION` de 600 ciclos terminou `COMPLETED` e
+  `data_ready=True`: 255 amostras analisaveis, 345 skips, zero erros de coleta,
+  zero preco ausente e zero falhas ou indisponibilidade Delta.
+- Todas as 255 amostras tiveram contexto de trade nao pronto; a sessao terminou
+  `trade_context_ready=False`, sem warning ou rejeicao tecnica.
+- A Evidence Suite aceitou as onze sessoes limpas, sem sobreposicao ou
+  rejeicao, e permanece sem sequencia completa ou match suficiente.
+- `hypothesis_freeze_allowed=False` e `promotion_allowed=False`; OOS permanece
+  bloqueado e toda a evidencia continua exclusivamente observacional.
+
+### Diagnostico offline de lacunas apos onze sessoes
+
+- O `BROOKS_EVIDENCE_GAP_REPORT_V1` consolidou 98 candles EXACT_CANDLE nas 11
+  sessoes limpas, sem reabrir Excel/Profit e sem reinterpretar os auditores.
+- Failed Breakout produziu 17 sequencias candidatas e zero matches; 13 ficaram
+  explicitamente em `BREAKOUT_FAILURE_NOT_OBSERVED`.
+- Trend Pullback produziu 1 candidato incompleto, invalidado por
+  `TRADING_RANGE_TRANSITION`. Breakout Pullback permaneceu sem sequencia
+  completa, embora todas as fases do contrato tenham aparecido no agregado.
+- Major Trend Reversal, Wedge e Trading Range Reversal permaneceram sem
+  sequencia candidata. Stop/Target continua `CLASSIFIER_ONLY_NO_EXACT_AUDITOR`.
+- O veredito permanece `MORE_INDEPENDENT_SELECTION_EVIDENCE_REQUIRED`; o
+  relatorio nunca libera freeze, OOS, promocao ou influencia operacional.
+
+### Captura Stop/Target para sessoes futuras
+
+- A captura `BROOKS_STOP_TARGET_RULES_V1` foi adicionada ao runner Brooks para
+  novas sessoes, sem reconstruir artificialmente as 11 sessoes anteriores.
+- Quando uma entrada Brooks estiver explicitamente disparada, a captura usa o
+  fechamento e o extremo oposto do proprio candle-sinal apenas para registrar
+  a geometria observacional do stop.
+- Um alvo so e registrado quando existe range estrutural valido e o limite
+  oposto fica no lado correto da entrada. A captura nao cria alvo 2R sintetico.
+- Os campos sao research-only; Score, Risk, Decision, Alert e execucao
+  permanecem sem influencia. O auditor EXACT_CANDLE de evolucao Stop/Target
+  continua como proxima etapa e dependera de novas sessoes com essa captura.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
