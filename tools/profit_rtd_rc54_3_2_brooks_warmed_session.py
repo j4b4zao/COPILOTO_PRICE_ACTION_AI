@@ -13,6 +13,9 @@ import json
 from pathlib import Path
 
 import tools.profit_rtd_rc54_3_2_warmed_session as base
+from tools.profit_rtd_brooks_breakout_memory_capture import (
+    enrich_price_action_snapshot as enrich_breakout_memory_snapshot,
+)
 from tools.profit_rtd_brooks_first_pullback_capture import (
     enrich_price_action_snapshot as enrich_first_pullback_snapshot,
 )
@@ -32,6 +35,7 @@ _ORIGINAL_SNAPSHOT_CONTEXT = base.snapshot_context
 
 def _brooks_session_flags():
     return {
+        "brooks_breakout_memory_capture": True,
         "brooks_first_pullback_capture": True,
         "brooks_major_reversal_context_capture": True,
         "brooks_wedge_three_pushes_capture": True,
@@ -56,6 +60,7 @@ def _brooks_session_flags():
 
 def snapshot_context_with_brooks(context, micro):
     item = _ORIGINAL_SNAPSHOT_CONTEXT(context, micro)
+    item = enrich_breakout_memory_snapshot(item, context)
     item = enrich_first_pullback_snapshot(item, context)
     item = enrich_wedge_three_pushes_snapshot(item, context)
     item = enrich_trading_range_snapshot(item, context)
@@ -131,10 +136,10 @@ def main(argv=None):
     print("PROFIT_RTD_RC54_3_2_BROOKS_WARMED_SESSION=" + str(result.get("status")))
     for key in (
         "symbol", "requested_cycles", "analyzable_samples", "skipped_cycles",
-        "collection_errors", "data_ready", "brooks_first_pullback_capture",
-        "brooks_major_reversal_context_capture", "brooks_wedge_three_pushes_capture",
-        "brooks_trading_range_capture", "brooks_stop_target_capture",
-        "brooks_research_only",
+        "collection_errors", "data_ready", "brooks_breakout_memory_capture",
+        "brooks_first_pullback_capture", "brooks_major_reversal_context_capture",
+        "brooks_wedge_three_pushes_capture", "brooks_trading_range_capture",
+        "brooks_stop_target_capture", "brooks_research_only",
         "brooks_predictive_claim_allowed", "brooks_score_influence_allowed",
         "brooks_risk_influence_allowed", "brooks_decision_influence_allowed",
         "brooks_alert_influence_allowed", "brooks_order_execution_allowed",
