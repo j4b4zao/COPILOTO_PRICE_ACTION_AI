@@ -1,7 +1,7 @@
 """Auditoria Brooks breakout-pullback com memoria observacional do nivel.
 
 Extende a auditoria existente sem alterar BreakoutDynamics. O nivel de
-rompimento precisa ter sido explicitamente capturado no candle de breakout.
+rompimento precisa ter sido explicitamente capturado pela memoria de pesquisa.
 A partir desse nivel, candles posteriores podem provar reteste/defesa dentro
 da janela de pesquisa.
 """
@@ -31,10 +31,30 @@ from tools.profit_rtd_brooks_breakout_pullback_audit import (
 from tools.profit_rtd_price_action_evidence_audit import _session_interval
 
 
-def _explicit_breakout_level(row):
+def _expected_memory_direction(direction):
+    if direction == "BUY":
+        return {"BUY", "UP", "BULL", "BULLISH"}
+    if direction == "SELL":
+        return {"SELL", "DOWN", "BEAR", "BEARISH"}
+    return set()
+
+
+def _explicit_breakout_level(row, direction):
+    """Le somente o nivel explicitamente persistido pela memoria de pesquisa.
+
+    O capturador real grava os campos ``brooks_research_breakout_memory_*``.
+    Nao usamos fallback para o antigo ``brooks_breakout_level`` porque isso
+    mascararia incompatibilidade entre o teste sintetico e o JSON de producao.
+    """
     pa = row.get("price_action") or {}
+    raw_direction = str(
+        pa.get("brooks_research_breakout_memory_direction") or ""
+    ).strip().upper()
+    if raw_direction not in _expected_memory_direction(direction):
+        return None
+
     try:
-        level = float(pa.get("brooks_breakout_level"))
+        level = float(pa.get("brooks_research_breakout_memory_level"))
     except (TypeError, ValueError):
         return None
     return level if level != 0.0 else None
@@ -124,7 +144,7 @@ def audit_session(path, *, max_sequence_candles=20):
         if not breakout_detected:
             continue
 
-        breakout_level = _explicit_breakout_level(breakout_row)
+        breakout_level = _explicit_breakout_level(breakout_row, direction)
         evidence = {
             "breakout": {
                 "candle_id": breakout_row["candle_evidence"]["candle_id"],
@@ -197,6 +217,8 @@ def audit_session(path, *, max_sequence_candles=20):
             **_producer_phase_coverage(rows),
             "research_breakout_memory": True,
             "research_breakout_memory_max_sequence_candles": int(max_sequence_candles),
+            "research_breakout_memory_level_field": "brooks_research_breakout_memory_level",
+            "research_breakout_memory_direction_field": "brooks_research_breakout_memory_direction",
         },
         "reasons": [] if complete else ["NO_COMPLETE_EXPLICIT_BREAKOUT_PULLBACK_SEQUENCE"],
         **_safety(),
