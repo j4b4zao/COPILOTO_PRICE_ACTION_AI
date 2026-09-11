@@ -88,11 +88,70 @@ def test_retest_three_candles_after_breakout_is_preserved_by_research_memory(tmp
 
     assert result["status"] == "MATCHES_OBSERVED"
     assert result["complete_sequences"] == 1
+    assert result["unique_matched_event_count"] == 1
     sequence = result["sequences"][0]
     assert sequence["evidence"]["breakout"]["level"] == 100.0
     assert sequence["evidence"]["pullback"]["candle_id"] == "WIN|M1|4"
     assert sequence["evidence"]["pullback"]["source"] == "RESEARCH_BREAKOUT_MEMORY_LEVEL_RETEST"
     assert sequence["evidence"]["resumption"]["candle_id"] == "WIN|M1|5"
+
+
+def test_same_breakout_event_is_counted_once_across_consecutive_breakout_candles(tmp_path):
+    rows = [
+        _row(
+            "WIN|M1|1",
+            phase="BREAKOUT_PENDING",
+            breakout_direction="UP",
+            memory_direction="UP",
+            memory_level=100.0,
+            low=100.4,
+            close=101.4,
+        ),
+        _row(
+            "WIN|M1|2",
+            phase="BREAKOUT_PENDING",
+            breakout_direction="UP",
+            memory_direction="UP",
+            memory_level=100.0,
+            low=100.6,
+            close=101.6,
+        ),
+        _row(
+            "WIN|M1|3",
+            phase="BREAKOUT_PENDING",
+            breakout_direction="UP",
+            memory_direction="UP",
+            memory_level=100.0,
+            low=100.7,
+            close=101.7,
+        ),
+        _row("WIN|M1|4", low=99.9, close=100.3),
+        _row(
+            "WIN|M1|5",
+            signal_phase="FOLLOW_THROUGH",
+            signal_direction="UP",
+            entry=True,
+            follow=True,
+            low=100.2,
+            close=102.0,
+        ),
+    ]
+
+    result = audit_session(_write(tmp_path, rows), max_sequence_candles=20)
+
+    assert result["complete_sequences"] == 3
+    assert result["unique_matched_event_count"] == 1
+    assert result["event_deduplication"] == "SAME_DIRECTION_LEVEL_RETEST_REJECTION_RESUMPTION"
+    event = result["unique_matched_events"][0]
+    assert event["direction"] == "BUY"
+    assert event["level"] == 100.0
+    assert event["pullback_candle_id"] == "WIN|M1|4"
+    assert event["resumption_candle_id"] == "WIN|M1|5"
+    assert event["member_breakout_candle_ids"] == [
+        "WIN|M1|1",
+        "WIN|M1|2",
+        "WIN|M1|3",
+    ]
 
 
 def test_memory_does_not_infer_level_when_real_memory_level_was_not_captured(tmp_path):
@@ -117,6 +176,7 @@ def test_memory_does_not_infer_level_when_real_memory_level_was_not_captured(tmp
     result = audit_session(_write(tmp_path, rows))
 
     assert result["complete_sequences"] == 0
+    assert result["unique_matched_event_count"] == 0
     assert result["incomplete_candidates"] == 1
     assert "PULLBACK_NOT_CONFIRMED" in result["incomplete"][0]["reasons"]
     assert result["incomplete"][0]["evidence"]["breakout"]["level"] is None
@@ -143,6 +203,7 @@ def test_memory_direction_must_align_with_breakout_direction(tmp_path):
     result = audit_session(_write(tmp_path, rows))
 
     assert result["complete_sequences"] == 0
+    assert result["unique_matched_event_count"] == 0
     assert result["incomplete_candidates"] == 1
     assert result["incomplete"][0]["evidence"]["breakout"]["level"] is None
     assert "PULLBACK_NOT_CONFIRMED" in result["incomplete"][0]["reasons"]
@@ -171,6 +232,7 @@ def test_memory_uses_real_capture_field_names_only(tmp_path):
     result = audit_session(_write(tmp_path, rows))
 
     assert result["complete_sequences"] == 1
+    assert result["unique_matched_event_count"] == 1
     assert result["sequences"][0]["evidence"]["breakout"]["level"] == 100.0
 
 
