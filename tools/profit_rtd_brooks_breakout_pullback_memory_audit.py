@@ -109,6 +109,58 @@ def _producer_or_memory_test(row, direction, level):
     return _remembered_test(row, direction, level)
 
 
+def _event_key(sequence):
+    """Identifica um evento independente sem alterar a deteccao do setup.
+
+    Multiplos BOS consecutivos podem apontar para o mesmo nivel lembrado e
+    terminar no mesmo reteste/rejeicao/retomada. Esses matches sao evidencias
+    do mesmo evento observacional e devem contar uma unica vez no agregado.
+    """
+    evidence = sequence.get("evidence") or {}
+    breakout = evidence.get("breakout") or {}
+    pullback = evidence.get("pullback") or {}
+    rejection = evidence.get("rejection") or {}
+    resumption = evidence.get("resumption") or {}
+    return (
+        sequence.get("direction"),
+        breakout.get("level"),
+        pullback.get("candle_id"),
+        rejection.get("candle_id"),
+        resumption.get("candle_id"),
+    )
+
+
+def _unique_events(sequences):
+    events = []
+    by_key = {}
+    for sequence in sequences:
+        key = _event_key(sequence)
+        event = by_key.get(key)
+        breakout_id = (sequence.get("evidence") or {}).get("breakout", {}).get("candle_id")
+        if event is not None:
+            if breakout_id is not None:
+                event["member_breakout_candle_ids"].append(breakout_id)
+            continue
+
+        evidence = sequence.get("evidence") or {}
+        breakout = evidence.get("breakout") or {}
+        pullback = evidence.get("pullback") or {}
+        rejection = evidence.get("rejection") or {}
+        resumption = evidence.get("resumption") or {}
+        event = {
+            "direction": sequence.get("direction"),
+            "level": breakout.get("level"),
+            "event_start_candle_id": breakout_id,
+            "member_breakout_candle_ids": [breakout_id] if breakout_id is not None else [],
+            "pullback_candle_id": pullback.get("candle_id"),
+            "rejection_candle_id": rejection.get("candle_id"),
+            "resumption_candle_id": resumption.get("candle_id"),
+        }
+        by_key[key] = event
+        events.append(event)
+    return events
+
+
 def audit_session(path, *, max_sequence_candles=20):
     source = Path(path)
     payload = json.loads(source.read_text(encoding="utf-8"))
@@ -205,11 +257,15 @@ def audit_session(path, *, max_sequence_candles=20):
         (sequences if result.matched else incomplete).append(item)
 
     complete = len(sequences)
+    unique_events = _unique_events(sequences)
     return {
         "session": source.name,
         "status": "MATCHES_OBSERVED" if complete else "INSUFFICIENT_SEQUENCE_EVIDENCE",
         "exact_candles": len(rows),
         "complete_sequences": complete,
+        "unique_matched_event_count": len(unique_events),
+        "unique_matched_events": unique_events,
+        "event_deduplication": "SAME_DIRECTION_LEVEL_RETEST_REJECTION_RESUMPTION",
         "incomplete_candidates": len(incomplete),
         "sequences": sequences,
         "incomplete": incomplete,
@@ -265,6 +321,7 @@ def audit(paths, *, max_sequence_candles=20):
             accepted_intervals.append((path.name, interval))
 
     complete = sum(item.get("complete_sequences", 0) for item in sessions)
+    unique_events = sum(item.get("unique_matched_event_count", 0) for item in sessions)
     eligible_sessions = sum(
         item.get("status") in {"MATCHES_OBSERVED", "INSUFFICIENT_SEQUENCE_EVIDENCE"}
         for item in sessions
@@ -274,6 +331,8 @@ def audit(paths, *, max_sequence_candles=20):
         "eligible_sessions": eligible_sessions,
         "sessions": sessions,
         "complete_sequences": complete,
+        "unique_matched_event_count": unique_events,
+        "event_deduplication": "SAME_DIRECTION_LEVEL_RETEST_REJECTION_RESUMPTION",
         "hypothesis_freeze_allowed": False,
         "reasons": (
             ["COMPLETE_EXPLICIT_SEQUENCE_OBSERVED_RESEARCH_ONLY"]
