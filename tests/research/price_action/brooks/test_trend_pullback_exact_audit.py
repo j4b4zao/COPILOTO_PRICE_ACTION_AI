@@ -3,26 +3,44 @@ import json
 from tools.profit_rtd_brooks_trend_pullback_audit import audit, audit_session
 
 
-def _row(cid, trend="UP", *, pullback=True, pb_dir="SELL", stage="BAR_PULLBACK", stage_index=1,
-         continuation=True, reversal=False, range_transition=False, signal_phase="SETUP_PENDING",
-         signal_direction="NONE", entry=False, follow=False, choch=False):
+def _row(
+    cid,
+    trend="UP",
+    *,
+    pullback=True,
+    pb_dir="SELL",
+    counter_dir=None,
+    stage="BAR_PULLBACK",
+    stage_index=1,
+    continuation=True,
+    reversal=False,
+    range_transition=False,
+    signal_phase="SETUP_PENDING",
+    signal_direction="NONE",
+    entry=False,
+    follow=False,
+    choch=False,
+):
+    pa = {
+        "brooks_first_pullback_valid": pullback,
+        "brooks_first_pullback_direction": pb_dir,
+        "brooks_first_pullback_stage": stage,
+        "brooks_first_pullback_stage_index": stage_index,
+        "brooks_first_pullback_continuation_bias": continuation,
+        "brooks_first_pullback_reversal_risk": reversal,
+        "brooks_first_pullback_trading_range_transition": range_transition,
+        "brooks_signal_phase": signal_phase,
+        "brooks_signal_direction": signal_direction,
+        "brooks_entry_triggered": entry,
+        "brooks_follow_through": follow,
+    }
+    if counter_dir is not None:
+        pa["brooks_first_pullback_counter_direction"] = counter_dir
     return {
         "timestamp": cid.split("|")[-1],
         "candle_evidence": {"status": "CANDLE_EVIDENCE_READY", "candle_id": cid},
         "structure": {"trend": trend, "choch": choch},
-        "price_action": {
-            "brooks_first_pullback_valid": pullback,
-            "brooks_first_pullback_direction": pb_dir,
-            "brooks_first_pullback_stage": stage,
-            "brooks_first_pullback_stage_index": stage_index,
-            "brooks_first_pullback_continuation_bias": continuation,
-            "brooks_first_pullback_reversal_risk": reversal,
-            "brooks_first_pullback_trading_range_transition": range_transition,
-            "brooks_signal_phase": signal_phase,
-            "brooks_signal_direction": signal_direction,
-            "brooks_entry_triggered": entry,
-            "brooks_follow_through": follow,
-        },
+        "price_action": pa,
     }
 
 
@@ -49,6 +67,61 @@ def test_sell_sequence_matches_with_entry_triggered(tmp_path):
     ]
     r = audit_session(_write(tmp_path, "sell.json", rows))
     assert r["complete_sequences"] == 1
+
+
+def test_legacy_capture_direction_is_interpreted_as_trend_direction(tmp_path):
+    rows = [
+        _row(
+            "WIN|M1|2026-09-04T11:10:00",
+            trend="UP",
+            pb_dir="UP",
+            stage="BAR_PULLBACK",
+            stage_index=1,
+            continuation=True,
+        ),
+        _row(
+            "WIN|M1|2026-09-04T11:11:00",
+            pullback=False,
+            pb_dir="UP",
+            signal_phase="FOLLOW_THROUGH",
+            signal_direction="BUY",
+            follow=True,
+        ),
+    ]
+    r = audit_session(_write(tmp_path, "legacy.json", rows))
+    assert r["complete_sequences"] == 1
+    pullback = r["sequences"][0]["evidence"]["pullback"]
+    assert pullback["direction"] == "SELL"
+    assert pullback["direction_source"] == "LEGACY_TREND_DIRECTION_CONTRACT"
+
+
+def test_explicit_counter_direction_has_priority(tmp_path):
+    rows = [
+        _row(
+            "WIN|M1|2026-09-04T11:20:00",
+            trend="DOWN",
+            pb_dir="DOWN",
+            counter_dir="BUY",
+            stage="BAR_PULLBACK",
+            stage_index=1,
+            continuation=True,
+        ),
+        _row(
+            "WIN|M1|2026-09-04T11:21:00",
+            trend="DOWN",
+            pullback=False,
+            pb_dir="DOWN",
+            counter_dir="BUY",
+            signal_phase="FOLLOW_THROUGH",
+            signal_direction="SELL",
+            follow=True,
+        ),
+    ]
+    r = audit_session(_write(tmp_path, "explicit.json", rows))
+    assert r["complete_sequences"] == 1
+    pullback = r["sequences"][0]["evidence"]["pullback"]
+    assert pullback["direction"] == "BUY"
+    assert pullback["direction_source"] == "EXPLICIT_COUNTER_DIRECTION"
 
 
 def test_missing_capture_fields_rejected_instead_of_inferred(tmp_path):

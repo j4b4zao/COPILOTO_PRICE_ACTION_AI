@@ -11,17 +11,37 @@ from analysis.price_action.first_pullback_sequence_dynamics import (
 )
 
 
+def _counter_direction(trend_direction):
+    value = str(trend_direction or "NONE").strip().upper()
+    if value in {"UP", "BUY", "BULL", "BULLISH"}:
+        return "SELL"
+    if value in {"DOWN", "SELL", "BEAR", "BEARISH"}:
+        return "BUY"
+    return "NONE"
+
+
 def snapshot_first_pullback(context):
-    """Executa o detector diagnostico em candles fechados e devolve campos estaveis."""
+    """Executa o detector diagnostico em candles fechados e devolve campos estaveis.
+
+    ``FirstPullbackSequenceResult.direction`` representa a direcao da tendencia
+    inferida pelo detector, e nao a direcao do movimento de pullback. Mantemos o
+    campo legado ``brooks_first_pullback_direction`` por compatibilidade e
+    publicamos tambem os campos semanticos explicitos de tendencia e contra-
+    tendencia para evitar ambiguidade nos auditores de pesquisa.
+    """
     market = getattr(context, "market", None)
     candles_obj = getattr(market, "candles", None)
     candles = candles_obj.all() if candles_obj is not None and hasattr(candles_obj, "all") else []
 
     result = FirstPullbackSequenceDynamics().analyze(candles)
+    trend_direction = str(result.direction or "NONE")
+    counter_direction = _counter_direction(trend_direction)
 
     return {
         "brooks_first_pullback_valid": bool(result.valid),
-        "brooks_first_pullback_direction": str(result.direction or "NONE"),
+        "brooks_first_pullback_direction": trend_direction,
+        "brooks_first_pullback_trend_direction": trend_direction,
+        "brooks_first_pullback_counter_direction": counter_direction,
         "brooks_first_pullback_stage": str(result.stage or "NO_SEQUENCE"),
         "brooks_first_pullback_stage_index": int(result.stage_index or 0),
         "brooks_first_pullback_bars": int(result.first_pullback_bars or 0),
