@@ -130,6 +130,48 @@ def _response(row, expected):
     )
 
 
+def _unique_matched_events(sequences):
+    """Agrupa matches sobrepostos da mesma reversao estrutural.
+
+    Mantem ``matched_sequence_count`` como contagem bruta para rastreabilidade,
+    mas evita tratar varios reversal-starts que convergem para o mesmo impulso
+    estrutural como eventos independentes. Um novo evento so pode comecar depois
+    da resposta que encerrou o evento anterior na mesma direcao.
+    """
+    matched = [item for item in sequences if item.get("matched")]
+    matched.sort(key=lambda item: str(item.get("start_candle_id") or ""))
+
+    events = []
+    for item in matched:
+        start = str(item.get("start_candle_id") or "")
+        direction = item.get("direction")
+        if events:
+            previous = events[-1]
+            previous_response = str(previous.get("response_candle_id") or "")
+            if direction == previous.get("direction") and start <= previous_response:
+                previous["member_start_candle_ids"].append(item.get("start_candle_id"))
+                structural = item.get("structural_change_candle_id")
+                response = item.get("response_candle_id")
+                if structural and structural not in previous["structural_change_candle_ids"]:
+                    previous["structural_change_candle_ids"].append(structural)
+                if response and response not in previous["response_candle_ids"]:
+                    previous["response_candle_ids"].append(response)
+                if response and response > previous_response:
+                    previous["response_candle_id"] = response
+                continue
+
+        events.append({
+            "direction": direction,
+            "event_start_candle_id": item.get("start_candle_id"),
+            "structural_change_candle_id": item.get("structural_change_candle_id"),
+            "response_candle_id": item.get("response_candle_id"),
+            "member_start_candle_ids": [item.get("start_candle_id")],
+            "structural_change_candle_ids": [item.get("structural_change_candle_id")],
+            "response_candle_ids": [item.get("response_candle_id")],
+        })
+    return events
+
+
 def audit_payload(payload, *, max_sequence_window=MAX_SEQUENCE_WINDOW):
     safety = {
         "observational_only": True,
@@ -218,12 +260,16 @@ def audit_payload(payload, *, max_sequence_window=MAX_SEQUENCE_WINDOW):
             **asdict(result),
         })
 
+    unique_events = _unique_matched_events(sequences)
     return {
         "status": "AUDIT_COMPLETED",
         "deduplication": "EXACT_CANDLE_LAST_REVISION",
+        "event_deduplication": "OVERLAPPING_MATCHES_SAME_DIRECTION_UNTIL_RESPONSE",
         "exact_candle_identity_available": True,
         "sequence_count": len(sequences),
         "matched_sequence_count": sum(1 for item in sequences if item.get("matched")),
+        "unique_matched_event_count": len(unique_events),
+        "unique_matched_events": unique_events,
         "sequences": sequences,
         **safety,
     }
@@ -261,6 +307,7 @@ def audit_sessions(payloads, *, max_sequence_window=MAX_SEQUENCE_WINDOW):
         "accepted_sessions": accepted,
         "rejected_sessions": rejected,
         "matched_sequence_count": sum(item["audit"].get("matched_sequence_count", 0) for item in accepted),
+        "unique_matched_event_count": sum(item["audit"].get("unique_matched_event_count", 0) for item in accepted),
         "observational_only": True,
         "predictive_claim_allowed": False,
         "score_influence_allowed": False,
