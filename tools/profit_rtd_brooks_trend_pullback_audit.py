@@ -90,6 +90,35 @@ def _aligned(value, direction):
     return value in ({"BUY", "UP", "BULL", "BULLISH"} if direction == "BUY" else {"SELL", "DOWN", "BEAR", "BEARISH"})
 
 
+def _counter_direction(direction):
+    if direction == "BUY":
+        return "SELL"
+    if direction == "SELL":
+        return "BUY"
+    return "NONE"
+
+
+def _captured_pullback_direction(pa, trend_direction):
+    """Resolve a semantica do campo de direcao sem inventar evidencia.
+
+    O produtor historico gravou ``brooks_first_pullback_direction`` com a
+    direcao da tendencia inferida por FirstPullbackSequenceDynamics. Capturas
+    novas gravam tambem ``brooks_first_pullback_counter_direction``. Para JSONs
+    antigos, quando o campo legado esta alinhado com a tendencia, a direcao do
+    pullback e a contra-direcao implicita pelo proprio detector de sequencia.
+    Caso contrario, preservamos o valor legado, mantendo compatibilidade com
+    evidencias sinteticas antigas que ja gravavam a contra-direcao.
+    """
+    explicit_counter = _text(pa.get("brooks_first_pullback_counter_direction"))
+    if explicit_counter != "NONE":
+        return explicit_counter, "EXPLICIT_COUNTER_DIRECTION"
+
+    legacy = _text(pa.get("brooks_first_pullback_direction"))
+    if _aligned(legacy, trend_direction):
+        return _counter_direction(trend_direction), "LEGACY_TREND_DIRECTION_CONTRACT"
+    return legacy, "LEGACY_COUNTER_DIRECTION_VALUE"
+
+
 def _pullback_fields_present(row):
     pa = row.get("price_action") or {}
     return _REQUIRED_PULLBACK_FIELDS.issubset(pa.keys())
@@ -148,7 +177,7 @@ def audit_session(path, *, max_sequence_candles=20):
         if pa.get("brooks_first_pullback_valid") is not True:
             continue
 
-        pullback_direction = _text(pa.get("brooks_first_pullback_direction"))
+        pullback_direction, direction_source = _captured_pullback_direction(pa, direction)
         stage = str(pa.get("brooks_first_pullback_stage") or "NO_SEQUENCE")
         stage_index = int(pa.get("brooks_first_pullback_stage_index") or 0)
         continuation_bias = pa.get("brooks_first_pullback_continuation_bias") is True
@@ -159,6 +188,8 @@ def audit_session(path, *, max_sequence_candles=20):
         evidence = {
             "pullback": {
                 "candle_id": row["candle_evidence"]["candle_id"],
+                "direction": pullback_direction,
+                "direction_source": direction_source,
                 "stage": stage,
                 "stage_index": stage_index,
                 "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
@@ -203,6 +234,7 @@ def audit_session(path, *, max_sequence_candles=20):
         "status": "MATCHES_OBSERVED" if complete else "INSUFFICIENT_SEQUENCE_EVIDENCE",
         "exact_candles": len(rows),
         "pullback_evidence_rows": coverage,
+        "direction_contract": "EXPLICIT_COUNTER_OR_LEGACY_TREND_DIRECTION_COMPATIBLE",
         "complete_sequences": len(complete),
         "incomplete_candidates": len(incomplete),
         "sequences": complete,
@@ -237,6 +269,7 @@ def audit(paths, *, max_sequence_candles=20):
         "status": "MATCHES_OBSERVED" if total else "MORE_EVIDENCE_REQUIRED",
         "eligible_sessions": eligible,
         "complete_sequences": total,
+        "direction_contract": "EXPLICIT_COUNTER_OR_LEGACY_TREND_DIRECTION_COMPATIBLE",
         "sessions": sessions,
         "hypothesis_freeze_allowed": False,
         "reasons": ["COMPLETE_EXPLICIT_SEQUENCE_OBSERVED_RESEARCH_ONLY"] if total else ["NO_COMPLETE_EXPLICIT_TREND_PULLBACK_SEQUENCE"],
