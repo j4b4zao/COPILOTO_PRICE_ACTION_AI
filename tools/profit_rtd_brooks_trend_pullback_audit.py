@@ -113,7 +113,7 @@ def _captured_pullback_direction(pa, trend_direction):
     contra-direcao.
     """
     explicit_counter = _text(pa.get("brooks_first_pullback_counter_direction"))
-    if explicit_counter != "NONE":
+    if explicit_counter and explicit_counter != "NONE":
         return explicit_counter, "EXPLICIT_COUNTER_DIRECTION"
 
     legacy = _text(pa.get("brooks_first_pullback_direction"))
