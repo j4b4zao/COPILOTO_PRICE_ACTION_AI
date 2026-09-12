@@ -133,6 +133,74 @@ def test_derived_runner_restores_original_snapshot_after_failure(monkeypatch):
     assert runner.base.snapshot_context is original
 
 
+def test_stop_target_uses_exact_candle_evidence_attached_by_base_runner(monkeypatch, tmp_path):
+    original = object()
+    monkeypatch.setattr(runner.base, "snapshot_context", original)
+    monkeypatch.setattr(
+        runner,
+        "_ORIGINAL_SNAPSHOT_CONTEXT",
+        lambda context, micro: {
+            "structure": {"trend": "UP", "choch": False},
+            "price_action": {
+                "brooks_signal_direction": "BUY",
+                "brooks_entry_triggered": True,
+                "brooks_trading_range_valid": True,
+                "brooks_trading_range_high": 102.0,
+            },
+        },
+    )
+    monkeypatch.setattr(runner, "enrich_breakout_memory_snapshot", lambda item, context: item)
+    monkeypatch.setattr(runner, "enrich_first_pullback_snapshot", lambda item, context: item)
+    monkeypatch.setattr(runner, "enrich_wedge_three_pushes_snapshot", lambda item, context: item)
+    monkeypatch.setattr(runner, "enrich_trading_range_snapshot", lambda item, context: item)
+
+    saved_path = tmp_path / "session.json"
+    exact_candle_id = "WINV26|M1|2026-09-11T12:43:00"
+
+    def fake_run(symbol, **kwargs):
+        assert runner.base.snapshot_context is runner.snapshot_context_with_brooks
+        item = runner.base.snapshot_context(SimpleNamespace(), SimpleNamespace())
+        assert "brooks_stop_target_candle_id" not in item["price_action"]
+        item["candle_evidence"] = {
+            "status": "CANDLE_EVIDENCE_READY",
+            "candle_id": exact_candle_id,
+            "open": 99.5,
+            "high": 101.0,
+            "low": 99.0,
+            "close": 100.0,
+            "volume": 1.0,
+            "ohlc_ready": True,
+        }
+        payload = {
+            "status": "COMPLETED",
+            "symbol": symbol,
+            "requested_cycles": 1,
+            "analyzable_samples": 1,
+            "skipped_cycles": 0,
+            "collection_errors": 0,
+            "data_ready": True,
+            "samples": [item],
+            "reasons": [],
+        }
+        saved_path.write_text(json.dumps(payload), encoding="utf-8")
+        return {**payload, "output_path": str(saved_path)}
+
+    monkeypatch.setattr(runner.base, "run_warmed_session", fake_run)
+
+    result = runner.run_warmed_session("WINV26", cycles=1, interval=0)
+
+    sample = result["samples"][0]
+    assert sample["price_action"]["brooks_stop_target_candle_id"] == exact_candle_id
+    assert sample["price_action"]["brooks_stop_target_candle_id"] == sample["candle_evidence"]["candle_id"]
+    assert sample["price_action"]["brooks_stop_target_capture_status"] == "ELIGIBLE"
+
+    persisted = json.loads(saved_path.read_text(encoding="utf-8"))
+    persisted_sample = persisted["samples"][0]
+    assert persisted_sample["price_action"]["brooks_stop_target_candle_id"] == exact_candle_id
+    assert persisted_sample["price_action"]["brooks_stop_target_candle_id"] == persisted_sample["candle_evidence"]["candle_id"]
+    assert persisted_sample["price_action"]["brooks_stop_target_capture_status"] == "ELIGIBLE"
+
+
 def test_enriched_json_is_consumed_by_exact_trend_pullback_auditor(tmp_path):
     pullback = {
         "cycle": 1,
