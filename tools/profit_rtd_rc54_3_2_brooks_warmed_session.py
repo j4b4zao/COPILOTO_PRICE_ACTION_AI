@@ -64,7 +64,11 @@ def snapshot_context_with_brooks(context, micro):
     item = enrich_first_pullback_snapshot(item, context)
     item = enrich_wedge_three_pushes_snapshot(item, context)
     item = enrich_trading_range_snapshot(item, context)
-    item = enrich_stop_target_snapshot(item, context)
+
+    # Stop/Target intentionally runs later, after the RC54.3.2 base runner has
+    # attached the exact ``candle_evidence`` for the sample. Running it here
+    # would capture the pre-existing candle identity and the base runner would
+    # then replace ``candle_evidence``, creating a historical ID mismatch.
 
     pa_snapshot = item.get("price_action")
     pa_result = getattr(context, "price_action", None)
@@ -74,6 +78,19 @@ def snapshot_context_with_brooks(context, micro):
         )
 
     return item
+
+
+def _enrich_stop_target_after_candle_evidence(payload):
+    """Attach Stop/Target evidence only after exact candle identity exists."""
+    if not isinstance(payload, dict):
+        return payload
+    samples = payload.get("samples")
+    if not isinstance(samples, list):
+        return payload
+    for item in samples:
+        if isinstance(item, dict):
+            enrich_stop_target_snapshot(item, None)
+    return payload
 
 
 def run_warmed_session(
@@ -102,6 +119,8 @@ def run_warmed_session(
     finally:
         base.snapshot_context = previous
 
+    _enrich_stop_target_after_candle_evidence(result)
+
     flags = _brooks_session_flags()
     result.update(flags)
 
@@ -109,6 +128,7 @@ def run_warmed_session(
     if output_path:
         path = Path(output_path)
         payload = json.loads(path.read_text(encoding="utf-8"))
+        _enrich_stop_target_after_candle_evidence(payload)
         payload.update(flags)
         path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     return result
