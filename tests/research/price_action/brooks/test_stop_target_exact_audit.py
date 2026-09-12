@@ -20,6 +20,7 @@ def row(
 ):
     cid = candle_id or f"WINV26|M1|{ts}"
     return {
+        "timestamp": ts,
         "candle_evidence": {
             "status": "CANDLE_EVIDENCE_READY",
             "candle_id": cid,
