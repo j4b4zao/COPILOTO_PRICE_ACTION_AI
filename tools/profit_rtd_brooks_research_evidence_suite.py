@@ -25,13 +25,11 @@ from pathlib import Path
 import tools.profit_rtd_brooks_breakout_pullback_memory_audit as breakout_pullback_audit
 import tools.profit_rtd_brooks_failed_breakout_audit as failed_breakout_audit
 import tools.profit_rtd_brooks_major_trend_reversal_audit as major_trend_reversal_audit
+import tools.profit_rtd_brooks_stop_target_audit as stop_target_audit
 import tools.profit_rtd_brooks_trading_range_reversal_audit as trading_range_reversal_audit
 import tools.profit_rtd_brooks_trend_pullback_audit as trend_pullback_audit
 import tools.profit_rtd_brooks_wedge_three_pushes_audit as wedge_three_pushes_audit
 from tools.profit_rtd_price_action_evidence_audit import _session_interval
-
-
-MANAGEMENT_RESEARCH = "BROOKS_STOP_TARGET_RULES_V1"
 
 
 def _safety():
@@ -107,6 +105,7 @@ AUDITORS = {
     "BROOKS_MAJOR_TREND_REVERSAL_V1": _auditor(major_trend_reversal_audit),
     "BROOKS_WEDGE_THREE_PUSHES_V1": _auditor(wedge_three_pushes_audit),
     "BROOKS_TRADING_RANGE_REVERSAL_V1": _auditor(trading_range_reversal_audit),
+    "BROOKS_STOP_TARGET_RULES_V1": _auditor(stop_target_audit),
 }
 
 
@@ -206,14 +205,6 @@ def build_report(paths, *, mode="SELECTION", selection_cutoff=None):
                 "hypothesis_freeze_allowed": False,
                 **_safety(),
             }
-
-    setup_reports[MANAGEMENT_RESEARCH] = {
-        "status": "CLASSIFIER_ONLY_NO_EXACT_AUDITOR",
-        "eligible_sessions": len(accepted),
-        "hypothesis_freeze_allowed": False,
-        "reasons": ["STOP_TARGET_REMAINS_COMPARATIVE_RESEARCH_ONLY"],
-        **_safety(),
-    }
 
     return {
         "suite": "BROOKS_RESEARCH_EVIDENCE_SUITE_V1",
