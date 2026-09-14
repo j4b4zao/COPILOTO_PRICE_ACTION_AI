@@ -428,6 +428,27 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
   arquivo permanece somente em quarentena diagnostica e nao integra a Evidence
   Suite, os 14 registros validos ou a evidencia Stop/Target.
 
+### Decima quinta sessao real aceita de 2026-09-14 16:00
+
+- Depois da rejeicao tecnica, um novo preflight confirmou recuperacao da fonte:
+  42 amostras analisaveis, 27 mudancas de preco, crescimento de 1 candle e zero
+  erros, encerrando `MARKET_ACTIVITY_READY` com `reasons=OK`.
+- A nova sessao independente `SELECTION` terminou `COMPLETED` e
+  `data_ready=True`: 317 amostras analisaveis, 283 skips, zero erros de coleta,
+  zero preco ausente e zero falhas ou indisponibilidade Delta.
+- Todas as 317 amostras tiveram contexto de trade nao pronto; a sessao terminou
+  `trade_context_ready=False`, sem warning nem rejeicao tecnica.
+- Stop/Target registrou 258 geometrias elegiveis, com 76 direcoes BUY, 241 SELL
+  e 9 candles M1 distintos. Nao houve alvo estrutural valido e nenhum alvo
+  sintetico foi criado.
+- A Evidence Suite aceitou 15 de 15 sessoes validas e rejeitou zero. A tentativa
+  das 15:40 permaneceu fora dos caminhos de entrada.
+- O auditor Stop/Target agora aceita 3 sessoes prospectivas, soma 27 sinais
+  deduplicados e continua com zero desfechos avaliaveis. O agregado possui 136
+  candles EXACT_CANDLE e 26 candidatos Failed Breakout, ainda com zero matches.
+- O veredito permanece `MORE_INDEPENDENT_SELECTION_EVIDENCE_REQUIRED`; OOS,
+  freeze, promocao e influencia operacional continuam bloqueados.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
