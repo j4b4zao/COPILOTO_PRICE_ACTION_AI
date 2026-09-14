@@ -392,6 +392,28 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
 - `hypothesis_freeze_allowed=False`, `promotion_allowed=False` e OOS continua
   bloqueado. Score, Risk, Decision, Alert e execucao permanecem sem influencia.
 
+### Decima quarta sessao real aceita de 2026-09-14 09:52
+
+- O preflight terminou `MARKET_ACTIVITY_READY`: 59 amostras analisaveis, 39
+  mudancas de preco, crescimento de 2 candles e `reasons=OK`. Um erro
+  transitorio isolado nao impediu o gate de confirmar atividade real.
+- A sessao independente `SELECTION` de 600 ciclos terminou `COMPLETED` e
+  `data_ready=True`: 373 amostras analisaveis, 227 skips, zero erros de coleta,
+  zero preco ausente e zero falhas ou indisponibilidade Delta.
+- Todas as 373 amostras tiveram contexto de trade nao pronto e a sessao
+  terminou `trade_context_ready=False`, sem warning nem rejeicao tecnica.
+- Stop/Target registrou 373 linhas: 323 geometrias de stop elegiveis, 50
+  inelegiveis, 339 direcoes BUY, 34 SELL e 10 candles M1 distintos.
+- Novamente nao houve alvo estrutural valido; nenhum alvo sintetico foi criado.
+- A Evidence Suite aceitou 14 de 14 sessoes e rejeitou zero. O auditor
+  Stop/Target aceitou as duas sessoes prospectivas, totalizou 19 candles-sinal
+  deduplicados e manteve zero desfechos avaliaveis.
+- O relatorio de lacunas consolidou 127 candles EXACT_CANDLE e manteve
+  `NO_EVALUABLE_STRUCTURAL_TARGET` e o veredito geral
+  `MORE_INDEPENDENT_SELECTION_EVIDENCE_REQUIRED`.
+- OOS, freeze e promocao continuam bloqueados; toda influencia operacional
+  permanece desabilitada.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
