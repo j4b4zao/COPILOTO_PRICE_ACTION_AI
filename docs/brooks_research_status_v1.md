@@ -339,6 +339,30 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
   permanecem sem influencia. O auditor EXACT_CANDLE de evolucao Stop/Target
   continua como proxima etapa e dependera de novas sessoes com essa captura.
 
+### Decima segunda sessao real aceita de 2026-09-11 09:30
+
+- A sessao `SELECTION` de 600 ciclos terminou `COMPLETED` e `data_ready=True`:
+  324 amostras analisaveis, 276 skips, zero erros de coleta, zero preco ausente
+  e zero falhas ou indisponibilidade Delta.
+- Todas as 324 amostras tiveram contexto de trade nao pronto; a sessao terminou
+  `trade_context_ready=False`, sem warning nem rejeicao tecnica, conforme a
+  separacao entre prontidao dos dados e prontidao do contexto de trade.
+- Foram observados 9 candles M1 distintos e direcoes Stop/Target em 227 linhas
+  BUY e 97 SELL. Entretanto, as 324 linhas ficaram `NOT_ELIGIBLE`, com entrada,
+  stop e alvo zerados, porque a captura era executada antes de o runner anexar
+  `candle_evidence` ao item.
+- Portanto, essa primeira tentativa nao conta como evidencia Stop/Target e nao
+  sera reconstruida retroativamente. A sessao continua tecnicamente valida para
+  as outras familias Brooks.
+- A captura foi corrigida com fallback somente-leitura para
+  `context.market.last_candle` quando o item ainda nao possui
+  `candle_evidence`. Um teste reproduz exatamente essa ordem do runner.
+- A Evidence Suite recomposta aceitou 12 de 12 sessoes, rejeitou zero e nao
+  encontrou sequencia completa ou match suficiente. `hypothesis_freeze_allowed`
+  e `promotion_allowed` continuam `False`; OOS permanece bloqueado.
+- Toda a camada continua `observational_only=True`, sem influencia em Score,
+  Risk, Decision, Alert ou execucao.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
@@ -362,7 +386,8 @@ Brooks Enriched Capture
 
 ## Proximas etapas
 
-1. Coletar novas sessoes Brooks enriquecidas quando o mercado estiver ativo.
+1. Coletar ao menos uma nova sessao Brooks enriquecida quando o mercado estiver
+   ativo para validar a captura Stop/Target corrigida com evidencia prospectiva.
 2. Gerar/validar o Selection Manifest das sessoes reais.
 3. Rodar a Research Evidence Suite sobre a evidencia de selecao.
 4. Manter sessoes sobrepostas em quarentena.
@@ -371,4 +396,4 @@ Brooks Enriched Capture
 
 ## Estado
 
-BROOKS_RESEARCH_LAYER_V1 = OFFLINE_INFRASTRUCTURE_READY_FOR_SELECTION_COLLECTION
+BROOKS_RESEARCH_LAYER_V1 = SELECTION_COLLECTION_ACTIVE_MORE_EVIDENCE_REQUIRED

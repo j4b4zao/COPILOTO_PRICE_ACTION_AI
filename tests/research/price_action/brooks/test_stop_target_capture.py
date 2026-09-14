@@ -1,3 +1,6 @@
+from datetime import datetime
+from types import SimpleNamespace
+
 from tools.profit_rtd_brooks_stop_target_capture import enrich_price_action_snapshot
 
 
@@ -68,3 +71,20 @@ def test_capture_is_strictly_non_operational():
     assert pa["brooks_stop_target_decision_influence_allowed"] is False
     assert pa["brooks_stop_target_alert_influence_allowed"] is False
     assert pa["brooks_stop_target_order_execution_allowed"] is False
+
+
+def test_capture_reads_context_before_base_runner_adds_candle_evidence():
+    item = _item()
+    item.pop("candle_evidence")
+    candle = SimpleNamespace(
+        timestamp=datetime(2026, 9, 11, 10, 0),
+        open=99, high=103, low=95, close=100,
+    )
+    context = SimpleNamespace(
+        market=SimpleNamespace(symbol="WINV26", timeframe="M1", last_candle=candle)
+    )
+    pa = enrich_price_action_snapshot(item, context)["price_action"]
+    assert pa["brooks_stop_target_capture_status"] == "ELIGIBLE"
+    assert pa["brooks_stop_target_entry_price"] == 100
+    assert pa["brooks_stop_target_initial_stop"] == 95
+    assert pa["brooks_stop_target_candle_id"] == "WINV26|M1|2026-09-11T10:00:00"

@@ -15,6 +15,31 @@ def _direction(value):
     return "NONE"
 
 
+def _candle_evidence(item, context):
+    candle = item.get("candle_evidence") or {}
+    if candle:
+        return candle
+    market = getattr(context, "market", None)
+    source = getattr(market, "last_candle", None)
+    timestamp = getattr(source, "timestamp", None)
+    timestamp_text = timestamp.isoformat() if hasattr(timestamp, "isoformat") else None
+    symbol = str(getattr(market, "symbol", "") or "").strip().upper()
+    timeframe = str(getattr(market, "timeframe", "") or "").strip().upper()
+    values = {}
+    for name in ("open", "high", "low", "close"):
+        try:
+            values[name] = float(getattr(source, name))
+        except (TypeError, ValueError, AttributeError):
+            values[name] = None
+    ready = bool(symbol and timeframe and timestamp_text) and all(v is not None for v in values.values())
+    return {
+        "status": "CANDLE_EVIDENCE_READY" if ready else "CANDLE_EVIDENCE_NOT_READY",
+        "ohlc_ready": ready,
+        "candle_id": f"{symbol}|{timeframe}|{timestamp_text}" if ready else None,
+        **values,
+    }
+
+
 def enrich_price_action_snapshot(item, context=None):
     if not isinstance(item, dict):
         raise TypeError("item must be dict")
@@ -22,7 +47,7 @@ def enrich_price_action_snapshot(item, context=None):
     if not isinstance(pa, dict):
         raise TypeError("item['price_action'] must be dict")
 
-    candle = item.get("candle_evidence") or {}
+    candle = _candle_evidence(item, context)
     direction = _direction(pa.get("brooks_signal_direction"))
     triggered = bool(pa.get("brooks_entry_triggered"))
     ready = candle.get("status") == "CANDLE_EVIDENCE_READY" and bool(candle.get("ohlc_ready", True))
