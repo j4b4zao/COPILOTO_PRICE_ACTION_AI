@@ -414,6 +414,20 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
 - OOS, freeze e promocao continuam bloqueados; toda influencia operacional
   permanece desabilitada.
 
+### Tentativa rejeitada de 2026-09-14 15:40
+
+- O preflight anterior terminou `MARKET_ACTIVITY_READY`, com 68 amostras
+  analisaveis, 29 mudancas de preco, crescimento de 1 candle e zero erros.
+- A tentativa completou os 600 ciclos, com 432 amostras analisaveis, 168 skips,
+  zero erros de coleta e zero preco ausente.
+- Durante a janela houve reinicializacao da fonte Delta. O validador registrou
+  11 amostras Delta ainda nao prontas e 1 falha Delta, encerrando a sessao como
+  `COMPLETED_WITH_WARNINGS`, `data_ready=False` e
+  `DELTA_NOT_READY_OR_INVALID`.
+- O manifesto aplicou `DATA_READY_REQUIRED` e o outcome foi `REJECTED`. O
+  arquivo permanece somente em quarentena diagnostica e nao integra a Evidence
+  Suite, os 14 registros validos ou a evidencia Stop/Target.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
