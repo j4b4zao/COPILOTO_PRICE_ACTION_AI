@@ -153,16 +153,25 @@ def test_no_eligible_sessions_does_not_call_auditor(tmp_path, monkeypatch):
     assert report["setups"]["TEST_SETUP"]["status"] == "NO_ELIGIBLE_SESSIONS"
 
 
-def test_stop_target_is_explicitly_classifier_only(tmp_path, monkeypatch):
+def test_stop_target_has_exact_candle_auditor_registered():
+    assert suite.STOP_TARGET_RESEARCH in suite.AUDITORS
+    assert callable(suite.AUDITORS[suite.STOP_TARGET_RESEARCH])
+
+
+def test_management_has_exact_candle_auditor_registered():
+    assert suite.MANAGEMENT_RESEARCH in suite.AUDITORS
+    assert callable(suite.AUDITORS[suite.MANAGEMENT_RESEARCH])
+
+
+def test_unregistered_management_is_not_synthesized(tmp_path, monkeypatch):
     path = _write_session(tmp_path, "a.json", ["2026-09-07T09:00:00"])
     monkeypatch.setattr(suite, "AUDITORS", {"TEST_SETUP": _fake_auditor})
 
     report = suite.build_report([path])
-    management = report["setups"][suite.MANAGEMENT_RESEARCH]
 
-    assert management["status"] == "CLASSIFIER_ONLY_NO_EXACT_AUDITOR"
-    assert management["hypothesis_freeze_allowed"] is False
-    assert management["predictive_claim_allowed"] is False
+    assert "TEST_SETUP" in report["setups"]
+    assert suite.MANAGEMENT_RESEARCH not in report["setups"]
+    assert suite.STOP_TARGET_RESEARCH not in report["setups"]
 
 
 def test_report_never_allows_freeze_promotion_or_predictive_claim(tmp_path, monkeypatch):

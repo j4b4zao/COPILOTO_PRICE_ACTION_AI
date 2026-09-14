@@ -3,6 +3,10 @@
 Consolida Registry, Evidence Suite, Integrity Gate, Readiness e Preflight em
 um unico relatorio offline. Nao abre Profit/Excel, nao coleta dados reais, nao
 executa estrategia e nao promove hipotese.
+
+O Registry representa somente as familias Brooks formalizadas. A Evidence
+Suite pode conter familias auxiliares de pesquisa (por exemplo gerenciamento
+dinamico/lifecycle) sem que elas se tornem setups registrados.
 """
 from __future__ import annotations
 
@@ -15,51 +19,98 @@ from tools.profit_rtd_brooks_readiness_report import build_readiness_report
 from tools.profit_rtd_brooks_research_evidence_suite import AUDITORS, MANAGEMENT_RESEARCH
 
 
-VERSION = "BROOKS_OFFLINE_SMOKE_REPORT_V1"
+VERSION = "BROOKS_OFFLINE_SMOKE_REPORT_V2"
+EXPECTED_REGISTERED_FAMILY_COUNT = 7
+
+
+def _evidence_names():
+    names = list(AUDITORS.keys())
+    if MANAGEMENT_RESEARCH and MANAGEMENT_RESEARCH not in names:
+        names.append(MANAGEMENT_RESEARCH)
+    return names
 
 
 def build_smoke_report(*, symbol="WINV26"):
     registry_entries = BrooksResearchRegistry.entries()
     registry_names = [entry.name for entry in registry_entries]
-    evidence_names = list(AUDITORS.keys()) + [MANAGEMENT_RESEARCH]
+    evidence_names = _evidence_names()
+
+    registry_set = set(registry_names)
+    evidence_set = set(evidence_names)
+
+    registered_evidence_names = [
+        name for name in evidence_names if name in registry_set
+    ]
+    auxiliary_evidence_names = [
+        name for name in evidence_names if name not in registry_set
+    ]
+    missing_registered_evidence = [
+        name for name in registry_names if name not in evidence_set
+    ]
 
     integrity = run_integrity_gate()
     readiness = build_readiness_report(symbol=symbol)
     preflight = run_preflight(symbol=symbol)
 
     blockers = []
-    if len(registry_entries) != 7:
+
+    if len(registry_entries) != EXPECTED_REGISTERED_FAMILY_COUNT:
         blockers.append("REGISTRY_COUNT_INVALID")
-    if len(evidence_names) != 7:
-        blockers.append("EVIDENCE_FAMILY_COUNT_INVALID")
-    if set(registry_names) != set(evidence_names):
+
+    # Todas as familias formalizadas precisam ter auditor/evidencia.
+    # Familias auxiliares sao permitidas, mas nao viram setups registrados.
+    if missing_registered_evidence:
         blockers.append("REGISTRY_EVIDENCE_FAMILY_MISMATCH")
+
     if integrity.get("status") != "PASS":
         blockers.append("INTEGRITY_GATE_FAILED")
+
     if not readiness.get("offline_infrastructure_ready", False):
         blockers.append("READINESS_NOT_READY")
+
     if not preflight.get("selection_launcher_allowed", False):
         blockers.append("PREFLIGHT_BLOCKED")
 
     passed = not blockers
+
     return {
         "smoke_report": VERSION,
         "symbol": str(symbol),
         "status": "PASS" if passed else "FAIL",
         "offline_stack_ready": passed,
+
         "registered_family_count": len(registry_entries),
-        "evidence_family_count": len(evidence_names),
         "registered_families": registry_names,
+
+        # Total da Evidence Suite, incluindo pesquisas auxiliares.
+        "evidence_family_count": len(evidence_names),
         "evidence_families": evidence_names,
+
+        # Cobertura das familias realmente formalizadas no Registry.
+        "registered_evidence_family_count": len(registered_evidence_names),
+        "registered_evidence_families": registered_evidence_names,
+        "missing_registered_evidence": missing_registered_evidence,
+
+        # Research-only; nao e automaticamente promovida ao Registry.
+        "auxiliary_evidence_family_count": len(auxiliary_evidence_names),
+        "auxiliary_evidence_families": auxiliary_evidence_names,
+
         "integrity_gate_status": integrity.get("status"),
         "readiness_status": readiness.get("status"),
         "preflight_status": preflight.get("status"),
-        "selection_launcher_allowed": bool(preflight.get("selection_launcher_allowed", False)) if passed else False,
+
+        "selection_launcher_allowed": (
+            bool(preflight.get("selection_launcher_allowed", False))
+            if passed
+            else False
+        ),
         "selection_only": True,
         "oos_collection_allowed": False,
+
         "market_data_checked": False,
         "market_open_claimed": False,
         "launcher_executed": False,
+
         "research_only": True,
         "observational_only": True,
         "predictive_claim_allowed": False,
@@ -70,15 +121,23 @@ def build_smoke_report(*, symbol="WINV26"):
         "order_execution_allowed": False,
         "promotion_allowed": False,
         "hypothesis_freeze_allowed": False,
+
         "blockers": blockers,
-        "next_command": preflight.get("launcher_command") if passed else None,
+        "next_command": (
+            preflight.get("launcher_command")
+            if passed
+            else None
+        ),
+
         "integrity_gate": integrity,
         "readiness": readiness,
         "preflight": preflight,
+
         "notes": [
             "PASS valida somente coerencia e isolamento da infraestrutura offline Brooks.",
             "Nenhum resultado deste smoke report constitui evidencia preditiva.",
             "A proxima coleta real permanece SELECTION.",
+            "Familias auxiliares de evidencia nao sao automaticamente registradas como setups.",
             "O smoke report nunca abre Profit/Excel e nunca executa o launcher.",
         ],
     }
@@ -86,11 +145,16 @@ def build_smoke_report(*, symbol="WINV26"):
 
 def main(argv=None):
     import argparse
-    parser = argparse.ArgumentParser(description="Smoke report offline final da camada Brooks.")
+
+    parser = argparse.ArgumentParser(
+        description="Smoke report offline final da camada Brooks."
+    )
     parser.add_argument("--symbol", default="WINV26")
     args = parser.parse_args(argv)
+
     report = build_smoke_report(symbol=args.symbol)
     print(json.dumps(report, ensure_ascii=False, indent=2))
+
     return 0 if report["status"] == "PASS" else 2
 
 

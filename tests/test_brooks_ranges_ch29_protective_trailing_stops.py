@@ -23,32 +23,32 @@ def buy_sequence():
     closed = [
         c(100, 104, 99, 103),
         c(103, 106, 101, 105),
-        c(105, 110, 104, 108),  # prior swing high
+        c(105, 110, 104, 108),
         c(108, 107, 102, 104),
-        c(104, 106, 100, 105),  # higher swing low / trail reference
+        c(104, 106, 100, 105),
         c(105, 108, 102, 107),
         c(107, 111, 105, 110),
-        c(110, 115, 108, 113),  # new swing high
+        c(110, 115, 108, 113),
         c(113, 112, 106, 109),
         c(109, 111, 105, 108),
     ]
-    return closed + [c(108, 120, 107, 119)]  # current/forming; excluded
+    return closed + [c(108, 120, 107, 119)]
 
 
 def sell_sequence():
     closed = [
         c(120, 121, 116, 117),
         c(117, 119, 114, 115),
-        c(115, 116, 110, 112),  # prior swing low
+        c(115, 116, 110, 112),
         c(112, 118, 111, 116),
-        c(116, 120, 114, 115),  # lower swing high / trail reference
+        c(116, 120, 114, 115),
         c(115, 118, 112, 113),
         c(113, 115, 108, 109),
-        c(109, 112, 104, 106),  # new swing low
+        c(109, 112, 104, 106),
         c(106, 111, 105, 108),
         c(108, 112, 106, 109),
     ]
-    return closed + [c(109, 110, 90, 92)]  # current/forming; excluded
+    return closed + [c(109, 110, 90, 92)]
 
 
 def test_buy_trailing_stop_advances_after_new_swing_high():
@@ -60,7 +60,6 @@ def test_buy_trailing_stop_advances_after_new_swing_high():
         current_stop=95,
         tick_size=1,
     )
-
     assert result.valid is True
     assert result.state == "TRAILING_STOP_ADVANCE"
     assert result.structural_advance_confirmed is True
@@ -77,7 +76,6 @@ def test_sell_trailing_stop_advances_after_new_swing_low():
         current_stop=125,
         tick_size=1,
     )
-
     assert result.valid is True
     assert result.state == "TRAILING_STOP_ADVANCE"
     assert result.structural_advance_confirmed is True
@@ -94,7 +92,6 @@ def test_stop_is_never_loosened():
         current_stop=90,
         tick_size=1,
     )
-
     assert result.valid is True
     assert result.state == "STOP_LOOSENING_REJECTED"
     assert result.stop_loosened is True
@@ -103,8 +100,6 @@ def test_stop_is_never_loosened():
 
 def test_current_candle_cannot_create_trailing_confirmation():
     candles = buy_sequence()
-    # Remove the already confirmed new swing high. The remaining current candle
-    # makes a huge high, but it must not be used because it is still forming.
     candles = candles[:7] + [candles[-1]]
 
     result = ProtectiveTrailingStopDynamics().analyze(
@@ -115,7 +110,6 @@ def test_current_candle_cannot_create_trailing_confirmation():
         current_stop=95,
         tick_size=1,
     )
-
     assert result.valid is True
     assert result.structural_advance_confirmed is False
     assert result.state == "PROTECTIVE_STOP_HOLD"
@@ -128,7 +122,6 @@ def test_invalid_protective_stop_geometry_is_rejected():
         entry_price=105,
         initial_stop=110,
     )
-
     assert result.valid is False
     assert result.state == "INVALID_PROTECTIVE_STOP"
 
@@ -140,6 +133,5 @@ def test_insufficient_history():
         entry_price=100,
         initial_stop=95,
     )
-
     assert result.valid is False
     assert result.reason == "INSUFFICIENT_HISTORY"

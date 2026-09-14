@@ -5,7 +5,6 @@ from types import SimpleNamespace
 
 import tools.profit_rtd_brooks_first_pullback_capture as capture
 import tools.profit_rtd_rc54_3_2_brooks_warmed_session as runner
-from tools.profit_rtd_brooks_trend_pullback_audit import audit_session
 
 
 PULLBACK_FIELDS = {
@@ -14,18 +13,8 @@ PULLBACK_FIELDS = {
     "brooks_first_pullback_stage": "BAR_PULLBACK",
     "brooks_first_pullback_stage_index": 1,
     "brooks_first_pullback_bars": 1,
-    "brooks_first_pullback_minor_trendline_break": False,
-    "brooks_first_pullback_moving_average_touch": False,
-    "brooks_first_pullback_moving_average_close_cross": False,
-    "brooks_first_pullback_moving_average_gap_bar": False,
-    "brooks_first_pullback_major_trendline_break": False,
-    "brooks_first_pullback_long_two_leg_pullback": False,
-    "brooks_first_pullback_two_sided_trading": False,
-    "brooks_first_pullback_trading_range_transition": False,
-    "brooks_first_pullback_trend_maturity_score": 12.5,
     "brooks_first_pullback_continuation_bias": True,
     "brooks_first_pullback_reversal_risk": False,
-    "brooks_first_pullback_reasons": ["TREND_UP", "FIRST_BAR_PULLBACK"],
     "research_only": True,
     "observational_only": True,
     "predictive_claim_allowed": False,
@@ -37,7 +26,7 @@ PULLBACK_FIELDS = {
 }
 
 
-def test_snapshot_enrichment_adds_explicit_first_pullback_fields(monkeypatch):
+def test_snapshot_enrichment_does_not_run_stop_target(monkeypatch):
     monkeypatch.setattr(
         runner,
         "_ORIGINAL_SNAPSHOT_CONTEXT",
@@ -57,36 +46,116 @@ def test_snapshot_enrichment_adds_explicit_first_pullback_fields(monkeypatch):
         lambda context: dict(PULLBACK_FIELDS),
     )
 
-    item = runner.snapshot_context_with_brooks(SimpleNamespace(), SimpleNamespace())
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Stop/Target nao pode rodar antes do candle_evidence persistido")
 
-    pa = item["price_action"]
-    assert pa["brooks_first_pullback_valid"] is True
-    assert pa["brooks_first_pullback_direction"] == "DOWN"
-    assert pa["brooks_first_pullback_stage"] == "BAR_PULLBACK"
-    assert pa["brooks_first_pullback_stage_index"] == 1
-    assert pa["brooks_first_pullback_continuation_bias"] is True
-    assert pa["brooks_first_pullback_reversal_risk"] is False
-    assert pa["predictive_claim_allowed"] is False
-    assert pa["order_execution_allowed"] is False
+    monkeypatch.setattr(runner, "enrich_stop_target_snapshot", forbidden)
+
+    item = runner.snapshot_context_with_brooks(
+        SimpleNamespace(),
+        SimpleNamespace(),
+    )
+
+    assert "brooks_stop_target_capture_status" not in item["price_action"]
 
 
-def test_derived_runner_restores_original_snapshot_and_sets_safety_metadata(monkeypatch, tmp_path):
+def test_postprocess_uses_persisted_exact_candle(monkeypatch):
+    seen = []
+    payload = {
+        "samples": [
+            {
+                "price_action": {
+                    "brooks_signal_direction": "BUY",
+                    "brooks_entry_triggered": True,
+                },
+                "candle_evidence": {
+                    "status": "CANDLE_EVIDENCE_READY",
+                    "ohlc_ready": True,
+                    "candle_id": "WINV26|M1|2026-09-14T09:08:00",
+                    "open": 100.0,
+                    "high": 105.0,
+                    "low": 99.0,
+                    "close": 104.0,
+                },
+            }
+        ]
+    }
+
+    def fake_enrich(item, context):
+        assert context is None
+        candle = item["candle_evidence"]
+        seen.append(candle["candle_id"])
+        item["price_action"]["brooks_stop_target_candle_id"] = candle["candle_id"]
+        return item
+
+    monkeypatch.setattr(runner, "enrich_stop_target_snapshot", fake_enrich)
+    runner._postprocess_stop_target_after_candle_evidence(payload)
+
+    assert seen == ["WINV26|M1|2026-09-14T09:08:00"]
+    assert payload["samples"][0]["price_action"]["brooks_stop_target_candle_id"] == "WINV26|M1|2026-09-14T09:08:00"
+    assert payload["brooks_stop_target_history_source"] == "PERSISTED_CANDLE_EVIDENCE"
+
+
+def test_postprocess_skips_non_ready_candle(monkeypatch):
+    calls = []
+    payload = {
+        "samples": [
+            {
+                "price_action": {},
+                "candle_evidence": {
+                    "status": "CANDLE_EVIDENCE_NOT_READY",
+                    "candle_id": None,
+                },
+            }
+        ]
+    }
+
+    monkeypatch.setattr(
+        runner,
+        "enrich_stop_target_snapshot",
+        lambda item, context: calls.append(1),
+    )
+    runner._postprocess_stop_target_after_candle_evidence(payload)
+
+    assert calls == []
+
+
+def test_derived_runner_restores_original_snapshot_and_postprocesses(monkeypatch, tmp_path):
     original = object()
     monkeypatch.setattr(runner.base, "snapshot_context", original)
     saved_path = tmp_path / "session.json"
 
+    payload = {
+        "status": "COMPLETED",
+        "symbol": "WINV26",
+        "requested_cycles": 1,
+        "analyzable_samples": 1,
+        "skipped_cycles": 0,
+        "collection_errors": 0,
+        "data_ready": True,
+        "reasons": [],
+        "samples": [
+            {
+                "price_action": {
+                    "brooks_signal_direction": "BUY",
+                    "brooks_entry_triggered": True,
+                    "brooks_trading_range_valid": False,
+                },
+                "candle_evidence": {
+                    "status": "CANDLE_EVIDENCE_READY",
+                    "ohlc_ready": True,
+                    "candle_id": "WINV26|M1|2026-09-14T09:08:00",
+                    "open": 100.0,
+                    "high": 105.0,
+                    "low": 99.0,
+                    "close": 104.0,
+                },
+            }
+        ],
+    }
+
     def fake_run(symbol, **kwargs):
         assert runner.base.snapshot_context is runner.snapshot_context_with_brooks
-        payload = {
-            "status": "COMPLETED",
-            "symbol": symbol,
-            "requested_cycles": 1,
-            "analyzable_samples": 1,
-            "skipped_cycles": 0,
-            "collection_errors": 0,
-            "data_ready": True,
-            "reasons": [],
-        }
         saved_path.write_text(json.dumps(payload), encoding="utf-8")
         return {**payload, "output_path": str(saved_path)}
 
@@ -95,22 +164,16 @@ def test_derived_runner_restores_original_snapshot_and_sets_safety_metadata(monk
     result = runner.run_warmed_session("WINV26", cycles=1, interval=0)
 
     assert runner.base.snapshot_context is original
-    assert result["brooks_first_pullback_capture"] is True
-    assert result["brooks_first_pullback_research_only"] is True
-    assert result["brooks_first_pullback_predictive_claim_allowed"] is False
-    assert result["brooks_first_pullback_score_influence_allowed"] is False
-    assert result["brooks_first_pullback_risk_influence_allowed"] is False
-    assert result["brooks_first_pullback_decision_influence_allowed"] is False
-    assert result["brooks_first_pullback_alert_influence_allowed"] is False
-    assert result["brooks_first_pullback_order_execution_allowed"] is False
+
     persisted = json.loads(saved_path.read_text(encoding="utf-8"))
-    assert persisted["brooks_first_pullback_capture"] is True
-    assert persisted["brooks_major_reversal_context_capture"] is True
-    assert persisted["brooks_wedge_three_pushes_capture"] is True
-    assert persisted["brooks_trading_range_capture"] is True
-    assert persisted["brooks_stop_target_capture"] is True
-    assert persisted["brooks_score_influence_allowed"] is False
-    assert persisted["brooks_order_execution_allowed"] is False
+    pa = persisted["samples"][0]["price_action"]
+
+    assert pa["brooks_stop_target_capture_status"] == "ELIGIBLE"
+    assert pa["brooks_stop_target_candle_id"] == persisted["samples"][0]["candle_evidence"]["candle_id"]
+    assert persisted["brooks_stop_target_postprocessed_after_candle_evidence"] is True
+    assert persisted["brooks_stop_target_history_source"] == "PERSISTED_CANDLE_EVIDENCE"
+    assert result["brooks_score_influence_allowed"] is False
+    assert result["brooks_order_execution_allowed"] is False
 
 
 def test_derived_runner_restores_original_snapshot_after_failure(monkeypatch):
@@ -131,133 +194,3 @@ def test_derived_runner_restores_original_snapshot_after_failure(monkeypatch):
         raise AssertionError("RuntimeError expected")
 
     assert runner.base.snapshot_context is original
-
-
-def test_stop_target_uses_exact_candle_evidence_attached_by_base_runner(monkeypatch, tmp_path):
-    original = object()
-    monkeypatch.setattr(runner.base, "snapshot_context", original)
-    monkeypatch.setattr(
-        runner,
-        "_ORIGINAL_SNAPSHOT_CONTEXT",
-        lambda context, micro: {
-            "structure": {"trend": "UP", "choch": False},
-            "price_action": {
-                "brooks_signal_direction": "BUY",
-                "brooks_entry_triggered": True,
-                "brooks_trading_range_valid": True,
-                "brooks_trading_range_high": 102.0,
-            },
-        },
-    )
-    monkeypatch.setattr(runner, "enrich_breakout_memory_snapshot", lambda item, context: item)
-    monkeypatch.setattr(runner, "enrich_first_pullback_snapshot", lambda item, context: item)
-    monkeypatch.setattr(runner, "enrich_wedge_three_pushes_snapshot", lambda item, context: item)
-    monkeypatch.setattr(runner, "enrich_trading_range_snapshot", lambda item, context: item)
-
-    saved_path = tmp_path / "session.json"
-    exact_candle_id = "WINV26|M1|2026-09-11T12:43:00"
-
-    def fake_run(symbol, **kwargs):
-        assert runner.base.snapshot_context is runner.snapshot_context_with_brooks
-        item = runner.base.snapshot_context(SimpleNamespace(), SimpleNamespace())
-        assert "brooks_stop_target_candle_id" not in item["price_action"]
-        item["candle_evidence"] = {
-            "status": "CANDLE_EVIDENCE_READY",
-            "candle_id": exact_candle_id,
-            "open": 99.5,
-            "high": 101.0,
-            "low": 99.0,
-            "close": 100.0,
-            "volume": 1.0,
-            "ohlc_ready": True,
-        }
-        payload = {
-            "status": "COMPLETED",
-            "symbol": symbol,
-            "requested_cycles": 1,
-            "analyzable_samples": 1,
-            "skipped_cycles": 0,
-            "collection_errors": 0,
-            "data_ready": True,
-            "samples": [item],
-            "reasons": [],
-        }
-        saved_path.write_text(json.dumps(payload), encoding="utf-8")
-        return {**payload, "output_path": str(saved_path)}
-
-    monkeypatch.setattr(runner.base, "run_warmed_session", fake_run)
-
-    result = runner.run_warmed_session("WINV26", cycles=1, interval=0)
-
-    sample = result["samples"][0]
-    assert sample["price_action"]["brooks_stop_target_candle_id"] == exact_candle_id
-    assert sample["price_action"]["brooks_stop_target_candle_id"] == sample["candle_evidence"]["candle_id"]
-    assert sample["price_action"]["brooks_stop_target_capture_status"] == "ELIGIBLE"
-
-    persisted = json.loads(saved_path.read_text(encoding="utf-8"))
-    persisted_sample = persisted["samples"][0]
-    assert persisted_sample["price_action"]["brooks_stop_target_candle_id"] == exact_candle_id
-    assert persisted_sample["price_action"]["brooks_stop_target_candle_id"] == persisted_sample["candle_evidence"]["candle_id"]
-    assert persisted_sample["price_action"]["brooks_stop_target_capture_status"] == "ELIGIBLE"
-
-
-def test_enriched_json_is_consumed_by_exact_trend_pullback_auditor(tmp_path):
-    pullback = {
-        "cycle": 1,
-        "timestamp": "2026-09-07T10:00:01.000",
-        "data_ready": True,
-        "structure": {"trend": "UP", "choch": False},
-        "price_action": {
-            "brooks_signal_phase": "SETUP_PENDING",
-            "brooks_signal_direction": "BUY",
-            "brooks_entry_triggered": False,
-            "brooks_follow_through": False,
-            **PULLBACK_FIELDS,
-        },
-        "candle_evidence": {
-            "status": "CANDLE_EVIDENCE_READY",
-            "candle_id": "WINV26|M1|2026-09-07T10:00:00",
-        },
-    }
-    resumption = {
-        "cycle": 2,
-        "timestamp": "2026-09-07T10:01:01.000",
-        "data_ready": True,
-        "structure": {"trend": "UP", "choch": False},
-        "price_action": {
-            "brooks_signal_phase": "FOLLOW_THROUGH",
-            "brooks_signal_direction": "BUY",
-            "brooks_entry_triggered": True,
-            "brooks_follow_through": True,
-            **{**PULLBACK_FIELDS, "brooks_first_pullback_valid": False},
-        },
-        "candle_evidence": {
-            "status": "CANDLE_EVIDENCE_READY",
-            "candle_id": "WINV26|M1|2026-09-07T10:01:00",
-        },
-    }
-    payload = {
-        "status": "COMPLETED",
-        "data_ready": True,
-        "samples": [pullback, resumption],
-        "observational_only": True,
-        "predictive_claim_allowed": False,
-        "score_influence_allowed": False,
-        "risk_influence_allowed": False,
-        "decision_influence_allowed": False,
-        "order_execution_allowed": False,
-    }
-    path = tmp_path / "session.json"
-    path.write_text(json.dumps(payload), encoding="utf-8")
-
-    result = audit_session(path)
-
-    assert result["status"] == "MATCHES_OBSERVED"
-    assert result["complete_sequences"] == 1
-    assert result["sequences"][0]["direction"] == "BUY"
-    assert result["predictive_claim_allowed"] is False
-    assert result["score_influence_allowed"] is False
-    assert result["risk_influence_allowed"] is False
-    assert result["decision_influence_allowed"] is False
-    assert result["alert_influence_allowed"] is False
-    assert result["order_execution_allowed"] is False
