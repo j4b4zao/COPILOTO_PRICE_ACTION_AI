@@ -1,6 +1,6 @@
 # Brooks Research Status V1
 
-Data de consolidacao: 2026-09-05
+Data de consolidacao: 2026-09-14
 
 ## Escopo
 
@@ -33,13 +33,14 @@ Os testes desta camada validam contratos, semantica, isolamento, sequencias e in
 | Major Trend Reversal | BROOKS_MAJOR_TREND_REVERSAL_V1 | Classificador + capture + EXACT_CANDLE validados |
 | Wedge / Three Pushes | BROOKS_WEDGE_THREE_PUSHES_V1 | Detector/classificador + capture + EXACT_CANDLE validados |
 | Trading Range Reversal | BROOKS_TRADING_RANGE_REVERSAL_V1 | Classificador + capture + EXACT_CANDLE validados |
-| Stop / Target Rules | BROOKS_STOP_TARGET_RULES_V1 | Classificador/management research-only validado; sem auditor EXACT_CANDLE dedicado |
+| Stop / Target Rules | BROOKS_STOP_TARGET_RULES_V1 | Classificador + capture + EXACT_CANDLE validados; somente evidencia prospectiva |
 
 ## Infraestrutura de pesquisa
 
 - Brooks Research Registry/Suite: validado.
-- Brooks Research Evidence Suite V1: validado; agrega os seis auditores EXACT_CANDLE.
-- Stop/Target Rules permanece explicitamente CLASSIFIER_ONLY_NO_EXACT_AUDITOR na Evidence Suite.
+- Brooks Research Evidence Suite V1: validado; agrega os sete auditores EXACT_CANDLE.
+- Stop/Target Rules possui auditor dedicado, com desfecho iniciado somente no
+  candle posterior ao sinal e sem alvo sintetico.
 - Brooks Selection Session Manifest V1: validado.
 - Brooks Selection Runner V1: validado.
 - Brooks Selection Launcher V1: validado.
@@ -50,7 +51,7 @@ Os testes desta camada validam contratos, semantica, isolamento, sequencias e in
 
 ## Testes controlados confirmados
 
-Total Brooks confirmado ate esta consolidacao: **271 testes aprovados**.
+Total Brooks confirmado ate esta consolidacao: **310 testes aprovados**.
 
 Esse total inclui os classificadores, auditores EXACT_CANDLE, capture helpers, runners, Registry/Suite, Evidence Suite, Selection Manifest, Selection Runner, Selection Launcher e os testes especificos do contrato Failed Breakout/CHOCH.
 
@@ -381,8 +382,13 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
   lacunas consolidou 117 candles EXACT_CANDLE; Failed Breakout passou a 22
   candidatos e zero matches, enquanto Trend Pullback continua com 1 candidato
   incompleto por `TRADING_RANGE_TRANSITION`.
-- Stop/Target permanece `CLASSIFIER_ONLY_NO_EXACT_AUDITOR`; a proxima etapa e
-  criar seu auditor EXACT_CANDLE usando somente a evidencia prospectiva valida.
+- O auditor EXACT_CANDLE Stop/Target foi integrado depois desta coleta. Das 13
+  sessoes, somente a de 14/09 foi aceita para essa familia: as 11 anteriores nao
+  possuem o schema e a de 11/09 foi excluida por
+  `NO_PROSPECTIVE_STOP_TARGET_EVIDENCE`.
+- A ultima revisao de cada candle produziu 9 observacoes prospectivas, todas sem
+  alvo estrutural e, portanto, sem desfecho avaliavel. A lacuna correta e
+  `NO_EVALUABLE_STRUCTURAL_TARGET`, nao ausencia de captura.
 - `hypothesis_freeze_allowed=False`, `promotion_allowed=False` e OOS continua
   bloqueado. Score, Risk, Decision, Alert e execucao permanecem sem influencia.
 
@@ -409,8 +415,8 @@ Brooks Enriched Capture
 
 ## Proximas etapas
 
-1. Implementar o auditor EXACT_CANDLE Stop/Target sobre evidencia prospectiva,
-   mantendo a sessao de 2026-09-11 excluida dessa familia.
+1. Coletar novas sessoes independentes ate surgir alvo estrutural prospectivo
+   que permita ao auditor Stop/Target observar desfecho sem reconstrucao.
 2. Gerar/validar o Selection Manifest das sessoes reais.
 3. Rodar a Research Evidence Suite sobre a evidencia de selecao.
 4. Manter sessoes sobrepostas em quarentena.

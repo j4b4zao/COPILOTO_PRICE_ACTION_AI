@@ -26,6 +26,7 @@ EXPECTED_MODULES = (
     "tools.profit_rtd_brooks_wedge_three_pushes_audit",
     "tools.profit_rtd_brooks_trading_range_reversal_audit",
     "tools.profit_rtd_brooks_stop_target_capture",
+    "tools.profit_rtd_brooks_stop_target_audit",
     "tools.profit_rtd_brooks_research_evidence_suite",
     "tools.profit_rtd_brooks_selection_manifest",
     "tools.profit_rtd_brooks_selection_runner",
@@ -39,6 +40,7 @@ AUDITOR_MODULES = (
     "tools.profit_rtd_brooks_major_trend_reversal_audit",
     "tools.profit_rtd_brooks_wedge_three_pushes_audit",
     "tools.profit_rtd_brooks_trading_range_reversal_audit",
+    "tools.profit_rtd_brooks_stop_target_audit",
 )
 
 FORBIDDEN_TRUE_FLAGS = (

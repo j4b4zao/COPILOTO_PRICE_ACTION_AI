@@ -21,7 +21,9 @@ VERSION = "BROOKS_OFFLINE_SMOKE_REPORT_V1"
 def build_smoke_report(*, symbol="WINV26"):
     registry_entries = BrooksResearchRegistry.entries()
     registry_names = [entry.name for entry in registry_entries]
-    evidence_names = list(AUDITORS.keys()) + [MANAGEMENT_RESEARCH]
+    evidence_names = list(AUDITORS.keys())
+    if MANAGEMENT_RESEARCH not in evidence_names:
+        evidence_names.append(MANAGEMENT_RESEARCH)
 
     integrity = run_integrity_gate()
     readiness = build_readiness_report(symbol=symbol)

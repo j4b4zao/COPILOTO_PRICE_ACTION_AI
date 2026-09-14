@@ -57,6 +57,23 @@ def test_report_quantifies_direct_and_adapted_gaps():
     assert report["families"]["MANAGEMENT"]["gap"] == "EXACT_CANDLE_AUDITOR_NOT_AVAILABLE"
 
 
+def test_stop_target_gap_reports_missing_structural_target():
+    payload = _suite()
+    payload["setups"]["BROOKS_STOP_TARGET_RULES_V1"] = {
+        "status": "MULTI_SESSION_AUDIT_COMPLETED",
+        "accepted_session_count": 1,
+        "accepted_sessions": [],
+        "sequence_count": 0,
+        "matched_sequence_count": 0,
+        "observation_count": 9,
+        "evaluable_observation_count": 0,
+    }
+    family = build_report(payload)["families"]["BROOKS_STOP_TARGET_RULES_V1"]
+    assert family["observation_count"] == 9
+    assert family["evaluable_observation_count"] == 0
+    assert family["gap"] == "NO_EVALUABLE_STRUCTURAL_TARGET"
+
+
 def test_report_keeps_all_operational_influence_disabled():
     report = build_report(_suite())
     for key in (

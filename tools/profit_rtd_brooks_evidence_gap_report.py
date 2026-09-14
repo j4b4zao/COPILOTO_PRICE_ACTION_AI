@@ -72,6 +72,8 @@ def _adapted_summary(payload):
         "matched_sequences": matched,
         "incomplete_reason_counts": dict(sorted(reasons.items())),
         "observed_breakout_phases": [],
+        "observation_count": int(payload.get("observation_count") or 0),
+        "evaluable_observation_count": int(payload.get("evaluable_observation_count") or 0),
     }
 
 
@@ -103,11 +105,14 @@ def build_report(suite):
             )
         else:
             summary = _adapted_summary(payload)
-            summary["gap"] = (
-                "NO_CANDIDATE_SEQUENCE" if summary["candidate_sequences"] == 0
-                else "NO_MATCHED_SEQUENCE" if summary["matched_sequences"] == 0
-                else "OBSERVATIONAL_MATCHES_AVAILABLE"
-            )
+            if name == "BROOKS_STOP_TARGET_RULES_V1" and summary["observation_count"] > 0 and summary["evaluable_observation_count"] == 0:
+                summary["gap"] = "NO_EVALUABLE_STRUCTURAL_TARGET"
+            else:
+                summary["gap"] = (
+                    "NO_CANDIDATE_SEQUENCE" if summary["candidate_sequences"] == 0
+                    else "NO_MATCHED_SEQUENCE" if summary["matched_sequences"] == 0
+                    else "OBSERVATIONAL_MATCHES_AVAILABLE"
+                )
         families[name] = summary
 
     gaps = sorted({item["gap"] for item in families.values()})

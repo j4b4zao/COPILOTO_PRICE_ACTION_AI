@@ -1,0 +1,400 @@
+{
+  "status": "MULTI_SESSION_AUDIT_COMPLETED",
+  "accepted_session_count": 1,
+  "rejected_session_count": 12,
+  "accepted_sessions": [
+    {
+      "session_index": 12,
+      "audit": {
+        "status": "AUDIT_COMPLETED",
+        "deduplication": "EXACT_CANDLE_LAST_REVISION",
+        "entry_candle_outcome_policy": "SUBSEQUENT_CANDLES_ONLY",
+        "exact_candle_identity_available": true,
+        "observation_count": 9,
+        "evaluable_observation_count": 0,
+        "resolved_observation_count": 0,
+        "target_first_count": 0,
+        "stop_first_count": 0,
+        "ambiguous_same_candle_count": 0,
+        "unresolved_in_window_count": 0,
+        "sequence_count": 0,
+        "matched_sequence_count": 0,
+        "observations": [
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:08:00",
+            "direction": "BUY",
+            "entry_price": 185870.0,
+            "initial_stop": 185865.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:09:00",
+            "direction": "BUY",
+            "entry_price": 185700.0,
+            "initial_stop": 185605.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:10:00",
+            "direction": "BUY",
+            "entry_price": 185920.0,
+            "initial_stop": 185690.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:11:00",
+            "direction": "SELL",
+            "entry_price": 185845.0,
+            "initial_stop": 185985.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:12:00",
+            "direction": "BUY",
+            "entry_price": 185855.0,
+            "initial_stop": 185725.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:13:00",
+            "direction": "SELL",
+            "entry_price": 185865.0,
+            "initial_stop": 185880.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:14:00",
+            "direction": "SELL",
+            "entry_price": 186035.0,
+            "initial_stop": 186100.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:15:00",
+            "direction": "BUY",
+            "entry_price": 186580.0,
+            "initial_stop": 186030.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:16:00",
+            "direction": "BUY",
+            "entry_price": 186825.0,
+            "initial_stop": 186535.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          }
+        ],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    }
+  ],
+  "rejected_sessions": [
+    {
+      "session_index": 0,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 1,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 2,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 3,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 4,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 5,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 6,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 7,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 8,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 9,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 10,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 11,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "NO_PROSPECTIVE_STOP_TARGET_EVIDENCE"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    }
+  ],
+  "observation_count": 9,
+  "evaluable_observation_count": 0,
+  "resolved_observation_count": 0,
+  "sequence_count": 0,
+  "matched_sequence_count": 0,
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "hypothesis_freeze_allowed": false
+}
