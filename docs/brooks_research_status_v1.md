@@ -363,6 +363,29 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
 - Toda a camada continua `observational_only=True`, sem influencia em Score,
   Risk, Decision, Alert ou execucao.
 
+### Decima terceira sessao real aceita de 2026-09-14 09:16
+
+- O preflight de atividade real terminou `MARKET_ACTIVITY_READY`: 49 amostras
+  analisaveis, 36 mudancas de preco, crescimento de 2 candles e zero erros.
+- A sessao `SELECTION` de 600 ciclos terminou `COMPLETED` e `data_ready=True`:
+  359 amostras analisaveis, 241 skips, zero erros de coleta, zero preco ausente
+  e zero falhas ou indisponibilidade Delta.
+- Todas as 359 amostras tiveram contexto de trade nao pronto e a sessao
+  terminou `trade_context_ready=False`, sem warning nem rejeicao tecnica.
+- A correcao Stop/Target foi confirmada prospectivamente: 359 linhas foram
+  capturadas, 308 tiveram geometria de stop valida e 51 ficaram inelegiveis.
+  Houve 245 direcoes BUY, 114 SELL e 10 candles M1 distintos.
+- Nenhuma das 359 linhas possuia alvo estrutural valido. O capturador manteve
+  `target_source=NONE`, sem criar alvo ou reward/risk sintetico.
+- A Evidence Suite aceitou 13 de 13 sessoes e rejeitou zero. O relatorio de
+  lacunas consolidou 117 candles EXACT_CANDLE; Failed Breakout passou a 22
+  candidatos e zero matches, enquanto Trend Pullback continua com 1 candidato
+  incompleto por `TRADING_RANGE_TRANSITION`.
+- Stop/Target permanece `CLASSIFIER_ONLY_NO_EXACT_AUDITOR`; a proxima etapa e
+  criar seu auditor EXACT_CANDLE usando somente a evidencia prospectiva valida.
+- `hypothesis_freeze_allowed=False`, `promotion_allowed=False` e OOS continua
+  bloqueado. Score, Risk, Decision, Alert e execucao permanecem sem influencia.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
@@ -386,8 +409,8 @@ Brooks Enriched Capture
 
 ## Proximas etapas
 
-1. Coletar ao menos uma nova sessao Brooks enriquecida quando o mercado estiver
-   ativo para validar a captura Stop/Target corrigida com evidencia prospectiva.
+1. Implementar o auditor EXACT_CANDLE Stop/Target sobre evidencia prospectiva,
+   mantendo a sessao de 2026-09-11 excluida dessa familia.
 2. Gerar/validar o Selection Manifest das sessoes reais.
 3. Rodar a Research Evidence Suite sobre a evidencia de selecao.
 4. Manter sessoes sobrepostas em quarentena.
