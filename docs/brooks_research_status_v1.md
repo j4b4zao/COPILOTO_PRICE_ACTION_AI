@@ -491,6 +491,23 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
   `NO_EVALUABLE_STRUCTURAL_TARGET`; OOS, freeze, promocao e toda influencia
   operacional continuam bloqueados.
 
+### Decima setima sessao real aceita de 2026-09-15 10:16
+
+- Um novo preflight confirmou `MARKET_ACTIVITY_READY`: 51 amostras
+  analisaveis, 37 mudancas de preco, crescimento de 2 candles e zero erros.
+- O gate aguardou 915 ciclos e comprovou 15 candles antes da janela principal.
+- A sessao terminou `COMPLETED` e `data_ready=True`: 352 amostras analisaveis,
+  248 skips, zero erros, zero preco ausente e zero falhas ou indisponibilidade
+  Delta. O contexto de trade ficou nao pronto em 119 amostras, sem ser tratado
+  como falha tecnica.
+- Stop/Target registrou 202 direcoes BUY e 150 SELL. Nao houve
+  `trading_range_valid` nem target estrutural valido.
+- A recomposicao limpa aceitou 17 de 17 sessoes validas e manteve a tentativa
+  quarantinada fora da entrada. O auditor Stop/Target acumulou 41 observacoes,
+  ainda com zero avaliaveis ou resolvidas.
+- O veredito segue `MORE_INDEPENDENT_SELECTION_EVIDENCE_REQUIRED`, com OOS,
+  freeze, promocao e influencia operacional bloqueados.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
