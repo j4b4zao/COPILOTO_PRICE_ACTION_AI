@@ -527,6 +527,25 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
   Alert ou execucao. Uma nova sessao real e necessaria para validar a captura
   corrigida prospectivamente; evidencia anterior nao sera reconstruida.
 
+### Decima nona sessao: validacao prospectiva da correcao
+
+- O preflight das 14:56 confirmou `MARKET_ACTIVITY_READY`: 49 amostras
+  analisaveis, 27 mudancas de preco, crescimento de 2 candles e zero erros.
+- O gate aguardou 774 ciclos e comprovou 15 candles antes da janela principal.
+- A sessao das 15:22 terminou `COMPLETED` e `data_ready=True`: 413 amostras
+  analisaveis, 187 skips, zero erros, zero preco ausente e zero falhas Delta.
+  O contexto de trade ficou nao pronto em apenas 20 amostras.
+- A leitura de `market.candles` foi validada prospectivamente: todas as 413
+  amostras tiveram `TRADING_RANGE_CONFIRMED`, 245 registraram target estrutural
+  valido e houve 174 deteccoes Three Pushes.
+- Stop/Target registrou 275 direcoes BUY e 138 SELL. A Evidence Suite limpa
+  aceitou 19 de 19 sessoes validas e manteve a quarentena fora da entrada.
+- O auditor agora soma 64 observacoes: 7 avaliaveis, 4 resolvidas, sendo 1
+  `TARGET_FIRST`, 3 `STOP_FIRST` e 3 `UNRESOLVED_IN_WINDOW`.
+- Esses quatro desfechos sao evidência observacional inicial, nao autorizam
+  inferencia de desempenho, freeze, OOS, promocao ou influencia operacional.
+  O veredito permanece `MORE_INDEPENDENT_SELECTION_EVIDENCE_REQUIRED`.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
