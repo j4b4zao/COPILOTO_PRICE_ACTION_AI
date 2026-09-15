@@ -1,0 +1,787 @@
+{
+  "status": "MULTI_SESSION_AUDIT_COMPLETED",
+  "accepted_session_count": 4,
+  "rejected_session_count": 12,
+  "accepted_sessions": [
+    {
+      "session_index": 12,
+      "audit": {
+        "status": "AUDIT_COMPLETED",
+        "deduplication": "EXACT_CANDLE_LAST_REVISION",
+        "entry_candle_outcome_policy": "SUBSEQUENT_CANDLES_ONLY",
+        "exact_candle_identity_available": true,
+        "observation_count": 9,
+        "evaluable_observation_count": 0,
+        "resolved_observation_count": 0,
+        "target_first_count": 0,
+        "stop_first_count": 0,
+        "ambiguous_same_candle_count": 0,
+        "unresolved_in_window_count": 0,
+        "sequence_count": 0,
+        "matched_sequence_count": 0,
+        "observations": [
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:08:00",
+            "direction": "BUY",
+            "entry_price": 185870.0,
+            "initial_stop": 185865.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:09:00",
+            "direction": "BUY",
+            "entry_price": 185700.0,
+            "initial_stop": 185605.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:10:00",
+            "direction": "BUY",
+            "entry_price": 185920.0,
+            "initial_stop": 185690.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:11:00",
+            "direction": "SELL",
+            "entry_price": 185845.0,
+            "initial_stop": 185985.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:12:00",
+            "direction": "BUY",
+            "entry_price": 185855.0,
+            "initial_stop": 185725.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:13:00",
+            "direction": "SELL",
+            "entry_price": 185865.0,
+            "initial_stop": 185880.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:14:00",
+            "direction": "SELL",
+            "entry_price": 186035.0,
+            "initial_stop": 186100.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:15:00",
+            "direction": "BUY",
+            "entry_price": 186580.0,
+            "initial_stop": 186030.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:16:00",
+            "direction": "BUY",
+            "entry_price": 186825.0,
+            "initial_stop": 186535.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          }
+        ],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 13,
+      "audit": {
+        "status": "AUDIT_COMPLETED",
+        "deduplication": "EXACT_CANDLE_LAST_REVISION",
+        "entry_candle_outcome_policy": "SUBSEQUENT_CANDLES_ONLY",
+        "exact_candle_identity_available": true,
+        "observation_count": 10,
+        "evaluable_observation_count": 0,
+        "resolved_observation_count": 0,
+        "target_first_count": 0,
+        "stop_first_count": 0,
+        "ambiguous_same_candle_count": 0,
+        "unresolved_in_window_count": 0,
+        "sequence_count": 0,
+        "matched_sequence_count": 0,
+        "observations": [
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:43:00",
+            "direction": "BUY",
+            "entry_price": 186025.0,
+            "initial_stop": 185845.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:44:00",
+            "direction": "SELL",
+            "entry_price": 186105.0,
+            "initial_stop": 186190.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:45:00",
+            "direction": "BUY",
+            "entry_price": 186185.0,
+            "initial_stop": 185985.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:46:00",
+            "direction": "BUY",
+            "entry_price": 186165.0,
+            "initial_stop": 186135.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:47:00",
+            "direction": "BUY",
+            "entry_price": 186210.0,
+            "initial_stop": 186165.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:48:00",
+            "direction": "BUY",
+            "entry_price": 186575.0,
+            "initial_stop": 186210.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:49:00",
+            "direction": "BUY",
+            "entry_price": 186380.0,
+            "initial_stop": 186355.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:50:00",
+            "direction": "BUY",
+            "entry_price": 186570.0,
+            "initial_stop": 186385.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:51:00",
+            "direction": "BUY",
+            "entry_price": 186545.0,
+            "initial_stop": 186480.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T09:52:00",
+            "direction": "BUY",
+            "entry_price": 186610.0,
+            "initial_stop": 186500.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          }
+        ],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 14,
+      "audit": {
+        "status": "AUDIT_COMPLETED",
+        "deduplication": "EXACT_CANDLE_LAST_REVISION",
+        "entry_candle_outcome_policy": "SUBSEQUENT_CANDLES_ONLY",
+        "exact_candle_identity_available": true,
+        "observation_count": 8,
+        "evaluable_observation_count": 0,
+        "resolved_observation_count": 0,
+        "target_first_count": 0,
+        "stop_first_count": 0,
+        "ambiguous_same_candle_count": 0,
+        "unresolved_in_window_count": 0,
+        "sequence_count": 0,
+        "matched_sequence_count": 0,
+        "observations": [
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T15:52:00",
+            "direction": "BUY",
+            "entry_price": 187855.0,
+            "initial_stop": 187820.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T15:53:00",
+            "direction": "BUY",
+            "entry_price": 187775.0,
+            "initial_stop": 187770.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T15:54:00",
+            "direction": "SELL",
+            "entry_price": 187750.0,
+            "initial_stop": 187835.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T15:55:00",
+            "direction": "SELL",
+            "entry_price": 187730.0,
+            "initial_stop": 187770.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T15:56:00",
+            "direction": "SELL",
+            "entry_price": 187725.0,
+            "initial_stop": 187760.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T15:57:00",
+            "direction": "SELL",
+            "entry_price": 187675.0,
+            "initial_stop": 187740.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T15:58:00",
+            "direction": "SELL",
+            "entry_price": 187625.0,
+            "initial_stop": 187675.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-14T15:59:00",
+            "direction": "SELL",
+            "entry_price": 187600.0,
+            "initial_stop": 187640.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          }
+        ],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 15,
+      "audit": {
+        "status": "AUDIT_COMPLETED",
+        "deduplication": "EXACT_CANDLE_LAST_REVISION",
+        "entry_candle_outcome_policy": "SUBSEQUENT_CANDLES_ONLY",
+        "exact_candle_identity_available": true,
+        "observation_count": 7,
+        "evaluable_observation_count": 0,
+        "resolved_observation_count": 0,
+        "target_first_count": 0,
+        "stop_first_count": 0,
+        "ambiguous_same_candle_count": 0,
+        "unresolved_in_window_count": 0,
+        "sequence_count": 0,
+        "matched_sequence_count": 0,
+        "observations": [
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-15T09:27:00",
+            "direction": "SELL",
+            "entry_price": 186905.0,
+            "initial_stop": 187015.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-15T09:29:00",
+            "direction": "BUY",
+            "entry_price": 187320.0,
+            "initial_stop": 187140.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-15T09:30:00",
+            "direction": "BUY",
+            "entry_price": 187950.0,
+            "initial_stop": 187245.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-15T09:31:00",
+            "direction": "BUY",
+            "entry_price": 187915.0,
+            "initial_stop": 187825.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-15T09:32:00",
+            "direction": "BUY",
+            "entry_price": 188005.0,
+            "initial_stop": 187730.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-15T09:34:00",
+            "direction": "SELL",
+            "entry_price": 187690.0,
+            "initial_stop": 187845.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          },
+          {
+            "entry_candle_id": "WINV26|M1|2026-09-15T09:35:00",
+            "direction": "BUY",
+            "entry_price": 187895.0,
+            "initial_stop": 187720.0,
+            "target_price": 0.0,
+            "target_source": "NONE",
+            "evaluable": false,
+            "outcome": "NOT_EVALUABLE",
+            "reason": "STRUCTURAL_TARGET_NOT_AVAILABLE",
+            "outcome_candle_id": null
+          }
+        ],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    }
+  ],
+  "rejected_sessions": [
+    {
+      "session_index": 0,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 1,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 2,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 3,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 4,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 5,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 6,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 7,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 8,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 9,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 10,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "STOP_TARGET_EVIDENCE_REQUIRED"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    },
+    {
+      "session_index": 11,
+      "reason": "SESSION_NOT_ELIGIBLE",
+      "audit": {
+        "status": "SESSION_NOT_ELIGIBLE",
+        "reasons": [
+          "NO_PROSPECTIVE_STOP_TARGET_EVIDENCE"
+        ],
+        "observations": [],
+        "research_only": true,
+        "observational_only": true,
+        "predictive_claim_allowed": false,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false,
+        "hypothesis_freeze_allowed": false
+      }
+    }
+  ],
+  "observation_count": 34,
+  "evaluable_observation_count": 0,
+  "resolved_observation_count": 0,
+  "sequence_count": 0,
+  "matched_sequence_count": 0,
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "hypothesis_freeze_allowed": false
+}

@@ -469,6 +469,28 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
 - A mudanca afeta apenas prontidao da coleta research-only e nao altera
   PriceAction, Score, Risk, Decision, Alert ou execucao.
 
+### Decima sexta sessao real aceita de 2026-09-15 09:35
+
+- O preflight confirmou `MARKET_ACTIVITY_READY`: 44 amostras analisaveis, 31
+  mudancas de preco, crescimento de 1 candle e zero erros.
+- O novo gate aguardou 971 ciclos e iniciou a janela principal somente depois
+  de acumular 15 candles M1, sem reconstruir historico retroativamente.
+- A sessao terminou `COMPLETED` e `data_ready=True`: 339 amostras analisaveis,
+  261 skips, zero erros de coleta, zero preco ausente e zero falhas ou
+  indisponibilidade Delta.
+- `SIDEWAYS + PA NONE` deixou `trade_context_ready=False` nas 339 amostras, mas
+  nao gerou warning tecnico nem rejeicao da sessao.
+- Stop/Target capturou 227 direcoes BUY e 112 SELL. Mesmo com o historico
+  ampliado, nenhum `trading_range_valid` ou target estrutural valido apareceu;
+  nenhum alvo sintetico foi criado.
+- A recomposicao limpa excluiu explicitamente a tentativa quarantinada das
+  15:40 de 14/09. A Evidence Suite aceitou 16 de 16 sessoes validas; o auditor
+  Stop/Target passou a somar 34 observacoes, ainda com zero avaliaveis ou
+  resolvidas.
+- O veredito permanece `MORE_INDEPENDENT_SELECTION_EVIDENCE_REQUIRED`, com
+  `NO_EVALUABLE_STRUCTURAL_TARGET`; OOS, freeze, promocao e toda influencia
+  operacional continuam bloqueados.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
