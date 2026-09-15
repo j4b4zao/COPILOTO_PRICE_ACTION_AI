@@ -13,6 +13,7 @@ import json
 from pathlib import Path
 
 import tools.profit_rtd_rc54_3_2_warmed_session as base
+from analysis.price_action.trading_range_playbook_dynamics import TradingRangePlaybookDynamics
 from tools.profit_rtd_brooks_breakout_memory_capture import (
     enrich_price_action_snapshot as enrich_breakout_memory_snapshot,
 )
@@ -31,6 +32,7 @@ from tools.profit_rtd_brooks_stop_target_capture import (
 
 
 _ORIGINAL_SNAPSHOT_CONTEXT = base.snapshot_context
+MIN_BROOKS_HISTORY_CANDLES = TradingRangePlaybookDynamics.MIN_HISTORY + 1
 
 
 def _brooks_session_flags():
@@ -41,6 +43,7 @@ def _brooks_session_flags():
         "brooks_wedge_three_pushes_capture": True,
         "brooks_trading_range_capture": True,
         "brooks_stop_target_capture": True,
+        "brooks_min_history_candles": MIN_BROOKS_HISTORY_CANDLES,
         "brooks_research_only": True,
         "brooks_predictive_claim_allowed": False,
         "brooks_score_influence_allowed": False,
@@ -94,6 +97,7 @@ def run_warmed_session(
             "interval": interval,
             "max_warmup_cycles": max_warmup_cycles,
             "require_trade_context_at_start": require_trade_context_at_start,
+            "min_history_candles": MIN_BROOKS_HISTORY_CANDLES,
             "output_dir": output_dir,
         }
         if sleeper is not None:

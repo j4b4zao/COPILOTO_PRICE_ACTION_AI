@@ -77,6 +77,7 @@ def test_derived_runner_restores_original_snapshot_and_sets_safety_metadata(monk
 
     def fake_run(symbol, **kwargs):
         assert runner.base.snapshot_context is runner.snapshot_context_with_brooks
+        assert kwargs["min_history_candles"] == 15
         payload = {
             "status": "COMPLETED",
             "symbol": symbol,
@@ -96,6 +97,7 @@ def test_derived_runner_restores_original_snapshot_and_sets_safety_metadata(monk
 
     assert runner.base.snapshot_context is original
     assert result["brooks_first_pullback_capture"] is True
+    assert result["brooks_min_history_candles"] == 15
     assert result["brooks_first_pullback_research_only"] is True
     assert result["brooks_first_pullback_predictive_claim_allowed"] is False
     assert result["brooks_first_pullback_score_influence_allowed"] is False

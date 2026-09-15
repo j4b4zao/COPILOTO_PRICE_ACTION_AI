@@ -449,6 +449,26 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
 - O veredito permanece `MORE_INDEPENDENT_SELECTION_EVIDENCE_REQUIRED`; OOS,
   freeze, promocao e influencia operacional continuam bloqueados.
 
+### Gate de historico Brooks para alvos estruturais
+
+- O diagnostico das tres sessoes prospectivas encontrou
+  `brooks_trading_range_valid=False` em todas as 1.049 amostras, sempre com
+  `state=NO_RANGE` e limites estruturais zerados.
+- A causa era uma incompatibilidade de janela: o detector de Trading Range
+  exige 14 candles fechados, enquanto o warm-up encerrava ao obter estrutura
+  basica, normalmente com 6 a 10 candles. Os 600 ciclos seguintes nao eram
+  suficientes para atingir o minimo de range de forma consistente.
+- O RC54 base recebeu o parametro opcional `min_history_candles`, com default
+  zero para preservar seu comportamento. Somente o runner Brooks fixa 15
+  candles totais, equivalentes aos 14 fechados exigidos mais o candle atual.
+- O gate e fail-closed: se o limite de warm-up terminar antes dos 15 candles, a
+  sessao nao comeca e nenhum arquivo e aceito como evidencia.
+- Para novas coletas Brooks deve ser mantido o default de 4.800 ciclos de
+  warm-up; 1.800 ciclos podem ser insuficientes quando o processo inicia sem
+  historico local.
+- A mudanca afeta apenas prontidao da coleta research-only e nao altera
+  PriceAction, Score, Risk, Decision, Alert ou execucao.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell

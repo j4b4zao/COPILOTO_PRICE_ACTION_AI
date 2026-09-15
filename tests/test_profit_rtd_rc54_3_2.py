@@ -101,6 +101,20 @@ def run():
     assert r['trade_context_ready'] is True
     assert r['trade_context_required'] is True
 
+    minimum_history = FakeCollector([
+        _ctx('SIDEWAYS', True, 'BUY', 12),
+        _ctx('SIDEWAYS', True, 'BUY', 15),
+    ])
+    r = warm_history(
+        'WINV26', interval=0, max_warmup_cycles=2,
+        min_history_candles=15,
+        collector=minimum_history, pipeline=FakePipeline(),
+    )
+    assert r['ready'] is True
+    assert r['warmup_cycles'] == 2
+    assert r['minimum_history_candles'] == 15
+    assert r['history_candle_count'] == 15
+
     sideways = {'last_price': 178585.0, 'delta_status': 'VALID'}
     assert data_ready(sideways) is True
     assert data_ready({'last_price': 178585.0, 'delta_status': 'LOW_ACTIVITY'}) is True

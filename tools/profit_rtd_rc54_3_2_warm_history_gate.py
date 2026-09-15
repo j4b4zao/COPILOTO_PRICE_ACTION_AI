@@ -27,7 +27,7 @@ def history_ready(context):
     return bool(getattr(structure, 'valid', False)) and structure_trend not in {'', 'UNKNOWN'}
 
 
-def warm_history(symbol, *, interval=0.25, max_warmup_cycles=4800, require_trade_context=False, sleeper=time.sleep, collector=None, pipeline=None):
+def warm_history(symbol, *, interval=0.25, max_warmup_cycles=4800, require_trade_context=False, min_history_candles=0, sleeper=time.sleep, collector=None, pipeline=None):
     symbol = str(symbol or '').strip().upper()
     if not symbol:
         raise ValueError('symbol é obrigatório.')
@@ -35,6 +35,8 @@ def warm_history(symbol, *, interval=0.25, max_warmup_cycles=4800, require_trade
         raise ValueError('max_warmup_cycles deve ser >= 1.')
     if float(interval) < 0:
         raise ValueError('interval deve ser >= 0.')
+    if int(min_history_candles) < 0:
+        raise ValueError('min_history_candles deve ser >= 0.')
 
     if collector is None or pipeline is None:
         collector, book_provider = _build_sources()
@@ -57,14 +59,17 @@ def warm_history(symbol, *, interval=0.25, max_warmup_cycles=4800, require_trade
                 last_context = context
                 structure_trend = _enum_value(context.structure.trend)
                 pa_bias = str(context.price_action.bias or 'NONE').strip().upper()
-                ready = history_ready(context)
+                base_ready = history_ready(context)
                 trade_ready = context_ready(context)
                 candle_count = int(getattr(context.market, 'candle_count', 0) or 0)
+                candle_history_ready = candle_count >= int(min_history_candles)
+                ready = base_ready and candle_history_ready
                 print(
                     f'[RC54.3.2 WARMUP] cycle={warmup_cycle}/{max_warmup_cycles} '
                     f'analyzable={analyzable} candles={candle_count} '
                     f'structure={structure_trend} pa_bias={pa_bias} '
-                    f'history_ready={ready} trade_context_ready={trade_ready}'
+                    f'history_ready={ready} candles_ready={candle_history_ready} '
+                    f'trade_context_ready={trade_ready}'
                 )
                 if ready and (not require_trade_context or trade_ready):
                     return {
@@ -78,6 +83,8 @@ def warm_history(symbol, *, interval=0.25, max_warmup_cycles=4800, require_trade
                         'pa_bias': pa_bias,
                         'trade_context_ready': trade_ready,
                         'trade_context_required': bool(require_trade_context),
+                        'minimum_history_candles': int(min_history_candles),
+                        'history_candle_count': candle_count,
                         'context': context,
                         'collector': collector,
                         'pipeline': pipeline,
@@ -91,7 +98,11 @@ def warm_history(symbol, *, interval=0.25, max_warmup_cycles=4800, require_trade
 
     structure_trend = _enum_value(last_context.structure.trend) if last_context is not None else 'UNKNOWN'
     pa_bias = str(last_context.price_action.bias or 'NONE').strip().upper() if last_context is not None else 'NONE'
-    last_history_ready = history_ready(last_context) if last_context is not None else False
+    last_candle_count = int(getattr(getattr(last_context, 'market', None), 'candle_count', 0) or 0)
+    last_history_ready = (
+        history_ready(last_context) and last_candle_count >= int(min_history_candles)
+        if last_context is not None else False
+    )
     status = (
         'WARM_TRADE_CONTEXT_NOT_READY'
         if last_history_ready and require_trade_context
@@ -108,6 +119,8 @@ def warm_history(symbol, *, interval=0.25, max_warmup_cycles=4800, require_trade
         'pa_bias': pa_bias,
         'trade_context_ready': context_ready(last_context) if last_context is not None else False,
         'trade_context_required': bool(require_trade_context),
+        'minimum_history_candles': int(min_history_candles),
+        'history_candle_count': last_candle_count,
         'context': last_context,
         'collector': collector,
         'pipeline': pipeline,

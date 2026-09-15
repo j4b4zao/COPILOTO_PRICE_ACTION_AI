@@ -72,14 +72,21 @@ def technical_reasons(*, complete, collection_errors, missing_price_count, sampl
     return reasons
 
 
-def run_warmed_session(symbol, *, cycles=600, interval=0.25, max_warmup_cycles=4800, require_trade_context_at_start=False, output_dir=None, sleeper=time.sleep):
+def run_warmed_session(symbol, *, cycles=600, interval=0.25, max_warmup_cycles=4800, require_trade_context_at_start=False, min_history_candles=0, output_dir=None, sleeper=time.sleep):
     symbol = str(symbol or '').strip().upper()
     if not symbol:
         raise ValueError('symbol é obrigatório.')
     if int(cycles) < 1 or int(max_warmup_cycles) < 1 or float(interval) < 0:
         raise ValueError('cycles/max_warmup_cycles/interval inválidos.')
 
-    warm = warm_history(symbol, interval=interval, max_warmup_cycles=max_warmup_cycles, require_trade_context=require_trade_context_at_start, sleeper=sleeper)
+    warm = warm_history(
+        symbol,
+        interval=interval,
+        max_warmup_cycles=max_warmup_cycles,
+        require_trade_context=require_trade_context_at_start,
+        min_history_candles=min_history_candles,
+        sleeper=sleeper,
+    )
 
     if not warm['ready']:
         return {
