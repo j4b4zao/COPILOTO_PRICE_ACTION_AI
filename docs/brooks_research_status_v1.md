@@ -508,6 +508,25 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
 - O veredito segue `MORE_INDEPENDENT_SELECTION_EVIDENCE_REQUIRED`, com OOS,
   freeze, promocao e influencia operacional bloqueados.
 
+### Decima oitava sessao e correcao da fonte de historico de 2026-09-15
+
+- A sessao das 10:49 terminou `COMPLETED` e `data_ready=True`: 438 amostras
+  analisaveis, 162 skips, zero erros, zero preco ausente e zero falhas ou
+  indisponibilidade Delta. Stop/Target registrou 141 direcoes BUY e 297 SELL.
+- A Evidence Suite limpa aceitou 18 de 18 sessoes validas. O auditor acumulou
+  54 observacoes, ainda com zero avaliaveis ou resolvidas.
+- A comparacao das tres sessoes posteriores ao gate revelou
+  `INSUFFICIENT_HISTORY` em todas as 1.129 amostras de Trading Range, apesar de
+  o warm-up comprovar 15 candles.
+- A causa raiz era um nome de propriedade incorreto nas capturas Trading Range
+  e Three Pushes: elas consultavam `market.history`, inexistente em
+  `MarketState`, cujo historico canonico e `market.candles`.
+- As duas capturas research-only passaram a ler `market.candles`. Testes com o
+  `MarketState` real impedem regressao para uma lista vazia.
+- A mudanca nao altera MarketStructure, PriceAction, Score, Risk, Decision,
+  Alert ou execucao. Uma nova sessao real e necessaria para validar a captura
+  corrigida prospectivamente; evidencia anterior nao sera reconstruida.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell

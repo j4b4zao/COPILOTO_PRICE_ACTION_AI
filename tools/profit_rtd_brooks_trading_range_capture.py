@@ -6,7 +6,8 @@ from analysis.price_action.trading_range_playbook_dynamics import TradingRangePl
 
 def enrich_price_action_snapshot(item, context):
     pa = item.setdefault("price_action", {})
-    candles = list(getattr(getattr(context, "market", None), "history", []) or [])
+    market = getattr(context, "market", None)
+    candles = list(getattr(market, "candles", []) or [])
     result = TradingRangePlaybookDynamics().analyze(candles)
 
     pa["brooks_trading_range_valid"] = bool(result.valid)

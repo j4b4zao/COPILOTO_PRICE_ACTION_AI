@@ -6,7 +6,8 @@ from research.price_action.brooks.wedge_three_pushes import BrooksThreePushesDet
 
 def enrich_price_action_snapshot(item, context):
     pa = item.setdefault("price_action", {})
-    candles = list(getattr(getattr(context, "market", None), "history", []) or [])
+    market = getattr(context, "market", None)
+    candles = list(getattr(market, "candles", []) or [])
     detection = BrooksThreePushesDetector.analyze(candles)
     pa["brooks_three_pushes_detected"] = bool(detection.detected)
     pa["brooks_three_pushes_direction"] = str(detection.push_direction)
