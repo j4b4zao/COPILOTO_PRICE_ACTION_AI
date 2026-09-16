@@ -589,8 +589,9 @@ Brooks Enriched Capture
 
 ## Proximas etapas
 
-1. Coletar novas sessoes independentes ate surgir alvo estrutural prospectivo
-   que permita ao auditor Stop/Target observar desfecho sem reconstrucao.
+1. Ampliar em sessoes independentes a evidencia prospectiva de targets
+   estruturais e desfechos Stop/Target avaliaveis, sem reconstruir sessoes
+   anteriores nem inferir desempenho a partir da amostra inicial.
 2. Gerar/validar o Selection Manifest das sessoes reais.
 3. Rodar a Research Evidence Suite sobre a evidencia de selecao.
 4. Manter sessoes sobrepostas em quarentena.
