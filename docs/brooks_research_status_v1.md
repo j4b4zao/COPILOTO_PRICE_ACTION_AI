@@ -603,6 +603,28 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
 - O auditor de recuperacao do Delta encontrou 361 estados `VALID` e nenhum
   episodio de falha nesta sessao. Continua apenas observacional.
 
+### Vigesima terceira sessao real aceita de 2026-09-16 15:41
+
+- O gate offline passou e o preflight de mercado confirmou
+  `MARKET_ACTIVITY_READY`: 47 amostras analisaveis, 32 mudancas de preco,
+  crescimento de 2 candles e zero erros. Sem runner concorrente visivel,
+  o warm-up comprovou o historico minimo de 15 candles antes da sessao.
+- A janela de 600 ciclos terminou `COMPLETED`, com `data_ready=True`, 319
+  amostras analisaveis, 281 skips, zero erros de coleta, zero precos ausentes
+  e zero falhas Delta. `trade_context_ready=False` em 241 amostras foi apenas
+  contexto de trade nao pronto, sem warning tecnico.
+- O manifesto aceitou a sessao com SHA-256
+  `931e419d67eded41588790730b803015e588424facbf3eaff8253d0783a65a4d`.
+  A recomposicao limpa aceitou 23 de 23 sessoes selecionadas, mantendo tres
+  capturas rejeitadas fora da entrada.
+- Stop/Target acrescentou 9 observacoes: 8 avaliaveis, 4 resolvidas como
+  `STOP_FIRST`, 4 `UNRESOLVED_IN_WINDOW` e zero ambiguidades. O acumulado
+  de selecao e 105 observacoes, 37 avaliaveis e 23 resolvidas. Nao ha
+  inferencia de desempenho, freeze, OOS, promocao ou influencia operacional.
+- O auditor de recuperacao do Delta encontrou 319 estados `VALID` e nenhum
+  episodio de falha na janela principal. Um reset de fonte observado no
+  warm-up nao altera esse diagnostico da sessao persistida.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
