@@ -585,6 +585,24 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
 - O veredito permanece `MORE_INDEPENDENT_SELECTION_EVIDENCE_REQUIRED`;
   freeze, OOS, promocao e influencia operacional seguem bloqueados.
 
+### Vigesima segunda sessao real aceita de 2026-09-16 10:14
+
+- O preflight confirmou atividade real e o gate de 15 candles terminou antes
+  dos 600 ciclos principais. A sessao terminou `COMPLETED`, com
+  `data_ready=True`, 361 amostras analisaveis, 239 skips, zero erros de coleta,
+  zero precos ausentes e zero falhas Delta. As 361 amostras tiveram
+  `trade_context_ready=False`; isso nao e warning tecnico nem sinal de trade.
+- O manifesto de selecao aceitou a sessao com SHA-256
+  `a5da7a1f5f2dec195bce9e0e73c38a603345e63ea9312e622e1786c059e28095`.
+  A recomposicao limpa aceitou 22 de 22 sessoes selecionadas e manteve tres
+  capturas rejeitadas fora da entrada.
+- Stop/Target acrescentou 8 observacoes, 4 avaliaveis e 4 resolvidas como
+  `TARGET_FIRST`, sem ambiguidade. O acumulado de selecao e 96 observacoes,
+  29 avaliaveis e 19 resolvidas. Isso nao sustenta inferencia de desempenho,
+  freeze, OOS, promocao ou influencia operacional.
+- O auditor de recuperacao do Delta encontrou 361 estados `VALID` e nenhum
+  episodio de falha nesta sessao. Continua apenas observacional.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
