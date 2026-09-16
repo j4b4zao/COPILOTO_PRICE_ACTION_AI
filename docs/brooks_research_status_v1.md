@@ -566,6 +566,25 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
 - O veredito segue `MORE_INDEPENDENT_SELECTION_EVIDENCE_REQUIRED`. Esses
   desfechos nao autorizam freeze, OOS, promocao nem influencia operacional.
 
+### Vigesima primeira sessao real aceita de 2026-09-16 09:45
+
+- O Excel/RTD estava ativo e o preflight confirmou `MARKET_ACTIVITY_READY`:
+  52 amostras analisaveis, 36 mudancas de preco, crescimento de 2 candles e
+  zero erros. Nao havia runner RC54 concorrente.
+- O gate aguardou 772 ciclos e comprovou 15 candles antes dos 600 ciclos
+  principais. A sessao terminou `COMPLETED` e `data_ready=True`: 347 amostras
+  analisaveis, 253 skips, zero erros, zero preco ausente e zero falhas Delta.
+- Trading Range foi valido em 311 amostras; 250 tiveram target estrutural
+  valido. Stop/Target registrou 237 direcoes BUY e 110 SELL; Three Pushes foi
+  detectado em 51 amostras. Contexto de trade nao pronto em 228 amostras nao
+  gerou warning tecnico.
+- A Evidence Suite limpa aceitou 21 de 21 sessoes, mantendo a quarentena fora
+  da entrada. O auditor acumulou 88 observacoes, 25 avaliaveis e 15
+  resolvidas. A sessao nova contribuiu 9 avaliaveis: 4 `STOP_FIRST`, zero
+  `TARGET_FIRST`, 5 `UNRESOLVED_IN_WINDOW` e zero ambiguidades.
+- O veredito permanece `MORE_INDEPENDENT_SELECTION_EVIDENCE_REQUIRED`;
+  freeze, OOS, promocao e influencia operacional seguem bloqueados.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
