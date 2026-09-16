@@ -10,6 +10,11 @@ Ordem importante:
 2. o runner base anexa candle_evidence;
 3. apos a sessao, Stop/Target e Trailing sao enriquecidos sobre as amostras
    ja identificadas por candle_id exato.
+
+A telemetria Delta RTD e exclusivamente observacional. O wrapper Brooks
+intercepta temporariamente warm_history somente para obter a referencia do
+Collector ja criado pelo runner RC54.3.2. Nenhum criterio de validade,
+SELECTION, OOS, Score, Risk, Decision, Alert ou execucao e alterado.
 """
 
 from __future__ import annotations
@@ -22,6 +27,9 @@ from types import SimpleNamespace
 import tools.profit_rtd_rc54_3_2_warmed_session as base
 from tools.profit_rtd_brooks_breakout_memory_capture import (
     enrich_price_action_snapshot as enrich_breakout_memory_snapshot,
+)
+from tools.profit_rtd_brooks_delta_rtd_telemetry import (
+    snapshot_delta_rtd_telemetry,
 )
 from tools.profit_rtd_brooks_first_pullback_capture import (
     enrich_price_action_snapshot as enrich_first_pullback_snapshot,
@@ -41,6 +49,7 @@ from tools.profit_rtd_brooks_trailing_stop_capture import (
 
 
 _ORIGINAL_SNAPSHOT_CONTEXT = base.snapshot_context
+_ACTIVE_RESEARCH_COLLECTOR = None
 
 
 def _brooks_session_flags():
@@ -58,6 +67,9 @@ def _brooks_session_flags():
         "brooks_stop_target_history_source": "PERSISTED_CANDLE_EVIDENCE",
         "brooks_management_postprocessed_after_candle_evidence": True,
         "brooks_management_history_source": "PERSISTED_CANDLE_EVIDENCE",
+
+        "brooks_delta_rtd_telemetry_capture": True,
+        "brooks_delta_rtd_telemetry_research_only": True,
 
         "brooks_research_only": True,
         "brooks_predictive_claim_allowed": False,
@@ -78,7 +90,7 @@ def _brooks_session_flags():
 
 
 def snapshot_context_with_brooks(context, micro):
-    """Enriquece somente classificadores independentes de candle_evidence."""
+    """Enriquece somente evidencia observacional Brooks."""
 
     item = _ORIGINAL_SNAPSHOT_CONTEXT(context, micro)
     item = enrich_breakout_memory_snapshot(item, context)
@@ -94,6 +106,15 @@ def snapshot_context_with_brooks(context, micro):
             getattr(pa_result, "brooks_reversal_context", "NEUTRAL")
             or "NEUTRAL"
         )
+
+    collector = _ACTIVE_RESEARCH_COLLECTOR
+    receipt = (
+        getattr(collector, "last_profit_rtd_receipt", None)
+        if collector is not None
+        else None
+    )
+
+    item["delta_rtd_telemetry"] = snapshot_delta_rtd_telemetry(receipt)
 
     return item
 
@@ -238,8 +259,28 @@ def run_warmed_session(
     output_dir=None,
     sleeper=None,
 ):
-    previous = base.snapshot_context
+    global _ACTIVE_RESEARCH_COLLECTOR
+
+    previous_snapshot_context = base.snapshot_context
+    previous_warm_history = base.warm_history
+    previous_research_collector = _ACTIVE_RESEARCH_COLLECTOR
+
+    _ACTIVE_RESEARCH_COLLECTOR = None
+
+    def warm_history_with_research_collector(*args, **kwargs):
+        global _ACTIVE_RESEARCH_COLLECTOR
+
+        warm = previous_warm_history(*args, **kwargs)
+
+        if isinstance(warm, dict):
+            _ACTIVE_RESEARCH_COLLECTOR = warm.get("collector")
+        else:
+            _ACTIVE_RESEARCH_COLLECTOR = None
+
+        return warm
+
     base.snapshot_context = snapshot_context_with_brooks
+    base.warm_history = warm_history_with_research_collector
 
     try:
         kwargs = {
@@ -256,7 +297,9 @@ def run_warmed_session(
         result = base.run_warmed_session(symbol, **kwargs)
 
     finally:
-        base.snapshot_context = previous
+        base.snapshot_context = previous_snapshot_context
+        base.warm_history = previous_warm_history
+        _ACTIVE_RESEARCH_COLLECTOR = previous_research_collector
 
     flags = _brooks_session_flags()
     result.update(flags)
@@ -318,6 +361,8 @@ def main(argv=None):
         "brooks_trading_range_capture",
         "brooks_stop_target_capture",
         "brooks_trailing_stop_capture",
+        "brooks_delta_rtd_telemetry_capture",
+        "brooks_delta_rtd_telemetry_research_only",
         "brooks_stop_target_postprocessed_after_candle_evidence",
         "brooks_stop_target_history_source",
         "brooks_management_postprocessed_after_candle_evidence",

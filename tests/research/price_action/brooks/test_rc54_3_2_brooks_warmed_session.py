@@ -194,3 +194,89 @@ def test_derived_runner_restores_original_snapshot_after_failure(monkeypatch):
         raise AssertionError("RuntimeError expected")
 
     assert runner.base.snapshot_context is original
+
+
+def test_snapshot_context_with_brooks_persists_delta_rtd_telemetry(monkeypatch):
+    receipt = SimpleNamespace(
+        symbol="WINV26",
+        timestamp="2026-09-16T12:42:12.456",
+        continuity="OVERLAP_LOST_REBASE",
+        new_trade_count=0,
+        state_updated=False,
+        baseline_reset=True,
+        source_units=0,
+    )
+
+    collector = SimpleNamespace(
+        last_profit_rtd_receipt=receipt,
+    )
+
+    monkeypatch.setattr(
+        runner,
+        "_ORIGINAL_SNAPSHOT_CONTEXT",
+        lambda context, micro: {
+            "structure": {"trend": "UP", "choch": False},
+            "price_action": {},
+        },
+    )
+
+    monkeypatch.setattr(
+        runner,
+        "_ACTIVE_RESEARCH_COLLECTOR",
+        collector,
+    )
+
+    item = runner.snapshot_context_with_brooks(
+        SimpleNamespace(),
+        SimpleNamespace(),
+    )
+
+    telemetry = item["delta_rtd_telemetry"]
+
+    assert telemetry["available"] is True
+    assert telemetry["continuity"] == "OVERLAP_LOST_REBASE"
+    assert telemetry["baseline_reset"] is True
+    assert telemetry["new_trade_count"] == 0
+    assert telemetry["state_updated"] is False
+    assert telemetry["source_units"] == 0
+
+    assert telemetry["research_only"] is True
+    assert telemetry["observational_only"] is True
+    assert telemetry["source_session_validity_changed"] is False
+    assert telemetry["selection_eligibility_changed"] is False
+    assert telemetry["oos_eligibility_changed"] is False
+    assert telemetry["score_influence_allowed"] is False
+    assert telemetry["risk_influence_allowed"] is False
+    assert telemetry["decision_influence_allowed"] is False
+    assert telemetry["alert_influence_allowed"] is False
+    assert telemetry["order_execution_allowed"] is False
+
+
+def test_snapshot_context_without_active_research_collector_is_safe(monkeypatch):
+    monkeypatch.setattr(
+        runner,
+        "_ORIGINAL_SNAPSHOT_CONTEXT",
+        lambda context, micro: {
+            "structure": {"trend": "UP", "choch": False},
+            "price_action": {},
+        },
+    )
+
+    monkeypatch.setattr(
+        runner,
+        "_ACTIVE_RESEARCH_COLLECTOR",
+        None,
+    )
+
+    item = runner.snapshot_context_with_brooks(
+        SimpleNamespace(),
+        SimpleNamespace(),
+    )
+
+    telemetry = item["delta_rtd_telemetry"]
+
+    assert telemetry["available"] is False
+    assert telemetry["continuity"] is None
+    assert telemetry["baseline_reset"] is None
+    assert telemetry["research_only"] is True
+    assert telemetry["order_execution_allowed"] is False
