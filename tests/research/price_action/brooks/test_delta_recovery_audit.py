@@ -396,3 +396,32 @@ def test_unknown_delta_status_is_not_silently_treated_as_known_failure():
     assert report["unknown_status_counts"] == {
         "UNEXPECTED_STATUS": 1
     }
+
+
+def test_interleaved_statuses_keep_chronological_order():
+    statuses = [
+        "VALID", "NO_DATA", "INITIALIZING", "DEGRADED",
+        "INITIALIZING", "VALID",
+    ]
+    samples = [
+        sample(index, status, f"2026-09-16T10:00:0{index}")
+        for index, status in enumerate(statuses)
+    ]
+
+    episode = audit_session(payload(samples))["episodes"][0]
+
+    assert episode["status_sequence"] == statuses[1:]
+    assert episode["episode_end"]["cycle"] == 5
+
+
+def test_unrecovered_episode_ends_at_last_observed_sample():
+    statuses = ["VALID", "NO_DATA", "DEGRADED", "INITIALIZING"]
+    samples = [
+        sample(index, status, f"2026-09-16T10:00:0{index}")
+        for index, status in enumerate(statuses)
+    ]
+
+    episode = audit_session(payload(samples, data_ready=False))["episodes"][0]
+
+    assert episode["status_sequence"] == statuses[1:]
+    assert episode["episode_end"]["cycle"] == 3

@@ -136,12 +136,7 @@ def _build_episode(
     else:
         classification = "UNRECOVERED_AT_SESSION_END"
 
-        if additional_failure_samples:
-            episode_end = additional_failure_samples[-1]
-        elif initializing_samples:
-            episode_end = initializing_samples[-1]
-        else:
-            episode_end = failure_sample
+        episode_end = samples[-1]
 
     failure_to_recovery_seconds = None
 
@@ -159,20 +154,11 @@ def _build_episode(
             recovery_sample.get("timestamp"),
         )
 
-    status_sequence = [failure_status]
-    status_sequence.extend(
+    last_index = index if recovery_sample is not None else len(samples) - 1
+    status_sequence = [
         _status(sample)
-        for sample in initializing_samples
-    )
-    status_sequence.extend(
-        _status(sample)
-        for sample in additional_failure_samples
-    )
-
-    if recovery_sample is not None:
-        status_sequence.append(
-            _status(recovery_sample)
-        )
+        for sample in samples[failure_index:last_index + 1]
+    ]
 
     episode = {
         "classification": classification,
