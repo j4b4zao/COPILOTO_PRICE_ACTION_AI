@@ -625,6 +625,24 @@ Nao coletar nova evidencia real durante mercado fechado/inativo.
   episodio de falha na janela principal. Um reset de fonte observado no
   warm-up nao altera esse diagnostico da sessao persistida.
 
+### Vigesima quarta sessao real aceita de 2026-09-16 16:10
+
+- A coleta iniciada com preflight `MARKET_ACTIVITY_READY` terminou
+  `COMPLETED`, `data_ready=True`: 310 amostras analisaveis, 290 skips,
+  zero erros de coleta, zero precos ausentes e zero falhas Delta. Em 147
+  amostras, `trade_context_ready=False` significou somente contexto de
+  trade nao pronto, sem warning tecnico.
+- O manifesto individual aceitou a sessao com SHA-256
+  `6c99f601e1a28451ddc41519d773c7aa1aceada426ee7734fda845a79c11eac5`.
+  A recomposicao limpa aceitou 24 de 24 sessoes de selecao e manteve tres
+  capturas tecnicamente rejeitadas fora da entrada. O auditor Delta encontrou
+  zero episodios de falha na janela persistida.
+- Stop/Target acrescentou 7 observacoes avaliaveis: 4 `STOP_FIRST`, 3
+  `UNRESOLVED_IN_WINDOW`, zero ambiguidades. O acumulado de selecao e 112
+  observacoes, 44 avaliaveis e 27 resolvidas. Esses contadores sao
+  observacionais e nao autorizam desempenho, freeze, OOS, promocao ou
+  influencia operacional.
+
 Na proxima sessao de mercado, a entrada operacional padrao e:
 
 ```powershell
