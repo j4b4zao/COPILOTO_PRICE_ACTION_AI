@@ -10,8 +10,8 @@ def _context(pa="BUY", flow="BUY", book="BID_DOMINANT", correlated=False, book_a
         price_action=SimpleNamespace(bias=pa),
         order_flow=SimpleNamespace(
             pressure=flow,
-            flow_momentum=f"PERSISTENT_{flow}" if flow in {"BUY", "SELL"} else "MIXED",
-            pattern_direction=flow if flow in {"BUY", "SELL"} else "NONE",
+            flow_momentum="PERSISTENT_BUY" if correlated and flow == "BUY" else ("PERSISTENT_SELL" if correlated and flow == "SELL" else "INSUFFICIENT_DATA"),
+            pattern_direction="NONE",
             structure_alignment="ALIGNED",
             structural_pattern_confidence=0.9,
         ),
@@ -32,11 +32,11 @@ def test_records_strong_candidate_with_three_independent_sources():
     assert sample.independent_evidence_count == 3
 
 
-def test_correlated_book_downgrades_strong_to_promising():
+def test_correlated_book_remains_promising_with_multi_source_confluence():
     recorder = MicrostructureEligibilityReplayRecorder()
     sample = recorder.record(_context(correlated=True))
     assert sample.state == "PROMISING"
-    assert sample.reason == "CORRELATED_EVIDENCE_DISCOUNT"
+    assert sample.reason == "MULTI_SOURCE_CONFLUENCE"
 
 
 def test_conflict_becomes_not_eligible():

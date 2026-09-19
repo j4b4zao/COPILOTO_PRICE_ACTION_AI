@@ -16,6 +16,8 @@ def _base_context(total=80.0, grade="A", valid=True):
 
 def _flow_buy(context):
     context.order_flow.pressure = "BUY"
+    context.order_flow.flow_momentum = "INSUFFICIENT_DATA"
+    context.order_flow.pattern_direction = "NONE"
     context.order_flow.structure_alignment = "ALIGNED"
     context.order_flow.structural_pattern_confidence = 0.9
 
@@ -50,6 +52,7 @@ def test_strong_candidate_gets_maximum_bonus():
 def test_correlated_book_downgrades_and_discounts_bonus():
     context = _base_context()
     _flow_buy(context)
+    context.order_flow.flow_momentum = "PERSISTENT_BUY"
     _book_buy(context, correlated=True)
     sample = ScoreMicrostructureEligibilityABRecorder().record(context)
     assert sample.eligibility_state == "PROMISING"
@@ -127,6 +130,7 @@ def test_summary_counts_strong_and_correlated_samples():
     recorder.record(strong)
     correlated = _base_context()
     _flow_buy(correlated)
+    correlated.order_flow.flow_momentum = "PERSISTENT_BUY"
     _book_buy(correlated, correlated=True)
     recorder.record(correlated)
     summary = recorder.summary()
