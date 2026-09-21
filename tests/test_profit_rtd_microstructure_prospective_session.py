@@ -37,6 +37,7 @@ def test_warmup_samples_are_excluded_and_main_window_is_persisted(tmp_path, monk
         return {"ready": True, "pipeline": pipeline}
 
     def fake_run(symbol, **kwargs):
+        assert kwargs["require_trade_context_at_start"] is True
         warm = runner.base.warm_history(symbol)
         assert warm["ready"] is True
         assert recorder.size == 0
@@ -54,7 +55,12 @@ def test_warmup_samples_are_excluded_and_main_window_is_persisted(tmp_path, monk
     monkeypatch.setattr(runner.base, "warm_history", fake_warm_history)
     monkeypatch.setattr(runner.base, "run_warmed_session", fake_run)
 
-    result = runner.run_session("WINV26", cycles=2, interval=0)
+    result = runner.run_session(
+        "WINV26",
+        cycles=2,
+        interval=0,
+        require_trade_context_at_start=True,
+    )
 
     evidence = result["prospective_microstructure"]
     assert evidence["captured_samples"] == 2

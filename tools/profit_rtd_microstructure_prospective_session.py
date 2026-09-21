@@ -41,6 +41,7 @@ def run_session(
     cycles=600,
     interval=0.25,
     max_warmup_cycles=4800,
+    require_trade_context_at_start=False,
     output_dir=None,
     sleeper=None,
 ):
@@ -62,6 +63,7 @@ def run_session(
             "cycles": cycles,
             "interval": interval,
             "max_warmup_cycles": max_warmup_cycles,
+            "require_trade_context_at_start": require_trade_context_at_start,
             "output_dir": output_dir,
         }
         if sleeper is not None:
@@ -108,6 +110,7 @@ def main(argv=None) -> int:
     parser.add_argument("--cycles", type=int, default=600)
     parser.add_argument("--interval", type=float, default=0.25)
     parser.add_argument("--max-warmup-cycles", type=int, default=4800)
+    parser.add_argument("--require-trade-context-at-start", action="store_true")
     parser.add_argument("--output-dir")
     args = parser.parse_args(argv)
 
@@ -116,6 +119,7 @@ def main(argv=None) -> int:
         cycles=args.cycles,
         interval=args.interval,
         max_warmup_cycles=args.max_warmup_cycles,
+        require_trade_context_at_start=args.require_trade_context_at_start,
         output_dir=args.output_dir,
     )
     evidence = result["prospective_microstructure"]
