@@ -43,3 +43,26 @@ score influence, alerts, risk changes, decisions, or execution.
 
 The next independent session should require directional trade context at the
 start, or explicitly remain classified as another infrastructure diagnostic.
+
+## First directional session — 2026-09-21 13:09
+
+- Source file: `profit_rtd_rc54_3_2_WINV26_20260921_130942.json`.
+- SHA-256:
+  `a85544271ff2ac693535ae6ed1e6effb033846f7f1ff63d24208d69159337427`.
+- Technical result: `COMPLETED`, `data_ready=True`, directional trade context
+  ready at the start, 292 analyzable and prospectively captured samples, zero
+  collection errors, zero missing prices, and zero Delta failures.
+- Aggregate quality: one `HIGH`, 51 `MEDIUM`, one three-source sample, 27
+  conflicts, high-quality rate `0.0034`, conflict rate `0.0925`, and average
+  confidence `0.1193`.
+- Session verdict: `WEAK / KEEP_OBSERVING`.
+
+The fail-closed multi-session audit accepts this directional session but
+returns `INSUFFICIENT_DATA / COLLECT_MORE_DATA`. The lower-bound evidence gap
+is two additional independent directional sessions and eight aggregate
+samples. Both requirements apply: satisfying the sample count alone is not
+enough. Duplicate paths or hashes, invalid technical readiness, sample-count
+mismatches, or any enabled influence flag exclude a session from aggregation.
+
+No predictive or stability claim is allowed at this checkpoint. Score, Risk,
+Decision, Alert, execution, and promotion remain disabled.
