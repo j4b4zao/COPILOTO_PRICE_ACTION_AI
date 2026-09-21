@@ -32,6 +32,20 @@ def test_three_independent_sources_are_recorded():
     assert sample.confluence_quality == "HIGH"
 
 
+def test_prospective_source_evidence_is_persisted():
+    recorder = MicrostructureConfluenceReplayRecorder()
+    sample = recorder.record(_context())
+
+    assert sample.order_flow_pressure == "BUY"
+    assert sample.flow_momentum == "PERSISTENT_BUY"
+    assert sample.pattern_direction == "BUY"
+    assert sample.structure_alignment == "ALIGNED"
+    assert sample.structural_confidence == 0.8
+    assert sample.book_pressure == "BID_DOMINANT"
+    assert sample.book_confidence == 0.8
+    assert sample.duplicate_evidence_risk is True
+
+
 def test_correlated_book_does_not_increase_independent_count():
     recorder = MicrostructureConfluenceReplayRecorder()
     sample = recorder.record(_context(correlated=True))

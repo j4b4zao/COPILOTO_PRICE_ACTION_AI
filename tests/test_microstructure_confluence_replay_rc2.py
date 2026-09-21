@@ -96,6 +96,29 @@ def test_from_dict_rejects_unknown_fields():
         raise AssertionError("ValueError esperado")
 
 
+def test_from_dict_accepts_legacy_sample_without_prospective_fields():
+    payload = _sample().to_dict()
+    for key in (
+        "order_flow_pressure",
+        "flow_momentum",
+        "pattern_direction",
+        "structure_alignment",
+        "structural_confidence",
+        "book_pressure",
+        "book_confidence",
+        "duplicate_evidence_risk",
+    ):
+        payload.pop(key)
+
+    restored = MicrostructureConfluenceReplaySample.from_dict(payload)
+
+    assert restored.order_flow_pressure == "INSUFFICIENT_DATA"
+    assert restored.flow_momentum == "INSUFFICIENT_DATA"
+    assert restored.structure_alignment == "UNAVAILABLE"
+    assert restored.book_pressure == "UNAVAILABLE"
+    assert restored.duplicate_evidence_risk is False
+
+
 def test_conflict_group_is_preserved():
     recorder = MicrostructureConfluenceReplayRecorder()
     recorder.add_sample(_sample(state="CONFLICT", conflicts=1))

@@ -21,10 +21,18 @@ class MicrostructureConfluenceReplaySample:
     correlated_evidence_count: int = 0
     conflict_count: int = 0
     price_action_bias: str = "NONE"
+    order_flow_pressure: str = "INSUFFICIENT_DATA"
+    flow_momentum: str = "INSUFFICIENT_DATA"
+    pattern_direction: str = "NONE"
     flow_direction: str = "NONE"
+    structure_alignment: str = "UNAVAILABLE"
+    structural_confidence: float = 0.0
+    book_pressure: str = "UNAVAILABLE"
     book_direction: str = "NONE"
+    book_confidence: float = 0.0
     book_available: bool = False
     book_correlated_with_delta: bool = False
+    duplicate_evidence_risk: bool = False
     passive_only: bool = True
 
     def to_dict(self) -> dict:
@@ -79,10 +87,18 @@ class MicrostructureConfluenceReplayRecorder:
             correlated_evidence_count=snapshot.correlated_evidence_count,
             conflict_count=snapshot.conflict_count,
             price_action_bias=snapshot.price_action_bias,
+            order_flow_pressure=snapshot.order_flow_pressure,
+            flow_momentum=snapshot.flow_momentum,
+            pattern_direction=snapshot.pattern_direction,
             flow_direction=snapshot.flow_direction,
+            structure_alignment=snapshot.structure_alignment,
+            structural_confidence=snapshot.structural_confidence,
+            book_pressure=snapshot.book_pressure,
             book_direction=snapshot.book_direction,
+            book_confidence=snapshot.book_confidence,
             book_available=snapshot.book_available,
             book_correlated_with_delta=snapshot.book_correlated_with_delta,
+            duplicate_evidence_risk=snapshot.duplicate_evidence_risk,
             passive_only=True,
         )
         self._append(sample)
