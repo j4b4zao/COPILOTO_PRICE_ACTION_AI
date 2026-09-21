@@ -66,3 +66,28 @@ mismatches, or any enabled influence flag exclude a session from aggregation.
 
 No predictive or stability claim is allowed at this checkpoint. Score, Risk,
 Decision, Alert, execution, and promotion remain disabled.
+
+## Second directional session — 2026-09-21 16:30
+
+- Source file: `profit_rtd_rc54_3_2_WINV26_20260921_163046.json`.
+- SHA-256:
+  `a3b74ad03c9338d28e0d81cf261e0c6d70d49ff4d20ca14e623695562ab90aa4`.
+- Preflight: market activity ready, 66 analyzable updates, 31 price changes,
+  two new M1 candles, and one transient read error; the directional capture
+  itself recorded zero collection errors.
+- Technical result: `COMPLETED`, `data_ready=True`, `UP + BUY` ready at the
+  start, 343 analyzable and prospectively captured samples, zero missing
+  prices, and zero Delta failures.
+- Aggregate quality: one `HIGH`, 63 `MEDIUM`, one three-source sample, 96
+  conflicts, high-quality rate `0.0029`, conflict rate `0.2799`, and average
+  confidence `0.1665`.
+- Session verdict: `DEGRADED_BY_CONFLICT / REVIEW_CONFLICTS`.
+
+The multi-session audit now accepts two independent directional sessions and
+635 samples, with no rejection. Weighted conflict is `0.1937`; stability
+remains `INSUFFICIENT_DATA / COLLECT_MORE_DATA` because the three-session
+minimum is not met. The remaining lower-bound gap is one independent
+directional session and zero samples.
+
+Conflict degradation is an observational diagnostic, not a technical failure
+or operational signal. All influence and promotion flags remain disabled.
