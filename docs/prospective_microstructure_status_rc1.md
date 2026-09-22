@@ -92,6 +92,20 @@ directional session and zero samples.
 Conflict degradation is an observational diagnostic, not a technical failure
 or operational signal. All influence and promotion flags remain disabled.
 
+### Conflict decomposition
+
+The first directional session recorded 27 conflicts. Its most frequent axis
+was `PA BUY` against `Flow SELL`, with neutral structure and no directional
+Book evidence (11 occurrences).
+
+The second directional session recorded 96 conflicts. Of these, 80 (`83.3%`)
+shared the same dominant signature: `PA BUY`, no directional Flow evidence,
+structural evidence unavailable, and `Book SELL`. Thus, the conflict increase
+was driven primarily by isolated Book pressure opposing the BUY context, not
+by balanced disagreement among several independent sources. This is a cohort
+composition diagnostic only; it does not justify changing weights, thresholds,
+Score, Risk, Decision, Alert, execution, or promotion.
+
 ## Canonical prospective runner
 
 Prospective captures now use one orchestrated entry point that holds the same
