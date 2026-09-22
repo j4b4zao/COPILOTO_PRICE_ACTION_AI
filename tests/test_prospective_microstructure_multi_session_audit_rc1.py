@@ -2,7 +2,10 @@ import copy
 import json
 from datetime import datetime, timedelta
 
+import pytest
+
 from tools.prospective_microstructure_multi_session_audit import audit_paths
+from tools.prospective_microstructure_coverage_report import report_paths
 
 
 FALSE_FLAGS = (
@@ -129,3 +132,49 @@ def test_nonmonotonic_source_timestamps_are_rejected(tmp_path):
     result = audit_paths([_write(tmp_path / "bad-time.json", payload)])
     assert result["eligible_sessions"] == 0
     assert "SOURCE_TIMESTAMPS_NOT_STRICTLY_INCREASING" in result["rejected"][0]["reasons"]
+
+
+def test_coverage_report_counts_directional_denominators_and_conflict_runs(tmp_path):
+    payload = _payload(samples=5)
+    samples = [
+        ("BUY", "NONE", True, "SELL", "CONFLICT", 1),
+        ("BUY", "NONE", True, "SELL", "CONFLICT", 1),
+        ("NONE", "BUY", True, "NONE", "INSUFFICIENT_DATA", 0),
+        ("SELL", "SELL", False, "NONE", "INSUFFICIENT_DATA", 0),
+        ("BUY", "NONE", True, "SELL", "CONFLICT", 1),
+    ]
+    payload["prospective_microstructure"]["samples"] = [
+        dict(zip(("price_action_bias", "flow_direction", "book_available",
+                  "book_direction", "state", "conflict_count"), row))
+        for row in samples
+    ]
+    payload["prospective_microstructure"]["report"]["conflict_samples"] = 3
+    result = report_paths([_write(tmp_path / "one.json", payload)])
+    assert result["sessions"][0]["coverage"] == {
+        "samples": 5, "pa_directional": 4, "flow_directional": 2,
+        "book_available": 4, "book_directional": 3,
+        "insufficient_data": 2, "pa_directional_insufficient_data": 1,
+        "conflicts": 3, "conflict_runs": 2, "longest_conflict_run": 2,
+    }
+    assert result["audit_stability"] == "INSUFFICIENT_DATA"
+    assert result["observational_only"] is True
+    assert all(result[name] is False for name in FALSE_FLAGS)
+
+
+def test_coverage_report_rejects_missing_fields_without_changing_audit(tmp_path):
+    path = _write(tmp_path / "one.json", _payload(samples=5))
+    assert audit_paths([path])["eligible_sessions"] == 1
+    with pytest.raises(ValueError, match="missing directional diagnostic fields"):
+        report_paths([path])
+
+
+def test_coverage_report_rejects_conflict_count_disagreement(tmp_path):
+    payload = _payload(samples=1)
+    payload["prospective_microstructure"]["samples"] = [{
+        "price_action_bias": "BUY", "flow_direction": "NONE",
+        "book_available": True, "book_direction": "SELL",
+        "state": "CONFLICT", "conflict_count": 1,
+    }]
+    path = _write(tmp_path / "one.json", payload)
+    with pytest.raises(ValueError, match="differs from session report"):
+        report_paths([path])

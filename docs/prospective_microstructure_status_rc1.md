@@ -197,6 +197,23 @@ PA-directional denominators, directional Book/Flow coverage, and contiguous
 conflict runs for each new independent session. This changes no threshold or
 operational flag.
 
+The read-only `tools.prospective_microstructure_coverage_report` now derives
+these diagnostics from sessions accepted by the existing fail-closed auditor.
+It neither changes that auditor's eligibility/verdict nor writes raw samples
+to its output. For the formal three-session cohort, the total-conflict run
+counts are 22, 16, and 7, with longest runs of 5, 22, and 1 analyzable samples.
+The earlier 12 runs/longest 19 figure refers specifically to the dominant
+`PA BUY / Flow NONE / Book SELL` signature in session two, not to all its
+conflicts. The PA-directional insufficient-data counts are 212/292, 180/343,
+and 162/182 respectively. The two separate exploratory sessions have 9 and
+12 total-conflict runs (longest 2 and 28); they remain outside the formal
+cohort. Adjacent samples are not independent episodes.
+
+To reproduce the per-session counts, pass explicit session JSON paths to
+`python -m tools.prospective_microstructure_coverage_report`. Do not use a
+directory glob to redefine the formal cohort or treat this diagnostic as
+predictive/OOS evidence.
+
 ## Canonical prospective runner
 
 Prospective captures now use one orchestrated entry point that holds the same
