@@ -91,3 +91,20 @@ directional session and zero samples.
 
 Conflict degradation is an observational diagnostic, not a technical failure
 or operational signal. All influence and promotion flags remain disabled.
+
+## Canonical prospective runner
+
+Prospective captures now use one orchestrated entry point that holds the same
+exclusive symbol lock across market-activity preflight, directional warm-up,
+and the 600-cycle capture:
+
+```powershell
+python -m tools.profit_rtd_microstructure_prospective_orchestrated_session WINV26 `
+  --preflight-cycles 90 --preflight-interval 0.25 `
+  --cycles 600 --interval 0.25 --max-warmup-cycles 1800 `
+  --output-dir data/profit_rtd_rc54_3_2
+```
+
+Directional readiness is required by default. Market inactivity, runner
+collision, lateral-only warm-up, or technical non-readiness aborts without
+admitting a prospective session.
