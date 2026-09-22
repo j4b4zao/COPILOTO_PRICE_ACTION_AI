@@ -106,6 +106,43 @@ by balanced disagreement among several independent sources. This is a cohort
 composition diagnostic only; it does not justify changing weights, thresholds,
 Score, Risk, Decision, Alert, execution, or promotion.
 
+## Three-session directional checkpoint — 2026-09-22
+
+The third formal session is
+`profit_rtd_rc54_3_2_WINV26_20260922_130220.json` (SHA-256
+`7c98319547891f0d53575fe8956e872b9b9681626b31b48ed26b25b62e6d56cd`).
+It completed 600 cycles with `data_ready=True`, directional context ready at
+the start, 268 analyzable and captured samples, zero collection errors, and
+zero Delta failures. Its sample window was 12:55:03–13:02:20, separate from
+the two September 21 windows. The session recorded 248 `INSUFFICIENT_DATA`,
+13 `CONFIRMED`, 7 `CONFLICT`, zero `HIGH`, zero three-source samples, and
+`WEAK / KEEP_OBSERVING`. The Book direction was `NONE` in 267 of 268 samples;
+PriceAction was `NONE` in 86 samples after the valid directional start.
+
+The explicit three-path audit accepted 3 sessions, rejected 0, and aggregated
+903 samples. Weighted high-quality and three-source rates were both `0.0022`,
+conflict `0.1440`, correlation `0.0221`, and average confidence `0.1110`.
+Quantitative gaps are zero, but the verdict is `INCONSISTENT / REVIEW_STABILITY`.
+The comparator reaches that verdict because the session qualities are
+`WEAK`, `DEGRADED_BY_CONFLICT`, and `WEAK`. Its weighted conflict rate is below
+the `0.20` degradation threshold and its high-quality spread (`0.0034`) is
+below the `0.25` inconsistency threshold. The mixed quality labels are the
+deciding branch of the current rule.
+
+The prospective auditor now also checks the source timestamps for strict
+ordering and excludes overlapping session windows, even when files and hashes
+differ. The three formal windows pass this check. The orchestrated runner's
+console summary omits individual samples; the persisted session JSON retains
+the full evidence.
+
+The second session's 96 conflicts were dominated by 80 cases of `PA BUY` with
+`Flow NONE` and `Book SELL`; the third had only 7 conflicts but 248 samples
+without sufficient evidence. These are different evidence compositions, so
+pooled rates alone cannot establish stability or performance. The other
+September 22 files were not silently added to this explicitly selected
+three-session cohort; one of them (`10:47`) has `data_ready=False` and a Delta
+failure. No threshold or operational flag changed.
+
 ## Canonical prospective runner
 
 Prospective captures now use one orchestrated entry point that holds the same

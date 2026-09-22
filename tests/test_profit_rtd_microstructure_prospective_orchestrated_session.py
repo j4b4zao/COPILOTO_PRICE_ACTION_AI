@@ -1,4 +1,5 @@
 from contextlib import nullcontext
+import json
 
 import tools.profit_rtd_microstructure_prospective_orchestrated_session as runner
 
@@ -51,3 +52,23 @@ def test_runner_collision_is_fail_closed(monkeypatch):
     assert result["status"] == "ABORTED_RUNNER_ALREADY_ACTIVE"
     assert result["session"] is None
     assert result["order_execution_allowed"] is False
+
+
+def test_cli_prints_summary_without_raw_samples(monkeypatch, capsys):
+    monkeypatch.setattr(runner, "run_orchestrated_prospective_session", lambda *a, **k: {
+        "status": "SESSION_COMPLETED", "symbol": "WINV26",
+        "preflight": {"active": True}, "warmup_started": True,
+        "session": {
+            "status": "COMPLETED", "data_ready": True,
+            "analyzable_samples": 1, "samples": [{"secret_marker": "RAW_SAMPLE"}],
+            "prospective_microstructure": {
+                "captured_samples": 1, "sample_count_matches_source": True,
+                "samples": [{"secret_marker": "RAW_SAMPLE"}],
+                "report": {"samples": 1},
+            },
+        },
+    })
+    assert runner.main(["WINV26"]) == 0
+    output = capsys.readouterr().out
+    assert "RAW_SAMPLE" not in output
+    assert json.loads(output)["captured_samples"] == 1

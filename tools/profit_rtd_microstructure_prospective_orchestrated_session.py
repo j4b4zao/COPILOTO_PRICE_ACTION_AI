@@ -114,7 +114,28 @@ def main(argv=None):
         concise_output=not args.verbose,
         output_dir=args.output_dir,
     )
-    print(json.dumps(result, ensure_ascii=False, indent=2))
+    session = result.get("session") or {}
+    evidence = session.get("prospective_microstructure") or {}
+    preflight = result.get("preflight") or {}
+    summary = {
+        "status": result["status"],
+        "symbol": result["symbol"],
+        "preflight": preflight,
+        "warmup_started": result["warmup_started"],
+        "session_status": session.get("status"),
+        "data_ready": session.get("data_ready"),
+        "trade_context_ready_at_start": session.get("trade_context_ready_at_start"),
+        "analyzable_samples": session.get("analyzable_samples"),
+        "captured_samples": evidence.get("captured_samples"),
+        "sample_count_matches_source": evidence.get("sample_count_matches_source"),
+        "collection_errors": session.get("collection_errors"),
+        "missing_price_count": session.get("missing_price_count"),
+        "delta_failure_samples": session.get("delta_failure_samples"),
+        "output_path": session.get("output_path"),
+        "report": evidence.get("report"),
+        **_safety(),
+    }
+    print(json.dumps(summary, ensure_ascii=False, indent=2))
     return 0 if result["status"] == "SESSION_COMPLETED" else 2
 
 

@@ -11,6 +11,7 @@ import argparse
 import hashlib
 import json
 from dataclasses import asdict, dataclass, fields
+from datetime import datetime
 from pathlib import Path
 
 from analysis.replay.microstructure_confluence_multi_session import (
@@ -104,6 +105,19 @@ def _validate(payload: dict) -> tuple[list[str], dict | None]:
     return reasons, report
 
 
+def _source_window(payload: dict) -> tuple[tuple[datetime, datetime] | None, str | None]:
+    samples = payload.get("samples")
+    if not isinstance(samples, list) or not samples:
+        return None, "SOURCE_TIMESTAMPS_MISSING"
+    try:
+        timestamps = [datetime.fromisoformat(item["timestamp"]) for item in samples]
+        if any(current <= previous for previous, current in zip(timestamps, timestamps[1:])):
+            return None, "SOURCE_TIMESTAMPS_NOT_STRICTLY_INCREASING"
+    except (KeyError, TypeError, ValueError):
+        return None, "SOURCE_TIMESTAMPS_INVALID"
+    return (timestamps[0], timestamps[-1]), None
+
+
 def audit_paths(paths) -> dict:
     paths = list(paths)
     comparator = MicrostructureConfluenceMultiSessionComparator()
@@ -112,6 +126,7 @@ def audit_paths(paths) -> dict:
     rejected_sessions: list[RejectedSession] = []
     seen_paths: set[str] = set()
     seen_hashes: set[str] = set()
+    accepted_windows: list[tuple[datetime, datetime, str]] = []
 
     for value in paths:
         path = Path(value).resolve()
@@ -138,6 +153,21 @@ def audit_paths(paths) -> dict:
             continue
 
         reasons, report = _validate(payload)
+        window, timestamp_reason = _source_window(payload)
+        if timestamp_reason:
+            reasons.append(timestamp_reason)
+        elif window is not None:
+            try:
+                overlap = next(
+                    (accepted_path for first, last, accepted_path in accepted_windows
+                     if window[0] <= last and first <= window[1]),
+                    None,
+                )
+            except TypeError:
+                reasons.append("SOURCE_TIMESTAMPS_INVALID")
+            else:
+                if overlap is not None:
+                    reasons.append("TEMPORAL_OVERLAP:" + overlap)
         if reasons:
             rejected_sessions.append(RejectedSession(str(path), digest, tuple(reasons)))
             continue
@@ -147,6 +177,7 @@ def audit_paths(paths) -> dict:
             MicrostructureConfluenceSessionReport(**{key: report[key] for key in allowed_fields})
         )
         accepted_sessions.append({"path": str(path), "sha256": digest})
+        accepted_windows.append((window[0], window[1], str(path)))
 
     aggregate = comparator.compare(accepted_reports).to_dict()
     eligible = len(accepted_reports)

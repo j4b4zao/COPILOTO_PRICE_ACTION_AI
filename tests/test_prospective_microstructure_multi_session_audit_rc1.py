@@ -1,5 +1,6 @@
 import copy
 import json
+from datetime import datetime, timedelta
 
 from tools.prospective_microstructure_multi_session_audit import audit_paths
 
@@ -11,7 +12,7 @@ FALSE_FLAGS = (
 )
 
 
-def _payload(samples=100, *, quality="WEAK"):
+def _payload(samples=100, *, quality="WEAK", start=0):
     safety = {"research_only": True, "observational_only": True,
               **{name: False for name in FALSE_FLAGS}}
     report = {
@@ -27,6 +28,10 @@ def _payload(samples=100, *, quality="WEAK"):
     return {
         "status": "COMPLETED", "data_ready": True,
         "trade_context_ready_at_start": True, **safety,
+        "samples": [
+            {"timestamp": (datetime(2026, 9, 21) + timedelta(seconds=start + index)).isoformat()}
+            for index in range(samples)
+        ],
         "prospective_microstructure": {
             "stage": "RC1-PROSPECTIVE-MICROSTRUCTURE-EVIDENCE",
             "source_analyzable_samples": samples, "captured_samples": samples,
@@ -58,7 +63,7 @@ def test_one_valid_session_is_insufficient_and_keeps_safety(tmp_path):
 def test_three_distinct_valid_sessions_delegate_to_existing_comparator(tmp_path):
     paths = []
     for index, samples in enumerate((100, 101, 102)):
-        payload = _payload(samples=samples)
+        payload = _payload(samples=samples, start=index * 1000)
         payload["session_id"] = index
         paths.append(_write(tmp_path / f"{index}.json", payload))
     result = audit_paths(paths)
@@ -106,3 +111,21 @@ def test_inputs_are_not_mutated(tmp_path):
     before = copy.deepcopy(payload)
     audit_paths([_write(tmp_path / "one.json", payload)])
     assert payload == before
+
+
+def test_overlapping_distinct_files_are_rejected(tmp_path):
+    first = _write(tmp_path / "first.json", _payload(start=0))
+    second = _payload(start=50)
+    second["session_id"] = "different hash, overlapping time"
+    result = audit_paths([first, _write(tmp_path / "second.json", second)])
+    assert result["eligible_sessions"] == 1
+    assert result["rejected_sessions"] == 1
+    assert result["rejected"][0]["reasons"] == ("TEMPORAL_OVERLAP:" + str(first.resolve()),)
+
+
+def test_nonmonotonic_source_timestamps_are_rejected(tmp_path):
+    payload = _payload()
+    payload["samples"][1]["timestamp"] = payload["samples"][0]["timestamp"]
+    result = audit_paths([_write(tmp_path / "bad-time.json", payload)])
+    assert result["eligible_sessions"] == 0
+    assert "SOURCE_TIMESTAMPS_NOT_STRICTLY_INCREASING" in result["rejected"][0]["reasons"]
