@@ -163,6 +163,40 @@ therefore cannot be interpreted as counts of independent conflict episodes.
 The current evidence points to changing directional coverage and repeated
 Book opposition as the descriptive drivers of the mixed session labels.
 
+### Exploratory sensitivity — two additional September 22 sessions
+
+This is a separate, post-checkpoint diagnostic. It does not amend the formal
+three-session cohort or create an OOS set. The 11:43 and 12:22 session windows
+do not overlap the formal windows, and both pass the existing technical and
+observational audit. The 10:47 file does not pass: it ended with warnings,
+`data_ready=False`, and one Delta failure.
+
+| Additional session | Samples | PA directional | Flow directional | Book available | Book directional | Insufficient data | Conflicts | Quality |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| 2026-09-22 11:43 | 326 | 304 | 19 | 326 | 1 | 308 | 10 | WEAK |
+| 2026-09-22 12:22 | 345 | 114 | 43 | 345 | 101 | 277 | 67 | WEAK |
+
+In the 12:22 session, 52 of 67 conflicts have the same `PA BUY / Flow NONE /
+Book SELL / structure UNAVAILABLE` signature seen in the formal degraded
+session. The 11:43 session instead resembles the formal third session's sparse
+directional Book coverage and high `INSUFFICIENT_DATA` count. These patterns
+are observable in more than one window, but the samples and sessions do not
+establish predictive performance.
+
+As an exploratory sensitivity only, passing all five explicit paths to the
+auditor yields 5 eligible sessions, 1,574 samples, 4 `WEAK` and 1
+`DEGRADED_BY_CONFLICT`, with weighted conflict `0.1315` and
+`INCONSISTENT / REVIEW_STABILITY`. The mixed quality labels continue to
+determine that verdict under the current comparator. Merely appending more
+`WEAK` sessions to a cumulative cohort that retains a `DEGRADED_BY_CONFLICT`
+session cannot produce `STABLE_WEAK`; any future cohort definition or regime
+stratification must be specified before using later data for evaluation.
+
+The next observational checkpoint should report both overall and
+PA-directional denominators, directional Book/Flow coverage, and contiguous
+conflict runs for each new independent session. This changes no threshold or
+operational flag.
+
 ## Canonical prospective runner
 
 Prospective captures now use one orchestrated entry point that holds the same
