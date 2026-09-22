@@ -143,6 +143,26 @@ September 22 files were not silently added to this explicitly selected
 three-session cohort; one of them (`10:47`) has `data_ready=False` and a Delta
 failure. No threshold or operational flag changed.
 
+### Directional evidence coverage
+
+| Formal session | PA directional | Flow directional | Book available | Book directional | Insufficient data | Conflicts |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 2026-09-21 13:09 | 292/292 | 38/292 | 292/292 | 49/292 | 212/292 | 27/292 |
+| 2026-09-21 16:30 | 343/343 | 24/343 | 343/343 | 150/343 | 180/343 | 96/343 |
+| 2026-09-22 13:02 | 182/268 | 29/268 | 268/268 | 1/268 | 248/268 | 7/268 |
+
+`Book available` means the source was present; it does not mean the Book
+supplied a directional vote. The third session's 86 samples with `PA NONE`
+are all `INSUFFICIENT_DATA`. Among its 182 samples with directional PA, 162
+remain `INSUFFICIENT_DATA`, 13 are `CONFIRMED`, and 7 are `CONFLICT`.
+
+In the second session, the 80 dominant `PA BUY / Flow NONE / Book SELL`
+conflict samples occurred in 12 contiguous runs of the analyzable sample
+sequence; the longest run contained 19 samples. Counts of repeated samples
+therefore cannot be interpreted as counts of independent conflict episodes.
+The current evidence points to changing directional coverage and repeated
+Book opposition as the descriptive drivers of the mixed session labels.
+
 ## Canonical prospective runner
 
 Prospective captures now use one orchestrated entry point that holds the same
