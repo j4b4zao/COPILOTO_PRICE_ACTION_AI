@@ -1,0 +1,36 @@
+﻿{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-INDEPENDENT-SESSION-PROTOCOL",
+  "protocol": "PROSPECTIVE_MICROSTRUCTURE_SESSION_11",
+  "checkpoint_reference": "prospective_microstructure_conflict_10session_checkpoint_20260926.json",
+  "checkpoint_git_commit": "31fe255",
+  "session_number": 11,
+  "symbol": "WINV26",
+  "runner": "tools.profit_rtd_microstructure_prospective_orchestrated_session",
+  "runner_parameters": {
+    "preflight_cycles": 90,
+    "preflight_interval": 0.25,
+    "cycles": 600,
+    "interval": 0.25,
+    "max_warmup_cycles": 1800,
+    "output_dir": "data/profit_rtd_rc54_3_2"
+  },
+  "admission_policy": {
+    "require_trade_context_at_start": true,
+    "fail_closed": true,
+    "manual_session_substitution_allowed": false,
+    "post_result_rule_change_allowed": false
+  },
+  "analysis_policy": {
+    "independent_observation": true,
+    "append_to_10session_checkpoint": false,
+    "research_only": true,
+    "observational_only": true,
+    "predictive_claim_allowed": false,
+    "score_influence_allowed": false,
+    "risk_influence_allowed": false,
+    "decision_influence_allowed": false,
+    "alert_influence_allowed": false,
+    "order_execution_allowed": false,
+    "promotion_allowed": false
+  }
+}
