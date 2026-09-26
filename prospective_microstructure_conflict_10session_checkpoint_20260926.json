@@ -1,0 +1,67 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-CHECKPOINT-MANIFEST",
+  "status": "IDENTITY_LOCK_ONLY",
+  "protocol": "PROSPECTIVE_MICROSTRUCTURE_CONFLICT_10_SESSION_CHECKPOINT",
+  "session_count": 10,
+  "sessions": [
+    {
+      "position": 1,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260921_130942.json",
+      "sha256": "a85544271ff2ac693535ae6ed1e6effb033846f7f1ff63d24208d69159337427"
+    },
+    {
+      "position": 2,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260921_163046.json",
+      "sha256": "a3b74ad03c9338d28e0d81cf261e0c6d70d49ff4d20ca14e623695562ab90aa4"
+    },
+    {
+      "position": 3,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260922_130220.json",
+      "sha256": "7c98319547891f0d53575fe8956e872b9b9681626b31b48ed26b25b62e6d56cd"
+    },
+    {
+      "position": 4,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_103430.json",
+      "sha256": "137a74aeaa3d167e49c82203d738fbbac0d1a0c25797630b750dfcb9804b735b"
+    },
+    {
+      "position": 5,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_123103.json",
+      "sha256": "e670e7f2a7ef4c1472b0cb9ac23c9ce9cd9a85e3b46801a00d4ed2205388d1ef"
+    },
+    {
+      "position": 6,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_131852.json",
+      "sha256": "df5c37773747d4ae1131c15d12cea99ab9e4f07438b39b4e7d7b52cc018b827c"
+    },
+    {
+      "position": 7,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_151347.json",
+      "sha256": "079038c684e952a0412d0f32c699e93b6d015359eb368ca0f5345360a98d8200"
+    },
+    {
+      "position": 8,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260924_164534.json",
+      "sha256": "403fc536ce8659708c2abdef09bc07dd895e32ce15a8d6b33e1b5a237657eeb8"
+    },
+    {
+      "position": 9,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260925_124732.json",
+      "sha256": "ede8e44c46e31185efe325690db5fcce6110bdae0cf9a78fdd0936ac78b4132f"
+    },
+    {
+      "position": 10,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260925_133534.json",
+      "sha256": "1034540eb18f5389d105360619913afbcab2ce705472dcb2d68e4b569def91c3"
+    }
+  ],
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}
