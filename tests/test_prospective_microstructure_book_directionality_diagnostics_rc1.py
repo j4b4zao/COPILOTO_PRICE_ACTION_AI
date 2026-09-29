@@ -522,6 +522,8 @@ def test_extract_samples_prefers_canonical_prospective_evidence():
         ],
         "prospective_microstructure": {
             "captured_samples": 2,
+            "source_analyzable_samples": 2,
+            "sample_count_matches_source": True,
             "samples": [
                 _sample("BUY", "SELL", "NONE"),
                 _sample("SELL", "BUY", "BUY"),
@@ -576,6 +578,8 @@ def test_diagnose_session_uses_prospective_not_raw_samples(
             ],
             "prospective_microstructure": {
                 "captured_samples": 3,
+                "source_analyzable_samples": 3,
+                "sample_count_matches_source": True,
                 "samples": [
                     _sample("BUY", "SELL", "NONE", True),
                     _sample("BUY", "BUY", "BUY", False),
@@ -616,6 +620,9 @@ def test_canonical_prospective_book_direction_is_not_reconstructed_from_raw():
             },
         ],
         "prospective_microstructure": {
+            "captured_samples": 1,
+            "source_analyzable_samples": 1,
+            "sample_count_matches_source": True,
             "samples": [
                 _sample(
                     pa="BUY",
@@ -710,3 +717,86 @@ def test_invalid_conflict_count_fails_closed():
             "NONE",
         )
 
+
+def _valid_prospective_payload(samples=None):
+    if samples is None:
+        samples = [_sample("BUY", "SELL", "NONE", True)]
+
+    return {
+        "prospective_microstructure": {
+            "captured_samples": len(samples),
+            "source_analyzable_samples": len(samples),
+            "sample_count_matches_source": True,
+            "samples": samples,
+        },
+    }
+
+
+def test_prospective_metadata_contract_accepts_consistent_counts():
+    payload = _valid_prospective_payload([
+        _sample("BUY", "SELL", "NONE", True),
+        _sample("SELL", "BUY", "BUY", False),
+    ])
+    assert len(diag._extract_samples(payload)) == 2
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("captured_samples", None, "prospective_microstructure.captured_samples must be an integer"),
+        ("captured_samples", "2", "prospective_microstructure.captured_samples must be an integer"),
+        ("captured_samples", True, "prospective_microstructure.captured_samples must be an integer"),
+        ("source_analyzable_samples", None, "prospective_microstructure.source_analyzable_samples must be an integer"),
+        ("source_analyzable_samples", "2", "prospective_microstructure.source_analyzable_samples must be an integer"),
+        ("source_analyzable_samples", False, "prospective_microstructure.source_analyzable_samples must be an integer"),
+    ],
+)
+def test_prospective_count_metadata_missing_or_invalid_fails_closed(field, value, message):
+    payload = _valid_prospective_payload()
+    if value is None:
+        del payload["prospective_microstructure"][field]
+    else:
+        payload["prospective_microstructure"][field] = value
+
+    with pytest.raises(ValueError, match=message):
+        diag._extract_samples(payload)
+
+
+@pytest.mark.parametrize("field", ["captured_samples", "source_analyzable_samples"])
+def test_prospective_count_metadata_mismatch_fails_closed(field):
+    payload = _valid_prospective_payload([
+        _sample("BUY", "SELL", "NONE", True),
+        _sample("SELL", "BUY", "BUY", False),
+    ])
+    payload["prospective_microstructure"][field] = 1
+
+    with pytest.raises(ValueError, match="does not match len"):
+        diag._extract_samples(payload)
+
+
+@pytest.mark.parametrize("value", [False, None, 1, "true"])
+def test_sample_count_matches_source_must_be_literal_true(value):
+    payload = _valid_prospective_payload()
+    if value is None:
+        del payload["prospective_microstructure"]["sample_count_matches_source"]
+    else:
+        payload["prospective_microstructure"]["sample_count_matches_source"] = value
+
+    with pytest.raises(
+        ValueError,
+        match="prospective_microstructure.sample_count_matches_source must be true",
+    ):
+        diag._extract_samples(payload)
+
+
+def test_prospective_non_object_sample_fails_closed():
+    payload = _valid_prospective_payload([
+        _sample("BUY", "SELL", "NONE", True),
+        "INVALID_SAMPLE",
+    ])
+
+    with pytest.raises(
+        ValueError,
+        match="prospective_microstructure.samples contains non-object entries",
+    ):
+        diag._extract_samples(payload)

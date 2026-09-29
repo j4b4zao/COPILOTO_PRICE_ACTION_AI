@@ -115,11 +115,56 @@ def _extract_samples(payload: Any) -> list[dict[str, Any]]:
                 "is not a list"
             )
 
-        return [
-            item
-            for item in samples
-            if isinstance(item, dict)
-        ]
+        if any(not isinstance(item, dict) for item in samples):
+            raise ValueError(
+                "prospective_microstructure.samples contains "
+                "non-object entries"
+            )
+
+        sample_count = len(samples)
+
+        captured_samples = prospective.get("captured_samples")
+        if not isinstance(captured_samples, int) or isinstance(
+            captured_samples, bool
+        ):
+            raise ValueError(
+                "prospective_microstructure.captured_samples "
+                "must be an integer"
+            )
+
+        source_analyzable_samples = prospective.get(
+            "source_analyzable_samples"
+        )
+        if not isinstance(source_analyzable_samples, int) or isinstance(
+            source_analyzable_samples, bool
+        ):
+            raise ValueError(
+                "prospective_microstructure.source_analyzable_samples "
+                "must be an integer"
+            )
+
+        sample_count_matches_source = prospective.get(
+            "sample_count_matches_source"
+        )
+        if sample_count_matches_source is not True:
+            raise ValueError(
+                "prospective_microstructure.sample_count_matches_source "
+                "must be true"
+            )
+
+        if captured_samples != sample_count:
+            raise ValueError(
+                "prospective_microstructure.captured_samples "
+                "does not match len(samples)"
+            )
+
+        if source_analyzable_samples != sample_count:
+            raise ValueError(
+                "prospective_microstructure.source_analyzable_samples "
+                "does not match len(samples)"
+            )
+
+        return samples
 
     candidate_keys = (
         "samples",
