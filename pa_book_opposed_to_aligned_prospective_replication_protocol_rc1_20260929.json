@@ -1,0 +1,97 @@
+{
+  "version": "RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-PROTOCOL",
+  "status": "FROZEN_BEFORE_FUTURE_COLLECTION",
+  "created_from": {
+    "checkpoint": "prospective_microstructure_conflict_10session_checkpoint_20260926.json",
+    "checkpoint_session_count": 10,
+    "observed_opposed_to_aligned_transition_count": 2
+  },
+  "research_scope": {
+    "research_only": true,
+    "descriptive_only": true,
+    "operational_logic_changed": false,
+    "score_changed": false,
+    "risk_changed": false,
+    "decision_changed": false,
+    "alert_changed": false,
+    "execution_changed": false,
+    "rc17_changed": false,
+    "threshold_changed": false,
+    "canonical_conflict_redefined": false,
+    "checkpoint_extended": false,
+    "predictive_claim_allowed": false
+  },
+  "frozen_hypothesis": {
+    "name": "PA_PERSISTENT_BOOK_OPPOSED_NONE_ALIGNED",
+    "description": "For a formal OPPOSED to ALIGNED PA x Book transition, test whether PA keeps the same directional bias while Book moves from the opposite direction through one or more NONE samples before becoming aligned with PA.",
+    "required_start_state": {
+      "pa_directional": true,
+      "book_directional": true,
+      "relation": "OPPOSED"
+    },
+    "required_end_state": {
+      "pa_directional": true,
+      "book_directional": true,
+      "relation": "ALIGNED"
+    },
+    "replication_condition": {
+      "same_pa_direction_from_opposed_end_to_aligned_start": true,
+      "at_least_one_intermediate_sample": true,
+      "all_intermediate_pa_directions_equal_start_pa_direction": true,
+      "at_least_one_intermediate_book_none": true,
+      "no_intermediate_book_direction_opposite_to_start_pa_direction_after_opposed_run_end": true
+    }
+  },
+  "explicit_non_requirements": {
+    "recent_delta_threshold": null,
+    "acceleration_threshold": null,
+    "imbalance_threshold": null,
+    "spread_threshold": null,
+    "minimum_gap_samples": null,
+    "maximum_gap_samples": null,
+    "minimum_gap_seconds": null,
+    "maximum_gap_seconds": null,
+    "candle_range_threshold": null,
+    "candle_body_threshold": null,
+    "volume_threshold": null
+  },
+  "future_evaluation": {
+    "unit": "formal_OPPOSED_to_ALIGNED_transition",
+    "source_fields": [
+      "prospective_microstructure.samples[].price_action_bias",
+      "prospective_microstructure.samples[].book_direction"
+    ],
+    "raw_fields_diagnostic_only": [
+      "recent_delta",
+      "acceleration",
+      "imbalance",
+      "spread",
+      "candle_evidence"
+    ],
+    "outcomes": [
+      "REPLICATED",
+      "NOT_REPLICATED",
+      "NOT_EVALUABLE"
+    ],
+    "not_evaluable_if": [
+      "no formal OPPOSED to ALIGNED transition occurs",
+      "required prospective direction fields are missing",
+      "raw and prospective sample positional identity fails",
+      "capture integrity fails"
+    ]
+  },
+  "cohort_policy": {
+    "frozen_10_session_checkpoint_remains_immutable": true,
+    "sessions_11_and_12_remain_independent": true,
+    "future_sessions_are_not_appended_to_frozen_checkpoint": true,
+    "future_sessions_are_evaluated_as_independent_prospective_replication": true,
+    "no_retroactive_reclassification": true
+  },
+  "interpretation_policy": {
+    "single_future_replication_is_not_predictive_validation": true,
+    "single_future_failure_is_not_refutation": true,
+    "no_operational_promotion_from_this_protocol": true,
+    "no_threshold_optimization_after_observation": true,
+    "no_post_hoc_admission_gate": true
+  }
+}
