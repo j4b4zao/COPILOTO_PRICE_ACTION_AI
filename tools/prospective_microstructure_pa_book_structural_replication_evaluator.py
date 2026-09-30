@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from tools import (
+    prospective_microstructure_pa_book_temporal_duration_audit as duration,
     prospective_microstructure_pa_book_temporal_persistence_audit
     as persistence,
 )
@@ -237,6 +238,7 @@ def _evaluate_transition(
     replicated = all(conditions.values())
 
     return {
+        "evaluation_outcome": "REPLICATED" if replicated else "NOT_REPLICATED",
         "previous_relation": previous["relation"],
         "previous_pair": previous["pair"],
         "previous_start_index": previous["start_index"],
@@ -253,15 +255,88 @@ def _evaluate_transition(
     }
 
 
-def evaluate_payload(
-    payload: dict[str, Any],
-    protocol_path: Path = PROTOCOL_PATH,
+def _validate_positional_identity(
+    payload: dict[str, Any], samples: list[dict[str, Any]],
+) -> None:
+    # Duration establishes equal counts, index mapping and raw time/cycle order.
+    # It does not compare prospective timestamps; require that evidence here.
+    raw_samples = duration._validate_raw_samples(payload, samples)
+    for index, (raw, prospective) in enumerate(zip(raw_samples, samples)):
+        raw_time = duration._parse_timestamp(raw.get("timestamp"), index)
+        prospective_time = duration._parse_timestamp(
+            prospective.get("timestamp"), index,
+        )
+        if raw_time != prospective_time:
+            raise ValueError(f"raw/prospective timestamp mismatch at index {index}")
+        if "cycle" in prospective:
+            cycle = duration._validate_cycle(prospective["cycle"], index)
+            if cycle != raw["cycle"]:
+                raise ValueError(f"raw/prospective cycle mismatch at index {index}")
+
+
+def _build_formal_runs(
+    samples: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], dict[str, int]]:
+    """Persistence RC1 run semantics without its unrelated conflict telemetry.
+
+    conflict_count is not a protocol source field. Do not invent a canonical
+    conflict value or make this diagnostic attribute an admission gate.
+    """
+    runs: list[dict[str, Any]] = []
+    counts = {"aligned_samples": 0, "opposed_samples": 0}
+    for index, sample in enumerate(samples):
+        pa = _direction(sample, "price_action_bias", index)
+        book = _direction(sample, "book_direction", index)
+        relation = persistence._relation(pa, book)
+        if relation is None:
+            continue
+        pair = persistence._pair(pa, book)
+        counts[f"{relation.lower()}_samples"] += 1
+        if (runs and runs[-1]["end_index"] + 1 == index
+                and runs[-1]["pair"] == pair
+                and runs[-1]["relation"] == relation):
+            runs[-1]["end_index"] = index
+            runs[-1]["length"] += 1
+        else:
+            runs.append({"relation": relation, "pair": pair,
+                         "start_index": index, "end_index": index, "length": 1})
+    counts["simultaneous_directional_samples"] = (
+        counts["aligned_samples"] + counts["opposed_samples"]
+    )
+    return runs, counts
+
+
+def _evaluate_session(
+    payload: Any, protocol_path: Path, protocol: dict[str, Any],
 ) -> dict[str, Any]:
-    _load_protocol(protocol_path)
+    # Deterministic precedence: structure/counters, missing directions, invalid
+    # directions, positional identity, then formal transition/hypothesis.
+    try:
+        samples = persistence._validate_prospective(payload)
+    except ValueError as exc:
+        return _report(protocol_path, protocol, "NOT_EVALUABLE",
+                       "CAPTURE_INTEGRITY_FAILURE", detail=str(exc))
 
-    samples = persistence._validate_prospective(payload)
+    for index, sample in enumerate(samples):
+        for field in ("price_action_bias", "book_direction"):
+            value = sample.get(field)
+            if value is None or (isinstance(value, str) and not value.strip()):
+                return _report(
+                    protocol_path, protocol, "NOT_EVALUABLE",
+                    "MISSING_REQUIRED_FORMAL_FIELDS",
+                    detail=f"missing {field} at index {index}",
+                )
+    try:
+        runs, counts = _build_formal_runs(samples)
+    except ValueError as exc:
+        return _report(protocol_path, protocol, "NOT_EVALUABLE",
+                       "CAPTURE_INTEGRITY_FAILURE", detail=str(exc))
 
-    runs, counts = persistence._build_runs(samples)
+    try:
+        _validate_positional_identity(payload, samples)
+    except (ValueError, TypeError) as exc:
+        return _report(protocol_path, protocol, "NOT_EVALUABLE",
+                       "POSITIONAL_IDENTITY_FAILURE", detail=str(exc))
 
     candidates: list[dict[str, Any]] = []
 
@@ -293,27 +368,43 @@ def evaluate_payload(
         outcome = "NOT_REPLICATED"
         reason = "AT_LEAST_ONE_TARGET_TRANSITION_FAILED_PROTOCOL"
 
+    identity = {
+        "prospective_sample_count": len(samples),
+        "raw_sample_count": len(payload["samples"]),
+        "raw_prospective_positional_identity": "VALIDATED",
+        "formal_run_count": len(runs),
+        **counts,
+        "opposed_to_aligned_transition_count": len(candidates),
+    }
+    return _report(protocol_path, protocol, outcome, reason,
+                   identity=identity, transitions=candidates)
+
+
+def _report(
+    protocol_path: Path, protocol: dict[str, Any], outcome: str, reason: str,
+    *, identity: dict[str, Any] | None = None,
+    transitions: list[dict[str, Any]] | None = None, detail: str | None = None,
+) -> dict[str, Any]:
     return {
         "version": VERSION,
         "status": "COMPLETED",
+        "evaluation_outcome": outcome,
+        # Retain the RC1 field for existing consumers; individual transition
+        # outcomes remain explicit, separate from this session summary.
         "outcome": outcome,
+        "outcome_scope": "SESSION_SUMMARY",
+        "evaluation_unit": protocol["future_evaluation"]["unit"],
         "reason": reason,
+        "detail": detail,
         "protocol": {
             "path": str(protocol_path),
             "sha256": EXPECTED_PROTOCOL_SHA256,
             "version": EXPECTED_PROTOCOL_VERSION,
         },
-        "identity": {
-            "prospective_sample_count": len(samples),
-            "formal_run_count": len(runs),
-            "simultaneous_directional_samples":
-                counts["simultaneous_directional_samples"],
-            "aligned_samples": counts["aligned_samples"],
-            "opposed_samples": counts["opposed_samples"],
-            "opposed_to_aligned_transition_count":
-                len(candidates),
-        },
-        "transitions": candidates,
+        "identity": identity,
+        "transitions": transitions if transitions is not None else [],
+        "cohort_policy": dict(protocol["cohort_policy"]),
+        "interpretation_policy": dict(protocol["interpretation_policy"]),
         "safety": {
             "research_only": True,
             "descriptive_only": True,
@@ -334,16 +425,26 @@ def evaluate_payload(
     }
 
 
+def evaluate_payload(
+    payload: Any,
+    protocol_path: Path = PROTOCOL_PATH,
+) -> dict[str, Any]:
+    # Protocol corruption is a hard failure, outside session-evidence handling.
+    protocol = _load_protocol(protocol_path)
+    return _evaluate_session(payload, protocol_path, protocol)
+
+
 def evaluate_file(
     session_path: Path,
     protocol_path: Path = PROTOCOL_PATH,
 ) -> dict[str, Any]:
-    payload = _load_session(session_path)
-
-    return evaluate_payload(
-        payload,
-        protocol_path=protocol_path,
-    )
+    protocol = _load_protocol(protocol_path)
+    try:
+        payload = _load_session(session_path)
+    except (OSError, ValueError) as exc:
+        return _report(protocol_path, protocol, "NOT_EVALUABLE",
+                       "CAPTURE_INTEGRITY_FAILURE", detail=str(exc))
+    return _evaluate_session(payload, protocol_path, protocol)
 
 
 def main() -> None:
@@ -372,10 +473,9 @@ def main() -> None:
     )
 
     if args.output is not None:
-        args.output.write_text(
-            text + "\n",
-            encoding="utf-8",
-        )
+        # Never overwrite a session, protocol, checkpoint or existing artifact.
+        with args.output.open("x", encoding="utf-8") as handle:
+            handle.write(text + "\n")
 
     print(text)
 
