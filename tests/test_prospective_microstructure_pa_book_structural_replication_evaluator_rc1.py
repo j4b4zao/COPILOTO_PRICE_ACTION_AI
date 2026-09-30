@@ -33,7 +33,6 @@ def _payload(samples: list[dict]) -> dict:
     raw = []
     for index, sample in enumerate(samples):
         timestamp = (datetime(2026, 9, 30) + timedelta(seconds=index)).isoformat()
-        sample.update(timestamp=timestamp, cycle=index)
         raw.append({"timestamp": timestamp, "cycle": index})
     return {
         "samples": raw,
@@ -388,12 +387,30 @@ def test_missing_or_incompatible_raw_is_not_evaluable(case):
     _assert_not_evaluable(payload, "POSITIONAL_IDENTITY_FAILURE")
 
 
+def test_real_persisted_schema_without_prospective_timestamp_or_cycle():
+    payload = _valid_payload()
+
+    for sample in payload["prospective_microstructure"]["samples"]:
+        assert "timestamp" not in sample
+        assert "cycle" not in sample
+
+    report = evaluator.evaluate_payload(payload)
+
+    assert report["evaluation_outcome"] == "REPLICATED"
+    assert report["identity"]["raw_prospective_positional_identity"] == "VALIDATED"
+
+
 @pytest.mark.parametrize("index", [0, 1, 2])
 @pytest.mark.parametrize("side", ["raw", "prospective"])
 def test_timestamp_mismatch_at_any_position(index, side):
     payload = _valid_payload()
+
+    for i, sample in enumerate(payload["prospective_microstructure"]["samples"]):
+        sample["timestamp"] = payload["samples"][i]["timestamp"]
+
     rows = (payload["samples"] if side == "raw"
             else payload["prospective_microstructure"]["samples"])
+
     rows[index]["timestamp"] += ".500000"
     _assert_not_evaluable(payload, "POSITIONAL_IDENTITY_FAILURE")
 
@@ -404,6 +421,9 @@ def test_missing_or_invalid_timestamp(side, value):
     payload = _valid_payload()
     rows = (payload["samples"] if side == "raw"
             else payload["prospective_microstructure"]["samples"])
+    if side == "prospective":
+        for i, sample in enumerate(payload["prospective_microstructure"]["samples"]):
+            sample["timestamp"] = payload["samples"][i]["timestamp"]
     rows[1]["timestamp"] = value
     _assert_not_evaluable(payload, "POSITIONAL_IDENTITY_FAILURE")
 
@@ -429,15 +449,19 @@ def test_duration_identity_and_order_fail_closed_without_crash(case):
     elif case == "mixed_timezone":
         raw[1]["timestamp"] += "+00:00"
     else:
+        for i, sample in enumerate(prospective):
+            sample["timestamp"] = raw[i]["timestamp"]
+            sample["cycle"] = raw[i]["cycle"]
         prospective.reverse()
     _assert_not_evaluable(payload, "POSITIONAL_IDENTITY_FAILURE")
 
 
 def test_equivalent_iso_timestamps_and_optional_prospective_cycle():
     payload = _valid_payload()
-    for sample in payload["prospective_microstructure"]["samples"]:
-        sample["timestamp"] += ".000000"
-        del sample["cycle"]
+
+    for i, sample in enumerate(payload["prospective_microstructure"]["samples"]):
+        sample["timestamp"] = payload["samples"][i]["timestamp"] + ".000000"
+
     assert evaluator.evaluate_payload(payload)["evaluation_outcome"] == "REPLICATED"
 
 

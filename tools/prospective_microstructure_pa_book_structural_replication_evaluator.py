@@ -258,20 +258,34 @@ def _evaluate_transition(
 def _validate_positional_identity(
     payload: dict[str, Any], samples: list[dict[str, Any]],
 ) -> None:
-    # Duration establishes equal counts, index mapping and raw time/cycle order.
-    # It does not compare prospective timestamps; require that evidence here.
+    # The persisted prospective schema is positionally aligned with the raw
+    # capture but does not require timestamp/cycle fields on each prospective
+    # sample. Duration validates equal counts plus raw timestamp/cycle order.
+    #
+    # If optional positional metadata is present on a prospective sample, it
+    # must agree exactly with the corresponding raw sample. This preserves
+    # fail-closed behavior without requiring fields absent from the real
+    # prospective capture schema.
     raw_samples = duration._validate_raw_samples(payload, samples)
+
     for index, (raw, prospective) in enumerate(zip(raw_samples, samples)):
         raw_time = duration._parse_timestamp(raw.get("timestamp"), index)
-        prospective_time = duration._parse_timestamp(
-            prospective.get("timestamp"), index,
-        )
-        if raw_time != prospective_time:
-            raise ValueError(f"raw/prospective timestamp mismatch at index {index}")
+
+        if "timestamp" in prospective:
+            prospective_time = duration._parse_timestamp(
+                prospective.get("timestamp"), index,
+            )
+            if raw_time != prospective_time:
+                raise ValueError(
+                    f"raw/prospective timestamp mismatch at index {index}"
+                )
+
         if "cycle" in prospective:
             cycle = duration._validate_cycle(prospective["cycle"], index)
             if cycle != raw["cycle"]:
-                raise ValueError(f"raw/prospective cycle mismatch at index {index}")
+                raise ValueError(
+                    f"raw/prospective cycle mismatch at index {index}"
+                )
 
 
 def _build_formal_runs(
