@@ -1,0 +1,112 @@
+{
+  "version": "RC1-PA-BOOK-INDEPENDENT-REPLICATION-ACCUMULATION-PROTOCOL",
+  "status": "FROZEN_BEFORE_FUTURE_COLLECTION",
+  "created_after_independent_sessions": [
+    "11",
+    "12",
+    "13"
+  ],
+  "prior_evidence": {
+    "independent_session_count": 3,
+    "evaluable_session_count": 1,
+    "replicated_session_count": 1,
+    "not_replicated_session_count": 0,
+    "not_evaluable_session_count": 2,
+    "session_11": "NOT_EVALUABLE",
+    "session_12": "NOT_EVALUABLE",
+    "session_13": "REPLICATED",
+    "interpretation": "DESCRIPTIVE_ONLY"
+  },
+  "frozen_hypothesis": {
+    "name": "PA_PERSISTENT_BOOK_OPPOSED_NONE_ALIGNED",
+    "source_protocol": "pa_book_opposed_to_aligned_prospective_replication_protocol_rc1_20260929.json",
+    "source_protocol_sha256": "53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c",
+    "evaluation_unit": "formal_OPPOSED_to_ALIGNED_transition",
+    "hypothesis_redefinition_allowed": false
+  },
+  "future_block": {
+    "session_ids": [
+      "14",
+      "15",
+      "16",
+      "17",
+      "18"
+    ],
+    "planned_session_count": 5,
+    "fixed_before_session_14": true,
+    "sessions_evaluated_independently": true,
+    "automatic_extension_beyond_session_18": false,
+    "early_stop_for_apparent_success": false,
+    "early_stop_for_apparent_failure": false
+  },
+  "session_outcomes": {
+    "allowed": [
+      "REPLICATED",
+      "NOT_REPLICATED",
+      "NOT_EVALUABLE"
+    ],
+    "replicated_definition": "At least one evaluable formal OPPOSED_to_ALIGNED transition is observed and every observed target transition satisfies the already-frozen structural replication conditions.",
+    "not_replicated_definition": "At least one evaluable formal OPPOSED_to_ALIGNED transition is observed and at least one observed target transition violates one or more already-frozen structural replication conditions.",
+    "not_evaluable_definition": "No evaluable formal OPPOSED_to_ALIGNED transition is observed, or the session fails required capture/formal-field/positional-integrity checks.",
+    "not_evaluable_is_not_failure": true,
+    "not_evaluable_is_not_replication": true
+  },
+  "accumulation_policy": {
+    "preserve_each_session_outcome": true,
+    "pool_raw_samples_across_sessions": false,
+    "pool_sessions_into_single_cohort": false,
+    "combined_session_count": null,
+    "replication_rate_over_all_sessions": null,
+    "replication_rate_over_evaluable_sessions": null,
+    "no_percentage_success_claim": true,
+    "report_descriptive_counts_only": true,
+    "report_transition_counts_separately": true,
+    "do_not_reclassify_prior_sessions": true
+  },
+  "future_block_summary_fields": [
+    "planned_session_count",
+    "completed_session_count",
+    "evaluable_session_count",
+    "replicated_session_count",
+    "not_replicated_session_count",
+    "not_evaluable_session_count",
+    "formal_transition_count",
+    "replicated_transition_count",
+    "not_replicated_transition_count"
+  ],
+  "interpretation_policy": {
+    "descriptive_only": true,
+    "predictive_validation_allowed": false,
+    "causal_claim_allowed": false,
+    "operational_promotion_allowed": false,
+    "threshold_optimization_allowed": false,
+    "post_hoc_admission_gate_allowed": false,
+    "single_replication_is_not_predictive_validation": true,
+    "single_failure_is_not_refutation": true,
+    "future_block_does_not_modify_prior_evidence": true
+  },
+  "cohort_policy": {
+    "frozen_10_session_checkpoint_remains_immutable": true,
+    "sessions_11_to_13_remain_independent": true,
+    "sessions_14_to_18_are_new_independent_prospective_evidence": true,
+    "sessions_14_to_18_are_not_appended_to_frozen_checkpoint": true,
+    "sessions_14_to_18_are_not_merged_into_sessions_11_to_13": true,
+    "no_retroactive_reclassification": true
+  },
+  "safety": {
+    "research_only": true,
+    "descriptive_only": true,
+    "score_changed": false,
+    "risk_changed": false,
+    "decision_changed": false,
+    "alert_changed": false,
+    "execution_changed": false,
+    "operational_logic_changed": false,
+    "rc17_changed": false,
+    "threshold_changed": false,
+    "canonical_conflict_redefined": false,
+    "checkpoint_extended": false,
+    "post_hoc_gate_added": false,
+    "predictive_claim_allowed": false
+  }
+}
