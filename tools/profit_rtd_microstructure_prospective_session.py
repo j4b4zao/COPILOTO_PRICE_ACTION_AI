@@ -44,6 +44,7 @@ def run_session(
     require_trade_context_at_start=False,
     output_dir=None,
     sleeper=None,
+    market_structure_observability_enabled=False,
 ):
     previous_warm_history = base.warm_history
     active_pipeline = None
@@ -68,6 +69,8 @@ def run_session(
         }
         if sleeper is not None:
             kwargs["sleeper"] = sleeper
+        if market_structure_observability_enabled:
+            kwargs["market_structure_observability_enabled"] = True
         result = base.run_warmed_session(symbol, **kwargs)
     finally:
         base.warm_history = previous_warm_history

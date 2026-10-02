@@ -72,7 +72,7 @@ def technical_reasons(*, complete, collection_errors, missing_price_count, sampl
     return reasons
 
 
-def run_warmed_session(symbol, *, cycles=600, interval=0.25, max_warmup_cycles=4800, require_trade_context_at_start=False, output_dir=None, sleeper=time.sleep):
+def run_warmed_session(symbol, *, cycles=600, interval=0.25, max_warmup_cycles=4800, require_trade_context_at_start=False, output_dir=None, sleeper=time.sleep, market_structure_observability_enabled=False):
     symbol = str(symbol or '').strip().upper()
     if not symbol:
         raise ValueError('symbol é obrigatório.')
@@ -118,6 +118,14 @@ def run_warmed_session(symbol, *, cycles=600, interval=0.25, max_warmup_cycles=4
                 skipped_cycles += 1
                 print(f'[RC54.3.2] cycle={cycle}/{cycles} skipped=SOURCE_UNCHANGED_OR_INVALID')
             else:
+                structure_inputs = None
+                structure_input_error = None
+                if market_structure_observability_enabled:
+                    try:
+                        from analysis.diagnostics.market_structure_rc17_observability import capture_inputs
+                        structure_inputs = capture_inputs(context)
+                    except Exception as diagnostic_error:
+                        structure_input_error = str(diagnostic_error)
                 context = pipeline.executar(context)
                 source_report = book_diag.observe(context.book_depth)
                 book_report = book_validator.evaluate(context.book_depth, source_report)
@@ -140,6 +148,14 @@ def run_warmed_session(symbol, *, cycles=600, interval=0.25, max_warmup_cycles=4
                     missing_price_count += 1
                 item['cycle'] = cycle
                 item['timestamp'] = datetime.now().isoformat(timespec='milliseconds')
+                if market_structure_observability_enabled:
+                    try:
+                        from analysis.diagnostics.market_structure_rc17_observability import attach_diagnostic
+                        attach_diagnostic(item, structure_inputs, context, cycle=cycle, timestamp=item['timestamp'])
+                        if structure_input_error is not None:
+                            item['market_structure_observability']['input_error'] = structure_input_error
+                    except Exception as diagnostic_error:
+                        item['market_structure_observability'] = {'guard_status': 'DIAGNOSTIC_UNAVAILABLE', 'error': str(diagnostic_error)}
                 samples.append(item)
                 print(f"[RC54.3.2] cycle={cycle}/{cycles} alignment={item['alignment']} price={item['last_price']} structure={item['structure']['trend']} pa_bias={item['price_action']['bias']} ready={item['context_ready']}")
         except Exception as exc:
