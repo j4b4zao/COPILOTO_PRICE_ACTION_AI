@@ -86,8 +86,8 @@ def trades_matrix():
 def raises(expected, callback):
     try:
         callback()
-    except expected:
-        return
+    except expected as exc:
+        return exc
     raise AssertionError(f"Esperava {expected.__name__}.")
 
 
@@ -195,6 +195,39 @@ def teste_leitores_rejeitam_ativo_divergente():
             Gateway(trades_matrix()),
         ).read_times_trades("WDOU26"),
     )
+
+
+def teste_symbol_preserva_igualdade_normalizacao_e_solicitado_vazio():
+    for reader_type in (ProfitRTDBookDepthReader, ProfitRTDTimesTradesReader):
+        for requested in ("WINV26", " \twinv26\n", "", " \t", None):
+            assert reader_type._symbol([[" \twinv26\n"]], requested) == "WINV26"
+
+
+def teste_symbol_mismatch_informa_normalizados_sem_equivalencia():
+    for reader_type, matrix_factory, method in (
+        (ProfitRTDBookDepthReader, book_matrix, "read_book_depth"),
+        (ProfitRTDTimesTradesReader, trades_matrix, "read_times_trades"),
+    ):
+        for requested in (" winz26 ", "WIN", "WIN$N", "WINV26_F_0", "WIN V26"):
+            matrix = matrix_factory()
+            matrix[0][0] = " \twinv26\n"
+            read = getattr(reader_type(Gateway(matrix)), method)
+            exc = raises(ValueError, lambda: read(requested))
+            assert str(exc) == (
+                "Ativo solicitado difere do workbook RTD. "
+                f"requested={requested.strip().upper()!r} workbook='WINV26'"
+            )
+
+
+def teste_symbol_workbook_vazio_preserva_erro_anterior():
+    for reader_type in (ProfitRTDBookDepthReader, ProfitRTDTimesTradesReader):
+        for workbook_symbol in ("", " \t\n", None):
+            for requested in ("WINV26", "", None):
+                exc = raises(
+                    ValueError,
+                    lambda: reader_type._symbol([[workbook_symbol]], requested),
+                )
+                assert str(exc) == "Ativo RTD indisponível."
 
 
 def teste_leitores_rejeitam_workbooks_trocados():

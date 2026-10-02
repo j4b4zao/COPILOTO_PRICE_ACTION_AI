@@ -67,7 +67,10 @@ class ProfitRTDWorkbookReader:
         if not workbook_symbol:
             raise ValueError("Ativo RTD indisponível.")
         if requested and workbook_symbol != requested:
-            raise ValueError("Ativo solicitado difere do workbook RTD.")
+            raise ValueError(
+                "Ativo solicitado difere do workbook RTD. "
+                f"requested={requested!r} workbook={workbook_symbol!r}"
+            )
         return workbook_symbol
 
 
