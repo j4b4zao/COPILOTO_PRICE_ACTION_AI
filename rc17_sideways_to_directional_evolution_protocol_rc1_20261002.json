@@ -1,0 +1,214 @@
+{
+  "capture_policy": {
+    "approximate_reprocessing_allowed": false,
+    "market_structure_observability_enabled": true,
+    "missing_or_invalid_observability_outcome": "CAPTURE_INTEGRITY_FAILURE",
+    "normal_validated_capture_parameters_unchanged": true,
+    "readiness_and_warmup_unchanged": true,
+    "retrospective_reconstruction_allowed": false,
+    "trade_context_required_unchanged": true
+  },
+  "chronology": {
+    "cycle_timestamp_order_required": true,
+    "directional_event_must_have_eligible_immediate_sideways_predecessor": true,
+    "initial_eligibility_assessed_per_sample_not_session_admission": true,
+    "skipped_cycles_not_imputed": true,
+    "sort_by": "PERSISTED_SAMPLE_ORDER",
+    "transitions_across_missing_invalid_samples_allowed": false,
+    "unit": "ADJACENT_ANALYZED_SAMPLES_WITHIN_ONE_SESSION",
+    "unknown_pairs_logged_separately_not_directional_events": true,
+    "unknown_preserved_as_separate_state": true
+  },
+  "cohort_policy": {
+    "cohorts_combined": false,
+    "diagnostic_capture01_excluded": true,
+    "frozen10_immutable": true,
+    "previous_not_evaluable_reclassified": false,
+    "previous_results_recalculated": false,
+    "sessions11_13_remain_independent": true,
+    "sessions14_18_remain_closed_fixed_block": true,
+    "sessions19_23_are_new_independent_block": true
+  },
+  "created_date": "2026-10-02",
+  "descriptive_sample_counts": [
+    "total_analyzed_samples",
+    "sideways_none_samples",
+    "up_buy_samples",
+    "down_sell_samples",
+    "unknown_none_samples",
+    "high_only_samples",
+    "low_only_samples",
+    "both_swing_types_samples",
+    "no_swings_samples"
+  ],
+  "diagnostic_capture_policy": {
+    "classified_as_session19": false,
+    "included_in_future_cohort": false,
+    "name": "RC17_OBSERVABILITY_DIAGNOSTIC_CAPTURE_01",
+    "numeric_parameters_derived_from_capture": false,
+    "prospective_evidence": false
+  },
+  "event_policy": {
+    "alternative_trend_rule_allowed": false,
+    "causal_mechanism_claim_allowed": false,
+    "formal_flags_only": true,
+    "immediate_before_after_snapshots_required": true,
+    "transition_required": false
+  },
+  "event_record_fields": [
+    "from_cycle",
+    "to_cycle",
+    "from_timestamp",
+    "to_timestamp",
+    "before",
+    "after"
+  ],
+  "formal_object": "RC17_SIDEWAYS_TO_DIRECTIONAL_EVOLUTION",
+  "formal_sources": {
+    "bias": "samples[*].price_action.bias",
+    "engine_version": "RC17-CLOSED-CANDLE",
+    "observability": "samples[*].market_structure_observability",
+    "trend": "samples[*].structure.trend",
+    "valid": "samples[*].structure.valid"
+  },
+  "future_block": {
+    "fixed_before_session19": true,
+    "no_auto_extension": true,
+    "no_early_stop": true,
+    "planned_session_count": 5,
+    "raw_pooling_for_inference": false,
+    "session_ids": [
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "sessions_independent": true
+  },
+  "identity_policy": {
+    "protocol_sha256_recorded_externally_in_validator_and_report": true,
+    "self_referential_hash_not_used": true
+  },
+  "initial_eligible_state": {
+    "history_unchanged_during_pipeline": true,
+    "observability_available": true,
+    "price_action.bias": "NONE",
+    "structure.trend": "SIDEWAYS",
+    "structure.valid": true
+  },
+  "integrity": {
+    "closed_count_mismatch_count": 0,
+    "closed_history_hash_valid": true,
+    "diagnostic_unavailable_count": 0,
+    "failure_classification": "CAPTURE_INTEGRITY_FAILURE",
+    "flag_result_mismatch_count": 0,
+    "forming_candle_in_closed_history_count": 0,
+    "history_unchanged_false_count": 0,
+    "index_order_violation_count": 0,
+    "missing_values_must_not_be_imputed": true,
+    "nullable_swing_mismatch_count": 0,
+    "observability_present_in_every_analyzed_sample": true,
+    "raw_exists": true,
+    "raw_sha256_recorded": true,
+    "serialization_violation_count": 0,
+    "swing_count_mismatch_count": 0,
+    "trend_result_mismatch_count": 0
+  },
+  "interpretation": {
+    "causal_validation": false,
+    "descriptive_only": true,
+    "operational_promotion": false,
+    "predictive_validation": false,
+    "success_percentage_allowed": false,
+    "threshold_optimization": false
+  },
+  "observed_transitions": [
+    "SIDEWAYS->SIDEWAYS",
+    "SIDEWAYS->UP",
+    "SIDEWAYS->DOWN",
+    "UP->UP",
+    "UP->SIDEWAYS",
+    "UP->DOWN",
+    "DOWN->DOWN",
+    "DOWN->SIDEWAYS",
+    "DOWN->UP"
+  ],
+  "posterior_directional_states": {
+    "DOWN": {
+      "lh": true,
+      "ll": true,
+      "price_action.bias": "SELL",
+      "structure.trend": "DOWN"
+    },
+    "UP": {
+      "hh": true,
+      "hl": true,
+      "price_action.bias": "BUY",
+      "structure.trend": "UP"
+    }
+  },
+  "primary_descriptive_events": [
+    "SIDEWAYS->UP",
+    "SIDEWAYS->DOWN"
+  ],
+  "prohibited_thresholds": {
+    "atr_threshold": null,
+    "body_threshold": null,
+    "book_threshold": null,
+    "maximum_cycles": null,
+    "maximum_time": null,
+    "minimum_delta": null,
+    "minimum_sideways_cycles": null,
+    "minimum_swing_distance": null,
+    "minimum_time": null,
+    "minimum_volume": null,
+    "optimized_swing_count": null,
+    "order_flow_threshold": null,
+    "range_threshold": null,
+    "spread_threshold": null
+  },
+  "question": "Describe how independent future RC17 SIDEWAYS / PriceAction NONE states persist or evolve to UP/BUY or DOWN/SELL under existing formal RC17 rules only.",
+  "safety": {
+    "alert_influence": false,
+    "collector_changed": false,
+    "decision_influence": false,
+    "execution_influence": false,
+    "operational_logic_changed": false,
+    "price_action_changed": false,
+    "rc17_changed": false,
+    "research_only": true,
+    "risk_influence": false,
+    "score_influence": false,
+    "thresholds_created": false
+  },
+  "session_classification": {
+    "all_sideways_none_with_valid_integrity": "NO_DIRECTIONAL_TRANSITION_OBSERVED",
+    "capture_integrity_failure": "CAPTURE_INTEGRITY_FAILURE",
+    "classification_not_a_performance_measure": true,
+    "eligible_sideways_to_directional_event_observed": "DIRECTIONAL_TRANSITION_OBSERVED",
+    "no_eligible_sideways_to_directional_event": "NO_DIRECTIONAL_TRANSITION_OBSERVED",
+    "no_transition_is_failure": false,
+    "no_transition_is_invalid": false,
+    "no_transition_is_not_replicated": false,
+    "non_sideways_or_unknown_states_preserved": true
+  },
+  "status": "FROZEN_BEFORE_FUTURE_COLLECTION",
+  "structural_snapshot_fields": [
+    "swing_high_count",
+    "swing_low_count",
+    "HH",
+    "HL",
+    "LH",
+    "LL",
+    "latest_swing_high",
+    "previous_swing_high",
+    "latest_swing_low",
+    "previous_swing_low",
+    "closed_history_sha256",
+    "trend",
+    "price_action_bias",
+    "valid"
+  ],
+  "version": "RC1-RC17-SIDEWAYS-TO-DIRECTIONAL-EVOLUTION-PROTOCOL"
+}
