@@ -3,7 +3,7 @@ decision/decision_engine.py
 
 Decision Engine
 
-RC9.2 - MULTI-TIMEFRAME SAFETY GATE
+RC9.3 - MULTI-TIMEFRAME CONFLICT SAFETY GATE RC3.6
 """
 
 from ai.engine_base import EngineBase
@@ -13,7 +13,7 @@ class DecisionEngine(EngineBase):
 
     NAME = "DecisionEngine"
 
-    VERSION = "RC9.2"
+    VERSION = "RC9.3-MTF-CONFLICT-SAFETY-RC3.6"
 
     ENABLED = True
 
@@ -230,6 +230,13 @@ class DecisionEngine(EngineBase):
         if not multi_timeframe.valid:
 
             return None
+
+        # RC3.6: semantic conflict takes precedence over alignment vocabulary.
+        if multi_timeframe.conflict:
+            return (
+                "Operação bloqueada: conflito direcional "
+                "entre M15, M5 e M1 ou regime de mercado."
+            )
 
         if multi_timeframe.alignment == "CONFLICT":
 
