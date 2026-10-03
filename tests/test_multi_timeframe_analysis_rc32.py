@@ -224,7 +224,7 @@ def teste_conflito_direcional():
     )
 
     assert result.valid is True
-    assert result.alignment == "CONFLICT"
+    assert result.alignment == "CONFLICT_M5"
     assert result.bias == "NONE"
     assert result.aligned is False
     assert result.conflict is True
@@ -233,20 +233,27 @@ def teste_conflito_direcional():
 
 def teste_aguarda_timeframe_lateral():
 
-    result = execute_direct(
-        create_context(
-            Trend.UP,
-            Trend.UP,
-            Trend.SIDEWAYS,
-        )
+    context = create_context(
+        Trend.UP,
+        Trend.UP,
+        Trend.SIDEWAYS,
     )
 
+    # RC3.3 _series(SIDEWAYS), mais candle atual ignorado.
+    history = context.multi_timeframe.get("M1").candles
+    history.clear()
+    for high, low in ((110, 100), (109, 101), (110, 100),
+                      (109, 101), (110, 100), (120, 80)):
+        history.add(Candle(low + (high-low)*.35, high, low, low + (high-low)*.65))
+    result = execute_direct(context)
+    assert (result.m15_trend, result.m5_trend, result.m1_trend) == (
+        Trend.UP, Trend.UP, Trend.SIDEWAYS)
     assert result.valid is True
-    assert result.alignment == "WAIT"
-    assert result.bias == "NONE"
+    assert result.alignment == "WAIT_TRIGGER"
+    assert result.bias == "BUY"
     assert result.aligned is False
     assert result.conflict is False
-    assert result.confidence == 0.50
+    assert result.confidence == 0.70
 
 
 def teste_dados_insuficientes():
@@ -375,8 +382,10 @@ def teste_resultado_informativo_nao_altera_decisao():
 
     assert (
         conflict_context.multi_timeframe_analysis.alignment
-        == "CONFLICT"
+        == "CONFLICT_REGIME"
     )
+
+    assert conflict_context.multi_timeframe_analysis.conflict is True
 
     assert operational_snapshot(
         aligned_context

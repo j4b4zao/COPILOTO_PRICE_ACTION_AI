@@ -225,25 +225,37 @@ def teste_candles_em_conflito_bloqueiam_alerta():
 
     result = context.multi_timeframe_analysis
 
-    assert result.alignment == "CONFLICT"
+    assert result.alignment == "CONFLICT_M5"
     assert result.conflict is True
     assert context.decision.action == "WAIT"
     assert "conflito direcional" in context.decision.reasons[0]
     assert context.alert.valid is False
+    assert context.alert.action == "NONE"
 
 
 def teste_wait_preserva_operacao_valida():
 
-    context = execute_e2e(
-        prepare_context(
-            Trend.UP,
-            Trend.UP,
-            Trend.SIDEWAYS,
-            "BUY",
-        )
+    context = prepare_context(
+        Trend.UP,
+        Trend.UP,
+        Trend.SIDEWAYS,
+        "BUY",
     )
 
-    assert context.multi_timeframe_analysis.alignment == "WAIT"
+    # RC3.3 _series(SIDEWAYS), mais candle atual ignorado.
+    history = context.multi_timeframe.get("M1").candles
+    history.clear()
+    for high, low in ((110, 100), (109, 101), (110, 100),
+                      (109, 101), (110, 100), (120, 80)):
+        history.add(Candle(low + (high-low)*.35, high, low, low + (high-low)*.65))
+    execute_e2e(context)
+    result = context.multi_timeframe_analysis
+    assert (result.m15_trend, result.m5_trend, result.m1_trend) == (
+        Trend.UP, Trend.UP, Trend.SIDEWAYS)
+    assert result.alignment == "WAIT_TRIGGER"
+    assert result.bias == "BUY"
+    assert result.conflict is False
+    assert result.valid is True
     assert context.decision.action == "BUY"
     assert context.alert.action == "BUY"
     assert context.alert.valid is True
