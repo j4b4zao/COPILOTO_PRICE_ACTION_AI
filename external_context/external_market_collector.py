@@ -26,12 +26,14 @@ Payload por símbolo:
 """
 
 from external_context.external_market_state import ExternalMarketState
+from copy import deepcopy
+from external_context.external_observational_snapshot import ExternalObservationalSnapshot
 
 
 class ExternalMarketCollector:
 
     NAME = "ExternalMarketCollector"
-    VERSION = "RC2.1-PROVIDER-CONTRACT"
+    VERSION = "RC2.2-OBSERVATIONAL-SNAPSHOT"
     ENABLED = True
 
     MARKETS = (
@@ -61,21 +63,32 @@ class ExternalMarketCollector:
         "vix",
     )
 
-    def __init__(self, provider=None):
+    def __init__(self, provider=None, *, preserve_quotes=False):
         if provider is not None and not callable(getattr(provider, "fetch", None)):
             raise TypeError("Provider externo deve expor fetch(symbol).")
         self.provider = provider
+        self.preserve_quotes = preserve_quotes
+        self.observational_snapshot = None
+        self.observational_error = None
 
     def collect(self) -> ExternalMarketState:
         """Coleta por provider e normaliza para o contrato existente."""
+        self.observational_snapshot = None
+        self.observational_error = None
         if self.provider is None:
             raise RuntimeError("ExternalMarketCollector não possui provider configurado.")
 
         data = {}
         timestamps = []
+        quotes = {}
 
         for field, symbol in self.FIELD_TO_SYMBOL.items():
             payload = self.provider.fetch(symbol)
+            if self.preserve_quotes and self.observational_error is None:
+                try:
+                    quotes[symbol] = deepcopy(payload)
+                except Exception as exc:
+                    self.observational_error = type(exc).__name__
             normalized = self._normalize_provider_payload(payload)
             if normalized is None:
                 continue
@@ -88,6 +101,13 @@ class ExternalMarketCollector:
 
         if timestamps:
             data["timestamp"] = max(timestamps)
+
+        if self.preserve_quotes and self.observational_error is None:
+            try:
+                self.observational_snapshot = ExternalObservationalSnapshot.from_quotes(quotes)
+            except Exception as exc:
+                # Diagnostic unavailability never changes the official state.
+                self.observational_error = type(exc).__name__
 
         return self.coletar(data, require_all_markets=False)
 
