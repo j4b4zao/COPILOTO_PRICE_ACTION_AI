@@ -190,3 +190,113 @@ def test_provider_reuses_mutable_payload():
     service = ExternalContextService(provider=provider, observational_snapshots=True)
     service.snapshot()
     assert {s: q["source"] for s, q in service.observational_snapshot().to_quotes().items()} == {s: s for s in Bridge.SYMBOLS}
+
+
+def test_public_constructor_list_input_immutable():
+    base = ExternalObservationalSnapshot.from_quotes(quotes())
+    entries = list(base.quotes)
+    snapshot = ExternalObservationalSnapshot(entries)
+    before = snapshot.to_json()
+    entries.clear()
+    assert snapshot.to_json() == before
+    assert isinstance(snapshot.quotes, tuple)
+    with pytest.raises(FrozenInstanceError):
+        snapshot.quotes = ()
+
+
+def test_public_constructor_nested_mutation_isolated():
+    data = quotes()
+    data["DXY"]["metadata"] = {"list": ["observed"], "tuple": (1, [2])}
+    base = ExternalObservationalSnapshot.from_quotes(data)
+    entries = [list(entry) for entry in base.quotes]
+    snapshot = ExternalObservationalSnapshot(entries)
+    before = snapshot.to_json()
+    entries[0][0] = "UNSUPPORTED"
+    entries[2][1] = "invalid JSON"
+    entries.clear()
+    assert snapshot.to_json() == before
+    assert all(isinstance(entry, tuple) for entry in snapshot.quotes)
+    returned = snapshot.to_quotes()
+    returned["DXY"]["metadata"]["tuple"][1].clear()
+    returned["DXY"]["metadata"]["list"].append("mutation")
+    assert snapshot.to_json() == before
+    assert snapshot.to_quotes()["DXY"]["metadata"] == data["DXY"]["metadata"]
+
+
+def test_public_constructor_duplicate_canonical_rejected():
+    base = ExternalObservationalSnapshot.from_quotes(quotes())
+    with pytest.raises(ValueError, match="duplicate canonical symbol"):
+        ExternalObservationalSnapshot(base.quotes + (base.quotes[2],))
+
+
+@pytest.mark.parametrize("symbol", ["SPX", "dxy", "", None, 123, ["DXY"]])
+def test_public_constructor_unsupported_canonical_rejected(symbol):
+    with pytest.raises(ValueError, match="unsupported canonical symbol"):
+        ExternalObservationalSnapshot([(symbol, '["scalar",null]')])
+
+
+@pytest.mark.parametrize("entry", [None, "DXY", (), ("DXY",), ("DXY", "payload", "extra"), {"DXY": None}])
+def test_public_constructor_malformed_entry_rejected(entry):
+    with pytest.raises(ValueError, match="quote entry"):
+        ExternalObservationalSnapshot([entry])
+
+
+@pytest.mark.parametrize("encoded", [None, {}, [], bytearray(b"payload"), 42])
+def test_public_constructor_mutable_or_nonstring_payload_rejected(encoded):
+    with pytest.raises(TypeError, match="encoded quote payload must be a string"):
+        ExternalObservationalSnapshot([("DXY", encoded)])
+
+
+@pytest.mark.parametrize("encoded", [
+    "not JSON", "null", "{}", '["unknown",null]', '["scalar",[]]',
+    '["scalar",NaN]', '["scalar",1e999]', '["nonfinite","other"]',
+    '["datetime",null]', '["datetime","invalid"]', '["list",null]',
+    '["dict",null]', '["dict",[["price"]]]', '["dict",[[1,["scalar",1]]]]',
+    '["dict",[["price",["scalar",1]],["price",["scalar",2]]]]',
+])
+def test_public_constructor_invalid_encoding_rejected(encoded):
+    with pytest.raises(ValueError):
+        ExternalObservationalSnapshot([("DXY", encoded)])
+
+
+@pytest.mark.parametrize("encoded", ['["scalar",1]', '["list",[]]', '["tuple",[]]', '["datetime","2026-10-05T15:00:00+00:00"]'])
+def test_public_constructor_decoded_payload_type_rejected(encoded):
+    with pytest.raises(TypeError, match="decoded quote must be dict or None"):
+        ExternalObservationalSnapshot([("DXY", encoded)])
+
+
+def test_public_constructor_deterministic_and_from_quotes_preserved():
+    data = quotes()
+    data["US500"]["timestamp"] = NOW.astimezone(timezone(timedelta(hours=-3)))
+    data["VIX"]["timestamp"] = NOW.replace(tzinfo=None)
+    data["NASDAQ"]["price"] = float("nan")
+    data["OIL"]["change"] = float("inf")
+    data["GOLD"] = None
+    base = ExternalObservationalSnapshot.from_quotes(data)
+    # Entry order and JSON whitespace do not change the canonical representation.
+    entries = [[symbol, json.dumps(json.loads(encoded), indent=2)] for symbol, encoded in reversed(base.quotes)]
+    direct = ExternalObservationalSnapshot(entries)
+    assert direct.to_json() == base.to_json()
+    assert ExternalObservationalSnapshot.from_quotes(dict(reversed(list(data.items())))).to_json() == base.to_json()
+    returned = direct.to_quotes()
+    assert returned["US500"]["timestamp"].utcoffset() == timedelta(hours=-3)
+    assert returned["VIX"]["timestamp"].tzinfo is None
+    assert math.isnan(returned["NASDAQ"]["price"])
+    assert math.isinf(returned["OIL"]["change"])
+    assert returned["GOLD"] is None
+    returned["DXY"]["price"] = 999
+    assert direct.to_quotes()["DXY"]["price"] == 100
+    assert all(value is None for value in ExternalObservationalSnapshot.from_quotes({}).to_quotes().values())
+
+
+def test_stale_evidence_cannot_be_overwritten_by_duplicate(monkeypatch):
+    data = quotes()
+    data["DXY"]["timestamp"] = (NOW - timedelta(seconds=61)).isoformat()
+    stale = ExternalObservationalSnapshot.from_quotes(data)
+    fresh = ExternalObservationalSnapshot.from_quotes(quotes())
+    assert asset(stale.audit(reference_timestamp=NOW, maximum_staleness_seconds=60), "DXY").status == "STALE"
+    bridge_spy = Mock(side_effect=AssertionError("duplicate must fail before bridge audit"))
+    monkeypatch.setattr(Bridge, "audit", bridge_spy)
+    with pytest.raises(ValueError, match="duplicate canonical symbol"):
+        ExternalObservationalSnapshot(stale.quotes + (("DXY", dict(fresh.quotes)["DXY"]),))
+    assert bridge_spy.call_count == 0

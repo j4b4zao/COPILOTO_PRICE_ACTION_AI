@@ -29,23 +29,74 @@ def _pack(value):
 
 
 def _unpack(value):
+    if not isinstance(value, list) or len(value) != 2:
+        raise ValueError("invalid observational payload encoding")
     kind, data = value
     if kind == "datetime":
+        if not isinstance(data, str):
+            raise ValueError("invalid datetime encoding")
         return datetime.fromisoformat(data)
     if kind == "nonfinite":
+        if not isinstance(data, str) or data not in ("nan", "inf", "-inf"):
+            raise ValueError("invalid nonfinite encoding")
         return float(data)
     if kind == "dict":
-        return {k: _unpack(v) for k, v in data}
+        if not isinstance(data, list):
+            raise ValueError("invalid metadata encoding")
+        result = {}
+        for entry in data:
+            if not isinstance(entry, list) or len(entry) != 2 or not isinstance(entry[0], str):
+                raise ValueError("invalid metadata entry")
+            key, item = entry
+            if key in result:
+                raise ValueError("duplicate metadata key")
+            result[key] = _unpack(item)
+        return result
     if kind in ("tuple", "list"):
+        if not isinstance(data, list):
+            raise ValueError("invalid sequence encoding")
         items = [_unpack(v) for v in data]
         return tuple(items) if kind == "tuple" else items
-    return data
+    if kind == "scalar" and (data is None or type(data) in (str, bool, int, float)):
+        if isinstance(data, float) and not math.isfinite(data):
+            raise ValueError("nonfinite evidence requires explicit encoding")
+        return data
+    raise ValueError("invalid observational payload tag or scalar")
+
+
+def _reject_json_constant(value):
+    raise ValueError("nonfinite evidence requires explicit encoding")
 
 
 @dataclass(frozen=True, slots=True)
 class ExternalObservationalSnapshot:
-    VERSION = "RC1-EXTERNAL-OBSERVATIONAL-SNAPSHOT"
+    VERSION = "RC1.1-EXTERNAL-OBSERVATIONAL-SNAPSHOT"
     quotes: tuple[tuple[str, str], ...]
+
+    def __post_init__(self):
+        """Validate every public construction path before publishing frozen evidence."""
+        if not isinstance(self.quotes, (list, tuple)):
+            raise TypeError("quote entries must be a list or tuple")
+        entries = []
+        seen = set()
+        symbols = IntermarketExternalContextBridge.SYMBOLS
+        for entry in self.quotes:
+            if not isinstance(entry, (list, tuple)) or len(entry) != 2:
+                raise ValueError("quote entry must contain canonical symbol and encoded payload")
+            symbol, encoded = entry
+            if type(symbol) is not str or symbol not in symbols:
+                raise ValueError("unsupported canonical symbol")
+            if symbol in seen:
+                raise ValueError("duplicate canonical symbol")
+            seen.add(symbol)
+            if type(encoded) is not str:
+                raise TypeError("encoded quote payload must be a string")
+            payload = _unpack(json.loads(encoded, parse_constant=_reject_json_constant))
+            if payload is not None and not isinstance(payload, dict):
+                raise TypeError("decoded quote must be dict or None")
+            entries.append((symbol, json.dumps(_pack(payload), allow_nan=False, separators=(",", ":"))))
+        entries.sort(key=lambda entry: symbols.index(entry[0]))
+        object.__setattr__(self, "quotes", tuple(entries))
 
     @classmethod
     def from_quotes(cls, quotes):
