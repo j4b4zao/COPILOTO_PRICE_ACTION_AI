@@ -14,6 +14,7 @@ from core.system_initializer import SystemInitializer
 from logs.logger import Logger
 from monitor.multi_timeframe_monitor import MultiTimeframeMonitor
 from monitor.order_flow_monitor import OrderFlowMonitor
+from dashboard.copilot_readonly_dashboard import project, render
 
 
 class Bot:
@@ -238,3 +239,6 @@ class Bot:
         print("=" * 60)
         print("END SMART MONEY DIAGNOSTIC")
         print("=" * 60)
+
+        # Passive presentation of the completed context; loop error policy applies.
+        print(render(project(context)))
