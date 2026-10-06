@@ -47,7 +47,8 @@ def test_fetch_builds_quote_request_and_normalizes_payload():
             "symbol": "SPX",
             "close": "6725.50",
             "percent_change": "0.42",
-            "datetime": "2026-10-06 15:30:00",
+            "datetime": "2026-10-06",
+            "timestamp": 1791300600,
         })
 
     transport = TwelveDataQuoteTransport(api_key="key value", timeout=3, opener=opener)
@@ -59,7 +60,7 @@ def test_fetch_builds_quote_request_and_normalizes_payload():
     assert result == {
         "price": 6725.5,
         "change": 0.42,
-        "timestamp": "2026-10-06 15:30:00",
+        "timestamp": "2026-10-06T15:30:00+00:00",
     }
 
 
@@ -68,7 +69,7 @@ def test_provider_symbol_is_url_encoded():
 
     def opener(request, timeout):
         seen["url"] = request.full_url
-        return Response({"close": "1", "percent_change": "0", "datetime": ""})
+        return Response({"close": "1", "percent_change": "0", "timestamp": 1791300600})
 
     TwelveDataQuoteTransport(api_key="x", opener=opener).fetch("WTI/USD")
     assert "symbol=WTI%2FUSD" in seen["url"]
@@ -82,6 +83,8 @@ def test_provider_symbol_is_url_encoded():
         {"close": "bad", "percent_change": "1"},
         {"close": "100"},
         {"close": "0", "percent_change": "1"},
+        {"close": "100", "percent_change": "1", "datetime": "2026-10-06"},
+        {"close": "100", "percent_change": "1", "timestamp": "bad"},
         [],
     ],
 )
@@ -120,5 +123,21 @@ def test_snapshot_never_exposes_api_key():
 
     assert "TOP-SECRET" not in repr(snapshot)
     assert set(snapshot) == {
-        "name", "version", "base_url", "timeout", "configured", "observational_only"
+        "name", "version", "base_url", "timeout", "configured", "observational_only",
+        "timestamp_semantics"
     }
+    assert snapshot["timestamp_semantics"] == "provider_unix_seconds_to_utc_iso8601"
+
+
+def test_unix_timestamp_takes_precedence_over_date_only_datetime():
+    transport = TwelveDataQuoteTransport(
+        api_key="x",
+        opener=lambda *a, **k: Response({
+            "close": "4155.94217",
+            "percent_change": "0.35972798",
+            "datetime": "2026-10-06",
+            "timestamp": 1791230400,
+        }),
+    )
+    result = transport.fetch("XAU/USD")
+    assert result["timestamp"] == "2026-10-06T00:00:00+00:00"
