@@ -11,7 +11,7 @@ from urllib.request import Request, urlopen
 
 BASE="https://api.massive.com"
 PRODUCT_FIELDS=("product_code","name","asset_class","asset_sub_class","sector","sub_sector","trading_venue","type","settlement_method","settlement_type","trade_currency_code","settlement_currency_code","price_quotation","unit_of_measure","unit_of_measure_qty","last_updated")
-CONTRACT_FIELDS=("ticker","name","product_code","active","first_trade_date","last_trade_date","days_to_maturity","settlement_date","trading_venue","type","trade_tick_size")
+CONTRACT_FIELDS=("ticker","name","product_code","active","first_trade_date","last_trade_date","days_to_maturity","settlement_date","trading_venue","type","trade_tick_size","expiration_date")
 
 def _get(path,key,params,opener):
     q=dict(params); q["apiKey"]=key
@@ -33,7 +33,7 @@ def run(api_key,opener=urlopen):
     key=str(api_key or "").strip()
     if not key: raise ValueError("MASSIVE_API_KEY is required")
     pp,pe=_get("/futures/v1/products",key,{"product_code":"CL","limit":100},opener)
-    cp,ce=_get("/futures/v1/contracts",key,{"product_code":"CL","active":"true","limit":100,"sort":"last_trade_date.asc"},opener)
+    cp,ce=_get("/futures/v1/contracts",key,{"product_code":"CL","limit":100,"sort":"ticker","order":"asc"},opener)
     products=_safe(_rows(pp),PRODUCT_FIELDS)
     contracts=_safe(_rows(cp),CONTRACT_FIELDS)
     return {
