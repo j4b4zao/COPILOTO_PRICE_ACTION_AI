@@ -137,4 +137,20 @@ def test_missing_preservation_is_fail_closed_without_second_collection():
     assert provider.fetch.call_count == len(Bridge.SYMBOLS)
 
 
-class MissingObservationalSnapshot:\n    def snapshot(self):\n        return None\n\n\nclass MissingSnapshot:\n    def observational_snapshot(self):\n        return None\n\n\n@pytest.mark.parametrize(\n    "bad",\n    [None, object(), MissingObservationalSnapshot(), MissingSnapshot()],\n)\ndef test_invalid_service_rejected(bad):\n    with pytest.raises(TypeError):\n        ExternalObservationalProducerLifecycle(bad)
+class MissingObservationalSnapshot:
+    def snapshot(self):
+        return None
+
+
+class MissingSnapshot:
+    def observational_snapshot(self):
+        return None
+
+
+@pytest.mark.parametrize(
+    "bad",
+    [None, object(), MissingObservationalSnapshot(), MissingSnapshot()],
+)
+def test_invalid_service_rejected(bad):
+    with pytest.raises(TypeError):
+        ExternalObservationalProducerLifecycle(bad)
