@@ -140,4 +140,4 @@ def test_unix_timestamp_takes_precedence_over_date_only_datetime():
         }),
     )
     result = transport.fetch("XAU/USD")
-    assert result["timestamp"] == "2026-10-06T00:00:00+00:00"
+    assert result["timestamp"] == "2026-10-05T20:00:00+00:00"
