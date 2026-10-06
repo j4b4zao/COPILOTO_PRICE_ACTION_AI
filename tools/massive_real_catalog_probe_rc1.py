@@ -44,6 +44,36 @@ def _get(path, api_key, params, opener):
         return None, type(exc).__name__
 
 
+def _get_all(path, api_key, params, opener, max_pages=25):
+    payload, error = _get(path, api_key, params, opener)
+    if not isinstance(payload, dict):
+        return [], error, 0
+
+    rows = _safe_rows(payload)
+    pages = 1
+    next_url = payload.get("next_url")
+    while next_url and pages < max_pages:
+        separator = "&" if "?" in next_url else "?"
+        request = Request(
+            f"{next_url}{separator}{urlencode({'apiKey': api_key})}",
+            headers={"User-Agent": "COPILOTO_PRICE_ACTION_AI/ExternalContext"},
+            method="GET",
+        )
+        try:
+            response = opener(request, timeout=15.0)
+            payload = json.loads(response.read().decode("utf-8"))
+        except HTTPError as exc:
+            return rows, f"HTTP_{exc.code}", pages
+        except (URLError, TimeoutError, OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+            return rows, type(exc).__name__, pages
+        if not isinstance(payload, dict):
+            return rows, "INVALID_PAYLOAD", pages
+        rows.extend(_safe_rows(payload))
+        pages += 1
+        next_url = payload.get("next_url")
+    return rows, "", pages
+
+
 def _safe_rows(payload):
     if not isinstance(payload, dict):
         return []
@@ -73,14 +103,13 @@ def run(api_key, opener=urlopen):
         {"market": "indices", "active": "true", "search": "Dollar Index", "limit": 100},
         opener,
     )
-    product_payload, product_error = _get(
+    product_rows, product_error, product_pages = _get_all(
         "/futures/v1/products",
         key,
         {"limit": 1000},
         opener,
     )
     index_rows = _safe_rows(index_payload)
-    product_rows = _safe_rows(product_payload)
 
     return {
         "name": "MassiveRealCatalogProbe",
@@ -99,9 +128,10 @@ def run(api_key, opener=urlopen):
             "matches": _filter(index_rows, DXY_TERMS, SAFE_INDEX_FIELDS),
         },
         "OIL": {
-            "request_status": "OK" if isinstance(product_payload, dict) else "ERROR",
+            "request_status": "OK" if not product_error else "ERROR",
             "error": product_error,
             "row_count": len(product_rows),
+            "pages_scanned": product_pages,
             "matches": _filter(product_rows, OIL_TERMS, SAFE_PRODUCT_FIELDS),
         },
         "US10Y": {
