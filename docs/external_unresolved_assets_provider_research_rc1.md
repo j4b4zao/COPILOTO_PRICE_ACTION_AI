@@ -63,3 +63,24 @@ is demonstrated.
 - DXY remains canonical ICE identity but blocked on usable licensed intraday access.
 - US10Y remains blocked pending a real intraday source validation; daily Treasury
   feeds remain unacceptable for the current requirement.
+
+
+## Update 2026-10-06 — OIL transport acceptance and remaining-provider triage
+
+- Americas Oil Watch WTI transport acceptance reported by the user: 11 passed.
+- Real no-key payload demonstrated quoteType=intraday, quoteStatus=current,
+  provider/dataSource=Yahoo Finance (CL=F), positive price, and timezone-aware
+  observedAt. Transport rejects daily/stale/fallback data and never substitutes
+  fetchedAt for observedAt.
+- This closes a technically validated observational transport for OIL, but it
+  remains an aggregator/upstream-dependent route and is not automatically promoted.
+- DXY reconstructed baskets are explicitly rejected as substitutes for licensed
+  ICE DXY.
+- ICE remains canonical DXY identity with documented intraday delivery, but usable
+  project access is not demonstrated.
+- US10Y: Bonds API remains the strongest specific candidate because its documented
+  /intraday contract accepts country=US, maturity=10Y, explicit date and returns
+  yield snapshots with fetched_at UTC. Documentation alone is insufficient for
+  promotion.
+- A single-provider marketing claim covering US10Y/DXY/CL is not accepted as
+  evidence until isolated real identity/timestamp probes succeed.
