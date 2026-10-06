@@ -1,4 +1,4 @@
-"""Manual real Twelve Data discovery probe for the seven observational assets.
+"""Manual real Twelve Data discovery probe for the seven observational assets.\n\nRun from the repository root with:\n    python -m tools.twelvedata_real_discovery_probe_rc1
 
 This script is evidence-only. It does not create ProviderSymbolMap, manifest,
 configured provider, Bot integration, or trading influence.
