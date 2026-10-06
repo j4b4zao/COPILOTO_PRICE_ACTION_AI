@@ -84,3 +84,15 @@ is demonstrated.
   promotion.
 - A single-provider marketing claim covering US10Y/DXY/CL is not accepted as
   evidence until isolated real identity/timestamp probes succeed.
+
+
+## Update 2026-10-06 — resolved-five observational chain accepted
+
+- Resolved-five configuration acceptance: 2 passed.
+- Full partial chain acceptance (router -> collector -> observational snapshot -> bridge audit/readiness): 2 passed in 1.80s.
+- Configured observational assets: US500, NASDAQ, VIX, OIL, GOLD.
+- Required readiness remains DATA_NOT_READY because DXY is absent.
+- US10Y remains individually MISSING but is optional under the existing bridge readiness contract.
+- No proxy was introduced for DXY or US10Y.
+- No Score/Risk/Decision/Alert/Bot integration was added.
+- The next gate is regression validation against the broader external-context suite.
