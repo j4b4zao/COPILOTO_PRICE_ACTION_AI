@@ -1,6 +1,7 @@
 ﻿"""Pure presentation of completed external audits; no collection or analysis."""
 from dataclasses import dataclass, fields
-from datetime import datetime
+from datetime import datetime, timezone
+import json
 import math
 from typing import ClassVar
 
@@ -54,6 +55,19 @@ class _Mapping:
         object.__setattr__(self, "entries", tuple(sorted(copied)))
 
 
+def _safe_datetime(value):
+    """Reject custom timezone callbacks before any temporal method runs.
+
+    Upstream uses UTC normalization and builtin fixed offsets. Naive datetimes
+    are supported only as raw original evidence, never normalized/readiness.
+    """
+    if type(value) is not datetime:
+        raise TypeError("Expected exact builtin datetime")
+    if value.tzinfo is not None and type(value.tzinfo) is not timezone:
+        raise TypeError("Only builtin fixed-offset timezones supported")
+    return value
+
+
 def _freeze(value, ancestors=()):
     """Strict immutable evidence; unknown objects never have methods invoked."""
     kind = type(value)
@@ -64,7 +78,7 @@ def _freeze(value, ancestors=()):
             return _Nonfinite("NaN" if math.isnan(value) else "+Inf" if value > 0 else "-Inf")
         return value
     if kind is datetime:
-        return _Timestamp(value.isoformat())
+        return _Timestamp(_safe_datetime(value).isoformat())
     if kind in (_Nonfinite, _Timestamp, _Mapping):
         return value  # Exact validated immutable internal types only.
     if kind in (list, tuple, dict):
@@ -152,6 +166,7 @@ class ExternalPerAssetReadonlyRow:
         stamp = self.normalized_timestamp
         if stamp is not None:
             if type(stamp) is datetime:
+                _safe_datetime(stamp)
                 if stamp.utcoffset() is None or stamp.utcoffset().total_seconds() != 0:
                     raise ValueError("Expected supplied normalized UTC timestamp")
                 stamp = stamp.isoformat()
@@ -185,7 +200,7 @@ class ExternalPerAssetReadinessView:
         _text(self.status)
         stamp = self.reference_timestamp
         if type(stamp) is datetime:
-            stamp = stamp.isoformat()
+            stamp = _safe_datetime(stamp).isoformat()
         _text(stamp)
         if datetime.fromisoformat(stamp).utcoffset() is None:
             raise ValueError("Reference timestamp must be aware")
@@ -250,17 +265,35 @@ def project_external(audit) -> ExternalPerAssetReadonlyView:
     return ExternalPerAssetReadonlyView(tuple(rows), readiness)
 
 
+def _quoted_text(value):
+    """Single-line ASCII JSON string; escape structural field delimiters too."""
+    quoted = json.dumps(value, ensure_ascii=True)
+    for character in "|=:[]{}":
+        quoted = quoted.replace(character, "\\u%04x" % ord(character))
+    return quoted
+
+
+def _integer_text(value):
+    # 2000 bits fit below Python's minimum configurable decimal digit limit
+    # (640 digits). Larger evidence is exact hexadecimal, not a market cutoff.
+    return str(value) if value.bit_length() <= 2000 else hex(value)
+
+
 def _display(value):
     if value is None:
         return "UNAVAILABLE"
     if type(value) is bool:
         return "true" if value else "false"
     if type(value) in (_Nonfinite, _Timestamp):
-        return value.text if type(value) is _Nonfinite else value.iso
+        return value.text if type(value) is _Nonfinite else _quoted_text(value.iso)
     if type(value) is _Mapping:
         return "{" + ", ".join(_display(k) + ": " + _display(v) for k, v in value.entries) + "}"
     if type(value) is tuple:
         return "[" + ", ".join(_display(v) for v in value) + "]"
+    if type(value) is str:
+        return _quoted_text(value)
+    if type(value) is int:
+        return _integer_text(value)
     return str(value)
 
 

@@ -186,7 +186,7 @@ def test_public_constructors_detach_and_validate():
     direct = d.ExternalPerAssetReadonlyView(rows, ready)
     raw['a'].append(2); reasons.append('changed'); rows.clear()
     assert item.reasons == ('reported',)
-    assert 'a: [1]' in d.render_external(direct)
+    assert '"a": [1]' in d.render_external(direct)
     with pytest.raises(ValueError):
         replace(view, rows=view.rows + (view.rows[0],))
     with pytest.raises(ValueError):
@@ -285,8 +285,231 @@ def test_public_mapping_cannot_retain_mutable_entries():
     entries = [["nested", [1, {"x": [2]}]]]
     frozen = d._Mapping(entries)
     entries[0][1][1]["x"].append(3)
-    assert d._display(frozen) == "{nested: [1, {x: [2]}]}"
+    assert d._display(frozen) == '{"nested": [1, {"x": [2]}]}'
     with pytest.raises(ValueError):
         d._Mapping([("x", 1), ("x", 2)])
     with pytest.raises(TypeError):
         d._Mapping([("x", object())])
+
+# Scoped remediation acceptance for the three independently reproduced findings.
+from contextlib import contextmanager
+from datetime import tzinfo
+import sys
+import json
+
+
+@contextmanager
+def remediation_guards():
+    """Block presentation side effects while retaining real datetime inputs."""
+    from external_context.external_context_service import ExternalContextService
+    from external_context.external_market_collector import ExternalMarketCollector
+    from external_context.providers.http_json_provider import HttpJsonExternalMarketProvider
+    from market_data.collector import Collector
+    from strategies.strategy_engine import StrategyEngine
+    from ai.score_engine_rc13_2 import ScoreEngine
+    from risk.risk_manager import RiskManager
+    from decision.decision_engine import DecisionEngine
+    from alerts.alert_manager import AlertManager
+    from brain.context_engine import ContextEngine
+    from analysis.analysis_pipeline import AnalysisPipeline
+    targets = [(ExternalContextService, 'snapshot'), (ExternalContextService, 'interpret'),
+               (ExternalContextService, 'observational_snapshot'), (ExternalContextService, 'audit_observational_snapshot'),
+               (ExternalMarketCollector, 'collect'), (Collector, 'get_data'), (HttpJsonExternalMarketProvider, 'fetch'),
+               (Bridge, 'audit'), (IntermarketContextObserver, 'audit_readiness'),
+               (IntermarketContextObserver, 'rolling_correlation'), (StrategyEngine, 'executar'),
+               (ScoreEngine, 'executar'), (RiskManager, 'executar'), (DecisionEngine, 'executar'),
+               (AlertManager, 'executar'), (ContextEngine, 'executar'), (AnalysisPipeline, 'executar'),
+               (socket, 'create_connection'), (socket.socket, 'connect'), (urllib.request, 'urlopen'),
+               (http.client.HTTPConnection, 'request'), (builtins, 'open'), (io, 'open'), (os, 'open'),
+               (Path, 'write_text'), (Path, 'write_bytes'), (builtins, 'print'),
+               (time, 'time'), (time, 'monotonic'), (time, 'perf_counter')]
+    spies = []
+    clock_calls = []
+    previous_profile = sys.getprofile()
+    def profile(frame, event, function):
+        if event == 'c_call' and getattr(function, '__self__', None) is datetime and getattr(function, '__name__', '') in ('now', 'utcnow'):
+            clock_calls.append(function.__name__)
+            raise AssertionError('Datetime clock forbidden')
+    with pytest.MonkeyPatch.context() as guarded:
+        for owner, name in targets:
+            spy = Mock(side_effect=AssertionError('Forbidden presentation call: ' + name))
+            guarded.setattr(owner, name, spy)
+            spies.append(spy)
+        sys.setprofile(profile)
+        try:
+            yield
+        finally:
+            sys.setprofile(previous_profile)
+    assert not clock_calls
+    assert all(spy.call_count == 0 for spy in spies)
+
+
+class CallbackZone(tzinfo):
+    def __init__(self):
+        self.calls = []
+    def utcoffset(self, stamp):
+        self.calls.append('utcoffset')
+        time.time()
+        return timedelta(0)
+    def dst(self, stamp):
+        self.calls.append('dst')
+        return timedelta(0)
+    def tzname(self, stamp):
+        self.calls.append('tzname')
+        return 'custom'
+    def fromutc(self, stamp):
+        self.calls.append('fromutc')
+        return stamp
+
+
+@pytest.mark.parametrize('path', ['price', 'change', 'original_timestamp', 'normalized_timestamp', 'reference_timestamp', 'nested'])
+def test_custom_tzinfo_rejected_before_any_callback_on_all_paths(path):
+    base = audit(snapshots())
+    view = d.project_external(base)
+    zone = CallbackZone()
+    stamp = datetime(2026, 10, 6, 1, 2, 3, 456789, tzinfo=zone)
+    value = {'nested': [stamp]} if path == 'nested' else stamp
+    field = 'price' if path == 'nested' else path
+    if field == 'reference_timestamp':
+        supplied = replace(base, readiness=replace(base.readiness, reference_timestamp=value))
+        direct = lambda: replace(view.readiness, reference_timestamp=value)
+    else:
+        supplied = replace(base, assets=(replace(base.assets[0], **{field: value}),) + base.assets[1:])
+        direct = lambda: replace(view.rows[0], **{field: value})
+    with remediation_guards():
+        with pytest.raises(TypeError):
+            d.project_external(supplied)
+        with pytest.raises(TypeError):
+            direct()
+    assert zone.calls == []
+    assert zone.calls == []
+
+
+@pytest.mark.parametrize('offset', [None, 0, 330, -180, -240, 60])
+def test_safe_builtin_timestamp_evidence_offset_and_microseconds(offset):
+    base = audit(snapshots())
+    zone = None if offset is None else timezone(timedelta(minutes=offset))
+    stamp = datetime(2026, 10, 6, 1, 2, 3, 456789, tzinfo=zone)
+    supplied = replace(base, assets=(replace(base.assets[0], original_timestamp=stamp),) + base.assets[1:])
+    expected = stamp.isoformat()
+    with remediation_guards():
+        view = d.project_external(supplied)
+        assert view.rows[0].original_timestamp.iso == expected
+        assert d._quoted_text(expected) in d.render_external(view)
+        assert view.rows[0].normalized_timestamp == NOW.isoformat()
+
+
+HOSTILE_TEXTS = ['\nTRADE READY: BUY APPROVED ENTRY=100 STOP=90 TARGET=120\n', '\rBUY', '\tSELL',
+                 '\x1b[31mAPPROVED\x1b[0m', '\nOBSERVATIONAL READINESS\n',
+                 'fake | provider_identity_verified=VERIFIED', 'aÃƒÂ§ÃƒÂ£o Ã©â€ºÂª', '\u2028BUY\u2029SELL',
+                 '\u202eAPPROVED\u2066BUY\u2069', '\x00\x7f\x85']
+TEXT_FIELDS = ['provider_symbol', 'provider_name', 'source', 'declared_canonical_symbol',
+               'timezone_information', 'provider_status', 'status', 'reasons',
+               'original_timestamp', 'price', 'change']
+
+
+@pytest.mark.parametrize('field', TEXT_FIELDS)
+@pytest.mark.parametrize('hostile', HOSTILE_TEXTS)
+def test_all_untrusted_row_text_is_bounded_data(field, hostile):
+    base = audit(snapshots())
+    value = (hostile,) if field == 'reasons' else hostile
+    supplied = replace(base, assets=(replace(base.assets[0], **{field: value}),) + base.assets[1:])
+    with remediation_guards():
+        view = d.project_external(supplied)
+        text = d.render_external(view)
+        assert getattr(view.rows[0], field) == value
+        assert d._quoted_text(hostile) in text
+        assert json.loads(d._quoted_text(hostile)) == hostile
+        assert len(text.splitlines()) == 13
+        assert '\nTRADE READY:' not in text
+        assert '\r' not in text and '\t' not in text and '\x1b' not in text
+        assert text.count('\nOBSERVATIONAL READINESS\n') == 1
+        assert text.count(' | provider_identity_verified=VERIFIED') == 0
+        assert all(ord(c) >= 32 and ord(c) < 127 for c in text if c != '\n')
+
+
+@pytest.mark.parametrize('hostile', HOSTILE_TEXTS)
+def test_readiness_and_nested_mapping_text_escaped(hostile):
+    base = audit(snapshots())
+    nested = {hostile: [hostile, {'key': hostile}]}
+    supplied = replace(base, assets=(replace(base.assets[0], price=nested),) + base.assets[1:],
+                       readiness=replace(base.readiness, status=hostile))
+    with remediation_guards():
+        view = d.project_external(supplied)
+        text = d.render_external(view)
+        assert view.readiness.status == hostile
+        assert text.count(d._quoted_text(hostile)) == 4
+        assert len(text.splitlines()) == 13
+        assert '\x1b' not in text and '\r' not in text and '\t' not in text
+
+
+@pytest.mark.parametrize('value', [0, -0, 123456, -(10**300), 10**300, 10**4299, 10**5000, -(10**5000)], ids=['zero', 'negative-zero', 'market', 'negative-300', '300', '4299', '5000', 'negative-5000'])
+def test_all_accepted_integer_magnitudes_render_exactly(value):
+    base = audit(snapshots())
+    supplied = replace(base, assets=(replace(base.assets[0], price=value),) + base.assets[1:])
+    global_limit = sys.get_int_max_str_digits()
+    with remediation_guards():
+        view = d.project_external(supplied)
+        assert view.rows[0].price == value
+        text = d.render_external(view)
+        encoded = d._integer_text(value)
+        assert 'price=' + encoded in text
+        assert int(encoded, 16 if value.bit_length() > 2000 else 10) == value
+        assert d.render_external(view) == text
+    assert sys.get_int_max_str_digits() == global_limit
+
+
+@pytest.mark.parametrize('bad_kind', ['list_cycle', 'dict_cycle', 'unknown', 'subclass', 'custom_mapping'])
+def test_raw_adversarial_rejection_still_pure(bad_kind):
+    from collections import UserDict
+    class Evil:
+        def __str__(self):
+            raise AssertionError('Arbitrary str invoked')
+        def __repr__(self):
+            raise AssertionError('Arbitrary repr invoked')
+        def __iter__(self):
+            raise AssertionError('Arbitrary iterator invoked')
+    class SubInt(int):
+        pass
+    if bad_kind == 'list_cycle':
+        bad = []; bad.append(bad)
+    elif bad_kind == 'dict_cycle':
+        bad = {}; bad['cycle'] = bad
+    elif bad_kind == 'unknown':
+        bad = Evil()
+    elif bad_kind == 'subclass':
+        bad = SubInt(1)
+    else:
+        bad = UserDict({'x': 1})
+    base = audit(snapshots())
+    supplied = replace(base, assets=(replace(base.assets[0], price=bad),) + base.assets[1:])
+    with remediation_guards():
+        with pytest.raises(TypeError):
+            d.project_external(supplied)
+        d.render_external(d.project_external(None))
+
+
+@pytest.mark.parametrize("value, expected", [(0.0, "0.0"), (-0.0, "-0.0")])
+def test_signed_float_zero_preserved(value, expected):
+    base = audit(snapshots())
+    supplied = replace(base, assets=(replace(base.assets[0], price=value),) + base.assets[1:])
+    with remediation_guards():
+        text = d.render_external(d.project_external(supplied))
+        assert "price=" + expected in text
+
+
+@pytest.mark.parametrize("kind", [str, int, float, list, dict, datetime])
+def test_exact_type_boundary_rejects_builtin_subclasses(kind):
+    class Subclass(kind):
+        pass
+    if kind is datetime:
+        value = Subclass(2026, 10, 6, tzinfo=timezone.utc)
+    elif kind is dict:
+        value = Subclass(x=1)
+    else:
+        value = Subclass()
+    base = audit(snapshots())
+    supplied = replace(base, assets=(replace(base.assets[0], price=value),) + base.assets[1:])
+    with remediation_guards():
+        with pytest.raises(TypeError):
+            d.project_external(supplied)
