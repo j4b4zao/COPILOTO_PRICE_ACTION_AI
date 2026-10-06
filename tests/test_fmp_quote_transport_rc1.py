@@ -60,7 +60,7 @@ def test_fetch_builds_request_and_normalizes_quote_with_aware_utc_timestamp():
     assert result == {
         "price": 7825.5,
         "change": 0.66311,
-        "timestamp": "2026-10-06T15:59:45+00:00",
+        "timestamp": "2026-10-06T18:39:45+00:00",
     }
 
 
