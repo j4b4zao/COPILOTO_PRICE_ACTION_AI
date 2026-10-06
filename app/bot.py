@@ -15,6 +15,8 @@ from logs.logger import Logger
 from monitor.multi_timeframe_monitor import MultiTimeframeMonitor
 from monitor.order_flow_monitor import OrderFlowMonitor
 from dashboard.copilot_readonly_dashboard import project, render
+from dashboard.external_per_asset_readonly_dashboard import project_external, render_external
+from analysis.research.intermarket_external_context_bridge import ExternalBridgeAudit
 
 
 class Bot:
@@ -101,7 +103,8 @@ class Bot:
     # EXIBIÇÃO TEMPORÁRIA
     # ==========================================================
 
-    def mostrar(self, context):
+    def mostrar(self, context, *, external_audit: ExternalBridgeAudit | None = None,
+                external_presentation_enabled: bool = False):
 
         market = context.market
 
@@ -242,3 +245,19 @@ class Bot:
 
         # Passive presentation of the completed context; loop error policy applies.
         print(render(project(context)))
+
+        # Optional display consumes only supplied, completed observational evidence.
+        if external_presentation_enabled is False:
+            return
+        try:
+            if external_presentation_enabled is not True:
+                raise TypeError("External presentation requires an exact bool")
+            external_text = render_external(project_external(external_audit))
+        except Exception:
+            external_text = "EXTERNAL OBSERVATIONAL CONTEXT UNAVAILABLE"
+
+        # A failed optional print is suppressed without retry or logging.
+        try:
+            print(external_text)
+        except Exception:
+            pass
