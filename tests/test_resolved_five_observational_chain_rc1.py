@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 from external_context.external_market_collector import ExternalMarketCollector
 from external_context.providers.resolved_five_observational_configuration import build_resolved_five_observational_router
@@ -28,7 +29,7 @@ def test_five_quotes_cross_collector_but_official_state_fails_closed_without_dxy
 
 def test_readiness_explicitly_reports_missing_dxy_and_us10y():
     c=ExternalMarketCollector(provider=router(),preserve_quotes=True);c.collect()
-    audit=c.observational_snapshot.audit(reference_timestamp="2026-10-06T15:30:00+00:00",maximum_staleness_seconds=3600)
+    audit=c.observational_snapshot.audit(reference_timestamp=datetime.fromisoformat("2026-10-06T15:30:00+00:00"),maximum_staleness_seconds=3600)
     assert audit.status=="DATA_NOT_READY"
     assert set(audit.missing_assets)=={"DXY","US10Y"}
     assert set(audit.available_assets)=={"US500","NASDAQ","VIX","OIL","GOLD"}
