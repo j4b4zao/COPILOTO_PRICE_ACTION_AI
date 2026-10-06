@@ -39,7 +39,7 @@ def run(api_key, reference_date, opener=urlopen):
     except ValueError as exc:
         raise ValueError("reference_date must be explicit YYYY-MM-DD") from exc
     pp,pe=_get("/futures/v1/products",key,{"product_code":"CL","limit":100},opener)
-    cp,ce=_get("/futures/v1/contracts",key,{"product_code":"CL","date":reference_date,"active":"true","type":"single","limit":100,"sort":"ticker.asc"},opener)
+    cp,ce=_get("/futures/v1/contracts",key,{"product_code":"CL","date":reference_date,"active":"true","type":"single","limit":100,"sort":"days_to_maturity.asc"},opener)
     products=_safe(_rows(pp),PRODUCT_FIELDS)
     contracts=_safe(_rows(cp),CONTRACT_FIELDS)
     return {
