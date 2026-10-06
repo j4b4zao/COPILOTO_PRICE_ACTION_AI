@@ -4,7 +4,8 @@ Uses provider-documented crude-oil product code CL. Evidence only: it does not
 approve OIL mapping or select an expiry.
 """
 from __future__ import annotations
-import json, os
+import argparse, json, os
+from datetime import date
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -29,16 +30,21 @@ def _rows(p):
 def _safe(rows,fields):
     return [{k:r.get(k) for k in fields if k in r} for r in rows if isinstance(r,dict)]
 
-def run(api_key,opener=urlopen):
+def run(api_key, reference_date, opener=urlopen):
     key=str(api_key or "").strip()
     if not key: raise ValueError("MASSIVE_API_KEY is required")
+    reference_date=str(reference_date or "").strip()
+    try:
+        date.fromisoformat(reference_date)
+    except ValueError as exc:
+        raise ValueError("reference_date must be explicit YYYY-MM-DD") from exc
     pp,pe=_get("/futures/v1/products",key,{"product_code":"CL","limit":100},opener)
-    cp,ce=_get("/futures/v1/contracts",key,{"product_code":"CL","limit":100,"sort":"ticker","order":"asc"},opener)
+    cp,ce=_get("/futures/v1/contracts",key,{"product_code":"CL","date":reference_date,"active":"true","type":"single","limit":100,"sort":"ticker.asc"},opener)
     products=_safe(_rows(pp),PRODUCT_FIELDS)
     contracts=_safe(_rows(cp),CONTRACT_FIELDS)
     return {
       "name":"MassiveRealCLCrudeOilProbe","version":"RC1","provider":"Massive",
-      "observational_only":True,"provider_documented_product_code":"CL",
+      "observational_only":True,"provider_documented_product_code":"CL","reference_date":reference_date,
       "candidate_is_approved_mapping":False,"creates_provider_symbol_map":False,
       "creates_manifest":False,"creates_router_route":False,
       "selects_futures_expiry":False,
@@ -47,9 +53,12 @@ def run(api_key,opener=urlopen):
     }
 
 def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument("--date",required=True,dest="reference_date",help="Explicit provider point-in-time date YYYY-MM-DD")
+    args=parser.parse_args()
     key=os.getenv("MASSIVE_API_KEY","")
     if not key.strip():
         print("ERROR: MASSIVE_API_KEY is not configured."); raise SystemExit(2)
-    print(json.dumps(run(key),indent=2,ensure_ascii=False))
+    print(json.dumps(run(key,args.reference_date),indent=2,ensure_ascii=False))
 
 if __name__=="__main__": main()
