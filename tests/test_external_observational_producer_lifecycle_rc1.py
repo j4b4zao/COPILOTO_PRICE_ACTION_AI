@@ -11,6 +11,7 @@ from external_context.external_context_service import ExternalContextService
 from external_context.external_observational_producer_lifecycle import (
     ExternalObservationalProducerLifecycle,
 )
+from external_context.external_observational_snapshot import ExternalObservationalSnapshot
 from external_context.providers.provider_symbol_map import ProviderSymbolMap
 
 
@@ -75,6 +76,42 @@ def test_policy_is_explicit_and_invalid_policy_fails_before_fetch():
         )
     assert provider.fetch.call_count == 0
 
+
+
+def test_exactly_one_completed_audit_is_created_per_produce(monkeypatch):
+    provider, service = service_for(quotes())
+    lifecycle = ExternalObservationalProducerLifecycle(service)
+    original = ExternalObservationalSnapshot.audit
+    calls = []
+
+    def counted(self, **kwargs):
+        calls.append(kwargs)
+        return original(self, **kwargs)
+
+    monkeypatch.setattr(ExternalObservationalSnapshot, "audit", counted)
+
+    audit = lifecycle.produce(
+        reference_timestamp=NOW,
+        maximum_staleness_seconds=10,
+    )
+
+    assert audit.observational_only is True
+    assert provider.fetch.call_count == len(Bridge.SYMBOLS)
+    assert len(calls) == 1
+
+
+def test_invalid_symbol_map_fails_before_fetch():
+    provider, service = service_for(quotes())
+    lifecycle = ExternalObservationalProducerLifecycle(service)
+
+    with pytest.raises(TypeError):
+        lifecycle.produce(
+            reference_timestamp=NOW,
+            maximum_staleness_seconds=10,
+            symbol_map={"symbols": [], "status": {}},
+        )
+
+    assert provider.fetch.call_count == 0
 
 def test_symbol_map_is_frozen_before_collection():
     data = quotes()
