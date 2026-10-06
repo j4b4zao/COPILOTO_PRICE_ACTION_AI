@@ -28,7 +28,7 @@ def test_empty_results_fail_closed():
     assert x["active_contracts"]["rows"]==[]
 
 
-def test_reference_date_required_and_contract_query_sorted_by_maturity():
+def test_reference_date_required_and_contract_query_uses_supported_sort():
     with pytest.raises(ValueError,match="reference_date"):
         run("key","")
     seen=[]
@@ -40,4 +40,18 @@ def test_reference_date_required_and_contract_query_sorted_by_maturity():
     assert "date=2026-10-06" in contract_url
     assert "active=true" in contract_url
     assert "type=single" in contract_url
-    assert "sort=days_to_maturity.asc" in contract_url
+    assert "sort=ticker.asc" in contract_url
+
+
+def test_contracts_are_sorted_locally_by_days_to_maturity_without_selecting_expiry():
+    def opener(req,timeout):
+        if "/products?" in req.full_url:
+            return R({"results":[]})
+        return R({"results":[
+            {"ticker":"CLF7","product_code":"CL","days_to_maturity":76},
+            {"ticker":"CLX6","product_code":"CL","days_to_maturity":45},
+            {"ticker":"CLZ6","product_code":"CL","days_to_maturity":60},
+        ]})
+    x=run("key","2026-10-06",opener)
+    assert [r["ticker"] for r in x["active_contracts"]["rows"]]==["CLX6","CLZ6","CLF7"]
+    assert x["selects_futures_expiry"] is False
