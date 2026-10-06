@@ -7,6 +7,7 @@ canonical asset mapping remains the manifest/adapter responsibility.
 from __future__ import annotations
 
 import json
+from datetime import datetime, timezone
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -57,11 +58,19 @@ class TwelveDataQuoteTransport:
         if price <= 0:
             return None
 
-        timestamp = payload.get("datetime", "")
+        raw_timestamp = payload.get("timestamp")
+        try:
+            unix_seconds = int(raw_timestamp)
+            if unix_seconds <= 0:
+                raise ValueError
+            timestamp = datetime.fromtimestamp(unix_seconds, tz=timezone.utc).isoformat()
+        except (TypeError, ValueError, OverflowError, OSError):
+            return None
+
         return {
             "price": price,
             "change": percent_change,
-            "timestamp": "" if timestamp is None else str(timestamp),
+            "timestamp": timestamp,
         }
 
     def snapshot(self):
@@ -72,4 +81,5 @@ class TwelveDataQuoteTransport:
             "timeout": self._timeout,
             "configured": True,
             "observational_only": True,
+            "timestamp_semantics": "provider_unix_seconds_to_utc_iso8601",
         }
