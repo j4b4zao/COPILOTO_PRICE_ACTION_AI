@@ -5,7 +5,7 @@ from datetime import datetime
 from urllib.error import HTTPError,URLError
 from urllib.parse import urlencode
 from urllib.request import Request,urlopen
-BASE_URL="https://api.bonds-api.com/v1/intraday"
+BASE_URL="https://bonds-api.com/api/v1/intraday"
 DATE_RE=re.compile(r"^\d{4}-\d{2}-\d{2}$")
 def _aware_iso(v):
     s=str(v or "").strip()
@@ -19,8 +19,8 @@ def run(api_key,reference_date,opener=urlopen):
     if not DATE_RE.fullmatch(date):raise ValueError("reference_date must be explicit YYYY-MM-DD")
     try:datetime.strptime(date,"%Y-%m-%d")
     except ValueError:raise ValueError("reference_date must be a valid YYYY-MM-DD")
-    url=f"{BASE_URL}?{urlencode({'country':'US','maturity':'10Y','date':date})}"
-    req=Request(url,headers={"Authorization":f"Bearer {key}","Accept":"application/json","User-Agent":"COPILOTO_PRICE_ACTION_AI/ExternalContext"},method="GET")
+    url=f"{BASE_URL}?{urlencode({'country':'US','maturity':'10Y','date':date,'api_key':key})}"
+    req=Request(url,headers={"Accept":"application/json","User-Agent":"COPILOTO_PRICE_ACTION_AI/ExternalContext"},method="GET")
     try:p=json.loads(opener(req,timeout=15.0).read().decode());err=""
     except HTTPError as e:p,err=None,f"HTTP_{e.code}"
     except (URLError,TimeoutError,OSError,UnicodeDecodeError,json.JSONDecodeError) as e:p,err=None,type(e).__name__
