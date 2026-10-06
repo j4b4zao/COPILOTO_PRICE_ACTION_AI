@@ -1,5 +1,7 @@
 from types import SimpleNamespace
 
+import pytest
+
 from analysis.order_flow import OrderFlow
 from models.order_flow_result import OrderFlowResult
 
@@ -13,7 +15,7 @@ def _result(absorption="NONE", exhaustion="NONE", confidence=0.8):
 
 
 def _context(trend):
-    return SimpleNamespace(market_structure=SimpleNamespace(trend=trend))
+    return SimpleNamespace(structure=SimpleNamespace(trend=trend))
 
 
 def test_buy_absorption_maps_to_buy_direction():
@@ -58,12 +60,12 @@ def test_sideways_structure_is_neutral():
     result = _result(absorption="SELL_ABSORPTION", confidence=0.75)
     OrderFlow()._qualify_structure(_context("SIDEWAYS"), result)
     assert result.structure_alignment == "NEUTRAL"
-    assert result.structural_pattern_confidence == 0.6
+    assert result.structural_pattern_confidence == pytest.approx(0.6)
 
 
 def test_missing_structure_is_unavailable():
     result = _result(absorption="BUY_ABSORPTION")
-    context = SimpleNamespace(market_structure=None)
+    context = SimpleNamespace(structure=None)
     OrderFlow()._qualify_structure(context, result)
     assert result.structure_alignment == "UNAVAILABLE"
 
