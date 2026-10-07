@@ -61,6 +61,8 @@ class ReplayResult:
 
     losses: int = 0
 
+    breakevens: int = 0
+
     skipped: int = 0
 
     gross_profit: float = 0.0

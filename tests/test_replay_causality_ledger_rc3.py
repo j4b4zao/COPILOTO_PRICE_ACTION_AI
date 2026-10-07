@@ -101,7 +101,9 @@ def test_authorized_open_and_session_end(direction):
     assert (a.decision_buy_sell, a.trades_opened, a.trades_closed, a.statistics_committed_trades) == (1, 1, 1, 1)
     assert a.closed_trades[0].reason == "SESSION_END"
     assert a.closed_trades[0].profit == 0
-    assert result.wins == 1  # Deliberately retain the RC1 zero-profit convention.
+    assert result.wins == 0
+    assert result.losses == 0
+    assert result.breakevens == 1 # Deliberately retain the RC1 zero-profit convention.
     invariants(a)
 
 
