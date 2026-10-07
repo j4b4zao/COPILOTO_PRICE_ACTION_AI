@@ -149,6 +149,9 @@ class MultiTimeframeAnalysis(EngineBase):
     @staticmethod
     def _apply_regime_context(context, result) -> None:
         regime_result = context.regime
+        if getattr(regime_result, "valid", False) is not True:
+            return
+
         regime = str(getattr(regime_result, "regime", "UNKNOWN") or "UNKNOWN").upper()
         result.regime_context = regime
 
@@ -185,9 +188,10 @@ class MultiTimeframeAnalysis(EngineBase):
             return
 
         result.regime_compatible = False
-        result.alignment = "WAIT_REGIME"
-        result.aligned = False
-        result.conflict = False
+        # Regime context must not erase a conflict already detected by MTF.
+        if not result.conflict:
+            result.alignment = "WAIT_REGIME"
+            result.aligned = False
         result.confidence = min(result.confidence, 0.40)
         result.add_reason(
             f"MarketRegime {regime} ainda não confirma o bias MTF {result.bias}; "

@@ -15,6 +15,7 @@ def _result_with_bias(context, bias="BUY", alignment="BUY", confidence=1.0):
 def test_buy_bias_matches_trend_up_regime():
     context = AnalysisContext()
     context.regime.regime = "TREND_UP"
+    context.regime.validate()
     result = _result_with_bias(context, "BUY", "BUY", 1.0)
     MultiTimeframeAnalysis._apply_regime_context(context, result)
     assert result.regime_context == "TREND_UP"
@@ -25,6 +26,7 @@ def test_buy_bias_matches_trend_up_regime():
 def test_sell_bias_matches_trend_down_regime():
     context = AnalysisContext()
     context.regime.regime = "TREND_DOWN"
+    context.regime.validate()
     result = _result_with_bias(context, "SELL", "SELL", 1.0)
     MultiTimeframeAnalysis._apply_regime_context(context, result)
     assert result.regime_compatible is True
@@ -34,6 +36,7 @@ def test_sell_bias_matches_trend_down_regime():
 def test_buy_bias_conflicts_with_trend_down_regime():
     context = AnalysisContext()
     context.regime.regime = "TREND_DOWN"
+    context.regime.validate()
     result = _result_with_bias(context, "BUY", "BUY", 1.0)
     MultiTimeframeAnalysis._apply_regime_context(context, result)
     assert result.regime_compatible is False
@@ -45,6 +48,7 @@ def test_buy_bias_conflicts_with_trend_down_regime():
 def test_sell_bias_conflicts_with_trend_up_regime():
     context = AnalysisContext()
     context.regime.regime = "TREND_UP"
+    context.regime.validate()
     result = _result_with_bias(context, "SELL", "SELL", 1.0)
     MultiTimeframeAnalysis._apply_regime_context(context, result)
     assert result.regime_compatible is False
@@ -54,6 +58,7 @@ def test_sell_bias_conflicts_with_trend_up_regime():
 def test_range_regime_turns_directional_bias_into_wait():
     context = AnalysisContext()
     context.regime.regime = "RANGE"
+    context.regime.validate()
     result = _result_with_bias(context, "BUY", "BUY", 1.0)
     MultiTimeframeAnalysis._apply_regime_context(context, result)
     assert result.alignment == "WAIT_REGIME"
@@ -65,6 +70,7 @@ def test_range_regime_turns_directional_bias_into_wait():
 def test_transition_regime_turns_directional_bias_into_wait():
     context = AnalysisContext()
     context.regime.regime = "TRANSITION"
+    context.regime.validate()
     result = _result_with_bias(context, "SELL", "SELL", 1.0)
     MultiTimeframeAnalysis._apply_regime_context(context, result)
     assert result.alignment == "WAIT_REGIME"
@@ -74,6 +80,7 @@ def test_transition_regime_turns_directional_bias_into_wait():
 def test_unknown_regime_is_not_considered_compatible():
     context = AnalysisContext()
     context.regime.regime = "UNKNOWN"
+    context.regime.validate()
     result = _result_with_bias(context, "BUY", "WAIT_M5", 0.50)
     MultiTimeframeAnalysis._apply_regime_context(context, result)
     assert result.regime_context == "UNKNOWN"
@@ -85,6 +92,7 @@ def test_no_bias_is_compatible_with_range_or_transition():
     for regime in ("RANGE", "TRANSITION"):
         context = AnalysisContext()
         context.regime.regime = regime
+        context.regime.validate()
         result = _result_with_bias(context, "NONE", "WAIT_CONTEXT", 0.35)
         MultiTimeframeAnalysis._apply_regime_context(context, result)
         assert result.regime_compatible is True
@@ -104,6 +112,7 @@ def test_clear_resets_regime_bridge_metadata():
 def test_regime_bridge_does_not_touch_decision():
     context = AnalysisContext()
     context.regime.regime = "TREND_DOWN"
+    context.regime.validate()
     result = _result_with_bias(context, "BUY", "BUY", 1.0)
     before = context.decision.direction
     MultiTimeframeAnalysis._apply_regime_context(context, result)

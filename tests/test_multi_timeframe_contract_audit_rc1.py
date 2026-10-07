@@ -203,15 +203,62 @@ def test_legacy_conflict_gate_still_blocks():
     assert context.alert.action=="NONE"
 
 
-def test_regime_can_clear_m1_conflict_but_not_m5_conflict():
-    row=matrix_row("UP","UP","DOWN","RANGE","BUY")
-    assert (row["ALIGNMENT"],row["CONFLICT"])==("WAIT_REGIME",False)
-    row=matrix_row("UP","DOWN","UP","RANGE","BUY")
-    assert (row["ALIGNMENT"],row["CONFLICT"],row["REGIME_COMPATIBLE"])==("CONFLICT_M5",True,True)
+@pytest.mark.parametrize("regime", ["RANGE", "TRANSITION"])
+@pytest.mark.parametrize("m15,m5,m1,direction,alignment", [
+    ("UP", "UP", "DOWN", "BUY", "CONFLICT_M1"),
+    ("DOWN", "DOWN", "UP", "SELL", "CONFLICT_M1"),
+    ("UP", "DOWN", "UP", "BUY", "CONFLICT_M5"),
+    ("DOWN", "UP", "DOWN", "SELL", "CONFLICT_M5"),
+])
+def test_regime_preserves_m1_and_m5_conflicts(regime,m15,m5,m1,direction,alignment):
+    row=matrix_row(m15,m5,m1,regime,direction)
+    assert (row["ALIGNMENT"],row["CONFLICT"]) == (alignment,True)
+    assert row["DECISION_BEHAVIOR"] == "WAIT"
+    assert row["ALERT_BEHAVIOR"] == "NONE"
 
 
-def test_regime_valid_flag_not_checked_by_producer_bridge():
-    context=context_for(regime="TREND_UP")
-    context.regime.valid=False
+@pytest.mark.parametrize("regime", ["TREND_UP", "TREND_DOWN", "RANGE", "TRANSITION"])
+@pytest.mark.parametrize("valid", [False, None, 1])
+def test_invalid_regime_is_ignored_by_producer_bridge(regime,valid):
+    context=context_for(regime=regime)
+    context.regime.valid=valid
+    before=copy.deepcopy(context.regime)
     MultiTimeframeAnalysis().executar(context)
-    assert context.multi_timeframe_analysis.regime_compatible is True
+    result=context.multi_timeframe_analysis
+    assert (result.alignment,result.bias,result.conflict,result.confidence) == ("BUY","BUY",False,1.0)
+    assert result.regime_context == "UNKNOWN"
+    assert result.regime_compatible is False
+    assert context.regime == before
+
+
+@pytest.mark.parametrize("regime", ["TREND_UP", "TREND_DOWN", "RANGE", "TRANSITION"])
+@pytest.mark.parametrize("trends", [(Trend.UP,Trend.UP,Trend.DOWN),
+                                    (Trend.UP,Trend.DOWN,Trend.UP)])
+def test_bridge_preserves_conflict_evidence_and_regime_input(regime,trends):
+    context=context_for(regime=regime)
+    result=context.multi_timeframe_analysis
+    MultiTimeframeAnalysis._set_hierarchical_alignment(result,*trends)
+    reasons=list(result.reasons)
+    before=copy.deepcopy((context.regime,context.strategy,context.score,context.risk,context.decision))
+    MultiTimeframeAnalysis._apply_regime_context(context,result)
+    assert result.conflict is True
+    assert result.reasons[:len(reasons)] == reasons
+    assert (context.regime,context.strategy,context.score,context.risk,context.decision) == before
+
+
+@pytest.mark.parametrize("alignment,bias,conflict", [
+    ("BUY","BUY",False), ("WAIT_M5","BUY",False),
+    ("WAIT_TRIGGER","BUY",False), ("WAIT_CONTEXT","NONE",False),
+    ("CONFLICT_M1","BUY",True), ("CONFLICT_M5","NONE",True),
+])
+def test_invalid_regime_leaves_entire_prebridge_result_unchanged(alignment,bias,conflict):
+    context=context_for(regime="TREND_DOWN")
+    context.regime.valid=False
+    result=context.multi_timeframe_analysis
+    result.alignment=alignment
+    result.bias=bias
+    result.conflict=conflict
+    result.add_reason("Existing MTF evidence")
+    before=copy.deepcopy(result)
+    MultiTimeframeAnalysis._apply_regime_context(context,result)
+    assert result == before
