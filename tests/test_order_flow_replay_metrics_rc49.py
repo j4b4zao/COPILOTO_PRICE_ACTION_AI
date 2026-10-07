@@ -1,5 +1,7 @@
 """Testes offline da integração Replay -> métricas de Order Flow RC4.9."""
 
+from datetime import datetime, timedelta
+
 from core.analysis_context import AnalysisContext
 from models.candle import Candle
 from performance.order_flow_experiment_metrics import (
@@ -55,6 +57,7 @@ def candles(count):
             low=990.0 + index,
             close=1005.0 + index,
             volume=1000.0,
+            timestamp=datetime(2026, 10, 7, 10) + timedelta(minutes=index),
         )
         for index in range(count)
     ]
