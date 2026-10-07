@@ -50,7 +50,7 @@ class OfflinePipeline:
 
 
 def engine(samples):
-    return ReplayEngine(OfflinePipeline(samples))
+    return ReplayEngine(OfflinePipeline(samples), trusted_offline=True)
 
 
 class ReplayCurrentDecisionTests(unittest.TestCase):
@@ -153,7 +153,7 @@ class ReplayCurrentDecisionTests(unittest.TestCase):
             pipeline = OfflinePipeline([])
             setattr(pipeline, resource, object())
             with self.assertRaises(ValueError):
-                ReplayEngine(pipeline).executar(AnalysisContext(), [])
+                ReplayEngine(pipeline, trusted_offline=True).executar(AnalysisContext(), [])
             self.assertEqual(pipeline.index, 0)
 
     def test_unisolatable_pipeline_fails_closed(self):
@@ -161,11 +161,11 @@ class ReplayCurrentDecisionTests(unittest.TestCase):
             def __deepcopy__(self, memo):
                 return self
         with self.assertRaises(ValueError):
-            ReplayEngine(SharedPipeline([])).executar(AnalysisContext(), [])
+            ReplayEngine(SharedPipeline([]), trusted_offline=True).executar(AnalysisContext(), [])
 
     def test_injected_known_metrics_preserved_and_reset(self):
         metrics = OrderFlowExperimentMetrics(score_threshold=80)
-        replay = ReplayEngine(OfflinePipeline([{"action": "WAIT"}]), metrics)
+        replay = ReplayEngine(OfflinePipeline([{"action": "WAIT"}]), metrics, trusted_offline=True)
         result = replay.executar(AnalysisContext(), [bar(0)])
         self.assertIs(replay.order_flow_metrics, metrics)
         self.assertEqual(result.order_flow_metrics["score_threshold"], 80)
@@ -174,7 +174,7 @@ class ReplayCurrentDecisionTests(unittest.TestCase):
 
     def test_unknown_metrics_fail_closed(self):
         with self.assertRaises(TypeError):
-            ReplayEngine(OfflinePipeline([]), object()).executar(AnalysisContext(), [])
+            ReplayEngine(OfflinePipeline([]), object(), trusted_offline=True).executar(AnalysisContext(), [])
 
     def test_pipeline_results_are_not_modified_by_consumer(self):
         context = AnalysisContext()
@@ -196,7 +196,8 @@ class ReplayCurrentDecisionTests(unittest.TestCase):
         from pathlib import Path
         tree = ast.parse((Path(__file__).resolve().parents[1] / "replay" / "replay_engine.py").read_text(encoding="utf-8-sig"))
         imports = {node.module for node in ast.walk(tree) if isinstance(node, ast.ImportFrom)}
-        self.assertEqual(imports, {"copy", "types", "core.analysis_context",
+        self.assertEqual(imports, {"copy", "dataclasses", "datetime", "enum", "types", "analysis", "core.analysis_context",
+                                  "models.candle", "models.decision_result", "replay.replay_result",
                                   "performance.order_flow_experiment_metrics",
                                   "replay.replay_statistics", "replay.trade_simulator"})
 

@@ -90,7 +90,7 @@ def teste_replay_registra_metricas_por_candle():
     )
     context = AnalysisContext()
 
-    result = ReplayEngine(pipeline).executar(
+    result = ReplayEngine(pipeline, trusted_offline=True).executar(
         context,
         candles(3),
     )
@@ -117,7 +117,7 @@ def teste_replay_sem_bonus_preserva_estatisticas_e_retorna_zero():
         )
     )
 
-    result = ReplayEngine(pipeline).executar(
+    result = ReplayEngine(pipeline, trusted_offline=True).executar(
         AnalysisContext(),
         candles(2),
     )
@@ -151,6 +151,7 @@ def teste_replay_aceita_coletor_injetado_e_limite_customizado():
     engine = ReplayEngine(
         pipeline,
         order_flow_metrics=metrics,
+        trusted_offline=True,
     )
     result = engine.executar(
         AnalysisContext(),
