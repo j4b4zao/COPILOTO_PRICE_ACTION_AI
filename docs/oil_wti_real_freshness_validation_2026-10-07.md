@@ -124,3 +124,57 @@ Referente a:
 - `tests/test_americas_oil_watch_wti_transport_rc1.py`
 
 Nenhum teste adicional foi executado nesta etapa documental.
+
+## SECOND REAL SAMPLE
+
+Segunda amostra real fornecida pelo operador, sem nova consulta nesta etapa:
+
+| Campo | Amostra 2 |
+| --- | --- |
+| reference_timestamp | 2026-10-07T14:33:50+00:00 |
+| price | 89.94 |
+| change | 0.56 |
+| observedAt | 2026-10-07T13:01:03+00:00 |
+| fetchedAt | 2026-10-07T13:11:03.969Z |
+| age_seconds | 5567 |
+| freshness_status | STALE |
+| HTTP Date | 14:33:51 GMT |
+| HTTP Age | 225 |
+
+Comparação com a primeira amostra:
+
+| Evidência | Amostra 1 | Amostra 2 | Delta |
+| --- | --- | --- | --- |
+| reference_timestamp | 2026-10-07T14:24:11+00:00 | 2026-10-07T14:33:50+00:00 | 579 segundos |
+| observedAt | 2026-10-07T13:01:03+00:00 | 2026-10-07T13:01:03+00:00 | 0 segundos |
+| fetchedAt | 2026-10-07T13:11:03.969Z | 2026-10-07T13:11:03.969Z | 0 segundos |
+| age_seconds | 4988 | 5567 | 579 segundos |
+| price | 89.94 | 89.94 | inalterado |
+| change | 0.56 | 0.56 | inalterado |
+| freshness_status | STALE | STALE | inalterado |
+| HTTP Date | 14:24:12 GMT | 14:33:51 GMT | evidência bruta |
+| HTTP Age | 247 | 225 | evidência bruta |
+
+Há forte evidência de conteúdo observado inalterado entre capturas separadas
+por 579 segundos. A classificação descritiva é `OBSERVATION_UNCHANGED`.
+As duas capturas não demonstram o comportamento em cada instante intermediário
+nem provam qual camada causou isso. Não atribuir automaticamente a causa a
+Yahoo Finance, Americas Oil Watch ou cache. HTTP Age é apenas evidência e não
+substitui observedAt ou determina o estado descritivo.
+
+O comparador offline `tools/americas_oil_watch_wti_sample_comparator_rc1.py`
+recebe objetos JSON capturados pelo probe RC1, ou listas desses objetos,
+ordena pela referência explícita e compara pares adjacentes válidos. Campos
+incompatíveis ou timestamps inválidos/naive produzem `INSUFFICIENT_EVIDENCE`.
+Sem referência avançando, ou com observedAt regredindo, o par também permanece
+`INSUFFICIENT_EVIDENCE`. fetchedAt pode estar ausente, sem substituição.
+
+Exemplo de uso com arquivos locais contendo apenas JSON do probe:
+
+```powershell
+python -m tools.americas_oil_watch_wti_sample_comparator_rc1 --enable amostra1.json amostra2.json
+```
+
+Nenhuma rede, troca de fonte, fallback, alteração do threshold 3600, ativação
+ou influência operacional. Nenhuma conclusão de direção de mercado é derivada
+desta comparação.
