@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 from datetime import datetime, timezone
 from urllib.error import HTTPError, URLError
@@ -39,23 +40,37 @@ def _fetch_latest_1min(symbol: str, api_key: str, opener, timeout: float = 5.0):
     try:
         response = opener(request, timeout=timeout)
         payload = json.loads(response.read().decode("utf-8"))
-    except (HTTPError, URLError, TimeoutError, OSError, UnicodeDecodeError, json.JSONDecodeError):
-        return None
-    if not isinstance(payload, list) or not payload or not isinstance(payload[0], dict):
-        return None
-    bar = payload[0]
+    except HTTPError as exc:
+        return {"status": "HTTP_ERROR", "http_status": exc.code}
+    except (URLError, TimeoutError, OSError):
+        return {"status": "TRANSPORT_ERROR"}
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return {"status": "INVALID_JSON"}
+    if not isinstance(payload, list):
+        return {"status": "INVALID_PAYLOAD"}
+    if not payload:
+        return {"status": "EMPTY_PAYLOAD"}
     try:
-        close = float(bar["close"])
-        # FMP intraday examples document a naive market datetime. Interpret it
-        # only as UTC for this diagnostic if the fixture/provider supplies an
-        # explicit offset; otherwise preserve ambiguity and refuse freshness.
-        raw_date = str(bar["date"]).strip()
-        observed = datetime.fromisoformat(raw_date.replace("Z", "+00:00"))
-        if observed.tzinfo is None or observed.utcoffset() is None:
+        bars = []
+        for bar in payload:
+            if not isinstance(bar, dict) or not isinstance(bar.get("date"), str):
+                return {"status": "INVALID_PAYLOAD"}
+            raw_date = bar["date"].strip()
+            observed = datetime.fromisoformat(raw_date.replace("Z", "+00:00"))
+            close = float(bar["close"])
+            if isinstance(bar["close"], bool) or not math.isfinite(close) or close <= 0:
+                return {"status": "INVALID_PAYLOAD"}
+            aware = observed.tzinfo is not None and observed.utcoffset() is not None
+            bars.append((observed.astimezone(timezone.utc) if aware else observed,
+                         close, raw_date, aware))
+        # Never compare naive wall times with absolute instants or assume order.
+        if len({bar[3] for bar in bars}) != 1:
+            return {"timestamp_status": "AMBIGUOUS_TIMEZONE"}
+        observed, close, raw_date, aware = max(bars, key=lambda bar: bar[0])
+        if not aware:
             return {"close": close, "timestamp": raw_date, "timestamp_status": "AMBIGUOUS_TIMEZONE"}
-        observed = observed.astimezone(timezone.utc)
     except (KeyError, TypeError, ValueError):
-        return None
+        return {"status": "INVALID_PAYLOAD"}
     return {"close": close, "timestamp": observed.isoformat(), "timestamp_status": "AWARE"}
 
 
@@ -64,8 +79,8 @@ def run(*, enabled: bool, reference_timestamp: str, maximum_staleness_seconds: f
     if enabled is not True:
         raise PermissionError("explicit --enable is required")
     threshold = float(maximum_staleness_seconds)
-    if threshold <= 0:
-        raise ValueError("maximum_staleness_seconds must be greater than zero")
+    if not math.isfinite(threshold) or threshold <= 0:
+        raise ValueError("maximum_staleness_seconds must be finite and greater than zero")
     reference = _aware(reference_timestamp)
     quote_transport = FMPQuoteTransport(api_key=fmp_api_key, opener=quote_opener or urlopen)
     intraday_open = intraday_opener or urlopen
