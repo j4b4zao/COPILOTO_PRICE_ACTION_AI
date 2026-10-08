@@ -135,8 +135,13 @@ def test_mtf_unavailable_is_not_reused_from_prior_available_sample():
             expected = (True, False, True)[self.index]
             assert (context.multi_timeframe is not None) is expected
             if expected:
-                expected_count = 1 if self.index == 0 else 2
+                expected_count = 1  # RC7.2: reset the builder after an unavailable gap.
                 assert context.multi_timeframe.get("M1").candle_count == expected_count
+                if self.index == 2:
+                    for timeframe in ("M1", "M5", "M15"):
+                        market = context.multi_timeframe.get(timeframe)
+                        assert market.candle_count == 1
+                        assert market.last_candle.open == bar(2).open
             self.index += 1
             context.clear_results()
             return context

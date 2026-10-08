@@ -16,6 +16,7 @@ from models.decision_result import DecisionResult
 from performance.order_flow_experiment_metrics import OrderFlowExperimentMetrics
 from replay.historical_input_contract import ReplayHistoricalInput
 from replay.historical_multi_timeframe import HistoricalMultiTimeframeBuilder
+from replay.historical_order_flow import HistoricalOrderFlowBuilder, HistoricalOrderFlowSnapshot
 from replay.replay_result import ReplayAuditSnapshot, ReplayClosedTradeSnapshot, ReplayResult
 from replay.replay_statistics import ReplayStatistics
 from replay.trade_simulator import TradeSimulator
@@ -62,7 +63,7 @@ def _baseline(value, default, *, ignore=()):
 
 class ReplayEngine:
     NAME = "ReplayEngine"
-    VERSION = "HISTORICAL-MTF-INTEGRATION-RC6.1"
+    VERSION = "HISTORICAL-ORDER-FLOW-AUDIT-RC7.2"
     STAGES = ("VALIDATE", "HISTORICAL_INPUT", "MARKET", "UPDATE", "REGISTER", "PIPELINE", "METRICS", "OPEN",
               "SESSION_END_CLOSE", "SESSION_END_REGISTER", "FINISH", "SNAPSHOT", "ITERATE")
     _LIVE_RESOURCES = ("event_bus", "external_context_service", "book_depth_service",
@@ -169,7 +170,7 @@ class ReplayEngine:
 
     @staticmethod
     def _audit(state, reasons, closed, pending, scope, *, completed=False,
-               stage=None, index=None, timestamp=None, error=None, reason=None, uncertain=False):
+               stage=None, index=None, timestamp=None, error=None, reason=None, uncertain=False, historical_order_flow=()):
         return ReplayAuditSnapshot(
             **state, completed=completed, aborted=error is not None,
             reason_counts=tuple((category, raw, count) for (category, raw), count in sorted(reasons.items())),
@@ -177,6 +178,7 @@ class ReplayEngine:
             abort_timestamp=timestamp, error_type=type(error).__name__ if error is not None else None,
             pending_open_trade=pending, closed_trades=tuple(closed),
             uncertain_state=uncertain, offline_scope=scope,
+            historical_order_flow=tuple(historical_order_flow),
         )
 
     @staticmethod
@@ -212,7 +214,59 @@ class ReplayEngine:
             return
         raise ValueError("historical_inputs contains more items than candles")
 
-    def executar(self, context, candles, historical_inputs=None):
+    @staticmethod
+    def _order_flow_snapshot(historical, payload, previous_timestamp, seen):
+        """RC5 authorizes evidence; RC7.2 records it outside operational context.
+
+        EXTERNAL, ECONOMIC_CALENDAR and BOOK_DEPTH are not supported. Book
+        payloads are rejected too, so no domain is silently marked processed.
+        Each payload window must follow the prior candle, including after gaps.
+        """
+        for observation in historical.observations:
+            observation.validate_as_of(historical.candle_timestamp)
+            if observation.available and observation.domain not in ("MTF", "ORDER_FLOW"):
+                raise ValueError(f"UNSUPPORTED_HISTORICAL_DOMAIN:{observation.domain}")
+        if not historical.order_flow.available:
+            if payload is not None:
+                raise ValueError("ORDER_FLOW_PAYLOAD_WITHOUT_AUTHORIZATION")
+            return HistoricalOrderFlowBuilder.build(historical.candle_timestamp)
+        if type(payload) is not HistoricalOrderFlowSnapshot:
+            raise TypeError("ORDER_FLOW_AVAILABLE_REQUIRES_SNAPSHOT")
+        if payload.reference_timestamp != historical.candle_timestamp:
+            raise ValueError("ORDER_FLOW_TIMESTAMP_MISMATCH")
+        snapshot = HistoricalOrderFlowBuilder.build(
+            historical.candle_timestamp, payload.trades, payload.book,
+            period_start=payload.period_start,
+            observation_complete=payload.observation_complete,
+        )
+        if not snapshot.available:
+            raise ValueError(f"ORDER_FLOW_INVALID_EVIDENCE:{snapshot.reason}")
+        if snapshot.book is not None:
+            raise ValueError("UNSUPPORTED_HISTORICAL_DOMAIN:BOOK_DEPTH")
+        if any(source.upper() != historical.order_flow.source for source in snapshot.provenance):
+            raise ValueError("ORDER_FLOW_PROVENANCE_MISMATCH")
+        try:
+            if any(event.observed_at > historical.order_flow.observed_at for event in snapshot.trades):
+                raise ValueError("ORDER_FLOW_ENVELOPE_PRECEDES_EVIDENCE")
+            if previous_timestamp is not None and snapshot.period_start < previous_timestamp:
+                raise ValueError("ORDER_FLOW_OVERLAPPING_PERIOD")
+        except TypeError as exc:
+            raise ValueError("ORDER_FLOW_INCOMPATIBLE_TIMESTAMPS") from exc
+        identities = {(event.source_id.upper(), event.event_id) for event in snapshot.trades}
+        if len(identities) != len(snapshot.trades):
+            raise ValueError("ORDER_FLOW_AMBIGUOUS_EVENT_ID")
+        if seen and {source for source, _ in seen} != {source for source, _ in identities}:
+            raise ValueError("ORDER_FLOW_SESSION_PROVENANCE_CHANGED")
+        if identities & seen:
+            raise ValueError("ORDER_FLOW_EVENT_REUSED")
+        return snapshot
+
+    def executar(self, context, candles, historical_inputs=None, *, historical_order_flow_inputs=None):
+        """Optional 1:1 OF snapshots (or None) authorized by RC5 declarations.
+
+        No payload enters AnalysisContext. Audit evidence only; no live sources.
+        Caller timestamps represent decision cutoffs, not candle opening times.
+        """
         # Preflight precedes copying, consuming inputs, or clearing metrics.
         self._context_gate(context)
         if type(self.order_flow_metrics) is not OrderFlowExperimentMetrics:
@@ -231,6 +285,8 @@ class ReplayEngine:
         stage, index, abort_reason = "ITERATE", 0, None
         historical_iterator = self._historical_iterator(historical_inputs)
         mtf_builder = None
+        flow_iterator = self._historical_iterator(historical_order_flow_inputs)
+        flow_audit, flow_seen = [], set()
         try:
             iterator = iter(candles)
             while True:
@@ -257,6 +313,15 @@ class ReplayEngine:
                 abort_reason = None
                 stage = "HISTORICAL_INPUT"
                 historical = self._next_historical(historical_iterator, candle)
+                payload = None
+                if flow_iterator is not None:
+                    try:
+                        payload = next(flow_iterator)
+                    except StopIteration as exc:
+                        raise ValueError("Missing historical Order Flow payload for replay candle") from exc
+                flow_snapshot = self._order_flow_snapshot(
+                    historical, payload, last_candle.timestamp if last_candle else None, flow_seen,
+                )
                 if historical.mtf.available:
                     if mtf_builder is None:
                         mtf_builder = HistoricalMultiTimeframeBuilder(
@@ -265,6 +330,7 @@ class ReplayEngine:
                     mtf_builder.update(candle)
                     context.multi_timeframe = mtf_builder
                 else:
+                    mtf_builder = None
                     context.multi_timeframe = None
                 stage = "MARKET"
                 context.market.update(
@@ -314,10 +380,13 @@ class ReplayEngine:
                     reasons[category, raw_reason] = reasons.get((category, raw_reason), 0) + 1
                 state["unresolved_candles"] = 0
                 pending = self._trade_snapshot(self.simulator.trade)
+                flow_audit.append(flow_snapshot)
+                flow_seen.update((event.source_id.upper(), event.event_id) for event in flow_snapshot.valid_trades)
                 last_candle = candle
                 index += 1
             stage = "HISTORICAL_INPUT"
             self._historical_exhausted(historical_iterator)
+            self._historical_exhausted(flow_iterator)
             timestamp = last_candle.timestamp if last_candle is not None else None
             index = index - 1 if last_candle is not None else None
             stage = "SESSION_END_CLOSE"
@@ -339,7 +408,8 @@ class ReplayEngine:
             result.order_flow_metrics = _plain(self.order_flow_metrics.snapshot())
             metrics_checkpoint = _plain(result.order_flow_metrics)
             stage = "SNAPSHOT"
-            result.audit = self._audit(state, reasons, closed, pending, scope, completed=True)
+            result.audit = self._audit(state, reasons, closed, pending, scope, completed=True,
+                                       historical_order_flow=flow_audit)
             return self._snapshot_result(result)
         except MemoryError:
             raise
@@ -350,7 +420,8 @@ class ReplayEngine:
             uncertain = stage in ("UPDATE", "OPEN", "SESSION_END_CLOSE", "MARKET")
             audit = self._audit(state, reasons, closed, pending, scope, stage=stage,
                                 index=index, timestamp=timestamp, error=exc,
-                                reason=abort_reason or f"{stage}_ERROR", uncertain=uncertain)
+                                reason=abort_reason or f"{stage}_ERROR", uncertain=uncertain,
+                                historical_order_flow=flow_audit)
             partial = ReplayResult(**{field.name: _plain(getattr(checkpoint, field.name))
                                       for field in fields(ReplayResult) if field.name != "audit"})
             partial.candles = state["candles_processed"]

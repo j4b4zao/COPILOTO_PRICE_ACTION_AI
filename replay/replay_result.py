@@ -48,6 +48,8 @@ class ReplayAuditSnapshot:
     closed_trades: tuple[ReplayClosedTradeSnapshot, ...] = ()
     uncertain_state: bool = False
     offline_scope: str = "CALLER_DECLARED"
+    # Immutable RC7.1 snapshots; observational only, never operational inputs.
+    historical_order_flow: tuple = ()
 
 
 @dataclass(slots=True)

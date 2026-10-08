@@ -199,6 +199,7 @@ class ReplayCurrentDecisionTests(unittest.TestCase):
         self.assertEqual(imports, {"copy", "dataclasses", "datetime", "enum", "types", "analysis", "core.analysis_context",
                                   "models.candle", "models.decision_result",
                                   "replay.historical_input_contract", "replay.historical_multi_timeframe",
+                                  "replay.historical_order_flow",
                                   "replay.replay_result", "performance.order_flow_experiment_metrics",
                                   "replay.replay_statistics", "replay.trade_simulator"})
 
