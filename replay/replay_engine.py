@@ -14,6 +14,8 @@ from core.analysis_context import AnalysisContext
 from models.candle import Candle
 from models.decision_result import DecisionResult
 from performance.order_flow_experiment_metrics import OrderFlowExperimentMetrics
+from replay.historical_input_contract import ReplayHistoricalInput
+from replay.historical_multi_timeframe import HistoricalMultiTimeframeBuilder
 from replay.replay_result import ReplayAuditSnapshot, ReplayClosedTradeSnapshot, ReplayResult
 from replay.replay_statistics import ReplayStatistics
 from replay.trade_simulator import TradeSimulator
@@ -60,8 +62,8 @@ def _baseline(value, default, *, ignore=()):
 
 class ReplayEngine:
     NAME = "ReplayEngine"
-    VERSION = "OFFLINE-CAUSALITY-AUDIT-RC3"
-    STAGES = ("VALIDATE", "MARKET", "UPDATE", "REGISTER", "PIPELINE", "METRICS", "OPEN",
+    VERSION = "HISTORICAL-MTF-INTEGRATION-RC6.1"
+    STAGES = ("VALIDATE", "HISTORICAL_INPUT", "MARKET", "UPDATE", "REGISTER", "PIPELINE", "METRICS", "OPEN",
               "SESSION_END_CLOSE", "SESSION_END_REGISTER", "FINISH", "SNAPSHOT", "ITERATE")
     _LIVE_RESOURCES = ("event_bus", "external_context_service", "book_depth_service",
                        "collector", "connection", "order_gateway", "execution",
@@ -177,7 +179,40 @@ class ReplayEngine:
             uncertain_state=uncertain, offline_scope=scope,
         )
 
-    def executar(self, context, candles):
+    @staticmethod
+    def _historical_iterator(historical_inputs):
+        if historical_inputs is None:
+            return None
+        try:
+            return iter(historical_inputs)
+        except TypeError as exc:
+            raise TypeError("historical_inputs must be iterable") from exc
+
+    @staticmethod
+    def _next_historical(iterator, candle):
+        if iterator is None:
+            return ReplayHistoricalInput.unavailable(candle.timestamp)
+        try:
+            historical = next(iterator)
+        except StopIteration as exc:
+            raise ValueError("Missing ReplayHistoricalInput for replay candle") from exc
+        if type(historical) is not ReplayHistoricalInput:
+            raise TypeError("Replay requires exact ReplayHistoricalInput items")
+        if historical.candle_timestamp != candle.timestamp:
+            raise ValueError("ReplayHistoricalInput timestamp must match replay candle")
+        return historical
+
+    @staticmethod
+    def _historical_exhausted(iterator):
+        if iterator is None:
+            return
+        try:
+            next(iterator)
+        except StopIteration:
+            return
+        raise ValueError("historical_inputs contains more items than candles")
+
+    def executar(self, context, candles, historical_inputs=None):
         # Preflight precedes copying, consuming inputs, or clearing metrics.
         self._context_gate(context)
         if type(self.order_flow_metrics) is not OrderFlowExperimentMetrics:
@@ -194,6 +229,8 @@ class ReplayEngine:
         checkpoint = ReplayResult()
         metrics_checkpoint = {}
         stage, index, abort_reason = "ITERATE", 0, None
+        historical_iterator = self._historical_iterator(historical_inputs)
+        mtf_builder = None
         try:
             iterator = iter(candles)
             while True:
@@ -218,6 +255,17 @@ class ReplayEngine:
                     if not later:
                         raise ValueError("Replay timestamps must be strictly increasing")
                 abort_reason = None
+                stage = "HISTORICAL_INPUT"
+                historical = self._next_historical(historical_iterator, candle)
+                if historical.mtf.available:
+                    if mtf_builder is None:
+                        mtf_builder = HistoricalMultiTimeframeBuilder(
+                            context.market.symbol or "REPLAY"
+                        )
+                    mtf_builder.update(candle)
+                    context.multi_timeframe = mtf_builder
+                else:
+                    context.multi_timeframe = None
                 stage = "MARKET"
                 context.market.update(
                     candle=candle, symbol=context.market.symbol or "REPLAY",
@@ -268,6 +316,8 @@ class ReplayEngine:
                 pending = self._trade_snapshot(self.simulator.trade)
                 last_candle = candle
                 index += 1
+            stage = "HISTORICAL_INPUT"
+            self._historical_exhausted(historical_iterator)
             timestamp = last_candle.timestamp if last_candle is not None else None
             index = index - 1 if last_candle is not None else None
             stage = "SESSION_END_CLOSE"

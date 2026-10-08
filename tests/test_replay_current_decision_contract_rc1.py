@@ -197,8 +197,9 @@ class ReplayCurrentDecisionTests(unittest.TestCase):
         tree = ast.parse((Path(__file__).resolve().parents[1] / "replay" / "replay_engine.py").read_text(encoding="utf-8-sig"))
         imports = {node.module for node in ast.walk(tree) if isinstance(node, ast.ImportFrom)}
         self.assertEqual(imports, {"copy", "dataclasses", "datetime", "enum", "types", "analysis", "core.analysis_context",
-                                  "models.candle", "models.decision_result", "replay.replay_result",
-                                  "performance.order_flow_experiment_metrics",
+                                  "models.candle", "models.decision_result",
+                                  "replay.historical_input_contract", "replay.historical_multi_timeframe",
+                                  "replay.replay_result", "performance.order_flow_experiment_metrics",
                                   "replay.replay_statistics", "replay.trade_simulator"})
 
 
