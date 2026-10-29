@@ -1,0 +1,183 @@
+﻿=== INDEPENDENT CONSOLIDATION RC1 FINAL GATE ===
+=== FIRST RUN ===
+{
+  "evaluable_session_count": 1,
+  "frozen_checkpoint_extended": false,
+  "independent_session_count": 3,
+  "interpretation": "DESCRIPTIVE_ONLY",
+  "not_evaluable_session_count": 2,
+  "not_replicated_session_count": 0,
+  "protocol_sha256": "53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c",
+  "replicated_session_count": 1,
+  "sessions": [
+    {
+      "opposed_to_aligned_transition_count": 0,
+      "outcome": "NOT_EVALUABLE",
+      "prospective_sample_count": 265,
+      "raw_sample_count": 265,
+      "raw_sha256": "429862d7201dd6db119ec67c67a4e0a1464ba34ac47de4dedbe83416a3da6932",
+      "reason": "NO_FORMAL_OPPOSED_TO_ALIGNED_TRANSITION",
+      "result_path": "pa_book_structural_replication_session11_rc12_20260930.json",
+      "result_sha256": "707e7a4640c444320c14a7c80868a0ab207e27242444c50acd0e79fa28cf2402",
+      "session": "11",
+      "simultaneous_directional_samples": 0,
+      "transition_outcomes": []
+    },
+    {
+      "opposed_to_aligned_transition_count": 0,
+      "outcome": "NOT_EVALUABLE",
+      "prospective_sample_count": 238,
+      "raw_sample_count": 238,
+      "raw_sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+      "reason": "NO_FORMAL_OPPOSED_TO_ALIGNED_TRANSITION",
+      "result_path": "pa_book_structural_replication_session12_rc12_20260930.json",
+      "result_sha256": "bc17f670468023fd6f4b3e3a8ffe18e028c94c50a4b8a1cd50dfd3262d845158",
+      "session": "12",
+      "simultaneous_directional_samples": 0,
+      "transition_outcomes": []
+    },
+    {
+      "opposed_to_aligned_transition_count": 1,
+      "outcome": "REPLICATED",
+      "prospective_sample_count": 255,
+      "raw_sample_count": 255,
+      "raw_sha256": "3a73d4b0a8c7f4adf0917bb9ce5dc927323578c5729c455bc0a78d3c5bdb7a00",
+      "reason": "ALL_OBSERVED_TARGET_TRANSITIONS_REPLICATED",
+      "result_path": "pa_book_structural_replication_session13_rc12_recheck_20260930.json",
+      "result_sha256": "a3961f5fc5e6d4c5047635ae19b7a3d60623d602f1e81a41c49bc54fbd053a69",
+      "session": "13",
+      "simultaneous_directional_samples": 17,
+      "transition_outcomes": [
+        "REPLICATED"
+      ]
+    }
+  ],
+  "status": "COMPLETED",
+  "summary": {
+    "alert_change_authorized": false,
+    "decision_change_authorized": false,
+    "execution_change_authorized": false,
+    "operational_promotion": false,
+    "predictive_validation": false,
+    "rc17_change_authorized": false,
+    "risk_change_authorized": false,
+    "score_change_authorized": false,
+    "session_11": "NOT_EVALUABLE",
+    "session_12": "NOT_EVALUABLE",
+    "session_13": "REPLICATED",
+    "session_14_authorized_automatically": false,
+    "threshold_change_authorized": false
+  },
+  "version": "RC1-PA-BOOK-INDEPENDENT-PROSPECTIVE-REPLICATION-CONSOLIDATION"
+}
+OUTPUT=pa_book_independent_replication_consolidation_sessions11_13_rc1_20260930.json
+OUTPUT_SHA256=4a596bbfdb172f8004a0e9c487887e09c772604ac1da2d750bf3b2d4cfdebcb4
+FIRST_EXIT_CODE=0
+FIRST_SHA256=4A596BBFDB172F8004A0E9C487887E09C772604AC1DA2D750BF3B2D4CFDEBCB4
+=== SECOND RUN ===
+{
+  "evaluable_session_count": 1,
+  "frozen_checkpoint_extended": false,
+  "independent_session_count": 3,
+  "interpretation": "DESCRIPTIVE_ONLY",
+  "not_evaluable_session_count": 2,
+  "not_replicated_session_count": 0,
+  "protocol_sha256": "53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c",
+  "replicated_session_count": 1,
+  "sessions": [
+    {
+      "opposed_to_aligned_transition_count": 0,
+      "outcome": "NOT_EVALUABLE",
+      "prospective_sample_count": 265,
+      "raw_sample_count": 265,
+      "raw_sha256": "429862d7201dd6db119ec67c67a4e0a1464ba34ac47de4dedbe83416a3da6932",
+      "reason": "NO_FORMAL_OPPOSED_TO_ALIGNED_TRANSITION",
+      "result_path": "pa_book_structural_replication_session11_rc12_20260930.json",
+      "result_sha256": "707e7a4640c444320c14a7c80868a0ab207e27242444c50acd0e79fa28cf2402",
+      "session": "11",
+      "simultaneous_directional_samples": 0,
+      "transition_outcomes": []
+    },
+    {
+      "opposed_to_aligned_transition_count": 0,
+      "outcome": "NOT_EVALUABLE",
+      "prospective_sample_count": 238,
+      "raw_sample_count": 238,
+      "raw_sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+      "reason": "NO_FORMAL_OPPOSED_TO_ALIGNED_TRANSITION",
+      "result_path": "pa_book_structural_replication_session12_rc12_20260930.json",
+      "result_sha256": "bc17f670468023fd6f4b3e3a8ffe18e028c94c50a4b8a1cd50dfd3262d845158",
+      "session": "12",
+      "simultaneous_directional_samples": 0,
+      "transition_outcomes": []
+    },
+    {
+      "opposed_to_aligned_transition_count": 1,
+      "outcome": "REPLICATED",
+      "prospective_sample_count": 255,
+      "raw_sample_count": 255,
+      "raw_sha256": "3a73d4b0a8c7f4adf0917bb9ce5dc927323578c5729c455bc0a78d3c5bdb7a00",
+      "reason": "ALL_OBSERVED_TARGET_TRANSITIONS_REPLICATED",
+      "result_path": "pa_book_structural_replication_session13_rc12_recheck_20260930.json",
+      "result_sha256": "a3961f5fc5e6d4c5047635ae19b7a3d60623d602f1e81a41c49bc54fbd053a69",
+      "session": "13",
+      "simultaneous_directional_samples": 17,
+      "transition_outcomes": [
+        "REPLICATED"
+      ]
+    }
+  ],
+  "status": "COMPLETED",
+  "summary": {
+    "alert_change_authorized": false,
+    "decision_change_authorized": false,
+    "execution_change_authorized": false,
+    "operational_promotion": false,
+    "predictive_validation": false,
+    "rc17_change_authorized": false,
+    "risk_change_authorized": false,
+    "score_change_authorized": false,
+    "session_11": "NOT_EVALUABLE",
+    "session_12": "NOT_EVALUABLE",
+    "session_13": "REPLICATED",
+    "session_14_authorized_automatically": false,
+    "threshold_change_authorized": false
+  },
+  "version": "RC1-PA-BOOK-INDEPENDENT-PROSPECTIVE-REPLICATION-CONSOLIDATION"
+}
+OUTPUT=pa_book_independent_replication_consolidation_sessions11_13_rc1_20260930.json
+OUTPUT_SHA256=4a596bbfdb172f8004a0e9c487887e09c772604ac1da2d750bf3b2d4cfdebcb4
+SECOND_EXIT_CODE=0
+SECOND_SHA256=4A596BBFDB172F8004A0E9C487887E09C772604AC1DA2D750BF3B2D4CFDEBCB4
+REPRODUCIBLE=True
+=== EXPECTED CONSOLIDATION SHA ===
+EXPECTED_SHA256=4A596BBFDB172F8004A0E9C487887E09C772604AC1DA2D750BF3B2D4CFDEBCB4
+EXPECTED_SHA_EXACT=True
+=== PROTOCOL VALIDATION ===
+validator_version = RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-PROTOCOL-VALIDATOR
+fail_closed = True
+research_only = True
+
+protocol_path = pa_book_opposed_to_aligned_prospective_replication_protocol_rc1_20260929.json
+expected_sha256 = 53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c
+actual_sha256   = 53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c
+
+PROTOCOL_SHA256_EXACT = True
+PROTOCOL_VERSION_EXACT = True
+FROZEN_CHECKPOINT_IDENTITY_EXACT = True
+SAFETY_POLICY_EXACT = True
+REPLICATION_CONDITION_EXACT = True
+NO_THRESHOLDS_EXACT = True
+COHORT_POLICY_EXACT = True
+INTERPRETATION_POLICY_EXACT = True
+
+STATUS = PASS
+FUTURE_COLLECTION_AUTHORIZATION = PROTOCOL_VALIDATED_ONLY
+PROTOCOL_EXIT_CODE=0
+=== TARGET DIFF CHECK ===
+DIFF_CHECK_EXIT_CODE=0
+=== TARGET STATUS ===
+?? tests/test_prospective_microstructure_pa_book_independent_replication_consolidation_rc1.py
+?? tools/prospective_microstructure_pa_book_independent_replication_consolidation.py
+=== GIT HEAD ===
+08038152be8016004c1101c41d666fe731b2032e

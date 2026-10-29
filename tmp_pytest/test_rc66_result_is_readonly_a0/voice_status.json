@@ -1,0 +1,22 @@
+{
+  "affects_decision": false,
+  "generated_at": "2026-08-23T12:00:00Z",
+  "payload": {
+    "affects_decision": false,
+    "dashboard_projection": {
+      "status": "DISABLED"
+    },
+    "dashboard_widget": {
+      "status": "DISABLED"
+    },
+    "health_report": {
+      "status": "DISABLED"
+    },
+    "readonly": true,
+    "version": "RC62-VOICE-STATUS-BUNDLE"
+  },
+  "readonly": true,
+  "schema": "copiloto.voice.status.v1",
+  "status": "DISABLED",
+  "version": "RC64-VOICE-STATUS-EXPORT-CONTRACT"
+}

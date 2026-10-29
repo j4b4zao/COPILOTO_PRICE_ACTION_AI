@@ -1,0 +1,13 @@
+{
+  "version": "TEST-FOLLOWTHROUGH",
+  "status": "OK",
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}

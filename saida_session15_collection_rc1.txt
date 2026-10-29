@@ -1,0 +1,1368 @@
+﻿=== SESSION 15 PROSPECTIVE COLLECTION ===
+=== PROTOCOL GATES ===
+validator_version = RC1-PA-BOOK-INDEPENDENT-REPLICATION-ACCUMULATION-PROTOCOL-VALIDATOR
+protocol_path = pa_book_replication_accumulation_protocol_rc1_20260930.json
+expected_sha256 = df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0
+actual_sha256 = df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0
+protocol_sha256_exact = True
+protocol_version_exact = True
+prior_evidence_exact = True
+frozen_hypothesis_exact = True
+future_block_exact = True
+outcome_policy_exact = True
+accumulation_policy_exact = True
+interpretation_policy_exact = True
+cohort_policy_exact = True
+safety_policy_exact = True
+future_collection_block = ['14', '15', '16', '17', '18']
+status = PASS
+future_collection_authorization = ACCUMULATION_PROTOCOL_VALIDATED_ONLY
+ACCUMULATION_PROTOCOL_EXIT_CODE=0
+validator_version = RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-PROTOCOL-VALIDATOR
+fail_closed = True
+research_only = True
+
+protocol_path = pa_book_opposed_to_aligned_prospective_replication_protocol_rc1_20260929.json
+expected_sha256 = 53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c
+actual_sha256   = 53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c
+
+PROTOCOL_SHA256_EXACT = True
+PROTOCOL_VERSION_EXACT = True
+FROZEN_CHECKPOINT_IDENTITY_EXACT = True
+SAFETY_POLICY_EXACT = True
+REPLICATION_CONDITION_EXACT = True
+NO_THRESHOLDS_EXACT = True
+COHORT_POLICY_EXACT = True
+INTERPRETATION_POLICY_EXACT = True
+
+STATUS = PASS
+FUTURE_COLLECTION_AUTHORIZATION = PROTOCOL_VALIDATED_ONLY
+STRUCTURAL_PROTOCOL_EXIT_CODE=0
+=== HEAD BEFORE ===
+a741be9c905009906c93130af648983377f8a3a3
+=== RAW FILES BEFORE ===
+RAW_COUNT_BEFORE=43
+=== ORCHESTRATED PROSPECTIVE COLLECTION START ===
+[RC54.3.2 WARMUP] cycle=1/1800 analyzable=1 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=6/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=7/1800 analyzable=6 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=8/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=9/1800 analyzable=7 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=13/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=14/1800 analyzable=11 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=15/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=16/1800 analyzable=12 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=18/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=19/1800 analyzable=14 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=21/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=22/1800 analyzable=16 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=24/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=25/1800 analyzable=18 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=27/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=28/1800 analyzable=20 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=29/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=31/1800 analyzable=21 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=32/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=33/1800 analyzable=22 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=35/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=36/1800 analyzable=24 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=37/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=38/1800 analyzable=25 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=40/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=41/1800 analyzable=27 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=42/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=44/1800 analyzable=28 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=45/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=46/1800 analyzable=29 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=48/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=49/1800 analyzable=31 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=50/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=51/1800 analyzable=32 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=54/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=55/1800 analyzable=35 candles=1 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=57/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=58/1800 analyzable=37 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=59/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=60/1800 analyzable=38 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=62/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=63/1800 analyzable=40 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=64/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=65/1800 analyzable=41 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=66/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=67/1800 analyzable=42 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=69/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=70/1800 analyzable=44 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=71/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=72/1800 analyzable=45 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=73/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=75/1800 analyzable=46 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=76/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=77/1800 analyzable=47 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=78/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=80/1800 analyzable=48 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=81/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=82/1800 analyzable=49 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=84/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=85/1800 analyzable=51 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=86/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=88/1800 analyzable=52 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=89/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=91/1800 analyzable=53 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=92/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=93/1800 analyzable=54 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=95/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=96/1800 analyzable=56 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=97/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=99/1800 analyzable=57 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=100/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=101/1800 analyzable=58 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=103/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=104/1800 analyzable=60 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=105/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=106/1800 analyzable=61 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=108/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=109/1800 analyzable=63 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=110/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=111/1800 analyzable=64 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=113/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=114/1800 analyzable=66 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=115/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=117/1800 analyzable=67 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=118/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=120/1800 analyzable=68 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=125/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=126/1800 analyzable=73 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=127/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=129/1800 analyzable=74 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=130/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=132/1800 analyzable=75 candles=2 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=133/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=134/1800 analyzable=76 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=138/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=139/1800 analyzable=80 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=140/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=142/1800 analyzable=81 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=143/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=145/1800 analyzable=82 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=146/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=148/1800 analyzable=83 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=149/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=150/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=151/1800 analyzable=84 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=152/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=153/1800 analyzable=85 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=155/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=156/1800 analyzable=87 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=157/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=159/1800 analyzable=88 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=160/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=162/1800 analyzable=89 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=163/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=165/1800 analyzable=90 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=166/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=168/1800 analyzable=91 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=171/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=172/1800 analyzable=94 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=173/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=175/1800 analyzable=95 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=176/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=177/1800 analyzable=96 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=178/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=180/1800 analyzable=97 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=181/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=183/1800 analyzable=98 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=184/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=185/1800 analyzable=99 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=187/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=188/1800 analyzable=101 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=189/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=191/1800 analyzable=102 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=192/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=193/1800 analyzable=103 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=195/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=196/1800 analyzable=105 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=198/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=199/1800 analyzable=107 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=200/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=202/1800 analyzable=108 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=203/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=205/1800 analyzable=109 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=206/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=208/1800 analyzable=110 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=209/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=210/1800 analyzable=111 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=211/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=213/1800 analyzable=112 candles=3 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=214/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=215/1800 analyzable=113 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=216/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=217/1800 analyzable=114 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=218/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=220/1800 analyzable=115 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=221/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=222/1800 analyzable=116 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=223/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=224/1800 analyzable=117 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=228/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=229/1800 analyzable=121 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=230/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=231/1800 analyzable=122 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=232/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=234/1800 analyzable=123 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=235/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=236/1800 analyzable=124 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=238/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=239/1800 analyzable=126 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=240/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=241/1800 analyzable=127 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=242/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=244/1800 analyzable=128 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=245/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=246/1800 analyzable=129 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=248/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=249/1800 analyzable=131 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=250/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=252/1800 analyzable=132 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=253/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=254/1800 analyzable=133 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=255/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=256/1800 analyzable=134 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=258/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=259/1800 analyzable=136 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=260/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=262/1800 analyzable=137 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=263/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=265/1800 analyzable=138 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=266/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=267/1800 analyzable=139 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=268/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=269/1800 analyzable=140 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=270/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=271/1800 analyzable=141 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=275/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=276/1800 analyzable=145 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=277/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=278/1800 analyzable=146 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=279/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=280/1800 analyzable=147 candles=4 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=284/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=285/1800 analyzable=151 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=287/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=289/1800 analyzable=153 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=290/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=291/1800 analyzable=154 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=292/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=293/1800 analyzable=155 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=294/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=295/1800 analyzable=156 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=296/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=297/1800 analyzable=157 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=298/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=300/1800 analyzable=158 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=301/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=303/1800 analyzable=159 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=304/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=305/1800 analyzable=160 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=306/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=308/1800 analyzable=161 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=309/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=310/1800 analyzable=162 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=312/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=313/1800 analyzable=164 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=314/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=316/1800 analyzable=165 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=317/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=319/1800 analyzable=166 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=320/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=321/1800 analyzable=167 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=323/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=324/1800 analyzable=169 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=325/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=326/1800 analyzable=170 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=328/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=329/1800 analyzable=172 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=330/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=331/1800 analyzable=173 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=332/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=334/1800 analyzable=174 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=335/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=336/1800 analyzable=175 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=337/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=338/1800 analyzable=176 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=340/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=341/1800 analyzable=178 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=342/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=344/1800 analyzable=179 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=345/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=347/1800 analyzable=180 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=348/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=349/1800 analyzable=181 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=350/1800 analyzable=182 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=351/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=352/1800 analyzable=183 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=353/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=355/1800 analyzable=184 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=356/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=358/1800 analyzable=185 candles=5 structure=UNKNOWN pa_bias=NONE history_ready=False trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=359/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=360/1800 analyzable=186 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=362/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=363/1800 analyzable=188 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=364/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=366/1800 analyzable=189 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=367/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=368/1800 analyzable=190 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=370/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=371/1800 analyzable=192 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=372/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=374/1800 analyzable=193 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=375/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=377/1800 analyzable=194 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=378/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=379/1800 analyzable=195 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=380/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=381/1800 analyzable=196 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=382/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=383/1800 analyzable=197 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=384/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=386/1800 analyzable=198 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=387/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=388/1800 analyzable=199 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=390/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=391/1800 analyzable=201 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=392/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=393/1800 analyzable=202 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=394/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=395/1800 analyzable=203 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=397/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=398/1800 analyzable=205 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=399/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=400/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=401/1800 analyzable=206 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=402/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=403/1800 analyzable=207 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=405/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=406/1800 analyzable=209 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=408/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=409/1800 analyzable=211 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=410/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=412/1800 analyzable=212 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=413/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=415/1800 analyzable=213 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=416/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=418/1800 analyzable=214 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=419/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=421/1800 analyzable=215 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=422/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=424/1800 analyzable=216 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=425/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=427/1800 analyzable=217 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=428/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=430/1800 analyzable=218 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=431/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=433/1800 analyzable=219 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=434/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=436/1800 analyzable=220 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=437/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=439/1800 analyzable=221 candles=6 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=440/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=442/1800 analyzable=222 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=443/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=444/1800 analyzable=223 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=445/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=446/1800 analyzable=224 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=447/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=448/1800 analyzable=225 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=449/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=450/1800 analyzable=226 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=451/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=453/1800 analyzable=227 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=454/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=455/1800 analyzable=228 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=456/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=457/1800 analyzable=229 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=459/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=460/1800 analyzable=231 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=461/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=462/1800 analyzable=232 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=464/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=465/1800 analyzable=234 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=466/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=467/1800 analyzable=235 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=468/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=469/1800 analyzable=236 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=471/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=472/1800 analyzable=238 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=473/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=474/1800 analyzable=239 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=476/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=477/1800 analyzable=241 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=478/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=479/1800 analyzable=242 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=480/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=482/1800 analyzable=243 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=483/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=485/1800 analyzable=244 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=486/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=487/1800 analyzable=245 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=489/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=490/1800 analyzable=247 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=491/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=492/1800 analyzable=248 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=493/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=494/1800 analyzable=249 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=495/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=496/1800 analyzable=250 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=499/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=500/1800 analyzable=253 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=501/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=503/1800 analyzable=254 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=504/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=505/1800 analyzable=255 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=507/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=508/1800 analyzable=257 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=509/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=511/1800 analyzable=258 candles=7 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=512/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=514/1800 analyzable=259 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=520/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=521/1800 analyzable=265 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=523/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=524/1800 analyzable=267 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=525/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=527/1800 analyzable=268 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=528/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=529/1800 analyzable=269 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=531/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=532/1800 analyzable=271 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=533/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=535/1800 analyzable=272 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=536/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=537/1800 analyzable=273 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=546/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=547/1800 analyzable=282 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=548/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=550/1800 analyzable=283 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=551/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=552/1800 analyzable=284 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=554/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=555/1800 analyzable=286 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=556/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=557/1800 analyzable=287 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=560/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=561/1800 analyzable=290 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=562/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=564/1800 analyzable=291 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=565/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=567/1800 analyzable=292 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=568/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=570/1800 analyzable=293 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=571/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=572/1800 analyzable=294 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=579/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=580/1800 analyzable=301 candles=8 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=581/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=582/1800 analyzable=302 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=583/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=584/1800 analyzable=303 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=585/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=587/1800 analyzable=304 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=589/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=590/1800 analyzable=306 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=591/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=593/1800 analyzable=307 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=594/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=596/1800 analyzable=308 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=597/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=599/1800 analyzable=309 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=600/1800 analyzable=310 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=601/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=603/1800 analyzable=311 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=604/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=606/1800 analyzable=312 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=607/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=609/1800 analyzable=313 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=610/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=612/1800 analyzable=314 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=614/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=615/1800 analyzable=316 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=617/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=619/1800 analyzable=318 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=620/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=622/1800 analyzable=319 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=623/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=625/1800 analyzable=320 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=627/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=628/1800 analyzable=322 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=630/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=631/1800 analyzable=324 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=633/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=635/1800 analyzable=326 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=636/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=638/1800 analyzable=327 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=639/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=641/1800 analyzable=328 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=642/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=644/1800 analyzable=329 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=646/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=648/1800 analyzable=331 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=649/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=650/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=651/1800 analyzable=332 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=652/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=654/1800 analyzable=333 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=655/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=657/1800 analyzable=334 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=658/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=660/1800 analyzable=335 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=662/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=664/1800 analyzable=337 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=665/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=667/1800 analyzable=338 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=668/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=670/1800 analyzable=339 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=671/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=673/1800 analyzable=340 candles=9 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=674/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=676/1800 analyzable=341 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=677/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=679/1800 analyzable=342 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=680/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=682/1800 analyzable=343 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=683/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=685/1800 analyzable=344 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=686/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=687/1800 analyzable=345 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=689/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=690/1800 analyzable=347 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=692/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=693/1800 analyzable=349 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=694/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=696/1800 analyzable=350 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=697/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=699/1800 analyzable=351 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=700/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=701/1800 analyzable=352 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=703/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=704/1800 analyzable=354 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=705/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=707/1800 analyzable=355 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=708/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=710/1800 analyzable=356 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=711/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=713/1800 analyzable=357 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=714/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=716/1800 analyzable=358 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=717/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=718/1800 analyzable=359 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=720/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=721/1800 analyzable=361 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=722/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=724/1800 analyzable=362 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=725/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=727/1800 analyzable=363 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=728/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=730/1800 analyzable=364 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=731/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=733/1800 analyzable=365 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=734/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=736/1800 analyzable=366 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=737/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=738/1800 analyzable=367 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=740/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=741/1800 analyzable=369 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=742/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=744/1800 analyzable=370 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=745/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=747/1800 analyzable=371 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=748/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=750/1800 analyzable=372 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=751/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=753/1800 analyzable=373 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=755/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=756/1800 analyzable=375 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=758/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=760/1800 analyzable=377 candles=10 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=761/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=763/1800 analyzable=378 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=764/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=766/1800 analyzable=379 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=767/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=769/1800 analyzable=380 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=770/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=771/1800 analyzable=381 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=775/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=776/1800 analyzable=385 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=778/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=779/1800 analyzable=387 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=780/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=781/1800 analyzable=388 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=782/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=784/1800 analyzable=389 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=785/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=787/1800 analyzable=390 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=788/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=790/1800 analyzable=391 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=792/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=793/1800 analyzable=393 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=795/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=796/1800 analyzable=395 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=798/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=799/1800 analyzable=397 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=800/1800 analyzable=398 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=801/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=803/1800 analyzable=399 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=804/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=806/1800 analyzable=400 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=807/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=809/1800 analyzable=401 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=810/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=812/1800 analyzable=402 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=813/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=815/1800 analyzable=403 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=816/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=818/1800 analyzable=404 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=819/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=821/1800 analyzable=405 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=822/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=824/1800 analyzable=406 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=826/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=827/1800 analyzable=408 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=829/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=830/1800 analyzable=410 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=832/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=834/1800 analyzable=412 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=835/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=837/1800 analyzable=413 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=838/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=840/1800 analyzable=414 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=841/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=843/1800 analyzable=415 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=844/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=846/1800 analyzable=416 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=847/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=849/1800 analyzable=417 candles=11 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=850/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=852/1800 analyzable=418 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=853/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=855/1800 analyzable=419 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=856/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=858/1800 analyzable=420 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=859/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=861/1800 analyzable=421 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=862/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=864/1800 analyzable=422 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=865/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=866/1800 analyzable=423 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=868/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=869/1800 analyzable=425 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=870/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=872/1800 analyzable=426 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=873/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=875/1800 analyzable=427 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=876/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=878/1800 analyzable=428 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=879/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=880/1800 analyzable=429 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=882/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=883/1800 analyzable=431 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=884/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=886/1800 analyzable=432 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=887/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=889/1800 analyzable=433 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=890/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=892/1800 analyzable=434 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=893/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=895/1800 analyzable=435 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=896/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=898/1800 analyzable=436 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=899/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=900/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=901/1800 analyzable=437 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=902/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=903/1800 analyzable=438 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=905/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=906/1800 analyzable=440 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=907/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=909/1800 analyzable=441 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=910/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=912/1800 analyzable=442 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=913/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=915/1800 analyzable=443 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=916/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=917/1800 analyzable=444 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=919/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=921/1800 analyzable=446 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=922/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=923/1800 analyzable=447 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=924/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=926/1800 analyzable=448 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=927/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=929/1800 analyzable=449 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=931/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=932/1800 analyzable=451 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=934/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=935/1800 analyzable=453 candles=12 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=936/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=937/1800 analyzable=454 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=938/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=939/1800 analyzable=455 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=941/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=942/1800 analyzable=457 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=943/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=945/1800 analyzable=458 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=946/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=948/1800 analyzable=459 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=950/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=951/1800 analyzable=461 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=952/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=954/1800 analyzable=462 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=955/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=956/1800 analyzable=463 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=960/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=961/1800 analyzable=467 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=962/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=964/1800 analyzable=468 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=965/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=966/1800 analyzable=469 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=967/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=969/1800 analyzable=470 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=970/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=972/1800 analyzable=471 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=973/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=975/1800 analyzable=472 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=976/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=978/1800 analyzable=473 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=979/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=980/1800 analyzable=474 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=982/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=983/1800 analyzable=476 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=985/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=986/1800 analyzable=478 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=988/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=989/1800 analyzable=480 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=990/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=992/1800 analyzable=481 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=994/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=995/1800 analyzable=483 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=996/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=998/1800 analyzable=484 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=999/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1000/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1002/1800 analyzable=485 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1003/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1004/1800 analyzable=486 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1005/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1007/1800 analyzable=487 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1008/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1010/1800 analyzable=488 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1011/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1013/1800 analyzable=489 candles=13 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1014/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1016/1800 analyzable=490 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1017/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1018/1800 analyzable=491 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1020/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1021/1800 analyzable=493 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1022/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1024/1800 analyzable=494 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1025/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1027/1800 analyzable=495 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1028/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1029/1800 analyzable=496 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1031/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1032/1800 analyzable=498 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1033/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1035/1800 analyzable=499 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1036/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1038/1800 analyzable=500 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1039/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1040/1800 analyzable=501 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1042/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1043/1800 analyzable=503 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1044/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1046/1800 analyzable=504 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1047/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1049/1800 analyzable=505 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1050/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1052/1800 analyzable=506 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1053/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1054/1800 analyzable=507 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1056/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1057/1800 analyzable=509 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1059/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1060/1800 analyzable=511 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1061/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1063/1800 analyzable=512 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1064/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1066/1800 analyzable=513 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1067/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1069/1800 analyzable=514 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1070/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1072/1800 analyzable=515 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1073/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1075/1800 analyzable=516 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1076/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1077/1800 analyzable=517 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1079/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1080/1800 analyzable=519 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1081/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1083/1800 analyzable=520 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1084/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1086/1800 analyzable=521 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1087/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1089/1800 analyzable=522 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1090/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1092/1800 analyzable=523 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1093/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1095/1800 analyzable=524 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1096/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1098/1800 analyzable=525 candles=14 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1099/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1100/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1101/1800 analyzable=526 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1103/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1105/1800 analyzable=528 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1106/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1107/1800 analyzable=529 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1109/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1110/1800 analyzable=531 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1112/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1114/1800 analyzable=533 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1115/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1117/1800 analyzable=534 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1118/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1120/1800 analyzable=535 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1121/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1122/1800 analyzable=536 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1124/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1126/1800 analyzable=538 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1127/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1129/1800 analyzable=539 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1130/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1132/1800 analyzable=540 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1133/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1135/1800 analyzable=541 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1136/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1138/1800 analyzable=542 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1140/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1141/1800 analyzable=544 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1142/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1144/1800 analyzable=545 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1145/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1147/1800 analyzable=546 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1148/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1150/1800 analyzable=547 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1151/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1153/1800 analyzable=548 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1154/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1156/1800 analyzable=549 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1157/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1159/1800 analyzable=550 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1160/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1162/1800 analyzable=551 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1164/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1165/1800 analyzable=553 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1167/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1168/1800 analyzable=555 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1170/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1171/1800 analyzable=557 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1173/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1174/1800 analyzable=559 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1176/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1178/1800 analyzable=561 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1179/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1181/1800 analyzable=562 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1182/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1184/1800 analyzable=563 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1185/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1187/1800 analyzable=564 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1188/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1190/1800 analyzable=565 candles=15 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1191/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1193/1800 analyzable=566 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1194/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1196/1800 analyzable=567 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1197/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1199/1800 analyzable=568 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1200/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1201/1800 analyzable=569 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1203/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1204/1800 analyzable=571 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1205/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1207/1800 analyzable=572 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1208/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1210/1800 analyzable=573 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1211/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1212/1800 analyzable=574 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1214/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1215/1800 analyzable=576 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1217/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1218/1800 analyzable=578 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1222/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1223/1800 analyzable=582 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1224/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1225/1800 analyzable=583 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1226/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1227/1800 analyzable=584 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1228/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1229/1800 analyzable=585 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1230/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1231/1800 analyzable=586 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1235/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1236/1800 analyzable=590 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1237/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1239/1800 analyzable=591 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1240/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1241/1800 analyzable=592 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1243/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1244/1800 analyzable=594 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1245/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1247/1800 analyzable=595 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1248/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1250/1800 analyzable=596 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1251/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1252/1800 analyzable=597 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1254/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1255/1800 analyzable=599 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1257/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1258/1800 analyzable=601 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1259/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1261/1800 analyzable=602 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1262/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1264/1800 analyzable=603 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1265/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1266/1800 analyzable=604 candles=16 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1268/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1269/1800 analyzable=606 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1271/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1273/1800 analyzable=608 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1274/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1276/1800 analyzable=609 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1277/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1279/1800 analyzable=610 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1280/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1282/1800 analyzable=611 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1283/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1285/1800 analyzable=612 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1286/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1288/1800 analyzable=613 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1289/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1291/1800 analyzable=614 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1292/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1294/1800 analyzable=615 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1295/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1297/1800 analyzable=616 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1298/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1300/1800 analyzable=617 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1301/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1303/1800 analyzable=618 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1304/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1306/1800 analyzable=619 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1307/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1309/1800 analyzable=620 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1311/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1312/1800 analyzable=622 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1314/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1315/1800 analyzable=624 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1317/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1319/1800 analyzable=626 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1320/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1322/1800 analyzable=627 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1323/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1325/1800 analyzable=628 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1326/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1328/1800 analyzable=629 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1329/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1331/1800 analyzable=630 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1332/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1334/1800 analyzable=631 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1335/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1337/1800 analyzable=632 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1339/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1340/1800 analyzable=634 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1342/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1344/1800 analyzable=636 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1345/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1347/1800 analyzable=637 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1348/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1350/1800 analyzable=638 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1351/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1353/1800 analyzable=639 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1354/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1356/1800 analyzable=640 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1357/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1359/1800 analyzable=641 candles=17 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1361/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1362/1800 analyzable=643 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1364/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1365/1800 analyzable=645 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1366/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1368/1800 analyzable=646 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1369/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1370/1800 analyzable=647 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1371/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1373/1800 analyzable=648 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1374/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1376/1800 analyzable=649 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1377/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1379/1800 analyzable=650 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1380/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1382/1800 analyzable=651 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1383/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1385/1800 analyzable=652 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1386/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1387/1800 analyzable=653 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1389/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1390/1800 analyzable=655 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1391/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1393/1800 analyzable=656 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1394/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1396/1800 analyzable=657 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1397/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1398/1800 analyzable=658 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1400/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1401/1800 analyzable=660 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1402/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1404/1800 analyzable=661 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1405/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1406/1800 analyzable=662 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1409/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1410/1800 analyzable=665 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1411/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1412/1800 analyzable=666 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1414/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1415/1800 analyzable=668 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1416/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1418/1800 analyzable=669 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1419/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1421/1800 analyzable=670 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1422/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1423/1800 analyzable=671 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1424/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1426/1800 analyzable=672 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1427/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1429/1800 analyzable=673 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1430/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1432/1800 analyzable=674 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1433/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1434/1800 analyzable=675 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1436/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1438/1800 analyzable=677 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1439/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1441/1800 analyzable=678 candles=18 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1442/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1444/1800 analyzable=679 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1445/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1447/1800 analyzable=680 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1448/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1450/1800 analyzable=681 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1451/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1453/1800 analyzable=682 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1454/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1456/1800 analyzable=683 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1457/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1459/1800 analyzable=684 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1460/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1462/1800 analyzable=685 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1463/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1465/1800 analyzable=686 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1466/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1468/1800 analyzable=687 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1469/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1470/1800 analyzable=688 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1472/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1474/1800 analyzable=690 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1475/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1477/1800 analyzable=691 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1478/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1480/1800 analyzable=692 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1481/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1483/1800 analyzable=693 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1484/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1486/1800 analyzable=694 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1488/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1489/1800 analyzable=696 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1491/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1492/1800 analyzable=698 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1494/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1496/1800 analyzable=700 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1497/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1499/1800 analyzable=701 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1500/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1502/1800 analyzable=702 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1503/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1505/1800 analyzable=703 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1506/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1508/1800 analyzable=704 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1509/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1511/1800 analyzable=705 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1512/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1513/1800 analyzable=706 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1514/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1516/1800 analyzable=707 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1517/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1519/1800 analyzable=708 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1520/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1522/1800 analyzable=709 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1523/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1525/1800 analyzable=710 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1526/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1528/1800 analyzable=711 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1529/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1531/1800 analyzable=712 candles=19 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1533/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1535/1800 analyzable=714 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1536/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1537/1800 analyzable=715 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1541/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1542/1800 analyzable=719 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1543/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1544/1800 analyzable=720 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1545/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1547/1800 analyzable=721 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1548/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1549/1800 analyzable=722 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1550/1800 analyzable=723 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1551/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1552/1800 analyzable=724 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1553/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1554/1800 analyzable=725 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1558/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1559/1800 analyzable=729 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1560/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1562/1800 analyzable=730 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1563/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1564/1800 analyzable=731 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1566/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1567/1800 analyzable=733 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1568/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1570/1800 analyzable=734 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1571/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1572/1800 analyzable=735 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1573/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1574/1800 analyzable=736 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1575/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1577/1800 analyzable=737 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1578/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1579/1800 analyzable=738 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1580/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1581/1800 analyzable=739 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1583/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1584/1800 analyzable=741 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1585/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1587/1800 analyzable=742 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1588/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1590/1800 analyzable=743 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1591/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1592/1800 analyzable=744 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1593/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1595/1800 analyzable=745 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1596/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1598/1800 analyzable=746 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1599/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1600/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1601/1800 analyzable=747 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1602/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1603/1800 analyzable=748 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1605/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1606/1800 analyzable=750 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1607/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1608/1800 analyzable=751 candles=20 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1609/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1611/1800 analyzable=752 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1612/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1614/1800 analyzable=753 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1615/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1616/1800 analyzable=754 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1617/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1619/1800 analyzable=755 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1620/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1622/1800 analyzable=756 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1623/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1625/1800 analyzable=757 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1627/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1629/1800 analyzable=759 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1630/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1632/1800 analyzable=760 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1633/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1635/1800 analyzable=761 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1636/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1638/1800 analyzable=762 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1640/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1642/1800 analyzable=764 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1643/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1645/1800 analyzable=765 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1646/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1647/1800 analyzable=766 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1649/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1650/1800 analyzable=768 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1651/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1653/1800 analyzable=769 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1654/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1656/1800 analyzable=770 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1657/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1659/1800 analyzable=771 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1660/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1662/1800 analyzable=772 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1663/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1665/1800 analyzable=773 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1667/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1668/1800 analyzable=775 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1670/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1672/1800 analyzable=777 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1673/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1675/1800 analyzable=778 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1676/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1678/1800 analyzable=779 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1679/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1681/1800 analyzable=780 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1682/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1684/1800 analyzable=781 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1685/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1687/1800 analyzable=782 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1688/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1690/1800 analyzable=783 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1691/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1693/1800 analyzable=784 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1694/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1696/1800 analyzable=785 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1697/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1699/1800 analyzable=786 candles=21 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1700/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1702/1800 analyzable=787 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1703/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1705/1800 analyzable=788 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1706/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1707/1800 analyzable=789 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1709/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1710/1800 analyzable=791 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1711/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1713/1800 analyzable=792 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1714/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1716/1800 analyzable=793 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1717/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1718/1800 analyzable=794 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1720/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1721/1800 analyzable=796 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1722/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1724/1800 analyzable=797 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1725/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1727/1800 analyzable=798 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1728/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1730/1800 analyzable=799 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1731/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1732/1800 analyzable=800 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1734/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1735/1800 analyzable=802 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1736/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1738/1800 analyzable=803 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1739/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1741/1800 analyzable=804 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1742/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1744/1800 analyzable=805 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1745/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1747/1800 analyzable=806 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1748/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1750/1800 analyzable=807 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1751/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1752/1800 analyzable=808 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1754/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1755/1800 analyzable=810 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1757/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1758/1800 analyzable=812 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1759/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1761/1800 analyzable=813 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1762/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1764/1800 analyzable=814 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1765/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1766/1800 analyzable=815 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1768/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1770/1800 analyzable=817 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1771/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1772/1800 analyzable=818 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1773/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1775/1800 analyzable=819 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1777/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1778/1800 analyzable=821 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1780/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1781/1800 analyzable=823 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1783/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1784/1800 analyzable=825 candles=22 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1786/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1788/1800 analyzable=827 candles=23 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1789/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1791/1800 analyzable=828 candles=23 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1792/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1794/1800 analyzable=829 candles=23 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1795/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1797/1800 analyzable=830 candles=23 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1798/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+[RC54.3.2 WARMUP] cycle=1799/1800 analyzable=831 candles=23 structure=SIDEWAYS pa_bias=NONE history_ready=True trade_context_ready=False
+[RC54.3.2 WARMUP] cycle=1800/1800 skipped=SOURCE_UNCHANGED_OR_INVALID
+{
+  "status": "SESSION_ABORTED_AFTER_PREFLIGHT",
+  "symbol": "WINV26",
+  "preflight": {
+    "status": "MARKET_ACTIVITY_READY",
+    "active": true,
+    "cycles": 90,
+    "analyzable": 40,
+    "skipped": 50,
+    "errors": 0,
+    "price_changes": 30,
+    "candle_growth": 1,
+    "reasons": [],
+    "observational_only": true,
+    "predictive_claim_allowed": false,
+    "score_influence_allowed": false,
+    "risk_influence_allowed": false,
+    "decision_influence_allowed": false,
+    "order_execution_allowed": false
+  },
+  "warmup_started": true,
+  "session_status": "ABORTED_CONTEXT_NOT_READY",
+  "data_ready": false,
+  "trade_context_ready_at_start": false,
+  "analyzable_samples": 0,
+  "captured_samples": 0,
+  "sample_count_matches_source": true,
+  "collection_errors": 0,
+  "missing_price_count": 0,
+  "delta_failure_samples": null,
+  "output_path": null,
+  "report": {
+    "samples": 0,
+    "high_quality_samples": 0,
+    "medium_quality_samples": 0,
+    "low_quality_samples": 0,
+    "conflict_samples": 0,
+    "correlated_samples": 0,
+    "one_source_samples": 0,
+    "two_source_samples": 0,
+    "three_source_samples": 0,
+    "high_quality_rate": 0.0,
+    "three_source_rate": 0.0,
+    "conflict_rate": 0.0,
+    "correlation_rate": 0.0,
+    "average_confidence": 0.0,
+    "session_quality": "NO_DATA",
+    "recommendation": "COLLECT_MORE_DATA",
+    "passive_only": true
+  },
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}
+COLLECTION_EXIT_CODE=2
+=== IDENTIFY NEW RAW ===
+RAW_COUNT_AFTER=43
+NEW_RAW_COUNT=0
+SESSION15_RAW_IDENTIFICATION=FAIL_CLOSED
+=== HEAD AFTER ===
+a741be9c905009906c93130af648983377f8a3a3

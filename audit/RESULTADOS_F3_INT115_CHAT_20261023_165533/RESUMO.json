@@ -1,0 +1,12 @@
+﻿[
+    {
+        "teste":  "IDENTIDADE_CONTROLE",
+        "exit_code":  0,
+        "log":  "C:\\COPILOTO_PRICE_ACTION_AI\\audit\\RESULTADOS_F3_INT115_CHAT_20261023_165533\\IDENTIDADE_CONTROLE.log"
+    },
+    {
+        "teste":  "REGRESSAO_COMPLETA",
+        "exit_code":  1,
+        "log":  "C:\\COPILOTO_PRICE_ACTION_AI\\audit\\RESULTADOS_F3_INT115_CHAT_20261023_165533\\REGRESSAO_COMPLETA.log"
+    }
+]

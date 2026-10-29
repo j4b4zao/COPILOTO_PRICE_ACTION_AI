@@ -1,0 +1,48 @@
+{
+  "affects_decision": false,
+  "generated_at": "2026-08-23T15:00:01Z",
+  "payload": {
+    "affects_decision": false,
+    "dashboard_projection": {
+      "affects_decision": false,
+      "backend": "DISABLED",
+      "backend_healthy": false,
+      "label": "Voz desativada",
+      "operational_voice_allowed": false,
+      "readiness_reason": "DIAGNOSTICS_NOT_READY",
+      "readonly": true,
+      "status": "DISABLED",
+      "summary": "Voice service is disabled.",
+      "version": "RC58-VOICE-HEALTH-DASHBOARD-PROJECTION"
+    },
+    "dashboard_widget": {
+      "affects_decision": false,
+      "backend": "DISABLED",
+      "backend_healthy": false,
+      "detail": "Voice service is disabled.",
+      "label": "Voz desativada",
+      "operational_voice_allowed": false,
+      "readonly": true,
+      "status": "DISABLED",
+      "title": "Voice Assistant",
+      "version": "RC60-DASHBOARD-VOICE-WIDGET-CONTRACT"
+    },
+    "health_report": {
+      "affects_decision": false,
+      "backend": "DISABLED",
+      "backend_healthy": false,
+      "operational_voice_allowed": false,
+      "readiness_reason": "DIAGNOSTICS_NOT_READY",
+      "readonly": true,
+      "status": "DISABLED",
+      "summary": "Voice service is disabled.",
+      "version": "RC56-VOICE-INTEGRATION-HEALTH-REPORT"
+    },
+    "readonly": true,
+    "version": "RC62-VOICE-STATUS-BUNDLE"
+  },
+  "readonly": true,
+  "schema": "copiloto.voice.status.v1",
+  "status": "DISABLED",
+  "version": "RC64-VOICE-STATUS-EXPORT-CONTRACT"
+}

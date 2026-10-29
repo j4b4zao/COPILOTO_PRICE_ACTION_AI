@@ -1,0 +1,947 @@
+STATUS=AUDIT_COMPLETE_WITH_FINDINGS
+BRANCH=brooks-stop-target-exact-audit-20260912
+HEAD=5374135842fe42980872fd58be4709c1ef540d74
+ORIGIN_HEAD=5374135842fe42980872fd58be4709c1ef540d74
+LOCAL_ORIGIN_MATCH=true
+RC17_19_23_FROZEN=true
+CORE_OPERATIONAL_UNCHANGED=true
+MARKET_REGIME_STATUS=IMPLEMENTED
+MULTITIMEFRAME_STATUS=PARTIAL
+ORDER_FLOW_STATUS=IMPLEMENTED
+EXTERNAL_CONTEXT_STATUS=PARTIAL
+NEWS_CALENDAR_STATUS=PARTIAL
+DASHBOARD_STATUS=PARTIAL
+VISUAL_TRIGGERS_STATUS=PARTIAL
+RENKO_STATUS=IMPLEMENTED
+AL_BROOKS_STATUS=FROZEN_RESEARCH
+RESEARCH_INFRA_STATUS=IMPLEMENTED
+
+ESCOPO E LIMITES
+Auditoria de codigo e testes sinteticos no HEAD oficial. Nenhuma fonte real consultada.
+IMPLEMENTED significa logica presente e integracao identificada, nao validacao preditiva.
+VALIDATED e usado somente para contratos/subcomponentes efetivamente testados nesta auditoria.
+PARTIAL significa lacuna de integracao, contrato ou interface demonstrada; nao ausencia total.
+FROZEN_RESEARCH identifica a camada de pesquisa isolada, sem promocao operacional.
+Nomes de arquivos e textos antigos nao foram usados isoladamente para concluir implementacao.
+Nao foi localizado um manifesto unico do roadmap nesta busca; a matriz segue as dez frentes solicitadas.
+A busca foi dirigida aos diretorios de codigo; ausencia significa nao localizado no escopo inspecionado.
+Nenhum teste de fonte real, audio, rede ou API atual foi executado.
+Existencia de testes *_real* ou ferramentas de discovery nao comprova fonte disponivel hoje.
+O RC17 nao foi classificado automaticamente como Market Regime Engine.
+
+MATRIZ DE MATURIDADE
+FRONT | STATUS | OFFLINE_READY | LIVE_DEPENDENCY | OPERATIONAL_COUPLING | BLOCKER | NEXT_STEP
+A Market Regime | IMPLEMENTED | true | true | MEDIUM | validacao longitudinal e identidade de candle/ciclo | auditar confirmacao por evento fechado e reset por ativo/sessao
+B M15/M5/M1 | PARTIAL | true | true | HIGH | produtor RC3.4 e gate Decision usam vocabularios diferentes;2 testes falham | matriz offline de contratos e consumidores
+C Order Flow avancado | IMPLEMENTED | true | true | MEDIUM | representatividade/frescor/continuidade de fonte;RTD opt-in desativado | auditoria de identidade/continuidade entre adapters com mocks
+D External Market Context | PARTIAL | true | true | LOW | timestamp agregado;observer intermarket nao conectado;fonte real nao confirmada | adapter offline por ativo para observer existente
+E Noticias/calendario | PARTIAL | true | true | LOW | calendario presente;feed de noticias nao localizado;attach nao automatico na pipeline | verificar replay/attach isolado e cobertura de eventos
+F Dashboards/checklist/risco | PARTIAL | true | true | HIGH | UI legada e read models modernos separados;risco operacional ja implementado | projecao readonly compativel com AnalysisContext
+G Gatilhos visuais | PARTIAL | true | true | LOW | eventos de sinal presentes;overlay de grafico nao localizado | contrato visual readonly com candle identity
+H Renko | IMPLEMENTED | true | true | HIGH | validacao de fonte/volume/gaps e contrato especifico de reversao | caracterizacao offline de bricks e equivalencia temporal
+I Al Brooks | FROZEN_RESEARCH | true | true | LOW | pesquisa nao equivale desempenho validado;documento parcialmente antigo | ledger de contratos atuais sem promocao nem tocar RC17
+J Pesquisa/auditoria/historico | IMPLEMENTED | true | true | LOW | schemas/cohorts/versoes heterogeneos | manifestos explicitos e rastreabilidade por contrato
+
+LIVE_DEPENDENCY refere-se ao uso com mercado real. CAN_ADVANCE_OFFLINE refere-se a fixtures, contratos e replay seguro.
+Acoplamento de F/H inclui risco/Renko ja conectados ao fluxo; read models de dashboard isolados tem acoplamento menor.
+Acoplamento de I considera a camada research; o PriceAction operacional incorporado tem acoplamento HIGH.
+
+A. MARKET_REGIME_DETAILED_AUDIT
+STATUS=IMPLEMENTED
+FILES=analysis/market_regime.py;models/regime_result.py;analysis/analysis_pipeline.py;market/market_regime.py
+TESTS=tests/test_market_regime_rc3_transition_confirmation.py;test_market_regime_rc2_9.py;test_market_regime_rc2_8.py;test_market_regime_volatility_rc26.py;test_market_regime_brooks_spectrum_ch1.py
+VERSIONS=RC3.0-TRANSITION-CONFIRMATION
+DEPENDENCIES=EngineBase;Trend;MarketState.candles;RegimeResult
+INPUTS=cinco candles fechados;ultimo candle em formacao excluido
+OUTPUTS=TREND_UP/TREND_DOWN/RANGE/TRANSITION;volatility;strength;confidence;spectrum;pending/previous regime
+INTEGRATION_POINTS=AnalysisPipeline prioridade10;AnalysisContext.regime;MTF regime bridge;ContextEngine;ScoreRC13.2 opcional;A/B passivo
+LIVE_DATA_DEPENDENCY=true
+CAN_ADVANCE_OFFLINE=true
+OPERATIONAL_COUPLING=MEDIUM
+EVIDENCE=executar seleciona candles[:-1][-5:];classifica volatilidade relativa e espectro;mantem confirmacao pendente com memoria por instancia.
+RC17 MarketStructure classifica estrutura/swing. MarketRegime e outro produtor e mede espectro/range/volatilidade.
+market/market_regime.py usa market.estrutura,price_action,adx e operavel;nao e o modulo importado pela pipeline atual.
+ADX do arquivo legado nao comprova que a engine ativa use ADX.
+RISKS=contador de confirmacao avanca por chamada;na secao inspecionada nao ha identidade de novo candle para esse contador;repeticao do mesmo candle pode merecer auditoria. Nao foi realizado teste dessa hipotese.
+BLOCKERS=nao se pode trocar parametros ou semantica com experimento RC17 congelado;testes locais nao demonstram desempenho.
+NEXT_TECHNICAL_STEP=caracterizar resets e chamadas repetidas por candle em camada de auditoria,sem alterar engine.
+
+B. MULTITIMEFRAME_DETAILED_AUDIT
+STATUS=PARTIAL
+FILES=core/multi_timeframe_state.py;analysis/multi_timeframe_analysis.py;analysis/multi_timeframe.py;market_data/collector.py;monitor/multi_timeframe_monitor.py;decision/decision_engine.py
+TESTS=tests/test_multi_timeframe_e2e_rc36.py;test_multi_timeframe_state_rc30.py;test_multi_timeframe_rc3_3.py;test_multi_timeframe_rc3_4_regime_bridge.py;test_multi_timeframe_analysis_rc32.py;test_multi_timeframe_monitor_rc34.py
+VERSIONS=StateRC3.0;AnalysisRC3.4-REGIME-CONTEXT-BRIDGE;MonitorRC3.4;Decision safety gate RC3.5
+DEPENDENCIES=MarketState;CandleBuilder;RegimeResult;MultiTimeframeResult;DecisionEngine
+INPUTS=mesmo tick symbol/price/cumulative_volume/timestamp para builders independentes M1,M5,M15
+OUTPUTS=trends por timeframe;closed_candle_counts;bias;alignment;conflict;regime_compatible
+INTEGRATION_POINTS=Collector alimenta estado;AnalysisContext.multi_timeframe;pipeline prioridade15;checklist informativo;Decision gate;Monitor
+LIVE_DATA_DEPENDENCY=true
+CAN_ADVANCE_OFFLINE=true
+OPERATIONAL_COUPLING=HIGH
+EVIDENCE=State cria tres MarketStates e tres CandleBuilders;Analysis exige cinco fechados e um atual por timeframe e aplica hierarquia M15 contexto,M5 setup,M1 gatilho.
+Nao e apenas configuracao. analysis/multi_timeframe.py e explicitamente LEGACY DO NOT USE e mistura M15/M5/M2;nao representa o contrato oficial.
+FINDING_MTF_01=E2E espera CONFLICT;produtor retorna CONFLICT_M5. Gate Decision reconhece somente alignment=="CONFLICT" ou BUY/SELL oposto.
+REPRODUCTION_MTF_01=fixture sintetica M15 UP,M5 DOWN,M1 UP,Strategy BUY:alignment=CONFLICT_M5;conflict=True;Decision=BUY;Alert=BUY.
+A reproducao usa somente prepare_context/execute_e2e existentes e captura stdout do Alert;nao executa ordens.
+Essa evidencia demonstra lacuna de contrato nesse cenario controlado;nao descreve frequencia em mercado real.
+FINDING_MTF_02=fixture rotulada SIDEWAYS no E2E produz BUY no classificador agregado atual;teste espera WAIT. Serie possui avancos de high/low e o rotulo do fixture nao garante SIDEWAYS sob RC3.4.
+RISKS=CONFLICT_M5,CONFLICT_M1,CONFLICT_REGIME nao sao tratados explicitamente pelo gate legado;saida WAIT_* tambem exige contrato claro.
+BLOCKERS=2 testes falham;nao declarar fluxo completo VALIDATED;mudanca em Decision/Alert proibida nesta etapa.
+NEXT_TECHNICAL_STEP=auditoria offline da matriz completa de estados do produtor e dos consumidores;separar fixture antiga de defeito do gate;eventual correcao operacional deve ser uma tarefa futura explicitamente delimitada.
+
+C. ORDER_FLOW_DETAILED_AUDIT
+STATUS=IMPLEMENTED
+FILES=market_data/profit_rtd_workbook_reader.py;profit_rtd_times_trades_deduplicator.py;profit_rtd_incremental_aggression.py;profit_rtd_order_flow_state_adapter.py;profit_rtd_order_flow_pipeline.py;profitdll_book_depth_bridge.py;book_depth_level2_provider.py;profit_delta_quality_validator.py;analysis/order_flow.py;analysis/book_depth_analysis.py;core/order_flow_state.py
+TESTS=tests/test_profit_rtd_rc7.py executado;test_profit_rtd_book_rc27.py;test_profit_delta_quality_validator_rc19.py;test_profitdll_book_depth_bridge_rc4.py;test_book_depth_analysis_rc1.py;test_order_flow_patterns_rc42.py;test_order_flow_structure_evidence_rc51.py;test_microstructure_confluence_rc2.py;test_historical_microstructure_bridge_rc1.py (inventario,nao todos executados)
+VERSIONS=RTD reader RC1;Dedup RC4;Aggression RC5;Pipeline RC7;OrderFlow RC5.1.1-STRUCTURE-CONTEXT-FIX;BookDepthAnalysis RC1.1-ORDERING-FIX;Microstructure RC2;historical bridge RC1/RC35_SIGNED_DELTA
+DEPENDENCIES=ExcelRangeGateway;workbooks dedicados;OrderFlowState;Level2 reader/provider/service;AnalysisContext;recorders
+LIVE_DATA_DEPENDENCY=true
+CAN_ADVANCE_OFFLINE=true
+OPERATIONAL_COUPLING=MEDIUM
+CAPTURE=ProfitRTDBookDepthReader le matriz A1:H52,valida ativo/layout e extrai bids/asks;leitor T&T do mesmo modulo entrega negocios normalizados. ProfitDLL bridge reutiliza sessao ja inicializada/assinada e valida ativo antes de snapshot.
+NORMALIZATION=Level2 provider valida payload,simbolo e niveis;RTD reader aceita numericos locais e rejeita valor nao positivo/nao finito.
+FEATURE_EXTRACTION=Dedup newest-first estabelece baseline;perda de overlap rebaseia. AggressionBuilder soma Comprador/Vendedor;RLP separado;Direto/Leilao sem lado inferido;delta=buy-sell;ratio e pressure.
+STATE_ADAPTER=Pipeline RC7 chama read_times_trades->dedup.observe->aggression.build->adapter.apply;recibo distingue continuidade,baseline,source_units e estado atualizado.
+DELTA=OrderFlow analisa recent/cumulative delta,persistence,acceleration,impulse,absorption,exhaustion,divergence;QualityValidator classifica dados insuficientes/anomalias;telemetry helper registra fonte/readiness passivamente.
+BOOK=BookDepthAnalysis calcula spread relativo,imbalance,concentracao top3 e alinhamento PA/OF;marca duplicate_evidence_risk. Imbalance de book/agressao nao e o mesmo conceito que FVG em smart_money.
+RESEARCH=MicrostructureConfluence agrupa Delta/OF como familia unica e evita contar book correlato como evidencia independente.
+HISTORICAL_SHADOW=HistoricalMicrostructureBridge preserva PA/Structure capturados;RC35_SIGNED_DELTA;nao fabrica momentum/pattern/Level2 faltantes. Reprocessor escreve sessao shadow separada;nao executado nesta auditoria.
+PROSPECTIVE_MICROSTRUCTURE=run_session existente reutiliza warmup;limpa recorder no fim do warmup;enriquece JSON e mantem safety flags. RC17 sessions19..23 permanecem congeladas.
+VALIDATION=contratos RTD/qualidade/report/multisession e testes sinteticos existem. Nesta auditoria apenas pipelineRTD RC7 com gateways simulados foi exercitada. Nao confirma conectividade ou suficiencia estatistica live.
+OPERATIONAL_INTEGRATION=AnalysisPipeline inclui OrderFlow/BookDepth;AnalysisContext possui state/result;ContextEngine/checklist le evidencias sem adiciona-las a confluences/bias operacional.
+SCORE=ai/score_engine.py inclui bonus OF experimental para pattern confirmado;ENABLE_ORDER_FLOW_SCORE=False;ORDER_FLOW_SCORE_WEIGHT=5.0. ENABLE_PROFIT_RTD_ORDER_FLOW=False conserva fonte legada por default.
+FLAGS=receipts/aggression/dedup research marcam observational_only e score/decision/order_execution_allowed=False;microstructure passive_only=True;historical bridge score/decision/order_execution=False.
+Flags de pesquisa nao substituem flags do Score: ha caminhos opcionais implementados,mas desativados por default.
+INPUTS=trades deduplicados;agressoes reais;preco;book snapshots;timestamps;estrutura/PA persistidos
+OUTPUTS=state histories;analysis results;quality/telemetry;shadow/confluence/eligibility;reports
+RISKS=overlap perdido nao recupera negocios;RLP nao e agressao classificada;falhas de fonte,ativos diferentes,reset de acumuladores e evidencia duplicada;performance nao demonstrada por testes.
+BLOCKERS=fonte/capabilities e independencia de sessoes precisam de evidencias apropriadas;nao promover Score.
+NEXT_TECHNICAL_STEP=adapter parity/continuity audit offline,com fixtures explicitas e sem alterar coleta/feature operacional.
+
+D. EXTERNAL_CONTEXT_DETAILED_AUDIT
+STATUS=PARTIAL
+FILES=external_context/external_market_state.py;external_market_collector.py;external_context_engine.py;external_context_service.py;providers/http_json_provider.py;providers/symbol_map.py;providers/provider_symbol_map.py;providers/symbol_resolution_provider.py;providers/semantic_symbol_resolution_engine.py;analysis/research/intermarket_context_observer.py
+TESTS=tests/test_external_http_json_provider_rc2_2.py;test_external_context_pipeline.py;test_intermarket_context_observer_rc1.py executados;outros testes de discovery/resolution inventariados
+VERSIONS=State/EngineRC1;CollectorRC2.1;HTTPRC2.2;ServiceRC2.3;IntermarketObserverRC1;symbol mapsRC1/RC2.1
+DEPENDENCIES=provider injetavel;urllib HTTP JSON;config por simbolo;symbol resolution;AnalysisContext.external_market
+INPUTS=US500,NASDAQ,DXY,VIX,US10Y,OIL,GOLD;price/change/timestamp por simbolo
+OUTPUTS=ExternalMarketState;RISK_ON/RISK_OFF/NEUTRAL;global_bias/confidence/reasons
+INTEGRATION_POINTS=AnalysisPipeline aceita service.snapshot e atualiza AnalysisContext;brain.ContextEngine/checklist exibem evidencias;ScoreExternalContextABRecorder produz score hipotetico separado
+LIVE_DATA_DEPENDENCY=true
+CAN_ADVANCE_OFFLINE=true
+OPERATIONAL_COUPLING=LOW
+SOURCE_STATE=nao e somente mock:provider HTTP configuravel realmente chama opener/urlopen quando fetch autorizado. MockProvider e controlled tests tambem existem. Disponibilidade real dos sete instrumentos nao foi confirmada.
+O mapeamento interno nao prova simbolo/provider validado. ProviderSymbolMap preserva status/metadados;discovery/resolution nao comprovam cotacao pronta.
+Collector exige us500/nasdaq/dxy/vix para contexto;US10Y/OIL/GOLD nao sao obrigatorios nessa modalidade parcial.
+FRESHNESS_GAP=collector reduz timestamps individuais a max(timestamps),strings;State conserva um timestamp agregado e nao readiness por ativo.
+EXISTING_OFFLINE_CAPABILITY=IntermarketContextObserver valida timestamps com timezone,missing/stale/futuro e calcula correlacao em timestamps comuns;nao gerar esse componente novamente.
+rg de referencias encontrou IntermarketContextObserver somente no proprio modulo e teste. Nao foi encontrado adapter desse observer para o collector/service nos caminhos pesquisados.
+SCORE=ScoreExternalContextABRecorder compara baseline com ajuste hipotetico +/-2;nao escreve Score. Nao foi encontrado caminho de bonus externo oficial no Score ativo inspecionado.
+RISKS=uma cotacao recente pode mascarar outra antiga;timestamp agregado nao comprova sincronizacao;correlacao de niveis nao deve ser confundida com causalidade/poder preditivo.
+BLOCKERS=identidade e timestamp por ativo;fonte/entitlement/semantica de change/yield/futures vs index nao confirmados.
+NEXT_TECHNICAL_STEP=ponte standalone de auditoria offline que preserve timestamp/identidade por ativo e alimente observerRC1 com fixtures,sem plugar no fluxo operacional.
+
+E. NOTICIAS/CALENDARIO
+STATUS=PARTIAL
+FILES=economic_context/economic_calendar_engine.py;economic_calendar_state.py;economic_calendar_service.py;economic_calendar_runtime.py;trading_economics_config.py;trading_economics_capture_preflight.py;trading_economics_trial_evaluator.py;app/economic_calendar_evaluate_cli.py
+TESTS=tests/test_economic_calendar_rc1.py executado;RC2..RC27 presentes;RC27 fixture de pacote sintetico inspecionada
+VERSIONS=EngineRC1;ServiceRC2;configRC15;preflightRC18;trial evaluatorRC26;evaluateCLI RC27
+DEPENDENCIES=event/provider/normalizer;timezone;TradingEconomics opcional;cache/replay store
+INPUTS=eventos normalizados com scheduled_at,impact,currency,country;provider payload
+OUTPUTS=HIGH_IMPACT_WINDOW/CAUTION/CLEAR/NO_EVENTS/UNAVAILABLE;next_event;stale;diagnostics;trial evidence
+INTEGRATION_POINTS=AnalysisContext.economic_calendar;service/runtime.attach explicito. Nao foi encontrado refresh automatico desse calendario em AnalysisPipeline inspecionada.
+LIVE_DATA_DEPENDENCY=true
+CAN_ADVANCE_OFFLINE=true
+OPERATIONAL_COUPLING=LOW
+RISKS=NO_EVENTS nao equivale provider indisponivel;fuso/relevancia/cache;credenciais e rede nao verificadas.
+BLOCKERS=feed de noticias/editorial/sentimento nao localizado;calendario e implementado,nao feed de noticias. Trial evidencias reais nao verificadas.
+NEXT_TECHNICAL_STEP=confirmar contrato de attach/replay isolado com fixture;nao inserir janela de eventos em Risk ou Decision.
+
+F. DASHBOARD/CHECKLIST/RISCO
+STATUS=PARTIAL
+FILES=dashboard/dashboard.py;dashboard/dashboard_engine.py;models/trade_checklist.py;monitor/multi_timeframe_monitor.py;monitor/monitor.py;risk/risk_manager.py;analysis/replay/book_diagnostics_assistant_projection.py;analysis/replay/book_diagnostics_voice_dashboard_widget.py
+TESTS=tests/test_risk_rc10.py;test_multi_timeframe_monitor_rc34.py;test_book_diagnostics_voice_dashboard_widget.py e testes de projections/service presentes;nao executados nesta auditoria
+VERSIONS=RiskRC10.2;MonitorRC3.4;AssistantProjectionRC29;VoiceWidgetRC60
+DEPENDENCIES=tkinter para UI;AnalysisContext/read models;RiskResult/StrategyResult
+INPUTS=resultados/contexto;entrada/stop/alvo estrutural
+OUTPUTS=labels/texto;projecoes readonly;checklist;risco aprovado/rejeitado/RR
+INTEGRATION_POINTS=ContextEngine preenche checklist;Risk participa do fluxo;dashboard legado espera campos/formas distintos e widget moderno declara nao renderizar UI
+LIVE_DATA_DEPENDENCY=true
+CAN_ADVANCE_OFFLINE=true
+OPERATIONAL_COUPLING=HIGH
+RISKS=UI nao e comprovadamente compativel com AnalysisContext atual;flags informativos nao participam de checklist.ready/score;Risk usa alvo estrutural e fallback2R apenas quando nao ha alvo.
+BLOCKERS=nao unificar dashboards por nome;renderizacao/fluxo final nao exercitados.
+NEXT_TECHNICAL_STEP=mapa de contrato de projecao readonly;nenhuma alteracao no Risk.
+
+G. GATILHOS VISUAIS
+STATUS=PARTIAL
+FILES=analysis/price_action/signal_entry_dynamics.py;analysis/price_action/price_action.py;models/price_action_result.py;dashboard/dashboard.py
+TESTS=test_signal_entry_dynamics.py e testes PriceAction existentes;nao executados
+VERSIONS=PriceActionRC9.16;SignalEntryDynamics sem RC explicito na secao inspecionada
+DEPENDENCIES=candles fechados;Trend;PriceActionResult;futuro renderer
+INPUTS=signal/entry/follow-through candles
+OUTPUTS=SETUP_PENDING/ENTRY_TRIGGERED/FOLLOW_THROUGH/ENTRY_STALLED e campos informativos
+INTEGRATION_POINTS=PriceAction chama dinamicas e publica campos;UI basica textual
+LIVE_DATA_DEPENDENCY=true
+CAN_ADVANCE_OFFLINE=true
+OPERATIONAL_COUPLING=LOW
+RISKS=gatilho matematico nao comprova overlay visual;resultado diagnostico nao pode criar ordem.
+BLOCKERS=overlay/chart-marker renderer nao encontrado nas buscas monitor/dashboard/app;sem prova de UI de candles.
+NEXT_TECHNICAL_STEP=read model visual com identidade do candle;testes de projection,sem mudar trigger operacional.
+
+H. RENKO
+STATUS=IMPLEMENTED
+FILES=core/renko_state.py;market_data/collector.py;config/settings.py
+TESTS=tests/test_renko_chart_mode_rc37.py;test_renko_pipeline_rc38.py existentes e fontes inspecionadas;nao executados para evitar ampliar suite
+VERSIONS=RenkoRC3.7;testes pipelineRC3.8
+DEPENDENCIES=Candle;MarketState;tick price/volume;ChartMode
+INPUTS=brick_size;symbol;price;cumulative_volume;datetime
+OUTPUTS=tijolos fechados mais tijolo atual;closed brick count
+INTEGRATION_POINTS=Collector constroi Renko;CHART_MODE NORMAL default;RENKO mantem M1/M5/M15 contextual
+LIVE_DATA_DEPENDENCY=true
+CAN_ADVANCE_OFFLINE=true
+OPERATIONAL_COUPLING=HIGH
+RISKS=while fecha multiplos bricks por tick;tratamento de volume/gaps e reversao deve ser caracterizado;nao presumir equivalencia com configuracao de Renko de outra plataforma.
+BLOCKERS=sem validacao live realizada nesta etapa.
+NEXT_TECHNICAL_STEP=fixtures de salto,reversao,volume reset e contrato de fechado/atual,sem alterar modo oficial.
+
+I. AL_BROOKS_DETAILED_AUDIT
+STATUS=FROZEN_RESEARCH
+FILES=analysis/price_action/price_action.py;analysis/price_action/*_dynamics.py;research/price_action/brooks/registry.py;research/price_action/brooks/trend_pullback.py;tools/profit_rtd_brooks_research_evidence_suite.py;tools/profit_rtd_brooks_stop_target_audit.py;docs/brooks_research_status_v1.md;strategies/setup_registry.py
+TESTS=tests/research/price_action/brooks/test_registry.py executado;familias/exact/selection/management/gates inventariadas
+VERSIONS=PriceActionRC9.16;BROOKS_*_V1;StrategyEngineRC7;SetupRegistryRC5
+DEPENDENCIES=candles/observacoes preparadas;PriceActionResult;auditores EXACT_CANDLE;captura enriquecida/manifestos
+INPUTS=estrutura e candles fechados;observacoes de setup;campos persistidos candle identity/revisao;selection/OOS metadata
+OUTPUTS=diagnosticos;classificacoes de familias;exact evidence;selection/management reports
+INTEGRATION_POINTS=PriceAction importa Bar/Breakout/SignalEntry/ReversalBar/Composite/Outside/CloseQuality/ChartPerspective/SecondEntry/LateEntry/PatternEvolution/TrendLine/Channel/Microchannel/HorizontalSwing dinamicas. Suite Brooks separada despacha observations e exige safety flags.
+FAMILIES=BreakoutPullback;TrendPullback;FailedBreakout;MajorTrendReversal;WedgeThreePushes;TradingRangeReversal;StopTargetRules
+PATTERNS_RANGES_TRENDS_REVERSALS=ha codigo concreto nessas familias e dinamicas;nao deduzir que todo modulo dinamico inventariado esteja ativo na pipeline.
+STRATEGIES_IMPLEMENTED=registry operacional carrega TrendPullback,TrendBreakout,LiquiditySweep;classificadores Brooks research nao sao automaticamente setups desse registry.
+RESEARCH_VALIDATION=contratos/safety/semantica/exact evidence;nao validacao preditiva ou rentabilidade.
+DOCUMENT_DRIFT=docs/brooks_research_status_v1.md diz stop/target sem exact auditor em sua consolidacao inicial. HEAD atual contem profit_rtd_brooks_stop_target_audit.py EXACT_CANDLE e EvidenceSuite importa stop_target e management_exact. Documento antigo nao define estado atual.
+LIVE_DATA_DEPENDENCY=true
+CAN_ADVANCE_OFFLINE=true
+OPERATIONAL_COUPLING=LOW
+RISKS=EXACT_CANDLE verifica evidencia capturada;nao recupera dinamica intrabar ausente nem valida lucro futuro. Alterar captura/regras durante RC17 congelado contamina desenho.
+BLOCKERS=nenhuma promocao autorizada;coverage por familia e OOS exigem auditoria especifica;nao reavaliados raws reais.
+NEXT_TECHNICAL_STEP=ledger de maturidade por familia/contrato com fixtures e estado documental atual;preservar cohorts/exact identity e safety.
+
+J. INFRAESTRUTURA PESQUISA/AUDITORIA/HISTORICO
+STATUS=IMPLEMENTED
+FILES=analysis/replay/historical_microstructure_bridge.py;analysis/replay/microstructure_confluence.py;analysis/replay/score_*_ab_recorder.py;tools/profit_rtd_order_flow_historical_shadow_reprocessor.py;tools/profit_rtd_microstructure_prospective_session.py;tools/rc17_sideways_to_directional_*;tools/profit_rtd_brooks_*;economic_context/*replay*
+TESTS=historical/microstructure/prospective/RC17/Brooks/economic testes existentes;somente subconjunto explicitamente listado executado
+VERSIONS=historicalRC1/RC35_SIGNED_DELTA;microstructureRC2;RC17protocol/evaluator/runner/consolidationRC1;economic replay/trialRC26/27
+DEPENDENCIES=JSON persistido;hashes;explicit cohort/session IDs;recorders;auditores
+INPUTS=fixtures ou sessoes persistidas com contratos respectivos;nao usar todos os arquivos por glob como cohort formal
+OUTPUTS=reports/manifestos/hash/contagens;shadow;A/B hipotetico;consolidacao descritiva
+INTEGRATION_POINTS=recorders passivos na AnalysisPipeline;wrappers warmup/prospective;CLI offline
+LIVE_DATA_DEPENDENCY=true
+CAN_ADVANCE_OFFLINE=true
+OPERATIONAL_COUPLING=LOW
+RISKS=muitas revisoes e arquivos locais untracked;nome de sessao nao prova identidade/protocolo;schemas antigos podem nao conter campos novos.
+BLOCKERS=experimento RC17#19..23 congelado;nao executar/avaliar artefatos antigos chamados session19.
+NEXT_TECHNICAL_STEP=manifestos de contrato/versionamento e separacao clara de fontes,pesquisa e validacao.
+
+PRIORIDADES
+NEXT_RECOMMENDED_FRONT=MULTITIMEFRAME_CONTRACT_AND_SAFETY_AUDIT_OFFLINE
+NEXT_RECOMMENDED_REASON=problema concreto reproduzido sem mercado:CONFLICT_M5/conflict=True passa pelo gate legado e resulta BUY no fixture. Reutiliza fixtures RC36,produtorRC3.4,Decision gate e monitor;gera matriz de estados/consumidores verificavel;nao precisa tocar RC17 ou thresholds.
+NEXT_SCOPE=primeiro desenvolver auditoria/testes de caracterizacao separados dos testes congelados RC17;mapear CONFLICT_M5/CONFLICT_M1/CONFLICT_REGIME e WAIT_M5/WAIT_TRIGGER/WAIT_REGIME;distinguir erros de fixture de erros de consumidor;documentar comportamento atual e contrato esperado.
+NEXT_SCOPE_EXCLUSION=nenhuma mudanca operacional nesta etapa. Correcao de Decision/Alert altera nucleo e deve ser tarefa futura explicitamente delimitada;nao aplicar automaticamente sob pretexto de reconciliar testes.
+NEXT_ACCEPTANCE=matriz completa com entrada/saida/valid/conflict e consumidores;reproducao deterministica do achado;fonte e semantica de cada enum registradas;hashes RC17 preservados.
+SECOND_OPTION=EXTERNAL_CONTEXT_OFFLINE_IDENTITY_FRESHNESS_BRIDGE
+SECOND_OPTION_REASON=observer de freshness/alinhamento ja implementado e testado,mas sem adapter encontrado;reutiliza HTTP mocked payloads e provider identity;preenche perda de timestamps individuais sem tocar Score/Decision.
+THIRD_OPTION=DASHBOARD_READONLY_ANALYSIS_CONTEXT_PROJECTION
+THIRD_OPTION_REASON=checklist e read models existem,mas UI basica/legada e widget nao renderizado deixam lacuna de apresentacao. Projecao standalone verificavel offline evita tocar triggers,risco e captura.
+Nao recomendar construir MarketRegime/MTF/OrderFlow do zero:essas frentes ja possuem implementacoes concretas.
+
+TESTS_EXECUTED
+tests/test_market_regime_rc3_transition_confirmation.py
+tests/test_multi_timeframe_e2e_rc36.py
+tests/test_external_http_json_provider_rc2_2.py
+tests/test_external_context_pipeline.py
+tests/test_intermarket_context_observer_rc1.py
+tests/test_economic_calendar_rc1.py
+tests/test_profit_rtd_rc7.py
+tests/research/price_action/brooks/test_registry.py
+TEST_COUNTS=54 passed;2 failed
+TEST_DURATION=2.67s
+FAILED_TESTS=teste_candles_em_conflito_bloqueiam_alerta;teste_wait_preserva_operacao_valida (ambos test_multi_timeframe_e2e_rc36.py)
+REGRESSION_STATUS=FINDINGS_NOT_ALL_PASS
+TEST_MODE=synthetic dates/candles;HTTP opener mock;RTD gateways fake;no live connection
+EXTRA_SAFE_CHECK=stdin Python chama prepare_context/execute_e2e existentes para reproduzir conflito;nenhum codigo criado
+Nenhuma tentativa de fazer testes passarem alterando codigo.
+
+FILES_INSPECTED
+analysis/market_regime.py
+market/market_regime.py
+analysis/multi_timeframe.py
+analysis/multi_timeframe_analysis.py
+core/multi_timeframe_state.py
+analysis/analysis_pipeline.py
+core/analysis_context.py
+core/settings.py
+config/settings.py
+core/system_initializer.py (imports)
+market_data/collector.py (integration references)
+external_context/external_market_state.py
+external_context/external_market_collector.py
+external_context/external_context_engine.py
+external_context/external_context_service.py
+external_context/providers/http_json_provider.py
+external_context/providers/symbol_map.py
+external_context/providers/provider_symbol_map.py
+external_context/providers/symbol_resolution_provider.py (header)
+external_context/providers/semantic_symbol_resolution_engine.py (header)
+external_context/providers/base_provider.py (search)
+analysis/research/intermarket_context_observer.py
+market_data/profit_rtd_workbook_reader.py
+market_data/profit_rtd_times_trades_deduplicator.py
+market_data/profit_rtd_incremental_aggression.py
+market_data/profit_rtd_order_flow_pipeline.py
+market_data/profit_rtd_order_flow_state_adapter.py (header)
+market_data/profitdll_book_depth_bridge.py
+market_data/book_depth_level2_provider.py
+market_data/profit_delta_quality_validator.py
+market_data/profit_adapter.py
+analysis/order_flow.py
+analysis/book_depth_analysis.py
+analysis/replay/historical_microstructure_bridge.py
+analysis/replay/microstructure_confluence.py
+analysis/replay/score_external_context_ab_recorder.py
+analysis/replay/score_regime_mtf_ab_recorder.py
+tools/profit_rtd_order_flow_historical_shadow_reprocessor.py (functions/search)
+tools/profit_rtd_brooks_delta_rtd_telemetry.py (search)
+tools/profit_rtd_brooks_research_evidence_suite.py
+tools/profit_rtd_brooks_stop_target_audit.py
+research/price_action/brooks/registry.py
+research/price_action/brooks/trend_pullback.py
+docs/brooks_research_status_v1.md
+analysis/price_action/price_action.py
+analysis/price_action/signal_entry_dynamics.py
+analysis/price_action/higher_timeframe_context_dynamics.py (header)
+strategies/strategy_engine.py
+strategies/setup_registry.py
+brain/context_engine.py
+ai/score_engine.py
+ai/score_engine_rc13_2.py (search)
+decision/decision_engine.py
+alerts/alert_manager.py (references;synthetic test consumer)
+models/trade_checklist.py
+models/price_action_result.py (search)
+dashboard/dashboard.py
+dashboard/dashboard_engine.py
+monitor/monitor.py
+monitor/multi_timeframe_monitor.py
+core/renko_state.py
+risk/risk_manager.py
+analysis/replay/book_diagnostics_assistant_projection.py
+analysis/replay/book_diagnostics_voice_dashboard_widget.py
+economic_context/economic_calendar_engine.py
+economic_context/economic_calendar_state.py
+economic_context/economic_calendar_service.py
+economic_context/economic_calendar_runtime.py
+economic_context/trading_economics_config.py
+economic_context/trading_economics_capture_preflight.py
+economic_context/trading_economics_trial_evaluator.py
+tests/test_multi_timeframe_rc3_4_regime_bridge.py
+tests/test_renko_chart_mode_rc37.py
+tests/test_renko_pipeline_rc38.py
+tests/test_economic_calendar_rc27.py
+os oito arquivos executados acima tambem tiveram fontes inspecionadas
+
+PRESERVACAO
+BASELINE_SCOPE=git ls-files *.py/*.json/*.md existentes + Profit.xlsx/livroOfertas.xlsx/times&trades.xlsx/saida.txt;connectors/excel_connector.py incluido em tracked *.py
+BASELINE_METHOD=SHA256 agregado de caminho=SHA256 por arquivo na ordem fixa;antes/depois compara todos os conteudos incluídos
+BASELINE_SHA256_BEFORE=895AC21CE9EF5DF899DCCCEDBB07A05CABC354F052AAD3DF2D664C054D86CA8E
+BASELINE_SHA256_AFTER=895AC21CE9EF5DF899DCCCEDBB07A05CABC354F052AAD3DF2D664C054D86CA8E
+BASELINE_ALL_HASHES_MATCH=true
+Protege inclusive testes RC17,observability,Strategy/Score/Risk/Decision/Alert/execution,config/weights e mudancas locais do connector.
+PROTOCOL_SHA256=2A278E7C4C438098D9CE167A778F7386A09B341A555A73E322598215150EBDB3 (recalculado nesta auditoria;conteudo protegido por baseline antes/depois)
+CODE_CHANGED=false
+RC17_CHANGED=false
+OPERATIONAL_LOGIC_CHANGED=false
+THRESHOLDS_CHANGED=false
+WEIGHTS_CHANGED=false
+SAFETY_FLAGS_CHANGED=false
+COLLECTOR_EXECUTED=false
+SESSION19_23_EXECUTED=false
+REAL_MARKET_DATA_USED=false
+STAGE_COMMIT_PUSH_EXECUTED=false
+IMPLEMENTATION_CREATED=false
+
+GIT_STATUS_BEFORE
+warning: could not open directory '.pytest_brooks_accumulation_full/': Permission denied
+warning: could not open directory '.pytest_brooks_delta_telemetry_full/': Permission denied
+warning: could not open directory '.pytest_brooks_full_20260918/': Permission denied
+warning: could not open directory '.pytest_delta_hook/': Permission denied
+warning: could not open directory '.pytest_order_flow_historical/': Permission denied
+warning: could not open directory '.pytest_temp_rc1/': Permission denied
+warning: could not open directory '.pytest_temp_rc11/': Permission denied
+warning: could not open directory '.pytest_tmp/': Permission denied
+warning: could not open directory '.pytest_tmp_book_directionality_rc1/': Permission denied
+warning: could not open directory '.pytest_tmp_book_directionality_rc1_v3/': Permission denied
+warning: could not open directory '.pytest_tmp_bridge_full/': Permission denied
+warning: could not open directory '.pytest_tmp_independent_comparison_final/': Permission denied
+warning: could not open directory '.pytest_tmp_independent_comparison_rc1/': Permission denied
+warning: could not open directory '.pytest_tmp_independent_comparison_rc1_v2/': Permission denied
+warning: could not open directory '.pytest_tmp_independent_comparison_regression/': Permission denied
+warning: could not open directory '.pytest_tmp_independent_evidence_integrated/': Permission denied
+warning: could not open directory '.pytest_tmp_independent_evidence_rc1/': Permission denied
+warning: could not open directory '.pytest_tmp_manifest/': Permission denied
+warning: could not open directory '.pytest_tmp_pa_book_independent_consolidation_rc1/': Permission denied
+warning: could not open directory '.pytest_tmp_post_session_rc1/': Permission denied
+warning: could not open directory '.pytest_tmp_post_session_regression/': Permission denied
+warning: could not open directory '.pytest_tmp_regression/': Permission denied
+warning: could not open directory '.pytest_tmp_session11_readiness_final/': Permission denied
+warning: could not open directory '.pytest_tmp_session11_readiness_rc1/': Permission denied
+warning: could not open directory '.pytest_tmp_session11_readiness_rc1_v2/': Permission denied
+warning: could not open directory '.pytest_tmp_session11_readiness_verify_rc1/': Permission denied
+warning: could not open directory '.pytest_tmp_session12_readiness_final/': Permission denied
+warning: could not open directory '.pytest_tmp_session12_readiness_rc1/': Permission denied
+warning: could not open directory '.pytest_trailing_accumulation/': Permission denied
+warning: could not open directory '.test_tmp_evaluator_audit_rc1_20261003/': Permission denied
+warning: could not open directory '.test_tmp_evaluator_commit_rc1_20261003/': Permission denied
+warning: could not open directory '.test_tmp_evaluator_dependencies_20261003/bin/': Permission denied
+warning: could not open directory '.test_tmp_evaluator_dependencies_20261003/colorama/': Permission denied
+warning: could not open directory '.test_tmp_evaluator_dependencies_20261003/colorama-0.4.6.dist-info/': Permission denied
+warning: could not open directory '.test_tmp_evaluator_dependencies_20261003/iniconfig/': Permission denied
+warning: could not open directory '.test_tmp_evaluator_dependencies_20261003/iniconfig-2.3.0.dist-info/': Permission denied
+warning: could not open directory '.test_tmp_evaluator_dependencies_20261003/packaging/': Permission denied
+warning: could not open directory '.test_tmp_evaluator_dependencies_20261003/packaging-26.3.dist-info/': Permission denied
+warning: could not open directory '.test_tmp_evaluator_dependencies_20261003/pluggy/': Permission denied
+warning: could not open directory '.test_tmp_evaluator_dependencies_20261003/pluggy-1.6.0.dist-info/': Permission denied
+warning: could not open directory '.test_tmp_evaluator_final_rc1_20261003/': Permission denied
+warning: could not open directory '.test_tmp_evaluator_rc1_20261003/': Permission denied
+warning: could not open directory '.test_tmp_runner_commit_rc1_20261003/': Permission denied
+warning: could not open directory '.test_tmp_runner_preparation_final_rc1_20261003/': Permission denied
+warning: could not open directory '.test_tmp_runner_preparation_rc1_20261003/': Permission denied
+warning: could not open directory 'pytest_temp/': Permission denied
+warning: could not open directory 'tmp_pytest/': Permission denied
+warning: could not open directory 'tmp_pytest_book_metadata/': Permission denied
+warning: could not open directory 'tmp_pytest_book_observability_rc1/': Permission denied
+warning: could not open directory 'tmp_pytest_conflict_episode_fix/': Permission denied
+warning: could not open directory 'tmp_pytest_conflict_episode_integrated/': Permission denied
+warning: could not open directory 'tmp_pytest_conflict_episode_resume/': Permission denied
+warning: could not open directory 'tmp_pytest_duration_rc1/': Permission denied
+warning: could not open directory 'tmp_pytest_orchestrated/': Permission denied
+warning: could not open directory 'tmp_pytest_pa_book_opportunity_rc1/': Permission denied
+warning: could not open directory 'tmp_pytest_pa_book_temporal_persistence_rc1/': Permission denied
+warning: could not open directory 'tmp_pytest_rc1/': Permission denied
+warning: could not open directory 'tmp_pytest_sync_a92/': Permission denied
+ M Profit.xlsx
+ M connectors/excel_connector.py
+ M livroOfertas.xlsx
+ M saida.txt
+ M times&trades.xlsx
+?? .pytest_structural_protocol_20260930_41b467d1d2f1b8/
+?? .pytest_structural_protocol_20260930_c1fc8550eb9848/
+?? .rc17_diag_capture01_runtime_20261002.log
+?? .rc17_evaluator_commit_baseline_20261003.json
+?? .rc17_protocol_commit_preservation_20261002.json
+?? .rc17_runner_commit_baseline_20261003.json
+?? .rc17_runner_preparation_baseline_20261003.json
+?? .rc17_session19_audit_20261002.py
+?? .rc17_session19_baseline_20261002.json
+?? .rc17_session19_call_20261002.json
+?? .rc17_session19_runtime_20261002.log
+?? .test_tmp_accumulation_final_20261002/
+?? .test_tmp_accumulation_rc1_20261002/
+?? .test_tmp_evaluator_dependencies_20261003/
+?? .test_tmp_independent_opp_20261002/
+?? .test_tmp_independent_opp_final_20261002/
+?? .test_tmp_pa_bias_trace_20261002/
+?? .test_tmp_rc17_commit_20261002/
+?? .test_tmp_rc17_obs_20261002/
+?? .test_tmp_rc17_obs_final_20261002/
+?? .test_tmp_rc17_obs_v2_20261002/
+?? .test_tmp_rc17_protocol_20261002/
+?? .test_tmp_rc17_protocol_final_20261002/
+?? .test_tmp_rc17_protocol_versioning_20261002/
+?? .test_tmp_structural_regression_20261002/
+?? .tmp_independent_comparison_rc1/
+?? CODEX_FILES_RECOVERY_20260929.txt
+?? CODEX_RECOVERY_20260929.txt
+?? PA_BOOK_CODEX_RESULTS_20260929.txt
+?? PA_BOOK_DIRECTION_IDENTITY_GATE_V1_20260929.txt
+?? PA_BOOK_EVALUATOR_FUNCTION_CONTRACT_20260929.txt
+?? PA_BOOK_FORMAL_SOURCE_TRACE_20260929.txt
+?? PA_BOOK_FULL_CHAIN_VERIFY_20260929.txt
+?? PA_BOOK_FULL_CHAIN_VERIFY_20260929_FIX1.txt
+?? PA_BOOK_HETEROGENEITY_RECHECK_20260929.json
+?? PA_BOOK_OPPOSED_TO_ALIGNED_TRANSITION_REPLICATION_PROBE_V1_20260929.txt
+?? PA_BOOK_PROSPECTIVE_REPLICATION_PROTOCOL_VALIDATION_RC1_20260929.txt
+?? PA_BOOK_SESSION02_TEMPORAL_CONTEXT_PROBE_V1_20260929.txt
+?? PA_BOOK_SESSION02_TRANSITION_CENTERED_CONTEXT_PROBE_V1_20260929.txt
+?? PA_BOOK_SESSION_CONTEXT_REGIME_PROBE_V1_20260929.txt
+?? PA_BOOK_SESSION_CONTEXT_SCHEMA_PROBE_20260929.txt
+?? PA_BOOK_STRUCTURAL_REPLICATION_EVALUATOR_PROTOCOL_AUDIT_20260930.txt
+?? PA_BOOK_WITHIN_SESSION_CONTEXT_PROBE_V1_20260929.txt
+?? PA_BOOK_WITHIN_SESSION_DIRECTION_SCHEMA_PROBE_20260929.txt
+?? auditoria_codex_work.txt
+?? auditoria_management_exact_core.txt
+?? auditoria_management_lifecycle_core.txt
+?? auditoria_protective_trailing_core.txt
+?? auditoria_trailing_12sessoes.txt
+?? auditoria_trailing_capture_core.txt
+?? auditoria_trailing_diagnostics_core.txt
+?? auditoria_trailing_tests_core.txt
+?? auditoria_work_codex_20260917.txt
+?? base_conflict_episode_rc1.txt
+?? book_bridge_parity_rc1.txt
+?? book_direction_parity_rc1.txt
+?? book_direction_pipeline_exact.txt
+?? book_directional_context_probe.txt
+?? book_directional_transitions_probe.txt
+?? book_directionality_diagnostics_current.txt
+?? book_directionality_diagnostics_real_rc1.json
+?? book_directionality_diagnostics_tests_current.txt
+?? book_imbalance_boundary_probe.txt
+?? book_observability_rc1_source_snapshot.txt
+?? book_pressure_exhaustive_probe.txt
+?? book_pressure_exhaustive_session11_probe.txt
+?? book_raw_alignment_probe.txt
+?? book_raw_structure_probe.txt
+?? book_threshold_source_search.txt
+?? brooks_delta_telemetry_hook_audit.txt
+?? brooks_evidencia_10sessoes.json
+?? brooks_evidencia_stop_target_final.json
+?? brooks_lifecycle_16sessoes_20260918.json
+?? brooks_lifecycle_17sessoes_20260918.json
+?? brooks_lifecycle_18sessoes_20260918.json
+?? brooks_lifecycle_19sessoes_20260918.json
+?? brooks_lifecycle_20sessoes_20260918.json
+?? brooks_lifecycle_21sessoes_20260918.json
+?? brooks_lifecycle_exact_16sessoes_20260918.json
+?? brooks_lifecycle_exact_17sessoes_20260918.json
+?? brooks_lifecycle_exact_18sessoes_20260918.json
+?? brooks_lifecycle_exact_19sessoes_20260918.json
+?? brooks_lifecycle_exact_20sessoes_20260918.json
+?? brooks_lifecycle_exact_21sessoes_20260918.json
+?? brooks_stage3_3_16sessoes_20260918.json
+?? brooks_stage3_3_17sessoes_20260918.json
+?? brooks_stage3_3_18sessoes_20260918.json
+?? brooks_stage3_3_19sessoes_20260918.json
+?? brooks_stage3_3_20sessoes_20260918.json
+?? brooks_stage3_3_21sessoes_20260918.json
+?? brooks_stage3_4_16sessoes_20260918.json
+?? brooks_stage3_4_17sessoes_20260918.json
+?? brooks_stage3_4_18sessoes_20260918.json
+?? brooks_stage3_4_19sessoes_20260918.json
+?? brooks_stage3_4_20sessoes_20260918.json
+?? brooks_stage3_4_21sessoes_20260918.json
+?? brooks_stage3_5_16sessoes_20260918.json
+?? brooks_stage3_5_17sessoes_20260918.json
+?? brooks_stage3_5_18sessoes_20260918.json
+?? brooks_stage3_5_19sessoes_20260918.json
+?? brooks_stage3_5_20sessoes_20260918.json
+?? brooks_stage3_5_21sessoes_20260918.json
+?? brooks_stage3_6_16sessoes_20260918.json
+?? brooks_stage3_6_17sessoes_20260918.json
+?? brooks_stage3_6_18sessoes_20260918.json
+?? brooks_stage3_6_19sessoes_20260918.json
+?? brooks_stage3_6_20sessoes_20260918.json
+?? brooks_stage3_6_21sessoes_20260918.json
+?? brooks_trailing_active_accumulation_16_17_20260918.json
+?? brooks_trailing_active_accumulation_16_18_20260918.json
+?? brooks_trailing_active_accumulation_16_19_20260918.json
+?? brooks_trailing_active_accumulation_16_20_20260918.json
+?? brooks_trailing_active_accumulation_16_21_20260918.json
+?? brooks_trailing_active_survival_16sessoes_20260918.json
+?? brooks_trailing_active_survival_17sessoes_20260918.json
+?? brooks_trailing_active_survival_18sessoes_20260918.json
+?? brooks_trailing_active_survival_19sessoes_20260918.json
+?? brooks_trailing_active_survival_20sessoes_20260918.json
+?? brooks_trailing_active_survival_21sessoes_20260918.json
+?? brooks_trailing_v3_sessao19_20260918.json
+?? brooks_trailing_v3_sessao20_20260918.json
+?? brooks_trailing_v3_sessao21_20260918.json
+?? brooks_ultima_selecao.json
+?? brooks_warmed_session_atual.txt
+?? busca_book_conversion_exact.txt
+?? busca_book_direction.txt
+?? busca_coverage_generator_exact.txt
+?? busca_historical_bridge_exact.txt
+?? busca_prospective_book_rule.txt
+?? data/order_flow_historical_shadow_rc35/
+?? data/order_flow_historical_shadow_rc35_python/
+?? data/post_session_audit_rc1_regression/
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260914_102126.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260914_130304.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260914_143238.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260914_165659.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_105703.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_114902.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_123423.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_130450.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_161123.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_164939.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_172701.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260916_102907.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260916_124306.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260917_113532.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260917_125655.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260917_171917.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_100511.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_104649.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_120654.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_124258.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_155129.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_170840.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260914_102126.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260914_130304.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260914_143239.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260914_165659.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_105703.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_114902.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_123424.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_130450.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_161124.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_164940.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_172701.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260916_102908.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260916_124307.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260917_113533.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260917_125657.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260917_171918.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_100511.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_104649.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_120654.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_124258.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_155130.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_170841.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260908_130030.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260908_164519.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260908_170045.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260909_114536.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260909_123422.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260909_125729.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_110116.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_115251.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_122602.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_130942.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_163046.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260922_104741.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260922_114330.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260922_122256.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260922_130220.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260923_103430.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260923_123103.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260923_131852.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260923_151347.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260924_164534.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260924_172159.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260925_110721.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260925_124732.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260925_133534.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260928_113219.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260928_125331.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260930_093955.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260930_125429.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260930_161432.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260930_164805.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260930_171544.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261002_093840.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261002_163321.json
+?? data/prospective_microstructure_session11_audit_20260928/
+?? data/prospective_microstructure_session12_audit_20260928/
+?? delta_adapter_audit.txt
+?? delta_continuity_audit.txt
+?? delta_cycle3543_audit.txt
+?? delta_recovery_code_review.txt
+?? delta_recovery_final_audit.txt
+?? delta_recovery_search.txt
+?? delta_reset_core_audit.txt
+?? delta_reset_runtime_log.txt
+?? delta_reset_search.txt
+?? delta_rtd_reset_path.txt
+?? delta_telemetry_capture_audit.txt
+?? delta_telemetry_collector_hook_audit.txt
+?? delta_telemetry_context_bridge_audit.txt
+?? delta_telemetry_diff.txt
+?? delta_telemetry_integration_audit.txt
+?? delta_telemetry_warm_bridge_final_audit.txt
+?? diagnostico_build_sources.txt
+?? diagnostico_fluxo_collector_pipeline.txt
+?? diagnostico_market_structure_20260924.txt
+?? diagnostico_price_action_bias.txt
+?? diagnostico_rc17_1200.txt
+?? diagnostico_rc17_ao_vivo.txt
+?? diagnostico_rc17_d1.txt
+?? diagnostico_rc17_d2.txt
+?? diagnostico_rc17_d3.txt
+?? diagnostico_rc17_regras.txt
+?? diagnostico_schema_conflict_episode.txt
+?? estado_work_codex_20260917.txt
+?? estrutura_final_rc17_20260924.txt
+?? frozen10_canonical_sample_schema_20260929.txt
+?? frozen10_pa_book_opportunity_probe_20260929.txt
+?? frozen10_pa_book_opportunity_snapshot.txt
+?? historical_bridge_full_logic.txt
+?? historical_microstructure_confluence_report_LOCAL_BACKUP.py
+?? independent_episode_audit_full_20260918.txt
+?? independent_episode_tests_full_20260918.txt
+?? inspect_book_schema_rc1.py
+?? inspect_prospective_book_exact_rc1.py
+?? management_lifecycle_full_20260918.txt
+?? pa_book_frozen_heterogeneity_probe_20260929.json
+?? pa_book_independent_opportunity_audit_sessions11_18_rc1_20261002.json
+?? pa_book_independent_replication_consolidation_sessions11_13_rc1_20260930.json
+?? pa_book_opportunity_audit_rc1_real.json
+?? pa_book_opportunity_rc1_source_snapshot.txt
+?? pa_book_raw_sample_time_schema_probe_20260929.txt
+?? pa_book_replication_accumulation_consolidation_sessions14_18_rc1_20261002.json
+?? pa_book_session_exposure_probe_20260929.json
+?? pa_book_session_heterogeneity_audit_rc1_real_20260929.json
+?? pa_book_session_position_probe_20260929.txt
+?? pa_book_structural_replication_session11_rc12_20260930.json
+?? pa_book_structural_replication_session12_rc12_20260930.json
+?? pa_book_structural_replication_session13_20260930.json
+?? pa_book_structural_replication_session13_rc12_20260930.json
+?? pa_book_structural_replication_session13_rc12_recheck_20260930.json
+?? pa_book_structural_replication_session15_rc12_20260930.json
+?? pa_book_structural_replication_session16_rc12_20260930.json
+?? pa_book_structural_replication_session17_rc12_20260930.json
+?? pa_book_structural_replication_session18_rc12_20261002.json
+?? pa_book_temporal_duration_probe_10sessions_20260929.txt
+?? pa_book_temporal_duration_schema_probe_20260929.txt
+?? pa_book_temporal_persistence_audit_rc1_real.json
+?? pa_book_temporal_persistence_rc1_source_snapshot.txt
+?? pa_book_temporal_runs_probe_20260929.txt
+?? pa_book_temporal_transition_audit_rc1_real_20260929.json
+?? pa_book_temporal_transitions_probe_20260929.txt
+?? post_session_pipeline_exact.txt
+?? probe_book_directional.py
+?? probe_book_imbalance_boundary.py
+?? probe_book_pressure_exhaustive.py
+?? probe_book_pressure_exhaustive_session11.py
+?? probe_book_raw_alignment.py
+?? probe_book_raw_structure.py
+?? probe_book_transitions.py
+?? probe_pa_book_frozen_heterogeneity_20260929.py
+?? probe_pa_book_raw_sample_time_schema.py
+?? probe_pa_book_session_exposure_20260929.py
+?? probe_pa_book_session_position.py
+?? probe_pa_book_temporal_duration_10sessions.py
+?? probe_pa_book_temporal_duration_schema.py
+?? probe_pa_book_temporal_runs.py
+?? probe_pa_book_temporal_transitions.py
+?? profit_rtd_pipeline_audit.txt
+?? prospective_book_call_chain_search.txt
+?? prospective_book_exact_rc1.txt
+?? prospective_book_runtime_chain_exact.txt
+?? prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+?? prospective_microstructure_book_directionality_diagnostics_metadata_rc2.json
+?? prospective_microstructure_book_directionality_metadata_validation.json
+?? prospective_microstructure_book_observability_audit_rc1.json
+?? prospective_microstructure_conflict_10session_checkpoint_verify_20260926.json
+?? prospective_session_exact.txt
+?? protective_trailing_stop_dynamics_full_20260917.txt
+?? rc17_sideways_to_directional_evolution_session19_rc1_20261002.json
+?? rc54_8_oos_divergent.txt
+?? rc54_8_oos_divergent_3sessoes.txt
+?? rc54_8_oos_divergent_4sessoes.txt
+?? rc54_8_oos_micro_neutral.txt
+?? rc54_8_oos_micro_neutral_3sessoes.txt
+?? rc54_8_oos_micro_neutral_4sessoes.txt
+?? rc54_nova_oos.txt
+?? rc54_nova_oos_2.txt
+?? rc54_nova_oos_2_error.txt
+?? rc54_nova_oos_3.txt
+?? rc54_nova_oos_3_error.txt
+?? rc54_nova_oos_4.txt
+?? rc54_nova_oos_4_error.txt
+?? rc54_nova_oos_5.txt
+?? rc54_nova_oos_5_error.txt
+?? rc54_nova_oos_6.txt
+?? rc54_nova_oos_7.txt
+?? research_open_branches_snapshot_20260929.txt
+?? saida_book_observability_audit_rc1.txt
+?? saida_book_rc1.txt
+?? saida_book_rc1_final.txt
+?? saida_codex_limit.txt
+?? saida_compare_session11_12_13_schema.txt
+?? saida_conflict_episode_3formal.txt
+?? saida_conflict_episode_4sessions_20260923.json
+?? saida_conflict_episodes_10sessions_20260925.json
+?? saida_conflict_episodes_6sessions_20260923.json
+?? saida_conflict_episodes_7sessions_20260923.json
+?? saida_conflict_episodes_8sessions_20260924.json
+?? saida_conflict_episodes_9sessions_20260925.json
+?? saida_conflict_price_followthrough_10sessions_20260925.json
+?? saida_conflict_price_followthrough_4sessions_20260923.json
+?? saida_conflict_price_followthrough_5sessions_20260923.json
+?? saida_conflict_price_followthrough_6sessions_20260923.json
+?? saida_conflict_price_followthrough_7sessions_20260923.json
+?? saida_conflict_price_followthrough_8sessions_20260924.json
+?? saida_conflict_price_followthrough_8sessions_20260924_utf8.json
+?? saida_conflict_price_followthrough_9sessions_20260925.json
+?? saida_conflict_session_stability_rc3_10sessions_20260925.json
+?? saida_conflict_session_stability_rc3_5sessions_20260923.json
+?? saida_conflict_session_stability_rc3_6sessions_20260923.json
+?? saida_conflict_session_stability_rc3_7sessions_20260923.json
+?? saida_conflict_session_stability_rc3_8sessions_20260924.json
+?? saida_conflict_session_stability_rc3_9sessions_20260925.json
+?? saida_conflict_stratification_10sessions_20260925.json
+?? saida_conflict_stratification_rc2_20260923.json
+?? saida_conflict_stratification_rc2_5sessions_20260923.json
+?? saida_conflict_stratification_rc2_6sessions_20260923.json
+?? saida_conflict_stratification_rc2_7sessions_20260923.json
+?? saida_conflict_stratification_rc2_8sessions_20260924.json
+?? saida_conflict_stratification_rc2_9sessions_20260925.json
+?? saida_erro_coverage_9sessions_20260925.txt
+?? saida_independent_11_13_inventory.txt
+?? saida_independent_consolidation_final_gate_rc1.txt
+?? saida_independent_consolidation_push_rc1.txt
+?? saida_independent_consolidation_tests_rc1.txt
+?? saida_independent_evidence_comparison.txt
+?? saida_microstructure_3session_audit.txt
+?? saida_microstructure_coverage_10sessions_20260925.json
+?? saida_microstructure_coverage_20260923.json
+?? saida_microstructure_coverage_3formal.txt
+?? saida_microstructure_coverage_4formal_20260923.json
+?? saida_microstructure_coverage_5sessions_20260923.json
+?? saida_microstructure_coverage_6sessions_20260923.json
+?? saida_microstructure_coverage_7sessions_20260923.json
+?? saida_microstructure_coverage_8sessions_20260924.json
+?? saida_microstructure_coverage_9sessions_20260925.json
+?? saida_microstructure_orchestrated_3.txt
+?? saida_microstructure_prospectiva.txt
+?? saida_microstructure_prospectiva_3.txt
+?? saida_nova_tentativa_sessao8.txt
+?? saida_pa_bias_none_root_cause_audit_rc1_20261002.txt
+?? saida_pa_book_independent_consolidation_rc1.txt
+?? saida_pa_book_independent_opportunity_audit_11_18_rc1_20261002.txt
+?? saida_pa_book_opportunity_audit_rc1.txt
+?? saida_pa_book_replication_accumulation_consolidation_14_18_rc1_20261002.txt
+?? saida_pa_book_replication_accumulation_consolidation_commit_rc1_20261002.txt
+?? saida_pa_book_temporal_persistence_audit_rc1.txt
+?? saida_rc11_positional_identity_audit.txt
+?? saida_rc12_full_gate.txt
+?? saida_rc12_gate.txt
+?? saida_rc12_gate_v2.txt
+?? saida_rc12_gate_v3.txt
+?? saida_rc12_tests.txt
+?? saida_rc12_tests_v2.txt
+?? saida_rc12_tests_v3.txt
+?? saida_rc17_observability_diagnostic_capture_01_20261002.txt
+?? saida_rc17_passive_observability_commit_rc1_20261002.txt
+?? saida_rc17_passive_observability_implementation_rc1_20261002.txt
+?? saida_rc17_session19_final_readiness_20261003.txt
+?? saida_rc17_session_runner_commit_rc1_20261003.txt
+?? saida_rc17_session_runner_rc1_preparation_20261003.txt
+?? saida_rc17_sideways_evolution_consolidator_commit_rc1_20261003.txt
+?? saida_rc17_sideways_evolution_consolidator_preparation_rc1_20261003.txt
+?? saida_rc17_sideways_evolution_evaluator_commit_rc1_20261003.txt
+?? saida_rc17_sideways_evolution_evaluator_rc1_20261003.txt
+?? saida_rc17_sideways_swing_root_cause_audit_rc1_20261002.txt
+?? saida_rc17_sideways_to_directional_protocol_commit_rc1_20261002.txt
+?? saida_rc17_sideways_to_directional_protocol_rc1_20261002.txt
+?? saida_rc17_sideways_to_directional_session19_rc1_20261002.txt
+?? saida_replication_accumulation_protocol_commit_gate_rc1.txt
+?? saida_replication_accumulation_protocol_push_gate_rc1.txt
+?? saida_replication_accumulation_protocol_validation_rc1.txt
+?? saida_reproducao_conflict_episode_10sessions_20260926.json
+?? saida_reproducao_conflict_followthrough_10sessions_20260926.json
+?? saida_reproducao_conflict_session_stability_10sessions_20260926.json
+?? saida_reproducao_conflict_stratification_10sessions_20260926.json
+?? saida_reproducao_coverage_10sessions_20260926.json
+?? saida_semantic_gate_rc11.txt
+?? saida_sessao8.txt
+?? saida_sessao8_20260924.txt
+?? saida_sessao9_20260925.txt
+?? saida_sessao9_tentativa2_20260925.txt
+?? saida_sessao9_tentativa3_20260925.txt
+?? saida_sessao9_tentativa4_20260925.txt
+?? saida_sessao9_tentativa5_20260925.txt
+?? saida_session11.txt
+?? saida_session11_12_schemas.txt
+?? saida_session11_comparison.txt
+?? saida_session11_post_audit.txt
+?? saida_session11_quantitativo.txt
+?? saida_session11_tentativa2.txt
+?? saida_session11_tentativa3.txt
+?? saida_session11_tentativa4.txt
+?? saida_session12.txt
+?? saida_session12_comparison.txt
+?? saida_session12_post_audit.txt
+?? saida_session12_readiness.txt
+?? saida_session13.txt
+?? saida_session13_14_capture_schema_diagnostic_rc1.txt
+?? saida_session13_14_capture_schema_diagnostic_rc2.txt
+?? saida_session13_rc12_evaluation.txt
+?? saida_session13_rc12_final.txt
+?? saida_session13_timestamp_schema.txt
+?? saida_session14_collection_rc1.txt
+?? saida_session14_collector_contract_rc1.txt
+?? saida_session14_integrity_freeze_rc1.txt
+?? saida_session14_preflight_rc1.txt
+?? saida_session14_structural_replication_rc12.txt
+?? saida_session15_collection_rc1.txt
+?? saida_session15_integrity_freeze_rc1.txt
+?? saida_session15_preflight_rc1.txt
+?? saida_session15_retry_rc1.txt
+?? saida_session15_structural_evaluation_rc12.txt
+?? saida_session15_trade_context_diagnostic_rc1.txt
+?? saida_session15_warm_history_gate_diagnostic_rc1.txt
+?? saida_session16_collection_rc1.txt
+?? saida_session16_integrity_freeze_rc1.txt
+?? saida_session16_preflight_rc1.txt
+?? saida_session16_structural_evaluation_rc12.txt
+?? saida_session17_structural_evaluation_rc12.txt
+?? saida_session18_20261002_092256.log
+?? saida_session18_live_symbol_identity_rc1.txt
+?? saida_session18_no_raw_diagnosis_rc1.txt
+?? saida_session18_preflight_rc1.txt
+?? saida_session18_retry_20261001_145654_55b2b19500084708987b9c7a237ad81a.log
+?? saida_session18_rtd_preflight_20261002.txt
+?? saida_session18_structural_evaluation_rc12_20261002.txt
+?? saida_session18_symbol_mismatch_diagnosis_rc1.txt
+?? saida_session18_symbol_observability_commit_rc1.txt
+?? saida_session18_symbol_observability_patch_rc1.txt
+?? saida_structural_replication_11_13_rc12.txt
+?? saida_structural_replication_11_13_rc12_v2.txt
+?? saida_temporal_duration_rc1.txt
+?? saida_teste_rc11.txt
+?? schema_book_session11.txt
+?? schema_book_session12.txt
+?? schema_book_unique_values.txt
+?? schema_book_values.txt
+?? stash_conteudo.txt
+?? structural_advance_gate_v2_1_full_20260917.txt
+?? temporal_duration_rc1_source_snapshot_20260929.txt
+?? temporal_persistence_source_d70caea.py
+?? temporal_persistence_tests_source_d70caea.py
+?? test_historical_microstructure_confluence_report_rc1_LOCAL_BACKUP.py
+?? test_prospective_microstructure_book_directionality_diagnostics_rc1_current.py
+?? tests/book_diag_tests_metadata_rc2.py
+?? tests/test_prospective_microstructure_pa_book_independent_opportunity_audit_rc1.py
+?? tests/test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py.bak_rc11
+?? tmp_compare_session11_12_13_schema.py
+?? tmp_fix_rc12_remaining_tests.py
+?? tmp_fix_rc12_test_decorators.py
+?? tmp_patch_structural_evaluator_rc12.py
+?? tmp_session13_timestamp_schema.py
+?? tools/profit_rtd_brooks_research_evidence_suite_updated.py
+?? tools/profit_rtd_brooks_structural_advance_gate_diagnostics.py
+?? tools/profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py
+?? tools/profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py
+?? tools/profit_rtd_rc17_isolated_parity_diagnostic.py
+?? tools/profit_rtd_rc17_parity_diagnostic.py
+?? tools/profit_rtd_rc17_swing_diagnostic.py
+?? tools/profit_rtd_rc54_3_2_brooks_warmed_session_complete.py
+?? tools/profit_rtd_rc54_3_2_brooks_warmed_session_fixed.py
+?? tools/prospective_microstructure_pa_book_independent_opportunity_audit.py
+?? tools/prospective_microstructure_pa_book_structural_replication_evaluator.py.bak_rc11
+?? trailing_active_survival_source_20260918.txt
+?? trailing_active_survival_tests_20260918.txt
+?? trailing_advance_diagnostico_20260917.txt
+?? trailing_advance_logic_audit_20260917.txt
+?? trailing_v3_session16_20260918.json
+?? trailing_v3_session17_20260918.json
+?? trailing_v3_session18_20260918.json
+?? verify_book_bridge_parity_rc1.py
+?? verify_book_direction_parity_rc1.py
+?? warm_history_location_audit.txt
+
+STOP=true
+

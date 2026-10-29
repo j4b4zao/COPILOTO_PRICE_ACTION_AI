@@ -1,0 +1,44 @@
+{
+  "prospective_microstructure": {
+    "captured_samples": 7,
+    "source_analyzable_samples": 7,
+    "sample_count_matches_source": true,
+    "samples": [
+      {
+        "price_action_bias": "BUY",
+        "book_direction": "BUY",
+        "conflict_count": 0
+      },
+      {
+        "price_action_bias": "SELL",
+        "book_direction": "SELL",
+        "conflict_count": 0
+      },
+      {
+        "price_action_bias": "BUY",
+        "book_direction": "SELL",
+        "conflict_count": 1
+      },
+      {
+        "price_action_bias": "SELL",
+        "book_direction": "BUY",
+        "conflict_count": 1
+      },
+      {
+        "price_action_bias": "BUY",
+        "book_direction": "NONE",
+        "conflict_count": 0
+      },
+      {
+        "price_action_bias": "NONE",
+        "book_direction": "BUY",
+        "conflict_count": 0
+      },
+      {
+        "price_action_bias": "NONE",
+        "book_direction": "NONE",
+        "conflict_count": 0
+      }
+    ]
+  }
+}

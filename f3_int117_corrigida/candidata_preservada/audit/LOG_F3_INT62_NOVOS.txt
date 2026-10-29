@@ -1,0 +1,19 @@
+test_bool_seconds (test_f3_int62_strict_evidence.StrictEvidenceTests.test_bool_seconds) ... ok
+test_contradictory_failed_line (test_f3_int62_strict_evidence.StrictEvidenceTests.test_contradictory_failed_line) ... ok
+test_duplicate_f3 (test_f3_int62_strict_evidence.StrictEvidenceTests.test_duplicate_f3) ... ok
+test_duplicate_identical_keys (test_f3_int62_strict_evidence.StrictEvidenceTests.test_duplicate_identical_keys) ... ok
+test_duplicate_ok (test_f3_int62_strict_evidence.StrictEvidenceTests.test_duplicate_ok) ... ok
+test_duplicate_summary (test_f3_int62_strict_evidence.StrictEvidenceTests.test_duplicate_summary) ... ok
+test_float_overflow (test_f3_int62_strict_evidence.StrictEvidenceTests.test_float_overflow) ... ok
+test_infinity (test_f3_int62_strict_evidence.StrictEvidenceTests.test_infinity) ... ok
+test_missing_seconds (test_f3_int62_strict_evidence.StrictEvidenceTests.test_missing_seconds) ... ok
+test_nan (test_f3_int62_strict_evidence.StrictEvidenceTests.test_nan) ... ok
+test_negative_seconds (test_f3_int62_strict_evidence.StrictEvidenceTests.test_negative_seconds) ... ok
+test_strict_json_retains_finite_numbers (test_f3_int62_strict_evidence.StrictEvidenceTests.test_strict_json_retains_finite_numbers) ... ok
+test_traceback_despite_ok (test_f3_int62_strict_evidence.StrictEvidenceTests.test_traceback_despite_ok) ... ok
+test_valid (test_f3_int62_strict_evidence.StrictEvidenceTests.test_valid) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.018s
+
+OK

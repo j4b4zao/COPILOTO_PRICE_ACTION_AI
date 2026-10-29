@@ -1,0 +1,2 @@
+state,reason,independent_evidence_count,confluence_quality,confidence,conflict_count,correlated_evidence_count,passive_only
+PROMISING,TEST,2,MEDIUM,0.7,0,0,True

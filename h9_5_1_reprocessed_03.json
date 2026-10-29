@@ -1,0 +1,126 @@
+{
+  "result": "RTD_READ_VALIDATED",
+  "reasons": [],
+  "sources": {
+    "Profit.xlsx": {
+      "contract": "WINV26",
+      "contract_matches": true,
+      "values_available": true,
+      "values_changed": true,
+      "freshness": "FRESH",
+      "state": "VALUE_UPDATED",
+      "formulas_valid": true,
+      "market_timestamp": "2026-10-13T11:13:45-03:00",
+      "age_seconds": 2.015602,
+      "timestamp_advanced": true
+    },
+    "livroOfertas.xlsx": {
+      "contract": "WINV26",
+      "contract_matches": true,
+      "values_available": true,
+      "values_changed": true,
+      "freshness": "CHANGED_DURING_INTERVAL",
+      "state": "VALUE_UPDATED",
+      "source_identity": "Ofertas"
+    },
+    "times&trades.xlsx": {
+      "contract": "WINV26",
+      "contract_matches": true,
+      "source_identity": "Negócios",
+      "values_available": true,
+      "values_changed": true,
+      "required_records_changed": true,
+      "timestamp_advanced": true,
+      "latest_first_timestamp": "2026-10-13T11:13:11.881000-03:00",
+      "latest_second_timestamp": "2026-10-13T11:13:43.818000-03:00",
+      "freshness": "FRESH",
+      "state": "VALUE_UPDATED",
+      "first_validation": {
+        "valid": true,
+        "reasons": [],
+        "records": [
+          {
+            "row": 3,
+            "timestamp": "2026-10-13T11:13:11.881000-03:00",
+            "price": 207485.0,
+            "quantity": 50.0,
+            "age_seconds": 5.036668
+          },
+          {
+            "row": 4,
+            "timestamp": "2026-10-13T11:13:02.643000-03:00",
+            "price": 207545.0,
+            "quantity": 60.0,
+            "age_seconds": 14.274668
+          },
+          {
+            "row": 5,
+            "timestamp": "2026-10-13T11:13:00.744000-03:00",
+            "price": 207505.0,
+            "quantity": 147.0,
+            "age_seconds": 16.173668
+          }
+        ]
+      },
+      "second_validation": {
+        "valid": true,
+        "reasons": [],
+        "records": [
+          {
+            "row": 3,
+            "timestamp": "2026-10-13T11:13:43.818000-03:00",
+            "price": 207375.0,
+            "quantity": 85.0,
+            "age_seconds": 3.197602
+          },
+          {
+            "row": 4,
+            "timestamp": "2026-10-13T11:13:38.946000-03:00",
+            "price": 207320.0,
+            "quantity": 89.0,
+            "age_seconds": 8.069602
+          },
+          {
+            "row": 5,
+            "timestamp": "2026-10-13T11:13:37.380000-03:00",
+            "price": 207370.0,
+            "quantity": 50.0,
+            "age_seconds": 9.635602
+          }
+        ]
+      },
+      "reasons": []
+    }
+  },
+  "live_certified": false,
+  "note": "Historical evidence only; no fresh COM attachment or live certification. Other sources retain H.9.5 semantics.",
+  "version": "RC7.13.23-H.9.5.1",
+  "orders_allowed": false,
+  "mode": "OFFLINE_REPROCESS_EXISTING_EVIDENCE",
+  "input_path": "C:\\COPILOTO_GIT_SYNC\\h9_5_real_evidence_03.json",
+  "input_sha256": "fc168f197180ebe960b8c181b3dfbbe0b8591610719abefbd0986d48ba52d203",
+  "original_result": "BLOCKED_WITH_REASONS",
+  "original_trade_classification": {
+    "contract": "WINV26",
+    "contract_matches": true,
+    "values_available": false,
+    "values_changed": true,
+    "freshness": "UNKNOWN",
+    "state": "VALUE_UNAVAILABLE",
+    "source_identity": "Negócios"
+  },
+  "historical_attachment": {
+    "workbooks_count": 3,
+    "full_names": [
+      "C:\\COPILOTO_PRICE_ACTION_AI\\livroOfertas.xlsx",
+      "C:\\COPILOTO_PRICE_ACTION_AI\\Profit.xlsx",
+      "C:\\COPILOTO_PRICE_ACTION_AI\\times&trades.xlsx"
+    ],
+    "user": "DESKTOP-158793C\\jb",
+    "elevated": false,
+    "pid": 10152,
+    "hwnd": 396152,
+    "excel_executable": "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"
+  },
+  "reprocessed_at": "2026-10-13T11:17:01.292798-03:00"
+}

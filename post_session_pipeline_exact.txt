@@ -1,0 +1,130 @@
+﻿
+def run_audit(
+    raw_paths,
+    *,
+    output_dir: str | Path,
+    horizons=DEFAULT_HORIZONS,
+) -> dict[str, Any]:
+    paths = _validate_explicit_paths(
+        raw_paths
+    )
+
+    identities = _identity(paths)
+
+    output_root = Path(output_dir)
+
+    output_root.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    if len(paths) == 1:
+        cohort_name = paths[0].stem
+    else:
+        cohort_name = (
+            f"explicit_{len(paths)}_sessions"
+        )
+
+    coverage_path = (
+        output_root
+        / f"{cohort_name}_coverage.json"
+    )
+
+    episodes_path = (
+        output_root
+        / f"{cohort_name}_episodes.json"
+    )
+
+    followthrough_path = (
+        output_root
+        / f"{cohort_name}_followthrough.json"
+    )
+
+    stratification_path = (
+        output_root
+        / f"{cohort_name}_stratification.json"
+    )
+
+    stability_path = (
+        output_root
+        / f"{cohort_name}_stability.json"
+    )
+
+    consolidated_path = (
+        output_root
+        / f"{cohort_name}_post_session_audit.json"
+    )
+
+    path_strings = [
+        str(path)
+        for path in paths
+    ]
+
+    artifacts: list[dict[str, Any]] = []
+
+    # ---------------------------------------------------------
+    # Stage 1 - Coverage
+    # ---------------------------------------------------------
+
+    coverage = coverage_report_paths(
+        path_strings
+    )
+
+    _validate_safety(
+        "coverage",
+        coverage,
+    )
+
+    _write_json(
+        coverage_path,
+        coverage,
+    )
+
+    artifacts.append(
+        _artifact(
+            "coverage",
+            coverage_path,
+            coverage,
+        )
+    )
+
+    # ---------------------------------------------------------
+    # Stage 2 - Conflict Episodes
+    # ---------------------------------------------------------
+
+    episodes = episode_report_paths(
+        path_strings
+    )
+
+    _validate_safety(
+        "episodes",
+        episodes,
+    )
+
+    _write_json(
+        episodes_path,
+        episodes,
+    )
+
+    artifacts.append(
+        _artifact(
+            "episodes",
+            episodes_path,
+            episodes,
+        )
+    )
+
+    # ---------------------------------------------------------
+    # Stage 3 - Price Followthrough
+    # ---------------------------------------------------------
+
+    followthrough = followthrough_report_paths(
+        path_strings,
+        horizons=horizons,
+    )
+
+    _validate_safety(
+        "followthrough",
+        followthrough,
+    )
+

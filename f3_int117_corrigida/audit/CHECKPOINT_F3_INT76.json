@@ -1,0 +1,36 @@
+{
+  "last_completed": "F3-INT-76",
+  "next_step": "F3-INT-77: verificacao diferencial de contratos entre particoes e linhagem integral",
+  "f3": "OPEN",
+  "simulation_only": true,
+  "offline": true,
+  "certification": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "new_tests": {
+    "tests": 11,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.383,
+    "log": "LOG_F3_INT76_NOVOS.txt"
+  },
+  "regression": {
+    "tests": 888,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 116.562,
+    "log": "LOG_F3_INT76_REGRESSAO.txt"
+  },
+  "pending": [
+    "Autenticidade, consenso, persistencia e fencing reais nao verificados."
+  ]
+}

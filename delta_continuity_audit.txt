@@ -1,0 +1,264 @@
+﻿===== TIMES & TRADES DEDUPLICATOR =====
+   1: """DeduplicaÃ§Ã£o temporal da janela mÃ³vel de Times & Trades RTD (RC4)."""
+   2: 
+   3: from __future__ import annotations
+   4: 
+   5: from dataclasses import dataclass
+   6: 
+   7: 
+   8: @dataclass(frozen=True, slots=True)
+   9: class ProfitRTDNewTradesBatch:
+  10:     symbol: str
+  11:     timestamp: str
+  12:     new_trades: tuple[dict, ...]
+  13:     new_trade_count: int
+  14:     overlap_count: int
+  15:     window_trade_count: int
+  16:     baseline_only: bool
+  17:     continuity: str
+  18:     source: str = "PROFIT_RTD"
+  19:     semantics: str = "NEW_TRADES_SINCE_PREVIOUS_WINDOW"
+  20:     observational_only: bool = True
+  21:     score_influence_allowed: bool = False
+  22:     decision_influence_allowed: bool = False
+  23:     order_execution_allowed: bool = False
+  24: 
+  25: 
+  26: class ProfitRTDTimesTradesDeduplicator:
+  27:     """Extrai somente negÃ³cios novos entre janelas RTD newest-first."""
+  28: 
+  29:     NAME = "ProfitRTDTimesTradesDeduplicator"
+  30:     VERSION = "RC4"
+  31: 
+  32:     def __init__(self):
+  33:         self._symbol: str | None = None
+  34:         self._previous: tuple[tuple, ...] = ()
+  35: 
+  36:     def clear(self) -> None:
+  37:         self._symbol = None
+  38:         self._previous = ()
+  39: 
+  40:     def observe(self, payload: dict) -> ProfitRTDNewTradesBatch:
+  41:         symbol, timestamp, trades = self._validate_payload(payload)
+  42:         fingerprints = tuple(self._fingerprint(trade) for trade in trades)
+  43: 
+  44:         if self._symbol is None:
+  45:             self._symbol = symbol
+  46:             self._previous = fingerprints
+  47:             return self._batch(symbol, timestamp, trades, 0, 0, True, "BASELINE_ESTABLISHED")
+  48: 
+  49:         if symbol != self._symbol:
+  50:             self._symbol = symbol
+  51:             self._previous = fingerprints
+  52:             return self._batch(symbol, timestamp, trades, 0, 0, True, "SYMBOL_RESET")
+  53: 
+  54:         shift, overlap = self._find_shift(fingerprints, self._previous)
+  55:         if shift is None:
+  56:             self._previous = fingerprints
+  57:             return self._batch(symbol, timestamp, trades, 0, 0, True, "OVERLAP_LOST_REBASE")
+  58: 
+  59:         self._previous = fingerprints
+  60:         return self._batch(symbol, timestamp, trades, shift, overlap, False, "CONTIGUOUS")
+  61: 
+  62:     @staticmethod
+  63:     def _find_shift(current: tuple[tuple, ...], previous: tuple[tuple, ...]):
+  64:         if current == previous:
+  65:             return 0, len(current)
+  66:         max_overlap = min(len(current), len(previous))
+  67:         for overlap in range(max_overlap, 0, -1):
+  68:             shift = len(current) - overlap
+  69:             if current[shift:] == previous[:overlap]:
+  70:                 return shift, overlap
+  71:         return None, 0
+  72: 
+  73:     @staticmethod
+  74:     def _fingerprint(trade: dict) -> tuple:
+  75:         if not isinstance(trade, dict):
+  76:             raise TypeError("NegÃ³cio RTD deve ser dict.")
+  77:         required = ("timestamp", "buyer", "price", "quantity", "seller", "aggressor")
+  78:         values = []
+  79:         for key in required:
+  80:             value = trade.get(key)
+  81:             if value is None or str(value).strip() == "":
+  82:                 raise ValueError(f"Campo obrigatÃ³rio ausente no negÃ³cio RTD: {key}.")
+  83:             values.append(value)
+  84:         try:
+  85:             price = float(values[2])
+  86:             quantity = float(values[3])
+  87:         except (TypeError, ValueError) as exc:
+  88:             raise ValueError("PreÃ§o/quantidade invÃ¡lidos no negÃ³cio RTD.") from exc
+  89:         if price <= 0 or quantity <= 0:
+  90:             raise ValueError("PreÃ§o/quantidade devem ser positivos no negÃ³cio RTD.")
+  91:         return (
+  92:             str(values[0]),
+  93:             str(values[1]).strip(),
+  94:             price,
+  95:             quantity,
+  96:             str(values[4]).strip(),
+  97:             str(values[5]).strip(),
+  98:         )
+  99: 
+ 100:     @staticmethod
+ 101:     def _validate_payload(payload: dict):
+ 102:         if not isinstance(payload, dict):
+ 103:             raise TypeError("Payload de T&T deve ser dict.")
+ 104:         if not payload.get("observational_only", False):
+ 105:             raise ValueError("Payload de T&T deve permanecer observacional.")
+ 106:         symbol = str(payload.get("symbol") or "").strip().upper()
+ 107:         timestamp = str(payload.get("timestamp") or "").strip()
+ 108:         trades = payload.get("trades")
+ 109:         if not symbol or not timestamp or not isinstance(trades, list) or not trades:
+ 110:             raise ValueError("Payload de T&T incompleto.")
+ 111:         return symbol, timestamp, trades
+ 112: 
+ 113:     @staticmethod
+ 114:     def _batch(symbol, timestamp, trades, new_count, overlap_count, baseline_only, continuity):
+ 115:         new_trades = tuple(dict(trade) for trade in trades[:new_count])
+ 116:         return ProfitRTDNewTradesBatch(
+ 117:             symbol=symbol,
+ 118:             timestamp=timestamp,
+ 119:             new_trades=new_trades,
+ 120:             new_trade_count=len(new_trades),
+ 121:             overlap_count=overlap_count,
+ 122:             window_trade_count=len(trades),
+ 123:             baseline_only=baseline_only,
+ 124:             continuity=continuity,
+ 125:         )
+
+===== INCREMENTAL AGGRESSION =====
+   1: """AgregaÃ§Ã£o observacional dos negÃ³cios novos deduplicados do T&T RTD (RC5)."""
+   2: 
+   3: from __future__ import annotations
+   4: 
+   5: from dataclasses import dataclass
+   6: 
+   7: 
+   8: @dataclass(frozen=True, slots=True)
+   9: class ProfitRTDIncrementalAggressionSnapshot:
+  10:     symbol: str
+  11:     timestamp: str
+  12:     new_trade_count: int
+  13:     buyer_aggression: float
+  14:     seller_aggression: float
+  15:     rlp_quantity: float
+  16:     classified_aggression: float
+  17:     total_traded_quantity: float
+  18:     delta: float
+  19:     delta_ratio: float
+  20:     pressure: str
+  21:     continuity: str
+  22:     baseline_only: bool
+  23:     source: str = "PROFIT_RTD"
+  24:     semantics: str = "NEW_DEDUPLICATED_TRADES_ONLY"
+  25:     observational_only: bool = True
+  26:     state_update_allowed: bool = False
+  27:     score_influence_allowed: bool = False
+  28:     decision_influence_allowed: bool = False
+  29:     order_execution_allowed: bool = False
+  30: 
+  31: 
+  32: class ProfitRTDIncrementalAggressionBuilder:
+  33:     NAME = "ProfitRTDIncrementalAggressionBuilder"
+  34:     VERSION = "RC5"
+  35:     PRESSURE_THRESHOLD = 0.10
+  36: 
+  37:     @classmethod
+  38:     def build(cls, batch) -> ProfitRTDIncrementalAggressionSnapshot:
+  39:         if not getattr(batch, "observational_only", False):
+  40:             raise ValueError("Batch deve permanecer observacional.")
+  41: 
+  42:         symbol = str(getattr(batch, "symbol", "") or "").strip().upper()
+  43:         timestamp = str(getattr(batch, "timestamp", "") or "").strip()
+  44:         trades = tuple(getattr(batch, "new_trades", ()) or ())
+  45:         baseline_only = bool(getattr(batch, "baseline_only", False))
+  46:         continuity = str(getattr(batch, "continuity", "") or "").strip()
+  47: 
+  48:         if not symbol or not timestamp or not continuity:
+  49:             raise ValueError("Batch RTD incompleto.")
+  50:         if len(trades) != int(getattr(batch, "new_trade_count", -1)):
+  51:             raise ValueError("Contagem de negÃ³cios novos inconsistente.")
+  52:         if baseline_only and trades:
+  53:             raise ValueError("Baseline nÃ£o pode emitir negÃ³cios novos.")
+  54: 
+  55:         buy = sell = rlp = total = 0.0
+  56:         for trade in trades:
+  57:             if not isinstance(trade, dict):
+  58:                 raise TypeError("NegÃ³cio novo deve ser dict.")
+  59:             quantity = cls._positive_quantity(trade.get("quantity"))
+  60:             aggressor = str(trade.get("aggressor") or "").strip()
+  61:             if aggressor == "Comprador":
+  62:                 buy += quantity
+  63:             elif aggressor == "Vendedor":
+  64:                 sell += quantity
+  65:             elif aggressor == "RLP":
+  66:                 rlp += quantity
+  67:             elif aggressor in {"Direto", "LeilÃ£o"}:
+  68:                 # ClassificaÃ§Ãµes vÃ¡lidas do Profit sem lado agressor inferÃ­vel.
+  69:                 pass
+  70:             else:
+  71:                 raise ValueError("Agressor incompatÃ­vel com T&T RTD.")
+  72:             total += quantity
+  73: 
+  74:         classified = buy + sell
+  75:         delta = buy - sell
+  76:         ratio = delta / classified if classified > 0 else 0.0
+  77:         pressure = cls._pressure(ratio)
+  78: 
+  79:         return ProfitRTDIncrementalAggressionSnapshot(
+  80:             symbol=symbol,
+  81:             timestamp=timestamp,
+  82:             new_trade_count=len(trades),
+  83:             buyer_aggression=buy,
+  84:             seller_aggression=sell,
+  85:             rlp_quantity=rlp,
+  86:             classified_aggression=classified,
+  87:             total_traded_quantity=total,
+  88:             delta=delta,
+  89:             delta_ratio=ratio,
+  90:             pressure=pressure,
+  91:             continuity=continuity,
+  92:             baseline_only=baseline_only,
+  93:         )
+  94: 
+  95:     @classmethod
+  96:     def _pressure(cls, ratio: float) -> str:
+  97:         if ratio >= cls.PRESSURE_THRESHOLD:
+  98:             return "BUY"
+  99:         if ratio <= -cls.PRESSURE_THRESHOLD:
+ 100:             return "SELL"
+ 101:         return "BALANCED"
+ 102: 
+ 103:     @staticmethod
+ 104:     def _positive_quantity(value) -> float:
+ 105:         if isinstance(value, bool):
+ 106:             raise TypeError("Quantidade deve ser numÃ©rica.")
+ 107:         try:
+ 108:             quantity = float(value)
+ 109:         except (TypeError, ValueError) as exc:
+ 110:             raise ValueError("Quantidade invÃ¡lida.") from exc
+ 111:         if quantity <= 0:
+ 112:             raise ValueError("Quantidade deve ser positiva.")
+ 113:         return quantity
+
+===== CONTINUITY DEFINITIONS =====
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_incremental_aggression.py:22: baseline_only: bool
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_incremental_aggression.py:45: baseline_only = bool(getattr(batch, "baseline_only", False))
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_incremental_aggression.py:52: if baseline_only and trades:
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_incremental_aggression.py:92: baseline_only=baseline_only,
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py:57: or snapshot.baseline_only
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py:58: or continuity in {"SYMBOL_RESET", "OVERLAP_LOST_REBASE", "BASELINE_ESTABLISHED"}
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_times_trades_deduplicator.py:16: baseline_only: bool
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_times_trades_deduplicator.py:47: return self._batch(symbol, timestamp, trades, 0, 0, True, "BASELINE_ESTABLISHED")
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_times_trades_deduplicator.py:52: return self._batch(symbol, timestamp, trades, 0, 0, True, "SYMBOL_RESET")
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_times_trades_deduplicator.py:57: return self._batch(symbol, timestamp, trades, 0, 0, True, "OVERLAP_LOST_REBASE")
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_times_trades_deduplicator.py:114: def _batch(symbol, timestamp, trades, new_count, overlap_count, baseline_only, continuity):
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_times_trades_deduplicator.py:123: baseline_only=baseline_only,
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py:20: symbol_reset_cycles: int
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py:94: symbol_reset_cycles = self._non_negative_int(validation, "symbol_reset_cycles")
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py:113: if symbol_reset_cycles > 0:
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py:114: reasons.append(f"SYMBOL_RESET_DETECTED:{symbol_reset_cycles}")
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py:133: symbol_reset_cycles=symbol_reset_cycles,
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py:19: symbol_reset_cycles: int = 0
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py:78: continuity_loss = self._continuities["OVERLAP_LOST_REBASE"]
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py:79: symbol_reset = self._continuities["SYMBOL_RESET"]
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py:92: symbol_reset_cycles=symbol_reset,

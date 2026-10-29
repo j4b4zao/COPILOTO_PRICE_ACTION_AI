@@ -1,0 +1,134 @@
+{
+  "notice": "Fixtures sinteticas offline. Contagens dos pacotes de exemplo nao sao checkpoints reais da auditoria. Sem autenticacao ou certificacao.",
+  "classification": "ORDER_ONLY",
+  "left": {
+    "schedule": [
+      [
+        "prepare",
+        0
+      ],
+      [
+        "commit",
+        0
+      ],
+      [
+        "prepare",
+        1
+      ],
+      [
+        "commit",
+        1
+      ]
+    ],
+    "statuses": [
+      "IMPORT_PROPOSAL_FIXTURE_UNAUTHENTICATED",
+      "IMPORT_COMMIT_FIXTURE_UNAUTHENTICATED",
+      "IMPORT_PROPOSAL_FIXTURE_UNAUTHENTICATED",
+      "IMPORT_COMMIT_FIXTURE_UNAUTHENTICATED"
+    ],
+    "snapshots": [
+      {
+        "version": 0,
+        "registry": {
+          "digests": []
+        }
+      },
+      {
+        "version": 0,
+        "registry": {
+          "digests": []
+        }
+      },
+      {
+        "version": 1,
+        "registry": {
+          "digests": [
+            "0aaa65e72ebf03eb7a88855a7f706d10228e8aa0930ac071d3b782d5e0b532df"
+          ]
+        }
+      },
+      {
+        "version": 1,
+        "registry": {
+          "digests": [
+            "0aaa65e72ebf03eb7a88855a7f706d10228e8aa0930ac071d3b782d5e0b532df"
+          ]
+        }
+      },
+      {
+        "version": 2,
+        "registry": {
+          "digests": [
+            "0aaa65e72ebf03eb7a88855a7f706d10228e8aa0930ac071d3b782d5e0b532df",
+            "43815eeb99d4ff3be63e80378b70d1972a80b8d6958e2fe300a299e415c3ffde"
+          ]
+        }
+      }
+    ]
+  },
+  "right": {
+    "schedule": [
+      [
+        "prepare",
+        1
+      ],
+      [
+        "commit",
+        1
+      ],
+      [
+        "prepare",
+        0
+      ],
+      [
+        "commit",
+        0
+      ]
+    ],
+    "statuses": [
+      "IMPORT_PROPOSAL_FIXTURE_UNAUTHENTICATED",
+      "IMPORT_COMMIT_FIXTURE_UNAUTHENTICATED",
+      "IMPORT_PROPOSAL_FIXTURE_UNAUTHENTICATED",
+      "IMPORT_COMMIT_FIXTURE_UNAUTHENTICATED"
+    ],
+    "snapshots": [
+      {
+        "version": 0,
+        "registry": {
+          "digests": []
+        }
+      },
+      {
+        "version": 0,
+        "registry": {
+          "digests": []
+        }
+      },
+      {
+        "version": 1,
+        "registry": {
+          "digests": [
+            "43815eeb99d4ff3be63e80378b70d1972a80b8d6958e2fe300a299e415c3ffde"
+          ]
+        }
+      },
+      {
+        "version": 1,
+        "registry": {
+          "digests": [
+            "43815eeb99d4ff3be63e80378b70d1972a80b8d6958e2fe300a299e415c3ffde"
+          ]
+        }
+      },
+      {
+        "version": 2,
+        "registry": {
+          "digests": [
+            "43815eeb99d4ff3be63e80378b70d1972a80b8d6958e2fe300a299e415c3ffde",
+            "0aaa65e72ebf03eb7a88855a7f706d10228e8aa0930ac071d3b782d5e0b532df"
+          ]
+        }
+      }
+    ]
+  }
+}

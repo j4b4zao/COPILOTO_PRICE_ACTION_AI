@@ -1,0 +1,68 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-CONFLICT-PRICE-FOLLOWTHROUGH",
+  "status": "DESCRIPTIVE_ONLY",
+  "eligible_sessions": 1,
+  "rejected_sessions": 0,
+  "horizons_in_samples": [
+    1,
+    5,
+    10,
+    20
+  ],
+  "sessions": [
+    {
+      "path": "session12.json",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "samples": 100,
+      "alignment_validated": true,
+      "alignment_method": "INDEX_AND_PRICE_ACTION_BIAS",
+      "conflict_samples": 4,
+      "conflict_episodes": 4,
+      "horizons_in_samples": [
+        1,
+        5,
+        10,
+        20
+      ],
+      "episodes": [
+        {
+          "episode_index": 1,
+          "predominant_price_action_direction": "SELL",
+          "predominant_flow_direction": "BUY",
+          "predominant_book_direction": "NONE",
+          "followthrough": {}
+        },
+        {
+          "episode_index": 2,
+          "predominant_price_action_direction": "SELL",
+          "predominant_flow_direction": "BUY",
+          "predominant_book_direction": "NONE",
+          "followthrough": {}
+        },
+        {
+          "episode_index": 3,
+          "predominant_price_action_direction": "SELL",
+          "predominant_flow_direction": "BUY",
+          "predominant_book_direction": "NONE",
+          "followthrough": {}
+        },
+        {
+          "episode_index": 4,
+          "predominant_price_action_direction": "SELL",
+          "predominant_flow_direction": "BUY",
+          "predominant_book_direction": "NONE",
+          "followthrough": {}
+        }
+      ]
+    }
+  ],
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}

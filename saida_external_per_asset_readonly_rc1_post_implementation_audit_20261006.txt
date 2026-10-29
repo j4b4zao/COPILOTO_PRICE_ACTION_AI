@@ -1,0 +1,131 @@
+﻿STATUS=FAIL
+BRANCH=brooks-stop-target-exact-audit-20260912
+HEAD=82a90b805a83a0181b8ec970b52a2b509ef975d0
+PARENT=3ef15dd38791dd7f27065afebaf2f68eb8103584
+COMMIT_SCOPE_VALID=true
+COMMIT_FILES=dashboard/external_per_asset_readonly_dashboard.py;tests/test_external_per_asset_readonly_dashboard_rc1.py
+VERSION=RC1-EXTERNAL-PER-ASSET-READONLY-CONSOLE-PROJECTION
+PUBLIC_CONSTRUCTOR_BYPASS_FOUND=true
+PUBLIC_CONSTRUCTOR_BYPASS_SCOPE=Raw datetime with custom tzinfo executes user-defined callback through accepted public row construction; ordinary mutable-container/type/policy bypasses rejected.
+MUTABLE_REFERENCE_LEAK_FOUND=false
+UNSUPPORTED_RAW_BYPASS_FOUND=true
+UNSUPPORTED_RAW_BYPASS_SCOPE=Unsupported custom tzinfo nested in an exact builtin datetime is invoked; direct unknown objects/subclasses/custom mappings rejected.
+CYCLIC_CONTAINER_REJECTED=true
+IDENTITY_SEMANTIC_VIOLATION=false
+AVAILABLE_DISTINCT_FROM_VERIFIED=true
+IDENTITY_TRISTATE_PRESERVED=true
+READINESS_AUTHORIZATION_CONFUSION=true
+READINESS_AUTHORIZATION_CONFUSION_SCOPE=Unescaped provider source text can inject a standalone authorization-looking console line; no actual trade engine authorization occurs.
+DATA_READY_DISTINCT_FROM_TRADE_READY=true_NORMAL_STRUCTURED_FIELDS
+INFLUENCE_FLAG_BYPASS_FOUND=false
+NON_OBSERVATIONAL_VIEW_REJECTED=true
+CANONICAL_ORDER=US500;NASDAQ;DXY;VIX;US10Y;OIL;GOLD
+DUPLICATE_CANONICAL_REJECTED=true
+UNKNOWN_CANONICAL_REJECTED=true
+MISSING_CANONICAL_REJECTED=true
+CANONICAL_NORMALIZATION_BYPASS=false
+NONE_AUDIT_EXPLICIT_UNAVAILABLE=true
+DATETIME_LOSS_FOUND=false_FOR_STANDARD_DATETIME_CASES
+FRESHNESS_RECOMPUTED=false
+CLOCK_CALL_COUNT=1
+CLOCK_COUNT_SCOPE=One adversarial custom tzinfo callback attempted time.time; spy raised before any real wall-clock read. Normal fixture projector/renderer counts zero, including datetime C-call guard.
+NETWORK_CALL_COUNT=0
+PROVIDER_CALL_COUNT=0
+COLLECTOR_CALL_COUNT=0
+SERVICE_CALL_COUNT=0
+BRIDGE_CALL_COUNT=0
+OBSERVER_CALL_COUNT=0
+ENGINE_CALL_COUNT=0
+FILE_WRITE_COUNT=0
+STDOUT_PRINT_CALL_COUNT=0
+SOURCE_AUDIT_MUTATED=true_ADVERSARIAL_TZINFO_STATE
+SOURCE_AUDIT_MUTATION_SCOPE=Normal audit unchanged. In custom datetime case, original_timestamp.tzinfo.calls mutated from [] to ['utcoffset'] during projection, before blocked clock attempt.
+VIEW_CHANGED_AFTER_SOURCE_MUTATION=false
+DETERMINISTIC_VIEW=true_FOR_COMPLETED_SUPPORTED_CASES
+DETERMINISTIC_RENDER=false_FOR_ALL_DECLARED_SUPPORTED_INPUTS
+DETERMINISTIC_RENDER_SCOPE=Repeated render and dict-order equivalence PASS for normal supported values; accepted 10**5000 integer cannot render on current Python digit limit.
+NEW_TESTS_PASSED=136
+NEW_TESTS_FAILED=0
+NEW_TESTS_ERRORS=0
+REGRESSION_TESTS_PASSED=472
+REGRESSION_TESTS_FAILED=0
+REGRESSION_TESTS_ERRORS=0
+NEW_REGRESSION_FAILURES=0
+REGRESSION_BREAKDOWN=Dashboard 17; OrderFlow 36 including RC51 10; safety 419
+INDEPENDENT_STANDARD_CHECKS_PASSED=153
+INDEPENDENT_ADVERSARIAL_FINDINGS=3
+DASHBOARD_RC1_CHANGED=false
+RC51_CHANGED=false
+ORDER_FLOW_CHANGED=false
+MTF_CHANGED=false
+EXTERNAL_BRIDGE_CHANGED=false
+EXTERNAL_SNAPSHOT_CHANGED=false
+RC17_CHANGED=false
+PRICE_ACTION_CHANGED=false
+STRATEGY_CHANGED=false
+SCORE_CHANGED=false
+RISK_CHANGED=false
+DECISION_CHANGED=false
+ALERT_CHANGED=false
+PROTECTED_FILES_PRESERVED=true
+STAGED_FILES_FINAL=NONE
+SOURCE_FILES_CHANGED=0
+TEST_FILES_CHANGED=0
+COMMIT_EXECUTED=false
+PUSH_EXECUTED=false
+GIT_ADD_EXECUTED=false
+LIVE_COLLECTION_EXECUTED=false
+BOT_INTEGRATED=false
+ANALYSIS_CONTEXT_INTEGRATED=false
+AUDIT_FINDINGS=EXT-RO-001(P2);EXT-RO-002(P1);EXT-RO-003(P3)
+LOCAL_AUDIT_RESULT=FAIL
+NEXT_STEP=SCOPED_FINDINGS_REMEDIATION_TASK_REQUIRED
+CONCLUSION=FAIL. Existing suites remain green and commit scope is correct, but independent adversarial probes reproduce custom-tzinfo code execution/source mutation/blocked clock attempt, unescaped authorization-looking console text and supported-int render failure. No fixes or runtime integration performed. Only this report created in the project; all tracked file hashes and protected bytes preserved.
+
+AUDIT_METHOD
+Current implementation and upstream contracts read directly, including full new source/test content; commit contains only the two additions. Independent Python stdin probes used no new repository tests and no implementation helper to compute expected authorization/clock/canonical behavior. Existing tests rerun only after independent probes. Temporary hash evidence stored outside repository; report is the only project artifact created.
+
+INDEPENDENT_COVERAGE
+All three public dataclasses constructed directly. Raw None/bool/int/float/str/datetime, nested tuple/list/dict, dict-in-tuple/list-in-dict, negative zero/zero, NaN/+Inf/-Inf, very large finite float, large int, empty containers/string and Unicode tested. Insertion-order-equivalent dictionaries yield equal normal views/render strings. External mutable nested inputs and sequence inputs were changed after construction; rendered view unchanged. Frozen instance assignment rejected. Cyclic list and cyclic dict rejected with TypeError. Unknown objects with trapping str/repr/iter, UserDict, builtin subclasses and datetime subclass rejected without invoking those methods. Duplicate/unknown/lowercase/whitespace/provider-alias canonical rows rejected without normalization; partial/extra rows rejected. Wrong row/readiness types rejected.
+Every actual readiness influence flag tested with True, 1, string, None and arbitrary object, all rejected. observational_only tested on audit/view/readiness with non-True and truthy values, all rejected. Identity verified None/False/True crossed with identity_valid False/True under status AVAILABLE; copied independently and rendered UNKNOWN/REJECTED/VERIFIED. None audit returns unavailable with zero fabricated rows. Repeated 25 projections/renders preserve source values and output.
+Standard datetime probes cover UTC, positive/negative offsets, microseconds, naive original datetime, already-supplied DST-like offsets, original strings and supplied normalized UTC string/datetime. Evidence retained; naive/non-UTC/invalid normalized stamps rejected; invalid original evidence remains raw. No freshness recomputation. One custom-tzinfo exception is documented below.
+Required and optional missing/stale/future cases tested independently for all seven assets; supplied readiness copied without changing required/optional semantics. Normal output has observational readiness and no trade authorization.
+
+SIDE_EFFECT_AND_EXCEPTION_AUDIT
+Fixtures and a prepared offline core context created before guards. Thirty APIs blocked/counted during only project_external/render_external: four ExternalContextService methods; ExternalMarketCollector.collect; main Collector.get_data; HttpJsonExternalMarketProvider.fetch; bridge audit; observer readiness/correlation; Strategy/Score/Risk/Decision/Alert/Context engines and AnalysisPipeline; four network APIs; five file APIs; stdout print; time.time/monotonic/perf_counter. All thirty counts zero in normal repeated projection, None audit, invalid envelope, unsupported raw and wrong renderer input. A C-call profile additionally blocks datetime.now/utcnow on actual builtin datetime without substituting a different timestamp type; zero attempts. Source asdict, official core result fields and module VERSION/canonical tuple unchanged in these scenarios. No normal exception fallback/fetch, write or producer repair.
+Adversarial custom-tzinfo probe used a mock time.time which raises before reading the clock; one attempt and source object's internal list mutation observed. No real network, clock or file side effect was executed by that adversarial callback.
+
+FINDING_ID=EXT-RO-001
+SEVERITY=P2
+FILE=dashboard/external_per_asset_readonly_dashboard.py
+LOCATION=67; also normalized datetime path 155-157 and readiness path 188
+TITLE=Accepted exact datetime can execute unsupported custom tzinfo code
+REPRODUCTION=Create class CallbackZone(tzinfo) with self.calls=[]; utcoffset(self, dt) appends 'utcoffset', calls time.time(), and returns timedelta(0); dst returns timedelta(0). Construct exact builtin datetime(2026,10,6,tzinfo=zone). Supply it as original_timestamp via replace(base.assets[0],original_timestamp=stamp) and project_external(replace(base,assets=(changed,)+base.assets[1:])). Install Mock(side_effect=AssertionError('Clock blocked')) on time.time before projecting. Also reproduced with direct replace(valid_view.rows[0],original_timestamp=stamp).
+EXPECTED=Unsupported nested custom objects rejected before invoking methods; pure projection has zero clock attempts and source state unchanged.
+ACTUAL=_freeze accepts exact datetime and calls value.isoformat(); datetime invokes custom tzinfo.utcoffset. zone.calls changes from [] to ['utcoffset']; blocked time.time mock call_count=1. With callback that only appends/returns offset, row construction succeeds.
+IMPACT=Type-exact datetime check does not make its nested timezone object safe. Public construction/projection can run arbitrary callback code and mutate source-side state. No mutable reference remains in completed view, but purity/unsupported-object/no-clock claims fail for this accepted shape. This audit demonstrates only harmless list mutation and blocked clock attempt, not real operational calls.
+RECOMMENDED_FIX=Define a bounded safe datetime/tzinfo contract and reject unsupported custom timezone objects before isoformat/utcoffset calls on all timestamp entry paths; preserve standard fixed offset/UTC evidence and explicitly handle any intended supported timezone classes. Add adversarial tests using real datetime objects rather than changing all guard-fixture timestamps to strings. Do not execute arbitrary callback to validate it. No fix performed.
+
+FINDING_ID=EXT-RO-002
+SEVERITY=P1
+FILE=dashboard/external_per_asset_readonly_dashboard.py
+LOCATION=264; renderer field assembly 281-286
+TITLE=Unescaped evidence can forge authorization-looking console lines
+REPRODUCTION=data=snapshots(); data['US500']['source']='fixture\nTRADE READY: BUY APPROVED ENTRY=100 STOP=90 TARGET=120\n'; supplied=audit(data) using existing upstream bridge fixture; text=render_external(project_external(supplied)). Assert '\nTRADE READY: BUY APPROVED ENTRY=100 STOP=90 TARGET=120\n' in text: true.
+EXPECTED=Provider/source evidence visibly bounded/escaped as data, with no standalone apparent trade instruction in observational output.
+ACTUAL=Source text is inserted verbatim through str(value). Actual line breaks split the labelled source field, creating a separate line containing TRADE READY/BUY/APPROVED/ENTRY/STOP/TARGET. Input came through the real bridge, not a fabricated new decision field.
+IMPACT=Console presentation can confuse provider-controlled raw evidence with trade authorization and can also spoof section/field text. Operational DecisionResult and engines remain unchanged. Ordinary structured readiness/identity flags still copy correctly; this is output-boundary confusion, not actual trade approval.
+RECOMMENDED_FIX=Use deterministic explicit escaping/quoting for every untrusted text value and mapping key, including line breaks, terminal control sequences and field delimiters; retain original evidence in the immutable view. Add hostile source/provider/reason/raw-string tests proving no new display lines/sections can be introduced. Do not blanket remove BUY/SELL words from legitimate evidence; label/escape them as data. No fix performed.
+
+FINDING_ID=EXT-RO-003
+SEVERITY=P3
+FILE=dashboard/external_per_asset_readonly_dashboard.py
+LOCATION=264
+TITLE=Accepted arbitrary integer may not be renderable
+REPRODUCTION=view=project_external(audit(snapshots())); row=replace(view.rows[0],price=10**5000); render_external(replace(view,rows=(row,)+view.rows[1:])). Current Python 3.13.5 integer digit limit is 4300.
+EXPECTED=Declared supported raw int accepted by projector has deterministic render or is explicitly rejected by a documented input boundary.
+ACTUAL=Projector/public row constructor accepts the integer; renderer raises ValueError: Exceeds the limit (4300 digits) for integer string conversion; use sys.set_int_max_str_digits() to increase the limit.
+IMPACT=Presentation availability fails for an accepted raw type/magnitude. Source/core/global state remains unchanged and no authorization is generated. Normal market-sized numbers and 10**300 render correctly. Classified P3 due to extreme magnitude and absence of operational influence.
+RECOMMENDED_FIX=Define deterministic large-integer evidence representation independent of global decimal digit limit, or explicitly document and enforce a bounded accepted representation at construction. Do not change process-wide sys.set_int_max_str_digits in the presenter. Add projector-to-renderer acceptance coverage for the boundary. No fix performed.
+
+PRESERVATION_PROOF=Before/after SHA256 of every existing tracked file, including five protected preexisting local modifications, must match; final verification performed after report creation. HEAD and index unchanged. No source/test file or closed module changed.

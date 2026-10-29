@@ -1,0 +1,123 @@
+PROJETO: COPILOTO_PRICE_ACTION_AI
+ETAPA: RC7.13.23-H.9.5.1 — AUDITORIA TIMES & TRADES
+DIRETÓRIO DE ENTREGA: C:\COPILOTO_GIT_SYNC
+Data: 13/10/2026 — America/Sao_Paulo
+RESULTADO: RTD_READ_VALIDATED — REPROCESSAMENTO OFFLINE DE EVIDÊNCIA HISTÓRICA
+live_certified=False; orders_allowed=False; nenhuma coleta real executada.
+
+1. CAUSA COMPROVADA
+Na H.9.5, present=all(available(x) for x in vals).
+vals é A2:H5 achatado, incluindo cabeçalhos e colunas G/H sem uso no Times.
+None e string vazia são considerados indisponíveis por available().
+Na evidência, G2:H5 contém oito None. O predicado original falha mesmo com
+todos os campos dos negócios presentes. values_changed era true, mas a
+classificação VALUE_UPDATED exigia present, produzindo dois bloqueios falsos:
+VALUE_UNAVAILABLE e NO_UPDATE_EVIDENCE.
+Não há problema demonstrado no Excel ou nas fórmulas RTD por esse resultado.
+
+2. LAYOUT E CAMPOS
+Layout observado em A1:H5:
+A1 WINV26; B1 Negócios; demais células da identidade sem uso.
+Linha 2: Data, Compradora, Valor, Quantidade, Vendedora, Agressor, vazio, vazio.
+Linhas 3 a 5: três registros de negócios por leitura.
+Campos obrigatórios de cada registro ocupado: A timestamp completo, C preço,
+D quantidade. B compradora, E vendedora e F agressor são metadados opcionais
+para esta validação mínima de disponibilidade, não para análises de agressão.
+G/H não são campos do layout observado e podem permanecer vazios.
+Todos os oito campos são inspecionados para rejeitar erros Excel preenchidos.
+Slot totalmente vazio pode ser desocupado; slot parcialmente preenchido sem
+A/C/D é rejeitado. Pelo menos um registro é obrigatório em cada leitura.
+Cabeçalhos e identidade são verificados separadamente, não tratados como negócios.
+Preço deve ser número finito positivo; quantidade deve ser número finito positivo
+e inteiro, critério adotado para negócios do contrato WINV26. Não se coage texto
+numérico, booleano, NaN ou infinito. Timestamp exige data/hora válida, admite
+frações de segundo e associa America/Sao_Paulo ao timestamp local da fonte.
+Não foi inferida obrigatoriedade comercial dos metadados opcionais a partir
+da evidência; essa política está explicitamente limitada ao diagnóstico mínimo.
+
+3. IMPLEMENTAÇÃO ISOLADA
+h9_5_1_readonly.py é diagnóstico exclusivamente offline de evidências existentes.
+Não possui attachment, coleta, loop ou mecanismo de execução fora do sandbox.
+Carrega a função analyze da H.9.5 original sem executar o seu bloco CLI.
+Preserva a semântica de Profit e Livro; substitui somente a decisão Times.
+Confere consistência sample/values e identidade duplicada no payload.
+Valida ambas as leituras e exige avanço do maior timestamp de negócios;
+mudança apenas de metadados não é evidência suficiente de atualização.
+Exige avanço dos horários de aquisição com timezone e idade de cada registro
+entre -5 e 120 segundos relativamente à aquisição daquela leitura.
+Não compara o timestamp de mercado com o horário atual do reprocessamento.
+WINV26 e Negócios devem ser consistentes nas duas leituras.
+Contrato divergente, fonte errada, dados antigos/futuros, erros Excel, registros
+incompletos e ausência de avanço mantêm BLOCKED_WITH_REASONS.
+Os motivos originais de Profit/Livro são preservados.
+Saída nova exclusiva; histórico e diagnóstico H.9.5 não são sobrescritos.
+
+4. TESTES EXECUTADOS
+23 testes H.9.5.1 aprovados, zero falhas:
+layout real; opcionais vazios; registro incompleto; timestamp inválido;
+preços inválidos; quantidades inválidas; sem atualização; contrato divergente;
+erros Excel numéricos em A:H; erro Excel textual; regressão demais fontes;
+preservação de bloqueio Profit; dados antigos; dados futuros; mudança apenas
+opcional; fonte divergente; registro parcial; slot vazio; ausência de registros;
+cabeçalho diferente; sample/values inconsistente; preservação SHA256 da entrada;
+primeira leitura incompleta.
+Casos usam cópias em memória do layout histórico, com mutações sintéticas.
+Também executados os 14 testes originais H.9.5: aprovados, zero falhas.
+Total: 37 testes aprovados. Testes não acessam Excel nem realizam coleta.
+
+5. REPROCESSAMENTO REAL EXISTENTE
+Entrada: C:\COPILOTO_GIT_SYNC\h9_5_real_evidence_03.json
+SHA256 antes/depois:
+fc168f197180ebe960b8c181b3dfbbe0b8591610719abefbd0986d48ba52d203
+Conteúdo original preservado; reprocessamento fez apenas leitura do arquivo.
+Saída: h9_5_1_reprocessed_03.json
+Resultado original: BLOCKED_WITH_REASONS.
+Resultado reprocessado: RTD_READ_VALIDATED, zero motivos de bloqueio.
+Times: values_available=true; values_changed=true;
+required_records_changed=true; timestamp_advanced=true; state=VALUE_UPDATED.
+WINV26/Negócios consistente nas duas leituras e nas células A1/B1 da amostra.
+Maior timestamp inicial: 13/10/2026 11:13:11.881 -03:00.
+Maior timestamp final:   13/10/2026 11:13:43.818 -03:00.
+Avanço: 31,937 segundos. Intervalo registrado original: 30,0977067 segundos.
+Primeira leitura: três registros com idades 5,036668 / 14,274668 / 16,173668 s.
+Segunda leitura: três registros com idades 3,197602 / 8,069602 / 9,635602 s.
+Preços iniciais: 207485 / 207545 / 207505; quantidades: 50 / 60 / 147.
+Preços finais:   207375 / 207320 / 207370; quantidades: 85 / 89 / 50.
+Todos esses valores são da evidência histórica, não novas leituras.
+Profit e Livro continuam VALUE_UPDATED com classificações equivalentes à H.9.5.
+Attachment original PID 10152/Hwnd 396152 é metadado histórico, não revalidado.
+
+6. ARQUIVOS CRIADOS E HASHES SHA256
+Em C:\COPILOTO_PRICE_ACTION_AI, com cópias idênticas em C:\COPILOTO_GIT_SYNC:
+h9_5_1_readonly.py
+b5ddc002288468df179c218147d879e9f402b9f94f65c76a977c5441378c53c2
+test_h9_5_1_readonly.py
+b878adeaf354325ec3fa23f85d9fb02a4bbd8d177229d3feac03315598a7e00e
+h9_5_1_reprocessed_03.json
+cb4ad67e67482d20f6adfcb31c23b264a873c6690749bf467085fa48dbb92767
+saida_codex_h9_5_1.txt
+Hash definitivo informado após gravação, fora do próprio relatório.
+Cópia auxiliar local criada somente em C:\COPILOTO_PRICE_ACTION_AI:
+h9_5_1_original_dependency.py (cópia íntegra H.9.5, não utilizada pelo validador)
+1587f19d8b116638f04a8af11fb40756908e8bd43588e270f78a1cb4f2db1c84
+Dependência efetiva: h9_5_readonly.py ao lado do módulo novo, preexistente,
+SHA256 confirmado 1587f19d8b116638f04a8af11fb40756908e8bd43588e270f78a1cb4f2db1c84.
+Teste original H.9.5 também preservado, SHA256:
+7681ccf906741a4ce3725b4eb79f4b29a898eab22f61656e3344a9857bf19c54.
+
+7. RISCOS E RECOMENDAÇÃO
+O sucesso demonstra correção da classificação sobre uma amostra histórica
+limitada. Não certifica disponibilidade atual, origem de cada alteração,
+continuidade RTD, integralidade do fluxo ou ausência de negócios perdidos.
+Timezone de mercado é assumido local; amostras não são transações atômicas.
+Layouts diferentes são bloqueados e precisam de auditoria explícita.
+Metadados opcionais vazios não autorizam inferências de agressão/corretora.
+Profit e Livro mantêm limitações anteriores: esta etapa não ampliou suas regras.
+Próxima etapa recomendada: nova validação manual autorizada, somente leitura,
+com classificador corrigido e evidência nova, sem substituir o histórico.
+Esta versão offline não contém comando de coleta real; não inicia nada no Excel.
+Nenhum módulo certificado, workbook, fórmula, contrato ou histórico foi alterado.
+Sem Collector/Capture/ordens, configuração Windows, commit/push ou exclusões.
+
+RESULTADO: RTD_READ_VALIDATED — SOMENTE REPROCESSAMENTO HISTÓRICO.
+NENHUMA CERTIFICAÇÃO LIVE.

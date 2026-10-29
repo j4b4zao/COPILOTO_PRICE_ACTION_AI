@@ -1,0 +1,44 @@
+﻿=== RC1.2 FULL REGRESSION GATE ===
+=== 1. PROTOCOL VALIDATION ===
+validator_version = RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-PROTOCOL-VALIDATOR
+fail_closed = True
+research_only = True
+
+protocol_path = pa_book_opposed_to_aligned_prospective_replication_protocol_rc1_20260929.json
+expected_sha256 = 53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c
+actual_sha256   = 53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c
+
+PROTOCOL_SHA256_EXACT = True
+PROTOCOL_VERSION_EXACT = True
+FROZEN_CHECKPOINT_IDENTITY_EXACT = True
+SAFETY_POLICY_EXACT = True
+REPLICATION_CONDITION_EXACT = True
+NO_THRESHOLDS_EXACT = True
+COHORT_POLICY_EXACT = True
+INTERPRETATION_POLICY_EXACT = True
+
+STATUS = PASS
+FUTURE_COLLECTION_AUTHORIZATION = PROTOCOL_VALIDATED_ONLY
+PROTOCOL_EXIT_CODE=0
+=== 2. PERSISTENCE + DURATION + STRUCTURAL EVALUATOR ===
+........................................................................ [ 38%]
+........................................................................ [ 77%]
+...........................................                              [100%]
+187 passed in 5.98s
+PYTEST_EXIT_CODE=0
+=== 3. SESSION13 ORIGINAL SHA256 ===
+
+
+Algorithm : SHA256
+Hash      : 3A73D4B0A8C7F4ADF0917BB9CE5DC927323578C5729C455BC0A78D3C5BDB7A00
+Path      : C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260930_093955.json
+
+
+
+=== 4. GIT DIFF STAT ===
+ ...pa_book_structural_replication_evaluator_rc1.py | 32 +++++++++++++++++++---
+ ...ure_pa_book_structural_replication_evaluator.py | 30 ++++++++++++++------
+ 2 files changed, 50 insertions(+), 12 deletions(-)
+=== 5. GIT STATUS TARGET FILES ===
+ M tests/test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py
+ M tools/prospective_microstructure_pa_book_structural_replication_evaluator.py

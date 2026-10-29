@@ -1,0 +1,59 @@
+VERSIONAMENTO MULTITIMEFRAME CONFLICT SAFETY GATE RC3.6
+STATUS=PASS
+BRANCH=brooks-stop-target-exact-audit-20260912
+PRE_COMMIT_HEAD=5374135842fe42980872fd58be4709c1ef540d74
+PRE_COMMIT_ORIGIN=5374135842fe42980872fd58be4709c1ef540d74
+COMMIT_SHA=97d5b139aedeb434f28e1925a3e5a579a20eff6f
+LOCAL_HEAD=97d5b139aedeb434f28e1925a3e5a579a20eff6f
+ORIGIN_HEAD=97d5b139aedeb434f28e1925a3e5a579a20eff6f
+LOCAL_ORIGIN_MATCH=true
+COMMIT_MESSAGE=Harden multi-timeframe conflict safety gate
+COMMITTED_FILES=decision/decision_engine.py; tests/test_multi_timeframe_conflict_safety_gate_rc36.py; tests/test_multi_timeframe_contract_audit_rc1.py
+COMMIT_EXACT_SCOPE=true
+REPORTS_COMMITTED=false
+CONTRACT_AUDIT_TEST_INCLUDED=true
+CONTRACT_AUDIT_TEST_DIFF_CLASSIFICATION=arquivo novo perante HEAD; caracterizacao sintetica de producer/consumidores e expectativas corrigidas para o gate semantico auditado. Nao modifica codigo operacional, nao mascara conflitos, nao cria politica WAIT_*.
+DIFF_REVIEW=diff individual de Decision e diff --no-index /dev/null dos dois testes ainda nao rastreados; leitura integral dos testes; staged exato e diff --cached --check aprovados.
+DECISION_VERSION=RC9.3-MTF-CONFLICT-SAFETY-RC3.6
+PRODUCER_VERSION=RC3.4-REGIME-CONTEXT-BRIDGE
+GATE_USES_CONFLICT_BOOLEAN=true
+FUNCTIONAL_CHANGE=valid=true e conflict=true bloqueiam decisao direcional para WAIT; Alert existente produz NONE. valid=false permanece informativo; gates legados CONFLICT e BUY/SELL opostos preservados.
+NEW_FUNCTIONAL_CHANGES_DURING_VERSIONING=false
+SAFETY_GATE_TEST_COUNTS=34 passed; 0 failed
+CONTRACT_CHARACTERIZATION_TEST_COUNTS=286 passed; 0 failed
+TOTAL_TEST_COUNTS=361 passed; 5 failed; 366 total; 4.78s
+TEST_SUITE=tests/test_multi_timeframe_e2e_rc36.py; tests/test_multi_timeframe_analysis_rc32.py; tests/test_multi_timeframe_state_rc30.py; tests/test_multi_timeframe_rc3_3.py; tests/test_multi_timeframe_rc3_4_regime_bridge.py; tests/test_multi_timeframe_monitor_rc34.py; tests/test_multi_timeframe_contract_audit_rc1.py; tests/test_multi_timeframe_conflict_safety_gate_rc36.py
+TEST_EXECUTION=Python313 -m pytest -q --basetemp temporario exclusivo -p no:cacheprovider --tb=short; dependencias locais; PYTHONDONTWRITEBYTECODE=1; dados sinteticos offline
+ALLOWED_EXISTING_FAILURES=5; somente os cinco casos autorizados abaixo
+  tests/test_multi_timeframe_e2e_rc36.py::teste_wait_preserva_operacao_valida - BUY versus WAIT; fixture antiga
+  tests/test_multi_timeframe_analysis_rc32.py::teste_aguarda_timeframe_lateral - BUY versus WAIT; fixture antiga
+  tests/test_multi_timeframe_e2e_rc36.py::teste_candles_em_conflito_bloqueiam_alerta - CONFLICT_M5 versus CONFLICT
+  tests/test_multi_timeframe_analysis_rc32.py::teste_conflito_direcional - CONFLICT_M5 versus CONFLICT
+  tests/test_multi_timeframe_analysis_rc32.py::teste_resultado_informativo_nao_altera_decisao - CONFLICT_REGIME versus CONFLICT
+UNEXPECTED_FAILURES=0
+FULL_SUITE_GREEN=false
+PASS_BASIS=criterios solicitados atendidos; cinco falhas antigas explicitamente permitidas permanecem sem alteracao
+PRODUCER_CHANGED=false
+ALERT_CHANGED=false
+SCORE_CHANGED=false
+RISK_CHANGED=false
+STRATEGY_CHANGED=false
+COLLECTOR_CHANGED=false
+MTF_STATE_CHANGED=false
+CONTEXT_ENGINE_CHANGED=false
+RC17_CHANGED=false
+WAIT_POLICY_CHANGED=false
+RC17_PROTOCOL_SHA256=2A278E7C4C438098D9CE167A778F7386A09B341A555A73E322598215150EBDB3
+SESSION19_23_EXECUTED=false
+COLLECTOR_EXECUTED=false
+REAL_MARKET_DATA_USED=false
+PROTECTED_FILES_PRESERVED=true
+PROTECTED_VERIFICATION=SHA256 agregado identico antes/depois para Python/JSON rastreados no HEAD inicial, exceto Decision, e Profit.xlsx, livroOfertas.xlsx, times&trades.xlsx, saida.txt; inclui connectors/excel_connector.py
+PROTECTED_AGGREGATE_SHA256_BEFORE=748D76880AB988A4F2F314912F2F06268983CFCECD12B0EF50B20C3EB8F0BB13
+PROTECTED_AGGREGATE_SHA256_AFTER=748D76880AB988A4F2F314912F2F06268983CFCECD12B0EF50B20C3EB8F0BB13
+PREEXISTING_LOCAL_MODIFICATIONS=Profit.xlsx; connectors/excel_connector.py; livroOfertas.xlsx; saida.txt; times&trades.xlsx; preservadas e fora do commit
+POST_COMMIT_STAGED_DIFF=empty
+PUSH_EXECUTED=true
+PUSH_TARGET=origin refs/heads/brooks-stop-target-exact-audit-20260912
+FETCH_ORIGIN_EXECUTED=true
+FINAL=versionamento e push concluidos; nenhuma outra frente iniciada; encerrar apos relatorio

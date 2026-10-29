@@ -1,0 +1,47 @@
+{
+  "stage": "F3-INT-117",
+  "verdict": "REPROVADO",
+  "promoted": false,
+  "f3": "OPEN",
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "reason": "Lower-level independent writer omits original history-capacity guard and can commit a state rejected on reopen",
+  "blocking_findings": [
+    "B1: write_once commits history length 4097 from canonical state length 4096; original refuses HISTORY_CAPACITY_EXHAUSTED"
+  ],
+  "native_full_readonly_valid": true,
+  "consistency_checks_passed": 65,
+  "consistency_checks_total": 65,
+  "optimized_specific_reexecution": {
+    "total": 21,
+    "passed": 21,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "original_regression": {
+    "total": 1459,
+    "passed": 1458,
+    "skipped": 1,
+    "failures": 0,
+    "errors": 0,
+    "reexecuted_in_this_audit": false
+  },
+  "source_files_sha256": {
+    "tools/f3_int117_sqlite_write_faults.py": "7775676060ac7dc4a189593b45c78227263613cf82513265115c5af1440f5682",
+    "tools/f3_int117_run_audit.py": "0dcbc2b0f8e268ef7d20b6e2608f09667a9526b9dba8a0eb6de9629beb950437",
+    "tests/test_f3_int117_sqlite_write_faults.py": "446a5d0ebe862e543a260d2706c0025410dbef501ed84cccfade5116496ed06c",
+    "tests/test_f3_int117_runner.py": "a2735a75992e8b15a98ed79addd79a9b5fde6e2e5b81f15e92f204ef56f32f94"
+  },
+  "historical_final_files_verified_after": 3559,
+  "candidate_files_unchanged": 7131,
+  "corrections_applied": false,
+  "real_operations_authorized": false
+}

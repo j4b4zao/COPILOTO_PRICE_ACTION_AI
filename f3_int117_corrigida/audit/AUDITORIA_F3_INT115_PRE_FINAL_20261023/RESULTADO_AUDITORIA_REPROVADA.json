@@ -1,0 +1,101 @@
+{
+  "result": "REPROVADA_PROMOCAO_INTERROMPIDA",
+  "stage": "F3-INT-115 CANDIDATA CORRIGIDA",
+  "last_definitive": "F3-INT-114 FINAL",
+  "f3": "OPEN",
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "runs": [
+    {
+      "command": [
+        "C:\\Users\\jb\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_f3_int115_*.py",
+        "-v"
+      ],
+      "timed_out": false,
+      "exception": null,
+      "exit_code": 0,
+      "cleanup": {
+        "active_processes": 0,
+        "live_io_threads": [],
+        "direct_exit_code": 0
+      },
+      "seconds": 97.732,
+      "label": "ESPECIFICOS",
+      "total": 28,
+      "passed": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sources_changed": []
+    },
+    {
+      "command": [
+        "C:\\Users\\jb\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "timed_out": false,
+      "exception": null,
+      "exit_code": 1,
+      "cleanup": {
+        "active_processes": 0,
+        "live_io_threads": [],
+        "direct_exit_code": 1
+      },
+      "seconds": 794.403,
+      "label": "REGRESSAO_COMPLETA",
+      "total": 1416,
+      "passed": 1414,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 1,
+      "sources_changed": []
+    }
+  ],
+  "candidate_hashes_verified": 23,
+  "historical_hashes_verified": 772,
+  "all_preexisting_verified": 819,
+  "sources_verified": 210,
+  "integrity_mismatches": [],
+  "final_artifacts_created": false,
+  "zip_created": false,
+  "failure": "test_root_exit_still_cleans_living_descendant: process_running(pid) returned True after cleanup",
+  "root_cause_confirmed": false,
+  "diagnostic_limits": [
+    "The test retains only a PID, not a process handle or creation identity",
+    "A job counter of zero did not coincide with the PID liveness assertion",
+    "Cannot distinguish termination timing, PID reuse or containment failure from this log alone"
+  ],
+  "recommended_correction": [
+    "Capture handles and creation identities for owned descendants before termination",
+    "Wait for termination of those exact handles with a bounded shared cleanup deadline",
+    "Verify both job membership/count and handle signaling; do not mask failures by increasing arbitrary sleeps",
+    "Retain descendant identity, timing and cleanup observations in persistent test evidence",
+    "Repeat specific tests and full regression before any new promotion attempt"
+  ],
+  "no_real_operations": true,
+  "no_network": true,
+  "no_next_stage": true
+}

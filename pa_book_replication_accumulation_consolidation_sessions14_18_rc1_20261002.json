@@ -1,0 +1,85 @@
+{
+  "causal_claim_allowed": false,
+  "cohort_policy": {
+    "frozen_10_session_checkpoint_remains_immutable": true,
+    "no_retroactive_reclassification": true,
+    "sessions_11_to_13_remain_independent": true,
+    "sessions_14_to_18_are_new_independent_prospective_evidence": true,
+    "sessions_14_to_18_are_not_appended_to_frozen_checkpoint": true,
+    "sessions_14_to_18_are_not_merged_into_sessions_11_to_13": true,
+    "sessions_14_to_18_remain_a_separate_fixed_prospective_block": true
+  },
+  "combined_session_count": null,
+  "completed_session_count": 5,
+  "evaluable_session_count": 0,
+  "formal_transition_count": 0,
+  "frozen_checkpoint_extended": false,
+  "interpretation": "DESCRIPTIVE_ONLY",
+  "not_evaluable_is_not_failure": true,
+  "not_evaluable_is_not_replication": true,
+  "not_evaluable_session_count": 5,
+  "not_replicated_session_count": 0,
+  "not_replicated_transition_count": 0,
+  "operational_change_allowed": false,
+  "planned_session_count": 5,
+  "post_hoc_admission_gate_allowed": false,
+  "predictive_claim_allowed": false,
+  "protocol_sha256": "df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0",
+  "raw_pooling": false,
+  "replicated_session_count": 0,
+  "replicated_transition_count": 0,
+  "research_only": true,
+  "session_ids": [
+    14,
+    15,
+    16,
+    17,
+    18
+  ],
+  "sessions": [
+    {
+      "formal_transition_count": 0,
+      "outcome": "NOT_EVALUABLE",
+      "reason": "CAPTURE_INTEGRITY_FAILURE",
+      "result_file": "saida_session14_structural_replication_rc12.txt",
+      "result_sha256": "0554dd676e0fbc1e167928117f981c1f56be91e29c53535e26e972cd6a73dbc1",
+      "session_id": 14
+    },
+    {
+      "formal_transition_count": 0,
+      "outcome": "NOT_EVALUABLE",
+      "reason": "NO_FORMAL_OPPOSED_TO_ALIGNED_TRANSITION",
+      "result_file": "pa_book_structural_replication_session15_rc12_20260930.json",
+      "result_sha256": "b570e2add5c6eb5a254637e5559e25fc12fae21bcc1d85f540874739a25631e1",
+      "session_id": 15
+    },
+    {
+      "formal_transition_count": 0,
+      "outcome": "NOT_EVALUABLE",
+      "reason": "NO_FORMAL_OPPOSED_TO_ALIGNED_TRANSITION",
+      "result_file": "pa_book_structural_replication_session16_rc12_20260930.json",
+      "result_sha256": "76f3fcd12b9c00082c0d489d557c99088d7f8375a2b45ba3aac5aeb4fcf7c5ce",
+      "session_id": 16
+    },
+    {
+      "formal_transition_count": 0,
+      "outcome": "NOT_EVALUABLE",
+      "reason": "NO_FORMAL_OPPOSED_TO_ALIGNED_TRANSITION",
+      "result_file": "pa_book_structural_replication_session17_rc12_20260930.json",
+      "result_sha256": "02cff1807c5d7a5bdbd506dda1b212ed4fdf13f685c0a09bee4ede5082c991f3",
+      "session_id": 17
+    },
+    {
+      "formal_transition_count": 0,
+      "outcome": "NOT_EVALUABLE",
+      "reason": "NO_FORMAL_OPPOSED_TO_ALIGNED_TRANSITION",
+      "result_file": "pa_book_structural_replication_session18_rc12_20261002.json",
+      "result_sha256": "39c7a2b70c4909240ef758a634e14f28d38c0d5d5c2f04e24d4dff8c46e346de",
+      "session_id": 18
+    }
+  ],
+  "status": "COMPLETED",
+  "structural_protocol_sha256": "53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c",
+  "threshold_optimization_allowed": false,
+  "version": "RC1-PA-BOOK-INDEPENDENT-REPLICATION-ACCUMULATION-CONSOLIDATION"
+}

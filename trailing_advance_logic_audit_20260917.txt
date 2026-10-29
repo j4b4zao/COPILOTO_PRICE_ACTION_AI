@@ -1,0 +1,2217 @@
+﻿
+  analysis\price_action\protective_trailing_stop_dynamics.py:13:
+  analysis\price_action\protective_trailing_stop_dynamics.py:14:@dataclass(slots=True)
+  analysis\price_action\protective_trailing_stop_dynamics.py:15:class ProtectiveTrailingStopResult:
+  analysis\price_action\protective_trailing_stop_dynamics.py:16:    valid: bool = False
+  analysis\price_action\protective_trailing_stop_dynamics.py:17:    direction: str = "NONE"
+  analysis\price_action\protective_trailing_stop_dynamics.py:18:    state: str = "NO_STOP_CONTEXT"
+  analysis\price_action\protective_trailing_stop_dynamics.py:19:    entry_price: float = 0.0
+  analysis\price_action\protective_trailing_stop_dynamics.py:20:    initial_stop: float = 0.0
+> analysis\price_action\protective_trailing_stop_dynamics.py:21:    current_stop: float = 0.0
+  analysis\price_action\protective_trailing_stop_dynamics.py:22:    proposed_stop: float = 0.0
+  analysis\price_action\protective_trailing_stop_dynamics.py:23:    stop_distance: float = 0.0
+  analysis\price_action\protective_trailing_stop_dynamics.py:24:    trailing_active: bool = False
+> analysis\price_action\protective_trailing_stop_dynamics.py:25:    stop_improved: bool = False
+  analysis\price_action\protective_trailing_stop_dynamics.py:26:    stop_loosened: bool = False
+> analysis\price_action\protective_trailing_stop_dynamics.py:27:    structural_advance_confirmed: bool = False
+  analysis\price_action\protective_trailing_stop_dynamics.py:28:    latest_swing_index: int = -1
+  analysis\price_action\protective_trailing_stop_dynamics.py:29:    latest_swing_price: float = 0.0
+  analysis\price_action\protective_trailing_stop_dynamics.py:30:    protected_r: float = 0.0
+  analysis\price_action\protective_trailing_stop_dynamics.py:31:    reason: str = ""
+  analysis\price_action\protective_trailing_stop_dynamics.py:32:    reasons: tuple[str, ...] = ()
+  analysis\price_action\protective_trailing_stop_dynamics.py:33:
+  analysis\price_action\protective_trailing_stop_dynamics.py:34:    def to_dict(self):
+  analysis\price_action\protective_trailing_stop_dynamics.py:35:        return asdict(self)
+  analysis\price_action\protective_trailing_stop_dynamics.py:36:
+  analysis\price_action\protective_trailing_stop_dynamics.py:37:
+  analysis\price_action\protective_trailing_stop_dynamics.py:38:class ProtectiveTrailingStopDynamics:
+  analysis\price_action\protective_trailing_stop_dynamics.py:39:    """Evaluate initial protective stop and structural 
+trailing stop logic."""
+  analysis\price_action\protective_trailing_stop_dynamics.py:43:    SWING_RIGHT = 2
+  analysis\price_action\protective_trailing_stop_dynamics.py:44:
+  analysis\price_action\protective_trailing_stop_dynamics.py:45:    def analyze(
+  analysis\price_action\protective_trailing_stop_dynamics.py:46:        self,
+  analysis\price_action\protective_trailing_stop_dynamics.py:47:        candles,
+  analysis\price_action\protective_trailing_stop_dynamics.py:48:        direction,
+  analysis\price_action\protective_trailing_stop_dynamics.py:49:        entry_price,
+  analysis\price_action\protective_trailing_stop_dynamics.py:50:        initial_stop,
+> analysis\price_action\protective_trailing_stop_dynamics.py:51:        current_stop=None,
+  analysis\price_action\protective_trailing_stop_dynamics.py:52:        tick_size=1.0,
+  analysis\price_action\protective_trailing_stop_dynamics.py:53:    ):
+  analysis\price_action\protective_trailing_stop_dynamics.py:54:        direction = str(direction or "").upper()
+  analysis\price_action\protective_trailing_stop_dynamics.py:55:        if direction not in ("BUY", "SELL"):
+  analysis\price_action\protective_trailing_stop_dynamics.py:56:            return ProtectiveTrailingStopResult(
+  analysis\price_action\protective_trailing_stop_dynamics.py:57:                reason="INVALID_DIRECTION",
+  analysis\price_action\protective_trailing_stop_dynamics.py:58:                reasons=("INVALID_DIRECTION",),
+  analysis\price_action\protective_trailing_stop_dynamics.py:59:            )
+  analysis\price_action\protective_trailing_stop_dynamics.py:60:
+  analysis\price_action\protective_trailing_stop_dynamics.py:61:        closed = list(candles[:-1]) if candles else []
+  analysis\price_action\protective_trailing_stop_dynamics.py:62:        if len(closed) < self.MIN_HISTORY:
+  analysis\price_action\protective_trailing_stop_dynamics.py:63:            return ProtectiveTrailingStopResult(
+  analysis\price_action\protective_trailing_stop_dynamics.py:64:                direction=direction,
+  analysis\price_action\protective_trailing_stop_dynamics.py:65:                reason="INSUFFICIENT_HISTORY",
+  analysis\price_action\protective_trailing_stop_dynamics.py:66:                reasons=("INSUFFICIENT_HISTORY",),
+  analysis\price_action\protective_trailing_stop_dynamics.py:67:            )
+  analysis\price_action\protective_trailing_stop_dynamics.py:68:
+  analysis\price_action\protective_trailing_stop_dynamics.py:69:        entry = float(entry_price)
+  analysis\price_action\protective_trailing_stop_dynamics.py:70:        initial = float(initial_stop)
+  analysis\price_action\protective_trailing_stop_dynamics.py:71:        tick = max(float(tick_size), 0.0)
+> analysis\price_action\protective_trailing_stop_dynamics.py:72:        current = initial if current_stop is None else 
+float(current_stop)
+  analysis\price_action\protective_trailing_stop_dynamics.py:73:
+  analysis\price_action\protective_trailing_stop_dynamics.py:74:        if not self._valid_geometry(direction, entry, 
+initial):
+  analysis\price_action\protective_trailing_stop_dynamics.py:75:            return ProtectiveTrailingStopResult(
+  analysis\price_action\protective_trailing_stop_dynamics.py:76:                direction=direction,
+  analysis\price_action\protective_trailing_stop_dynamics.py:77:                entry_price=entry,
+  analysis\price_action\protective_trailing_stop_dynamics.py:78:                initial_stop=initial,
+> analysis\price_action\protective_trailing_stop_dynamics.py:79:                current_stop=current,
+  analysis\price_action\protective_trailing_stop_dynamics.py:80:                state="INVALID_PROTECTIVE_STOP",
+  analysis\price_action\protective_trailing_stop_dynamics.py:81:                
+reason="INVALID_PROTECTIVE_STOP_GEOMETRY",
+  analysis\price_action\protective_trailing_stop_dynamics.py:82:                
+reasons=("INVALID_PROTECTIVE_STOP_GEOMETRY",),
+  analysis\price_action\protective_trailing_stop_dynamics.py:83:            )
+  analysis\price_action\protective_trailing_stop_dynamics.py:84:
+  analysis\price_action\protective_trailing_stop_dynamics.py:85:        reasons = ["PROTECTIVE_STOP_VALID"]
+  analysis\price_action\protective_trailing_stop_dynamics.py:86:        stop_loosened = self._is_looser(direction, 
+current, initial)
+  analysis\price_action\protective_trailing_stop_dynamics.py:87:        if stop_loosened:
+> analysis\price_action\protective_trailing_stop_dynamics.py:88:            
+reasons.append("CURRENT_STOP_LOOSER_THAN_INITIAL")
+  analysis\price_action\protective_trailing_stop_dynamics.py:89:
+  analysis\price_action\protective_trailing_stop_dynamics.py:90:        pivots = self._confirmed_pivots(closed)
+  analysis\price_action\protective_trailing_stop_dynamics.py:91:        proposed = current
+  analysis\price_action\protective_trailing_stop_dynamics.py:92:        latest_index = -1
+  analysis\price_action\protective_trailing_stop_dynamics.py:93:        latest_price = 0.0
+  analysis\price_action\protective_trailing_stop_dynamics.py:94:        advance_confirmed = False
+  analysis\price_action\protective_trailing_stop_dynamics.py:95:
+  analysis\price_action\protective_trailing_stop_dynamics.py:96:        if direction == "BUY":
+  analysis\price_action\protective_trailing_stop_dynamics.py:97:            swing_lows = [(i, p) for kind, i, p in 
+pivots if kind == "LOW"]
+  analysis\price_action\protective_trailing_stop_dynamics.py:98:            swing_highs = [(i, p) for kind, i, p in 
+pivots if kind == "HIGH"]
+  analysis\price_action\protective_trailing_stop_dynamics.py:99:            if swing_lows and swing_highs:
+  analysis\price_action\protective_trailing_stop_dynamics.py:100:                latest_index, latest_price = 
+swing_lows[-1]
+  analysis\price_action\protective_trailing_stop_dynamics.py:113:                later_lows = [p for i, p in swing_lows 
+if i > latest_index]
+  analysis\price_action\protective_trailing_stop_dynamics.py:114:                prior_lows = [p for i, p in swing_lows 
+if i < latest_index]
+  analysis\price_action\protective_trailing_stop_dynamics.py:115:                if later_lows and prior_lows and 
+min(later_lows) < min(prior_lows):
+  analysis\price_action\protective_trailing_stop_dynamics.py:116:                    advance_confirmed = True
+  analysis\price_action\protective_trailing_stop_dynamics.py:117:                    candidate = latest_price + tick
+  analysis\price_action\protective_trailing_stop_dynamics.py:118:                    proposed = min(current, initial, 
+candidate)
+  analysis\price_action\protective_trailing_stop_dynamics.py:119:                    
+reasons.append("NEW_SWING_LOW_AFTER_LOWER_HIGH")
+  analysis\price_action\protective_trailing_stop_dynamics.py:120:
+> analysis\price_action\protective_trailing_stop_dynamics.py:121:        improved = self._is_tighter(direction, 
+proposed, current)
+  analysis\price_action\protective_trailing_stop_dynamics.py:122:        trailing_active = advance_confirmed and 
+latest_index >= 0
+  analysis\price_action\protective_trailing_stop_dynamics.py:123:
+  analysis\price_action\protective_trailing_stop_dynamics.py:124:        if stop_loosened:
+  analysis\price_action\protective_trailing_stop_dynamics.py:125:            state = "STOP_LOOSENING_REJECTED"
+> analysis\price_action\protective_trailing_stop_dynamics.py:126:            proposed = initial if current_stop is not 
+None else current
+> analysis\price_action\protective_trailing_stop_dynamics.py:127:            improved = self._is_tighter(direction, 
+proposed, current)
+  analysis\price_action\protective_trailing_stop_dynamics.py:128:            reasons.append("NEVER_LOOSEN_STOP")
+> analysis\price_action\protective_trailing_stop_dynamics.py:129:        elif improved:
+> analysis\price_action\protective_trailing_stop_dynamics.py:130:            state = "TRAILING_STOP_ADVANCE"
+  analysis\price_action\protective_trailing_stop_dynamics.py:131:            reasons.append("TRAILING_STOP_TIGHTENED")
+  analysis\price_action\protective_trailing_stop_dynamics.py:132:        elif trailing_active:
+  analysis\price_action\protective_trailing_stop_dynamics.py:133:            state = "TRAILING_STOP_HOLD"
+> analysis\price_action\protective_trailing_stop_dynamics.py:134:            
+reasons.append("STRUCTURAL_ADVANCE_BUT_NO_TIGHTER_STOP")
+  analysis\price_action\protective_trailing_stop_dynamics.py:135:        else:
+  analysis\price_action\protective_trailing_stop_dynamics.py:136:            state = "PROTECTIVE_STOP_HOLD"
+> analysis\price_action\protective_trailing_stop_dynamics.py:137:            
+reasons.append("NO_CONFIRMED_STRUCTURAL_ADVANCE")
+  analysis\price_action\protective_trailing_stop_dynamics.py:138:
+  analysis\price_action\protective_trailing_stop_dynamics.py:139:        initial_risk = abs(entry - initial)
+  analysis\price_action\protective_trailing_stop_dynamics.py:140:        if initial_risk > 0:
+  analysis\price_action\protective_trailing_stop_dynamics.py:141:            if direction == "BUY":
+  analysis\price_action\protective_trailing_stop_dynamics.py:142:                protected_r = (proposed - initial) / 
+initial_risk
+  analysis\price_action\protective_trailing_stop_dynamics.py:143:            else:
+  analysis\price_action\protective_trailing_stop_dynamics.py:144:                protected_r = (initial - proposed) / 
+initial_risk
+  analysis\price_action\protective_trailing_stop_dynamics.py:145:        else:
+  analysis\price_action\protective_trailing_stop_dynamics.py:146:            protected_r = 0.0
+  analysis\price_action\protective_trailing_stop_dynamics.py:147:
+  analysis\price_action\protective_trailing_stop_dynamics.py:148:        return ProtectiveTrailingStopResult(
+  analysis\price_action\protective_trailing_stop_dynamics.py:149:            valid=True,
+  analysis\price_action\protective_trailing_stop_dynamics.py:150:            direction=direction,
+  analysis\price_action\protective_trailing_stop_dynamics.py:151:            state=state,
+  analysis\price_action\protective_trailing_stop_dynamics.py:152:            entry_price=round(entry, 6),
+  analysis\price_action\protective_trailing_stop_dynamics.py:153:            initial_stop=round(initial, 6),
+> analysis\price_action\protective_trailing_stop_dynamics.py:154:            current_stop=round(current, 6),
+  analysis\price_action\protective_trailing_stop_dynamics.py:155:            proposed_stop=round(proposed, 6),
+  analysis\price_action\protective_trailing_stop_dynamics.py:156:            stop_distance=round(abs(entry - proposed), 
+6),
+  analysis\price_action\protective_trailing_stop_dynamics.py:157:            trailing_active=trailing_active,
+> analysis\price_action\protective_trailing_stop_dynamics.py:158:            stop_improved=improved,
+  analysis\price_action\protective_trailing_stop_dynamics.py:159:            stop_loosened=stop_loosened,
+> analysis\price_action\protective_trailing_stop_dynamics.py:160:            
+structural_advance_confirmed=advance_confirmed,
+  analysis\price_action\protective_trailing_stop_dynamics.py:161:            latest_swing_index=latest_index,
+  analysis\price_action\protective_trailing_stop_dynamics.py:162:            latest_swing_price=round(latest_price, 6),
+  analysis\price_action\protective_trailing_stop_dynamics.py:163:            protected_r=round(protected_r, 3),
+  analysis\price_action\protective_trailing_stop_dynamics.py:164:            reason=reasons[-1],
+  analysis\price_action\protective_trailing_stop_dynamics.py:165:            reasons=tuple(reasons),
+  analysis\price_action\protective_trailing_stop_dynamics.py:166:        )
+  analysis\price_action\protective_trailing_stop_dynamics.py:167:
+  analysis\price_action\protective_trailing_stop_dynamics.py:168:    @classmethod
+  analysis\price_action\protective_trailing_stop_dynamics.py:169:    def _confirmed_pivots(cls, candles):
+  analysis\price_action\protective_trailing_stop_dynamics.py:170:        pivots = []
+  analysis\price_action\protective_trailing_stop_dynamics.py:171:        left = cls.SWING_LEFT
+  analysis\price_action\protective_trailing_stop_dynamics.py:172:        right = cls.SWING_RIGHT
+  research\price_action\brooks\stop_target_rules.py:16:SETUP_NAME = "BROOKS_STOP_TARGET_RULES_V1"
+  research\price_action\brooks\stop_target_rules.py:17:
+  research\price_action\brooks\stop_target_rules.py:18:
+  research\price_action\brooks\stop_target_rules.py:19:@dataclass(frozen=True, slots=True)
+  research\price_action\brooks\stop_target_rules.py:20:class StopTargetObservation:
+  research\price_action\brooks\stop_target_rules.py:21:    direction: str = "NONE"
+  research\price_action\brooks\stop_target_rules.py:22:    entry_price: float = 0.0
+  research\price_action\brooks\stop_target_rules.py:23:    initial_stop: float = 0.0
+> research\price_action\brooks\stop_target_rules.py:24:    current_stop: float = 0.0
+  research\price_action\brooks\stop_target_rules.py:25:    proposed_stop: float = 0.0
+  research\price_action\brooks\stop_target_rules.py:26:    stop_geometry_valid: bool = False
+  research\price_action\brooks\stop_target_rules.py:27:    stop_loosened: bool = False
+> research\price_action\brooks\stop_target_rules.py:28:    structural_advance_confirmed: bool = False
+> research\price_action\brooks\stop_target_rules.py:29:    stop_improved: bool = False
+  research\price_action\brooks\stop_target_rules.py:30:    protected_r: float = 0.0
+  research\price_action\brooks\stop_target_rules.py:31:    target_price: float = 0.0
+  research\price_action\brooks\stop_target_rules.py:32:    target_valid: bool = False
+  research\price_action\brooks\stop_target_rules.py:33:    target_source: str = "NONE"
+  research\price_action\brooks\stop_target_rules.py:34:    reward_risk: float = 0.0
+  research\price_action\brooks\stop_target_rules.py:35:    partial_profit_zone: bool = False
+  research\price_action\brooks\stop_target_rules.py:36:    target_zone: bool = False
+  research\price_action\brooks\stop_target_rules.py:37:    target_reached: bool = False
+  research\price_action\brooks\stop_target_rules.py:38:    target_overshot: bool = False
+  research\price_action\brooks\stop_target_rules.py:39:    heavy_profit_taking: bool = False
+  research\price_action\brooks\stop_target_rules.py:40:    correction_risk: bool = False
+  research\price_action\brooks\stop_target_rules.py:41:    reversal_risk: bool = False
+  research\price_action\brooks\stop_target_rules.py:121:        if obs.stop_loosened:
+  research\price_action\brooks\stop_target_rules.py:122:            result.reasons.append("STOP_LOOSENING_REJECTED")
+  research\price_action\brooks\stop_target_rules.py:123:        elif protective_valid:
+  research\price_action\brooks\stop_target_rules.py:124:            result.reasons.append("NEVER_LOOSEN_RULE_RESPECTED")
+  research\price_action\brooks\stop_target_rules.py:125:
+  research\price_action\brooks\stop_target_rules.py:126:        result.trailing_advance_supported = (
+  research\price_action\brooks\stop_target_rules.py:127:            protective_valid
+  research\price_action\brooks\stop_target_rules.py:128:            and not obs.stop_loosened
+> research\price_action\brooks\stop_target_rules.py:129:            and obs.structural_advance_confirmed
+> research\price_action\brooks\stop_target_rules.py:130:            and obs.stop_improved
+  research\price_action\brooks\stop_target_rules.py:131:        )
+  research\price_action\brooks\stop_target_rules.py:132:        if result.trailing_advance_supported:
+  research\price_action\brooks\stop_target_rules.py:133:            
+result.reasons.append("STRUCTURAL_TRAILING_ADVANCE_SUPPORTED")
+> research\price_action\brooks\stop_target_rules.py:134:        elif obs.stop_improved and not 
+obs.structural_advance_confirmed:
+  research\price_action\brooks\stop_target_rules.py:135:            
+result.reasons.append("TRAILING_ADVANCE_WITHOUT_STRUCTURE_REJECTED")
+  research\price_action\brooks\stop_target_rules.py:136:
+  research\price_action\brooks\stop_target_rules.py:137:        target_valid = bool(obs.target_valid) and 
+self._valid_target_geometry(
+  research\price_action\brooks\stop_target_rules.py:138:            direction, float(obs.entry_price), 
+float(obs.target_price)
+  research\price_action\brooks\stop_target_rules.py:139:        )
+  research\price_action\brooks\stop_target_rules.py:140:        result.target_valid = target_valid
+  research\price_action\brooks\stop_target_rules.py:141:        if target_valid:
+  research\price_action\brooks\stop_target_rules.py:142:            result.rr_observed = max(float(obs.reward_risk), 
+0.0)
+  research\price_action\brooks\stop_target_rules.py:143:            result.reasons.append("STRUCTURAL_TARGET_VALID")
+  research\price_action\brooks\stop_target_rules.py:144:        else:
+  research\price_action\brooks\stop_target_rules.py:145:            result.reasons.append("TARGET_GEOMETRY_INVALID")
+  research\price_action\brooks\stop_target_rules.py:146:
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:46:        c(113, 115, 108, 109),
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:47:        c(109, 112, 104, 106),
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:48:        c(106, 111, 105, 108),
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:49:        c(108, 112, 106, 109),
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:50:    ]
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:51:    return closed + [c(109, 110, 90, 92)]
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:52:
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:53:
+> tests\test_brooks_ranges_ch29_protective_trailing_stops.py:54:def 
+test_buy_trailing_stop_advances_after_new_swing_high():
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:55:    result = ProtectiveTrailingStopDynamics().analyze(
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:56:        buy_sequence(),
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:57:        direction="BUY",
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:58:        entry_price=105,
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:59:        initial_stop=95,
+> tests\test_brooks_ranges_ch29_protective_trailing_stops.py:60:        current_stop=95,
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:61:        tick_size=1,
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:62:    )
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:63:    assert result.valid is True
+> tests\test_brooks_ranges_ch29_protective_trailing_stops.py:64:    assert result.state == "TRAILING_STOP_ADVANCE"
+> tests\test_brooks_ranges_ch29_protective_trailing_stops.py:65:    assert result.structural_advance_confirmed is True
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:66:    assert result.proposed_stop == 99
+> tests\test_brooks_ranges_ch29_protective_trailing_stops.py:67:    assert result.stop_improved is True
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:68:
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:69:
+> tests\test_brooks_ranges_ch29_protective_trailing_stops.py:70:def 
+test_sell_trailing_stop_advances_after_new_swing_low():
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:71:    result = ProtectiveTrailingStopDynamics().analyze(
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:72:        sell_sequence(),
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:73:        direction="SELL",
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:74:        entry_price=115,
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:75:        initial_stop=125,
+> tests\test_brooks_ranges_ch29_protective_trailing_stops.py:76:        current_stop=125,
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:77:        tick_size=1,
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:78:    )
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:79:    assert result.valid is True
+> tests\test_brooks_ranges_ch29_protective_trailing_stops.py:80:    assert result.state == "TRAILING_STOP_ADVANCE"
+> tests\test_brooks_ranges_ch29_protective_trailing_stops.py:81:    assert result.structural_advance_confirmed is True
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:82:    assert result.proposed_stop == 121
+> tests\test_brooks_ranges_ch29_protective_trailing_stops.py:83:    assert result.stop_improved is True
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:84:
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:85:
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:86:def test_stop_is_never_loosened():
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:87:    result = ProtectiveTrailingStopDynamics().analyze(
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:88:        buy_sequence(),
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:89:        direction="BUY",
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:90:        entry_price=105,
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:91:        initial_stop=95,
+> tests\test_brooks_ranges_ch29_protective_trailing_stops.py:92:        current_stop=90,
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:93:        tick_size=1,
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:94:    )
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:95:    assert result.valid is True
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:96:    assert result.state == "STOP_LOOSENING_REJECTED"
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:97:    assert result.stop_loosened is True
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:98:    assert result.proposed_stop == 95
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:99:
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:100:
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:101:def 
+test_current_candle_cannot_create_trailing_confirmation():
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:102:    candles = buy_sequence()
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:103:    candles = candles[:7] + [candles[-1]]
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:104:
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:105:    result = ProtectiveTrailingStopDynamics().analyze(
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:106:        candles,
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:107:        direction="BUY",
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:108:        entry_price=105,
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:109:        initial_stop=95,
+> tests\test_brooks_ranges_ch29_protective_trailing_stops.py:110:        current_stop=95,
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:111:        tick_size=1,
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:112:    )
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:113:    assert result.valid is True
+> tests\test_brooks_ranges_ch29_protective_trailing_stops.py:114:    assert result.structural_advance_confirmed is False
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:115:    assert result.state == "PROTECTIVE_STOP_HOLD"
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:116:
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:117:
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:118:def 
+test_invalid_protective_stop_geometry_is_rejected():
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:119:    result = ProtectiveTrailingStopDynamics().analyze(
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:120:        buy_sequence(),
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:121:        direction="BUY",
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:122:        entry_price=105,
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:123:        initial_stop=110,
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:124:    )
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:125:    assert result.valid is False
+  tests\test_brooks_ranges_ch29_protective_trailing_stops.py:126:    assert result.state == "INVALID_PROTECTIVE_STOP"
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:44:        _sample("C1", 101, 99),
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:45:        _sample("C2", 104, 98),
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:46:        _sample("C3", 103, 98.5),
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:47:    ]
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:48:    episode = _episode([
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:49:        {
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:50:            "observation_exact_index": 
+1,
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:51:            "revision_applied": True,
+> tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:52:            "current_stop_after": 99.0,
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:53:        }
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:54:    ])
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:55:
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:56:    result = 
+mod.analyze_episode(episode, exact)
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:57:
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:58:    assert 
+result["trailing"]["exit_type"] == "TRAILING_STOP"
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:59:    assert 
+result["trailing"]["exit_candle_id"] == "C3"
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:60:    assert 
+result["trailing"]["exit_stop"] == 99.0
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:61:    assert result["trailing"]["exit_r"] 
+== -0.2
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:62:
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:63:
+  tests\research\price_action\brooks\test_management_exit_bounded_outcome.py:64:def 
+test_censored_episode_is_not_fabricated_as_realized_exit():
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:84:        _sample("C1", 101, 99),
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:85:        _sample("C2", 104, 98),
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:86:        _sample("C3", 108, 98.5),
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:87:    ]
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:88:    episode = 
+_episode(observations=[
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:89:        {
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:90:            
+"observation_exact_index": 1,
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:91:            "revision_applied": 
+True,
+> tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:92:            "current_stop_after": 
+99.0,
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:93:        }
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:94:    ])
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:95:
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:96:    result = 
+mod.analyze_episode(episode, exact)
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:97:
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:98:    assert 
+result["trailing"]["exit_type"] == "TRAILING_STOP"
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:99:    assert 
+result["trailing"]["exit_r"] == -0.2
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:100:    assert 
+result["trailing"]["bounded_mae_r"] == 0.4
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:101:
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:102:
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:103:def test_safety_contract():
+  tests\research\price_action\brooks\test_management_intrabar_bounded_outcome.py:104:    report = 
+mod.analyze_many({"sessions": []})
+  tests\research\price_action\brooks\test_management_lifecycle.py:54:
+  tests\research\price_action\brooks\test_management_lifecycle.py:55:    class FakeEngine:
+  tests\research\price_action\brooks\test_management_lifecycle.py:56:        def analyze(
+  tests\research\price_action\brooks\test_management_lifecycle.py:57:            self,
+  tests\research\price_action\brooks\test_management_lifecycle.py:58:            candles,
+  tests\research\price_action\brooks\test_management_lifecycle.py:59:            direction,
+  tests\research\price_action\brooks\test_management_lifecycle.py:60:            entry_price,
+  tests\research\price_action\brooks\test_management_lifecycle.py:61:            initial_stop,
+> tests\research\price_action\brooks\test_management_lifecycle.py:62:            current_stop=None,
+  tests\research\price_action\brooks\test_management_lifecycle.py:63:            tick_size=1.0,
+  tests\research\price_action\brooks\test_management_lifecycle.py:64:        ):
+> tests\research\price_action\brooks\test_management_lifecycle.py:65:            calls.append(current_stop)
+  tests\research\price_action\brooks\test_management_lifecycle.py:66:
+  tests\research\price_action\brooks\test_management_lifecycle.py:67:            if len(calls) == 1:
+  tests\research\price_action\brooks\test_management_lifecycle.py:68:                return SimpleNamespace(
+> tests\research\price_action\brooks\test_management_lifecycle.py:69:                    state="TRAILING_STOP_ADVANCE",
+  tests\research\price_action\brooks\test_management_lifecycle.py:70:                    reason="TEST_ADVANCE",
+  tests\research\price_action\brooks\test_management_lifecycle.py:71:                    proposed_stop=97.0,
+  tests\research\price_action\brooks\test_management_lifecycle.py:72:                    trailing_active=True,
+> tests\research\price_action\brooks\test_management_lifecycle.py:73:                    stop_improved=True,
+  tests\research\price_action\brooks\test_management_lifecycle.py:74:                    stop_loosened=False,
+> tests\research\price_action\brooks\test_management_lifecycle.py:75:                    
+structural_advance_confirmed=True,
+  tests\research\price_action\brooks\test_management_lifecycle.py:76:                    latest_swing_index=1,
+  tests\research\price_action\brooks\test_management_lifecycle.py:77:                    latest_swing_price=98.0,
+  tests\research\price_action\brooks\test_management_lifecycle.py:78:                    protected_r=0.4,
+  tests\research\price_action\brooks\test_management_lifecycle.py:79:                )
+  tests\research\price_action\brooks\test_management_lifecycle.py:80:
+  tests\research\price_action\brooks\test_management_lifecycle.py:81:            return SimpleNamespace(
+  tests\research\price_action\brooks\test_management_lifecycle.py:82:                state="TRAILING_STOP_HOLD",
+  tests\research\price_action\brooks\test_management_lifecycle.py:83:                reason="TEST_HOLD",
+> tests\research\price_action\brooks\test_management_lifecycle.py:84:                proposed_stop=current_stop,
+  tests\research\price_action\brooks\test_management_lifecycle.py:85:                trailing_active=True,
+> tests\research\price_action\brooks\test_management_lifecycle.py:86:                stop_improved=False,
+  tests\research\price_action\brooks\test_management_lifecycle.py:87:                stop_loosened=False,
+> tests\research\price_action\brooks\test_management_lifecycle.py:88:                structural_advance_confirmed=False,
+  tests\research\price_action\brooks\test_management_lifecycle.py:89:                latest_swing_index=2,
+  tests\research\price_action\brooks\test_management_lifecycle.py:90:                latest_swing_price=99.0,
+  tests\research\price_action\brooks\test_management_lifecycle.py:91:                protected_r=0.4,
+  tests\research\price_action\brooks\test_management_lifecycle.py:92:            )
+  tests\research\price_action\brooks\test_management_lifecycle.py:93:
+  tests\research\price_action\brooks\test_management_lifecycle.py:94:    monkeypatch.setattr(mod, "_ENGINE", 
+FakeEngine())
+  tests\research\price_action\brooks\test_management_lifecycle.py:95:
+  tests\research\price_action\brooks\test_management_lifecycle.py:96:    payload = {
+  tests\research\price_action\brooks\test_management_lifecycle.py:97:        "samples": [
+  tests\research\price_action\brooks\test_management_lifecycle.py:98:            _sample("C1", 99, 101, 95, 100, 
+entry=True),
+  tests\research\price_action\brooks\test_management_lifecycle.py:99:            _sample("C2", 100, 103, 98, 102),
+  tests\research\price_action\brooks\test_management_lifecycle.py:100:            _sample("C3", 102, 105, 100, 104),
+  tests\research\price_action\brooks\test_management_lifecycle.py:101:        ]
+  tests\research\price_action\brooks\test_management_lifecycle.py:102:    }
+  tests\research\price_action\brooks\test_management_lifecycle.py:103:
+  tests\research\price_action\brooks\test_management_lifecycle.py:104:    report = mod.build_lifecycles(payload)
+  tests\research\price_action\brooks\test_management_lifecycle.py:105:    episode = report["episodes"][0]
+  tests\research\price_action\brooks\test_management_lifecycle.py:106:
+  tests\research\price_action\brooks\test_management_lifecycle.py:107:    assert calls == [95.0, 97.0]
+  tests\research\price_action\brooks\test_management_lifecycle.py:108:    assert episode["stop_revision_count"] == 1
+> tests\research\price_action\brooks\test_management_lifecycle.py:109:    assert episode["current_stop"] == 97.0
+  tests\research\price_action\brooks\test_management_lifecycle.py:110:    assert report["episodes_with_stop_advance"] 
+== 1
+  tests\research\price_action\brooks\test_management_lifecycle.py:111:    assert report["stop_advance_observations"] == 
+1
+  tests\research\price_action\brooks\test_management_lifecycle.py:112:    assert (
+  tests\research\price_action\brooks\test_management_lifecycle.py:113:        
+episode["observations"][0]["revision_applied"]
+  tests\research\price_action\brooks\test_management_lifecycle.py:114:        is True
+  tests\research\price_action\brooks\test_management_lifecycle.py:115:    )
+  tests\research\price_action\brooks\test_management_lifecycle.py:116:    assert (
+  tests\research\price_action\brooks\test_management_lifecycle.py:117:        
+episode["observations"][1]["previous_stop"]
+  tests\research\price_action\brooks\test_management_lifecycle.py:118:        == 97.0
+  tests\research\price_action\brooks\test_management_lifecycle.py:119:    )
+  tests\research\price_action\brooks\test_management_lifecycle.py:120:
+  tests\research\price_action\brooks\test_management_lifecycle.py:121:
+  tests\research\price_action\brooks\test_management_lifecycle.py:122:def 
+test_lifecycle_never_applies_looser_stop(monkeypatch):
+  tests\research\price_action\brooks\test_management_lifecycle.py:123:    class FakeEngine:
+  tests\research\price_action\brooks\test_management_lifecycle.py:124:        def analyze(self, *args, **kwargs):
+  tests\research\price_action\brooks\test_management_lifecycle.py:125:            return SimpleNamespace(
+  tests\research\price_action\brooks\test_management_lifecycle.py:126:                state="STOP_LOOSENING_REJECTED",
+  tests\research\price_action\brooks\test_management_lifecycle.py:127:                reason="TEST_REJECT",
+  tests\research\price_action\brooks\test_management_lifecycle.py:128:                proposed_stop=94.0,
+  tests\research\price_action\brooks\test_management_lifecycle.py:129:                trailing_active=False,
+> tests\research\price_action\brooks\test_management_lifecycle.py:130:                stop_improved=False,
+  tests\research\price_action\brooks\test_management_lifecycle.py:131:                stop_loosened=True,
+> tests\research\price_action\brooks\test_management_lifecycle.py:132:                
+structural_advance_confirmed=False,
+  tests\research\price_action\brooks\test_management_lifecycle.py:133:                latest_swing_index=None,
+  tests\research\price_action\brooks\test_management_lifecycle.py:134:                latest_swing_price=0.0,
+  tests\research\price_action\brooks\test_management_lifecycle.py:135:                protected_r=0.0,
+  tests\research\price_action\brooks\test_management_lifecycle.py:136:            )
+  tests\research\price_action\brooks\test_management_lifecycle.py:137:
+  tests\research\price_action\brooks\test_management_lifecycle.py:138:    monkeypatch.setattr(mod, "_ENGINE", 
+FakeEngine())
+  tests\research\price_action\brooks\test_management_lifecycle.py:139:
+  tests\research\price_action\brooks\test_management_lifecycle.py:140:    payload = {
+  tests\research\price_action\brooks\test_management_lifecycle.py:141:        "samples": [
+  tests\research\price_action\brooks\test_management_lifecycle.py:142:            _sample("C1", 99, 101, 95, 100, 
+entry=True),
+  tests\research\price_action\brooks\test_management_lifecycle.py:143:            _sample("C2", 100, 103, 98, 102),
+  tests\research\price_action\brooks\test_management_lifecycle.py:144:        ]
+  tests\research\price_action\brooks\test_management_lifecycle.py:145:    }
+  tests\research\price_action\brooks\test_management_lifecycle.py:146:
+  tests\research\price_action\brooks\test_management_lifecycle.py:147:    report = mod.build_lifecycles(payload)
+  tests\research\price_action\brooks\test_management_lifecycle.py:148:    episode = report["episodes"][0]
+  tests\research\price_action\brooks\test_management_lifecycle.py:149:
+> tests\research\price_action\brooks\test_management_lifecycle.py:150:    assert episode["current_stop"] == 95.0
+  tests\research\price_action\brooks\test_management_lifecycle.py:151:    assert episode["stop_revision_count"] == 0
+  tests\research\price_action\brooks\test_management_lifecycle.py:152:    assert (
+  tests\research\price_action\brooks\test_management_lifecycle.py:153:        
+episode["observations"][0]["revision_applied"]
+  tests\research\price_action\brooks\test_management_lifecycle.py:154:        is False
+  tests\research\price_action\brooks\test_management_lifecycle.py:155:    )
+  tests\research\price_action\brooks\test_management_lifecycle.py:156:
+  tests\research\price_action\brooks\test_management_lifecycle.py:157:
+  tests\research\price_action\brooks\test_management_lifecycle.py:158:def test_safety_contract_remains_research_only():
+  tests\research\price_action\brooks\test_management_lifecycle.py:159:    payload = {
+  tests\research\price_action\brooks\test_management_lifecycle.py:160:        "samples": [
+  tests\research\price_action\brooks\test_management_lifecycle.py:161:            _sample("C1", 99, 101, 95, 100, 
+entry=True),
+  tests\research\price_action\brooks\test_management_lifecycle.py:162:            _sample("C2", 100, 103, 98, 102),
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:1:import 
+tools.profit_rtd_brooks_management_lifecycle_exact_audit as mod
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:2:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:3:
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:4:def _episode(*, direction="BUY", 
+observations=None, current_stop=97.0, revisions=1):
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:5:    return {
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:6:        "episode_id": f"C1|{direction}",
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:7:        "entry_event_candle_id": "C1",
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:8:        "entry_exact_index": 0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:9:        "direction": direction,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:10:        "entry_price": 100.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:11:        "initial_stop": 95.0 if 
+direction == "BUY" else 105.0,
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:12:        "current_stop": current_stop,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:13:        "stop_revision_count": 
+revisions,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:14:        "observations": observations 
+or [],
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:15:    }
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:16:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:17:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:18:def test_valid_buy_lifecycle_passes():
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:19:    payload = {
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:20:        "sessions": [{
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:21:            "episodes": 
+[_episode(observations=[
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:22:                {
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:23:                    "state": 
+"TRAILING_STOP_ADVANCE",
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:24:                    "previous_stop": 
+95.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:25:                    "proposed_stop": 
+97.0,
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:26:                    
+"current_stop_after": 97.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:27:                    
+"revision_applied": True,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:28:                },
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:29:                {
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:30:                    "state": 
+"TRAILING_STOP_HOLD",
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:31:                    "previous_stop": 
+97.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:32:                    "proposed_stop": 
+97.0,
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:33:                    
+"current_stop_after": 97.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:34:                    
+"revision_applied": False,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:35:                },
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:36:            ])]
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:37:        }]
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:38:    }
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:39:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:40:    report = 
+mod.audit_lifecycle_report(payload)
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:41:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:42:    assert report["status"] == 
+"LIFECYCLE_EXACT_AUDIT_COMPLETED"
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:43:    assert 
+report["lifecycle_inconsistency_count"] == 0
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:44:    assert 
+report["episodes_with_stop_advance"] == 1
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:45:    assert 
+report["stop_advance_observations"] == 1
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:46:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:47:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:48:def test_detects_broken_stop_chain():
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:49:    payload = {
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:50:        "episodes": [_episode(
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:51:            observations=[
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:52:                {
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:53:                    "state": 
+"TRAILING_STOP_ADVANCE",
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:54:                    "previous_stop": 
+95.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:55:                    "proposed_stop": 
+97.0,
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:56:                    
+"current_stop_after": 97.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:57:                    
+"revision_applied": True,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:58:                },
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:59:                {
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:60:                    "state": 
+"TRAILING_STOP_HOLD",
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:61:                    "previous_stop": 
+96.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:62:                    "proposed_stop": 
+96.0,
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:63:                    
+"current_stop_after": 96.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:64:                    
+"revision_applied": False,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:65:                },
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:66:            ],
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:67:            current_stop=96.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:68:        )]
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:69:    }
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:70:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:71:    report = 
+mod.audit_lifecycle_report(payload)
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:72:    issues = 
+report["episodes"][0]["inconsistencies"]
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:73:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:74:    assert report["status"] == 
+"LIFECYCLE_INCONSISTENCY_DETECTED"
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:75:    assert 
+"OBS_1_PREVIOUS_STOP_CHAIN_BROKEN" in issues
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:76:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:77:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:78:def test_detects_buy_stop_loosening():
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:79:    payload = {
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:80:        "episodes": [_episode(
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:81:            observations=[{
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:82:                "state": 
+"TRAILING_STOP_HOLD",
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:83:                "previous_stop": 95.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:84:                "proposed_stop": 94.0,
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:85:                "current_stop_after": 
+94.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:86:                "revision_applied": 
+False,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:87:            }],
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:88:            current_stop=94.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:89:            revisions=0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:90:        )]
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:91:    }
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:92:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:93:    report = 
+mod.audit_lifecycle_report(payload)
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:94:    issues = 
+report["episodes"][0]["inconsistencies"]
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:95:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:96:    assert 
+"OBS_0_STOP_CHANGED_WITHOUT_REVISION" in issues
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:97:    assert "OBS_0_BUY_STOP_LOOSENED" 
+in issues
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:98:    assert 
+"OBS_0_BUY_STOP_BELOW_INITIAL" in issues
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:99:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:100:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:101:def 
+test_detects_revision_count_mismatch():
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:102:    payload = {
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:103:        "episodes": [_episode(
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:104:            observations=[{
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:105:                "state": 
+"TRAILING_STOP_ADVANCE",
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:106:                "previous_stop": 95.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:107:                "proposed_stop": 97.0,
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:108:                "current_stop_after": 
+97.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:109:                "revision_applied": 
+True,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:110:            }],
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:111:            current_stop=97.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:112:            revisions=2,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:113:        )]
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:114:    }
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:115:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:116:    report = 
+mod.audit_lifecycle_report(payload)
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:117:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:118:    assert 
+"STOP_REVISION_COUNT_MISMATCH" in report["episodes"][0]["inconsistencies"]
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:119:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:120:
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:121:def 
+test_sell_lifecycle_requires_downward_stop_improvement():
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:122:    payload = {
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:123:        "episodes": [_episode(
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:124:            direction="SELL",
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:125:            observations=[{
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:126:                "state": 
+"TRAILING_STOP_ADVANCE",
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:127:                "previous_stop": 
+105.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:128:                "proposed_stop": 
+103.0,
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:129:                "current_stop_after": 
+103.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:130:                "revision_applied": 
+True,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:131:            }],
+> tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:132:            current_stop=103.0,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:133:            revisions=1,
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:134:        )]
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:135:    }
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:136:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:137:    report = 
+mod.audit_lifecycle_report(payload)
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:138:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:139:    assert 
+report["lifecycle_inconsistency_count"] == 0
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:140:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:141:
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:142:def 
+test_safety_contract_never_promotes_dynamic_management():
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:143:    report = 
+mod.audit_lifecycle_report({"episodes": []})
+  tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py:144:
+  tests\research\price_action\brooks\test_management_outcome_research.py:16:def _episode():
+  tests\research\price_action\brooks\test_management_outcome_research.py:17:    return {
+  tests\research\price_action\brooks\test_management_outcome_research.py:18:        "episode_id": "C1|BUY",
+  tests\research\price_action\brooks\test_management_outcome_research.py:19:        "entry_event_candle_id": "C1",
+  tests\research\price_action\brooks\test_management_outcome_research.py:20:        "entry_exact_index": 0,
+  tests\research\price_action\brooks\test_management_outcome_research.py:21:        "direction": "BUY",
+  tests\research\price_action\brooks\test_management_outcome_research.py:22:        "entry_price": 100.0,
+  tests\research\price_action\brooks\test_management_outcome_research.py:23:        "initial_stop": 95.0,
+> tests\research\price_action\brooks\test_management_outcome_research.py:24:        "current_stop": 99.0,
+  tests\research\price_action\brooks\test_management_outcome_research.py:25:        "stop_revision_count": 1,
+  tests\research\price_action\brooks\test_management_outcome_research.py:26:        "observations": [
+  tests\research\price_action\brooks\test_management_outcome_research.py:27:            {
+  tests\research\price_action\brooks\test_management_outcome_research.py:28:                "observation_exact_index": 
+1,
+  tests\research\price_action\brooks\test_management_outcome_research.py:29:                "revision_applied": True,
+> tests\research\price_action\brooks\test_management_outcome_research.py:30:                "current_stop_after": 99.0,
+  tests\research\price_action\brooks\test_management_outcome_research.py:31:            }
+  tests\research\price_action\brooks\test_management_outcome_research.py:32:        ],
+  tests\research\price_action\brooks\test_management_outcome_research.py:33:    }
+  tests\research\price_action\brooks\test_management_outcome_research.py:34:
+  tests\research\price_action\brooks\test_management_outcome_research.py:35:
+  tests\research\price_action\brooks\test_management_outcome_research.py:36:def 
+test_trailing_revision_only_applies_next_candle():
+  tests\research\price_action\brooks\test_management_outcome_research.py:37:    exact = [
+  tests\research\price_action\brooks\test_management_outcome_research.py:38:        _sample("C1", 101, 99),
+  tests\research\price_action\brooks\test_management_outcome_research.py:39:        _sample("C2", 104, 98),
+  tests\research\price_action\brooks\test_management_outcome_research.py:40:        _sample("C3", 103, 98.5),
+  tests\research\price_action\brooks\test_management_outcome_research.py:41:    ]
+  tests\research\price_action\brooks\test_management_outcome_research.py:42:    idx = mod._index_exact_samples(exact)
+  tests\research\price_action\brooks\test_registry.py:68:    assert classified.direction == "BUY"
+  tests\research\price_action\brooks\test_registry.py:69:
+  tests\research\price_action\brooks\test_registry.py:70:
+  tests\research\price_action\brooks\test_registry.py:71:def test_suite_dispatches_management_rules():
+  tests\research\price_action\brooks\test_registry.py:72:    obs = StopTargetObservation(
+  tests\research\price_action\brooks\test_registry.py:73:        direction="BUY",
+  tests\research\price_action\brooks\test_registry.py:74:        entry_price=100.0,
+  tests\research\price_action\brooks\test_registry.py:75:        initial_stop=95.0,
+> tests\research\price_action\brooks\test_registry.py:76:        current_stop=95.0,
+  tests\research\price_action\brooks\test_registry.py:77:        proposed_stop=97.0,
+  tests\research\price_action\brooks\test_registry.py:78:        stop_geometry_valid=True,
+  tests\research\price_action\brooks\test_registry.py:79:        stop_loosened=False,
+> tests\research\price_action\brooks\test_registry.py:80:        structural_advance_confirmed=True,
+> tests\research\price_action\brooks\test_registry.py:81:        stop_improved=True,
+  tests\research\price_action\brooks\test_registry.py:82:        target_price=110.0,
+  tests\research\price_action\brooks\test_registry.py:83:        target_valid=True,
+  tests\research\price_action\brooks\test_registry.py:84:        reward_risk=2.0,
+  tests\research\price_action\brooks\test_registry.py:85:        partial_profit_zone=True,
+  tests\research\price_action\brooks\test_registry.py:86:    )
+  tests\research\price_action\brooks\test_registry.py:87:    result = 
+BrooksResearchSuite().run({"BROOKS_STOP_TARGET_RULES_V1": obs})
+  tests\research\price_action\brooks\test_registry.py:88:    classified = result.results["BROOKS_STOP_TARGET_RULES_V1"]
+  tests\research\price_action\brooks\test_registry.py:89:    assert classified.protective_stop_valid is True
+  tests\research\price_action\brooks\test_registry.py:90:    assert classified.trailing_advance_supported is True
+  tests\research\price_action\brooks\test_registry.py:91:    assert classified.target_valid is True
+  tests\research\price_action\brooks\test_registry.py:92:    assert classified.rr_observed == 2.0
+  tests\research\price_action\brooks\test_registry.py:93:
+  tests\research\price_action\brooks\test_registry.py:124:        pullback_detected=True,
+  tests\research\price_action\brooks\test_registry.py:125:        rejection_detected=True,
+  tests\research\price_action\brooks\test_registry.py:126:        resumption_detected=True,
+  tests\research\price_action\brooks\test_registry.py:127:    )
+  tests\research\price_action\brooks\test_registry.py:128:    management = StopTargetObservation(
+  tests\research\price_action\brooks\test_registry.py:129:        direction="SELL",
+  tests\research\price_action\brooks\test_registry.py:130:        entry_price=100.0,
+  tests\research\price_action\brooks\test_registry.py:131:        initial_stop=105.0,
+> tests\research\price_action\brooks\test_registry.py:132:        current_stop=105.0,
+  tests\research\price_action\brooks\test_registry.py:133:        proposed_stop=103.0,
+  tests\research\price_action\brooks\test_registry.py:134:        stop_geometry_valid=True,
+> tests\research\price_action\brooks\test_registry.py:135:        structural_advance_confirmed=True,
+> tests\research\price_action\brooks\test_registry.py:136:        stop_improved=True,
+  tests\research\price_action\brooks\test_registry.py:137:        target_price=90.0,
+  tests\research\price_action\brooks\test_registry.py:138:        target_valid=True,
+  tests\research\price_action\brooks\test_registry.py:139:        reward_risk=2.0,
+  tests\research\price_action\brooks\test_registry.py:140:    )
+  tests\research\price_action\brooks\test_registry.py:141:    result = BrooksResearchSuite().run(
+  tests\research\price_action\brooks\test_registry.py:142:        {
+  tests\research\price_action\brooks\test_registry.py:143:            "BROOKS_BREAKOUT_PULLBACK_V1": breakout,
+  tests\research\price_action\brooks\test_registry.py:144:            "BROOKS_STOP_TARGET_RULES_V1": management,
+  tests\research\price_action\brooks\test_registry.py:145:        }
+  tests\research\price_action\brooks\test_registry.py:146:    )
+  tests\research\price_action\brooks\test_registry.py:147:    assert set(result.results) == {
+  tests\research\price_action\brooks\test_registry.py:148:        "BROOKS_BREAKOUT_PULLBACK_V1",
+  tests\research\price_action\brooks\test_stop_target_rules.py:4:)
+  tests\research\price_action\brooks\test_stop_target_rules.py:5:
+  tests\research\price_action\brooks\test_stop_target_rules.py:6:
+  tests\research\price_action\brooks\test_stop_target_rules.py:7:def evaluate(**kwargs):
+  tests\research\price_action\brooks\test_stop_target_rules.py:8:    base = dict(
+  tests\research\price_action\brooks\test_stop_target_rules.py:9:        direction="BUY",
+  tests\research\price_action\brooks\test_stop_target_rules.py:10:        entry_price=100.0,
+  tests\research\price_action\brooks\test_stop_target_rules.py:11:        initial_stop=95.0,
+> tests\research\price_action\brooks\test_stop_target_rules.py:12:        current_stop=95.0,
+  tests\research\price_action\brooks\test_stop_target_rules.py:13:        proposed_stop=97.0,
+  tests\research\price_action\brooks\test_stop_target_rules.py:14:        stop_geometry_valid=True,
+  tests\research\price_action\brooks\test_stop_target_rules.py:15:        stop_loosened=False,
+> tests\research\price_action\brooks\test_stop_target_rules.py:16:        structural_advance_confirmed=True,
+> tests\research\price_action\brooks\test_stop_target_rules.py:17:        stop_improved=True,
+  tests\research\price_action\brooks\test_stop_target_rules.py:18:        protected_r=0.4,
+  tests\research\price_action\brooks\test_stop_target_rules.py:19:        target_price=110.0,
+  tests\research\price_action\brooks\test_stop_target_rules.py:20:        target_valid=True,
+  tests\research\price_action\brooks\test_stop_target_rules.py:21:        target_source="STRUCTURAL",
+  tests\research\price_action\brooks\test_stop_target_rules.py:22:        reward_risk=2.0,
+  tests\research\price_action\brooks\test_stop_target_rules.py:23:        partial_profit_zone=False,
+  tests\research\price_action\brooks\test_stop_target_rules.py:24:        target_zone=False,
+  tests\research\price_action\brooks\test_stop_target_rules.py:25:        target_reached=False,
+  tests\research\price_action\brooks\test_stop_target_rules.py:26:        target_overshot=False,
+  tests\research\price_action\brooks\test_stop_target_rules.py:27:        heavy_profit_taking=False,
+  tests\research\price_action\brooks\test_stop_target_rules.py:28:        correction_risk=False,
+  tests\research\price_action\brooks\test_stop_target_rules.py:29:        reversal_risk=False,
+  tests\research\price_action\brooks\test_stop_target_rules.py:43:    assert result.rr_observed == 2.0
+  tests\research\price_action\brooks\test_stop_target_rules.py:44:
+  tests\research\price_action\brooks\test_stop_target_rules.py:45:
+  tests\research\price_action\brooks\test_stop_target_rules.py:46:def test_sell_valid_stop_and_target_context():
+  tests\research\price_action\brooks\test_stop_target_rules.py:47:    result = evaluate(
+  tests\research\price_action\brooks\test_stop_target_rules.py:48:        direction="SELL",
+  tests\research\price_action\brooks\test_stop_target_rules.py:49:        entry_price=100.0,
+  tests\research\price_action\brooks\test_stop_target_rules.py:50:        initial_stop=105.0,
+> tests\research\price_action\brooks\test_stop_target_rules.py:51:        current_stop=105.0,
+  tests\research\price_action\brooks\test_stop_target_rules.py:52:        proposed_stop=103.0,
+  tests\research\price_action\brooks\test_stop_target_rules.py:53:        target_price=90.0,
+  tests\research\price_action\brooks\test_stop_target_rules.py:54:    )
+  tests\research\price_action\brooks\test_stop_target_rules.py:55:    assert result.protective_stop_valid is True
+  tests\research\price_action\brooks\test_stop_target_rules.py:56:    assert result.trailing_advance_supported is True
+  tests\research\price_action\brooks\test_stop_target_rules.py:57:    assert result.target_valid is True
+  tests\research\price_action\brooks\test_stop_target_rules.py:58:
+  tests\research\price_action\brooks\test_stop_target_rules.py:59:
+  tests\research\price_action\brooks\test_stop_target_rules.py:60:def test_invalid_direction_rejected():
+  tests\research\price_action\brooks\test_stop_target_rules.py:61:    result = evaluate(direction="NONE")
+  tests\research\price_action\brooks\test_stop_target_rules.py:62:    assert result.valid_context is False
+  tests\research\price_action\brooks\test_stop_target_rules.py:63:    assert "INVALID_DIRECTION" in result.reasons
+  tests\research\price_action\brooks\test_stop_target_rules.py:81:
+  tests\research\price_action\brooks\test_stop_target_rules.py:82:def test_stop_loosen_rule_is_rejected():
+  tests\research\price_action\brooks\test_stop_target_rules.py:83:    result = evaluate(stop_loosened=True)
+  tests\research\price_action\brooks\test_stop_target_rules.py:84:    assert result.never_loosen_rule_respected is False
+  tests\research\price_action\brooks\test_stop_target_rules.py:85:    assert result.trailing_advance_supported is False
+  tests\research\price_action\brooks\test_stop_target_rules.py:86:    assert "STOP_LOOSENING_REJECTED" in result.reasons
+  tests\research\price_action\brooks\test_stop_target_rules.py:87:
+  tests\research\price_action\brooks\test_stop_target_rules.py:88:
+> tests\research\price_action\brooks\test_stop_target_rules.py:89:def test_trailing_requires_structural_advance():
+> tests\research\price_action\brooks\test_stop_target_rules.py:90:    result = 
+evaluate(structural_advance_confirmed=False, stop_improved=True)
+  tests\research\price_action\brooks\test_stop_target_rules.py:91:    assert result.trailing_advance_supported is False
+  tests\research\price_action\brooks\test_stop_target_rules.py:92:    assert 
+"TRAILING_ADVANCE_WITHOUT_STRUCTURE_REJECTED" in result.reasons
+  tests\research\price_action\brooks\test_stop_target_rules.py:93:
+  tests\research\price_action\brooks\test_stop_target_rules.py:94:
+> tests\research\price_action\brooks\test_stop_target_rules.py:95:def 
+test_no_stop_improvement_means_no_trailing_advance():
+> tests\research\price_action\brooks\test_stop_target_rules.py:96:    result = evaluate(stop_improved=False)
+  tests\research\price_action\brooks\test_stop_target_rules.py:97:    assert result.trailing_advance_supported is False
+  tests\research\price_action\brooks\test_stop_target_rules.py:98:
+  tests\research\price_action\brooks\test_stop_target_rules.py:99:
+  tests\research\price_action\brooks\test_stop_target_rules.py:100:def test_buy_target_wrong_side_rejected():
+  tests\research\price_action\brooks\test_stop_target_rules.py:101:    result = evaluate(target_price=99.0)
+  tests\research\price_action\brooks\test_stop_target_rules.py:102:    assert result.target_valid is False
+  tests\research\price_action\brooks\test_stop_target_rules.py:103:
+  tests\research\price_action\brooks\test_stop_target_rules.py:104:
+  tests\research\price_action\brooks\test_stop_target_rules.py:105:def test_sell_target_wrong_side_rejected():
+  tests\research\price_action\brooks\test_stop_target_rules.py:106:    result = evaluate(direction="SELL", 
+initial_stop=105.0, target_price=101.0)
+  tests\research\price_action\brooks\test_stop_target_rules.py:107:    assert result.target_valid is False
+  tests\research\price_action\brooks\test_stop_target_rules.py:108:
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:64:
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:65:def 
+test_capture_records_proposed_trailing_stop_without_mutating_initial_stop():
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:66:    item = _base_item()
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:67:
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:68:    out = enrich_price_action_snapshot(item, 
+_context(buy_sequence()))
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:69:    pa = out["price_action"]
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:70:
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:71:    assert pa["brooks_management_capture_status"] 
+== "CAPTURED"
+> tests\research\price_action\brooks\test_trailing_stop_capture.py:72:    assert pa["brooks_management_state"] == 
+"TRAILING_STOP_ADVANCE"
+> tests\research\price_action\brooks\test_trailing_stop_capture.py:73:    assert pa["brooks_management_current_stop"] 
+== 95.0
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:74:    assert pa["brooks_management_proposed_stop"] 
+== 99.0
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:75:    assert pa["brooks_management_initial_stop"] 
+== 95.0
+> tests\research\price_action\brooks\test_trailing_stop_capture.py:76:    assert pa["brooks_management_stop_improved"] 
+is True
+> tests\research\price_action\brooks\test_trailing_stop_capture.py:77:    assert 
+pa["brooks_management_structural_advance_confirmed"] is True
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:78:
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:79:
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:80:def 
+test_capture_is_explicitly_research_only_and_non_operational():
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:81:    out = enrich_price_action_snapshot(
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:82:        _base_item(),
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:83:        _context(buy_sequence()),
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:84:    )
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:85:    pa = out["price_action"]
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:86:
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:87:    assert pa["brooks_management_research_only"] 
+is True
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:88:    assert 
+pa["brooks_management_observational_only"] is True
+  tests\research\price_action\brooks\test_trailing_stop_capture.py:89:    assert 
+pa["brooks_management_predictive_claim_allowed"] is False
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:5:
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:6:def _sample(cid, state, structural=False):
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:7:    return {
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:8:        "candle_evidence": {"candle_id": cid},
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:9:        "price_action": {
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:10:            
+"brooks_management_capture_status": "CAPTURED",
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:11:            "brooks_management_state": state,
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:12:            "brooks_management_reason": state,
+> tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:13:            
+"brooks_management_structural_advance_confirmed": structural,
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:14:            
+"brooks_management_trailing_active": (
+> tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:15:                state == 
+"TRAILING_STOP_ADVANCE"
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:16:            ),
+> tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:17:            
+"brooks_management_stop_improved": (
+> tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:18:                state == 
+"TRAILING_STOP_ADVANCE"
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:19:            ),
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:20:            
+"brooks_management_latest_swing_price": 100.0,
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:21:        },
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:22:    }
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:23:
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:24:
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:25:def 
+test_detects_intrabar_advance_disappearing_on_last_revision(
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:26:    monkeypatch,
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:27:):
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:28:    payload = {
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:29:        "samples": [
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:30:            _sample(
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:31:                "WIN|M1|10:00",
+> tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:32:                "TRAILING_STOP_ADVANCE",
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:33:                True,
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:34:            ),
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:35:            _sample(
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:36:                "WIN|M1|10:00",
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:37:                "PROTECTIVE_STOP_HOLD",
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:38:                False,
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:39:            ),
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:40:        ]
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:41:    }
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:42:
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:43:    monkeypatch.setattr(
+  tests\research\price_action\brooks\test_trailing_stop_diagnostics.py:44:        
+"tools.profit_rtd_brooks_trailing_stop_diagnostics._load",
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:7:
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:8:
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:9:def sample(candle_id, **pa_overrides):
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:10:    pa = {
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:11:        "brooks_management_capture_status": 
+"CAPTURED",
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:12:        "brooks_management_state": 
+"PROTECTIVE_STOP_HOLD",
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:13:        "brooks_management_direction": "BUY",
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:14:        "brooks_management_initial_stop": 
+95.0,
+> tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:15:        "brooks_management_current_stop": 
+95.0,
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:16:        "brooks_management_proposed_stop": 
+95.0,
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:17:        "brooks_management_trailing_active": 
+False,
+> tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:18:        "brooks_management_stop_improved": 
+False,
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:19:        "brooks_management_stop_loosened": 
+False,
+> tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:20:        
+"brooks_management_structural_advance_confirmed": False,
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:21:    }
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:22:    pa.update(pa_overrides)
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:23:
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:24:    return {
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:25:        "candle_evidence": {
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:26:            "candle_id": candle_id,
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:27:        },
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:28:        "price_action": pa,
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:29:    }
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:30:
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:31:
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:32:def 
+test_exact_audit_deduplicates_last_revision():
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:33:    cid = "WINV26|M1|2026-09-12T10:00:00"
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:34:
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:35:    payload = {
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:36:        "samples": [
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:37:            sample(cid),
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:38:            sample(
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:39:                cid,
+> tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:40:                
+brooks_management_state="TRAILING_STOP_ADVANCE",
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:41:                
+brooks_management_proposed_stop=99.0,
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:42:                
+brooks_management_trailing_active=True,
+> tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:43:                
+brooks_management_stop_improved=True,
+> tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:44:                
+brooks_management_structural_advance_confirmed=True,
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:45:            ),
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:46:        ]
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:47:    }
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:48:
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:49:    report = audit_session(payload)
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:50:
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:51:    assert report["raw_samples"] == 2
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:52:    assert report["exact_candles"] == 1
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:53:    assert 
+report["trailing_advance_observations"] == 1
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:54:    assert 
+report["capture_inconsistency_count"] == 0
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:55:
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:56:
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:57:def test_buy_advance_requires_tighter_stop():
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:58:    payload = {
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:59:        "samples": [
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:60:            sample(
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:61:                
+"WINV26|M1|2026-09-12T10:01:00",
+> tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:62:                
+brooks_management_state="TRAILING_STOP_ADVANCE",
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:63:                
+brooks_management_proposed_stop=94.0,
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:64:                
+brooks_management_trailing_active=True,
+> tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:65:                
+brooks_management_stop_improved=True,
+> tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:66:                
+brooks_management_structural_advance_confirmed=True,
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:67:            )
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:68:        ]
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:69:    }
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:70:
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:71:    report = audit_session(payload)
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:72:
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:73:    assert report["status"] == 
+"CAPTURE_INCONSISTENCY_DETECTED"
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:74:    assert 
+report["capture_inconsistency_count"] == 1
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:75:    assert "BUY_ADVANCE_NOT_TIGHTER" in (
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:76:        
+report["observations"][0]["inconsistencies"]
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:77:    )
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:78:
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:119:        "samples": [
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:120:            
+sample("WINV26|M1|2026-09-12T10:04:00"),
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:121:        ]
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:122:    }
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:123:    b = {
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:124:        "samples": [
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:125:            sample(
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:126:                
+"WINV26|M1|2026-09-12T10:05:00",
+> tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:127:                
+brooks_management_state="TRAILING_STOP_ADVANCE",
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:128:                
+brooks_management_proposed_stop=99.0,
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:129:                
+brooks_management_trailing_active=True,
+> tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:130:                
+brooks_management_stop_improved=True,
+> tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:131:                
+brooks_management_structural_advance_confirmed=True,
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:132:            ),
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:133:        ]
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:134:    }
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:135:
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:136:    report = audit_many([a, b])
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:137:
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:138:    assert report["status"] == 
+"MULTI_SESSION_EXACT_AUDIT_COMPLETED"
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:139:    assert report["accepted_session_count"] 
+== 2
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:140:    assert report["exact_candles"] == 2
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:141:    assert 
+report["trailing_hold_observations"] == 1
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:142:    assert 
+report["trailing_advance_observations"] == 1
+  tests\research\price_action\brooks\test_trailing_stop_exact_audit.py:143:    assert 
+report["capture_inconsistency_count"] == 0
+  tools\profit_rtd_brooks_management_exact_audit.py:76:    cid = ev.get("candle_id")
+  tools\profit_rtd_brooks_management_exact_audit.py:77:
+  tools\profit_rtd_brooks_management_exact_audit.py:78:    direction = str(pa.get("brooks_management_direction") or 
+"NONE").upper()
+  tools\profit_rtd_brooks_management_exact_audit.py:79:    capture_status = 
+str(pa.get("brooks_management_capture_status") or "UNKNOWN")
+  tools\profit_rtd_brooks_management_exact_audit.py:80:    state = str(pa.get("brooks_management_state") or "UNKNOWN")
+  tools\profit_rtd_brooks_management_exact_audit.py:81:
+  tools\profit_rtd_brooks_management_exact_audit.py:82:    entry = _float(pa.get("brooks_management_entry_price"))
+  tools\profit_rtd_brooks_management_exact_audit.py:83:    initial = _float(pa.get("brooks_management_initial_stop"))
+> tools\profit_rtd_brooks_management_exact_audit.py:84:    current = _float(pa.get("brooks_management_current_stop"))
+  tools\profit_rtd_brooks_management_exact_audit.py:85:    proposed = _float(pa.get("brooks_management_proposed_stop"))
+  tools\profit_rtd_brooks_management_exact_audit.py:86:
+> tools\profit_rtd_brooks_management_exact_audit.py:87:    improved = bool(pa.get("brooks_management_stop_improved"))
+  tools\profit_rtd_brooks_management_exact_audit.py:88:    loosened_flag = 
+bool(pa.get("brooks_management_stop_loosened"))
+> tools\profit_rtd_brooks_management_exact_audit.py:89:    structural = 
+bool(pa.get("brooks_management_structural_advance_confirmed"))
+  tools\profit_rtd_brooks_management_exact_audit.py:90:
+  tools\profit_rtd_brooks_management_exact_audit.py:91:    mismatches = []
+  tools\profit_rtd_brooks_management_exact_audit.py:92:
+  tools\profit_rtd_brooks_management_exact_audit.py:93:    if pa.get("brooks_management_component") != COMPONENT:
+  tools\profit_rtd_brooks_management_exact_audit.py:94:        mismatches.append("MANAGEMENT_COMPONENT_MISMATCH")
+  tools\profit_rtd_brooks_management_exact_audit.py:95:
+  tools\profit_rtd_brooks_management_exact_audit.py:96:    if pa.get("brooks_management_research_only") is not True:
+  tools\profit_rtd_brooks_management_exact_audit.py:97:        mismatches.append("MANAGEMENT_RESEARCH_ONLY_REQUIRED")
+  tools\profit_rtd_brooks_management_exact_audit.py:98:    if pa.get("brooks_management_observational_only") is not 
+True:
+  tools\profit_rtd_brooks_management_exact_audit.py:99:        
+mismatches.append("MANAGEMENT_OBSERVATIONAL_ONLY_REQUIRED")
+  tools\profit_rtd_brooks_management_exact_audit.py:100:
+  tools\profit_rtd_brooks_management_exact_audit.py:101:    for field in (
+  tools\profit_rtd_brooks_management_exact_audit.py:125:    st_entry = _float(pa.get("brooks_stop_target_entry_price"))
+  tools\profit_rtd_brooks_management_exact_audit.py:126:    st_initial = 
+_float(pa.get("brooks_stop_target_initial_stop"))
+  tools\profit_rtd_brooks_management_exact_audit.py:127:    if st_entry and entry and st_entry != entry:
+  tools\profit_rtd_brooks_management_exact_audit.py:128:        mismatches.append("ENTRY_PRICE_MISMATCH")
+  tools\profit_rtd_brooks_management_exact_audit.py:129:    if st_initial and initial and st_initial != initial:
+  tools\profit_rtd_brooks_management_exact_audit.py:130:        mismatches.append("INITIAL_STOP_MISMATCH")
+  tools\profit_rtd_brooks_management_exact_audit.py:131:
+  tools\profit_rtd_brooks_management_exact_audit.py:132:    geometry_loosened = False
+> tools\profit_rtd_brooks_management_exact_audit.py:133:    geometry_improved = False
+  tools\profit_rtd_brooks_management_exact_audit.py:134:    if direction == "BUY" and current and proposed:
+  tools\profit_rtd_brooks_management_exact_audit.py:135:        geometry_loosened = proposed < current
+> tools\profit_rtd_brooks_management_exact_audit.py:136:        geometry_improved = proposed > current
+  tools\profit_rtd_brooks_management_exact_audit.py:137:    elif direction == "SELL" and current and proposed:
+  tools\profit_rtd_brooks_management_exact_audit.py:138:        geometry_loosened = proposed > current
+> tools\profit_rtd_brooks_management_exact_audit.py:139:        geometry_improved = proposed < current
+  tools\profit_rtd_brooks_management_exact_audit.py:140:
+  tools\profit_rtd_brooks_management_exact_audit.py:141:    if loosened_flag:
+  tools\profit_rtd_brooks_management_exact_audit.py:142:        mismatches.append("STOP_LOOSENED_FLAG_TRUE")
+  tools\profit_rtd_brooks_management_exact_audit.py:143:    if geometry_loosened:
+  tools\profit_rtd_brooks_management_exact_audit.py:144:        mismatches.append("STOP_GEOMETRY_LOOSENED")
+> tools\profit_rtd_brooks_management_exact_audit.py:145:    if improved != geometry_improved:
+> tools\profit_rtd_brooks_management_exact_audit.py:146:        mismatches.append("STOP_IMPROVEMENT_FLAG_MISMATCH")
+  tools\profit_rtd_brooks_management_exact_audit.py:147:
+  tools\profit_rtd_brooks_management_exact_audit.py:148:    if capture_status == "CAPTURED":
+  tools\profit_rtd_brooks_management_exact_audit.py:149:        if direction not in {"BUY", "SELL"}:
+  tools\profit_rtd_brooks_management_exact_audit.py:150:            mismatches.append("CAPTURED_DIRECTION_REQUIRED")
+  tools\profit_rtd_brooks_management_exact_audit.py:151:        if not initial or not current or not proposed:
+  tools\profit_rtd_brooks_management_exact_audit.py:152:            mismatches.append("CAPTURED_STOP_VALUES_REQUIRED")
+  tools\profit_rtd_brooks_management_exact_audit.py:153:
+  tools\profit_rtd_brooks_management_exact_audit.py:154:    reasons = []
+  tools\profit_rtd_brooks_management_exact_audit.py:155:    if not mismatches:
+  tools\profit_rtd_brooks_management_exact_audit.py:156:        
+reasons.append("EXACT_CANDLE_MANAGEMENT_CAPTURE_CONSISTENT")
+  tools\profit_rtd_brooks_management_exact_audit.py:157:    if capture_status == "CAPTURED":
+  tools\profit_rtd_brooks_management_exact_audit.py:158:        reasons.append("MANAGEMENT_CAPTURED")
+> tools\profit_rtd_brooks_management_exact_audit.py:159:    if improved:
+> tools\profit_rtd_brooks_management_exact_audit.py:160:        reasons.append("STOP_IMPROVEMENT_OBSERVED")
+  tools\profit_rtd_brooks_management_exact_audit.py:161:    if structural:
+> tools\profit_rtd_brooks_management_exact_audit.py:162:        reasons.append("STRUCTURAL_ADVANCE_OBSERVED")
+  tools\profit_rtd_brooks_management_exact_audit.py:163:    if not loosened_flag and not geometry_loosened:
+  tools\profit_rtd_brooks_management_exact_audit.py:164:        reasons.append("NO_STOP_LOOSENING")
+  tools\profit_rtd_brooks_management_exact_audit.py:165:
+  tools\profit_rtd_brooks_management_exact_audit.py:166:    return {
+  tools\profit_rtd_brooks_management_exact_audit.py:167:        "candle_id": cid,
+  tools\profit_rtd_brooks_management_exact_audit.py:168:        "capture_status": capture_status,
+  tools\profit_rtd_brooks_management_exact_audit.py:169:        "state": state,
+  tools\profit_rtd_brooks_management_exact_audit.py:170:        "direction": direction,
+  tools\profit_rtd_brooks_management_exact_audit.py:171:        "entry_triggered": 
+bool(pa.get("brooks_management_entry_triggered")),
+  tools\profit_rtd_brooks_management_exact_audit.py:172:        "entry_price": entry,
+  tools\profit_rtd_brooks_management_exact_audit.py:173:        "initial_stop": initial,
+> tools\profit_rtd_brooks_management_exact_audit.py:174:        "current_stop": current,
+  tools\profit_rtd_brooks_management_exact_audit.py:175:        "proposed_stop": proposed,
+  tools\profit_rtd_brooks_management_exact_audit.py:176:        "trailing_active": 
+bool(pa.get("brooks_management_trailing_active")),
+> tools\profit_rtd_brooks_management_exact_audit.py:177:        "stop_improved": improved,
+  tools\profit_rtd_brooks_management_exact_audit.py:178:        "stop_loosened": loosened_flag,
+> tools\profit_rtd_brooks_management_exact_audit.py:179:        "structural_advance_confirmed": structural,
+  tools\profit_rtd_brooks_management_exact_audit.py:180:        "latest_swing_index": 
+pa.get("brooks_management_latest_swing_index"),
+  tools\profit_rtd_brooks_management_exact_audit.py:181:        "latest_swing_price": 
+_float(pa.get("brooks_management_latest_swing_price")),
+  tools\profit_rtd_brooks_management_exact_audit.py:182:        "protected_r": 
+_float(pa.get("brooks_management_protected_r")),
+  tools\profit_rtd_brooks_management_exact_audit.py:183:        "capture_consistent": not mismatches,
+  tools\profit_rtd_brooks_management_exact_audit.py:184:        "mismatches": mismatches,
+  tools\profit_rtd_brooks_management_exact_audit.py:185:        "reasons": reasons,
+  tools\profit_rtd_brooks_management_exact_audit.py:186:    }
+  tools\profit_rtd_brooks_management_exact_audit.py:187:
+  tools\profit_rtd_brooks_management_exact_audit.py:188:
+  tools\profit_rtd_brooks_management_exact_audit.py:189:def audit_payload(payload):
+  tools\profit_rtd_brooks_management_exact_audit.py:190:    samples = payload.get("samples") if isinstance(payload, 
+dict) else None
+  tools\profit_rtd_brooks_management_exact_audit.py:191:    samples = samples if isinstance(samples, list) else []
+  tools\profit_rtd_brooks_management_exact_audit.py:235:        "status": "EXACT_MANAGEMENT_AUDIT_COMPLETED",
+  tools\profit_rtd_brooks_management_exact_audit.py:236:        "deduplication": DEDUPLICATION,
+  tools\profit_rtd_brooks_management_exact_audit.py:237:        "exact_candles": len(exact),
+  tools\profit_rtd_brooks_management_exact_audit.py:238:        "management_evidence_rows": len(observations),
+  tools\profit_rtd_brooks_management_exact_audit.py:239:        "captured_observations": status_counts.get("CAPTURED", 
+0),
+  tools\profit_rtd_brooks_management_exact_audit.py:240:        "not_eligible_observations": 
+status_counts.get("NOT_ELIGIBLE", 0),
+  tools\profit_rtd_brooks_management_exact_audit.py:241:        "capture_status_counts": 
+dict(sorted(status_counts.items())),
+  tools\profit_rtd_brooks_management_exact_audit.py:242:        "state_counts": dict(sorted(state_counts.items())),
+> tools\profit_rtd_brooks_management_exact_audit.py:243:        "stop_improvement_count": sum(o["stop_improved"] for o 
+in observations),
+  tools\profit_rtd_brooks_management_exact_audit.py:244:        "stop_loosened_count": sum(o["stop_loosened"] for o in 
+observations),
+> tools\profit_rtd_brooks_management_exact_audit.py:245:        "structural_advance_count": sum(
+> tools\profit_rtd_brooks_management_exact_audit.py:246:            o["structural_advance_confirmed"] for o in 
+observations
+  tools\profit_rtd_brooks_management_exact_audit.py:247:        ),
+  tools\profit_rtd_brooks_management_exact_audit.py:248:        "trailing_active_count": sum(o["trailing_active"] for o 
+in observations),
+  tools\profit_rtd_brooks_management_exact_audit.py:249:        "capture_inconsistency_count": sum(
+  tools\profit_rtd_brooks_management_exact_audit.py:250:            not o["capture_consistent"] for o in observations
+  tools\profit_rtd_brooks_management_exact_audit.py:251:        ),
+  tools\profit_rtd_brooks_management_exact_audit.py:252:        "observations": observations,
+  tools\profit_rtd_brooks_management_exact_audit.py:253:        "hypothesis_freeze_allowed": False,
+  tools\profit_rtd_brooks_management_exact_audit.py:254:        **_safety(),
+  tools\profit_rtd_brooks_management_exact_audit.py:255:    }
+  tools\profit_rtd_brooks_management_exact_audit.py:256:
+  tools\profit_rtd_brooks_management_exact_audit.py:257:
+  tools\profit_rtd_brooks_management_exact_audit.py:258:def audit_sessions(payloads):
+  tools\profit_rtd_brooks_management_exact_audit.py:267:        report = audit_payload(payload)
+  tools\profit_rtd_brooks_management_exact_audit.py:268:        sessions.append({"session_index": index, **report})
+  tools\profit_rtd_brooks_management_exact_audit.py:269:
+  tools\profit_rtd_brooks_management_exact_audit.py:270:        if report.get("status") == 
+"EXACT_MANAGEMENT_AUDIT_COMPLETED":
+  tools\profit_rtd_brooks_management_exact_audit.py:271:            accepted += 1
+  tools\profit_rtd_brooks_management_exact_audit.py:272:            exact_candles += int(report.get("exact_candles", 0))
+  tools\profit_rtd_brooks_management_exact_audit.py:273:            management_rows += 
+int(report.get("management_evidence_rows", 0))
+  tools\profit_rtd_brooks_management_exact_audit.py:274:            captured += int(report.get("captured_observations", 
+0))
+> tools\profit_rtd_brooks_management_exact_audit.py:275:            improvements += 
+int(report.get("stop_improvement_count", 0))
+  tools\profit_rtd_brooks_management_exact_audit.py:276:            loosened += int(report.get("stop_loosened_count", 
+0))
+> tools\profit_rtd_brooks_management_exact_audit.py:277:            structural += 
+int(report.get("structural_advance_count", 0))
+  tools\profit_rtd_brooks_management_exact_audit.py:278:            inconsistencies += 
+int(report.get("capture_inconsistency_count", 0))
+  tools\profit_rtd_brooks_management_exact_audit.py:279:            state_counts.update(report.get("state_counts") or 
+{})
+  tools\profit_rtd_brooks_management_exact_audit.py:280:            
+capture_status_counts.update(report.get("capture_status_counts") or {})
+  tools\profit_rtd_brooks_management_exact_audit.py:281:        else:
+  tools\profit_rtd_brooks_management_exact_audit.py:282:            rejected += 1
+  tools\profit_rtd_brooks_management_exact_audit.py:283:
+  tools\profit_rtd_brooks_management_exact_audit.py:284:    return {
+  tools\profit_rtd_brooks_management_exact_audit.py:285:        "setup": SETUP,
+  tools\profit_rtd_brooks_management_exact_audit.py:286:        "status": 
+"MULTI_SESSION_EXACT_MANAGEMENT_AUDIT_COMPLETED",
+  tools\profit_rtd_brooks_management_exact_audit.py:287:        "deduplication": DEDUPLICATION,
+  tools\profit_rtd_brooks_management_exact_audit.py:288:        "accepted_session_count": accepted,
+  tools\profit_rtd_brooks_management_exact_audit.py:289:        "rejected_session_count": rejected,
+  tools\profit_rtd_brooks_management_exact_audit.py:290:        "exact_candles": exact_candles,
+  tools\profit_rtd_brooks_management_exact_audit.py:291:        "management_evidence_rows": management_rows,
+  tools\profit_rtd_brooks_management_exact_audit.py:292:        "captured_observations": captured,
+> tools\profit_rtd_brooks_management_exact_audit.py:293:        "stop_improvement_count": improvements,
+  tools\profit_rtd_brooks_management_exact_audit.py:294:        "stop_loosened_count": loosened,
+> tools\profit_rtd_brooks_management_exact_audit.py:295:        "structural_advance_count": structural,
+  tools\profit_rtd_brooks_management_exact_audit.py:296:        "capture_inconsistency_count": inconsistencies,
+  tools\profit_rtd_brooks_management_exact_audit.py:297:        "capture_status_counts": 
+dict(sorted(capture_status_counts.items())),
+  tools\profit_rtd_brooks_management_exact_audit.py:298:        "state_counts": dict(sorted(state_counts.items())),
+  tools\profit_rtd_brooks_management_exact_audit.py:299:        "performance_validated": False,
+  tools\profit_rtd_brooks_management_exact_audit.py:300:        "promotion_allowed": False,
+  tools\profit_rtd_brooks_management_exact_audit.py:301:        "hypothesis_freeze_allowed": False,
+  tools\profit_rtd_brooks_management_exact_audit.py:302:        "sessions": sessions,
+  tools\profit_rtd_brooks_management_exact_audit.py:303:        **_safety(),
+  tools\profit_rtd_brooks_management_exact_audit.py:304:    }
+  tools\profit_rtd_brooks_management_exact_audit.py:305:
+  tools\profit_rtd_brooks_management_exact_audit.py:306:
+  tools\profit_rtd_brooks_management_exact_audit.py:307:def audit(paths):
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:248:                )
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:249:
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:250:        # Se trailing saiu neste candle, nenhuma 
+revisao deste candle
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:251:        # pode ser aplicada depois da saida.
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:252:        if trailing["active"]:
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:253:            obs = observations.get(idx)
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:254:            if obs and 
+bool(obs.get("revision_applied")):
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:255:                candidate = _f(
+> tools\profit_rtd_brooks_management_exit_bounded_outcome.py:256:                    obs.get("current_stop_after"),
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:257:                    active_trailing_stop,
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:258:                )
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:259:                if (
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:260:                    direction == "BUY"
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:261:                    and candidate > 
+active_trailing_stop + EPS
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:262:                ):
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:263:                    active_trailing_stop = candidate
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:264:                elif (
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:265:                    direction == "SELL"
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:266:                    and candidate < 
+active_trailing_stop - EPS
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:267:                ):
+  tools\profit_rtd_brooks_management_exit_bounded_outcome.py:268:                    active_trailing_stop = candidate
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:322:                    adverse,
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:323:                )
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:324:
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:325:        # Revisao observada no candle N vale 
+apenas em N+1.
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:326:        if trailing["status"] == "OPEN":
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:327:            obs = observations.get(idx)
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:328:            if obs and 
+bool(obs.get("revision_applied")):
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:329:                candidate = _f(
+> tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:330:                    obs.get("current_stop_after"),
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:331:                    active_trailing_stop,
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:332:                )
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:333:
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:334:                if (
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:335:                    direction == "BUY"
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:336:                    and candidate > 
+active_trailing_stop + EPS
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:337:                ):
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:338:                    active_trailing_stop = 
+candidate
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:339:
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:340:                elif (
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:341:                    direction == "SELL"
+  tools\profit_rtd_brooks_management_intrabar_bounded_outcome.py:342:                    and candidate < 
+active_trailing_stop - EPS
+  tools\profit_rtd_brooks_management_lifecycle.py:5:
+  tools\profit_rtd_brooks_management_lifecycle.py:6:Research-only e observacional.
+  tools\profit_rtd_brooks_management_lifecycle.py:7:
+  tools\profit_rtd_brooks_management_lifecycle.py:8:Este modulo:
+  tools\profit_rtd_brooks_management_lifecycle.py:9:- trabalha somente sobre sessoes Brooks ja persistidas;
+  tools\profit_rtd_brooks_management_lifecycle.py:10:- deduplica por candle_id usando EXACT_CANDLE_LAST_REVISION;
+  tools\profit_rtd_brooks_management_lifecycle.py:11:- cria um episodio para cada entrada Brooks elegivel;
+  tools\profit_rtd_brooks_management_lifecycle.py:12:- acompanha a mesma entrada atraves dos candles exatos seguintes;
+> tools\profit_rtd_brooks_management_lifecycle.py:13:- persiste um current_stop hipotetico por episodio;
+  tools\profit_rtd_brooks_management_lifecycle.py:14:- usa ProtectiveTrailingStopDynamics sem alterar seu algoritmo;
+  tools\profit_rtd_brooks_management_lifecycle.py:15:- nao calcula performance, PnL, partials ou outcomes;
+  tools\profit_rtd_brooks_management_lifecycle.py:16:- nao influencia Score, Risk, Decision, Alert ou execucao.
+  tools\profit_rtd_brooks_management_lifecycle.py:17:
+  tools\profit_rtd_brooks_management_lifecycle.py:18:Importante:
+  tools\profit_rtd_brooks_management_lifecycle.py:19:A engine Ch.29 ignora o ultimo candle recebido por considerar que 
+ele pode estar
+  tools\profit_rtd_brooks_management_lifecycle.py:20:em formacao. Como este reprocessamento trabalha com candles 
+exatos/fechados,
+  tools\profit_rtd_brooks_management_lifecycle.py:21:cada avaliacao adiciona um "sentinel" sintetico no fim do 
+historico. A engine
+  tools\profit_rtd_brooks_management_lifecycle.py:22:descarta somente esse sentinel e passa a enxergar todos os candles 
+fechados
+  tools\profit_rtd_brooks_management_lifecycle.py:23:ate o candle de observacao.
+  tools\profit_rtd_brooks_management_lifecycle.py:24:"""
+  tools\profit_rtd_brooks_management_lifecycle.py:25:
+  tools\profit_rtd_brooks_management_lifecycle.py:195:
+  tools\profit_rtd_brooks_management_lifecycle.py:196:    return {
+  tools\profit_rtd_brooks_management_lifecycle.py:197:        "episode_id": f"{candle_id}|{direction}",
+  tools\profit_rtd_brooks_management_lifecycle.py:198:        "entry_event_candle_id": candle_id,
+  tools\profit_rtd_brooks_management_lifecycle.py:199:        "entry_exact_index": int(exact_index),
+  tools\profit_rtd_brooks_management_lifecycle.py:200:        "direction": direction,
+  tools\profit_rtd_brooks_management_lifecycle.py:201:        "entry_price": entry_price,
+  tools\profit_rtd_brooks_management_lifecycle.py:202:        "initial_stop": initial_stop,
+> tools\profit_rtd_brooks_management_lifecycle.py:203:        "current_stop": initial_stop,
+  tools\profit_rtd_brooks_management_lifecycle.py:204:        "stop_revision_count": 0,
+  tools\profit_rtd_brooks_management_lifecycle.py:205:        "observations": [],
+  tools\profit_rtd_brooks_management_lifecycle.py:206:    }
+  tools\profit_rtd_brooks_management_lifecycle.py:207:
+  tools\profit_rtd_brooks_management_lifecycle.py:208:
+  tools\profit_rtd_brooks_management_lifecycle.py:209:def _apply_observation(
+  tools\profit_rtd_brooks_management_lifecycle.py:210:    episode,
+  tools\profit_rtd_brooks_management_lifecycle.py:211:    closed_history,
+  tools\profit_rtd_brooks_management_lifecycle.py:212:    observation_sample,
+  tools\profit_rtd_brooks_management_lifecycle.py:213:    observation_index,
+  tools\profit_rtd_brooks_management_lifecycle.py:214:):
+  tools\profit_rtd_brooks_management_lifecycle.py:215:    current = _to_candle(observation_sample)
+  tools\profit_rtd_brooks_management_lifecycle.py:216:
+  tools\profit_rtd_brooks_management_lifecycle.py:217:    engine_history = list(closed_history)
+  tools\profit_rtd_brooks_management_lifecycle.py:218:    engine_history.append(_synthetic_sentinel(current))
+  tools\profit_rtd_brooks_management_lifecycle.py:219:
+> tools\profit_rtd_brooks_management_lifecycle.py:220:    before = float(episode["current_stop"])
+  tools\profit_rtd_brooks_management_lifecycle.py:221:
+  tools\profit_rtd_brooks_management_lifecycle.py:222:    result = _ENGINE.analyze(
+  tools\profit_rtd_brooks_management_lifecycle.py:223:        engine_history,
+  tools\profit_rtd_brooks_management_lifecycle.py:224:        direction=episode["direction"],
+  tools\profit_rtd_brooks_management_lifecycle.py:225:        entry_price=episode["entry_price"],
+  tools\profit_rtd_brooks_management_lifecycle.py:226:        initial_stop=episode["initial_stop"],
+> tools\profit_rtd_brooks_management_lifecycle.py:227:        current_stop=before,
+  tools\profit_rtd_brooks_management_lifecycle.py:228:        tick_size=1.0,
+  tools\profit_rtd_brooks_management_lifecycle.py:229:    )
+  tools\profit_rtd_brooks_management_lifecycle.py:230:    data = _result_dict(result)
+  tools\profit_rtd_brooks_management_lifecycle.py:231:
+  tools\profit_rtd_brooks_management_lifecycle.py:232:    proposed = _float(data.get("proposed_stop"), before)
+  tools\profit_rtd_brooks_management_lifecycle.py:233:    state = str(data.get("state") or "")
+  tools\profit_rtd_brooks_management_lifecycle.py:234:
+  tools\profit_rtd_brooks_management_lifecycle.py:235:    after = before
+  tools\profit_rtd_brooks_management_lifecycle.py:236:    revision_applied = False
+  tools\profit_rtd_brooks_management_lifecycle.py:237:
+> tools\profit_rtd_brooks_management_lifecycle.py:238:    if state == "TRAILING_STOP_ADVANCE":
+  tools\profit_rtd_brooks_management_lifecycle.py:239:        if episode["direction"] == "BUY" and proposed > before:
+  tools\profit_rtd_brooks_management_lifecycle.py:240:            after = proposed
+  tools\profit_rtd_brooks_management_lifecycle.py:241:            revision_applied = True
+  tools\profit_rtd_brooks_management_lifecycle.py:242:        elif episode["direction"] == "SELL" and proposed < before:
+  tools\profit_rtd_brooks_management_lifecycle.py:243:            after = proposed
+  tools\profit_rtd_brooks_management_lifecycle.py:244:            revision_applied = True
+  tools\profit_rtd_brooks_management_lifecycle.py:245:
+  tools\profit_rtd_brooks_management_lifecycle.py:246:    if revision_applied:
+  tools\profit_rtd_brooks_management_lifecycle.py:247:        episode["stop_revision_count"] += 1
+> tools\profit_rtd_brooks_management_lifecycle.py:248:        episode["current_stop"] = after
+  tools\profit_rtd_brooks_management_lifecycle.py:249:
+  tools\profit_rtd_brooks_management_lifecycle.py:250:    observation = {
+  tools\profit_rtd_brooks_management_lifecycle.py:251:        "observation_candle_id": _candle_id(observation_sample),
+  tools\profit_rtd_brooks_management_lifecycle.py:252:        "observation_exact_index": int(observation_index),
+  tools\profit_rtd_brooks_management_lifecycle.py:253:        "state": state,
+  tools\profit_rtd_brooks_management_lifecycle.py:254:        "reason": str(data.get("reason") or ""),
+  tools\profit_rtd_brooks_management_lifecycle.py:255:        "previous_stop": before,
+  tools\profit_rtd_brooks_management_lifecycle.py:256:        "proposed_stop": proposed,
+> tools\profit_rtd_brooks_management_lifecycle.py:257:        "current_stop_after": after,
+  tools\profit_rtd_brooks_management_lifecycle.py:258:        "revision_applied": revision_applied,
+  tools\profit_rtd_brooks_management_lifecycle.py:259:        "trailing_active": bool(data.get("trailing_active")),
+> tools\profit_rtd_brooks_management_lifecycle.py:260:        "stop_improved": bool(data.get("stop_improved")),
+  tools\profit_rtd_brooks_management_lifecycle.py:261:        "stop_loosened": bool(data.get("stop_loosened")),
+> tools\profit_rtd_brooks_management_lifecycle.py:262:        "structural_advance_confirmed": bool(
+> tools\profit_rtd_brooks_management_lifecycle.py:263:            data.get("structural_advance_confirmed")
+  tools\profit_rtd_brooks_management_lifecycle.py:264:        ),
+  tools\profit_rtd_brooks_management_lifecycle.py:265:        "latest_swing_index": data.get("latest_swing_index"),
+  tools\profit_rtd_brooks_management_lifecycle.py:266:        "latest_swing_price": _float(
+  tools\profit_rtd_brooks_management_lifecycle.py:267:            data.get("latest_swing_price")
+  tools\profit_rtd_brooks_management_lifecycle.py:268:        ),
+  tools\profit_rtd_brooks_management_lifecycle.py:269:        "protected_r": _float(data.get("protected_r")),
+  tools\profit_rtd_brooks_management_lifecycle.py:270:    }
+  tools\profit_rtd_brooks_management_lifecycle.py:271:
+  tools\profit_rtd_brooks_management_lifecycle.py:272:    episode["observations"].append(observation)
+  tools\profit_rtd_brooks_management_lifecycle.py:273:
+  tools\profit_rtd_brooks_management_lifecycle.py:274:
+  tools\profit_rtd_brooks_management_lifecycle.py:275:def build_lifecycles(payload):
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:48:    inconsistencies = []
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:49:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:50:    episode_id = str(episode.get("episode_id") or "")
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:51:    entry_candle_id = 
+str(episode.get("entry_event_candle_id") or "")
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:52:    direction = str(episode.get("direction") or 
+"").upper()
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:53:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:54:    entry_price = _float(episode.get("entry_price"))
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:55:    initial_stop = _float(episode.get("initial_stop"))
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:56:    current_stop_final = 
+_float(episode.get("current_stop"))
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:57:    declared_revisions = 
+int(episode.get("stop_revision_count") or 0)
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:58:    observations = episode.get("observations") or []
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:59:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:60:    expected_episode_id = (
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:61:        f"{entry_candle_id}|{direction}"
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:62:        if entry_candle_id and direction
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:63:        else ""
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:64:    )
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:65:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:66:    if not episode_id:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:67:        inconsistencies.append("MISSING_EPISODE_ID")
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:68:    if not entry_candle_id:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:84:    counted_revisions = 0
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:85:    advance_observations = 0
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:86:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:87:    for index, observation in enumerate(observations):
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:88:        prefix = f"OBS_{index}"
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:89:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:90:        previous_stop = 
+_float(observation.get("previous_stop"))
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:91:        proposed_stop = 
+_float(observation.get("proposed_stop"))
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:92:        current_stop_after = 
+_float(observation.get("current_stop_after"))
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:93:        state = str(observation.get("state") or "")
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:94:        revision_applied = 
+bool(observation.get("revision_applied"))
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:95:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:96:        if not _eq(previous_stop, expected_previous):
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:97:            inconsistencies.append(
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:98:                f"{prefix}_PREVIOUS_STOP_CHAIN_BROKEN"
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:99:            )
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:100:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:101:        if revision_applied:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:102:            counted_revisions += 1
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:103:            advance_observations += 1
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:104:
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:105:            if state != "TRAILING_STOP_ADVANCE":
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:106:                inconsistencies.append(
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:107:                    
+f"{prefix}_REVISION_WITHOUT_ADVANCE_STATE"
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:108:                )
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:109:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:110:            if direction == "BUY":
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:111:                if not proposed_stop > previous_stop 
++ TOLERANCE:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:112:                    inconsistencies.append(
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:113:                        
+f"{prefix}_BUY_PROPOSED_STOP_NOT_TIGHTER"
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:114:                    )
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:115:                if not current_stop_after > 
+previous_stop + TOLERANCE:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:116:                    inconsistencies.append(
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:117:                        
+f"{prefix}_BUY_APPLIED_STOP_NOT_TIGHTER"
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:118:                    )
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:119:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:120:            elif direction == "SELL":
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:121:                if not proposed_stop < previous_stop 
+- TOLERANCE:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:122:                    inconsistencies.append(
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:123:                        
+f"{prefix}_SELL_PROPOSED_STOP_NOT_TIGHTER"
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:124:                    )
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:125:                if not current_stop_after < 
+previous_stop - TOLERANCE:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:126:                    inconsistencies.append(
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:127:                        
+f"{prefix}_SELL_APPLIED_STOP_NOT_TIGHTER"
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:128:                    )
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:129:
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:130:            if not _eq(current_stop_after, 
+proposed_stop):
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:131:                inconsistencies.append(
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:132:                    
+f"{prefix}_APPLIED_STOP_DIFFERS_FROM_PROPOSED"
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:133:                )
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:134:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:135:        else:
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:136:            if not _eq(current_stop_after, 
+previous_stop):
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:137:                inconsistencies.append(
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:138:                    
+f"{prefix}_STOP_CHANGED_WITHOUT_REVISION"
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:139:                )
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:140:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:141:        if direction == "BUY":
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:142:            if current_stop_after + TOLERANCE < 
+previous_stop:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:143:                
+inconsistencies.append(f"{prefix}_BUY_STOP_LOOSENED")
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:144:            if current_stop_after + TOLERANCE < 
+initial_stop:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:145:                
+inconsistencies.append(f"{prefix}_BUY_STOP_BELOW_INITIAL")
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:146:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:147:        elif direction == "SELL":
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:148:            if current_stop_after - TOLERANCE > 
+previous_stop:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:149:                
+inconsistencies.append(f"{prefix}_SELL_STOP_LOOSENED")
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:150:            if current_stop_after - TOLERANCE > 
+initial_stop:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:151:                
+inconsistencies.append(f"{prefix}_SELL_STOP_ABOVE_INITIAL")
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:152:
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:153:        expected_previous = current_stop_after
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:154:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:155:    if declared_revisions != counted_revisions:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:156:        
+inconsistencies.append("STOP_REVISION_COUNT_MISMATCH")
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:157:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:158:    if observations:
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:159:        if not _eq(current_stop_final, 
+expected_previous):
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:160:            
+inconsistencies.append("FINAL_CURRENT_STOP_MISMATCH")
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:161:    else:
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:162:        if not _eq(current_stop_final, initial_stop):
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:163:            inconsistencies.append(
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:164:                
+"EMPTY_EPISODE_CURRENT_STOP_NOT_INITIAL"
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:165:            )
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:166:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:167:    return {
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:168:        "episode_id": episode_id,
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:169:        "entry_event_candle_id": entry_candle_id,
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:170:        "direction": direction,
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:171:        "observation_count": len(observations),
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:172:        "declared_stop_revision_count": 
+declared_revisions,
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:173:        "counted_stop_revision_count": 
+counted_revisions,
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:174:        "advance_observations": advance_observations,
+> tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:175:        "final_current_stop": current_stop_final,
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:176:        "inconsistency_count": len(inconsistencies),
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:177:        "inconsistencies": inconsistencies,
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:178:    }
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:179:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:180:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:181:def audit_lifecycle_report(payload):
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:182:    if not isinstance(payload, dict):
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:183:        raise TypeError("payload must be dict")
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:184:
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:185:    sessions = payload.get("sessions")
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:186:    if isinstance(sessions, list):
+  tools\profit_rtd_brooks_management_lifecycle_exact_audit.py:187:        episodes = []
+  tools\profit_rtd_brooks_management_outcome_research.py:136:def _stop_touched(direction, candle, stop):
+  tools\profit_rtd_brooks_management_outcome_research.py:137:    if direction == "BUY":
+  tools\profit_rtd_brooks_management_outcome_research.py:138:        return candle["low"] <= stop + EPS
+  tools\profit_rtd_brooks_management_outcome_research.py:139:    if direction == "SELL":
+  tools\profit_rtd_brooks_management_outcome_research.py:140:        return candle["high"] >= stop - EPS
+  tools\profit_rtd_brooks_management_outcome_research.py:141:    return False
+  tools\profit_rtd_brooks_management_outcome_research.py:142:
+  tools\profit_rtd_brooks_management_outcome_research.py:143:
+> tools\profit_rtd_brooks_management_outcome_research.py:144:def _protected_r(direction, entry, initial_stop, 
+current_stop):
+  tools\profit_rtd_brooks_management_outcome_research.py:145:    risk = _risk_size(direction, entry, initial_stop)
+  tools\profit_rtd_brooks_management_outcome_research.py:146:    if risk <= EPS:
+  tools\profit_rtd_brooks_management_outcome_research.py:147:        return 0.0
+  tools\profit_rtd_brooks_management_outcome_research.py:148:
+  tools\profit_rtd_brooks_management_outcome_research.py:149:    if direction == "BUY":
+> tools\profit_rtd_brooks_management_outcome_research.py:150:        return (current_stop - entry) / risk
+  tools\profit_rtd_brooks_management_outcome_research.py:151:
+> tools\profit_rtd_brooks_management_outcome_research.py:152:    return (entry - current_stop) / risk
+  tools\profit_rtd_brooks_management_outcome_research.py:153:
+  tools\profit_rtd_brooks_management_outcome_research.py:154:
+  tools\profit_rtd_brooks_management_outcome_research.py:155:def analyze_episode(episode, exact_samples, exact_index):
+  tools\profit_rtd_brooks_management_outcome_research.py:156:    direction = str(episode.get("direction") or "").upper()
+  tools\profit_rtd_brooks_management_outcome_research.py:157:    entry = _f(episode.get("entry_price"))
+  tools\profit_rtd_brooks_management_outcome_research.py:158:    initial_stop = _f(episode.get("initial_stop"))
+  tools\profit_rtd_brooks_management_outcome_research.py:159:    entry_candle_id = str(
+  tools\profit_rtd_brooks_management_outcome_research.py:160:        episode.get("entry_event_candle_id") or ""
+  tools\profit_rtd_brooks_management_outcome_research.py:161:    )
+  tools\profit_rtd_brooks_management_outcome_research.py:162:
+  tools\profit_rtd_brooks_management_outcome_research.py:163:    entry_pair = exact_index.get(entry_candle_id)
+  tools\profit_rtd_brooks_management_outcome_research.py:164:    if entry_pair is None:
+  tools\profit_rtd_brooks_management_outcome_research.py:244:        # depois da saida hipotetica.
+  tools\profit_rtd_brooks_management_outcome_research.py:245:        if trailing_stop_hit:
+  tools\profit_rtd_brooks_management_outcome_research.py:246:            break
+  tools\profit_rtd_brooks_management_outcome_research.py:247:
+  tools\profit_rtd_brooks_management_outcome_research.py:248:        # Revisao produzida neste candle vale somente no 
+proximo.
+  tools\profit_rtd_brooks_management_outcome_research.py:249:        obs = observations.get(idx)
+  tools\profit_rtd_brooks_management_outcome_research.py:250:        if obs and bool(obs.get("revision_applied")):
+  tools\profit_rtd_brooks_management_outcome_research.py:251:            candidate = _f(
+> tools\profit_rtd_brooks_management_outcome_research.py:252:                obs.get("current_stop_after"),
+  tools\profit_rtd_brooks_management_outcome_research.py:253:                active_trailing_stop,
+  tools\profit_rtd_brooks_management_outcome_research.py:254:            )
+  tools\profit_rtd_brooks_management_outcome_research.py:255:
+  tools\profit_rtd_brooks_management_outcome_research.py:256:            if direction == "BUY" and candidate > 
+active_trailing_stop:
+  tools\profit_rtd_brooks_management_outcome_research.py:257:                active_trailing_stop = candidate
+  tools\profit_rtd_brooks_management_outcome_research.py:258:            elif direction == "SELL" and candidate < 
+active_trailing_stop:
+  tools\profit_rtd_brooks_management_outcome_research.py:259:                active_trailing_stop = candidate
+  tools\profit_rtd_brooks_management_outcome_research.py:260:
+  tools\profit_rtd_brooks_management_outcome_research.py:261:    return {
+  tools\profit_rtd_brooks_management_outcome_research.py:262:        "episode_id": episode.get("episode_id"),
+  tools\profit_rtd_brooks_management_outcome_research.py:263:        "entry_event_candle_id": entry_candle_id,
+  tools\profit_rtd_brooks_management_outcome_research.py:264:        "direction": direction,
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:1:"""
+> tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:2:tools/profit_rtd_brooks_structural_advance_gate_diagn
+ostics.py
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:3:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:4:Diagnóstico research-only das portas necessárias 
+para a confirmação
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:5:estrutural do trailing stop Brooks.
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:6:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:7:Não altera o contrato RC54.3.2.
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:8:Não altera Score/Risk/Decision/Alert/execução.
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:9:Não modifica os arquivos de evidência.
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:10:"""
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:11:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:12:from __future__ import annotations
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:13:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:14:import argparse
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:156:    result = {
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:157:        "eligible": status in {"CAPTURED", 
+"REJECTED"},
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:158:        "direction": direction,
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:159:        "history_available": False,
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:160:        "reference_swing_present": False,
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:161:        "prior_opposite_pivot_present": False,
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:162:        "later_opposite_pivot_present": False,
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:163:        "breakout_confirmed": False,
+> tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:164:        "structural_advance_confirmed": bool(
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:165:            pa.get(
+> tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:166:                
+"brooks_management_structural_advance_confirmed"
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:167:            )
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:168:        ),
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:169:    }
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:170:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:171:    if not result["eligible"]:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:172:        return result
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:173:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:174:    candles = _extract_candles(sample)
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:175:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:176:    if not candles:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:177:        return result
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:178:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:306:            result["prior_opposite_pivot_present"]
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:307:            and 
+result["later_opposite_pivot_present"]
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:308:        ):
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:309:            counts["both_sides_present"] += 1
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:310:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:311:        if result["breakout_confirmed"]:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:312:            counts["breakout_confirmed"] += 1
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:313:
+> tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:314:        if result["structural_advance_confirmed"]:
+> tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:315:            
+counts["engine_structural_advance_true"] += 1
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:316:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:317:    return {
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:318:        "counts": dict(counts),
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:319:        "directions": dict(directions),
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:320:    }
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:321:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:322:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:323:def diagnose_file(path):
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:324:    payload = _load(path)
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:325:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:326:    raw = [
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:327:        x
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:365:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:366:        exact_directions.update(
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:367:            report["exact"].get("directions") or {}
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:368:        )
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:369:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:370:    return {
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:371:        "status": "COMPLETED",
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:372:        "stage": (
+> tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:373:            "BROOKS_STRUCTURAL_ADVANCE_GATE_"
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:374:            "DIAGNOSTICS_V1"
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:375:        ),
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:376:        "deduplication": 
+"EXACT_CANDLE_LAST_REVISION",
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:377:        "files": reports,
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:378:        "raw_counts": dict(raw),
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:379:        "exact_counts": dict(exact),
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:380:        "raw_directions": dict(raw_directions),
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:381:        "exact_directions": dict(exact_directions),
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:382:        "research_only": True,
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:383:        "observational_only": True,
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:384:        "predictive_claim_allowed": False,
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics.py:385:        "score_influence_allowed": False,
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:1:"""
+> tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:2:tools/profit_rtd_brooks_structural_advance_gate_di
+agnostics_v2.py
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:3:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:4:Diagnóstico research-only das portas de 
+confirmação estrutural
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:5:do Brooks Protective / Trailing Stop.
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:6:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:7:Replica a política de reconstrução do Management 
+Lifecycle:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:8:- EXACT_CANDLE_LAST_REVISION;
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:9:- cada sessão permanece isolada;
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:10:- candle_evidence como fonte OHLC;
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:11:- sentinel sintético;
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:12:- candle atual fechado incluído na análise;
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:13:- nenhuma alteração no algoritmo oficial.
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:14:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:23:from pathlib import Path
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:24:from types import SimpleNamespace
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:25:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:26:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:27:SWING_LEFT = 2
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:28:SWING_RIGHT = 2
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:29:MIN_HISTORY = 7
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:30:
+> tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:31:STAGE = 
+"BROOKS_STRUCTURAL_ADVANCE_GATE_DIAGNOSTICS_V2"
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:32:DEDUPLICATION = "EXACT_CANDLE_LAST_REVISION"
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:33:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:34:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:35:def _load(path):
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:36:    return json.loads(
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:37:        Path(path).read_text(encoding="utf-8")
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:38:    )
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:39:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:40:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:41:def _pa(sample):
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:42:    value = sample.get("price_action")
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py:43:    return value if isinstance(value, dict) else 
+{}
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:1:"""
+> tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:2:tools/profit_rtd_brooks_structural_advance_gate_
+diagnostics_v2_1.py
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:3:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:4:Brooks Structural Advance Gate Diagnostics V2.1.
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:5:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:6:Diagnostico research-only das portas de 
+confirmacao estrutural
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:7:do Brooks Protective / Trailing Stop.
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:8:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:9:Objetivos:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:10:- trabalhar somente sobre sessoes Brooks ja 
+persistidas;
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:11:- deduplicar por EXACT_CANDLE_LAST_REVISION;
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:12:- reconstruir o historico a partir de 
+candle_evidence;
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:13:- manter cada sessao completamente isolada;
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:14:- reproduzir a politica de historico do 
+Management Lifecycle;
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:44:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:45:import argparse
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:46:import json
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:47:from collections import Counter
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:48:from pathlib import Path
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:49:from types import SimpleNamespace
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:50:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:51:
+> tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:52:STAGE = 
+"BROOKS_STRUCTURAL_ADVANCE_GATE_DIAGNOSTICS_V2_1"
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:53:DEDUPLICATION = "EXACT_CANDLE_LAST_REVISION"
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:54:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:55:MIN_HISTORY = 7
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:56:SWING_LEFT = 2
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:57:SWING_RIGHT = 2
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:58:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:59:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:60:# 
+============================================================
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:61:# SAFETY
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:62:# 
+============================================================
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:63:
+  tools\profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py:64:def _safety():
+  tools\profit_rtd_brooks_trailing_stop_capture.py:7:- reutiliza a geometria inicial de stop ja capturada pelo Brooks 
+Stop/Target;
+  tools\profit_rtd_brooks_trailing_stop_capture.py:8:- usa somente o historico de candles do MarketState;
+  tools\profit_rtd_brooks_trailing_stop_capture.py:9:- calcula um proposed_stop diagnostico;
+  tools\profit_rtd_brooks_trailing_stop_capture.py:10:- nao altera RiskManager, Score, Decision, Alert ou execucao;
+  tools\profit_rtd_brooks_trailing_stop_capture.py:11:- nao move stop real;
+  tools\profit_rtd_brooks_trailing_stop_capture.py:12:- nao cria parcial;
+  tools\profit_rtd_brooks_trailing_stop_capture.py:13:- nao calcula outcome.
+  tools\profit_rtd_brooks_trailing_stop_capture.py:14:
+> tools\profit_rtd_brooks_trailing_stop_capture.py:15:Nesta primeira etapa, current_stop e igual ao initial_stop. A 
+persistencia de um
+  tools\profit_rtd_brooks_trailing_stop_capture.py:16:stop hipotetico entre candles sera tratada somente em uma etapa 
+posterior e
+  tools\profit_rtd_brooks_trailing_stop_capture.py:17:com auditoria dedicada.
+  tools\profit_rtd_brooks_trailing_stop_capture.py:18:"""
+  tools\profit_rtd_brooks_trailing_stop_capture.py:19:
+  tools\profit_rtd_brooks_trailing_stop_capture.py:20:from __future__ import annotations
+  tools\profit_rtd_brooks_trailing_stop_capture.py:21:
+  tools\profit_rtd_brooks_trailing_stop_capture.py:22:from analysis.price_action.protective_trailing_stop_dynamics 
+import (
+  tools\profit_rtd_brooks_trailing_stop_capture.py:23:    ProtectiveTrailingStopDynamics,
+  tools\profit_rtd_brooks_trailing_stop_capture.py:24:)
+  tools\profit_rtd_brooks_trailing_stop_capture.py:25:
+  tools\profit_rtd_brooks_trailing_stop_capture.py:26:
+  tools\profit_rtd_brooks_trailing_stop_capture.py:27:_ENGINE = ProtectiveTrailingStopDynamics()
+  tools\profit_rtd_brooks_trailing_stop_capture.py:91:    pa["brooks_management_component"] = "TRAILING_STOP_V1"
+  tools\profit_rtd_brooks_trailing_stop_capture.py:92:    pa["brooks_management_capture_status"] = (
+  tools\profit_rtd_brooks_trailing_stop_capture.py:93:        "ELIGIBLE" if eligible else "NOT_ELIGIBLE"
+  tools\profit_rtd_brooks_trailing_stop_capture.py:94:    )
+  tools\profit_rtd_brooks_trailing_stop_capture.py:95:    pa["brooks_management_direction"] = direction
+  tools\profit_rtd_brooks_trailing_stop_capture.py:96:    pa["brooks_management_entry_triggered"] = entry_triggered
+  tools\profit_rtd_brooks_trailing_stop_capture.py:97:    pa["brooks_management_entry_price"] = entry_price
+  tools\profit_rtd_brooks_trailing_stop_capture.py:98:    pa["brooks_management_initial_stop"] = initial_stop
+> tools\profit_rtd_brooks_trailing_stop_capture.py:99:    pa["brooks_management_current_stop"] = initial_stop
+  tools\profit_rtd_brooks_trailing_stop_capture.py:100:    pa["brooks_management_proposed_stop"] = initial_stop
+  tools\profit_rtd_brooks_trailing_stop_capture.py:101:    pa["brooks_management_state"] = "NO_STOP_CONTEXT"
+  tools\profit_rtd_brooks_trailing_stop_capture.py:102:    pa["brooks_management_trailing_active"] = False
+> tools\profit_rtd_brooks_trailing_stop_capture.py:103:    pa["brooks_management_stop_improved"] = False
+  tools\profit_rtd_brooks_trailing_stop_capture.py:104:    pa["brooks_management_stop_loosened"] = False
+> tools\profit_rtd_brooks_trailing_stop_capture.py:105:    pa["brooks_management_structural_advance_confirmed"] = False
+  tools\profit_rtd_brooks_trailing_stop_capture.py:106:    pa["brooks_management_latest_swing_index"] = -1
+  tools\profit_rtd_brooks_trailing_stop_capture.py:107:    pa["brooks_management_latest_swing_price"] = 0.0
+  tools\profit_rtd_brooks_trailing_stop_capture.py:108:    pa["brooks_management_protected_r"] = 0.0
+  tools\profit_rtd_brooks_trailing_stop_capture.py:109:    pa["brooks_management_reason"] = "NOT_ELIGIBLE"
+  tools\profit_rtd_brooks_trailing_stop_capture.py:110:    pa["brooks_management_reasons"] = ["NOT_ELIGIBLE"]
+  tools\profit_rtd_brooks_trailing_stop_capture.py:111:
+  tools\profit_rtd_brooks_trailing_stop_capture.py:112:    if not eligible:
+  tools\profit_rtd_brooks_trailing_stop_capture.py:113:        reasons = []
+  tools\profit_rtd_brooks_trailing_stop_capture.py:114:        if not entry_triggered:
+  tools\profit_rtd_brooks_trailing_stop_capture.py:115:            reasons.append("ENTRY_NOT_TRIGGERED")
+  tools\profit_rtd_brooks_trailing_stop_capture.py:116:        if direction not in {"BUY", "SELL"}:
+  tools\profit_rtd_brooks_trailing_stop_capture.py:117:            reasons.append("INVALID_DIRECTION")
+  tools\profit_rtd_brooks_trailing_stop_capture.py:130:        pa["brooks_management_reasons"] = reasons or 
+["NOT_ELIGIBLE"]
+  tools\profit_rtd_brooks_trailing_stop_capture.py:131:        return item
+  tools\profit_rtd_brooks_trailing_stop_capture.py:132:
+  tools\profit_rtd_brooks_trailing_stop_capture.py:133:    result = _ENGINE.analyze(
+  tools\profit_rtd_brooks_trailing_stop_capture.py:134:        candles,
+  tools\profit_rtd_brooks_trailing_stop_capture.py:135:        direction=direction,
+  tools\profit_rtd_brooks_trailing_stop_capture.py:136:        entry_price=entry_price,
+  tools\profit_rtd_brooks_trailing_stop_capture.py:137:        initial_stop=initial_stop,
+> tools\profit_rtd_brooks_trailing_stop_capture.py:138:        current_stop=initial_stop,
+  tools\profit_rtd_brooks_trailing_stop_capture.py:139:        tick_size=1.0,
+  tools\profit_rtd_brooks_trailing_stop_capture.py:140:    )
+  tools\profit_rtd_brooks_trailing_stop_capture.py:141:
+  tools\profit_rtd_brooks_trailing_stop_capture.py:142:    pa.update({
+  tools\profit_rtd_brooks_trailing_stop_capture.py:143:        "brooks_management_capture_status": (
+  tools\profit_rtd_brooks_trailing_stop_capture.py:144:            "CAPTURED" if result.valid else "REJECTED"
+  tools\profit_rtd_brooks_trailing_stop_capture.py:145:        ),
+  tools\profit_rtd_brooks_trailing_stop_capture.py:146:        "brooks_management_direction": result.direction,
+  tools\profit_rtd_brooks_trailing_stop_capture.py:147:        "brooks_management_entry_price": result.entry_price,
+  tools\profit_rtd_brooks_trailing_stop_capture.py:148:        "brooks_management_initial_stop": result.initial_stop,
+> tools\profit_rtd_brooks_trailing_stop_capture.py:149:        "brooks_management_current_stop": result.current_stop,
+  tools\profit_rtd_brooks_trailing_stop_capture.py:150:        "brooks_management_proposed_stop": result.proposed_stop,
+  tools\profit_rtd_brooks_trailing_stop_capture.py:151:        "brooks_management_state": result.state,
+  tools\profit_rtd_brooks_trailing_stop_capture.py:152:        "brooks_management_trailing_active": 
+result.trailing_active,
+> tools\profit_rtd_brooks_trailing_stop_capture.py:153:        "brooks_management_stop_improved": result.stop_improved,
+  tools\profit_rtd_brooks_trailing_stop_capture.py:154:        "brooks_management_stop_loosened": result.stop_loosened,
+> tools\profit_rtd_brooks_trailing_stop_capture.py:155:        "brooks_management_structural_advance_confirmed": (
+> tools\profit_rtd_brooks_trailing_stop_capture.py:156:            result.structural_advance_confirmed
+  tools\profit_rtd_brooks_trailing_stop_capture.py:157:        ),
+  tools\profit_rtd_brooks_trailing_stop_capture.py:158:        "brooks_management_latest_swing_index": 
+result.latest_swing_index,
+  tools\profit_rtd_brooks_trailing_stop_capture.py:159:        "brooks_management_latest_swing_price": 
+result.latest_swing_price,
+  tools\profit_rtd_brooks_trailing_stop_capture.py:160:        "brooks_management_protected_r": result.protected_r,
+  tools\profit_rtd_brooks_trailing_stop_capture.py:161:        "brooks_management_reason": result.reason,
+  tools\profit_rtd_brooks_trailing_stop_capture.py:162:        "brooks_management_reasons": list(result.reasons),
+  tools\profit_rtd_brooks_trailing_stop_capture.py:163:    })
+  tools\profit_rtd_brooks_trailing_stop_capture.py:164:
+  tools\profit_rtd_brooks_trailing_stop_capture.py:165:    return item
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:3:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:4:Diagnostico research-only da captura Brooks de trailing stop.
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:5:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:6:Compara:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:7:- todas as revisoes intrabar persistidas;
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:8:- ultima revisao de cada candle_id 
+(EXACT_CANDLE_LAST_REVISION).
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:9:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:10:Objetivo:
+> tools\profit_rtd_brooks_trailing_stop_diagnostics.py:11:descobrir se TRAILING_STOP_ADVANCE ocorreu intrabar e 
+desapareceu no fechamento,
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:12:ou se o motor nunca encontrou confirmacao estrutural nas 
+sessoes observadas.
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:13:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:14:Nao altera arquivos e nao influencia 
+Score/Risk/Decision/Alert/execucao.
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:15:"""
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:16:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:17:from __future__ import annotations
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:18:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:19:import argparse
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:20:import json
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:21:from collections import Counter, defaultdict
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:22:from pathlib import Path
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:23:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:63:    statuses = Counter()
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:64:    reasons = Counter()
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:65:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:66:    eligible = 0
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:67:    advances = 0
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:68:    holds = 0
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:69:    structural_true = 0
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:70:    trailing_active = 0
+> tools\profit_rtd_brooks_trailing_stop_diagnostics.py:71:    stop_improved = 0
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:72:    latest_swing_present = 0
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:73:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:74:    advance_candles = []
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:75:    structural_without_advance = []
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:76:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:77:    for sample in samples:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:78:        if not isinstance(sample, dict):
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:79:            continue
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:80:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:81:        pa = _pa(sample)
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:82:        status = 
+str(pa.get("brooks_management_capture_status") or "")
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:83:        state = str(pa.get("brooks_management_state") or "")
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:88:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:89:        reason = str(pa.get("brooks_management_reason") or "")
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:90:        if reason:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:91:            reasons[reason] += 1
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:92:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:93:        if status in {"CAPTURED", "REJECTED"}:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:94:            eligible += 1
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:95:
+> tools\profit_rtd_brooks_trailing_stop_diagnostics.py:96:        if state == "TRAILING_STOP_ADVANCE":
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:97:            advances += 1
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:98:            advance_candles.append(cid)
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:99:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:100:        if state in {"TRAILING_STOP_HOLD", 
+"PROTECTIVE_STOP_HOLD"}:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:101:            holds += 1
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:102:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:103:        structural = bool(
+> tools\profit_rtd_brooks_trailing_stop_diagnostics.py:104:            
+pa.get("brooks_management_structural_advance_confirmed")
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:105:        )
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:106:        if structural:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:107:            structural_true += 1
+> tools\profit_rtd_brooks_trailing_stop_diagnostics.py:108:            if state != "TRAILING_STOP_ADVANCE":
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:109:                structural_without_advance.append(cid)
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:110:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:111:        if bool(pa.get("brooks_management_trailing_active")):
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:112:            trailing_active += 1
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:113:
+> tools\profit_rtd_brooks_trailing_stop_diagnostics.py:114:        if bool(pa.get("brooks_management_stop_improved")):
+> tools\profit_rtd_brooks_trailing_stop_diagnostics.py:115:            stop_improved += 1
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:116:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:117:        swing_price = 
+pa.get("brooks_management_latest_swing_price")
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:118:        try:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:119:            if float(swing_price) > 0:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:120:                latest_swing_present += 1
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:121:        except (TypeError, ValueError):
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:122:            pass
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:123:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:124:    return {
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:125:        "samples": len(samples),
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:126:        "eligible": eligible,
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:127:        "advances": advances,
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:128:        "holds": holds,
+> tools\profit_rtd_brooks_trailing_stop_diagnostics.py:129:        "structural_advance_true": structural_true,
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:130:        "trailing_active": trailing_active,
+> tools\profit_rtd_brooks_trailing_stop_diagnostics.py:131:        "stop_improved": stop_improved,
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:132:        "latest_swing_present": latest_swing_present,
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:133:        "states": dict(states),
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:134:        "capture_statuses": dict(statuses),
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:135:        "reasons": dict(reasons),
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:136:        "advance_candles": advance_candles,
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:137:        "structural_without_advance": 
+structural_without_advance,
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:138:    }
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:139:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:140:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:141:def diagnose_file(path):
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:142:    payload = _load(path)
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:143:    raw = [
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:165:    raw_advance_ids = []
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:166:    exact_advance_ids = []
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:167:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:168:    numeric_keys = (
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:169:        "samples",
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:170:        "eligible",
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:171:        "advances",
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:172:        "holds",
+> tools\profit_rtd_brooks_trailing_stop_diagnostics.py:173:        "structural_advance_true",
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:174:        "trailing_active",
+> tools\profit_rtd_brooks_trailing_stop_diagnostics.py:175:        "stop_improved",
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:176:        "latest_swing_present",
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:177:    )
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:178:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:179:    for report in reports:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:180:        for key in numeric_keys:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:181:            raw_totals[key] += int(report["raw"].get(key, 0))
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:182:            exact_totals[key] += int(
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:183:                report["exact_last_revision"].get(key, 0)
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:184:            )
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:185:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:186:        raw_states.update(report["raw"].get("states") or {})
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:187:        exact_states.update(
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:250:    exact = report["exact_totals"]
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:251:
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:252:    print("status=", report["status"])
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:253:    print("diagnosis=", report["diagnosis"])
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:254:    print("raw_samples=", raw.get("samples", 0))
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:255:    print("raw_eligible=", raw.get("eligible", 0))
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:256:    print("raw_advances=", raw.get("advances", 0))
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:257:    print(
+> tools\profit_rtd_brooks_trailing_stop_diagnostics.py:258:        "raw_structural_advance_true=",
+> tools\profit_rtd_brooks_trailing_stop_diagnostics.py:259:        raw.get("structural_advance_true", 0),
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:260:    )
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:261:    print(
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:262:        "raw_latest_swing_present=",
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:263:        raw.get("latest_swing_present", 0),
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:264:    )
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:265:    print("exact_candles=", exact.get("samples", 0))
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:266:    print("exact_eligible=", exact.get("eligible", 0))
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:267:    print("exact_advances=", exact.get("advances", 0))
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:268:    print(
+> tools\profit_rtd_brooks_trailing_stop_diagnostics.py:269:        "exact_structural_advance_true=",
+> tools\profit_rtd_brooks_trailing_stop_diagnostics.py:270:        exact.get("structural_advance_true", 0),
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:271:    )
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:272:    print(
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:273:        "exact_latest_swing_present=",
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:274:        exact.get("latest_swing_present", 0),
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:275:    )
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:276:    print(
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:277:        "exact_state_counts=",
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:278:        json.dumps(
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:279:            report["exact_state_counts"],
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:280:            ensure_ascii=False,
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:281:            sort_keys=True,
+  tools\profit_rtd_brooks_trailing_stop_diagnostics.py:282:        ),
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:18:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:19:import json
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:20:from pathlib import Path
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:21:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:22:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:23:SETUP_NAME = "BROOKS_MANAGEMENT_RESEARCH_V1"
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:24:DEDUPLICATION = "EXACT_CANDLE_LAST_REVISION"
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:25:
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:26:ADVANCE_STATES = {"TRAILING_STOP_ADVANCE"}
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:27:HOLD_STATES = {
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:28:    "TRAILING_STOP_HOLD",
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:29:    "PROTECTIVE_STOP_HOLD",
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:30:}
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:31:REJECT_STATES = {
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:32:    "STOP_LOOSENING_REJECTED",
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:33:    "INVALID_PROTECTIVE_STOP",
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:34:}
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:35:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:36:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:37:def _safety():
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:38:    return {
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:89:    pa = sample.get("price_action") or {}
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:90:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:91:    candle_id = str(evidence.get("candle_id") or "")
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:92:    status = str(pa.get("brooks_management_capture_status") 
+or "")
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:93:    state = str(pa.get("brooks_management_state") or "")
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:94:    direction = str(pa.get("brooks_management_direction") or 
+"").upper()
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:95:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:96:    initial_stop = 
+_float(pa.get("brooks_management_initial_stop"))
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:97:    current_stop = 
+_float(pa.get("brooks_management_current_stop"))
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:98:    proposed_stop = 
+_float(pa.get("brooks_management_proposed_stop"))
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:99:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:100:    trailing_active = 
+bool(pa.get("brooks_management_trailing_active"))
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:101:    improved = 
+bool(pa.get("brooks_management_stop_improved"))
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:102:    loosened = 
+bool(pa.get("brooks_management_stop_loosened"))
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:103:    structural = bool(
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:104:        
+pa.get("brooks_management_structural_advance_confirmed")
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:105:    )
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:106:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:107:    inconsistencies = []
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:108:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:109:    if status not in {"CAPTURED", "REJECTED", 
+"NOT_ELIGIBLE"}:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:110:        inconsistencies.append("INVALID_CAPTURE_STATUS")
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:111:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:112:    if status == "CAPTURED":
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:113:        if direction not in {"BUY", "SELL"}:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:114:            inconsistencies.append("INVALID_DIRECTION")
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:115:
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:116:        if initial_stop <= 0 or current_stop <= 0 or 
+proposed_stop <= 0:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:117:            inconsistencies.append("INVALID_STOP_PRICE")
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:118:
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:119:        if current_stop != initial_stop:
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:120:            
+inconsistencies.append("CURRENT_STOP_NOT_EQUAL_INITIAL_STOP_V1")
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:121:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:122:        if state in ADVANCE_STATES:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:123:            if not trailing_active:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:124:                
+inconsistencies.append("ADVANCE_WITHOUT_TRAILING_ACTIVE")
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:125:            if not structural:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:126:                
+inconsistencies.append("ADVANCE_WITHOUT_STRUCTURAL_CONFIRMATION")
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:127:            if not improved:
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:128:                
+inconsistencies.append("ADVANCE_WITHOUT_STOP_IMPROVEMENT")
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:129:
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:130:            if direction == "BUY" and not (proposed_stop > 
+current_stop):
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:131:                
+inconsistencies.append("BUY_ADVANCE_NOT_TIGHTER")
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:132:            if direction == "SELL" and not (proposed_stop < 
+current_stop):
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:133:                
+inconsistencies.append("SELL_ADVANCE_NOT_TIGHTER")
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:134:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:135:        elif state in HOLD_STATES:
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:136:            if improved:
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:137:                
+inconsistencies.append("HOLD_WITH_STOP_IMPROVEMENT")
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:138:
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:139:            if proposed_stop != current_stop:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:140:                inconsistencies.append("HOLD_CHANGED_STOP")
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:141:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:142:        elif state in REJECT_STATES:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:143:            pass
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:144:        else:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:145:            
+inconsistencies.append("UNKNOWN_MANAGEMENT_STATE")
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:146:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:147:        if loosened and state != "STOP_LOOSENING_REJECTED":
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:148:            inconsistencies.append("LOOSENING_NOT_REJECTED")
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:149:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:150:    return {
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:151:        "candle_id": candle_id,
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:152:        "capture_status": status,
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:153:        "state": state,
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:154:        "direction": direction,
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:155:        "initial_stop": initial_stop,
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:156:        "current_stop": current_stop,
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:157:        "proposed_stop": proposed_stop,
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:158:        "trailing_active": trailing_active,
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:159:        "stop_improved": improved,
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:160:        "stop_loosened": loosened,
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:161:        "structural_advance_confirmed": structural,
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:162:        "consistent": not inconsistencies,
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:163:        "inconsistencies": inconsistencies,
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:164:    }
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:165:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:166:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:167:def audit_session(path_or_payload):
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:168:    payload = _load_payload(path_or_payload)
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:169:    samples = payload.get("samples") or []
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:170:    exact_samples = _deduplicate(samples)
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:171:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:172:    audited = [_audit_sample(sample) for sample in 
+exact_samples]
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:173:
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:176:        if row["capture_status"] == "CAPTURED"
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:177:    ]
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:178:    eligible = [
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:179:        row for row in audited
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:180:        if row["capture_status"] in {"CAPTURED", "REJECTED"}
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:181:    ]
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:182:    advances = [
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:183:        row for row in captured
+> tools\profit_rtd_brooks_trailing_stop_exact_audit.py:184:        if row["state"] == "TRAILING_STOP_ADVANCE"
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:185:    ]
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:186:    holds = [
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:187:        row for row in captured
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:188:        if row["state"] in HOLD_STATES
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:189:    ]
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:190:    rejected = [
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:191:        row for row in audited
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:192:        if row["capture_status"] == "REJECTED"
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:193:        or row["state"] in REJECT_STATES
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:194:    ]
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:195:    inconsistencies = [
+  tools\profit_rtd_brooks_trailing_stop_exact_audit.py:196:        row for row in audited
+
+

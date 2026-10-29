@@ -1,0 +1,116 @@
+H.10 RC3.9 — PREPARAÇÃO DE TESTES ISOLADOS
+Status: ISOLATED_TESTS_PREPARED_NOT_EXECUTED
+decision=WAIT; orders_allowed=False; live_certified=False; flow_complete=False
+Motores importados/instanciados/executados: 0. Testes executados: 0.
+Não houve conexão Excel/Profit/DDE/RTD, app.main, integração ou dependências instaladas.
+Auditoria anterior: 81 módulos, 0 bloqueios, 0 avisos.
+Fontes/initializers lidos nesta preparação: 146; divergências H.10 RC3.8: []; alterações durante leitura: [].
+
+MOTORES APTOS ESTATICAMENTE PARA PREPARAÇÃO CONDICIONAL (não certificados em runtime):
+
+decision: decision/decision_engine.py / DecisionEngine
+Construtor: () inherited object initialization through EngineBase; chamadas: []
+Públicos próprios: [{'name': 'executar', 'line': 26, 'signature': '(self, context)', 'returns_annotation': None}]
+Entrada: executar(context), AnalysisContext; saída alterada: context.decision; mesmo contexto.
+Subcontextos/atributos (aproximação): ['context.decision', 'context.decision.add_reason', 'context.decision.clear', 'context.multi_timeframe_analysis', 'context.multi_timeframe_analysis.alignment', 'context.multi_timeframe_analysis.conflict', 'context.multi_timeframe_analysis.valid', 'context.risk', 'context.risk.approved', 'context.risk.entry_price', 'context.risk.risk_reward', 'context.risk.stop_loss', 'context.risk.take_profit', 'context.score', 'context.score.confidence', 'context.score.total', 'context.score.valid', 'context.strategy', 'context.strategy.name', 'context.strategy.valid']
+Casos planejados: invalid setup -> WAIT; risk unapproved -> WAIT; invalid score -> WAIT; direction NONE -> WAIT; MTF conflict/opposite -> WAIT; stale decision reset; positive BUY/SELL remains out of initial neutral suite
+
+market_structure: analysis/market_structure.py / MarketStructure
+Construtor: () inherited object initialization through EngineBase; chamadas: []
+Públicos próprios: [{'name': 'executar', 'line': 29, 'signature': '(self, context)', 'returns_annotation': None}]
+Entrada: executar(context), AnalysisContext; saída alterada: context.structure; mesmo contexto.
+Subcontextos/atributos (aproximação): ['context.market', 'context.market.candles', 'context.market.candles.all', 'context.market.ready', 'context.structure', 'context.structure.add_reason', 'context.structure.bos_down', 'context.structure.bos_up', 'context.structure.choch', 'context.structure.clear', 'context.structure.confidence', 'context.structure.hh', 'context.structure.hl', 'context.structure.lh', 'context.structure.ll', 'context.structure.trend']
+Casos planejados: not-ready: preserve context/WAIT; 5 candles: insufficient closed confirmation; 6 candles symmetric swing: expected SIDEWAYS, high15/low5; forming candle invariance; equal highs/lows: no strict swing; HH/HL and LH/LL/BOS/CHOCH with closed fixtures; previous-result reuse/clear behavior
+
+risk: risk/risk_manager.py / RiskManager
+Construtor: () inherited object initialization through EngineBase; chamadas: []
+Públicos próprios: [{'name': 'executar', 'line': 62, 'signature': '(self, context)', 'returns_annotation': None}]
+Entrada: executar(context), AnalysisContext; saída alterada: context.risk; mesmo contexto.
+Subcontextos/atributos (aproximação): ['context.fair_value_gap', 'context.fair_value_gap.bearish', 'context.fair_value_gap.bullish', 'context.fair_value_gap.filled', 'context.fair_value_gap.valid', 'context.liquidity', 'context.liquidity.buy_side', 'context.liquidity.sell_side', 'context.liquidity.sweep_down', 'context.liquidity.sweep_up', 'context.market', 'context.order_block', 'context.order_block.bearish', 'context.order_block.bullish', 'context.order_block.mitigated', 'context.order_block.valid', 'context.risk', 'context.risk.add_reason', 'context.risk.approved', 'context.risk.clear', 'context.risk.confluences', 'context.risk.entry_price', 'context.risk.risk_reward', 'context.risk.risk_score', 'context.risk.stop_loss', 'context.risk.take_profit', 'context.strategy', 'context.strategy.score', 'context.strategy.signal', 'context.strategy.valid', 'context.structure', 'context.structure.bos_down', 'context.structure.bos_up', 'context.structure.hh', 'context.structure.hl', 'context.structure.lh', 'context.structure.ll', 'context.structure.trend', 'context.structure.trend.name', 'context.volume', 'context.volume.high', 'context.volume.medium']
+Casos planejados: invalid strategy: approved=False; invalid direction; zero entry/no stop rejected; BUY/SELL structural stop boundaries; zero/negative SELL targets and fallback; structural target with RR<1.5 rejected rather than fallback; max stop distance500; synthetic-only positive cases separately approved
+
+alert: alerts/alert_manager.py / AlertManager
+Construtor: () inherited object initialization through EngineBase; chamadas: []
+Públicos próprios: [{'name': 'executar', 'line': 28, 'signature': '(self, context)', 'returns_annotation': None}]
+Entrada: executar(context), AnalysisContext; saída alterada: context.alert; mesmo contexto.
+Subcontextos/atributos (aproximação): ['context.alert', 'context.alert.action', 'context.alert.add_reason', 'context.alert.clear', 'context.alert.confidence', 'context.alert.direction', 'context.alert.order_flow_applied', 'context.alert.order_flow_contribution', 'context.alert.order_flow_direction', 'context.alert.order_flow_sampling_mode', 'context.alert.score', 'context.alert.setup', 'context.alert.timestamp', 'context.decision', 'context.decision.action', 'context.decision.approved', 'context.decision.confidence', 'context.decision.direction', 'context.decision.score', 'context.decision.setup', 'context.decision.signal', 'context.order_flow', 'context.order_flow.sampling_mode', 'context.score', 'context.score.order_flow_applied', 'context.score.order_flow_contribution', 'context.score.order_flow_direction']
+Casos planejados: unapproved decision -> no valid alert; clear prior alert; clock controlled before positive timestamp test; capture stdout without output sinks; approved property depends on action, not valid flag; Order Flow metadata optional path; positive alert only after separate approval
+
+score: ai/score_engine.py / ScoreEngine
+Construtor: (self, enable_order_flow=None, order_flow_weight=None); chamadas: ['bool', 'float', 'ValueError', 'ValueError', 'math.isfinite']
+Públicos próprios: [{'name': 'executar', 'line': 113, 'signature': '(self, context)', 'returns_annotation': None}]
+Entrada: executar(context), AnalysisContext; saída alterada: context.score; mesmo contexto.
+Subcontextos/atributos (aproximação): ['context.context', 'context.context.valid', 'context.fair_value_gap', 'context.fair_value_gap.valid', 'context.liquidity', 'context.liquidity.valid', 'context.order_block', 'context.order_block.valid', 'context.order_flow', 'context.order_flow.absorption', 'context.order_flow.divergence', 'context.order_flow.exhaustion', 'context.order_flow.pattern_confidence', 'context.order_flow.pattern_confirmed', 'context.order_flow.valid', 'context.price_action', 'context.price_action.valid', 'context.score', 'context.score.add_score', 'context.score.bias', 'context.score.calculate_total', 'context.score.classify', 'context.score.clear', 'context.score.total', 'context.strategy', 'context.strategy.valid', 'context.structure', 'context.structure.valid', 'context.volume', 'context.volume.valid']
+Casos planejados: explicit enable_order_flow=False and weight=0; invalid strategy keeps score invalid; normalization 0..100 and confidence; 70 boundary distinct from settings MIN_SCORE=80; invalid weight/nonfinite/range rejected; Order Flow disabled contributes zero; repeat execution clears prior score
+
+strategy: strategies/strategy_engine.py / StrategyEngine
+Construtor: (self); chamadas: ['SetupRegistry.load']
+Públicos próprios: [{'name': 'executar', 'line': 34, 'signature': '(self, context)', 'returns_annotation': None}]
+Entrada: executar(context), AnalysisContext; saída alterada: context.strategy; mesmo contexto.
+Subcontextos/atributos (aproximação): ['context.strategy', 'context.strategy.clear']
+Casos planejados: all synthetic context results invalid: no setup; registry classes/priority deterministic; disabled setup ignored; in-memory fake setups: highest valid score wins; tie retains first result; context.strategy replacement identity; setup constructor effects and default readiness
+
+price_action: analysis/price_action/price_action.py / PriceAction
+Construtor: () inherited object initialization through EngineBase; chamadas: []
+Públicos próprios: [{'name': 'executar', 'line': 121, 'signature': '(self, context)', 'returns_annotation': None}]
+Entrada: executar(context), AnalysisContext; saída alterada: context.price_action; mesmo contexto.
+Subcontextos/atributos (aproximação): ['context.evidence', 'context.evidence.add', 'context.market', 'context.market.candles', 'context.market.candles.all', 'context.market.last_candle', 'context.market.previous_candle', 'context.market.ready', 'context.price_action', 'context.price_action.bearish_engulfing', 'context.price_action.bias', 'context.price_action.bos', 'context.price_action.breakout', 'context.price_action.bullish_engulfing', 'context.price_action.choch', 'context.price_action.clear', 'context.price_action.continuation', 'context.price_action.doji', 'context.price_action.hammer', 'context.price_action.inside_bar', 'context.price_action.outside_bar', 'context.price_action.pullback', 'context.price_action.rejection', 'context.price_action.score', 'context.price_action.shooting_star', 'context.price_action.trend', 'context.structure', 'context.structure.bos_down', 'context.structure.bos_up', 'context.structure.choch', 'context.structure.last_high', 'context.structure.last_low', 'context.structure.trend']
+Casos planejados: not-ready early return; neutral structure and synthetic candles; known candlestick pattern; forming candle invariance per helper contract; direction NONE for SIDEWAYS/UNKNOWN; score threshold and reset; all returned dynamics fields match slotted result
+
+ORDEM RECOMENDADA: decision -> market_structure -> risk -> alert -> score -> strategy -> price_action
+Decision neutral WAIT primeiro: regras determinísticas sem construtor próprio; só testar retorno negativo inicialmente.
+MarketStructure em seguida: OHLC sintético e candle em formação excluído; Risk só setup inválido inicialmente.
+Alert exige isolamento de stdout/relógio em casos positivos; Score lê settings; Strategy instancia setups; PriceAction reúne muitos helpers.
+
+PENDÊNCIAS E RISCOS:
+All engines import EngineBase -> AnalysisContext, broad shared model/state/psychology imports
+Prior 81-module graph omitted package initializer execution edges; added economic_context/psychology imports expand the actual static preparation graph
+Package imports expose dormant HTTP, filesystem exporters and subprocess SAPI/TTS; these must not be instantiated or invoked in tests
+AnalysisContext dataclass has slots=True: mocks cannot invent arbitrary attributes
+default_factory calls execute on Context construction; decorators/field declarations execute on imports
+trader_psychology=None: runtime/voice publisher classes imported but not instantiated by this default
+ScoreEngine imports config.settings inside constructor even with explicit arguments
+StrategyEngine constructor loads and instantiates TrendPullback/TrendBreakout/LiquiditySweep
+DecisionResult.approved derives from action BUY/SELL; does not independently require valid flag
+AlertManager uses naive datetime.now and stdout; positive timestamp tests need local clock substitution
+Imports externos não resolvidos: []
+Stdlib estática: ['__future__', 'abc', 'base64', 'collections', 'csv', 'dataclasses', 'datetime', 'enum', 'hashlib', 'hmac', 'ipaddress', 'json', 'math', 'os', 'pathlib', 'platform', 'shutil', 'statistics', 'subprocess', 'tempfile', 'threading', 'time', 'types', 'typing', 'urllib', 'zoneinfo']
+Imports tardios e chamadas possíveis estão detalhados no JSON; chamadas de publicação/voz de dependências não são autorizadas.
+Mapa anterior não incluía imports executados por initializers economic_context/psychology: a ampliação revela HTTP, exporters e subprocess SAPI/TTS dormentes.
+Barreiras futuras de I/O foram PREPARADAS para bloquear socket/HTTP/subprocess/escrita durante import e execução; não executadas nem certificadas.
+settings contém caminhos Excel apenas como dados; não são lidos/ativados pela preparação.
+AnalysisContext cria modelos/default factories; validar construtores e slots antes de resultados positivos.
+ScoreEngine.MIN_SCORE=70 e config.settings.MIN_SCORE=80 são limites distintos; não alterar nem equiparar.
+Strategy pode substituir context.strategy: não assumir identidade desse resultado após seleção.
+As dependências externas requirements incluem bibliotecas operacionais, mas a closure inspecionada usa somente stdlib identificado.
+Nenhuma dependência foi importada para confirmar disponibilidade. Nenhuma dependência será instalada automaticamente.
+
+ARQUIVOS CRIADOS:
+h10_rc3_9_prepare_static.py
+h10_rc3_9_future_suite.py
+h10_rc3_9_synthetic_fixtures.json
+h10_rc3_9_preparation_report.json
+h10_rc3_9_preparation_report.txt
+h10_rc3_9_hashes.json
+Arquivos originais modificados: nenhum. Testes antigos e relatórios preexistentes preservados.
+h10_rc3_9_future_suite.py: oito casos futuros, sem import de projeto no topo; gate por motor + hashes.
+h10_rc3_9_synthetic_fixtures.json: OHLCV sintético fixo; não provém de Excel/Profit.
+h10_rc3_9_prepare_static.py foi executado APENAS como gerador estático; não é teste de motor.
+Os testes preparados não foram executados, nem sequer coletados/importados.
+Manifesto h10_rc3_9_hashes.json contém SHA256 dos artefatos e fontes; manifesto não inclui próprio hash.
+
+LIMITAÇÕES:
+AST review does not prove runtime safety, fixture expectations or test pass status
+Static alias contracts may overapproximate reads and omit dynamic getattr/setattr fields
+Prepared suite opt-in/hash checks are accidental-execution guards, not a security sandbox
+8 drafted tests do not cover every planned scenario; expand only after staged authorization
+No imports used to validate availability of external packages; resolved stdlib classification is static
+
+PRÓXIMA AÇÃO: autorização explícita para um motor por vez, começando pelo DecisionEngine com cenário WAIT.
+Comando FUTURO somente após autorização: em PowerShell normal,
+$env:H10_RC3_9_AUTHORIZED_ENGINE = 'decision'
+& "C:\Users\jb\AppData\Local\Programs\Python\Python313\python.exe" -B .\h10_rc3_9_future_suite.py FutureNeutralTests.test_decision_neutral
+Remove-Item Env:H10_RC3_9_AUTHORIZED_ENGINE
+Esse comando NÃO foi executado. Token de ambiente não substitui autorização do usuário.
+Sem Profit, RTD, DDE, ordens, config operacional alterada, app.main, commits ou integração.
+A auditoria estática anterior e esta preparação NÃO certificam segurança em tempo de execução.

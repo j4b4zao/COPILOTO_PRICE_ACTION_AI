@@ -1,0 +1,74 @@
+{
+  "affects_decision": false,
+  "generated_at": "2026-08-23T16:30:02Z",
+  "payload": {
+    "affects_decision": false,
+    "dashboard_projection": {
+      "affects_decision": false,
+      "directory": "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_rc88_preserves_normal_voi0\\source",
+      "directory_exists": true,
+      "excess_count": 0,
+      "existing_count": 1,
+      "keep": 20,
+      "label": "Retencao dentro do limite",
+      "prefix": "voice_status",
+      "readonly": true,
+      "retained_count": 1,
+      "status": "WITHIN_LIMIT",
+      "summary": "Retention is within the configured limit with 1 snapshot(s).",
+      "version": "RC76-VOICE-STATUS-RETENTION-DASHBOARD-PROJECTION"
+    },
+    "dashboard_widget": {
+      "affects_decision": false,
+      "detail": "Retention is within the configured limit with 1 snapshot(s).",
+      "directory": "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_rc88_preserves_normal_voi0\\source",
+      "directory_exists": true,
+      "excess_count": 0,
+      "existing_count": 1,
+      "keep": 20,
+      "label": "Retencao dentro do limite",
+      "prefix": "voice_status",
+      "readonly": true,
+      "retained_count": 1,
+      "status": "WITHIN_LIMIT",
+      "title": "Voice Status Retention",
+      "version": "RC78-VOICE-STATUS-RETENTION-DASHBOARD-WIDGET-CONTRACT"
+    },
+    "health": {
+      "affects_decision": false,
+      "directory": "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_rc88_preserves_normal_voi0\\source",
+      "directory_exists": true,
+      "existing_count": 1,
+      "keep": 20,
+      "prefix": "voice_status",
+      "readonly": true,
+      "retained_count": 1,
+      "status": "WITHIN_LIMIT",
+      "summary": "Retention is within the configured limit with 1 snapshot(s).",
+      "version": "RC73-VOICE-STATUS-RETENTION-HEALTH",
+      "would_remove_count": 0
+    },
+    "inspection": {
+      "affects_decision": false,
+      "directory": "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_rc88_preserves_normal_voi0\\source",
+      "directory_exists": true,
+      "existing_files": [
+        "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_rc88_preserves_normal_voi0\\source\\voice_status_existing.json"
+      ],
+      "keep": 20,
+      "prefix": "voice_status",
+      "readonly": true,
+      "retained_files": [
+        "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_rc88_preserves_normal_voi0\\source\\voice_status_existing.json"
+      ],
+      "version": "RC70-VOICE-STATUS-RETENTION-INSPECTION",
+      "would_remove_files": []
+    },
+    "readonly": true,
+    "version": "RC80-VOICE-STATUS-RETENTION-BUNDLE"
+  },
+  "readonly": true,
+  "schema": "copiloto.voice.status.retention.v1",
+  "status": "WITHIN_LIMIT",
+  "version": "RC83-VOICE-STATUS-RETENTION-EXPORT-CONTRACT"
+}

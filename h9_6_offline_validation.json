@@ -1,0 +1,18 @@
+{
+  "result": "H9_6_OFFLINE_TESTS_PASSED",
+  "tests_run": 64,
+  "failures": 0,
+  "errors": 0,
+  "preexisting_files_checked": 1507,
+  "changed": [],
+  "inaccessible": [],
+  "live_monitor_started": false,
+  "orders_allowed": false,
+  "live_certified": false,
+  "historical_evidence_hashes": {
+    "C:\\COPILOTO_GIT_SYNC\\h9_5_real_evidence_03.json": "fc168f197180ebe960b8c181b3dfbbe0b8591610719abefbd0986d48ba52d203",
+    "C:\\COPILOTO_GIT_SYNC\\h9_5_real_evidence_05.json": "13ead4817ebd4e41788116fcc2fc536212510a8dfa474242c6d4e1c830dab2fa"
+  },
+  "h9_5_2_reference": "NOT_FOUND_BY_FILENAME; no claimed audit of H.9.5.2",
+  "offline_replay_samples": 3
+}

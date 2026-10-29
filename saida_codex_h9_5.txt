@@ -1,0 +1,102 @@
+PROJETO: COPILOTO_PRICE_ACTION_AI
+ETAPA: RC7.13.23-H.9.5 — VALIDAÇÃO DE LEITURA RTD
+DIRETÓRIO DE ENTREGA: C:\COPILOTO_GIT_SYNC
+Data: 13/10/2026 — America/Sao_Paulo
+RESULTADO FINAL: BLOCKED_WITH_REASONS
+live_certified=False; orders_allowed=False
+
+1. IMPLEMENTAÇÃO E ARQUIVOS
+h9_5_readonly.py — diagnóstico isolado, somente leitura, execução manual.
+SHA256: 1587f19d8b116638f04a8af11fb40756908e8bd43588e270f78a1cb4f2db1c84
+test_h9_5_readonly.py — testes offline com fontes falsas.
+SHA256: 7681ccf906741a4ce3725b4eb79f4b29a898eab22f61656e3344a9857bf19c54
+saida_codex_h9_5.txt — este relatório; SHA256 final informado após gravação.
+Cópias de trabalho em C:\COPILOTO_PRICE_ACTION_AI; cópias idênticas entregues
+em C:\COPILOTO_GIT_SYNC. Somente estes três arquivos novos pertencem à H.9.5.
+
+2. TESTES
+14 testes unittest aprovados; zero falhas após o último ajuste:
+atualização; valores estáticos sem prova de RTD ativo; timestamp antigo;
+timestamp futuro; contrato divergente; fórmula com contrato divergente;
+valor ausente; erro Excel; zero válido; timestamp inválido; fonte divergente;
+duas leituras com intervalo e cleanup; conexão indisponível; falha de leitura.
+Fontes falsas: nenhum Excel/Collector/Capture executado nos testes.
+Comando: python.exe -B test_h9_5_readonly.py
+Esses testes validam classificação e fluxo offline. Não certificam integração COM.
+A API QueryFullProcessImageName não existe no win32process local: implementação
+ajustada para kernel32.QueryFullProcessImageNameW, sem instalar dependências.
+
+3. ESTADO DO ATTACHMENT E BLOQUEIO
+H.9.4 confirmou GetActiveObject no contexto jb, PID 10152 e três workbooks.
+Essa evidência é histórica; PID/Hwnd/FullName/Count não foram revalidados na H.9.5.
+Consulta ao conector Excel nesta etapa: nenhuma sessão conectada encontrada.
+Sandbox não tem visibilidade COM segundo a H.9.4.
+As regras B/C e a proibição de execução automática fora do sandbox impedem
+executar daqui o diagnóstico real como jb. Não foi usado require_escalated
+para executar Python, helper, tarefa agendada, serviço, RunAs ou outro mecanismo.
+A autorização de diagnóstico não revoga essa restrição explícita.
+Estado H.9.5: REAL_ATTACHMENT_NOT_ATTEMPTED; REAL_READ_PENDING_MANUAL_EXECUTION.
+
+4. CONTRATO E VALORES RTD
+Contrato atual esperado: WINV26. Futuro: WINZ26, sem migração automática.
+Contrato encontrado na H.9.5: NÃO LIDO EM MEMÓRIA.
+Data, Hora, Último, Volume: NÃO LIDOS na execução real desta etapa.
+Fórmulas B2:N2 e identidade dos ativos/fontes: NÃO LIDAS nesta etapa.
+Não reutilizamos caches de disco ou resultados offline como valores atuais.
+Valores RTD disponíveis: NÃO VERIFICADO.
+Evidência de atualização real: NÃO VERIFICADA.
+
+5. FUNCIONAMENTO PREPARADO PARA EXECUÇÃO MANUAL
+O script exige usuário jb, processo não elevado e sessão não zero coincidente
+com Excel. GetActiveObject somente; wrapper Dispatch recebe IDispatch existente,
+nunca ProgID. Verifica EXCEL.EXE, proprietário, PID/Hwnd, Count e FullName exatos.
+Alvos: C:\COPILOTO_PRICE_ACTION_AI\Profit.xlsx,
+C:\COPILOTO_PRICE_ACTION_AI\livroOfertas.xlsx e
+C:\COPILOTO_PRICE_ACTION_AI\times&trades.xlsx.
+Mudança de inventário, ausência ou duplicidade de caminho bloqueia a leitura.
+Profit, Planilha1: A2:N2 Value2; B2:N2 Formula.
+Campos registrados: A2 contrato; B2 Data; C2 Hora; D2 Último; J2 Volume.
+Livro e Times, Planilha1: somente A1:H5; A1 ativo e B1 identificação da fonte.
+Duas leituras finitas, intervalo padrão 5 segundos, permitido 2 a 30 segundos.
+Início/fim de cada leitura em America/Sao_Paulo com offset; intervalo medido
+com relógio monotônico. Leituras entre workbooks não são uma transação atômica.
+Não há loop de coleta, persistência de ticks, sessão observacional ou ordens.
+Cleanup libera referências e COM sem Quit, Close, Save ou Calculate/Refresh.
+
+6. CRITÉRIOS E RISCOS RESTANTES
+Valor disponível não demonstra atualização. Resultado RTD_READ_VALIDATED exige
+WINV26 nas duas leituras, fórmulas RTD diretas esperadas estáveis, campos de
+cotação disponíveis e avanço de Data/Hora com idade entre -5 e 120 segundos.
+Esses limites são critérios diagnósticos explícitos, não certificação live.
+Livro/T&T exigem fontes Ofertas/Negócios e mudança na amostra no intervalo.
+Ausência de mudança bloqueia por falta de evidência, sem afirmar RTD inativo:
+mercado parado, fora do horário ou amostra estática são hipóteses possíveis.
+Valores vazios/erros na amostra também bloqueiam conservadoramente.
+Mudança no Livro/T&T não possui prova independente de timestamp de mercado;
+o script registra essa limitação. Alterações manuais concorrentes poderiam
+produzir mudança de valores; não há atestação de origem de cada alteração.
+Somente a instância retornada por GetActiveObject é selecionada, validada por
+PID e caminhos; outra instância do Excel não é criada ou selecionada por fallback.
+Falhas COM, workbook fechado, nome da planilha diferente, formato de data/hora
+não reconhecido e chamadas COM demoradas continuam sendo riscos de execução.
+
+7. RECOMENDAÇÃO E COMANDO MANUAL
+Em PowerShell normal, não administrador, já aberto pelo usuário jb:
+
+cd C:\COPILOTO_GIT_SYNC
+& "C:\Users\jb\AppData\Local\Programs\Python\Python313\python.exe" -B .\h9_5_readonly.py --interval 5 --output .\h9_5_real_evidence.json
+
+O comando não foi executado automaticamente. Produz arquivo novo de evidência,
+não sobrescreve evidência existente e imprime resultado e SHA256.
+Se o nome de saída já existir, escolher outro nome novo; não apagar histórico.
+Após execução manual, examinar as duas leituras e completar a validação com
+essa evidência. Não iniciar Collector/Capture como consequência do resultado.
+
+8. PRESERVAÇÃO
+Não foram alterados módulos certificados, workbooks, fórmulas ou contratos.
+Não foram criadas instâncias Excel, salvos/fechados workbooks, alterados Windows,
+executados Collector/Capture/ordens, commits/push ou apagados históricos.
+Nenhuma certificação live é declarada.
+
+REFERÊNCIAS LOCAIS: saida_codex_h9_3.txt; saida_codex_h9_4.txt.
+RESULTADO FINAL: BLOCKED_WITH_REASONS — leitura real pendente no contexto jb.

@@ -1,0 +1,190 @@
+﻿===== ORDER FLOW STATE ADAPTER =====
+   1: """Ponte controlada do T&T RTD deduplicado para OrderFlowState (RC6)."""
+   2: 
+   3: from __future__ import annotations
+   4: 
+   5: from dataclasses import dataclass
+   6: 
+   7: 
+   8: @dataclass(frozen=True, slots=True)
+   9: class ProfitRTDOrderFlowStateAdapterReceipt:
+  10:     symbol: str
+  11:     timestamp: str
+  12:     continuity: str
+  13:     state_updated: bool
+  14:     baseline_reset: bool
+  15:     cumulative_buy: float
+  16:     cumulative_sell: float
+  17:     source_units: int
+  18:     source: str = "PROFIT_RTD"
+  19:     semantics: str = "DEDUPLICATED_LOCAL_CUMULATIVES_TO_ORDER_FLOW_STATE"
+  20:     observational_only: bool = True
+  21:     score_influence_allowed: bool = False
+  22:     decision_influence_allowed: bool = False
+  23:     order_execution_allowed: bool = False
+  24: 
+  25: 
+  26: class ProfitRTDOrderFlowStateAdapter:
+  27:     """Alimenta OrderFlowState apenas com cumulativos locais derivados do RC5."""
+  28: 
+  29:     NAME = "ProfitRTDOrderFlowStateAdapter"
+  30:     VERSION = "RC6"
+  31:     SAMPLING_MODE = "PROFIT_RTD_TT"
+  32: 
+  33:     def __init__(self, state):
+  34:         required = ("update", "clear", "mark_waiting")
+  35:         if any(not callable(getattr(state, name, None)) for name in required):
+  36:             raise TypeError("state deve ser compatÃ­vel com OrderFlowState.")
+  37:         self.state = state
+  38:         self._symbol: str | None = None
+  39:         self._cumulative_buy = 0.0
+  40:         self._cumulative_sell = 0.0
+  41: 
+  42:     def clear(self) -> None:
+  43:         self._symbol = None
+  44:         self._cumulative_buy = 0.0
+  45:         self._cumulative_sell = 0.0
+  46:         self.state.clear()
+  47: 
+  48:     def apply(self, snapshot, *, price: float):
+  49:         self._validate_snapshot(snapshot)
+  50:         valid_price = self._positive_price(price)
+  51:         symbol = snapshot.symbol
+  52:         continuity = snapshot.continuity
+  53: 
+  54:         must_reset = (
+  55:             self._symbol is None
+  56:             or symbol != self._symbol
+  57:             or snapshot.baseline_only
+  58:             or continuity in {"SYMBOL_RESET", "OVERLAP_LOST_REBASE", "BASELINE_ESTABLISHED"}
+  59:         )
+  60: 
+  61:         if must_reset:
+  62:             self._symbol = symbol
+  63:             self._cumulative_buy = 0.0
+  64:             self._cumulative_sell = 0.0
+  65:             self.state.clear()
+  66:             self.state.update(
+  67:                 cumulative_buy=0.0,
+  68:                 cumulative_sell=0.0,
+  69:                 price=valid_price,
+  70:                 sampling_mode=self.SAMPLING_MODE,
+  71:                 source_units=0,
+  72:             )
+  73:             return self._receipt(snapshot, state_updated=False, baseline_reset=True, source_units=0)
+  74: 
+  75:         if snapshot.new_trade_count <= 0:
+  76:             self.state.mark_waiting("RTD_NO_NEW_TRADES")
+  77:             return self._receipt(snapshot, state_updated=False, baseline_reset=False, source_units=0)
+  78: 
+  79:         self._cumulative_buy += float(snapshot.buyer_aggression)
+  80:         self._cumulative_sell += float(snapshot.seller_aggression)
+  81:         updated = bool(
+  82:             self.state.update(
+  83:                 cumulative_buy=self._cumulative_buy,
+  84:                 cumulative_sell=self._cumulative_sell,
+  85:                 price=valid_price,
+  86:                 sampling_mode=self.SAMPLING_MODE,
+  87:                 source_units=int(snapshot.new_trade_count),
+  88:             )
+  89:         )
+  90:         return self._receipt(
+  91:             snapshot,
+  92:             state_updated=updated,
+  93:             baseline_reset=False,
+  94:             source_units=int(snapshot.new_trade_count),
+  95:         )
+  96: 
+  97:     @staticmethod
+  98:     def _validate_snapshot(snapshot) -> None:
+  99:         if not getattr(snapshot, "observational_only", False):
+ 100:             raise ValueError("Snapshot deve permanecer observacional.")
+ 101:         if getattr(snapshot, "state_update_allowed", True):
+ 102:             raise ValueError("RC6 exige snapshot RC5 com state_update_allowed=False.")
+ 103:         if getattr(snapshot, "score_influence_allowed", True):
+ 104:             raise ValueError("Snapshot nÃ£o pode influenciar Score.")
+ 105:         if getattr(snapshot, "decision_influence_allowed", True):
+ 106:             raise ValueError("Snapshot nÃ£o pode influenciar Decision.")
+ 107:         if getattr(snapshot, "order_execution_allowed", True):
+ 108:             raise ValueError("Snapshot nÃ£o pode executar ordens.")
+ 109:         symbol = str(getattr(snapshot, "symbol", "") or "").strip().upper()
+ 110:         continuity = str(getattr(snapshot, "continuity", "") or "").strip()
+ 111:         if not symbol or not continuity:
+ 112:             raise ValueError("Snapshot RC5 incompleto.")
+ 113:         for name in ("buyer_aggression", "seller_aggression"):
+ 114:             value = float(getattr(snapshot, name, -1.0))
+ 115:             if value < 0:
+ 116:                 raise ValueError(f"{name} nÃ£o pode ser negativo.")
+ 117: 
+ 118:     @staticmethod
+ 119:     def _positive_price(value) -> float:
+ 120:         if isinstance(value, bool):
+ 121:             raise TypeError("PreÃ§o deve ser numÃ©rico.")
+ 122:         try:
+ 123:             price = float(value)
+ 124:         except (TypeError, ValueError) as exc:
+ 125:             raise ValueError("PreÃ§o invÃ¡lido.") from exc
+ 126:         if price <= 0:
+ 127:             raise ValueError("PreÃ§o deve ser positivo.")
+ 128:         return price
+ 129: 
+ 130:     def _receipt(self, snapshot, *, state_updated: bool, baseline_reset: bool, source_units: int):
+ 131:         return ProfitRTDOrderFlowStateAdapterReceipt(
+ 132:             symbol=snapshot.symbol,
+ 133:             timestamp=snapshot.timestamp,
+ 134:             continuity=snapshot.continuity,
+ 135:             state_updated=state_updated,
+ 136:             baseline_reset=baseline_reset,
+ 137:             cumulative_buy=self._cumulative_buy,
+ 138:             cumulative_sell=self._cumulative_sell,
+ 139:             source_units=source_units,
+ 140:         )
+
+===== PIPELINE CLEAR CALLERS =====
+C:\COPILOTO_PRICE_ACTION_AI\core\order_flow_state.py:59: self._clear_history()
+C:\COPILOTO_PRICE_ACTION_AI\core\order_flow_state.py:186: self._clear_history()
+C:\COPILOTO_PRICE_ACTION_AI\core\order_flow_state.py:189: def _clear_history(self) -> None:
+C:\COPILOTO_PRICE_ACTION_AI\market_data\collector.py:152: f"new_trades={validation.total_new_trades} resets={validation.baseline_resets} "
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_pipeline.py:25: baseline_reset: bool
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_pipeline.py:61: baseline_reset=state_receipt.baseline_reset,
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py:14: baseline_reset: bool
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py:73: return self._receipt(snapshot, state_updated=False, baseline_reset=True, source_units=0)
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py:77: return self._receipt(snapshot, state_updated=False, baseline_reset=False, source_units=0)
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py:93: baseline_reset=False,
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py:130: def _receipt(self, snapshot, *, state_updated: bool, baseline_reset: bool, source_units: int):
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py:136: baseline_reset=baseline_reset,
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py:18: baseline_resets: int
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py:46: max_baseline_resets: int = 2,
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py:51: self.max_baseline_resets = int(max_baseline_resets)
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py:56: if self.max_continuity_loss_cycles < 0 or self.max_baseline_resets < 1:
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py:90: baseline_resets = self._non_negative_int(validation, "baseline_resets")
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py:111: if baseline_resets > self.max_baseline_resets:
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py:112: reasons.append(f"TOO_MANY_BASELINE_RESETS:{baseline_resets}>{self.max_baseline_resets}")
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py:131: baseline_resets=baseline_resets,
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py:13: baseline_resets: int = 0
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py:47: self.baseline_resets = 0
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py:64: self.baseline_resets += int(bool(receipt.baseline_reset))
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py:86: baseline_resets=self.baseline_resets,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc10.py:16: baseline_resets=1,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc11.py:18: baseline_reset=False,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc11.py:37: baseline_reset=True,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py:14: baseline_resets=1,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc18.py:8: "baseline_resets": 1,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc18.py:49: payload(continuity_rate=0.80, continuity_loss_cycles=5, baseline_resets=6)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc18.py:54: assert any(reason.startswith("TOO_MANY_BASELINE_RESETS") for reason in result.reasons)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc18.py:101: payload(continuity_rate=0.95, continuity_loss_cycles=1, baseline_resets=2)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc19.py:15: baseline_resets: int = 1
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py:42: assert receipt.baseline_reset
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py:90: assert not receipt.baseline_reset
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py:106: assert receipt.baseline_reset
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py:121: assert receipt.baseline_reset
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc7.py:104: assert receipt.baseline_reset
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc7.py:129: assert first.baseline_reset
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc8.py:38: baseline_reset=False,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py:12: baseline_reset=False,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py:39: baseline_reset=True,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py:55: assert snapshot.baseline_resets == 1
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py:74: baseline_reset=True,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py:84: baseline_reset=True,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py:92: assert snapshot.baseline_resets == 2
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_validate.py:34: print(f"baseline_resets={result.baseline_resets}")

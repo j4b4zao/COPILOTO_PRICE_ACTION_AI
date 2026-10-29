@@ -1,0 +1,563 @@
+﻿===== BROOKS WARMED IMPORTS =====
+"""RC54.3.2 warmed session com enriquecimento Brooks de pesquisa.
+
+Preserva o runner RC54.3.2 original e adiciona somente evidencia
+observacional. Nenhuma informacao deste modulo altera PriceActionResult,
+Score, Risk, Decision, Alert ou execucao.
+
+Ordem importante:
+1. snapshot_context_with_brooks adiciona apenas classificadores que nao
+   dependem de candle_evidence;
+2. o runner base anexa candle_evidence;
+3. apos a sessao, Stop/Target e Trailing sao enriquecidos sobre as amostras
+   ja identificadas por candle_id exato.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+from types import SimpleNamespace
+
+import tools.profit_rtd_rc54_3_2_warmed_session as base
+from tools.profit_rtd_brooks_breakout_memory_capture import (
+    enrich_price_action_snapshot as enrich_breakout_memory_snapshot,
+)
+from tools.profit_rtd_brooks_first_pullback_capture import (
+    enrich_price_action_snapshot as enrich_first_pullback_snapshot,
+)
+from tools.profit_rtd_brooks_wedge_three_pushes_capture import (
+    enrich_price_action_snapshot as enrich_wedge_three_pushes_snapshot,
+)
+from tools.profit_rtd_brooks_trading_range_capture import (
+    enrich_price_action_snapshot as enrich_trading_range_snapshot,
+)
+from tools.profit_rtd_brooks_stop_target_capture import (
+    enrich_price_action_snapshot as enrich_stop_target_snapshot,
+)
+from tools.profit_rtd_brooks_trailing_stop_capture import (
+    enrich_price_action_snapshot as enrich_trailing_stop_snapshot,
+)
+
+
+_ORIGINAL_SNAPSHOT_CONTEXT = base.snapshot_context
+
+
+def _brooks_session_flags():
+    return {
+        "brooks_breakout_memory_capture": True,
+        "brooks_first_pullback_capture": True,
+        "brooks_major_reversal_context_capture": True,
+
+===== BROOKS RUN WARMED SESSION =====
+
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:226:    payload["brooks_management_history_source"] = 
+"PERSISTED_CANDLE_EVIDENCE"
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:227:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:228:    return payload
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:229:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:230:
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:231:def run_warmed_session(
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:232:    symbol,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:233:    *,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:234:    cycles=600,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:235:    interval=0.25,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:236:    max_warmup_cycles=4800,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:237:    require_trade_context_at_start=False,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:238:    output_dir=None,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:239:    sleeper=None,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:240:):
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:241:    previous = base.snapshot_context
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:242:    base.snapshot_context = snapshot_context_with_brooks
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:243:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:244:    try:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:245:        kwargs = {
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:246:            "cycles": cycles,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:247:            "interval": interval,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:248:            "max_warmup_cycles": max_warmup_cycles,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:249:            "require_trade_context_at_start": 
+require_trade_context_at_start,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:250:            "output_dir": output_dir,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:251:        }
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:252:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:253:        if sleeper is not None:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:254:            kwargs["sleeper"] = sleeper
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:255:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:256:        result = base.run_warmed_session(symbol, **kwargs)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:257:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:258:    finally:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:259:        base.snapshot_context = previous
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:260:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:261:    flags = _brooks_session_flags()
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:262:    result.update(flags)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:263:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:264:    output_path = result.get("output_path")
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:265:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:266:    if output_path:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:267:        path = Path(output_path)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:268:        payload = json.loads(path.read_text(encoding="utf-8"))
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:269:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:270:        payload = 
+_enrich_management_after_candle_evidence(payload)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:271:        payload.update(flags)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:272:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:273:        path.write_text(
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:274:            json.dumps(payload, ensure_ascii=False, indent=2),
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:275:            encoding="utf-8",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:276:        )
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:277:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:278:    return result
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:279:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:280:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:281:def main(argv=None):
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:282:    parser = argparse.ArgumentParser(
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:283:        description="RC54.3.2 warmed session com evidencia 
+observacional Brooks."
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:284:    )
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:285:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:286:    parser.add_argument("symbol")
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:287:    parser.add_argument("--cycles", type=int, default=600)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:288:    parser.add_argument("--interval", type=float, default=0.25)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:289:    parser.add_argument("--max-warmup-cycles", type=int, 
+default=4800)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:290:    parser.add_argument("--output-dir")
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:291:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:292:    args = parser.parse_args(argv)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:293:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:294:    result = run_warmed_session(
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:295:        args.symbol,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:296:        cycles=args.cycles,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:297:        interval=args.interval,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:298:        max_warmup_cycles=args.max_warmup_cycles,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:299:        output_dir=args.output_dir,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:300:    )
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:301:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:302:    print(
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:303:        "PROFIT_RTD_RC54_3_2_BROOKS_WARMED_SESSION="
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:304:        + str(result.get("status"))
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:305:    )
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:306:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:307:    for key in (
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:308:        "symbol",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:309:        "requested_cycles",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:310:        "analyzable_samples",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:311:        "skipped_cycles",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:312:        "collection_errors",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:313:        "data_ready",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:314:        "brooks_breakout_memory_capture",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:315:        "brooks_first_pullback_capture",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:316:        "brooks_major_reversal_context_capture",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:317:        "brooks_wedge_three_pushes_capture",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:318:        "brooks_trading_range_capture",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:319:        "brooks_stop_target_capture",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:320:        "brooks_trailing_stop_capture",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:321:        
+"brooks_stop_target_postprocessed_after_candle_evidence",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:322:        "brooks_stop_target_history_source",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:323:        
+"brooks_management_postprocessed_after_candle_evidence",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:324:        "brooks_management_history_source",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:325:        "brooks_research_only",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:326:        "brooks_predictive_claim_allowed",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:327:        "brooks_score_influence_allowed",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:328:        "brooks_risk_influence_allowed",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:329:        "brooks_decision_influence_allowed",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:330:        "brooks_alert_influence_allowed",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:331:        "brooks_order_execution_allowed",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:332:    ):
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:333:        if key in result:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:334:            print(f"{key}={result[key]}")
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:335:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:336:    if result.get("collection_error_details"):
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:337:        print(
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:338:            "collection_error_details="
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:339:            + json.dumps(
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:340:                result["collection_error_details"],
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:341:                ensure_ascii=False,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:342:                separators=(",", ":"),
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:343:            )
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:344:        )
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:345:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:346:    print(
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:347:        "reasons="
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:348:        + (
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:349:            "|".join(result.get("reasons") or [])
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:350:            if result.get("reasons")
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:351:            else "OK"
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:352:        )
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:353:    )
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:354:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:355:    if result.get("output_path"):
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:356:        print("output_path=" + str(result["output_path"]))
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:357:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:358:    return 0 if result.get("status") == "COMPLETED" else 2
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:359:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:360:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:361:if __name__ == "__main__":
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:362:    raise SystemExit(main())
+
+===== BROOKS SNAPSHOT APPEND =====
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:1:"""RC54.3.2 warmed session com enriquecimento Brooks de pesquisa.
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:2:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:3:Preserva o runner RC54.3.2 original e adiciona somente evidencia
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:4:observacional. Nenhuma informacao deste modulo altera 
+PriceActionResult,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:5:Score, Risk, Decision, Alert ou execucao.
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:6:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:7:Ordem importante:
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:8:1. snapshot_context_with_brooks adiciona apenas classificadores 
+que nao
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:9:   dependem de candle_evidence;
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:10:2. o runner base anexa candle_evidence;
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:11:3. apos a sessao, Stop/Target e Trailing sao enriquecidos sobre 
+as amostras
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:12:   ja identificadas por candle_id exato.
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:13:"""
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:14:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:15:from __future__ import annotations
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:16:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:17:import argparse
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:18:import json
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:19:from pathlib import Path
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:20:from types import SimpleNamespace
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:21:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:22:import tools.profit_rtd_rc54_3_2_warmed_session as base
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:23:from tools.profit_rtd_brooks_breakout_memory_capture import (
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:24:    enrich_price_action_snapshot as 
+enrich_breakout_memory_snapshot,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:25:)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:26:from tools.profit_rtd_brooks_first_pullback_capture import (
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:27:    enrich_price_action_snapshot as 
+enrich_first_pullback_snapshot,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:28:)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:33:    enrich_price_action_snapshot as 
+enrich_trading_range_snapshot,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:34:)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:35:from tools.profit_rtd_brooks_stop_target_capture import (
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:36:    enrich_price_action_snapshot as enrich_stop_target_snapshot,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:37:)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:38:from tools.profit_rtd_brooks_trailing_stop_capture import (
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:39:    enrich_price_action_snapshot as 
+enrich_trailing_stop_snapshot,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:40:)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:41:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:42:
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:43:_ORIGINAL_SNAPSHOT_CONTEXT = base.snapshot_context
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:44:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:45:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:46:def _brooks_session_flags():
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:47:    return {
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:48:        "brooks_breakout_memory_capture": True,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:49:        "brooks_first_pullback_capture": True,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:50:        "brooks_major_reversal_context_capture": True,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:51:        "brooks_wedge_three_pushes_capture": True,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:52:        "brooks_trading_range_capture": True,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:53:        "brooks_stop_target_capture": True,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:54:        "brooks_trailing_stop_capture": True,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:55:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:56:        # Contrato EXACT_CANDLE restaurado/consolidado.
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:57:        
+"brooks_stop_target_postprocessed_after_candle_evidence": True,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:58:        "brooks_stop_target_history_source": 
+"PERSISTED_CANDLE_EVIDENCE",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:59:        
+"brooks_management_postprocessed_after_candle_evidence": True,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:60:        "brooks_management_history_source": 
+"PERSISTED_CANDLE_EVIDENCE",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:61:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:62:        "brooks_research_only": True,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:63:        "brooks_predictive_claim_allowed": False,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:70:        "brooks_first_pullback_research_only": True,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:71:        "brooks_first_pullback_predictive_claim_allowed": False,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:72:        "brooks_first_pullback_score_influence_allowed": False,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:73:        "brooks_first_pullback_risk_influence_allowed": False,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:74:        "brooks_first_pullback_decision_influence_allowed": 
+False,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:75:        "brooks_first_pullback_alert_influence_allowed": False,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:76:        "brooks_first_pullback_order_execution_allowed": False,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:77:    }
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:78:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:79:
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:80:def snapshot_context_with_brooks(context, micro):
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:81:    """Enriquece somente classificadores independentes de 
+candle_evidence."""
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:82:
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:83:    item = _ORIGINAL_SNAPSHOT_CONTEXT(context, micro)
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:84:    item = enrich_breakout_memory_snapshot(item, context)
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:85:    item = enrich_first_pullback_snapshot(item, context)
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:86:    item = enrich_wedge_three_pushes_snapshot(item, context)
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:87:    item = enrich_trading_range_snapshot(item, context)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:88:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:89:    pa_snapshot = item.get("price_action")
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:90:    pa_result = getattr(context, "price_action", None)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:91:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:92:    if isinstance(pa_snapshot, dict) and pa_result is not None:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:93:        pa_snapshot["brooks_reversal_context"] = str(
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:94:            getattr(pa_result, "brooks_reversal_context", 
+"NEUTRAL")
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:95:            or "NEUTRAL"
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:96:        )
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:97:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:98:    return item
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:99:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:100:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:101:def _candle_from_evidence(evidence):
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:102:    """Reconstrói candle somente a partir da evidencia 
+persistida."""
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:103:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:104:    if not isinstance(evidence, dict):
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:105:        return None
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:106:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:107:    if evidence.get("status") != "CANDLE_EVIDENCE_READY":
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:231:def run_warmed_session(
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:232:    symbol,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:233:    *,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:234:    cycles=600,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:235:    interval=0.25,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:236:    max_warmup_cycles=4800,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:237:    require_trade_context_at_start=False,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:238:    output_dir=None,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:239:    sleeper=None,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:240:):
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:241:    previous = base.snapshot_context
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:242:    base.snapshot_context = snapshot_context_with_brooks
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:243:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:244:    try:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:245:        kwargs = {
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:246:            "cycles": cycles,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:247:            "interval": interval,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:248:            "max_warmup_cycles": max_warmup_cycles,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:249:            "require_trade_context_at_start": 
+require_trade_context_at_start,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:250:            "output_dir": output_dir,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:251:        }
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:252:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:253:        if sleeper is not None:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:254:            kwargs["sleeper"] = sleeper
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:255:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:256:        result = base.run_warmed_session(symbol, **kwargs)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:257:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:258:    finally:
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:259:        base.snapshot_context = previous
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:260:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:261:    flags = _brooks_session_flags()
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:262:    result.update(flags)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:263:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:264:    output_path = result.get("output_path")
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:265:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:266:    if output_path:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:267:        path = Path(output_path)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:268:        payload = json.loads(path.read_text(encoding="utf-8"))
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:269:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:270:        payload = 
+_enrich_management_after_candle_evidence(payload)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:271:        payload.update(flags)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:272:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:273:        path.write_text(
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:274:            json.dumps(payload, ensure_ascii=False, indent=2),
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:275:            encoding="utf-8",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:276:        )
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:277:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:278:    return result
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:279:
+
+===== BROOKS WARMED TESTS =====
+from __future__ import annotations
+
+import json
+from types import SimpleNamespace
+
+import tools.profit_rtd_brooks_first_pullback_capture as capture
+import tools.profit_rtd_rc54_3_2_brooks_warmed_session as runner
+
+
+PULLBACK_FIELDS = {
+    "brooks_first_pullback_valid": True,
+    "brooks_first_pullback_direction": "DOWN",
+    "brooks_first_pullback_stage": "BAR_PULLBACK",
+    "brooks_first_pullback_stage_index": 1,
+    "brooks_first_pullback_bars": 1,
+    "brooks_first_pullback_continuation_bias": True,
+    "brooks_first_pullback_reversal_risk": False,
+    "research_only": True,
+    "observational_only": True,
+    "predictive_claim_allowed": False,
+    "score_influence_allowed": False,
+    "risk_influence_allowed": False,
+    "decision_influence_allowed": False,
+    "alert_influence_allowed": False,
+    "order_execution_allowed": False,
+}
+
+
+def test_snapshot_enrichment_does_not_run_stop_target(monkeypatch):
+    monkeypatch.setattr(
+        runner,
+        "_ORIGINAL_SNAPSHOT_CONTEXT",
+        lambda context, micro: {
+            "structure": {"trend": "UP", "choch": False},
+            "price_action": {
+                "brooks_signal_phase": "SETUP_PENDING",
+                "brooks_signal_direction": "BUY",
+                "brooks_entry_triggered": False,
+                "brooks_follow_through": False,
+            },
+        },
+    )
+    monkeypatch.setattr(
+        capture,
+        "snapshot_first_pullback",
+        lambda context: dict(PULLBACK_FIELDS),
+    )
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Stop/Target nao pode rodar antes do candle_evidence persistido")
+
+    monkeypatch.setattr(runner, "enrich_stop_target_snapshot", forbidden)
+
+    item = runner.snapshot_context_with_brooks(
+        SimpleNamespace(),
+        SimpleNamespace(),
+    )
+
+    assert "brooks_stop_target_capture_status" not in item["price_action"]
+
+
+def test_postprocess_uses_persisted_exact_candle(monkeypatch):
+    seen = []
+    payload = {
+        "samples": [
+            {
+                "price_action": {
+                    "brooks_signal_direction": "BUY",
+                    "brooks_entry_triggered": True,
+                },
+                "candle_evidence": {
+                    "status": "CANDLE_EVIDENCE_READY",
+                    "ohlc_ready": True,
+                    "candle_id": "WINV26|M1|2026-09-14T09:08:00",
+                    "open": 100.0,
+                    "high": 105.0,
+                    "low": 99.0,
+                    "close": 104.0,
+                },
+            }
+        ]
+    }
+
+    def fake_enrich(item, context):
+        assert context is None
+        candle = item["candle_evidence"]
+        seen.append(candle["candle_id"])
+        item["price_action"]["brooks_stop_target_candle_id"] = candle["candle_id"]
+        return item
+
+    monkeypatch.setattr(runner, "enrich_stop_target_snapshot", fake_enrich)
+    runner._postprocess_stop_target_after_candle_evidence(payload)
+
+    assert seen == ["WINV26|M1|2026-09-14T09:08:00"]
+    assert payload["samples"][0]["price_action"]["brooks_stop_target_candle_id"] == "WINV26|M1|2026-09-14T09:08:00"
+    assert payload["brooks_stop_target_history_source"] == "PERSISTED_CANDLE_EVIDENCE"
+
+
+def test_postprocess_skips_non_ready_candle(monkeypatch):
+    calls = []
+    payload = {
+        "samples": [
+            {
+                "price_action": {},
+                "candle_evidence": {
+                    "status": "CANDLE_EVIDENCE_NOT_READY",
+                    "candle_id": None,
+                },
+            }
+        ]
+    }
+
+    monkeypatch.setattr(
+        runner,
+        "enrich_stop_target_snapshot",
+        lambda item, context: calls.append(1),
+    )
+    runner._postprocess_stop_target_after_candle_evidence(payload)
+
+    assert calls == []
+
+
+def test_derived_runner_restores_original_snapshot_and_postprocesses(monkeypatch, tmp_path):
+    original = object()
+    monkeypatch.setattr(runner.base, "snapshot_context", original)
+    saved_path = tmp_path / "session.json"
+
+    payload = {
+        "status": "COMPLETED",
+        "symbol": "WINV26",
+        "requested_cycles": 1,
+        "analyzable_samples": 1,
+        "skipped_cycles": 0,
+        "collection_errors": 0,
+        "data_ready": True,
+        "reasons": [],
+        "samples": [
+            {
+                "price_action": {
+                    "brooks_signal_direction": "BUY",
+                    "brooks_entry_triggered": True,
+                    "brooks_trading_range_valid": False,
+                },
+                "candle_evidence": {
+                    "status": "CANDLE_EVIDENCE_READY",
+                    "ohlc_ready": True,
+                    "candle_id": "WINV26|M1|2026-09-14T09:08:00",
+                    "open": 100.0,
+                    "high": 105.0,
+                    "low": 99.0,
+                    "close": 104.0,
+                },
+            }
+        ],
+    }
+
+    def fake_run(symbol, **kwargs):
+        assert runner.base.snapshot_context is runner.snapshot_context_with_brooks
+        saved_path.write_text(json.dumps(payload), encoding="utf-8")
+        return {**payload, "output_path": str(saved_path)}
+
+    monkeypatch.setattr(runner.base, "run_warmed_session", fake_run)
+
+    result = runner.run_warmed_session("WINV26", cycles=1, interval=0)
+
+    assert runner.base.snapshot_context is original
+
+    persisted = json.loads(saved_path.read_text(encoding="utf-8"))
+    pa = persisted["samples"][0]["price_action"]
+
+    assert pa["brooks_stop_target_capture_status"] == "ELIGIBLE"
+    assert pa["brooks_stop_target_candle_id"] == persisted["samples"][0]["candle_evidence"]["candle_id"]
+    assert persisted["brooks_stop_target_postprocessed_after_candle_evidence"] is True
+    assert persisted["brooks_stop_target_history_source"] == "PERSISTED_CANDLE_EVIDENCE"
+    assert result["brooks_score_influence_allowed"] is False
+    assert result["brooks_order_execution_allowed"] is False
+
+
+def test_derived_runner_restores_original_snapshot_after_failure(monkeypatch):
+    original = object()
+    monkeypatch.setattr(runner.base, "snapshot_context", original)
+
+    def fail_run(symbol, **kwargs):
+        assert runner.base.snapshot_context is runner.snapshot_context_with_brooks
+        raise RuntimeError("synthetic failure")
+
+    monkeypatch.setattr(runner.base, "run_warmed_session", fail_run)
+
+    try:
+        runner.run_warmed_session("WINV26", cycles=1, interval=0)
+    except RuntimeError as exc:
+        assert str(exc) == "synthetic failure"
+    else:
+        raise AssertionError("RuntimeError expected")
+
+    assert runner.base.snapshot_context is original
+
+

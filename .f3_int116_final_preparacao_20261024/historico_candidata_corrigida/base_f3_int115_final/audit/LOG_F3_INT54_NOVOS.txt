@@ -1,0 +1,29 @@
+test_bad_bounds (test_f3_int54_schedule_divergence.ScheduleTests.test_bad_bounds) ... ok
+test_bad_initial (test_f3_int54_schedule_divergence.ScheduleTests.test_bad_initial) ... ok
+test_bound_reports_incomplete (test_f3_int54_schedule_divergence.ScheduleTests.test_bound_reports_incomplete) ... ok
+test_branch_winners (test_f3_int54_schedule_divergence.ScheduleTests.test_branch_winners) ... ok
+test_commit_before_prepare (test_f3_int54_schedule_divergence.ScheduleTests.test_commit_before_prepare) ... ok
+test_complete_at_exact_bound (test_f3_int54_schedule_divergence.ScheduleTests.test_complete_at_exact_bound) ... ok
+test_deterministic (test_f3_int54_schedule_divergence.ScheduleTests.test_deterministic) ... ok
+test_different_version (test_f3_int54_schedule_divergence.ScheduleTests.test_different_version) ... ok
+test_divergent_round_winners (test_f3_int54_schedule_divergence.ScheduleTests.test_divergent_round_winners) ... ok
+test_duplicate_prepare (test_f3_int54_schedule_divergence.ScheduleTests.test_duplicate_prepare) ... ok
+test_equal_replicas_untrusted (test_f3_int54_schedule_divergence.ScheduleTests.test_equal_replicas_untrusted) ... ok
+test_flags (test_f3_int54_schedule_divergence.ScheduleTests.test_flags) ... ok
+test_identical_proposals_terminal_equal (test_f3_int54_schedule_divergence.ScheduleTests.test_identical_proposals_terminal_equal) ... ok
+test_invalid_actor (test_f3_int54_schedule_divergence.ScheduleTests.test_invalid_actor) ... ok
+test_rejected_proposals_do_not_mutate (test_f3_int54_schedule_divergence.ScheduleTests.test_rejected_proposals_do_not_mutate) ... ok
+test_replica_bounds (test_f3_int54_schedule_divergence.ScheduleTests.test_replica_bounds) ... ok
+test_request_limit (test_f3_int54_schedule_divergence.ScheduleTests.test_request_limit) ... ok
+test_request_mutable (test_f3_int54_schedule_divergence.ScheduleTests.test_request_mutable) ... ok
+test_same_version_different_state (test_f3_int54_schedule_divergence.ScheduleTests.test_same_version_different_state) ... ok
+test_short_schedule (test_f3_int54_schedule_divergence.ScheduleTests.test_short_schedule) ... ok
+test_single_actor (test_f3_int54_schedule_divergence.ScheduleTests.test_single_actor) ... ok
+test_six_topological_orders (test_f3_int54_schedule_divergence.ScheduleTests.test_six_topological_orders) ... ok
+test_stale_commit_atomic (test_f3_int54_schedule_divergence.ScheduleTests.test_stale_commit_atomic) ... ok
+test_trace_length (test_f3_int54_schedule_divergence.ScheduleTests.test_trace_length) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.069s
+
+OK

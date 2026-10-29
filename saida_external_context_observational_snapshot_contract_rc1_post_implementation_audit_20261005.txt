@@ -1,0 +1,176 @@
+STATUS=FAIL
+TASK=EXTERNAL CONTEXT OBSERVATIONAL SNAPSHOT CONTRACT RC1 POST-IMPLEMENTATION AUDIT
+DATE=2026-10-05
+BRANCH=brooks-stop-target-exact-audit-20260912
+HEAD=0f0d723b79f9cf785bc6145afb285964119e5389
+ORIGIN_HEAD=0f0d723b79f9cf785bc6145afb285964119e5389
+AUDITED_COMMIT=0f0d723b79f9cf785bc6145afb285964119e5389
+AUDITED_PARENT=44ddc8ab29d8b93ea642d356401be02c3048f19d
+AUDITED_MESSAGE=Add external context observational snapshot contract
+GIT_FETCH_STATUS=PASS
+COMMIT_IDENTITY_STATUS=PASS
+COMMIT_FILES=external_context/external_context_service.py; external_context/external_market_collector.py; external_context/external_observational_snapshot.py; tests/test_external_observational_snapshot_rc1.py
+UNEXPECTED_COMMIT_FILES=NONE
+DIFF_REVIEW=Full four-file parent-to-commit diff inspected. No changes to RC17, PriceAction, MTF, AnalysisPipeline, bridge, observer, ProviderSymbolMap, Strategy, Score, Decision, Risk or Alert implementation.
+SNAPSHOT_VERSION=RC1-EXTERNAL-OBSERVATIONAL-SNAPSHOT
+COLLECTOR_VERSION=RC2.2-OBSERVATIONAL-SNAPSHOT
+SERVICE_VERSION=RC2.4-OBSERVATIONAL-SNAPSHOT
+BRIDGE_VERSION=RC1-INTERMARKET-EXTERNAL-CONTEXT-IDENTITY-FRESHNESS-BRIDGE
+OBSERVER_VERSION=RC1
+PROVIDER_SYMBOL_MAP_VERSION=RC2.1
+SUPPORTED_SYMBOLS=US500,NASDAQ,DXY,VIX,US10Y,OIL,GOLD
+DEFAULT_OPT_IN_STATUS=PASS
+COLLECTOR_PRESERVE_QUOTES_DEFAULT=false
+SERVICE_OBSERVATIONAL_SNAPSHOTS_DEFAULT=false
+
+SNAPSHOT_IMMUTABLE=false
+FACTORY_SNAPSHOT_IMMUTABLE=true
+SOURCE_MUTATION_ISOLATED=true
+RETURNED_COPY_MUTATION_ISOLATED=true
+NESTED_METADATA_MUTATION_ISOLATED=true
+MUTATION_SCOPE=The three isolation checks passed for from_quotes() snapshots. Public direct construction bypasses their guarantees; see F1.
+DETERMINISTIC_SERIALIZATION=true (factory path; reversed input insertion order produced identical JSON)
+DATETIME_AWARE_OFFSET_PRESERVED=true
+DATETIME_NAIVE_NOT_CONVERTED_TO_UTC=true
+NAN_INF_DIAGNOSTIC_EVIDENCE_PRESERVED=true
+TUPLE_LIST_METADATA_ROUNDTRIP=true
+UNSUPPORTED_METADATA_INVENTED=false
+OMITTED_QUOTES_PRESERVED_AS_NONE=true
+SNAPSHOT_DECIDES_IDENTITY=false
+SNAPSHOT_DECIDES_FRESHNESS=false
+SNAPSHOT_DECIDES_READINESS=false
+BRIDGE_API_REUSED=true
+NEW_THRESHOLD_COUNT=0
+
+PER_ASSET_TIMESTAMP_PRESERVED=true
+PER_ASSET_FRESHNESS_INDEPENDENT=true
+AGGREGATE_TIMESTAMP_MASKING=false
+TEMPORAL_AUDIT_SCOPE=Normal collector/from_quotes path, with explicit caller threshold 60 seconds and reference 2026-10-05T15:00:00+00:00; no production threshold added.
+TEMPORAL_ASSET_RESULTS={"DXY":"STALE","GOLD":"MISSING","NASDAQ":"AVAILABLE","OIL":"FUTURE","US10Y":"STALE","US500":"AVAILABLE","VIX":"AVAILABLE"}
+AGGREGATED_OPERATIONAL_TIMESTAMP=2026-10-05T15:00:02+00:00
+TEMPORAL_READINESS=DATA_NOT_READY
+TEMPORAL_EVIDENCE=DXY age 61 seconds and US10Y age 120 seconds stayed STALE; OIL two seconds in future stayed FUTURE; GOLD stayed MISSING despite aggregate timestamp from OIL.
+IDENTITY_GUESSING=false
+UNKNOWN_IDENTITY_TREATED_AS_VERIFIED=false
+IDENTITY_MISMATCH_FAIL_CLOSED=true (existing bridge status INVALID)
+PROVIDER_MISMATCH_FAIL_CLOSED=true (existing bridge rejects identity and returns INVALID)
+PROVIDER_SYMBOL_MISMATCH_FAIL_CLOSED=true
+UNKNOWN_ALIAS_CORRECTED=false
+REQUIRED_MISSING_READINESS=DATA_NOT_READY
+OPTIONAL_MISSING_READINESS=DATA_READY when all required quotes valid/fresh; missing optional asset retains MISSING status.
+
+US500_FETCHES=1
+NASDAQ_FETCHES=1
+DXY_FETCHES=1
+VIX_FETCHES=1
+US10Y_FETCHES=1
+OIL_FETCHES=1
+GOLD_FETCHES=1
+TOTAL_FETCHES_AFTER_COLLECTION=7
+TOTAL_FETCHES_AFTER_DIAGNOSTIC=7
+EXTRA_FETCHES=0
+NETWORK_CALL_COUNT=0
+NETWORK_COUNT_SCOPE=In-memory independent fake-provider audit and operational comparisons; socket.connect, socket.create_connection and urllib.urlopen blocked by spies. Authorized git fetch is outside this count.
+COLLECTOR_COPY_BEFORE_NORMALIZATION=true
+PREVIOUS_EVIDENCE_CLEARED_BEFORE_ATTEMPT=true
+NORMAL_PROVIDER_FAILURE_LEAVES_NO_SNAPSHOT=true (existing new test passed)
+UNSUPPORTED_METADATA_LEAVES_NO_SNAPSHOT=true
+OBSERVATIONAL_ENCODING_ERROR_CONTAMINATES_OPERATIONAL_STATE=false
+SNAPSHOT_PUBLICATION_REVIEW=After the seven provider calls and aggregate timestamp construction; before returning the existing coletar() result. Normal failure before envelope creation leaves previous evidence cleared.
+SERVICE_SNAPSHOT_RETURNS=ExternalMarketState
+SERVICE_DIAGNOSTIC_READ_FETCHES=0
+SERVICE_AUDIT_FETCHES=0
+SERVICE_AUDIT_REQUIRES_EXPLICIT_PARAMETERS=reference_timestamp; maximum_staleness_seconds
+AGGREGATE_STATE_PASSED_TO_BRIDGE=false
+
+EXTERNAL_MARKET_STATE_EQUIVALENT=true
+PARENT_DEFAULT_NEW_DEFAULT_AND_ENABLED_COMPARISON=6 cases PASS: normal, optional missing, required missing, invalid price, change zero, unsupported nested metadata. Parent collector/service loaded from audited parent Git blobs in memory, with parent service linked to parent collector.
+STRATEGY_EQUIVALENT=true
+SCORE_EQUIVALENT=true
+DECISION_EQUIVALENT=true
+RISK_EQUIVALENT=true
+ALERT_EQUIVALENT=true
+OPERATIONAL_CONTEXT_MUTATED=false
+OPERATIONAL_FIXTURES=Existing offline histories from tests/test_full_pipeline_buy.py and tests/test_full_pipeline_sell.py, using construir_historico() without main/live collector.
+OPERATIONAL_EXECUTION=Real AnalysisPipeline engines executed for enabled=false and enabled=true with identical provider payloads; real AlertManager executed afterward. Alert clock patched in memory to fixed reference for deterministic comparison. No orders, live collection or external effects.
+OPERATIONAL_RESULTS=[{"action":"BUY","alert_valid":true,"equal":{"alert":true,"decision":true,"external_market":true,"risk":true,"score":true,"strategy":true},"fixture":"buy","risk_approved":true,"score":82.5,"snapshot_audit_context_unchanged":true,"strategy_valid":true},{"action":"SELL","alert_valid":true,"equal":{"alert":true,"decision":true,"external_market":true,"risk":true,"score":true,"strategy":true},"fixture":"sell","risk_approved":true,"score":82.5,"snapshot_audit_context_unchanged":true,"strategy_valid":true}]
+OPERATIONAL_EVIDENCE=Both fixtures yielded approved BUY/SELL respectively, score 82.5 and valid alerts. All fields of ExternalMarketState, StrategyResult, ScoreResult, DecisionResult, RiskResult and AlertResult compared via asdict(). Diagnostic read/audit preserved pickled entire AnalysisContext and fetch count.
+OPERATIONAL_LIMITS=Equivalence demonstrated for these deterministic fixtures and six service cases, not every possible market state.
+
+PYTHON_EXECUTABLE=C:\COPILOTO_PRICE_ACTION_AI\ambiente\Scripts\python.exe
+PYTHON_VERSION=3.13.5
+PYTEST_VERSION=9.1.1
+NEW_TESTS_PASSED=91
+NEW_TESTS_FAILED=0
+NEW_TESTS_ERRORS=0
+REGRESSION_TESTS_PASSED=654
+REGRESSION_TESTS_FAILED=0
+REGRESSION_TESTS_ERRORS=0
+LEGACY_EXPLICIT_ASSERTIONS_PASSED=6
+LEGACY_EXPLICIT_ASSERTIONS_FAILED=0
+PYTEST_WARNINGS=2 existing PytestReturnNotNoneWarning from legacy collector tests; their boolean returns explicitly asserted True in independent instrumentation.
+TEST_ORDER=Requested new snapshot suite first; all listed External Context and directed MTF/Decision/RC17 regression files second.
+TEST_FLAGS=PYTHONDONTWRITEBYTECODE=1; PYTEST_DISABLE_PLUGIN_AUTOLOAD=1; python -B -m pytest -q -p no:cacheprovider; unique basetemp directories in OS TEMP outside repository.
+TEST_COVERAGE_LIMIT=Passing tracked tests do not exercise public constructor bypass or duplicate canonical tuple entries. Findings reproduced separately in memory without editing tests.
+LEGACY_SCRIPT_LIMIT=test_external_context_pipeline.py has no pytest cases: four scenario return values independently asserted. test_analysis_pipeline_direct.py has a live collector main and no pytest cases: main not executed. Actual pipeline exercised using offline histories instead.
+DEPENDENCIES_INSTALLED=NONE
+TEMPORARY_INSTRUMENTATION_FILES_CREATED=NONE (instrumentation supplied to Python stdin)
+REPOSITORY_ARTIFACT_CREATED=saida_external_context_observational_snapshot_contract_rc1_post_implementation_audit_20261005.txt
+
+SECURITY_FAIL_CLOSED_RESULT=FAIL
+SECURITY_CASES={"NaN":{"classification":"PRESERVED_AS_DIAGNOSTIC_EVIDENCE","reasons":["INVALID_QUOTE"],"status":"INVALID","verified":null},"bridge_exception":{"classification":"REJECTED","exception":"RuntimeError propagates; no returned VERIFIED/FRESH audit or extra fetch"},"duplicate_canonical_key":{"classification":"PRESERVED_AS_DIAGNOSTIC_EVIDENCE","factory_dict_constraint":"dict cannot retain duplicate keys; public tuple constructor can","result":"FAIL: direct constructor accepts duplicate; to_quotes silently overwrites stale DXY with fresh DXY"},"identity_mismatch":{"classification":"PRESERVED_AS_DIAGNOSTIC_EVIDENCE","reasons":["CANONICAL_IDENTITY_MISMATCH"],"status":"INVALID","verified":null},"inf":{"classification":"PRESERVED_AS_DIAGNOSTIC_EVIDENCE","reasons":["INVALID_QUOTE"],"status":"INVALID","verified":null},"invalid_payload_type":{"classification":"REJECTED","exception":"TypeError"},"malformed_timestamp":{"classification":"PRESERVED_AS_DIAGNOSTIC_EVIDENCE","reasons":["INVALID_TIMESTAMP"],"status":"INVALID","verified":null},"missing_timestamp":{"classification":"PRESERVED_AS_DIAGNOSTIC_EVIDENCE","reasons":["INVALID_TIMESTAMP"],"status":"INVALID","verified":null},"naive_timestamp":{"classification":"PRESERVED_AS_DIAGNOSTIC_EVIDENCE","reasons":["INVALID_TIMESTAMP"],"status":"INVALID","verified":null},"no_preserved_snapshot":{"classification":"REJECTED","exception":"ValueError"},"optional_missing":{"classification":"PRESERVED_AS_DIAGNOSTIC_EVIDENCE","readiness":"DATA_READY","status":"MISSING"},"provider_mismatch":{"classification":"PRESERVED_AS_DIAGNOSTIC_EVIDENCE","readiness":"DATA_NOT_READY","status":"INVALID"},"provider_symbol_mismatch":{"classification":"PRESERVED_AS_DIAGNOSTIC_EVIDENCE","readiness":"DATA_NOT_READY","status":"INVALID"},"required_missing":{"classification":"PRESERVED_AS_DIAGNOSTIC_EVIDENCE","readiness":"DATA_NOT_READY","status":"MISSING"},"unknown_identity":{"classification":"PRESERVED_AS_DIAGNOSTIC_EVIDENCE","reasons":[],"status":"AVAILABLE","verified":null},"unsupported_canonical_key":{"classification":"REJECTED","exception":"ValueError"},"unsupported_nested_metadata":{"classification":"REJECTED","exception":"TypeError"}}
+SECURITY_SCOPE=Factory rejects unsupported canonical keys, invalid payload types and unsupported nested metadata. Invalid/missing/naive/malformed timestamps and NaN/inf retained as evidence but existing bridge returns INVALID. Identity/provider mismatches return INVALID. Unknown alias remains unchanged with provider_identity_verified=None; AVAILABLE quote freshness is not verified provider identity. Bridge exceptions propagate and no snapshot raises ValueError, without another fetch. Public constructor duplicate entries evade rejection and lose stale evidence.
+DUPLICATE_DICT_KEYS_NOTE=A Python dict cannot preserve duplicate keys. This is NOT a reason to mark duplicate audit NOT_APPLICABLE: the public dataclass constructor accepts a tuple containing duplicate canonical keys.
+
+AUDIT_FINDINGS=F1 public constructor permits mutable envelope; F2 duplicate canonical entries silently overwrite prior evidence.
+F1_SEVERITY=P2
+F1_LOCATION=external_context/external_observational_snapshot.py:45-48
+F1_ROOT_CAUSE=frozen=True prevents attribute reassignment but does not enforce tuple annotations, freeze supplied values or copy mutable collections. No __post_init__ or constructor validation restricts the generated public __init__.
+F1_REPRODUCTION=base=ExternalObservationalSnapshot.from_quotes(valid_quotes); entries=list(base.quotes); snap=ExternalObservationalSnapshot(entries); before=snap.to_json(); entries.clear(); assert snap.to_json()!=before.
+F1_OBSERVED=Accepted public snapshot changed through a retained mutable list reference without assigning any frozen field.
+F1_IMPACT=The class-wide immutable envelope acceptance criterion fails. Factory and current collector route produce tuple/string envelopes and passed isolation checks, but constructor exposes a valid public bypass.
+F1_REQUIRED_CORRECTION=Enforce validated immutable detached representation on every supported construction path or restrict direct construction. Include coverage of public constructor inputs; no correction made in this audit.
+
+F2_SEVERITY=P2
+F2_LOCATION=external_context/external_observational_snapshot.py:48,64
+F2_ROOT_CAUSE=Direct constructor does not validate canonical entry uniqueness. to_quotes() uses dict comprehension, silently retaining the last duplicate payload before the bridge sees it.
+F2_REPRODUCTION=stale=ExternalObservationalSnapshot.from_quotes(quotes_with_DXY_61_seconds_old); fresh=ExternalObservationalSnapshot.from_quotes(fresh_quotes); duplicate=ExternalObservationalSnapshot(stale.quotes+(('DXY',dict(fresh.quotes)['DXY']),)); duplicate.audit(reference_timestamp=reference,maximum_staleness_seconds=60).
+F2_OBSERVED=DXY had two canonical entries; original snapshot audit was STALE; duplicate snapshot audit was AVAILABLE. No ValueError/TypeError or duplicate diagnostic was produced.
+F2_IMPACT=Contradictory temporal evidence is silently lost before the unchanged bridge. This is duplicate-entry overwrite, not aggregate max(timestamp) masking, and has no observed operational trade influence.
+F2_REQUIRED_CORRECTION=Reject duplicate canonical entries at public construction/boundary before dict conversion; validate supported canonical keys, payload encoding and entry types there. Add duplicate/public constructor regressions; no correction made in this audit.
+OTHER_REVIEW_NOTES=Collector/service docstrings retain prior RC labels while runtime VERSION fields are correct; documentation drift only, not the basis of FAIL. New collector import depends on the existing research bridge/observer; no cycle or operational engine mutation found in exercised paths.
+
+HEAD_UNCHANGED=true
+ORIGIN_UNCHANGED=true
+RC17_UNCHANGED=true
+PRICE_ACTION_UNCHANGED=true
+MTF_UNCHANGED=true
+ANALYSIS_PIPELINE_UNCHANGED=true
+BRIDGE_UNCHANGED=true
+OBSERVER_UNCHANGED=true
+PROVIDER_SYMBOL_MAP_UNCHANGED=true
+TRACKED_FILES_CHANGED=false
+PREEXISTING_TRACKED_MODIFICATIONS=Profit.xlsx; connectors/excel_connector.py; livroOfertas.xlsx; saida.txt; times&trades.xlsx
+STAGED_FILES=NONE
+PROTECTED_FILES_PRESERVED=true
+ALL_TRACKED_HASHES_BEFORE=1717271de7ae8f18b287b689a5b685f8f231164124db63047827678d3f0c5c12
+ALL_TRACKED_HASHES_AFTER=1717271de7ae8f18b287b689a5b685f8f231164124db63047827678d3f0c5c12
+RAW_RESULT_DIRECTORY_DIGEST_BEFORE=93202e7f0967cf26dab8f6bbf2d7c48fdf57281fec40c9c362b490a86cae236a
+RAW_RESULT_DIRECTORY_DIGEST_AFTER=93202e7f0967cf26dab8f6bbf2d7c48fdf57281fec40c9c362b490a86cae236a
+PROTECTED_HASHES_BEFORE_AND_AFTER={"saida_rc17_formal_consolidation_19_23_rc1_20261005.txt":"f43e05b320394bfc1df879df1c2b2f475b53fd5a6483e57f48f1598e28a95b82","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_consolidation_19_23_rc1_20261005.json":"968f463fe21b83ca976e8928e7519e2ed4c7a0b81db9738c417ec08aa101bba2","saida_rc17_session23_final_structural_audit_comparison_19_23_rc1_20261005.txt":"1256632165f4a2d0f0971f819af016657a8c150f8a11249e99e618597f5aae99","data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261005_124328.json":"db02232416fb21d69565f6becf98a351fd50e17009097fb38ed5bc769cc0147b","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_session23_rc1_20261005.json":"1ffe4aa8e3e1c05652416fc3c6c7acfe89a88789531ac68837adcd0845ab6095","data/profit_rtd_rc54_3_2/saida_rc17_sideways_to_directional_session23_rc1_20261005.txt":"d363e43d9d7216745ba10fa9772f23873e611c075ba7d022023976475f9dbccf","saida_rc17_session22_structural_audit_comparison_19_22_rc1_20261005.txt":"f368bab2739077e451ecb754dd90c78cce8c6b1aa57ff1e06d02296678a8ded2","data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261005_120328.json":"5a2f640c0d18d3dcded12e491c77fe69e9df3e2b9c5724f0ea12676dc600a884","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_session22_rc1_20261005.json":"167673ab374320028d72224fa373d2015d935d161904abb9afe4cd741035ebf5","data/profit_rtd_rc54_3_2/saida_rc17_sideways_to_directional_session22_rc1_20261005.txt":"4eaa6498aad7208754b3090287c438db5f3e2f04c7ecc93f5ba20e51c206c36a","saida_rc17_session21_directional_transition_audit_comparison_19_21_rc1_20261005.txt":"a300c91e44bccc95b38226ea7b1a525493140e14b15631db7df36e1f2b19aab6","data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261005_112225.json":"d99d363d19879d85d7b0ab3ebbbaacefad12440dec14bf0114c5569fc78c3967","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_session21_rc1_20261005.json":"84b8ad827176b32258964142f971d81cef51d05224d1f650000e02bd7d587711","data/profit_rtd_rc54_3_2/saida_rc17_sideways_to_directional_session21_rc1_20261005.txt":"9006f70bb952f4262d596c7168aad4d2799c5de0f02eb7f59b48d308f3d3a1ab","saida_rc17_session20_structural_audit_comparison_19_20_rc1_20261005.txt":"d8cd1d5f1c1b2e0c7f51b55a9fe6f9960e6c4b5d86bc72fb513ecd36bc12cfd8","data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261005_102113.json":"64ca107e086b609c1d6856f13955e2ed27e4d4c2241cf40d5e58982484442cff","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_session20_rc1_20261005.json":"5af01be275f268f84cc21fd3e1227d54da4a044d2768d3709df23d8ff92b12c4","data/profit_rtd_rc54_3_2/saida_rc17_sideways_to_directional_session20_rc1_20261005.txt":"837f3a368dce84d1735010bddaeef8d69381080c66fbe6a4197422befaba1f04","saida_rc17_session19_post_capture_structural_audit_rc1_20261005.txt":"cac0d3637eddb5deeb77b0dbb0e9584b4bbf22131e5bd6ccae23b4673c1cb6e2","rc17_sideways_to_directional_evolution_protocol_rc1_20261002.json":"2a278e7c4c438098d9ce167a778f7386a09b341a555a73e322598215150ebdb3","data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261005_094823.json":"d64d66eebdfb2ee6dd6d9eede06d622556cdc5de12077d062ad7654712c89624","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_session19_rc1_20261005.json":"3b3f1fe4e8d37dbe14dbb5585e73e1d495887eae9106a6757b01840dca267ef4","data/profit_rtd_rc54_3_2/saida_rc17_sideways_to_directional_session19_rc1_20261005.txt":"b37e40c0701393409f1e2614c3d8cbe338dfb0435e34fbf5b542d7ad33a5d783","Profit.xlsx":"8694fd1583bead42d786cd2bafc68200baead445a9150c1e6045b6347535e2cb","connectors/excel_connector.py":"f234edd86d16ab637732438c0093fa84fd457a922044b49e6bd270074920d567","livroOfertas.xlsx":"db9d59836299a0e69efefa39a934180f3ec6f21f723ed1d115d297388e37ab67","saida.txt":"99d0374af231c064d3fd4c50e299f687d2ab2e0e89cd8c7006b2cd01d06c70fa","times&trades.xlsx":"564bc2ac2eeef9067e98c23c9e3fd8fd14a507752acd052bffab36f4b69c8b04"}
+PRESERVATION_METHOD=Byte SHA256 for every tracked file and protected RC17 artifacts before/after; name/size directory digest preserved. No baseline reconstruction needed: audit modifies no tracked file.
+RAW_CREATED=false
+FORMAL_RESULT_CREATED=false
+LIVE_COLLECTION_EXECUTED=false
+COMMIT_EXECUTED=false
+PUSH_EXECUTED=false
+GIT_ADD_EXECUTED=false
+GIT_STATUS_SHORT_BEFORE_REPORT_CAPTURED=true
+GIT_STATUS_SHORT_AFTER_REPORT_VERIFICATION=PASS
+GIT_STATUS_SHORT_ONLY_ADDED_ENTRY=?? saida_external_context_observational_snapshot_contract_rc1_post_implementation_audit_20261005.txt
+GIT_STATUS_SHORT_REMOVED_ENTRIES=NONE
+GIT_STATUS_SHORT_COMPARISON=All preexisting tracked and untracked status entries preserved; only authorized report added. Commands returned exit code 0; preexisting inaccessible temporary directories produced warnings only.
+
+NEXT_STEP=FIX_REQUIRED
+CONCLUSION=FAIL. Exact commit, normal factory/collector/service route, independent timestamps, seven-fetch boundary, identity handling, operational equivalence, tests and preservation passed. The public snapshot constructor fails immutability and duplicate-entry fail-closed requirements. No code/test change, staging, commit or push performed. Corrective implementation requires a separate task; roadmap closeout not released.
+

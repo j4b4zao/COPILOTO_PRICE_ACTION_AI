@@ -1,0 +1,114 @@
+H.10 RC3.11 — PREPARAÇÃO DOS TESTES FUNCIONAIS CONTROLADOS
+STATUS: FUNCTIONAL_TESTS_PREPARED_NOT_EXECUTED
+decision=WAIT; orders_allowed=False; live_certified=False; flow_complete=False
+
+INTEGRIDADE: 146 fontes + 5 artefatos RC3.9 + manifesto = 152 arquivos.
+SHA256: zero divergências antes/depois; nenhum hash anterior atualizado.
+Auditoria exclusivamente texto/AST. Motores importados/instanciados/executados: 0.
+Testes funcionais executados: 0. Suíte não importada nem coletada.
+RC3.10 8/8 é contexto informado; não é resultado desta etapa.
+
+CONTRATOS IDENTIFICADOS (todas as entradas são AnalysisContext; retorno é o mesmo contexto):
+- market_structure: construtor () inherited object initialization through EngineBase; executar(self, context). ready e >=6 candles; exclui último. Swings estritos ±2. UP=HH+HL; DOWN=LH+LL; caso restante com swing SIDEWAYS. Sem swing valid=False. BOS pelo último close fechado; CHOCH cruza swing anterior. Early return não limpa resultado antigo.
+- price_action: construtor () inherited object initialization through EngineBase; executar(self, context). ready; clear/cópia structure.trend. UP->BUY, DOWN->SELL, demais NONE; valid=bias BUY/SELL e score>=30. Padrões somam pontos sem veto geral de conflito; _detect_patterns usa market.last_candle (pode estar em formação), enquanto helpers usam candles fechados.
+- strategy: construtor (self); executar(self, context). Construtor carrega 3 setups reais. executar limpa strategy, ignora setups desabilitados/inválidos e seleciona maior score; empate mantém primeiro. Pode substituir context.strategy. Breakout BUY/SELL exige context.valid/bias, Trend/BOS/OB/FVG/breakout e filtros volume/liquidez; não exige todos os flags valid auxiliares.
+- score: construtor (self, enable_order_flow=None, order_flow_weight=None); executar(self, context). Construtor(enable_order_flow=None,order_flow_weight=None), import tardio settings mesmo com parâmetros; peso finito 0..10. Pesos 20/20/15/10/10/10/5/10, total 0..100; valid=strategy.valid e total>=70; bias=strategy.signal. Confiança=total/100; sem veto geral direcional. OF explicitamente desabilitado/peso0.
+- risk: construtor () inherited object initialization through EngineBase; executar(self, context). Entrada positiva; strategy.valid/signal BUY ou SELL; stop protetor no lado correto, distância<=500; RR>=1.5; risk_score>=70 aprova e valid=approved. Alvo estrutural RR insuficiente rejeita sem fallback; somente ausência de candidato permite 2R. Não oferece validação geral de NaN/freshness.
+- decision: construtor () inherited object initialization through EngineBase; executar(self, context). Clear; WAIT se setup inválido, risco não aprovado, score inválido, direção inválida ou conflito/oposição MTF válido. Demais caminhos copiam níveis/score e geram BUY/SELL valid=True. Não recalcula risco, evidence, candles ou freshness.
+- alert: construtor () inherited object initialization through EngineBase; executar(self, context). Clear; retorna se decision.approved=False. approved é action BUY/SELL; não depende de decision.valid. Copia ação/direção/sinal/setup/score/confiança, datetime.now sem timezone, valid=True e print. Não há validação de coerência; relógio futuro será fixado localmente.
+
+CENÁRIOS: 49 mapeados; 44 preparados; 5 BLOCKED_BY_CONTRACT.
+- ms_up: Tendência de alta — PREPARED_NOT_EXECUTED
+- ms_down: Tendência de baixa — PREPARED_NOT_EXECUTED
+- ms_sideways: Mercado lateral — PREPARED_NOT_EXECUTED
+- ms_hh_hl: HH e HL — PREPARED_NOT_EXECUTED
+- ms_lh_ll: LH e LL — PREPARED_NOT_EXECUTED
+- ms_bos_up: BOS de alta — PREPARED_NOT_EXECUTED
+- ms_bos_down: BOS de baixa — PREPARED_NOT_EXECUTED
+- ms_choch: CHOCH após HH/HL — PREPARED_NOT_EXECUTED
+- ms_forming: Candle em formação ignorado — PREPARED_NOT_EXECUTED
+- ms_insufficient: Histórico insuficiente — PREPARED_NOT_EXECUTED
+- pa_buy: Sinal buy — PREPARED_NOT_EXECUTED
+- pa_sell: Sinal sell — PREPARED_NOT_EXECUTED
+- pa_none: Ausência de sinal — PREPARED_NOT_EXECUTED
+- pa_insufficient: Histórico insuficiente — PREPARED_NOT_EXECUTED
+- pa_conflict: Bloqueio por padrões conflitantes — BLOCKED_BY_CONTRACT — Bias deriva da tendência; padrões somam score. Não há veto geral por conflito de padrões.
+- strategy_buy: Setup comprador válido — PREPARED_NOT_EXECUTED
+- strategy_sell: Setup vendedor válido — PREPARED_NOT_EXECUTED
+- strategy_invalid: Setup inválido — PREPARED_NOT_EXECUTED
+- strategy_no_confluence: Ausência de confluências — PREPARED_NOT_EXECUTED
+- strategy_conflict: Veto de setups opostos — BLOCKED_BY_CONTRACT — Seleciona maior score; empate mantém primeiro pela prioridade. Não existe veto direcional geral.
+- strategy_tie_observed: Seleção observável no empate oposto — PREPARED_NOT_EXECUTED
+- score_minimum: Pontuação mínima zero — PREPARED_NOT_EXECUTED
+- score_threshold: Limiar funcional 70 — PREPARED_NOT_EXECUTED
+- score_intermediate: Pontuação intermediária 30 — PREPARED_NOT_EXECUTED
+- score_high: Pontuação elevada — PREPARED_NOT_EXECUTED
+- score_favorable: Confluências favoráveis — PREPARED_NOT_EXECUTED
+- score_of_disabled: Order Flow desabilitado — PREPARED_NOT_EXECUTED
+- score_conflicting: Confluências conflitantes sem veto presumido — PREPARED_NOT_EXECUTED
+- score_bounded: Score limitado 0..100 — PREPARED_NOT_EXECUTED
+- risk_valid_stop: Stop válido — PREPARED_NOT_EXECUTED
+- risk_invalid_stop: Stop inválido — PREPARED_NOT_EXECUTED
+- risk_valid_target: Alvo válido — PREPARED_NOT_EXECUTED
+- risk_rr_below: RR abaixo de 1.5 — PREPARED_NOT_EXECUTED
+- risk_no_bad_fallback: Rejeição sem fallback indevido — PREPARED_NOT_EXECUTED
+- risk_rr_above: RR acima do mínimo — PREPARED_NOT_EXECUTED
+- risk_invalid_target: Rejeição obrigatória de nível de alvo inválido — BLOCKED_BY_CONTRACT — Candidatos fora do lado/zerados são filtrados; ausência de estrutura válida permite fallback 2R. Não existe veto geral por nível inválido.
+- risk_fallback_absent: Fallback permitido somente sem candidato estrutural — PREPARED_NOT_EXECUTED
+- decision_buy: BUY aprovado em memória — PREPARED_NOT_EXECUTED
+- decision_sell: SELL aprovado em memória — PREPARED_NOT_EXECUTED
+- decision_wait_evidence: WAIT por setup ausente — PREPARED_NOT_EXECUTED
+- decision_wait_risk: WAIT por risco rejeitado — PREPARED_NOT_EXECUTED
+- decision_wait_conflict: WAIT por conflito MTF — PREPARED_NOT_EXECUTED
+- decision_wait_invalid: WAIT por flag score inválido — PREPARED_NOT_EXECUTED
+- decision_invalid_raw: WAIT por dados brutos inválidos com flags aprovadas — BLOCKED_BY_CONTRACT — Não valida candles, freshness, NaN ou preços diretamente. Só gates strategy/risk/score/direction/MTF.
+- alert_buy: Alerta BUY coerente — PREPARED_NOT_EXECUTED
+- alert_sell: Alerta SELL coerente — PREPARED_NOT_EXECUTED
+- alert_wait: Nenhum alerta em WAIT — PREPARED_NOT_EXECUTED
+- alert_unapproved: Decisão não aprovada — PREPARED_NOT_EXECUTED
+- alert_inconsistent: Bloqueio de alerta inconsistente — BLOCKED_BY_CONTRACT — DecisionResult.approved depende apenas de action BUY/SELL; AlertManager não verifica valid/coerência de direction/signal/preços.
+
+As expectativas e entradas completas estão no fixtures JSON; condições/linhas/saídas AST no relatório JSON.
+Os bloqueios são lacunas dos contratos desejados, não reprovações em execução. O status global descreve preparação parcial: nenhum bloqueado é executável.
+
+DEPENDÊNCIAS E EFEITOS:
+Todos importam EngineBase -> AnalysisContext; initializers trazem HTTP, exporters e SAPI dormentes.
+Strategy instancia três setups; Score lê settings mesmo com parâmetros explícitos.
+AnalysisContext cria modelos via default_factory; slots das entradas foram verificados por AST.
+MarketStructure e Alert imprimem; Alert lê relógio. Resultados/evidence são mutados em memória.
+Nenhum teste encadeia os sete motores: predecessores são estados sintéticos explícitos.
+Sem instalação, mudanças operacionais, app.main, Profit/Excel/DDE/RTD, ordens, commit/push.
+
+BARREIRAS DA SUÍTE FUTURA:
+Sem imports de motores no topo; hashes antigos e novos conferidos antes do import.
+Exige --authorize-engine correspondente ao caso e --execute-one; exatamente um teste por comando.
+Bloqueados por contrato são recusados antes de importar motores. Estado inicial WAIT obrigatório.
+Barreiras de leitura: bloqueiam escrita via open/io.open/Path/os.open e remoção/rename/mkdir.
+Bloqueiam sockets, HTTP, subprocessos, comandos shell e imports conhecidos de app/market_data/COM/DDE.
+Bytecode desabilitado; stdout capturado; relógio Alert fixado somente no teste em memória.
+Essas barreiras NÃO foram executadas nem certificadas; não são sandbox de SO.
+Não cobrem código nativo, aliases já capturados, caminhos alternativos ou callbacks arbitrários.
+Sem timeout rígido interno: avaliar limite externo antes da execução autorizada.
+BUY/SELL sintético não permite ordem e não altera o envelope operacional WAIT.
+
+ARQUIVOS NOVOS (diretório de entrega C:\COPILOTO_GIT_SYNC):
+- h10_rc3_11_prepare_static.py
+- h10_rc3_11_future_suite.py
+- h10_rc3_11_synthetic_fixtures.json
+- h10_rc3_11_preparation_report.json
+- h10_rc3_11_preparation_report.txt
+- h10_rc3_11_hashes.json
+Originais, RC3.9, testes antigos e relatórios anteriores modificados: nenhum.
+SHA256 dos artefatos: manifesto h10_rc3_11_hashes.json; auto-hash do manifesto fica fora dele.
+h10_rc3_11_prepare_static.py: 7f22815cfc5772ba8d57ac9ef28d37d0dcd38f9c9b34dc6e4f4cce8125f1fe82
+h10_rc3_11_future_suite.py: 8cd5ec9807e90fee8b0d1695e42b23ec9d41a7ec693f1e8e055db4efedc4405c
+h10_rc3_11_synthetic_fixtures.json: a49eb21f65e3362b6148252e60ee529de254b68a82687cb61898060b0bbcc8e2
+O hash final deste TXT e do JSON será informado separadamente e no manifesto.
+
+PRIMEIRO TESTE FUNCIONAL RECOMENDADO:
+decision_wait_conflict: flags sintéticas aprovadas e conflito MTF devem manter WAIT.
+Somente após revisão e autorização explícita do usuário:
+& "C:\Users\jb\AppData\Local\Programs\Python\Python313\python.exe" -B .\h10_rc3_11_future_suite.py --authorize-engine decision --case decision_wait_conflict --execute-one
+Comando NÃO executado. Argumento CLI não substitui autorização humana.
+Próxima ação: revisar casos e bloqueios, autorizar somente um caso e analisar seu resultado.
+Nenhuma aprovação funcional ou certificação live antecipada. AGUARDANDO REVISÃO E AUTORIZAÇÃO.

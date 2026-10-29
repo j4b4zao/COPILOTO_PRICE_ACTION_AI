@@ -1,0 +1,93 @@
+{
+  "scenarios": {
+    "by_bias": {
+      "BUY": {
+        "average_confidence": 0.8,
+        "average_delta": 0.8,
+        "average_effective_strength": 0.8,
+        "duplicate_samples": 0,
+        "grade_changes": 0,
+        "negative_adjustments": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "by_confidence": {
+      "HIGH": {
+        "average_confidence": 0.8,
+        "average_delta": 0.8,
+        "average_effective_strength": 0.8,
+        "duplicate_samples": 0,
+        "grade_changes": 0,
+        "negative_adjustments": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "by_correlation": {
+      "INDEPENDENT": {
+        "average_confidence": 0.8,
+        "average_delta": 0.8,
+        "average_effective_strength": 0.8,
+        "duplicate_samples": 0,
+        "grade_changes": 0,
+        "negative_adjustments": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "by_pressure": {
+      "BID_DOMINANT": {
+        "average_confidence": 0.8,
+        "average_delta": 0.8,
+        "average_effective_strength": 0.8,
+        "duplicate_samples": 0,
+        "grade_changes": 0,
+        "negative_adjustments": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "by_status": {
+      "ALIGNED": {
+        "average_confidence": 0.8,
+        "average_delta": 0.8,
+        "average_effective_strength": 0.8,
+        "duplicate_samples": 0,
+        "grade_changes": 0,
+        "negative_adjustments": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "duplicate_factor": 0.35,
+    "samples": 1,
+    "version": "RC3-BOOK-DEPTH-SCORE-AB-PERSISTENCE",
+    "weight": 1.0
+  },
+  "summary": {
+    "average_confidence": 0.8,
+    "average_delta": 0.8,
+    "average_effective_strength": 0.8,
+    "duplicate_factor": 0.35,
+    "duplicate_samples": 0,
+    "grade_changes": 0,
+    "negative_adjustments": 0,
+    "neutral_adjustments": 0,
+    "positive_adjustments": 1,
+    "samples": 1,
+    "validity_changes": 0,
+    "version": "RC3-BOOK-DEPTH-SCORE-AB-PERSISTENCE",
+    "weight": 1.0
+  }
+}

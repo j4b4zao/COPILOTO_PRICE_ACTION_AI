@@ -1,0 +1,70 @@
+{
+  "affects_decision": false,
+  "generated_at": "2026-09-28T20:26:31.849764Z",
+  "payload": {
+    "affects_decision": false,
+    "dashboard_projection": {
+      "affects_decision": false,
+      "directory": "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_unrelated_json_is_preserv0\\source",
+      "directory_exists": false,
+      "excess_count": 0,
+      "existing_count": 0,
+      "keep": 20,
+      "label": "Sem snapshots",
+      "prefix": "voice_status",
+      "readonly": true,
+      "retained_count": 0,
+      "status": "EMPTY",
+      "summary": "No voice status snapshots are present.",
+      "version": "RC76-VOICE-STATUS-RETENTION-DASHBOARD-PROJECTION"
+    },
+    "dashboard_widget": {
+      "affects_decision": false,
+      "detail": "No voice status snapshots are present.",
+      "directory": "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_unrelated_json_is_preserv0\\source",
+      "directory_exists": false,
+      "excess_count": 0,
+      "existing_count": 0,
+      "keep": 20,
+      "label": "Sem snapshots",
+      "prefix": "voice_status",
+      "readonly": true,
+      "retained_count": 0,
+      "status": "EMPTY",
+      "title": "Voice Status Retention",
+      "version": "RC78-VOICE-STATUS-RETENTION-DASHBOARD-WIDGET-CONTRACT"
+    },
+    "health": {
+      "affects_decision": false,
+      "directory": "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_unrelated_json_is_preserv0\\source",
+      "directory_exists": false,
+      "existing_count": 0,
+      "keep": 20,
+      "prefix": "voice_status",
+      "readonly": true,
+      "retained_count": 0,
+      "status": "EMPTY",
+      "summary": "No voice status snapshots are present.",
+      "version": "RC73-VOICE-STATUS-RETENTION-HEALTH",
+      "would_remove_count": 0
+    },
+    "inspection": {
+      "affects_decision": false,
+      "directory": "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_unrelated_json_is_preserv0\\source",
+      "directory_exists": false,
+      "existing_files": [],
+      "keep": 20,
+      "prefix": "voice_status",
+      "readonly": true,
+      "retained_files": [],
+      "version": "RC70-VOICE-STATUS-RETENTION-INSPECTION",
+      "would_remove_files": []
+    },
+    "readonly": true,
+    "version": "RC80-VOICE-STATUS-RETENTION-BUNDLE"
+  },
+  "readonly": true,
+  "schema": "copiloto.voice.status.retention.v1",
+  "status": "EMPTY",
+  "version": "RC83-VOICE-STATUS-RETENTION-EXPORT-CONTRACT"
+}

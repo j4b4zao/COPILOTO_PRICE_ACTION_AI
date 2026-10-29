@@ -1,0 +1,6 @@
+{
+  "notice": "Fixtures sinteticas offline. Contagens dos pacotes de exemplo nao sao checkpoints reais da auditoria. Sem autenticacao ou certificacao.",
+  "path": "EXEMPLO_BUNDLE_F3_INT90.witnessbundle",
+  "bundle_sha256": "3d59a7cb4140b6444b8c8f6c32a45c151451c27e1d17cfc738f2e35ea746b87b",
+  "observable_id": "3f0d9543c9b4d8ab889f879ae849be9631852e9611f0f771a861fdaed7766a1a"
+}

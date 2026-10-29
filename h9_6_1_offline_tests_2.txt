@@ -1,0 +1,19 @@
+test_connect_success_order (__main__.Tests.test_connect_success_order) ... ok
+test_count (__main__.Tests.test_count) ... ok
+test_dispatch (__main__.Tests.test_dispatch) ... ok
+test_failed_run_has_no_attachment (__main__.Tests.test_failed_run_has_no_attachment) ... ok
+test_first_hwnd (__main__.Tests.test_first_hwnd) ... ok
+test_fullname (__main__.Tests.test_fullname) ... ok
+test_inventory_hwnd (__main__.Tests.test_inventory_hwnd) ... ok
+test_item (__main__.Tests.test_item) ... ok
+test_multiple_stages_indistinguishable (__main__.Tests.test_multiple_stages_indistinguishable) ... ok
+test_no_application_normalization (__main__.Tests.test_no_application_normalization) ... ok
+test_parent_repackages_without_location (__main__.Tests.test_parent_repackages_without_location) ... ok
+test_queryinterface (__main__.Tests.test_queryinterface) ... ok
+test_subsequent_saved_run (__main__.Tests.test_subsequent_saved_run) ... ok
+test_workbooks (__main__.Tests.test_workbooks) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.188s
+
+OK

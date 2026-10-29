@@ -1,0 +1,16 @@
+{
+  "baseline_files": 1977,
+  "changed": [
+    "market_data/source_acquisition_diagnostics.py"
+  ],
+  "missing": [],
+  "added": [
+    "tests/test_h10_rc3_18_3_3s_temporal_diagnostics.py"
+  ],
+  "sha256": {
+    "market_data/source_acquisition_diagnostics.py": "6d9b06f3b1ac6e36f928789032661a343e4f71d7d64acfbf0c551690bdd6f61a",
+    "tests/test_h10_rc3_18_3_3s_temporal_diagnostics.py": "161cf07213bd17e84469420cbf779e8f61d3c55714c90c19dbe7f9cb6d09f87b",
+    "market_data/collector.py": "45d1f6deb3b99d6afd98df6212be44c06a90dffefb542359e52ea9b217aec086",
+    "market_data/source_temporal_validator.py": "93b522ab23bf0e8a34abdbf8548d3b921f8950a784cc46a3d07a3e07d5be0172"
+  }
+}

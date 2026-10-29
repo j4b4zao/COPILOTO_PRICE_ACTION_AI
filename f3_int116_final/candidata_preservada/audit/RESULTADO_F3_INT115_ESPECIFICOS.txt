@@ -1,0 +1,160 @@
+test_corrupt_store_is_not_reset (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_corrupt_store_is_not_reset) ... {"test": "test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_corrupt_store_is_not_reset", "retained_pins_before_writers": {"before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40", "after_state_digest": "33be2bbc53c765cdada23791a50eead20fdcc4213cd76063a7124f8324835d93", "expected_chain_digest": "6c245f9ac01a66bd6063284a33e119245128d60dcc1ec67972a60eefb66b17fb", "context": "audit:A", "purpose": "review", "run_id": "run:1"}, "custody": "SAME_USER_SEPARATE_DIRECTORY_UNAUTHENTICATED"}
+ERROR
+test_death_after_commit_lost_ack_and_retry_rejected (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_death_after_commit_lost_ack_and_retry_rejected) ... {"test": "test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_death_after_commit_lost_ack_and_retry_rejected", "retained_pins_before_writers": {"before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40", "after_state_digest": "33be2bbc53c765cdada23791a50eead20fdcc4213cd76063a7124f8324835d93", "expected_chain_digest": "6c245f9ac01a66bd6063284a33e119245128d60dcc1ec67972a60eefb66b17fb", "context": "audit:A", "purpose": "review", "run_id": "run:1"}, "custody": "SAME_USER_SEPARATE_DIRECTORY_UNAUTHENTICATED"}
+ERROR
+test_death_after_write_atomic_rollback (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_death_after_write_atomic_rollback) ... {"test": "test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_death_after_write_atomic_rollback", "retained_pins_before_writers": {"before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40", "after_state_digest": "33be2bbc53c765cdada23791a50eead20fdcc4213cd76063a7124f8324835d93", "expected_chain_digest": "6c245f9ac01a66bd6063284a33e119245128d60dcc1ec67972a60eefb66b17fb", "context": "audit:A", "purpose": "review", "run_id": "run:1"}, "custody": "SAME_USER_SEPARATE_DIRECTORY_UNAUTHENTICATED"}
+ERROR
+test_death_before_write (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_death_before_write) ... {"test": "test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_death_before_write", "retained_pins_before_writers": {"before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40", "after_state_digest": "33be2bbc53c765cdada23791a50eead20fdcc4213cd76063a7124f8324835d93", "expected_chain_digest": "6c245f9ac01a66bd6063284a33e119245128d60dcc1ec67972a60eefb66b17fb", "context": "audit:A", "purpose": "review", "run_id": "run:1"}, "custody": "SAME_USER_SEPARATE_DIRECTORY_UNAUTHENTICATED"}
+ERROR
+test_lock_held_competitor_busy_then_stale (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_lock_held_competitor_busy_then_stale) ... {"test": "test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_lock_held_competitor_busy_then_stale", "retained_pins_before_writers": {"before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40", "after_state_digest": "33be2bbc53c765cdada23791a50eead20fdcc4213cd76063a7124f8324835d93", "expected_chain_digest": "6c245f9ac01a66bd6063284a33e119245128d60dcc1ec67972a60eefb66b17fb", "context": "audit:A", "purpose": "review", "run_id": "run:1"}, "custody": "SAME_USER_SEPARATE_DIRECTORY_UNAUTHENTICATED"}
+ERROR
+test_missing_pin_keeps_outcome_uncertain (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_missing_pin_keeps_outcome_uncertain) ... {"test": "test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_missing_pin_keeps_outcome_uncertain", "retained_pins_before_writers": {"before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40", "after_state_digest": "33be2bbc53c765cdada23791a50eead20fdcc4213cd76063a7124f8324835d93", "expected_chain_digest": "6c245f9ac01a66bd6063284a33e119245128d60dcc1ec67972a60eefb66b17fb", "context": "audit:A", "purpose": "review", "run_id": "run:1"}, "custody": "SAME_USER_SEPARATE_DIRECTORY_UNAUTHENTICATED"}
+ERROR
+test_missing_store_is_not_recreated (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_missing_store_is_not_recreated) ... {"test": "test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_missing_store_is_not_recreated", "retained_pins_before_writers": {"before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40", "after_state_digest": "33be2bbc53c765cdada23791a50eead20fdcc4213cd76063a7124f8324835d93", "expected_chain_digest": "6c245f9ac01a66bd6063284a33e119245128d60dcc1ec67972a60eefb66b17fb", "context": "audit:A", "purpose": "review", "run_id": "run:1"}, "custody": "SAME_USER_SEPARATE_DIRECTORY_UNAUTHENTICATED"}
+ERROR
+test_no_promotion_invalid_ack (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_no_promotion_invalid_ack) ... {"test": "test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_no_promotion_invalid_ack", "retained_pins_before_writers": {"before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40", "after_state_digest": "33be2bbc53c765cdada23791a50eead20fdcc4213cd76063a7124f8324835d93", "expected_chain_digest": "6c245f9ac01a66bd6063284a33e119245128d60dcc1ec67972a60eefb66b17fb", "context": "audit:A", "purpose": "review", "run_id": "run:1"}, "custody": "SAME_USER_SEPARATE_DIRECTORY_UNAUTHENTICATED"}
+ERROR
+test_simultaneous_same_operation_one_winner (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_simultaneous_same_operation_one_winner) ... {"test": "test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_simultaneous_same_operation_one_winner", "retained_pins_before_writers": {"before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40", "after_state_digest": "33be2bbc53c765cdada23791a50eead20fdcc4213cd76063a7124f8324835d93", "expected_chain_digest": "6c245f9ac01a66bd6063284a33e119245128d60dcc1ec67972a60eefb66b17fb", "context": "audit:A", "purpose": "review", "run_id": "run:1"}, "custody": "SAME_USER_SEPARATE_DIRECTORY_UNAUTHENTICATED"}
+ERROR
+test_wrong_pin_keeps_outcome_unresolved (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_wrong_pin_keeps_outcome_unresolved) ... {"test": "test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_wrong_pin_keeps_outcome_unresolved", "retained_pins_before_writers": {"before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40", "after_state_digest": "33be2bbc53c765cdada23791a50eead20fdcc4213cd76063a7124f8324835d93", "expected_chain_digest": "6c245f9ac01a66bd6063284a33e119245128d60dcc1ec67972a60eefb66b17fb", "context": "audit:A", "purpose": "review", "run_id": "run:1"}, "custody": "SAME_USER_SEPARATE_DIRECTORY_UNAUTHENTICATED"}
+ERROR
+
+======================================================================
+ERROR: test_corrupt_store_is_not_reset (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_corrupt_store_is_not_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 213, in test_corrupt_store_is_not_reset
+    self.assertEqual(self.inquiry(), 'STORE_ERROR')
+                     ~~~~~~~~~~~~^^
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 151, in inquiry
+    p = self.launch(action='observe', pins=pins)
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 116, in launch
+    records=[dict(blob=base64.b64encode(r.blob).decode('ascii'), sha=r.sha256)
+                       ^^^^^^
+NameError: name 'base64' is not defined. Did you forget to import 'base64'?
+
+======================================================================
+ERROR: test_death_after_commit_lost_ack_and_retry_rejected (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_death_after_commit_lost_ack_and_retry_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 193, in test_death_after_commit_lost_ack_and_retry_rejected
+    self.crash('after_commit')
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 178, in crash
+    p = self.launch(hold=phase); self.send(p, 'GO')
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 116, in launch
+    records=[dict(blob=base64.b64encode(r.blob).decode('ascii'), sha=r.sha256)
+                       ^^^^^^
+NameError: name 'base64' is not defined. Did you forget to import 'base64'?
+
+======================================================================
+ERROR: test_death_after_write_atomic_rollback (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_death_after_write_atomic_rollback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 187, in test_death_after_write_atomic_rollback
+    self.crash('after_write')
+    ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 178, in crash
+    p = self.launch(hold=phase); self.send(p, 'GO')
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 116, in launch
+    records=[dict(blob=base64.b64encode(r.blob).decode('ascii'), sha=r.sha256)
+                       ^^^^^^
+NameError: name 'base64' is not defined. Did you forget to import 'base64'?
+
+======================================================================
+ERROR: test_death_before_write (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_death_before_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 183, in test_death_before_write
+    self.crash('before_write')
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 178, in crash
+    p = self.launch(hold=phase); self.send(p, 'GO')
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 116, in launch
+    records=[dict(blob=base64.b64encode(r.blob).decode('ascii'), sha=r.sha256)
+                       ^^^^^^
+NameError: name 'base64' is not defined. Did you forget to import 'base64'?
+
+======================================================================
+ERROR: test_lock_held_competitor_busy_then_stale (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_lock_held_competitor_busy_then_stale)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 168, in test_lock_held_competitor_busy_then_stale
+    a = self.launch(hold='before_write'); self.send(a, 'GO')
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 116, in launch
+    records=[dict(blob=base64.b64encode(r.blob).decode('ascii'), sha=r.sha256)
+                       ^^^^^^
+NameError: name 'base64' is not defined. Did you forget to import 'base64'?
+
+======================================================================
+ERROR: test_missing_pin_keeps_outcome_uncertain (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_missing_pin_keeps_outcome_uncertain)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 199, in test_missing_pin_keeps_outcome_uncertain
+    self.crash('after_commit')
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 178, in crash
+    p = self.launch(hold=phase); self.send(p, 'GO')
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 116, in launch
+    records=[dict(blob=base64.b64encode(r.blob).decode('ascii'), sha=r.sha256)
+                       ^^^^^^
+NameError: name 'base64' is not defined. Did you forget to import 'base64'?
+
+======================================================================
+ERROR: test_missing_store_is_not_recreated (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_missing_store_is_not_recreated)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 208, in test_missing_store_is_not_recreated
+    self.assertEqual(self.inquiry(), 'STORE_ERROR')
+                     ~~~~~~~~~~~~^^
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 151, in inquiry
+    p = self.launch(action='observe', pins=pins)
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 116, in launch
+    records=[dict(blob=base64.b64encode(r.blob).decode('ascii'), sha=r.sha256)
+                       ^^^^^^
+NameError: name 'base64' is not defined. Did you forget to import 'base64'?
+
+======================================================================
+ERROR: test_no_promotion_invalid_ack (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_no_promotion_invalid_ack)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 217, in test_no_promotion_invalid_ack
+    self.assertEqual(self.inquiry(ack_state='bad'), 'INVALID_ACK')
+                     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 151, in inquiry
+    p = self.launch(action='observe', pins=pins)
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 116, in launch
+    records=[dict(blob=base64.b64encode(r.blob).decode('ascii'), sha=r.sha256)
+                       ^^^^^^
+NameError: name 'base64' is not defined. Did you forget to import 'base64'?
+
+======================================================================
+ERROR: test_simultaneous_same_operation_one_winner (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_simultaneous_same_operation_one_winner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 158, in test_simultaneous_same_operation_one_winner
+    a, b = self.launch(), self.launch()
+           ~~~~~~~~~~~^^
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 116, in launch
+    records=[dict(blob=base64.b64encode(r.blob).decode('ascii'), sha=r.sha256)
+                       ^^^^^^
+NameError: name 'base64' is not defined. Did you forget to import 'base64'?
+
+======================================================================
+ERROR: test_wrong_pin_keeps_outcome_unresolved (test_f3_int115_multiprocess_recovery.MultiprocessRecoveryTests.test_wrong_pin_keeps_outcome_unresolved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 203, in test_wrong_pin_keeps_outcome_unresolved
+    self.crash('after_commit')
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 178, in crash
+    p = self.launch(hold=phase); self.send(p, 'GO')
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_multiprocess_recovery.py", line 116, in launch
+    records=[dict(blob=base64.b64encode(r.blob).decode('ascii'), sha=r.sha256)
+                       ^^^^^^
+NameError: name 'base64' is not defined. Did you forget to import 'base64'?
+
+----------------------------------------------------------------------
+Ran 10 tests in 9.374s
+
+FAILED (errors=10)

@@ -1,0 +1,1 @@
+{"source_status": "READY", "quality_status": "VALID", "bid_levels": 5, "ask_levels": 5, "spread": 5.0, "spread_ratio": 3e-05, "imbalance": 0.2, "top_bid_concentration": 0.6, "top_ask_concentration": 0.5, "concentration_edge": 0.1, "duplicate_rate": 0.0, "availability_rate": 1.0, "anomaly_count": 0, "symbol": "WINV26", "passive_only": true}

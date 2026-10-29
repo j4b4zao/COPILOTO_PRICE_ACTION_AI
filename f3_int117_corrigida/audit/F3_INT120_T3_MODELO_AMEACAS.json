@@ -1,0 +1,83 @@
+{
+  "project": "COPILOTO_PRICE_ACTION_AI",
+  "stage": "F3-INT-120 T3",
+  "classification": "THREAT_MODEL_SPECIFICATION_ONLY",
+  "external_witness_implemented": false,
+  "external_custody_verified": false,
+  "physical_power_loss_verified": false,
+  "promotion_allowed": false,
+  "official_checkpoint": "F3-INT-117 R2 FINAL",
+  "f3": "OPEN",
+  "threats": [
+    {
+      "id": "T01",
+      "name": "ROLLBACK_CONJUNTO_LOCAL",
+      "scenario": "SQLite e recibo substituidos por versoes antigas validas",
+      "requirement": "Consultar ultima referencia externa autenticada",
+      "expected": "REJECT"
+    },
+    {
+      "id": "T02",
+      "name": "CHAVE_CONTROLADA_PELO_ATACANTE",
+      "scenario": "Atacante fornece sua propria chave publica",
+      "requirement": "Identidade fixada por configuracao confiavel",
+      "expected": "REJECT"
+    },
+    {
+      "id": "T03",
+      "name": "RESPOSTA_EXTERNA_ANTIGA",
+      "scenario": "Resposta autentica de consulta anterior e reutilizada",
+      "requirement": "Vincular resposta a desafio unico e contexto",
+      "expected": "REJECT"
+    },
+    {
+      "id": "T04",
+      "name": "SEQUENCIA_REPETIDA",
+      "scenario": "Duas atualizacoes tentam confirmar a mesma sequencia",
+      "requirement": "Controle atomico de concorrencia e idempotencia",
+      "expected": "REJECT_OR_IDEMPOTENT_REPLAY"
+    },
+    {
+      "id": "T05",
+      "name": "ACK_PERDIDO",
+      "scenario": "Persistencia confirmada externamente, resposta perdida",
+      "requirement": "Consulta de recuperacao sem duplicar atualizacao",
+      "expected": "RECOVER_WITHOUT_DUPLICATION"
+    },
+    {
+      "id": "T06",
+      "name": "FALHA_DURANTE_PERSISTENCIA",
+      "scenario": "Interrupcao antes da confirmacao duravel",
+      "requirement": "Nao assinar confirmacao nao persistida",
+      "expected": "NO_FALSE_ACK"
+    },
+    {
+      "id": "T07",
+      "name": "ROLLBACK_DA_TESTEMUNHA",
+      "scenario": "Armazenamento externo retorna a estado antigo",
+      "requirement": "Protecao independente contra rollback externo",
+      "expected": "DETECT_OR_BLOCK"
+    },
+    {
+      "id": "T08",
+      "name": "TESTEMUNHA_INDISPONIVEL",
+      "scenario": "Consulta externa falha ou excede prazo",
+      "requirement": "Falha fechada sem autorizacao operacional",
+      "expected": "BLOCK"
+    },
+    {
+      "id": "T09",
+      "name": "DIVERGENCIA_SQLITE",
+      "scenario": "Digest local difere do ultimo estado confirmado",
+      "requirement": "Comparacao de digest e generation",
+      "expected": "REJECT"
+    },
+    {
+      "id": "T10",
+      "name": "ROTACAO_NAO_AUTORIZADA",
+      "scenario": "Atacante substitui a chave confiavel",
+      "requirement": "Rotacao autenticada e auditavel",
+      "expected": "REJECT"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "stage": "F3-INT-111",
+  "status": "CANDIDATE",
+  "previous_final": "F3-INT-110",
+  "new_tests": 12,
+  "new_tests_passed": 12,
+  "full_regression": "PENDING",
+  "f3": "OPEN",
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  }
+}

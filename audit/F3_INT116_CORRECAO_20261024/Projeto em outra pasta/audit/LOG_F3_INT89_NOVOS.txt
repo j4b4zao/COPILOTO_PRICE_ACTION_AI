@@ -1,0 +1,19 @@
+test_bool_schema (test_f3_int89_import_witness_codec.ImportCodecTests.test_bool_schema) ... ok
+test_canonical_roundtrip (test_f3_int89_import_witness_codec.ImportCodecTests.test_canonical_roundtrip) ... ok
+test_duplicate_catalog (test_f3_int89_import_witness_codec.ImportCodecTests.test_duplicate_catalog) ... ok
+test_duplicate_json_key (test_f3_int89_import_witness_codec.ImportCodecTests.test_duplicate_json_key) ... ok
+test_flags (test_f3_int89_import_witness_codec.ImportCodecTests.test_flags) ... ok
+test_initial_version_tampering (test_f3_int89_import_witness_codec.ImportCodecTests.test_initial_version_tampering) ... ok
+test_invalid_event_type (test_f3_int89_import_witness_codec.ImportCodecTests.test_invalid_event_type) ... ok
+test_missing_catalog (test_f3_int89_import_witness_codec.ImportCodecTests.test_missing_catalog) ... ok
+test_reference_stage_mismatch (test_f3_int89_import_witness_codec.ImportCodecTests.test_reference_stage_mismatch) ... ok
+test_roundtrip (test_f3_int89_import_witness_codec.ImportCodecTests.test_roundtrip) ... ok
+test_tampered_catalog_bytes (test_f3_int89_import_witness_codec.ImportCodecTests.test_tampered_catalog_bytes) ... ok
+test_trace_digest_tampering (test_f3_int89_import_witness_codec.ImportCodecTests.test_trace_digest_tampering) ... ok
+test_unknown_top_field (test_f3_int89_import_witness_codec.ImportCodecTests.test_unknown_top_field) ... ok
+test_wrong_input_type (test_f3_int89_import_witness_codec.ImportCodecTests.test_wrong_input_type) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 8.194s
+
+OK

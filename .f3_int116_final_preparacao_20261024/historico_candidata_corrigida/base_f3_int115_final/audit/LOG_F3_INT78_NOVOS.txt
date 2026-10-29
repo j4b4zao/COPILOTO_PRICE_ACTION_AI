@@ -1,0 +1,19 @@
+test_bad_bytes (test_f3_int78_verified_envelope.EnvelopeTests.test_bad_bytes) ... ok
+test_bool_test_count_rejected (test_f3_int78_verified_envelope.EnvelopeTests.test_bool_test_count_rejected) ... ok
+test_case_collision (test_f3_int78_verified_envelope.EnvelopeTests.test_case_collision) ... ok
+test_digest_mismatch (test_f3_int78_verified_envelope.EnvelopeTests.test_digest_mismatch) ... ok
+test_duplicate_json_rejected (test_f3_int78_verified_envelope.EnvelopeTests.test_duplicate_json_rejected) ... ok
+test_exact_count_boundary (test_f3_int78_verified_envelope.EnvelopeTests.test_exact_count_boundary) ... ok
+test_explicit_600_file_policy (test_f3_int78_verified_envelope.EnvelopeTests.test_explicit_600_file_policy) ... ok
+test_failed_log_rejected (test_f3_int78_verified_envelope.EnvelopeTests.test_failed_log_rejected) ... ok
+test_flags (test_f3_int78_verified_envelope.EnvelopeTests.test_flags) ... ok
+test_flags_rejected (test_f3_int78_verified_envelope.EnvelopeTests.test_flags_rejected) ... ok
+test_namespace_alias (test_f3_int78_verified_envelope.EnvelopeTests.test_namespace_alias) ... ok
+test_policy_upper_bound (test_f3_int78_verified_envelope.EnvelopeTests.test_policy_upper_bound) ... ok
+test_verified_immutable_summary (test_f3_int78_verified_envelope.EnvelopeTests.test_verified_immutable_summary) ... ok
+test_wrong_json_type (test_f3_int78_verified_envelope.EnvelopeTests.test_wrong_json_type) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.164s
+
+OK

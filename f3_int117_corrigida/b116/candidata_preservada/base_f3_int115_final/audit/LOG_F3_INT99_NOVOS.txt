@@ -1,0 +1,15 @@
+test_consistent (test_f3_int99_bundle_consistency.BundleConsistencyTests.test_consistent) ... ok
+test_corrupt_bundle (test_f3_int99_bundle_consistency.BundleConsistencyTests.test_corrupt_bundle) ... ok
+test_duplicate (test_f3_int99_bundle_consistency.BundleConsistencyTests.test_duplicate) ... ok
+test_invalid_batch (test_f3_int99_bundle_consistency.BundleConsistencyTests.test_invalid_batch) ... ok
+test_invalid_record (test_f3_int99_bundle_consistency.BundleConsistencyTests.test_invalid_record) ... ok
+test_invalid_registry (test_f3_int99_bundle_consistency.BundleConsistencyTests.test_invalid_registry) ... ok
+test_locks (test_f3_int99_bundle_consistency.BundleConsistencyTests.test_locks) ... ok
+test_unregistered (test_f3_int99_bundle_consistency.BundleConsistencyTests.test_unregistered) ... ok
+test_wrong_classification (test_f3_int99_bundle_consistency.BundleConsistencyTests.test_wrong_classification) ... ok
+test_wrong_reference (test_f3_int99_bundle_consistency.BundleConsistencyTests.test_wrong_reference) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 6.383s
+
+OK

@@ -1,0 +1,77 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-POST-SESSION-AUDIT",
+  "status": "POST_SESSION_AUDIT_COMPLETED",
+  "session_count": 1,
+  "input_sessions": [
+    {
+      "position": 1,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260921_130942.json",
+      "sha256": "a85544271ff2ac693535ae6ed1e6effb033846f7f1ff63d24208d69159337427"
+    }
+  ],
+  "horizons": [
+    1,
+    5,
+    10,
+    20
+  ],
+  "artifacts": [
+    {
+      "stage": "coverage",
+      "path": ".tmp_independent_comparison_rc1\\profit_rtd_rc54_3_2_WINV26_20260921_130942_coverage.json",
+      "sha256": "7730f6dcd2fe59bcb40ffd5ff929806fcd632dc04da2db0819daeed326dc48f0",
+      "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-COVERAGE",
+      "status": "DESCRIPTIVE_ONLY"
+    },
+    {
+      "stage": "episodes",
+      "path": ".tmp_independent_comparison_rc1\\profit_rtd_rc54_3_2_WINV26_20260921_130942_episodes.json",
+      "sha256": "16a409a61b4467db99de737b9fa98b1ec786bb42926247ad17d1c65646f475ed",
+      "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-CONFLICT-EPISODES",
+      "status": "DESCRIPTIVE_ONLY"
+    },
+    {
+      "stage": "followthrough",
+      "path": ".tmp_independent_comparison_rc1\\profit_rtd_rc54_3_2_WINV26_20260921_130942_followthrough.json",
+      "sha256": "19df0b6c9c80e068248eb722ae1d749f9e0f16af2c5a6505cf48b895521b6f9f",
+      "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-CONFLICT-PRICE-FOLLOWTHROUGH",
+      "status": "DESCRIPTIVE_ONLY"
+    },
+    {
+      "stage": "stratification",
+      "path": ".tmp_independent_comparison_rc1\\profit_rtd_rc54_3_2_WINV26_20260921_130942_stratification.json",
+      "sha256": "f9aff1328658dc00809ce9574ef18aee4fabe12c6e598e6ed900398078c2fa5e",
+      "version": "RC2-PROSPECTIVE-MICROSTRUCTURE-CONFLICT-STRATIFICATION",
+      "status": "DESCRIPTIVE_ONLY"
+    },
+    {
+      "stage": "stability",
+      "path": ".tmp_independent_comparison_rc1\\profit_rtd_rc54_3_2_WINV26_20260921_130942_stability.json",
+      "sha256": "f1c7791d6138336ecc7f71d728c13ff442200a2cb96a685ea4198bddd935d24f",
+      "version": "RC3-PROSPECTIVE-MICROSTRUCTURE-CONFLICT-SESSION-STABILITY",
+      "status": "DESCRIPTIVE_ONLY"
+    }
+  ],
+  "pipeline": {
+    "coverage": "COMPLETED",
+    "episodes": "COMPLETED",
+    "followthrough": "COMPLETED",
+    "stratification": "COMPLETED",
+    "stability": "COMPLETED"
+  },
+  "architecture": {
+    "session_selection": "EXPLICIT_ONLY",
+    "glob_discovery_allowed": false,
+    "historical_checkpoint_mutated": false,
+    "input_mutation_allowed": false
+  },
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}

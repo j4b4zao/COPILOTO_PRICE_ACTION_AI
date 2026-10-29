@@ -1,0 +1,2 @@
+state,direction,confluence_quality,confidence,independent_evidence_count,correlated_evidence_count,conflict_count,price_action_bias,order_flow_pressure,flow_momentum,pattern_direction,flow_direction,structure_alignment,structural_confidence,book_pressure,book_direction,book_confidence,book_available,book_correlated_with_delta,duplicate_evidence_risk,passive_only
+CONFIRMED,BUY,MEDIUM,0.7,2,0,0,BUY,INSUFFICIENT_DATA,INSUFFICIENT_DATA,NONE,BUY,UNAVAILABLE,0.0,UNAVAILABLE,BUY,0.0,True,False,False,True

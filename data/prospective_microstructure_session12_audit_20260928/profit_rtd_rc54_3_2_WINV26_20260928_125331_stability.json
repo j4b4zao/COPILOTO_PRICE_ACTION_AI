@@ -1,0 +1,607 @@
+{
+  "version": "RC3-PROSPECTIVE-MICROSTRUCTURE-CONFLICT-SESSION-STABILITY",
+  "status": "DESCRIPTIVE_ONLY",
+  "source": {
+    "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\prospective_microstructure_session12_audit_20260928\\profit_rtd_rc54_3_2_WINV26_20260928_125331_followthrough.json",
+    "sha256": "36818b2f3d7606e4c5123c2b704fb1c2f205afeae3794c4d49ce9d4ef713b32c",
+    "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-CONFLICT-PRICE-FOLLOWTHROUGH"
+  },
+  "eligible_sessions": 1,
+  "rejected_sessions": 0,
+  "horizons_in_samples": [
+    1,
+    5,
+    10,
+    20
+  ],
+  "predeclared_strata": {
+    "mirrors": [
+      "PA_BUY_BOOK_SELL",
+      "PA_SELL_BOOK_BUY"
+    ],
+    "duration_buckets": {
+      "SINGLE": "sample_count == 1",
+      "PERSISTENT": "sample_count >= 2"
+    }
+  },
+  "opposed_direction_episode_count_with_available_followthrough": 0,
+  "sessions": [
+    {
+      "session_index": 1,
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+      "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+      "samples": 238,
+      "conflict_samples": 4,
+      "conflict_episodes": 4,
+      "opposed_direction_episode_count": 0
+    }
+  ],
+  "session_stability_matrix": {
+    "PA_BUY_BOOK_SELL": {
+      "SINGLE": {
+        "by_horizon": {
+          "1": {
+            "sessions_with_observations": 0,
+            "sessions_without_observations": 1,
+            "session_results": [
+              {
+                "session_index": 1,
+                "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+                "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+                "episode_count_with_available_followthrough": 0,
+                "available_episode_count": 0,
+                "observed_side_counts": {},
+                "price_action_follow_count": 0,
+                "book_follow_count": 0,
+                "flat_count": 0,
+                "unresolved_count": 0,
+                "decisive_episode_count": 0,
+                "price_action_share_of_decisive": null,
+                "mean_raw_displacement": null,
+                "mean_price_action_signed_displacement": null,
+                "mean_book_signed_displacement": null
+              }
+            ]
+          },
+          "5": {
+            "sessions_with_observations": 0,
+            "sessions_without_observations": 1,
+            "session_results": [
+              {
+                "session_index": 1,
+                "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+                "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+                "episode_count_with_available_followthrough": 0,
+                "available_episode_count": 0,
+                "observed_side_counts": {},
+                "price_action_follow_count": 0,
+                "book_follow_count": 0,
+                "flat_count": 0,
+                "unresolved_count": 0,
+                "decisive_episode_count": 0,
+                "price_action_share_of_decisive": null,
+                "mean_raw_displacement": null,
+                "mean_price_action_signed_displacement": null,
+                "mean_book_signed_displacement": null
+              }
+            ]
+          },
+          "10": {
+            "sessions_with_observations": 0,
+            "sessions_without_observations": 1,
+            "session_results": [
+              {
+                "session_index": 1,
+                "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+                "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+                "episode_count_with_available_followthrough": 0,
+                "available_episode_count": 0,
+                "observed_side_counts": {},
+                "price_action_follow_count": 0,
+                "book_follow_count": 0,
+                "flat_count": 0,
+                "unresolved_count": 0,
+                "decisive_episode_count": 0,
+                "price_action_share_of_decisive": null,
+                "mean_raw_displacement": null,
+                "mean_price_action_signed_displacement": null,
+                "mean_book_signed_displacement": null
+              }
+            ]
+          },
+          "20": {
+            "sessions_with_observations": 0,
+            "sessions_without_observations": 1,
+            "session_results": [
+              {
+                "session_index": 1,
+                "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+                "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+                "episode_count_with_available_followthrough": 0,
+                "available_episode_count": 0,
+                "observed_side_counts": {},
+                "price_action_follow_count": 0,
+                "book_follow_count": 0,
+                "flat_count": 0,
+                "unresolved_count": 0,
+                "decisive_episode_count": 0,
+                "price_action_share_of_decisive": null,
+                "mean_raw_displacement": null,
+                "mean_price_action_signed_displacement": null,
+                "mean_book_signed_displacement": null
+              }
+            ]
+          }
+        }
+      },
+      "PERSISTENT": {
+        "by_horizon": {
+          "1": {
+            "sessions_with_observations": 0,
+            "sessions_without_observations": 1,
+            "session_results": [
+              {
+                "session_index": 1,
+                "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+                "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+                "episode_count_with_available_followthrough": 0,
+                "available_episode_count": 0,
+                "observed_side_counts": {},
+                "price_action_follow_count": 0,
+                "book_follow_count": 0,
+                "flat_count": 0,
+                "unresolved_count": 0,
+                "decisive_episode_count": 0,
+                "price_action_share_of_decisive": null,
+                "mean_raw_displacement": null,
+                "mean_price_action_signed_displacement": null,
+                "mean_book_signed_displacement": null
+              }
+            ]
+          },
+          "5": {
+            "sessions_with_observations": 0,
+            "sessions_without_observations": 1,
+            "session_results": [
+              {
+                "session_index": 1,
+                "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+                "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+                "episode_count_with_available_followthrough": 0,
+                "available_episode_count": 0,
+                "observed_side_counts": {},
+                "price_action_follow_count": 0,
+                "book_follow_count": 0,
+                "flat_count": 0,
+                "unresolved_count": 0,
+                "decisive_episode_count": 0,
+                "price_action_share_of_decisive": null,
+                "mean_raw_displacement": null,
+                "mean_price_action_signed_displacement": null,
+                "mean_book_signed_displacement": null
+              }
+            ]
+          },
+          "10": {
+            "sessions_with_observations": 0,
+            "sessions_without_observations": 1,
+            "session_results": [
+              {
+                "session_index": 1,
+                "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+                "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+                "episode_count_with_available_followthrough": 0,
+                "available_episode_count": 0,
+                "observed_side_counts": {},
+                "price_action_follow_count": 0,
+                "book_follow_count": 0,
+                "flat_count": 0,
+                "unresolved_count": 0,
+                "decisive_episode_count": 0,
+                "price_action_share_of_decisive": null,
+                "mean_raw_displacement": null,
+                "mean_price_action_signed_displacement": null,
+                "mean_book_signed_displacement": null
+              }
+            ]
+          },
+          "20": {
+            "sessions_with_observations": 0,
+            "sessions_without_observations": 1,
+            "session_results": [
+              {
+                "session_index": 1,
+                "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+                "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+                "episode_count_with_available_followthrough": 0,
+                "available_episode_count": 0,
+                "observed_side_counts": {},
+                "price_action_follow_count": 0,
+                "book_follow_count": 0,
+                "flat_count": 0,
+                "unresolved_count": 0,
+                "decisive_episode_count": 0,
+                "price_action_share_of_decisive": null,
+                "mean_raw_displacement": null,
+                "mean_price_action_signed_displacement": null,
+                "mean_book_signed_displacement": null
+              }
+            ]
+          }
+        }
+      }
+    },
+    "PA_SELL_BOOK_BUY": {
+      "SINGLE": {
+        "by_horizon": {
+          "1": {
+            "sessions_with_observations": 0,
+            "sessions_without_observations": 1,
+            "session_results": [
+              {
+                "session_index": 1,
+                "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+                "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+                "episode_count_with_available_followthrough": 0,
+                "available_episode_count": 0,
+                "observed_side_counts": {},
+                "price_action_follow_count": 0,
+                "book_follow_count": 0,
+                "flat_count": 0,
+                "unresolved_count": 0,
+                "decisive_episode_count": 0,
+                "price_action_share_of_decisive": null,
+                "mean_raw_displacement": null,
+                "mean_price_action_signed_displacement": null,
+                "mean_book_signed_displacement": null
+              }
+            ]
+          },
+          "5": {
+            "sessions_with_observations": 0,
+            "sessions_without_observations": 1,
+            "session_results": [
+              {
+                "session_index": 1,
+                "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+                "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+                "episode_count_with_available_followthrough": 0,
+                "available_episode_count": 0,
+                "observed_side_counts": {},
+                "price_action_follow_count": 0,
+                "book_follow_count": 0,
+                "flat_count": 0,
+                "unresolved_count": 0,
+                "decisive_episode_count": 0,
+                "price_action_share_of_decisive": null,
+                "mean_raw_displacement": null,
+                "mean_price_action_signed_displacement": null,
+                "mean_book_signed_displacement": null
+              }
+            ]
+          },
+          "10": {
+            "sessions_with_observations": 0,
+            "sessions_without_observations": 1,
+            "session_results": [
+              {
+                "session_index": 1,
+                "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+                "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+                "episode_count_with_available_followthrough": 0,
+                "available_episode_count": 0,
+                "observed_side_counts": {},
+                "price_action_follow_count": 0,
+                "book_follow_count": 0,
+                "flat_count": 0,
+                "unresolved_count": 0,
+                "decisive_episode_count": 0,
+                "price_action_share_of_decisive": null,
+                "mean_raw_displacement": null,
+                "mean_price_action_signed_displacement": null,
+                "mean_book_signed_displacement": null
+              }
+            ]
+          },
+          "20": {
+            "sessions_with_observations": 0,
+            "sessions_without_observations": 1,
+            "session_results": [
+              {
+                "session_index": 1,
+                "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+                "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+                "episode_count_with_available_followthrough": 0,
+                "available_episode_count": 0,
+                "observed_side_counts": {},
+                "price_action_follow_count": 0,
+                "book_follow_count": 0,
+                "flat_count": 0,
+                "unresolved_count": 0,
+                "decisive_episode_count": 0,
+                "price_action_share_of_decisive": null,
+                "mean_raw_displacement": null,
+                "mean_price_action_signed_displacement": null,
+                "mean_book_signed_displacement": null
+              }
+            ]
+          }
+        }
+      },
+      "PERSISTENT": {
+        "by_horizon": {
+          "1": {
+            "sessions_with_observations": 0,
+            "sessions_without_observations": 1,
+            "session_results": [
+              {
+                "session_index": 1,
+                "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+                "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+                "episode_count_with_available_followthrough": 0,
+                "available_episode_count": 0,
+                "observed_side_counts": {},
+                "price_action_follow_count": 0,
+                "book_follow_count": 0,
+                "flat_count": 0,
+                "unresolved_count": 0,
+                "decisive_episode_count": 0,
+                "price_action_share_of_decisive": null,
+                "mean_raw_displacement": null,
+                "mean_price_action_signed_displacement": null,
+                "mean_book_signed_displacement": null
+              }
+            ]
+          },
+          "5": {
+            "sessions_with_observations": 0,
+            "sessions_without_observations": 1,
+            "session_results": [
+              {
+                "session_index": 1,
+                "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+                "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+                "episode_count_with_available_followthrough": 0,
+                "available_episode_count": 0,
+                "observed_side_counts": {},
+                "price_action_follow_count": 0,
+                "book_follow_count": 0,
+                "flat_count": 0,
+                "unresolved_count": 0,
+                "decisive_episode_count": 0,
+                "price_action_share_of_decisive": null,
+                "mean_raw_displacement": null,
+                "mean_price_action_signed_displacement": null,
+                "mean_book_signed_displacement": null
+              }
+            ]
+          },
+          "10": {
+            "sessions_with_observations": 0,
+            "sessions_without_observations": 1,
+            "session_results": [
+              {
+                "session_index": 1,
+                "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+                "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+                "episode_count_with_available_followthrough": 0,
+                "available_episode_count": 0,
+                "observed_side_counts": {},
+                "price_action_follow_count": 0,
+                "book_follow_count": 0,
+                "flat_count": 0,
+                "unresolved_count": 0,
+                "decisive_episode_count": 0,
+                "price_action_share_of_decisive": null,
+                "mean_raw_displacement": null,
+                "mean_price_action_signed_displacement": null,
+                "mean_book_signed_displacement": null
+              }
+            ]
+          },
+          "20": {
+            "sessions_with_observations": 0,
+            "sessions_without_observations": 1,
+            "session_results": [
+              {
+                "session_index": 1,
+                "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+                "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e",
+                "episode_count_with_available_followthrough": 0,
+                "available_episode_count": 0,
+                "observed_side_counts": {},
+                "price_action_follow_count": 0,
+                "book_follow_count": 0,
+                "flat_count": 0,
+                "unresolved_count": 0,
+                "decisive_episode_count": 0,
+                "price_action_share_of_decisive": null,
+                "mean_raw_displacement": null,
+                "mean_price_action_signed_displacement": null,
+                "mean_book_signed_displacement": null
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cross_session_descriptive_summary": {
+    "PA_BUY_BOOK_SELL": {
+      "SINGLE": {
+        "1": {
+          "sessions_with_observations": 0,
+          "positive_session_mean_pa_signed_displacement_count": 0,
+          "negative_session_mean_pa_signed_displacement_count": 0,
+          "zero_session_mean_pa_signed_displacement_count": 0,
+          "mean_of_session_mean_pa_signed_displacements": null,
+          "min_session_mean_pa_signed_displacement": null,
+          "max_session_mean_pa_signed_displacement": null
+        },
+        "5": {
+          "sessions_with_observations": 0,
+          "positive_session_mean_pa_signed_displacement_count": 0,
+          "negative_session_mean_pa_signed_displacement_count": 0,
+          "zero_session_mean_pa_signed_displacement_count": 0,
+          "mean_of_session_mean_pa_signed_displacements": null,
+          "min_session_mean_pa_signed_displacement": null,
+          "max_session_mean_pa_signed_displacement": null
+        },
+        "10": {
+          "sessions_with_observations": 0,
+          "positive_session_mean_pa_signed_displacement_count": 0,
+          "negative_session_mean_pa_signed_displacement_count": 0,
+          "zero_session_mean_pa_signed_displacement_count": 0,
+          "mean_of_session_mean_pa_signed_displacements": null,
+          "min_session_mean_pa_signed_displacement": null,
+          "max_session_mean_pa_signed_displacement": null
+        },
+        "20": {
+          "sessions_with_observations": 0,
+          "positive_session_mean_pa_signed_displacement_count": 0,
+          "negative_session_mean_pa_signed_displacement_count": 0,
+          "zero_session_mean_pa_signed_displacement_count": 0,
+          "mean_of_session_mean_pa_signed_displacements": null,
+          "min_session_mean_pa_signed_displacement": null,
+          "max_session_mean_pa_signed_displacement": null
+        }
+      },
+      "PERSISTENT": {
+        "1": {
+          "sessions_with_observations": 0,
+          "positive_session_mean_pa_signed_displacement_count": 0,
+          "negative_session_mean_pa_signed_displacement_count": 0,
+          "zero_session_mean_pa_signed_displacement_count": 0,
+          "mean_of_session_mean_pa_signed_displacements": null,
+          "min_session_mean_pa_signed_displacement": null,
+          "max_session_mean_pa_signed_displacement": null
+        },
+        "5": {
+          "sessions_with_observations": 0,
+          "positive_session_mean_pa_signed_displacement_count": 0,
+          "negative_session_mean_pa_signed_displacement_count": 0,
+          "zero_session_mean_pa_signed_displacement_count": 0,
+          "mean_of_session_mean_pa_signed_displacements": null,
+          "min_session_mean_pa_signed_displacement": null,
+          "max_session_mean_pa_signed_displacement": null
+        },
+        "10": {
+          "sessions_with_observations": 0,
+          "positive_session_mean_pa_signed_displacement_count": 0,
+          "negative_session_mean_pa_signed_displacement_count": 0,
+          "zero_session_mean_pa_signed_displacement_count": 0,
+          "mean_of_session_mean_pa_signed_displacements": null,
+          "min_session_mean_pa_signed_displacement": null,
+          "max_session_mean_pa_signed_displacement": null
+        },
+        "20": {
+          "sessions_with_observations": 0,
+          "positive_session_mean_pa_signed_displacement_count": 0,
+          "negative_session_mean_pa_signed_displacement_count": 0,
+          "zero_session_mean_pa_signed_displacement_count": 0,
+          "mean_of_session_mean_pa_signed_displacements": null,
+          "min_session_mean_pa_signed_displacement": null,
+          "max_session_mean_pa_signed_displacement": null
+        }
+      }
+    },
+    "PA_SELL_BOOK_BUY": {
+      "SINGLE": {
+        "1": {
+          "sessions_with_observations": 0,
+          "positive_session_mean_pa_signed_displacement_count": 0,
+          "negative_session_mean_pa_signed_displacement_count": 0,
+          "zero_session_mean_pa_signed_displacement_count": 0,
+          "mean_of_session_mean_pa_signed_displacements": null,
+          "min_session_mean_pa_signed_displacement": null,
+          "max_session_mean_pa_signed_displacement": null
+        },
+        "5": {
+          "sessions_with_observations": 0,
+          "positive_session_mean_pa_signed_displacement_count": 0,
+          "negative_session_mean_pa_signed_displacement_count": 0,
+          "zero_session_mean_pa_signed_displacement_count": 0,
+          "mean_of_session_mean_pa_signed_displacements": null,
+          "min_session_mean_pa_signed_displacement": null,
+          "max_session_mean_pa_signed_displacement": null
+        },
+        "10": {
+          "sessions_with_observations": 0,
+          "positive_session_mean_pa_signed_displacement_count": 0,
+          "negative_session_mean_pa_signed_displacement_count": 0,
+          "zero_session_mean_pa_signed_displacement_count": 0,
+          "mean_of_session_mean_pa_signed_displacements": null,
+          "min_session_mean_pa_signed_displacement": null,
+          "max_session_mean_pa_signed_displacement": null
+        },
+        "20": {
+          "sessions_with_observations": 0,
+          "positive_session_mean_pa_signed_displacement_count": 0,
+          "negative_session_mean_pa_signed_displacement_count": 0,
+          "zero_session_mean_pa_signed_displacement_count": 0,
+          "mean_of_session_mean_pa_signed_displacements": null,
+          "min_session_mean_pa_signed_displacement": null,
+          "max_session_mean_pa_signed_displacement": null
+        }
+      },
+      "PERSISTENT": {
+        "1": {
+          "sessions_with_observations": 0,
+          "positive_session_mean_pa_signed_displacement_count": 0,
+          "negative_session_mean_pa_signed_displacement_count": 0,
+          "zero_session_mean_pa_signed_displacement_count": 0,
+          "mean_of_session_mean_pa_signed_displacements": null,
+          "min_session_mean_pa_signed_displacement": null,
+          "max_session_mean_pa_signed_displacement": null
+        },
+        "5": {
+          "sessions_with_observations": 0,
+          "positive_session_mean_pa_signed_displacement_count": 0,
+          "negative_session_mean_pa_signed_displacement_count": 0,
+          "zero_session_mean_pa_signed_displacement_count": 0,
+          "mean_of_session_mean_pa_signed_displacements": null,
+          "min_session_mean_pa_signed_displacement": null,
+          "max_session_mean_pa_signed_displacement": null
+        },
+        "10": {
+          "sessions_with_observations": 0,
+          "positive_session_mean_pa_signed_displacement_count": 0,
+          "negative_session_mean_pa_signed_displacement_count": 0,
+          "zero_session_mean_pa_signed_displacement_count": 0,
+          "mean_of_session_mean_pa_signed_displacements": null,
+          "min_session_mean_pa_signed_displacement": null,
+          "max_session_mean_pa_signed_displacement": null
+        },
+        "20": {
+          "sessions_with_observations": 0,
+          "positive_session_mean_pa_signed_displacement_count": 0,
+          "negative_session_mean_pa_signed_displacement_count": 0,
+          "zero_session_mean_pa_signed_displacement_count": 0,
+          "mean_of_session_mean_pa_signed_displacements": null,
+          "min_session_mean_pa_signed_displacement": null,
+          "max_session_mean_pa_signed_displacement": null
+        }
+      }
+    }
+  },
+  "audit_stability": "INSUFFICIENT_DATA",
+  "audit_recommendation": "COLLECT_MORE_DATA",
+  "interpretation_guardrails": {
+    "sample_horizons_are_not_minutes": true,
+    "session_counts_are_not_predictive_accuracy": true,
+    "pooled_episode_counts_are_not_independent_session_replications": true,
+    "absence_in_a_session_is_not_negative_evidence": true,
+    "no_threshold_or_weight_change_allowed": true,
+    "no_promotion_from_this_report_allowed": true,
+    "future_sessions_must_use_the_same_predeclared_strata": true
+  },
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}

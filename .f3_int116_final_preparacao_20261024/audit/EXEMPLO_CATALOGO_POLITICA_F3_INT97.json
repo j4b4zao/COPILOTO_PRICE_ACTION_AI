@@ -1,0 +1,18 @@
+{
+  "notice": "Fixtures sinteticas. Contagens de pacotes de exemplo nao sao checkpoints reais da auditoria. Sem autenticacao ou certificacao.",
+  "schema": 2,
+  "witness": "EXEMPLO_POLITICA_F3_INT97.json",
+  "witness_sha256": "d6d7ae8af92c8116f058af00f4b9acce1ad41da6192bb6ef8524ad125a1c5bd4",
+  "records": [
+    {
+      "file": "EXEMPLO_CATALOGO_POLITICA_F3_INT97_0.package",
+      "stage": 53,
+      "sha256": "75e2c0db0c36a68a504e101d010df78f3e224f8748f407e36edc63ab52393c50"
+    },
+    {
+      "file": "EXEMPLO_CATALOGO_POLITICA_F3_INT97_1.package",
+      "stage": 54,
+      "sha256": "816c14d993d2bafae7f2b709c6db6a8038126ec95668b8b64dfb7ecc4bc47175"
+    }
+  ]
+}

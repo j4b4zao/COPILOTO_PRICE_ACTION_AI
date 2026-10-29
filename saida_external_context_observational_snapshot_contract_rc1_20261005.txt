@@ -1,0 +1,117 @@
+STATUS=PASS
+TASK=EXTERNAL CONTEXT OBSERVATIONAL SNAPSHOT CONTRACT RC1 SPECIFICATION + OFFLINE IMPLEMENTATION
+DATE=2026-10-05
+BRANCH=brooks-stop-target-exact-audit-20260912
+BASE_HEAD=44ddc8ab29d8b93ea642d356401be02c3048f19d
+FINAL_HEAD=0f0d723b79f9cf785bc6145afb285964119e5389
+ORIGIN_HEAD_BEFORE=44ddc8ab29d8b93ea642d356401be02c3048f19d
+ORIGIN_HEAD_AFTER=0f0d723b79f9cf785bc6145afb285964119e5389
+GIT_FETCH_STATUS=PASS
+AUDIT_STATUS=PASS
+IMPLEMENTATION_STATUS=PASS
+
+COLLECTOR_VERSION_BEFORE=RC2.1-PROVIDER-CONTRACT
+COLLECTOR_VERSION_AFTER=RC2.2-OBSERVATIONAL-SNAPSHOT
+SERVICE_REAL_CLASS=ExternalContextService
+SERVICE_VERSION_BEFORE=RC2.3-COLLECTOR-ENGINE-PIPELINE
+SERVICE_VERSION_AFTER=RC2.4-OBSERVATIONAL-SNAPSHOT
+SNAPSHOT_VERSION=RC1-EXTERNAL-OBSERVATIONAL-SNAPSHOT
+BRIDGE_VERSION=RC1-INTERMARKET-EXTERNAL-CONTEXT-IDENTITY-FRESHNESS-BRIDGE
+OBSERVER_VERSION=RC1
+PROVIDER_SYMBOL_MAP_VERSION=RC2.1
+
+FILES_CREATED=external_context/external_observational_snapshot.py; tests/test_external_observational_snapshot_rc1.py; saida_external_context_observational_snapshot_contract_rc1_20261005.txt
+FILES_MODIFIED=external_context/external_market_collector.py; external_context/external_context_service.py
+COMMITTED_FILES=external_context/external_context_service.py; external_context/external_market_collector.py; external_context/external_observational_snapshot.py; tests/test_external_observational_snapshot_rc1.py
+REPORT_COMMITTED=false
+
+COLLECTOR_OUTPUT_CONTRACT=ExternalMarketState; seven fetches per collect; legacy normalization and max of accepted timestamp strings unchanged.
+SERVICE_SNAPSHOT_CONTRACT=snapshot() calls collector.collect(), then engine.executar(state), returning the operational ExternalMarketState.
+BRIDGE_INPUT_CONTRACT=Explicit canonical keys mapped to individual quote dictionaries or None; explicit reference_timestamp, maximum_staleness_seconds and optional existing symbol_map snapshot.
+CURRENT_FETCH_CALL_CHAIN=AnalysisPipeline._refresh_external_context -> ExternalContextService.snapshot -> ExternalMarketCollector.collect -> provider.fetch once per US500,NASDAQ,DXY,VIX,US10Y,OIL,GOLD -> ExternalContextEngine.executar.
+CURRENT_OPERATIONAL_CONSUMERS=AnalysisPipeline external-context refresh and existing downstream context/strategy/score/decision/risk/alert consumers; no new consumer or operational gate.
+PER_ASSET_TIMESTAMP_AVAILABLE_BEFORE_AGGREGATION=true
+PER_ASSET_TIMESTAMP_LOST_AFTER_AGGREGATION=true (legacy ExternalMarketState retains only aggregated timestamp)
+IDENTITY_METADATA_AVAILABLE=Canonical request key and quote declarations when supplied; provider_symbol/provider/source and nested metadata are optional.
+PROVENANCE_METADATA_AVAILABLE=Only values actually present in provider payload; absent values stay absent.
+CONTRACT_SPECIFICATION=Frozen slots envelope of immutable canonical-key/serialized-payload tuples. Factory accepts only explicit supported canonical keys; omitted quotes become None. Observed price/change/timestamp and available identity/provenance fields remain in detached payloads. Tagged deterministic standard JSON preserves datetime offsets, naive timestamps, tuple/list metadata and nonfinite evidence without guessing or normalizing identity. to_quotes() returns new detached dictionaries. audit() forwards to the existing bridge.
+CONCEPT_SEPARATION=Observed quotes are evidence, not verified identity, freshness, readiness or operational state. Verification and readiness are obtained only from the existing bridge/observer audit.
+OPT_IN=ExternalMarketCollector(preserve_quotes=True) or ExternalContextService(observational_snapshots=True); disabled by default.
+ROUTE=Copy each provider payload before normalization/aggregation; publish envelope only for completed collection. observational_snapshot() reads existing evidence; audit_observational_snapshot() forwards it without collecting.
+DIAGNOSTIC_FAILURE_POLICY=Clear previous envelope before a collection attempt. Unsupported metadata yields observational_error and no envelope; official state calculation remains unchanged. No preserved snapshot yields ValueError on diagnostic audit.
+PRICE_ZERO_CONTRACT=Preserved as observed; existing bridge positive-price contract rejects it. No contract change.
+
+PER_ASSET_TIMESTAMP_PRESERVED=true
+AGGREGATED_TIMESTAMP_USED_FOR_INDIVIDUAL_FRESHNESS=false
+IDENTITY_PRESERVED=true
+PROVENANCE_PRESERVED_WHEN_AVAILABLE=true
+UNKNOWN_IDENTITY_NOT_TREATED_AS_VERIFIED=true
+NO_ALIAS_GUESSING=true
+NETWORK_CALL_COUNT=0
+NETWORK_CALL_COUNT_SCOPE=Offline snapshot tests and observational route; authorized Git fetch/push are outside this count.
+EXTRA_FETCH_CALL_COUNT=0
+NO_SECOND_FETCH=true
+NETWORK_REQUIRED=false
+FETCH_CALL_COUNT_EVIDENCE=7 for each completed normal update; unchanged after diagnostic audit. Three normal collections produce 21 fetches, with no additional diagnostic fetch.
+OPERATIONAL_CONTEXT_MUTATED=false
+STRATEGY_INFLUENCE=false
+SCORE_INFLUENCE=false
+DECISION_INFLUENCE=false
+RISK_INFLUENCE=false
+ALERT_INFLUENCE=false
+NEW_THRESHOLD_COUNT=0
+
+PYTHON_EXECUTABLE=C:\COPILOTO_PRICE_ACTION_AI\ambiente\Scripts\python.exe
+PYTHON_VERSION=3.13.5
+PYTEST_VERSION=9.1.1
+NEW_TESTS_PASSED=91
+NEW_TESTS_FAILED=0
+NEW_TESTS_ERRORS=0
+REGRESSION_TESTS_PASSED=654
+REGRESSION_TESTS_FAILED=0
+REGRESSION_TESTS_ERRORS=0
+VERSIONED_RECHECK_TESTS_PASSED=121
+VERSIONED_RECHECK_TESTS_FAILED=0
+LEGACY_EXPLICIT_ASSERTIONS_PASSED=6
+LEGACY_EXPLICIT_ASSERTIONS_FAILED=0
+REGRESSION_WARNINGS=2 existing PytestReturnNotNoneWarning in test_external_market_collector.py; both boolean-return scenarios explicitly asserted True afterwards without modifying legacy tests.
+TEST_ORDER=New snapshot tests first; existing External Context/bridge/observer/map/pipeline tests and directed MTF/Decision safety/RC17 regressions next; only then version bumps and affected-component recheck.
+REGRESSION_FILES=tests/test_external_market_collector_rc2_1.py; tests/test_external_market_collector.py; tests/test_external_context_service_rc2_3.py; tests/test_external_context_engine.py; tests/test_external_market_state.py; tests/test_external_http_json_provider_rc2_2.py; tests/test_external_context_analysis_bridge_rc2_4.py; tests/test_intermarket_external_context_bridge_rc1.py; tests/test_intermarket_context_observer_rc1.py; tests/test_provider_symbol_map.py; tests/test_provider_symbol_map_rc21.py; tests/test_external_context_pipeline.py; tests/test_analysis_pipeline_direct.py; tests/test_multi_timeframe_conflict_safety_gate_rc36.py; tests/test_multi_timeframe_contract_audit_rc1.py; tests/test_multi_timeframe_e2e_rc36.py; tests/test_multi_timeframe_analysis_rc32.py; tests/test_multi_timeframe_rc3_4_regime_bridge.py; tests/test_decision_multi_timeframe_gate_rc35.py; tests/test_market_structure_rc17_observability_rc1.py; tests/test_rc17_sideways_to_directional_evolution_protocol_validator_rc1.py; tests/test_rc17_sideways_to_directional_evolution_evaluator_rc1.py; tests/test_rc17_sideways_to_directional_session_runner_rc1.py; tests/test_rc17_sideways_to_directional_evolution_consolidation_rc1.py
+LEGACY_SCRIPT_SCOPE=test_external_context_pipeline.py has no pytest tests: four existing scenario return values explicitly asserted. test_analysis_pipeline_direct.py has a live collector main and no pytest tests: main not executed; deterministic pipeline integration covered by existing service/analysis bridge and new snapshot tests.
+TEST_RUN_FLAGS=PYTHONDONTWRITEBYTECODE=1; PYTEST_DISABLE_PLUGIN_AUTOLOAD=1; python -B -m pytest -q -p no:cacheprovider; dedicated temporary directories.
+ENVIRONMENT_INSTALLATIONS=NONE
+
+RC17_UNCHANGED=true
+PRICE_ACTION_UNCHANGED=true
+MTF_UNCHANGED=true
+ANALYSIS_PIPELINE_UNCHANGED=true
+BRIDGE_UNCHANGED=true
+OBSERVER_UNCHANGED=true
+PROVIDER_SYMBOL_MAP_UNCHANGED=true
+PROTECTED_FILES_PRESERVED=true
+PROTECTED_FILE_NAMES=Profit.xlsx; connectors/excel_connector.py; livroOfertas.xlsx; saida.txt; times&trades.xlsx
+PREEXISTING_TRACKED_MODIFICATIONS_PRESERVED=true
+UNAUTHORIZED_TRACKED_FILES_CHANGED=NONE
+PRESERVATION_EVIDENCE=Protected hashes and RC17 session19-23 raw/evaluator/runner/consolidation hashes match baseline. Directory name/size digest matches. Aggregate hashes of all original tracked files match baseline when only the two authorized modified components are reconstructed from clean base with original CRLF line endings.
+ORIGINAL_TRACKED_BASELINE_SHA256=e634453d443b825baf1176878db7df8c55cd130054a16031bbaf395af1a0c64e
+ORIGINAL_TRACKED_RECONSTRUCTED_SHA256=e634453d443b825baf1176878db7df8c55cd130054a16031bbaf395af1a0c64e
+RAW_RESULT_DIRECTORY_DIGEST_BEFORE=93202e7f0967cf26dab8f6bbf2d7c48fdf57281fec40c9c362b490a86cae236a
+RAW_RESULT_DIRECTORY_DIGEST_AFTER=93202e7f0967cf26dab8f6bbf2d7c48fdf57281fec40c9c362b490a86cae236a
+RAW_CREATED=false
+FORMAL_RESULT_CREATED=false
+LIVE_COLLECTION_EXECUTED=false
+
+STAGED_FILES=external_context/external_context_service.py; external_context/external_market_collector.py; external_context/external_observational_snapshot.py; tests/test_external_observational_snapshot_rc1.py (exact staged list verified before commit)
+STAGED_FILES_FINAL=NONE
+COMMIT_SHA=0f0d723b79f9cf785bc6145afb285964119e5389
+COMMIT_PARENT=44ddc8ab29d8b93ea642d356401be02c3048f19d
+COMMIT_MESSAGE=Add external context observational snapshot contract
+PUSH_STATUS=PASS
+PUSH_TARGET=origin brooks-stop-target-exact-audit-20260912
+LOCAL_ORIGIN_EQUAL=true
+NEXT_STEP=EXTERNAL_CONTEXT_OBSERVATIONAL_SNAPSHOT_CONTRACT_RC1_POST_IMPLEMENTATION_AUDIT
+NEXT_STEP_EXECUTED=false
+CONCLUSION=PASS. Detached per-asset evidence preserves individual timestamps and available provenance, reuses existing identity/freshness bridge, performs no second fetch and introduces no operational influence. Controlled four-file commit pushed successfully; protected files and RC17/PriceAction/MTF preserved. Task stopped after this report.
+
+PROTECTED_HASHES_BEFORE_AND_AFTER={"saida_rc17_formal_consolidation_19_23_rc1_20261005.txt":"f43e05b320394bfc1df879df1c2b2f475b53fd5a6483e57f48f1598e28a95b82","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_consolidation_19_23_rc1_20261005.json":"968f463fe21b83ca976e8928e7519e2ed4c7a0b81db9738c417ec08aa101bba2","saida_rc17_session23_final_structural_audit_comparison_19_23_rc1_20261005.txt":"1256632165f4a2d0f0971f819af016657a8c150f8a11249e99e618597f5aae99","data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261005_124328.json":"db02232416fb21d69565f6becf98a351fd50e17009097fb38ed5bc769cc0147b","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_session23_rc1_20261005.json":"1ffe4aa8e3e1c05652416fc3c6c7acfe89a88789531ac68837adcd0845ab6095","data/profit_rtd_rc54_3_2/saida_rc17_sideways_to_directional_session23_rc1_20261005.txt":"d363e43d9d7216745ba10fa9772f23873e611c075ba7d022023976475f9dbccf","saida_rc17_session22_structural_audit_comparison_19_22_rc1_20261005.txt":"f368bab2739077e451ecb754dd90c78cce8c6b1aa57ff1e06d02296678a8ded2","data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261005_120328.json":"5a2f640c0d18d3dcded12e491c77fe69e9df3e2b9c5724f0ea12676dc600a884","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_session22_rc1_20261005.json":"167673ab374320028d72224fa373d2015d935d161904abb9afe4cd741035ebf5","data/profit_rtd_rc54_3_2/saida_rc17_sideways_to_directional_session22_rc1_20261005.txt":"4eaa6498aad7208754b3090287c438db5f3e2f04c7ecc93f5ba20e51c206c36a","saida_rc17_session21_directional_transition_audit_comparison_19_21_rc1_20261005.txt":"a300c91e44bccc95b38226ea7b1a525493140e14b15631db7df36e1f2b19aab6","data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261005_112225.json":"d99d363d19879d85d7b0ab3ebbbaacefad12440dec14bf0114c5569fc78c3967","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_session21_rc1_20261005.json":"84b8ad827176b32258964142f971d81cef51d05224d1f650000e02bd7d587711","data/profit_rtd_rc54_3_2/saida_rc17_sideways_to_directional_session21_rc1_20261005.txt":"9006f70bb952f4262d596c7168aad4d2799c5de0f02eb7f59b48d308f3d3a1ab","saida_rc17_session20_structural_audit_comparison_19_20_rc1_20261005.txt":"d8cd1d5f1c1b2e0c7f51b55a9fe6f9960e6c4b5d86bc72fb513ecd36bc12cfd8","data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261005_102113.json":"64ca107e086b609c1d6856f13955e2ed27e4d4c2241cf40d5e58982484442cff","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_session20_rc1_20261005.json":"5af01be275f268f84cc21fd3e1227d54da4a044d2768d3709df23d8ff92b12c4","data/profit_rtd_rc54_3_2/saida_rc17_sideways_to_directional_session20_rc1_20261005.txt":"837f3a368dce84d1735010bddaeef8d69381080c66fbe6a4197422befaba1f04","saida_rc17_session19_post_capture_structural_audit_rc1_20261005.txt":"cac0d3637eddb5deeb77b0dbb0e9584b4bbf22131e5bd6ccae23b4673c1cb6e2","rc17_sideways_to_directional_evolution_protocol_rc1_20261002.json":"2a278e7c4c438098d9ce167a778f7386a09b341a555a73e322598215150ebdb3","data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261005_094823.json":"d64d66eebdfb2ee6dd6d9eede06d622556cdc5de12077d062ad7654712c89624","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_session19_rc1_20261005.json":"3b3f1fe4e8d37dbe14dbb5585e73e1d495887eae9106a6757b01840dca267ef4","data/profit_rtd_rc54_3_2/saida_rc17_sideways_to_directional_session19_rc1_20261005.txt":"b37e40c0701393409f1e2614c3d8cbe338dfb0435e34fbf5b542d7ad33a5d783","Profit.xlsx":"8694fd1583bead42d786cd2bafc68200baead445a9150c1e6045b6347535e2cb","connectors/excel_connector.py":"f234edd86d16ab637732438c0093fa84fd457a922044b49e6bd270074920d567","livroOfertas.xlsx":"db9d59836299a0e69efefa39a934180f3ec6f21f723ed1d115d297388e37ab67","saida.txt":"99d0374af231c064d3fd4c50e299f687d2ab2e0e89cd8c7006b2cd01d06c70fa","times&trades.xlsx":"564bc2ac2eeef9067e98c23c9e3fd8fd14a507752acd052bffab36f4b69c8b04"}
+

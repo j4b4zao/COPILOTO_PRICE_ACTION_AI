@@ -1,0 +1,857 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-PA-BOOK-TEMPORAL-PERSISTENCE-AUDIT",
+  "status": "PA_BOOK_TEMPORAL_PERSISTENCE_AUDIT_COMPLETED",
+  "mode": "FROZEN_10_SESSION_RETROSPECTIVE_RESEARCH_AUDIT",
+  "session_count": 10,
+  "sessions": [
+    {
+      "label": "FROZEN_SESSION_01",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260921_130942.json",
+        "sha256": "a85544271ff2ac693535ae6ed1e6effb033846f7f1ff63d24208d69159337427"
+      },
+      "samples": 292,
+      "simultaneous_directional_samples": 49,
+      "aligned_samples": 41,
+      "opposed_samples": 8,
+      "total_runs": 12,
+      "aligned_runs": 8,
+      "opposed_runs": 4,
+      "pair_run_counts": {
+        "BUY_BUY": 8,
+        "SELL_SELL": 0,
+        "BUY_SELL": 4,
+        "SELL_BUY": 0
+      },
+      "aligned_run_lengths": [
+        1,
+        2,
+        4,
+        1,
+        5,
+        2,
+        16,
+        10
+      ],
+      "opposed_run_lengths": [
+        5,
+        1,
+        1,
+        1
+      ],
+      "aligned_longest_run": 16,
+      "opposed_longest_run": 5,
+      "aligned_mean_run_length": 5.125,
+      "opposed_mean_run_length": 2.0,
+      "aligned_conflict_bearing_runs": 3,
+      "opposed_conflict_bearing_runs": 4,
+      "aligned_canonical_conflict_samples": 3,
+      "opposed_canonical_conflict_samples": 8,
+      "runs": [
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 17,
+          "end_index": 21,
+          "length": 5,
+          "canonical_conflict_samples": 5
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 115,
+          "end_index": 115,
+          "length": 1,
+          "canonical_conflict_samples": 1
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 121,
+          "end_index": 122,
+          "length": 2,
+          "canonical_conflict_samples": 0
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 124,
+          "end_index": 127,
+          "length": 4,
+          "canonical_conflict_samples": 0
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 148,
+          "end_index": 148,
+          "length": 1,
+          "canonical_conflict_samples": 0
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 157,
+          "end_index": 161,
+          "length": 5,
+          "canonical_conflict_samples": 0
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 178,
+          "end_index": 179,
+          "length": 2,
+          "canonical_conflict_samples": 0
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 182,
+          "end_index": 197,
+          "length": 16,
+          "canonical_conflict_samples": 1
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 207,
+          "end_index": 216,
+          "length": 10,
+          "canonical_conflict_samples": 1
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 217,
+          "end_index": 217,
+          "length": 1,
+          "canonical_conflict_samples": 1
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 246,
+          "end_index": 246,
+          "length": 1,
+          "canonical_conflict_samples": 1
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 261,
+          "end_index": 261,
+          "length": 1,
+          "canonical_conflict_samples": 1
+        }
+      ],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_02",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260921_163046.json",
+        "sha256": "a3b74ad03c9338d28e0d81cf261e0c6d70d49ff4d20ca14e623695562ab90aa4"
+      },
+      "samples": 343,
+      "simultaneous_directional_samples": 150,
+      "aligned_samples": 64,
+      "opposed_samples": 86,
+      "total_runs": 10,
+      "aligned_runs": 2,
+      "opposed_runs": 8,
+      "pair_run_counts": {
+        "BUY_BUY": 2,
+        "SELL_SELL": 0,
+        "BUY_SELL": 8,
+        "SELL_BUY": 0
+      },
+      "aligned_run_lengths": [
+        51,
+        13
+      ],
+      "opposed_run_lengths": [
+        11,
+        22,
+        1,
+        1,
+        20,
+        1,
+        19,
+        11
+      ],
+      "aligned_longest_run": 51,
+      "opposed_longest_run": 22,
+      "aligned_mean_run_length": 32.0,
+      "opposed_mean_run_length": 10.75,
+      "aligned_conflict_bearing_runs": 2,
+      "opposed_conflict_bearing_runs": 8,
+      "aligned_canonical_conflict_samples": 4,
+      "opposed_canonical_conflict_samples": 86,
+      "runs": [
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 17,
+          "end_index": 27,
+          "length": 11,
+          "canonical_conflict_samples": 11
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 33,
+          "end_index": 54,
+          "length": 22,
+          "canonical_conflict_samples": 22
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 94,
+          "end_index": 94,
+          "length": 1,
+          "canonical_conflict_samples": 1
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 123,
+          "end_index": 123,
+          "length": 1,
+          "canonical_conflict_samples": 1
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 154,
+          "end_index": 173,
+          "length": 20,
+          "canonical_conflict_samples": 20
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 193,
+          "end_index": 193,
+          "length": 1,
+          "canonical_conflict_samples": 1
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 198,
+          "end_index": 216,
+          "length": 19,
+          "canonical_conflict_samples": 19
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 235,
+          "end_index": 245,
+          "length": 11,
+          "canonical_conflict_samples": 11
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 272,
+          "end_index": 322,
+          "length": 51,
+          "canonical_conflict_samples": 3
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 330,
+          "end_index": 342,
+          "length": 13,
+          "canonical_conflict_samples": 1
+        }
+      ],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_03",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260922_130220.json",
+        "sha256": "7c98319547891f0d53575fe8956e872b9b9681626b31b48ed26b25b62e6d56cd"
+      },
+      "samples": 268,
+      "simultaneous_directional_samples": 1,
+      "aligned_samples": 1,
+      "opposed_samples": 0,
+      "total_runs": 1,
+      "aligned_runs": 1,
+      "opposed_runs": 0,
+      "pair_run_counts": {
+        "BUY_BUY": 1,
+        "SELL_SELL": 0,
+        "BUY_SELL": 0,
+        "SELL_BUY": 0
+      },
+      "aligned_run_lengths": [
+        1
+      ],
+      "opposed_run_lengths": [],
+      "aligned_longest_run": 1,
+      "opposed_longest_run": 0,
+      "aligned_mean_run_length": 1.0,
+      "opposed_mean_run_length": null,
+      "aligned_conflict_bearing_runs": 0,
+      "opposed_conflict_bearing_runs": 0,
+      "aligned_canonical_conflict_samples": 0,
+      "opposed_canonical_conflict_samples": 0,
+      "runs": [
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 147,
+          "end_index": 147,
+          "length": 1,
+          "canonical_conflict_samples": 0
+        }
+      ],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_04",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_103430.json",
+        "sha256": "137a74aeaa3d167e49c82203d738fbbac0d1a0c25797630b750dfcb9804b735b"
+      },
+      "samples": 279,
+      "simultaneous_directional_samples": 48,
+      "aligned_samples": 0,
+      "opposed_samples": 48,
+      "total_runs": 5,
+      "aligned_runs": 0,
+      "opposed_runs": 5,
+      "pair_run_counts": {
+        "BUY_BUY": 0,
+        "SELL_SELL": 0,
+        "BUY_SELL": 0,
+        "SELL_BUY": 5
+      },
+      "aligned_run_lengths": [],
+      "opposed_run_lengths": [
+        15,
+        18,
+        2,
+        11,
+        2
+      ],
+      "aligned_longest_run": 0,
+      "opposed_longest_run": 18,
+      "aligned_mean_run_length": null,
+      "opposed_mean_run_length": 9.6,
+      "aligned_conflict_bearing_runs": 0,
+      "opposed_conflict_bearing_runs": 5,
+      "aligned_canonical_conflict_samples": 0,
+      "opposed_canonical_conflict_samples": 48,
+      "runs": [
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 15,
+          "end_index": 29,
+          "length": 15,
+          "canonical_conflict_samples": 15
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 227,
+          "end_index": 244,
+          "length": 18,
+          "canonical_conflict_samples": 18
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 251,
+          "end_index": 252,
+          "length": 2,
+          "canonical_conflict_samples": 2
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 258,
+          "end_index": 268,
+          "length": 11,
+          "canonical_conflict_samples": 11
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 272,
+          "end_index": 273,
+          "length": 2,
+          "canonical_conflict_samples": 2
+        }
+      ],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_05",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_123103.json",
+        "sha256": "e670e7f2a7ef4c1472b0cb9ac23c9ce9cd9a85e3b46801a00d4ed2205388d1ef"
+      },
+      "samples": 266,
+      "simultaneous_directional_samples": 14,
+      "aligned_samples": 14,
+      "opposed_samples": 0,
+      "total_runs": 3,
+      "aligned_runs": 3,
+      "opposed_runs": 0,
+      "pair_run_counts": {
+        "BUY_BUY": 3,
+        "SELL_SELL": 0,
+        "BUY_SELL": 0,
+        "SELL_BUY": 0
+      },
+      "aligned_run_lengths": [
+        2,
+        7,
+        5
+      ],
+      "opposed_run_lengths": [],
+      "aligned_longest_run": 7,
+      "opposed_longest_run": 0,
+      "aligned_mean_run_length": 4.666666666666667,
+      "opposed_mean_run_length": null,
+      "aligned_conflict_bearing_runs": 0,
+      "opposed_conflict_bearing_runs": 0,
+      "aligned_canonical_conflict_samples": 0,
+      "opposed_canonical_conflict_samples": 0,
+      "runs": [
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 17,
+          "end_index": 18,
+          "length": 2,
+          "canonical_conflict_samples": 0
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 63,
+          "end_index": 69,
+          "length": 7,
+          "canonical_conflict_samples": 0
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 81,
+          "end_index": 85,
+          "length": 5,
+          "canonical_conflict_samples": 0
+        }
+      ],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_06",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_131852.json",
+        "sha256": "df5c37773747d4ae1131c15d12cea99ab9e4f07438b39b4e7d7b52cc018b827c"
+      },
+      "samples": 268,
+      "simultaneous_directional_samples": 90,
+      "aligned_samples": 90,
+      "opposed_samples": 0,
+      "total_runs": 3,
+      "aligned_runs": 3,
+      "opposed_runs": 0,
+      "pair_run_counts": {
+        "BUY_BUY": 3,
+        "SELL_SELL": 0,
+        "BUY_SELL": 0,
+        "SELL_BUY": 0
+      },
+      "aligned_run_lengths": [
+        32,
+        7,
+        51
+      ],
+      "opposed_run_lengths": [],
+      "aligned_longest_run": 51,
+      "opposed_longest_run": 0,
+      "aligned_mean_run_length": 30.0,
+      "opposed_mean_run_length": null,
+      "aligned_conflict_bearing_runs": 2,
+      "opposed_conflict_bearing_runs": 0,
+      "aligned_canonical_conflict_samples": 4,
+      "opposed_canonical_conflict_samples": 0,
+      "runs": [
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 0,
+          "end_index": 31,
+          "length": 32,
+          "canonical_conflict_samples": 2
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 43,
+          "end_index": 49,
+          "length": 7,
+          "canonical_conflict_samples": 0
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 52,
+          "end_index": 102,
+          "length": 51,
+          "canonical_conflict_samples": 2
+        }
+      ],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_07",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_151347.json",
+        "sha256": "079038c684e952a0412d0f32c699e93b6d015359eb368ca0f5345360a98d8200"
+      },
+      "samples": 257,
+      "simultaneous_directional_samples": 4,
+      "aligned_samples": 0,
+      "opposed_samples": 4,
+      "total_runs": 1,
+      "aligned_runs": 0,
+      "opposed_runs": 1,
+      "pair_run_counts": {
+        "BUY_BUY": 0,
+        "SELL_SELL": 0,
+        "BUY_SELL": 0,
+        "SELL_BUY": 1
+      },
+      "aligned_run_lengths": [],
+      "opposed_run_lengths": [
+        4
+      ],
+      "aligned_longest_run": 0,
+      "opposed_longest_run": 4,
+      "aligned_mean_run_length": null,
+      "opposed_mean_run_length": 4.0,
+      "aligned_conflict_bearing_runs": 0,
+      "opposed_conflict_bearing_runs": 1,
+      "aligned_canonical_conflict_samples": 0,
+      "opposed_canonical_conflict_samples": 4,
+      "runs": [
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 135,
+          "end_index": 138,
+          "length": 4,
+          "canonical_conflict_samples": 4
+        }
+      ],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_08",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260924_164534.json",
+        "sha256": "403fc536ce8659708c2abdef09bc07dd895e32ce15a8d6b33e1b5a237657eeb8"
+      },
+      "samples": 241,
+      "simultaneous_directional_samples": 0,
+      "aligned_samples": 0,
+      "opposed_samples": 0,
+      "total_runs": 0,
+      "aligned_runs": 0,
+      "opposed_runs": 0,
+      "pair_run_counts": {
+        "BUY_BUY": 0,
+        "SELL_SELL": 0,
+        "BUY_SELL": 0,
+        "SELL_BUY": 0
+      },
+      "aligned_run_lengths": [],
+      "opposed_run_lengths": [],
+      "aligned_longest_run": 0,
+      "opposed_longest_run": 0,
+      "aligned_mean_run_length": null,
+      "opposed_mean_run_length": null,
+      "aligned_conflict_bearing_runs": 0,
+      "opposed_conflict_bearing_runs": 0,
+      "aligned_canonical_conflict_samples": 0,
+      "opposed_canonical_conflict_samples": 0,
+      "runs": [],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_09",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260925_124732.json",
+        "sha256": "ede8e44c46e31185efe325690db5fcce6110bdae0cf9a78fdd0936ac78b4132f"
+      },
+      "samples": 289,
+      "simultaneous_directional_samples": 0,
+      "aligned_samples": 0,
+      "opposed_samples": 0,
+      "total_runs": 0,
+      "aligned_runs": 0,
+      "opposed_runs": 0,
+      "pair_run_counts": {
+        "BUY_BUY": 0,
+        "SELL_SELL": 0,
+        "BUY_SELL": 0,
+        "SELL_BUY": 0
+      },
+      "aligned_run_lengths": [],
+      "opposed_run_lengths": [],
+      "aligned_longest_run": 0,
+      "opposed_longest_run": 0,
+      "aligned_mean_run_length": null,
+      "opposed_mean_run_length": null,
+      "aligned_conflict_bearing_runs": 0,
+      "opposed_conflict_bearing_runs": 0,
+      "aligned_canonical_conflict_samples": 0,
+      "opposed_canonical_conflict_samples": 0,
+      "runs": [],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_10",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260925_133534.json",
+        "sha256": "1034540eb18f5389d105360619913afbcab2ce705472dcb2d68e4b569def91c3"
+      },
+      "samples": 243,
+      "simultaneous_directional_samples": 0,
+      "aligned_samples": 0,
+      "opposed_samples": 0,
+      "total_runs": 0,
+      "aligned_runs": 0,
+      "opposed_runs": 0,
+      "pair_run_counts": {
+        "BUY_BUY": 0,
+        "SELL_SELL": 0,
+        "BUY_SELL": 0,
+        "SELL_BUY": 0
+      },
+      "aligned_run_lengths": [],
+      "opposed_run_lengths": [],
+      "aligned_longest_run": 0,
+      "opposed_longest_run": 0,
+      "aligned_mean_run_length": null,
+      "opposed_mean_run_length": null,
+      "aligned_conflict_bearing_runs": 0,
+      "opposed_conflict_bearing_runs": 0,
+      "aligned_canonical_conflict_samples": 0,
+      "opposed_canonical_conflict_samples": 0,
+      "runs": [],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      }
+    }
+  ],
+  "aggregate": {
+    "samples": 2746,
+    "simultaneous_directional_samples": 356,
+    "aligned_samples": 210,
+    "opposed_samples": 146,
+    "total_runs": 35,
+    "aligned_runs": 17,
+    "opposed_runs": 18,
+    "pair_run_counts": {
+      "BUY_BUY": 17,
+      "SELL_SELL": 0,
+      "BUY_SELL": 12,
+      "SELL_BUY": 6
+    },
+    "aligned_run_lengths": [
+      1,
+      2,
+      4,
+      1,
+      5,
+      2,
+      16,
+      10,
+      51,
+      13,
+      1,
+      2,
+      7,
+      5,
+      32,
+      7,
+      51
+    ],
+    "opposed_run_lengths": [
+      5,
+      1,
+      1,
+      1,
+      11,
+      22,
+      1,
+      1,
+      20,
+      1,
+      19,
+      11,
+      15,
+      18,
+      2,
+      11,
+      2,
+      4
+    ],
+    "aligned_longest_run": 51,
+    "opposed_longest_run": 22,
+    "aligned_mean_run_length": 12.352941176470589,
+    "opposed_mean_run_length": 8.11111111111111,
+    "aligned_conflict_bearing_runs": 7,
+    "opposed_conflict_bearing_runs": 18,
+    "aligned_canonical_conflict_samples": 11,
+    "opposed_canonical_conflict_samples": 146
+  },
+  "frozen_checkpoint_session_count": 10,
+  "checkpoint_extended": false,
+  "independent_sessions_appended": false,
+  "combined_session_count": null,
+  "combined_checkpoint_created": false,
+  "cohort_redefinition": false,
+  "unit_separation": {
+    "sample_unit": "SAMPLE",
+    "temporal_unit": "RUN",
+    "frozen_opposed_episode_count": 17,
+    "run_is_episode_claim_allowed": false,
+    "sample_is_run_claim_allowed": false,
+    "sample_is_episode_claim_allowed": false,
+    "run_is_canonical_conflict_claim_allowed": false
+  },
+  "interpretation": "DESCRIPTIVE_ONLY",
+  "interpretation_limits": [
+    "DESCRIPTIVE_ONLY",
+    "RUNS_ARE_NOT_CANONICAL_CONFLICT_EPISODES",
+    "18_OPPOSED_RUNS_MUST_NOT_BE_EQUATED_WITH_17_OPPOSED_EPISODES",
+    "SAMPLE_RUN_AND_EPISODE_UNITS_REMAIN_DISTINCT",
+    "CANONICAL_CONFLICT_COMES_ONLY_FROM_CONFLICT_COUNT",
+    "NO_PREDICTIVE_CLAIM",
+    "NO_THRESHOLD_CHANGE_ALLOWED",
+    "NO_RC17_CHANGE_ALLOWED",
+    "NO_OPERATIONAL_INFERENCE_ALLOWED",
+    "FROZEN_10_SESSION_CHECKPOINT_IS_NOT_EXTENDED",
+    "INDEPENDENT_SESSIONS_11_AND_12_ARE_NOT_APPENDED"
+  ],
+  "research_only": true,
+  "observational_only": true,
+  "descriptive_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false,
+  "threshold_change_allowed": false,
+  "rc17_change_allowed": false,
+  "order_flow_score_change_allowed": false,
+  "threshold_changed": false,
+  "rc17_changed": false,
+  "operational_logic_changed": false,
+  "canonical_conflict_redefinition": false
+}

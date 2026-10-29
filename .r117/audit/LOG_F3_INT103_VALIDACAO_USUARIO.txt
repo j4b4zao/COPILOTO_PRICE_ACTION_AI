@@ -1,0 +1,23 @@
+VALIDACAO F3-INT-103 | 2026-10-21T16:56:29.252237
+Pacote: C:\Users\jb\Desktop\PACOTE_AUDITORIA_F3_INT103_CANDIDATO.zip
+SHA256: 7031c90b4d16cf07fb38a6fa260c0cc5e319701af80a4d69f46d790bd6cc60db
+ZIP e flags: OK; ultimo marco oficial no pacote: F3-INT-102
+INICIO NOVOS
+----------------------------------------------------------------------
+Ran 14 tests in 22.642s
+
+OK
+
+EXIT NOVOS: 0
+INICIO REGRESSAO
+F3_INT10_REPORT={"absolute_depth_effective": 14, "accepted": 5891, "attempted": 12000, "boundary_attempts": {"after": 4305, "before": 2304, "equal": 3313}, "counterexamples": [], "depth_effective": 2, "distinct_candidate_paths": 11977, "distinct_states": 9549, "elapsed_seconds": 2.774296, "exceptions": 0, "expanded_paths": 159, "max_extra_depth": 3, "max_seconds": 8.0, "max_states": 12000, "max_transitions": 12000, "minimizer_calls": 0, "no_effect": 848, "phases_reached": ["ARMED", "CLOSED_CONFIRMED", "CONTAINED_SUSPENDED", "EVIDENCE_INCOMPLETE", "EXIT_OBSERVED", "LAUNCH_PENDING", "PREPARING", "RUNNING", "STOP_REQUESTED"], "queued_states": 3829, "rejected": 5261, "rejected_unchanged": 470, "rejected_with_independent_timeout": 364, "rejection_violation_occurrences": 0, "safety_violation_occurrences": 0, "seed_model_calls": 13, "seeds": 14, "stop_reason": "TRANSITION_LIMIT", "total_model_calls": 12013}
+F3_INT13_REPORT={"absolute_depth_effective": 14, "accepted": 66504, "attempted": 147787, "boundary_attempts": {"after": 68422, "before": 23200, "equal": 42791}, "counterexamples": [], "depth_effective": 3, "distinct_candidate_paths": 147066, "distinct_states": 68487, "elapsed_seconds": 40.000352, "exceptions": 0, "expanded_paths": 2271, "max_extra_depth": 5, "max_seconds": 40.0, "max_states": 150000, "max_transitions": 180000, "minimizer_calls": 0, "no_effect": 10331, "phases_reached": ["ARMED", "CLOSED_CONFIRMED", "CONTAINED_SUSPENDED", "EVIDENCE_INCOMPLETE", "EXIT_OBSERVED", "LAUNCH_PENDING", "PREPARING", "RUNNING", "STOP_REQUESTED"], "queued_states": 23926, "rejected": 70952, "rejected_unchanged": 6797, "rejected_with_independent_timeout": 1126, "rejection_violation_occurrences": 0, "safety_violation_occurrences": 0, "seed_model_calls": 13, "seeds": 14, "stop_reason": "DURATION_LIMIT", "total_model_calls": 147800}
+F3_INT14_REPORT={"accepted": 15443, "attempted": 30000, "counterexamples": [], "deadline_after": 29380, "deadline_before": 151, "deadline_equal": 222, "depth_effective": 7, "exceptions": 0, "no_effect": 2323, "rejected": 12234, "rejection_violations": 0, "states": 3540, "stop_reason": "EDGE_LIMIT", "violations": 0}
+F3_INT15_REPORT={"attempted": 4692, "decision_codes": ["AUDIT_RECORDED", "CLOCK_OBSERVED", "CONSERVATIVE_STOP_REQUIRED", "CONTAINED_SUSPENDED_OBSERVED", "CONTINUE_RELEASES_REQUIRED", "CREATE_REQUEST_RECORDED", "LATE_CREATION_RECOVERY_ONLY", "LATE_RESUME_EFFECT_STOP_REQUIRED", "PARTIAL_EMPTY_OBSERVATION_ONLY", "RECOVERY_ONLY", "RECOVERY_UNCONFIRMED", "REJECTED_NATIVE_CLAIM", "REJECTED_SESSION_IDENTITY", "REJECTED_TRANSITION", "RESUME_COMMIT_RECORDED", "RESUME_EFFECT_OBSERVED", "STOP_REQUIRED", "TERMINAL_NO_EFFECT", "TIMEOUT_DECIDED", "TRANSITION_ACCEPTED", "VERIFY_CONTAINMENT_REQUIRED"], "event_kinds": ["ACCEPT", "ASSOCIATION_FAILED", "AUXILIARY_EXIT", "CANCEL", "CLEANUP_FAILED", "CLEANUP_SUCCEEDED", "CLOSE", "CONTAINMENT_CONFIRMED", "CREATE_FAILED", "CREATE_RETURNED", "CREATION_UNCERTAIN", "FUNCTIONAL_COMPLETE", "JOB_EMPTY", "LAUNCH_BEGIN", "PREPARE_QUALIFIED", "RESUME_COMMIT", "RESUME_CONFIRMED", "RESUME_NOT_APPLIED", "RESUME_UNCERTAIN", "SUPERVISOR_DIED", "TARGET_EXIT", "TICK", "WITNESS_FAILED"], "failure_count": 0, "failures": [], "independent_timeouts": 1288, "phase_kind_pairs": 207, "phases": ["ARMED", "CLOSED_CONFIRMED", "CONTAINED_SUSPENDED", "EVIDENCE_INCOMPLETE", "EXIT_OBSERVED", "LAUNCH_PENDING", "PREPARING", "RUNNING", "STOP_REQUESTED"], "rejected": 3067, "scope": "reachable canonical prefix states; four event variants; deadline boundaries; NOT exhaustive", "theoretical_phase_kind_pairs": 207}
+----------------------------------------------------------------------
+Ran 1213 tests in 330.895s
+
+OK
+
+EXIT REGRESSAO: 0
+TESTES NOVOS E REGRESSAO COMPLETA APROVADOS NESTA EXECUCAO

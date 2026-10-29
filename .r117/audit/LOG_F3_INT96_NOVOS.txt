@@ -1,0 +1,14 @@
+test_entire_policy_context_tampering (test_f3_int96_policy_import_witness.PolicyWitnessTests.test_entire_policy_context_tampering) ... ok
+test_flags (test_f3_int96_policy_import_witness.PolicyWitnessTests.test_flags) ... ok
+test_identical_traces (test_f3_int96_policy_import_witness.PolicyWitnessTests.test_identical_traces) ... ok
+test_invalid_shape (test_f3_int96_policy_import_witness.PolicyWitnessTests.test_invalid_shape) ... ok
+test_invalid_witness (test_f3_int96_policy_import_witness.PolicyWitnessTests.test_invalid_witness) ... ok
+test_large_policy_witness_replays (test_f3_int96_policy_import_witness.PolicyWitnessTests.test_large_policy_witness_replays) ... ok
+test_partial_search (test_f3_int96_policy_import_witness.PolicyWitnessTests.test_partial_search) ... ok
+test_policy_field_tampering (test_f3_int96_policy_import_witness.PolicyWitnessTests.test_policy_field_tampering) ... ok
+test_status_tampering (test_f3_int96_policy_import_witness.PolicyWitnessTests.test_status_tampering) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 6.537s
+
+OK

@@ -1,0 +1,2099 @@
+﻿===== GIT =====
+brooks-stop-target-exact-audit-20260912
+c8d0d1616059f0eca55ed91db3048a18b0ae4c9d
+ M Profit.xlsx
+ M connectors/excel_connector.py
+ M livroOfertas.xlsx
+ M saida.txt
+ M times&trades.xlsx
+?? .pytest_brooks_accumulation_full/
+?? .pytest_brooks_delta_telemetry_full/
+?? .pytest_brooks_full_20260918/
+?? .pytest_delta_hook/
+?? .pytest_tmp/
+?? .pytest_tmp_book_directionality_rc1/
+?? .pytest_tmp_book_directionality_rc1_v3/
+?? .pytest_tmp_bridge_full/
+?? .pytest_tmp_independent_comparison_final/
+?? .pytest_tmp_independent_comparison_rc1/
+?? .pytest_tmp_independent_comparison_rc1_v2/
+?? .pytest_tmp_independent_comparison_regression/
+?? .pytest_tmp_independent_evidence_integrated/
+?? .pytest_tmp_independent_evidence_rc1/
+?? .pytest_tmp_manifest/
+?? .pytest_tmp_post_session_rc1/
+?? .pytest_tmp_post_session_regression/
+?? .pytest_tmp_regression/
+?? .pytest_tmp_session11_readiness_final/
+?? .pytest_tmp_session11_readiness_rc1/
+?? .pytest_tmp_session11_readiness_rc1_v2/
+?? .pytest_tmp_session11_readiness_verify_rc1/
+?? .pytest_tmp_session12_readiness_final/
+?? .pytest_tmp_session12_readiness_rc1/
+?? .pytest_trailing_accumulation/
+?? .tmp_independent_comparison_rc1/
+?? auditoria_codex_work.txt
+?? auditoria_management_exact_core.txt
+?? auditoria_management_lifecycle_core.txt
+?? auditoria_protective_trailing_core.txt
+?? auditoria_trailing_12sessoes.txt
+?? auditoria_trailing_capture_core.txt
+?? auditoria_trailing_diagnostics_core.txt
+?? auditoria_trailing_tests_core.txt
+?? auditoria_work_codex_20260917.txt
+?? base_conflict_episode_rc1.txt
+?? book_bridge_parity_rc1.txt
+?? book_direction_parity_rc1.txt
+?? book_direction_pipeline_exact.txt
+?? book_directional_context_probe.txt
+?? book_directional_transitions_probe.txt
+?? book_directionality_diagnostics_current.txt
+?? book_directionality_diagnostics_real_rc1.json
+?? book_directionality_diagnostics_tests_current.txt
+?? book_imbalance_boundary_probe.txt
+?? book_observability_rc1_source_snapshot.txt
+?? book_pressure_exhaustive_probe.txt
+?? book_pressure_exhaustive_session11_probe.txt
+?? book_raw_alignment_probe.txt
+?? book_raw_structure_probe.txt
+?? book_threshold_source_search.txt
+?? brooks_delta_telemetry_hook_audit.txt
+?? brooks_evidencia_10sessoes.json
+?? brooks_evidencia_stop_target_final.json
+?? brooks_lifecycle_16sessoes_20260918.json
+?? brooks_lifecycle_17sessoes_20260918.json
+?? brooks_lifecycle_18sessoes_20260918.json
+?? brooks_lifecycle_19sessoes_20260918.json
+?? brooks_lifecycle_20sessoes_20260918.json
+?? brooks_lifecycle_21sessoes_20260918.json
+?? brooks_lifecycle_exact_16sessoes_20260918.json
+?? brooks_lifecycle_exact_17sessoes_20260918.json
+?? brooks_lifecycle_exact_18sessoes_20260918.json
+?? brooks_lifecycle_exact_19sessoes_20260918.json
+?? brooks_lifecycle_exact_20sessoes_20260918.json
+?? brooks_lifecycle_exact_21sessoes_20260918.json
+?? brooks_stage3_3_16sessoes_20260918.json
+?? brooks_stage3_3_17sessoes_20260918.json
+?? brooks_stage3_3_18sessoes_20260918.json
+?? brooks_stage3_3_19sessoes_20260918.json
+?? brooks_stage3_3_20sessoes_20260918.json
+?? brooks_stage3_3_21sessoes_20260918.json
+?? brooks_stage3_4_16sessoes_20260918.json
+?? brooks_stage3_4_17sessoes_20260918.json
+?? brooks_stage3_4_18sessoes_20260918.json
+?? brooks_stage3_4_19sessoes_20260918.json
+?? brooks_stage3_4_20sessoes_20260918.json
+?? brooks_stage3_4_21sessoes_20260918.json
+?? brooks_stage3_5_16sessoes_20260918.json
+?? brooks_stage3_5_17sessoes_20260918.json
+?? brooks_stage3_5_18sessoes_20260918.json
+?? brooks_stage3_5_19sessoes_20260918.json
+?? brooks_stage3_5_20sessoes_20260918.json
+?? brooks_stage3_5_21sessoes_20260918.json
+?? brooks_stage3_6_16sessoes_20260918.json
+?? brooks_stage3_6_17sessoes_20260918.json
+?? brooks_stage3_6_18sessoes_20260918.json
+?? brooks_stage3_6_19sessoes_20260918.json
+?? brooks_stage3_6_20sessoes_20260918.json
+?? brooks_stage3_6_21sessoes_20260918.json
+?? brooks_trailing_active_accumulation_16_17_20260918.json
+?? brooks_trailing_active_accumulation_16_18_20260918.json
+?? brooks_trailing_active_accumulation_16_19_20260918.json
+?? brooks_trailing_active_accumulation_16_20_20260918.json
+?? brooks_trailing_active_accumulation_16_21_20260918.json
+?? brooks_trailing_active_survival_16sessoes_20260918.json
+?? brooks_trailing_active_survival_17sessoes_20260918.json
+?? brooks_trailing_active_survival_18sessoes_20260918.json
+?? brooks_trailing_active_survival_19sessoes_20260918.json
+?? brooks_trailing_active_survival_20sessoes_20260918.json
+?? brooks_trailing_active_survival_21sessoes_20260918.json
+?? brooks_trailing_v3_sessao19_20260918.json
+?? brooks_trailing_v3_sessao20_20260918.json
+?? brooks_trailing_v3_sessao21_20260918.json
+?? brooks_ultima_selecao.json
+?? brooks_warmed_session_atual.txt
+?? busca_book_conversion_exact.txt
+?? busca_book_direction.txt
+?? busca_coverage_generator_exact.txt
+?? busca_historical_bridge_exact.txt
+?? busca_prospective_book_rule.txt
+?? data/order_flow_historical_shadow_rc35/
+?? data/order_flow_historical_shadow_rc35_python/
+?? data/post_session_audit_rc1_regression/
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260914_102126.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260914_130304.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260914_143238.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260914_165659.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_105703.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_114902.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_123423.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_130450.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_161123.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_164939.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_172701.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260916_102907.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260916_124306.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260917_113532.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260917_125655.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260917_171917.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_100511.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_104649.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_120654.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_124258.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_155129.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_170840.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260914_102126.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260914_130304.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260914_143239.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260914_165659.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_105703.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_114902.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_123424.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_130450.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_161124.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_164940.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_172701.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260916_102908.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260916_124307.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260917_113533.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260917_125657.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260917_171918.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_100511.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_104649.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_120654.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_124258.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_155130.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_170841.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260908_130030.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260908_164519.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260908_170045.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260909_114536.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260909_123422.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260909_125729.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_110116.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_115251.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_122602.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_130942.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_163046.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260922_104741.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260922_114330.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260922_122256.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260922_130220.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260923_103430.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260923_123103.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260923_131852.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260923_151347.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260924_164534.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260924_172159.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260925_110721.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260925_124732.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260925_133534.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260928_113219.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260928_125331.json
+?? data/prospective_microstructure_session11_audit_20260928/
+?? data/prospective_microstructure_session12_audit_20260928/
+?? delta_adapter_audit.txt
+?? delta_continuity_audit.txt
+?? delta_cycle3543_audit.txt
+?? delta_recovery_code_review.txt
+?? delta_recovery_final_audit.txt
+?? delta_recovery_search.txt
+?? delta_reset_core_audit.txt
+?? delta_reset_runtime_log.txt
+?? delta_reset_search.txt
+?? delta_rtd_reset_path.txt
+?? delta_telemetry_capture_audit.txt
+?? delta_telemetry_collector_hook_audit.txt
+?? delta_telemetry_context_bridge_audit.txt
+?? delta_telemetry_diff.txt
+?? delta_telemetry_integration_audit.txt
+?? delta_telemetry_warm_bridge_final_audit.txt
+?? diagnostico_build_sources.txt
+?? diagnostico_fluxo_collector_pipeline.txt
+?? diagnostico_market_structure_20260924.txt
+?? diagnostico_price_action_bias.txt
+?? diagnostico_rc17_1200.txt
+?? diagnostico_rc17_ao_vivo.txt
+?? diagnostico_rc17_d1.txt
+?? diagnostico_rc17_d2.txt
+?? diagnostico_rc17_d3.txt
+?? diagnostico_rc17_regras.txt
+?? diagnostico_schema_conflict_episode.txt
+?? estado_work_codex_20260917.txt
+?? estrutura_final_rc17_20260924.txt
+?? historical_bridge_full_logic.txt
+?? historical_microstructure_confluence_report_LOCAL_BACKUP.py
+?? independent_episode_audit_full_20260918.txt
+?? independent_episode_tests_full_20260918.txt
+?? inspect_book_schema_rc1.py
+?? inspect_prospective_book_exact_rc1.py
+?? management_lifecycle_full_20260918.txt
+?? post_session_pipeline_exact.txt
+?? probe_book_directional.py
+?? probe_book_imbalance_boundary.py
+?? probe_book_pressure_exhaustive.py
+?? probe_book_pressure_exhaustive_session11.py
+?? probe_book_raw_alignment.py
+?? probe_book_raw_structure.py
+?? probe_book_transitions.py
+?? profit_rtd_pipeline_audit.txt
+?? prospective_book_call_chain_search.txt
+?? prospective_book_exact_rc1.txt
+?? prospective_book_runtime_chain_exact.txt
+?? prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+?? prospective_microstructure_book_directionality_diagnostics_metadata_rc2.json
+?? prospective_microstructure_book_directionality_metadata_validation.json
+?? prospective_microstructure_conflict_10session_checkpoint_verify_20260926.json
+?? prospective_session_exact.txt
+?? protective_trailing_stop_dynamics_full_20260917.txt
+?? rc54_8_oos_divergent.txt
+?? rc54_8_oos_divergent_3sessoes.txt
+?? rc54_8_oos_divergent_4sessoes.txt
+?? rc54_8_oos_micro_neutral.txt
+?? rc54_8_oos_micro_neutral_3sessoes.txt
+?? rc54_8_oos_micro_neutral_4sessoes.txt
+?? rc54_nova_oos.txt
+?? rc54_nova_oos_2.txt
+?? rc54_nova_oos_2_error.txt
+?? rc54_nova_oos_3.txt
+?? rc54_nova_oos_3_error.txt
+?? rc54_nova_oos_4.txt
+?? rc54_nova_oos_4_error.txt
+?? rc54_nova_oos_5.txt
+?? rc54_nova_oos_5_error.txt
+?? rc54_nova_oos_6.txt
+?? rc54_nova_oos_7.txt
+?? saida_book_rc1.txt
+?? saida_book_rc1_final.txt
+?? saida_conflict_episode_3formal.txt
+?? saida_conflict_episode_4sessions_20260923.json
+?? saida_conflict_episodes_10sessions_20260925.json
+?? saida_conflict_episodes_6sessions_20260923.json
+?? saida_conflict_episodes_7sessions_20260923.json
+?? saida_conflict_episodes_8sessions_20260924.json
+?? saida_conflict_episodes_9sessions_20260925.json
+?? saida_conflict_price_followthrough_10sessions_20260925.json
+?? saida_conflict_price_followthrough_4sessions_20260923.json
+?? saida_conflict_price_followthrough_5sessions_20260923.json
+?? saida_conflict_price_followthrough_6sessions_20260923.json
+?? saida_conflict_price_followthrough_7sessions_20260923.json
+?? saida_conflict_price_followthrough_8sessions_20260924.json
+?? saida_conflict_price_followthrough_8sessions_20260924_utf8.json
+?? saida_conflict_price_followthrough_9sessions_20260925.json
+?? saida_conflict_session_stability_rc3_10sessions_20260925.json
+?? saida_conflict_session_stability_rc3_5sessions_20260923.json
+?? saida_conflict_session_stability_rc3_6sessions_20260923.json
+?? saida_conflict_session_stability_rc3_7sessions_20260923.json
+?? saida_conflict_session_stability_rc3_8sessions_20260924.json
+?? saida_conflict_session_stability_rc3_9sessions_20260925.json
+?? saida_conflict_stratification_10sessions_20260925.json
+?? saida_conflict_stratification_rc2_20260923.json
+?? saida_conflict_stratification_rc2_5sessions_20260923.json
+?? saida_conflict_stratification_rc2_6sessions_20260923.json
+?? saida_conflict_stratification_rc2_7sessions_20260923.json
+?? saida_conflict_stratification_rc2_8sessions_20260924.json
+?? saida_conflict_stratification_rc2_9sessions_20260925.json
+?? saida_erro_coverage_9sessions_20260925.txt
+?? saida_independent_evidence_comparison.txt
+?? saida_microstructure_3session_audit.txt
+?? saida_microstructure_coverage_10sessions_20260925.json
+?? saida_microstructure_coverage_20260923.json
+?? saida_microstructure_coverage_3formal.txt
+?? saida_microstructure_coverage_4formal_20260923.json
+?? saida_microstructure_coverage_5sessions_20260923.json
+?? saida_microstructure_coverage_6sessions_20260923.json
+?? saida_microstructure_coverage_7sessions_20260923.json
+?? saida_microstructure_coverage_8sessions_20260924.json
+?? saida_microstructure_coverage_9sessions_20260925.json
+?? saida_microstructure_orchestrated_3.txt
+?? saida_microstructure_prospectiva.txt
+?? saida_microstructure_prospectiva_3.txt
+?? saida_nova_tentativa_sessao8.txt
+?? saida_reproducao_conflict_episode_10sessions_20260926.json
+?? saida_reproducao_conflict_followthrough_10sessions_20260926.json
+?? saida_reproducao_conflict_session_stability_10sessions_20260926.json
+?? saida_reproducao_conflict_stratification_10sessions_20260926.json
+?? saida_reproducao_coverage_10sessions_20260926.json
+?? saida_sessao8.txt
+?? saida_sessao8_20260924.txt
+?? saida_sessao9_20260925.txt
+?? saida_sessao9_tentativa2_20260925.txt
+?? saida_sessao9_tentativa3_20260925.txt
+?? saida_sessao9_tentativa4_20260925.txt
+?? saida_sessao9_tentativa5_20260925.txt
+?? saida_session11.txt
+?? saida_session11_12_schemas.txt
+?? saida_session11_comparison.txt
+?? saida_session11_post_audit.txt
+?? saida_session11_quantitativo.txt
+?? saida_session11_tentativa2.txt
+?? saida_session11_tentativa3.txt
+?? saida_session11_tentativa4.txt
+?? saida_session12.txt
+?? saida_session12_comparison.txt
+?? saida_session12_post_audit.txt
+?? saida_session12_readiness.txt
+?? schema_book_session11.txt
+?? schema_book_session12.txt
+?? schema_book_unique_values.txt
+?? schema_book_values.txt
+?? stash_conteudo.txt
+?? structural_advance_gate_v2_1_full_20260917.txt
+?? test_historical_microstructure_confluence_report_rc1_LOCAL_BACKUP.py
+?? test_prospective_microstructure_book_directionality_diagnostics_rc1_current.py
+?? tests/book_diag_tests_metadata_rc2.py
+?? tmp_pytest/
+?? tmp_pytest_book_metadata/
+?? tmp_pytest_conflict_episode_fix/
+?? tmp_pytest_conflict_episode_integrated/
+?? tmp_pytest_conflict_episode_resume/
+?? tmp_pytest_orchestrated/
+?? tmp_pytest_rc1/
+?? tmp_pytest_sync_a92/
+?? tools/profit_rtd_brooks_research_evidence_suite_updated.py
+?? tools/profit_rtd_brooks_structural_advance_gate_diagnostics.py
+?? tools/profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py
+?? tools/profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py
+?? tools/profit_rtd_rc17_isolated_parity_diagnostic.py
+?? tools/profit_rtd_rc17_parity_diagnostic.py
+?? tools/profit_rtd_rc17_swing_diagnostic.py
+?? tools/profit_rtd_rc54_3_2_brooks_warmed_session_complete.py
+?? tools/profit_rtd_rc54_3_2_brooks_warmed_session_fixed.py
+?? trailing_active_survival_source_20260918.txt
+?? trailing_active_survival_tests_20260918.txt
+?? trailing_advance_diagnostico_20260917.txt
+?? trailing_advance_logic_audit_20260917.txt
+?? trailing_v3_session16_20260918.json
+?? trailing_v3_session17_20260918.json
+?? trailing_v3_session18_20260918.json
+?? verify_book_bridge_parity_rc1.py
+?? verify_book_direction_parity_rc1.py
+?? warm_history_location_audit.txt
+
+===== CURRENT DIAGNOSTICS TOOL =====
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+from typing import Any
+
+
+VERSION = "RC1-PROSPECTIVE-MICROSTRUCTURE-BOOK-DIRECTIONALITY-DIAGNOSTICS"
+
+
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+
+    return digest.hexdigest()
+
+
+def _read_json(path: Path) -> Any:
+    with path.open("r", encoding="utf-8-sig") as handle:
+        return json.load(handle)
+
+
+def _safety() -> dict[str, Any]:
+    return {
+        "research_only": True,
+        "observational_only": True,
+        "descriptive_only": True,
+        "predictive_claim_allowed": False,
+        "score_influence_allowed": False,
+        "risk_influence_allowed": False,
+        "decision_influence_allowed": False,
+        "alert_influence_allowed": False,
+        "order_execution_allowed": False,
+        "promotion_allowed": False,
+        "threshold_change_allowed": False,
+        "rc17_change_allowed": False,
+        "order_flow_score_change_allowed": False,
+    }
+
+
+def _normalize_direction(value: Any) -> str:
+    if value is None:
+        return "NONE"
+
+    value = str(value).strip().upper()
+
+    aliases = {
+        "LONG": "BUY",
+        "SHORT": "SELL",
+        "BULL": "BUY",
+        "BEAR": "SELL",
+        "BULLISH": "BUY",
+        "BEARISH": "SELL",
+        "NEUTRAL": "NONE",
+        "UNKNOWN": "NONE",
+        "": "NONE",
+    }
+
+    value = aliases.get(value, value)
+
+    if value not in {"BUY", "SELL", "NONE"}:
+        return "NONE"
+
+    return value
+
+
+def _first_present(mapping: dict[str, Any], names: tuple[str, ...]) -> Any:
+    for name in names:
+        if name in mapping:
+            return mapping[name]
+
+    return None
+
+
+def _extract_samples(payload: Any) -> list[dict[str, Any]]:
+    """
+    Extrai a evidencia canonica usada pela auditoria prospectiva.
+
+    Para artefatos RC1-PROSPECTIVE-MICROSTRUCTURE-EVIDENCE, a fonte
+    canonica e prospective_microstructure.samples. Esses samples foram
+    serializados diretamente do microstructure_confluence_replay durante
+    a sessao e ja contem price_action_bias, flow_direction,
+    book_direction, state e conflict_count.
+
+    O fallback generico permanece apenas para fixtures/testes e
+    compatibilidade com artefatos simples que nao possuam o container
+    prospectivo.
+    """
+
+    if isinstance(payload, list):
+        return [
+            item
+            for item in payload
+            if isinstance(item, dict)
+        ]
+
+    if not isinstance(payload, dict):
+        raise ValueError(
+            "raw session payload must be a JSON object or list"
+        )
+
+    prospective = payload.get("prospective_microstructure")
+
+    if isinstance(prospective, dict):
+        samples = prospective.get("samples")
+
+        if not isinstance(samples, list):
+            raise ValueError(
+                "prospective_microstructure exists but samples "
+                "is not a list"
+            )
+
+        if any(not isinstance(item, dict) for item in samples):
+            raise ValueError(
+                "prospective_microstructure.samples contains "
+                "non-object entries"
+            )
+
+        sample_count = len(samples)
+
+        captured_samples = prospective.get("captured_samples")
+        if not isinstance(captured_samples, int) or isinstance(
+            captured_samples, bool
+        ):
+            raise ValueError(
+                "prospective_microstructure.captured_samples "
+                "must be an integer"
+            )
+
+        source_analyzable_samples = prospective.get(
+            "source_analyzable_samples"
+        )
+        if not isinstance(source_analyzable_samples, int) or isinstance(
+            source_analyzable_samples, bool
+        ):
+            raise ValueError(
+                "prospective_microstructure.source_analyzable_samples "
+                "must be an integer"
+            )
+
+        sample_count_matches_source = prospective.get(
+            "sample_count_matches_source"
+        )
+        if sample_count_matches_source is not True:
+            raise ValueError(
+                "prospective_microstructure.sample_count_matches_source "
+                "must be true"
+            )
+
+        if captured_samples != sample_count:
+            raise ValueError(
+                "prospective_microstructure.captured_samples "
+                "does not match len(samples)"
+            )
+
+        if source_analyzable_samples != sample_count:
+            raise ValueError(
+                "prospective_microstructure.source_analyzable_samples "
+                "does not match len(samples)"
+            )
+
+        return samples
+
+    candidate_keys = (
+        "samples",
+        "observations",
+        "records",
+        "data",
+    )
+
+    for key in candidate_keys:
+        value = payload.get(key)
+
+        if isinstance(value, list):
+            return [
+                item
+                for item in value
+                if isinstance(item, dict)
+            ]
+
+    for container_key in (
+        "session",
+        "result",
+        "collection",
+    ):
+        container = payload.get(container_key)
+
+        if not isinstance(container, dict):
+            continue
+
+        for key in candidate_keys:
+            value = container.get(key)
+
+            if isinstance(value, list):
+                return [
+                    item
+                    for item in value
+                    if isinstance(item, dict)
+                ]
+
+    raise ValueError(
+        "could not locate raw session samples"
+    )
+
+def _extract_direction_from_mapping(
+    mapping: dict[str, Any],
+    direct_names: tuple[str, ...],
+    nested_names: tuple[str, ...],
+) -> str:
+    value = _first_present(
+        mapping,
+        direct_names,
+    )
+
+    if value is not None:
+        return _normalize_direction(value)
+
+    for nested_name in nested_names:
+        nested = mapping.get(nested_name)
+
+        if not isinstance(nested, dict):
+            continue
+
+        value = _first_present(
+            nested,
+            (
+                "direction",
+                "bias",
+                "side",
+                "signal",
+            ),
+        )
+
+        if value is not None:
+            return _normalize_direction(value)
+
+    return "NONE"
+
+
+def _extract_book_direction(sample: dict[str, Any]) -> str:
+    return _extract_direction_from_mapping(
+        sample,
+        (
+            "book_direction",
+            "book_bias",
+            "order_book_direction",
+            "order_book_bias",
+            "book_side",
+        ),
+        (
+            "book",
+            "order_book",
+            "book_state",
+        ),
+    )
+
+
+def _extract_pa_direction(sample: dict[str, Any]) -> str:
+    return _extract_direction_from_mapping(
+        sample,
+        (
+            "price_action_direction",
+            "price_action_bias",
+            "pa_direction",
+            "pa_bias",
+        ),
+        (
+            "price_action",
+            "pa",
+            "price_action_state",
+        ),
+    )
+
+
+def _extract_flow_direction(sample: dict[str, Any]) -> str:
+    return _extract_direction_from_mapping(
+        sample,
+        (
+            "flow_direction",
+            "flow_bias",
+            "order_flow_direction",
+            "order_flow_bias",
+        ),
+        (
+            "flow",
+            "order_flow",
+            "flow_state",
+        ),
+    )
+
+
+def _extract_bool(
+    sample: dict[str, Any],
+    names: tuple[str, ...],
+) -> bool | None:
+    value = _first_present(
+        sample,
+        names,
+    )
+
+    if value is None:
+        return None
+
+    if isinstance(value, bool):
+        return value
+
+    if isinstance(value, (int, float)):
+        return bool(value)
+
+    value = str(value).strip().lower()
+
+    if value in {"true", "1", "yes", "y"}:
+        return True
+
+    if value in {"false", "0", "no", "n"}:
+        return False
+
+    return None
+
+
+def _is_conflict(
+    sample: dict[str, Any],
+    pa: str,
+    flow: str,
+    book: str,
+) -> bool:
+    """
+    Usa primeiro a semantica canonica registrada pelo pipeline prospectivo.
+
+    conflict_count e state pertencem ao sample de confluencia serializado
+    durante a sessao. Quando presentes, eles prevalecem sobre qualquer
+    inferencia diagnostica a partir das direcoes individuais.
+
+    Os fallbacks existem apenas para fixtures/artefatos genericos antigos
+    que nao carreguem os campos canonicos.
+    """
+
+    if "conflict_count" in sample:
+        value = sample.get("conflict_count")
+
+        try:
+            return int(value or 0) > 0
+        except (TypeError, ValueError):
+            raise ValueError(
+                "conflict_count must be integer-compatible"
+            )
+
+    if "state" in sample:
+        state = str(sample.get("state") or "").strip().upper()
+        return state == "CONFLICT"
+
+    explicit = _extract_bool(
+        sample,
+        (
+            "conflict",
+            "is_conflict",
+            "conflict_detected",
+        ),
+    )
+
+    if explicit is not None:
+        return explicit
+
+    directional = [
+        direction
+        for direction in (pa, flow, book)
+        if direction in {"BUY", "SELL"}
+    ]
+
+    return (
+        "BUY" in directional
+        and "SELL" in directional
+    )
+
+def _pct(
+    numerator: int,
+    denominator: int,
+) -> float | None:
+    if denominator <= 0:
+        return None
+
+    return round(
+        numerator / denominator,
+        6,
+    )
+
+
+def _diagnose_session(
+    label: str,
+    raw_path: Path,
+) -> dict[str, Any]:
+    payload = _read_json(raw_path)
+    samples = _extract_samples(payload)
+
+    total = len(samples)
+
+    book_buy = 0
+    book_sell = 0
+    book_none = 0
+
+    pa_directional = 0
+    flow_directional = 0
+
+    conflict_samples = 0
+    conflict_book_directional = 0
+    conflict_book_none = 0
+
+    pa_book_opposed = 0
+    pa_book_aligned = 0
+
+    flow_book_opposed = 0
+    flow_book_aligned = 0
+
+    transitions = {
+        "NONE_TO_DIRECTIONAL": 0,
+        "DIRECTIONAL_TO_NONE": 0,
+        "BUY_TO_SELL": 0,
+        "SELL_TO_BUY": 0,
+        "BUY_TO_BUY": 0,
+        "SELL_TO_SELL": 0,
+        "NONE_TO_NONE": 0,
+    }
+
+    previous_book: str | None = None
+
+    longest_directional_run = 0
+    current_directional_run = 0
+
+    longest_none_run = 0
+    current_none_run = 0
+
+    for sample in samples:
+        book = _extract_book_direction(sample)
+        pa = _extract_pa_direction(sample)
+        flow = _extract_flow_direction(sample)
+
+        if book == "BUY":
+            book_buy += 1
+        elif book == "SELL":
+            book_sell += 1
+        else:
+            book_none += 1
+
+        if pa in {"BUY", "SELL"}:
+            pa_directional += 1
+
+        if flow in {"BUY", "SELL"}:
+            flow_directional += 1
+
+        if book in {"BUY", "SELL"}:
+            current_directional_run += 1
+            current_none_run = 0
+
+            longest_directional_run = max(
+                longest_directional_run,
+                current_directional_run,
+            )
+        else:
+            current_none_run += 1
+            current_directional_run = 0
+
+            longest_none_run = max(
+                longest_none_run,
+                current_none_run,
+            )
+
+        if previous_book is not None:
+            if previous_book == "NONE" and book in {"BUY", "SELL"}:
+                transitions["NONE_TO_DIRECTIONAL"] += 1
+
+            elif previous_book in {"BUY", "SELL"} and book == "NONE":
+                transitions["DIRECTIONAL_TO_NONE"] += 1
+
+            elif previous_book == "BUY" and book == "SELL":
+                transitions["BUY_TO_SELL"] += 1
+
+            elif previous_book == "SELL" and book == "BUY":
+                transitions["SELL_TO_BUY"] += 1
+
+            elif previous_book == "BUY" and book == "BUY":
+                transitions["BUY_TO_BUY"] += 1
+
+            elif previous_book == "SELL" and book == "SELL":
+                transitions["SELL_TO_SELL"] += 1
+
+            elif previous_book == "NONE" and book == "NONE":
+                transitions["NONE_TO_NONE"] += 1
+
+        previous_book = book
+
+        conflict = _is_conflict(
+            sample,
+            pa,
+            flow,
+            book,
+        )
+
+        if conflict:
+            conflict_samples += 1
+
+            if book in {"BUY", "SELL"}:
+                conflict_book_directional += 1
+            else:
+                conflict_book_none += 1
+
+        if (
+            pa in {"BUY", "SELL"}
+            and book in {"BUY", "SELL"}
+        ):
+            if pa == book:
+                pa_book_aligned += 1
+            else:
+                pa_book_opposed += 1
+
+        if (
+            flow in {"BUY", "SELL"}
+            and book in {"BUY", "SELL"}
+        ):
+            if flow == book:
+                flow_book_aligned += 1
+            else:
+                flow_book_opposed += 1
+
+    book_directional = book_buy + book_sell
+
+    return {
+        "label": label,
+        "raw_session": {
+            "path": str(raw_path),
+            "sha256": _sha256(raw_path),
+        },
+        "samples": total,
+        "book": {
+            "directional": book_directional,
+            "buy": book_buy,
+            "sell": book_sell,
+            "none": book_none,
+            "directional_rate": _pct(
+                book_directional,
+                total,
+            ),
+            "none_rate": _pct(
+                book_none,
+                total,
+            ),
+            "buy_rate": _pct(
+                book_buy,
+                total,
+            ),
+            "sell_rate": _pct(
+                book_sell,
+                total,
+            ),
+        },
+        "price_action": {
+            "directional": pa_directional,
+            "directional_rate": _pct(
+                pa_directional,
+                total,
+            ),
+        },
+        "flow": {
+            "directional": flow_directional,
+            "directional_rate": _pct(
+                flow_directional,
+                total,
+            ),
+        },
+        "conflict_context": {
+            "conflict_samples": conflict_samples,
+            "book_directional_during_conflict": (
+                conflict_book_directional
+            ),
+            "book_none_during_conflict": (
+                conflict_book_none
+            ),
+            "book_directional_during_conflict_rate": _pct(
+                conflict_book_directional,
+                conflict_samples,
+            ),
+        },
+        "pairwise_book_context": {
+            "pa_book_aligned_samples": pa_book_aligned,
+            "pa_book_opposed_samples": pa_book_opposed,
+            "flow_book_aligned_samples": flow_book_aligned,
+            "flow_book_opposed_samples": flow_book_opposed,
+        },
+        "book_continuity": {
+            "longest_directional_run": (
+                longest_directional_run
+            ),
+            "longest_none_run": longest_none_run,
+            "transitions": transitions,
+        },
+    }
+
+
+def build_report(
+    session11_raw: Path,
+    session12_raw: Path,
+) -> dict[str, Any]:
+    session11_raw = Path(session11_raw)
+    session12_raw = Path(session12_raw)
+
+    if session11_raw.resolve() == session12_raw.resolve():
+        raise ValueError(
+            "session 11 and session 12 must be distinct raw artifacts"
+        )
+
+    before11 = _sha256(session11_raw)
+    before12 = _sha256(session12_raw)
+
+    session11 = _diagnose_session(
+        "INDEPENDENT_SESSION_11",
+        session11_raw,
+    )
+
+    session12 = _diagnose_session(
+        "INDEPENDENT_SESSION_12",
+        session12_raw,
+    )
+
+    after11 = _sha256(session11_raw)
+    after12 = _sha256(session12_raw)
+
+    if before11 != after11:
+        raise ValueError(
+            "session 11 raw artifact mutated during diagnostics"
+        )
+
+    if before12 != after12:
+        raise ValueError(
+            "session 12 raw artifact mutated during diagnostics"
+        )
+
+    diagnostic = {
+        "session11_book_directional_rate": (
+            session11["book"]["directional_rate"]
+        ),
+        "session12_book_directional_rate": (
+            session12["book"]["directional_rate"]
+        ),
+        "session11_book_directional_during_conflict": (
+            session11["conflict_context"][
+                "book_directional_during_conflict"
+            ]
+        ),
+        "session12_book_directional_during_conflict": (
+            session12["conflict_context"][
+                "book_directional_during_conflict"
+            ]
+        ),
+        "interpretation_limits": [
+            "DESCRIPTIVE_ONLY",
+            "INDEPENDENT_SESSIONS_ARE_NOT_A_COMBINED_COHORT",
+            "BOOK_NONE_DOES_NOT_ESTABLISH_ABSENCE_OF_BOOK_INFORMATION",
+            "ZERO_OPPOSITION_DOES_NOT_ESTABLISH_ABSENCE",
+            "NO_THRESHOLD_CHANGE_ALLOWED",
+            "NO_OPERATIONAL_INFERENCE_ALLOWED",
+        ],
+    }
+
+    return {
+        "version": VERSION,
+        "status": "BOOK_DIRECTIONALITY_DIAGNOSTICS_COMPLETED",
+        "mode": "INDEPENDENT_SESSION_DIAGNOSTICS",
+        "sessions": [
+            session11,
+            session12,
+        ],
+        "combined_session_count": None,
+        "combined_checkpoint_created": False,
+        "cohort_redefinition": False,
+        "diagnostic": diagnostic,
+        **_safety(),
+    }
+
+
+def _write_report(
+    report: dict[str, Any],
+    output_path: Path,
+) -> None:
+    output_path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    output_path.write_text(
+        json.dumps(
+            report,
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description=(
+            "Passive Book directionality diagnostics for "
+            "independent prospective microstructure sessions."
+        )
+    )
+
+    parser.add_argument(
+        "session11_raw",
+        type=Path,
+    )
+
+    parser.add_argument(
+        "session12_raw",
+        type=Path,
+    )
+
+    parser.add_argument(
+        "--output",
+        required=True,
+        type=Path,
+    )
+
+    args = parser.parse_args()
+
+    report = build_report(
+        args.session11_raw,
+        args.session12_raw,
+    )
+
+    _write_report(
+        report,
+        args.output,
+    )
+
+    print(
+        json.dumps(
+            report,
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
+
+
+if __name__ == "__main__":
+    main()
+
+===== CURRENT DIAGNOSTICS TEST =====
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import pytest
+
+import tools.prospective_microstructure_book_directionality_diagnostics as diag
+
+
+def _write_json(path: Path, payload) -> Path:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return path
+
+
+def _sample(
+    pa="NONE",
+    flow="NONE",
+    book="NONE",
+    conflict=None,
+):
+    sample = {
+        "price_action_direction": pa,
+        "flow_direction": flow,
+        "book_direction": book,
+    }
+
+    if conflict is not None:
+        sample["conflict"] = conflict
+
+    return sample
+
+
+def test_safety_contract_is_fully_passive():
+    safety = diag._safety()
+
+    assert safety["research_only"] is True
+    assert safety["observational_only"] is True
+    assert safety["descriptive_only"] is True
+
+    assert safety["predictive_claim_allowed"] is False
+    assert safety["score_influence_allowed"] is False
+    assert safety["risk_influence_allowed"] is False
+    assert safety["decision_influence_allowed"] is False
+    assert safety["alert_influence_allowed"] is False
+    assert safety["order_execution_allowed"] is False
+    assert safety["promotion_allowed"] is False
+
+    assert safety["threshold_change_allowed"] is False
+    assert safety["rc17_change_allowed"] is False
+    assert safety["order_flow_score_change_allowed"] is False
+
+
+@pytest.mark.parametrize(
+    ("value", "expected"),
+    [
+        ("BUY", "BUY"),
+        ("SELL", "SELL"),
+        ("NONE", "NONE"),
+        ("LONG", "BUY"),
+        ("SHORT", "SELL"),
+        ("BULL", "BUY"),
+        ("BEAR", "SELL"),
+        ("BULLISH", "BUY"),
+        ("BEARISH", "SELL"),
+        ("NEUTRAL", "NONE"),
+        ("UNKNOWN", "NONE"),
+        ("", "NONE"),
+        (None, "NONE"),
+    ],
+)
+def test_normalize_direction(value, expected):
+    assert diag._normalize_direction(value) == expected
+
+
+def test_extract_samples_from_top_level_samples():
+    payload = {
+        "samples": [
+            {"x": 1},
+            {"x": 2},
+        ]
+    }
+
+    samples = diag._extract_samples(payload)
+
+    assert len(samples) == 2
+    assert samples[0]["x"] == 1
+    assert samples[1]["x"] == 2
+
+
+def test_extract_samples_from_nested_session():
+    payload = {
+        "session": {
+            "samples": [
+                {"x": 1},
+            ]
+        }
+    }
+
+    samples = diag._extract_samples(payload)
+
+    assert len(samples) == 1
+    assert samples[0]["x"] == 1
+
+
+def test_extract_samples_rejects_unknown_schema():
+    with pytest.raises(
+        ValueError,
+        match="could not locate raw session samples",
+    ):
+        diag._extract_samples(
+            {
+                "something_else": [],
+            }
+        )
+
+
+def test_direction_extractors_support_direct_fields():
+    sample = {
+        "price_action_direction": "BUY",
+        "flow_direction": "SELL",
+        "book_direction": "BUY",
+    }
+
+    assert diag._extract_pa_direction(sample) == "BUY"
+    assert diag._extract_flow_direction(sample) == "SELL"
+    assert diag._extract_book_direction(sample) == "BUY"
+
+
+def test_direction_extractors_support_nested_fields():
+    sample = {
+        "price_action": {
+            "direction": "BUY",
+        },
+        "order_flow": {
+            "direction": "SELL",
+        },
+        "order_book": {
+            "direction": "SELL",
+        },
+    }
+
+    assert diag._extract_pa_direction(sample) == "BUY"
+    assert diag._extract_flow_direction(sample) == "SELL"
+    assert diag._extract_book_direction(sample) == "SELL"
+
+
+def test_conflict_uses_explicit_flag_when_available():
+    sample = _sample(
+        pa="BUY",
+        flow="SELL",
+        book="NONE",
+        conflict=False,
+    )
+
+    assert (
+        diag._is_conflict(
+            sample,
+            "BUY",
+            "SELL",
+            "NONE",
+        )
+        is False
+    )
+
+
+def test_conflict_fallback_detects_opposition():
+    sample = _sample(
+        pa="BUY",
+        flow="SELL",
+        book="NONE",
+    )
+
+    assert (
+        diag._is_conflict(
+            sample,
+            "BUY",
+            "SELL",
+            "NONE",
+        )
+        is True
+    )
+
+
+def test_diagnose_session_counts_book_states(tmp_path):
+    raw = _write_json(
+        tmp_path / "session.json",
+        {
+            "samples": [
+                _sample("BUY", "BUY", "NONE"),
+                _sample("BUY", "SELL", "BUY"),
+                _sample("SELL", "SELL", "BUY"),
+                _sample("SELL", "BUY", "SELL"),
+                _sample("NONE", "NONE", "NONE"),
+            ]
+        },
+    )
+
+    result = diag._diagnose_session(
+        "TEST",
+        raw,
+    )
+
+    assert result["samples"] == 5
+
+    assert result["book"]["directional"] == 3
+    assert result["book"]["buy"] == 2
+    assert result["book"]["sell"] == 1
+    assert result["book"]["none"] == 2
+
+    assert result["book"]["directional_rate"] == 0.6
+    assert result["book"]["none_rate"] == 0.4
+
+
+def test_pairwise_book_context(tmp_path):
+    raw = _write_json(
+        tmp_path / "session.json",
+        {
+            "samples": [
+                _sample("BUY", "BUY", "BUY"),
+                _sample("BUY", "SELL", "SELL"),
+                _sample("SELL", "BUY", "BUY"),
+                _sample("SELL", "SELL", "BUY"),
+            ]
+        },
+    )
+
+    result = diag._diagnose_session(
+        "TEST",
+        raw,
+    )
+
+    pairwise = result["pairwise_book_context"]
+
+    # PA x Book:
+    # BUY  x BUY  = aligned
+    # BUY  x SELL = opposed
+    # SELL x BUY  = opposed
+    # SELL x BUY  = opposed
+    assert pairwise["pa_book_aligned_samples"] == 1
+    assert pairwise["pa_book_opposed_samples"] == 3
+
+    # Flow x Book:
+    # BUY  x BUY  = aligned
+    # SELL x SELL = aligned
+    # BUY  x BUY  = aligned
+    # SELL x BUY  = opposed
+    assert pairwise["flow_book_aligned_samples"] == 3
+    assert pairwise["flow_book_opposed_samples"] == 1
+
+
+def test_book_continuity_and_transitions(tmp_path):
+    raw = _write_json(
+        tmp_path / "session.json",
+        {
+            "samples": [
+                _sample(book="NONE"),
+                _sample(book="NONE"),
+                _sample(book="BUY"),
+                _sample(book="BUY"),
+                _sample(book="SELL"),
+                _sample(book="NONE"),
+            ]
+        },
+    )
+
+    result = diag._diagnose_session(
+        "TEST",
+        raw,
+    )
+
+    continuity = result["book_continuity"]
+
+    assert continuity["longest_none_run"] == 2
+    assert continuity["longest_directional_run"] == 3
+
+    transitions = continuity["transitions"]
+
+    assert transitions["NONE_TO_NONE"] == 1
+    assert transitions["NONE_TO_DIRECTIONAL"] == 1
+    assert transitions["BUY_TO_BUY"] == 1
+    assert transitions["BUY_TO_SELL"] == 1
+    assert transitions["DIRECTIONAL_TO_NONE"] == 1
+
+
+def test_conflict_context_separates_book_none(tmp_path):
+    raw = _write_json(
+        tmp_path / "session.json",
+        {
+            "samples": [
+                _sample(
+                    "BUY",
+                    "SELL",
+                    "NONE",
+                    True,
+                ),
+                _sample(
+                    "BUY",
+                    "SELL",
+                    "BUY",
+                    True,
+                ),
+                _sample(
+                    "BUY",
+                    "BUY",
+                    "BUY",
+                    False,
+                ),
+            ]
+        },
+    )
+
+    result = diag._diagnose_session(
+        "TEST",
+        raw,
+    )
+
+    conflict = result["conflict_context"]
+
+    assert conflict["conflict_samples"] == 2
+
+    assert (
+        conflict["book_directional_during_conflict"]
+        == 1
+    )
+
+    assert (
+        conflict["book_none_during_conflict"]
+        == 1
+    )
+
+    assert (
+        conflict[
+            "book_directional_during_conflict_rate"
+        ]
+        == 0.5
+    )
+
+
+def test_build_report_keeps_sessions_independent(
+    tmp_path,
+):
+    s11 = _write_json(
+        tmp_path / "session11.json",
+        {
+            "samples": [
+                _sample("BUY", "SELL", "NONE"),
+                _sample("BUY", "BUY", "NONE"),
+            ]
+        },
+    )
+
+    s12 = _write_json(
+        tmp_path / "session12.json",
+        {
+            "samples": [
+                _sample("SELL", "BUY", "BUY"),
+                _sample("SELL", "SELL", "SELL"),
+            ]
+        },
+    )
+
+    report = diag.build_report(
+        s11,
+        s12,
+    )
+
+    assert (
+        report["status"]
+        == "BOOK_DIRECTIONALITY_DIAGNOSTICS_COMPLETED"
+    )
+
+    assert len(report["sessions"]) == 2
+
+    assert report["combined_session_count"] is None
+
+    assert (
+        report["combined_checkpoint_created"]
+        is False
+    )
+
+    assert report["cohort_redefinition"] is False
+
+    assert report["research_only"] is True
+    assert report["observational_only"] is True
+    assert report["descriptive_only"] is True
+
+    assert (
+        report["threshold_change_allowed"]
+        is False
+    )
+
+    assert report["rc17_change_allowed"] is False
+
+    assert (
+        report["order_flow_score_change_allowed"]
+        is False
+    )
+
+
+def test_same_raw_artifact_is_rejected(tmp_path):
+    raw = _write_json(
+        tmp_path / "same.json",
+        {
+            "samples": [
+                _sample(),
+            ]
+        },
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="must be distinct raw artifacts",
+    ):
+        diag.build_report(
+            raw,
+            raw,
+        )
+
+
+def test_build_report_does_not_mutate_raw_files(
+    tmp_path,
+):
+    s11 = _write_json(
+        tmp_path / "session11.json",
+        {
+            "samples": [
+                _sample("BUY", "SELL", "NONE"),
+            ]
+        },
+    )
+
+    s12 = _write_json(
+        tmp_path / "session12.json",
+        {
+            "samples": [
+                _sample("SELL", "BUY", "BUY"),
+            ]
+        },
+    )
+
+    before11 = s11.read_bytes()
+    before12 = s12.read_bytes()
+
+    diag.build_report(
+        s11,
+        s12,
+    )
+
+    assert s11.read_bytes() == before11
+    assert s12.read_bytes() == before12
+
+
+def test_interpretation_limits_are_explicit(
+    tmp_path,
+):
+    s11 = _write_json(
+        tmp_path / "session11.json",
+        {
+            "samples": [
+                _sample(),
+            ]
+        },
+    )
+
+    s12 = _write_json(
+        tmp_path / "session12.json",
+        {
+            "samples": [
+                _sample(),
+            ]
+        },
+    )
+
+    report = diag.build_report(
+        s11,
+        s12,
+    )
+
+    limits = report[
+        "diagnostic"
+    ]["interpretation_limits"]
+
+    assert "DESCRIPTIVE_ONLY" in limits
+
+    assert (
+        "INDEPENDENT_SESSIONS_ARE_NOT_A_COMBINED_COHORT"
+        in limits
+    )
+
+    assert (
+        "BOOK_NONE_DOES_NOT_ESTABLISH_ABSENCE_OF_BOOK_INFORMATION"
+        in limits
+    )
+
+    assert (
+        "ZERO_OPPOSITION_DOES_NOT_ESTABLISH_ABSENCE"
+        in limits
+    )
+
+    assert (
+        "NO_THRESHOLD_CHANGE_ALLOWED"
+        in limits
+    )
+
+    assert (
+        "NO_OPERATIONAL_INFERENCE_ALLOWED"
+        in limits
+    )
+
+def test_extract_samples_prefers_canonical_prospective_evidence():
+    payload = {
+        "samples": [
+            {
+                "price_action": {"bias": "SELL"},
+                "imbalance": 0.50,
+            },
+        ],
+        "prospective_microstructure": {
+            "captured_samples": 2,
+            "source_analyzable_samples": 2,
+            "sample_count_matches_source": True,
+            "samples": [
+                _sample("BUY", "SELL", "NONE"),
+                _sample("SELL", "BUY", "BUY"),
+            ],
+        },
+    }
+
+    samples = diag._extract_samples(payload)
+
+    assert len(samples) == 2
+    assert samples[0]["price_action_direction"] == "BUY"
+    assert samples[0]["flow_direction"] == "SELL"
+    assert samples[0]["book_direction"] == "NONE"
+    assert samples[1]["price_action_direction"] == "SELL"
+    assert samples[1]["flow_direction"] == "BUY"
+    assert samples[1]["book_direction"] == "BUY"
+
+
+def test_prospective_container_with_invalid_samples_fails_closed():
+    payload = {
+        "samples": [
+            _sample("BUY", "SELL", "BUY"),
+        ],
+        "prospective_microstructure": {
+            "samples": None,
+        },
+    }
+
+    with pytest.raises(
+        ValueError,
+        match=(
+            "prospective_microstructure exists but samples "
+            "is not a list"
+        ),
+    ):
+        diag._extract_samples(payload)
+
+
+def test_diagnose_session_uses_prospective_not_raw_samples(
+    tmp_path,
+):
+    raw = _write_json(
+        tmp_path / "session.json",
+        {
+            "samples": [
+                {
+                    "price_action": {
+                        "bias": "NONE",
+                    },
+                    "imbalance": 0.90,
+                },
+            ],
+            "prospective_microstructure": {
+                "captured_samples": 3,
+                "source_analyzable_samples": 3,
+                "sample_count_matches_source": True,
+                "samples": [
+                    _sample("BUY", "SELL", "NONE", True),
+                    _sample("BUY", "BUY", "BUY", False),
+                    _sample("NONE", "NONE", "BUY", False),
+                ],
+            },
+        },
+    )
+
+    result = diag._diagnose_session(
+        "TEST",
+        raw,
+    )
+
+    assert result["samples"] == 3
+    assert result["book"]["directional"] == 2
+    assert result["book"]["buy"] == 2
+    assert result["book"]["sell"] == 0
+    assert result["book"]["none"] == 1
+    assert result["price_action"]["directional"] == 2
+    assert result["flow"]["directional"] == 2
+    assert result["conflict_context"]["conflict_samples"] == 1
+    assert (
+        result["conflict_context"][
+            "book_directional_during_conflict"
+        ]
+        == 0
+    )
+
+
+def test_canonical_prospective_book_direction_is_not_reconstructed_from_raw():
+    payload = {
+        "samples": [
+            {
+                "imbalance": 0.99,
+                "book_status": "VALID",
+                "context_ready": True,
+            },
+        ],
+        "prospective_microstructure": {
+            "captured_samples": 1,
+            "source_analyzable_samples": 1,
+            "sample_count_matches_source": True,
+            "samples": [
+                _sample(
+                    pa="BUY",
+                    flow="SELL",
+                    book="NONE",
+                    conflict=True,
+                ),
+            ],
+        },
+    }
+
+    samples = diag._extract_samples(payload)
+
+    assert len(samples) == 1
+    assert diag._extract_book_direction(samples[0]) == "NONE"
+
+def test_conflict_count_is_canonical_over_directional_disagreement():
+    sample = _sample(
+        pa="NONE",
+        flow="SELL",
+        book="BUY",
+    )
+    sample["conflict_count"] = 0
+    sample["state"] = "INSUFFICIENT_DATA"
+
+    assert (
+        diag._is_conflict(
+            sample,
+            "NONE",
+            "SELL",
+            "BUY",
+        )
+        is False
+    )
+
+
+def test_positive_conflict_count_is_canonical():
+    sample = _sample(
+        pa="BUY",
+        flow="BUY",
+        book="NONE",
+    )
+    sample["conflict_count"] = 1
+    sample["state"] = "CONFLICT"
+
+    assert (
+        diag._is_conflict(
+            sample,
+            "BUY",
+            "BUY",
+            "NONE",
+        )
+        is True
+    )
+
+
+def test_state_is_used_when_conflict_count_is_absent():
+    sample = _sample(
+        pa="BUY",
+        flow="BUY",
+        book="NONE",
+    )
+    sample["state"] = "CONFLICT"
+
+    assert (
+        diag._is_conflict(
+            sample,
+            "BUY",
+            "BUY",
+            "NONE",
+        )
+        is True
+    )
+
+
+def test_invalid_conflict_count_fails_closed():
+    sample = _sample(
+        pa="BUY",
+        flow="SELL",
+        book="NONE",
+    )
+    sample["conflict_count"] = "INVALID"
+
+    with pytest.raises(
+        ValueError,
+        match="conflict_count must be integer-compatible",
+    ):
+        diag._is_conflict(
+            sample,
+            "BUY",
+            "SELL",
+            "NONE",
+        )
+
+
+def _valid_prospective_payload(samples=None):
+    if samples is None:
+        samples = [_sample("BUY", "SELL", "NONE", True)]
+
+    return {
+        "prospective_microstructure": {
+            "captured_samples": len(samples),
+            "source_analyzable_samples": len(samples),
+            "sample_count_matches_source": True,
+            "samples": samples,
+        },
+    }
+
+
+def test_prospective_metadata_contract_accepts_consistent_counts():
+    payload = _valid_prospective_payload([
+        _sample("BUY", "SELL", "NONE", True),
+        _sample("SELL", "BUY", "BUY", False),
+    ])
+    assert len(diag._extract_samples(payload)) == 2
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("captured_samples", None, "prospective_microstructure.captured_samples must be an integer"),
+        ("captured_samples", "2", "prospective_microstructure.captured_samples must be an integer"),
+        ("captured_samples", True, "prospective_microstructure.captured_samples must be an integer"),
+        ("source_analyzable_samples", None, "prospective_microstructure.source_analyzable_samples must be an integer"),
+        ("source_analyzable_samples", "2", "prospective_microstructure.source_analyzable_samples must be an integer"),
+        ("source_analyzable_samples", False, "prospective_microstructure.source_analyzable_samples must be an integer"),
+    ],
+)
+def test_prospective_count_metadata_missing_or_invalid_fails_closed(field, value, message):
+    payload = _valid_prospective_payload()
+    if value is None:
+        del payload["prospective_microstructure"][field]
+    else:
+        payload["prospective_microstructure"][field] = value
+
+    with pytest.raises(ValueError, match=message):
+        diag._extract_samples(payload)
+
+
+@pytest.mark.parametrize("field", ["captured_samples", "source_analyzable_samples"])
+def test_prospective_count_metadata_mismatch_fails_closed(field):
+    payload = _valid_prospective_payload([
+        _sample("BUY", "SELL", "NONE", True),
+        _sample("SELL", "BUY", "BUY", False),
+    ])
+    payload["prospective_microstructure"][field] = 1
+
+    with pytest.raises(ValueError, match="does not match len"):
+        diag._extract_samples(payload)
+
+
+@pytest.mark.parametrize("value", [False, None, 1, "true"])
+def test_sample_count_matches_source_must_be_literal_true(value):
+    payload = _valid_prospective_payload()
+    if value is None:
+        del payload["prospective_microstructure"]["sample_count_matches_source"]
+    else:
+        payload["prospective_microstructure"]["sample_count_matches_source"] = value
+
+    with pytest.raises(
+        ValueError,
+        match="prospective_microstructure.sample_count_matches_source must be true",
+    ):
+        diag._extract_samples(payload)
+
+
+def test_prospective_non_object_sample_fails_closed():
+    payload = _valid_prospective_payload([
+        _sample("BUY", "SELL", "NONE", True),
+        "INVALID_SAMPLE",
+    ])
+
+    with pytest.raises(
+        ValueError,
+        match="prospective_microstructure.samples contains non-object entries",
+    ):
+        diag._extract_samples(payload)
+
+===== BOOK DEPTH MODEL =====
+"""Contratos imutÃ¡veis para profundidade real do Book de ofertas."""
+
+from __future__ import annotations
+
+from dataclasses import asdict, dataclass, field
+from datetime import datetime
+
+
+@dataclass(slots=True, frozen=True)
+class BookLevel:
+    price: float
+    quantity: float
+    orders: int = 0
+
+    def __post_init__(self):
+        if self.price <= 0:
+            raise ValueError("BookLevel.price deve ser positivo.")
+        if self.quantity < 0:
+            raise ValueError("BookLevel.quantity nÃ£o pode ser negativo.")
+        if self.orders < 0:
+            raise ValueError("BookLevel.orders nÃ£o pode ser negativo.")
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+
+@dataclass(slots=True, frozen=True)
+class BookDepthSnapshot:
+    symbol: str
+    timestamp: str
+    bids: tuple[BookLevel, ...] = field(default_factory=tuple)
+    asks: tuple[BookLevel, ...] = field(default_factory=tuple)
+    source: str = "UNAVAILABLE"
+    available: bool = False
+
+    @classmethod
+    def unavailable(cls, symbol: str = "", source: str = "UNAVAILABLE"):
+        return cls(
+            symbol=str(symbol or ""),
+            timestamp="",
+            bids=(),
+            asks=(),
+            source=str(source or "UNAVAILABLE"),
+            available=False,
+        )
+
+    @classmethod
+    def build(cls, *, symbol, timestamp, bids, asks, source):
+        bid_levels = tuple(cls._coerce_level(level) for level in bids)
+        ask_levels = tuple(cls._coerce_level(level) for level in asks)
+        cls._validate_sides(bid_levels, ask_levels)
+        return cls(
+            symbol=str(symbol or "").upper(),
+            timestamp=cls._normalize_timestamp(timestamp),
+            bids=bid_levels,
+            asks=ask_levels,
+            source=str(source or "UNKNOWN"),
+            available=bool(bid_levels and ask_levels),
+        )
+
+    @property
+    def best_bid(self) -> float | None:
+        return self.bids[0].price if self.bids else None
+
+    @property
+    def best_ask(self) -> float | None:
+        return self.asks[0].price if self.asks else None
+
+    @property
+    def spread(self) -> float | None:
+        if self.best_bid is None or self.best_ask is None:
+            return None
+        return round(self.best_ask - self.best_bid, 10)
+
+    @property
+    def bid_quantity(self) -> float:
+        return round(sum(level.quantity for level in self.bids), 10)
+
+    @property
+    def ask_quantity(self) -> float:
+        return round(sum(level.quantity for level in self.asks), 10)
+
+    @property
+    def imbalance(self) -> float:
+        total = self.bid_quantity + self.ask_quantity
+        if total <= 0:
+            return 0.0
+        return round((self.bid_quantity - self.ask_quantity) / total, 6)
+
+    @property
+    def liquidity_pressure(self) -> str:
+        value = self.imbalance
+        if value >= 0.15:
+            return "BID_DOMINANT"
+        if value <= -0.15:
+            return "ASK_DOMINANT"
+        return "BALANCED"
+
+    def top(self, levels: int = 5) -> "BookDepthSnapshot":
+        levels = max(1, int(levels))
+        return BookDepthSnapshot(
+            symbol=self.symbol,
+            timestamp=self.timestamp,
+            bids=self.bids[:levels],
+            asks=self.asks[:levels],
+            source=self.source,
+            available=self.available,
+        )
+
+    def to_dict(self) -> dict:
+        return {
+            "symbol": self.symbol,
+            "timestamp": self.timestamp,
+            "bids": [level.to_dict() for level in self.bids],
+            "asks": [level.to_dict() for level in self.asks],
+            "source": self.source,
+            "available": self.available,
+            "best_bid": self.best_bid,
+            "best_ask": self.best_ask,
+            "spread": self.spread,
+            "bid_quantity": self.bid_quantity,
+            "ask_quantity": self.ask_quantity,
+            "imbalance": self.imbalance,
+            "liquidity_pressure": self.liquidity_pressure,
+        }
+
+    @staticmethod
+    def _coerce_level(level) -> BookLevel:
+        if isinstance(level, BookLevel):
+            return level
+        if isinstance(level, dict):
+            return BookLevel(
+                price=float(level["price"]),
+                quantity=float(level["quantity"]),
+                orders=int(level.get("orders", 0) or 0),
+            )
+        if isinstance(level, (tuple, list)) and len(level) in (2, 3):
+            return BookLevel(
+                price=float(level[0]),
+                quantity=float(level[1]),
+                orders=int(level[2]) if len(level) == 3 else 0,
+            )
+        raise TypeError("NÃ­vel de Book invÃ¡lido.")
+
+    @staticmethod
+    def _validate_sides(bids, asks):
+        if bids and any(bids[i].price < bids[i + 1].price for i in range(len(bids) - 1)):
+            raise ValueError("Bids devem estar ordenados do maior para o menor preÃ§o.")
+        if asks and any(asks[i].price > asks[i + 1].price for i in range(len(asks) - 1)):
+            raise ValueError("Asks devem estar ordenados do menor para o maior preÃ§o.")
+        if bids and asks and bids[0].price >= asks[0].price:
+            raise ValueError("Book cruzado: best_bid deve ser menor que best_ask.")
+
+    @staticmethod
+    def _normalize_timestamp(value) -> str:
+        if isinstance(value, datetime):
+            return value.isoformat()
+        text = str(value or "").strip()
+        if not text:
+            raise ValueError("timestamp do Book Ã© obrigatÃ³rio.")
+        return text
+
+
+class BookDepthProvider:
+    """Interface mÃ­nima para qualquer fonte real de profundidade."""
+
+    SOURCE = "ABSTRACT"
+
+    def snapshot(self, symbol: str) -> BookDepthSnapshot:
+        raise NotImplementedError

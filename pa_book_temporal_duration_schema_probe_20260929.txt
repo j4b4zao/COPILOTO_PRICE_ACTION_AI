@@ -1,0 +1,1012 @@
+﻿====================================================================================================
+FILE: data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260921_130942.json
+TOP_LEVEL_KEYS:
+['alert_influence_allowed', 'analyzable_samples', 'collection_error_details', 'collection_errors', 'context_not_ready_samples', 'context_ready_at_start', 'data_ready', 'decision_influence_allowed', 'delta_failure_samples', 'delta_not_ready_samples', 'missing_price_count', 'observational_only', 'order_execution_allowed', 'phase', 'predictive_claim_allowed', 'price_capture', 'promotion_allowed', 'prospective_microstructure', 'reasons', 'requested_cycles', 'research_only', 'risk_influence_allowed', 'samples', 'score_influence_allowed', 'skipped_cycles', 'status', 'symbol', 'trade_context_ready', 'trade_context_ready_at_start', 'warmup']
+
+TOP_LEVEL_STRUCTURE:
+  status: {'type': 'str', 'value': 'COMPLETED'}
+  phase: {'type': 'str', 'value': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE'}
+  symbol: {'type': 'str', 'value': 'WINV26'}
+  warmup: {'type': 'dict', 'keys': ['analyzable_samples', 'errors', 'pa_bias', 'ready', 'skipped_cycles', 'status', 'structure_trend', 'trade_context_ready', 'trade_context_required', 'warmup_cycles']}
+  requested_cycles: {'type': 'int', 'value': 600}
+  analyzable_samples: {'type': 'int', 'value': 292}
+  skipped_cycles: {'type': 'int', 'value': 308}
+  collection_errors: {'type': 'int', 'value': 0}
+  collection_error_details: {'type': 'list', 'length': 0, 'first_type': None}
+  missing_price_count: {'type': 'int', 'value': 0}
+  price_capture: {'type': 'bool', 'value': True}
+  data_ready: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  trade_context_ready: {'type': 'bool', 'value': True}
+  trade_context_ready_at_start: {'type': 'bool', 'value': True}
+  context_ready_at_start: {'type': 'bool', 'value': True}
+  context_not_ready_samples: {'type': 'int', 'value': 0}
+  samples: {'type': 'list', 'length': 292, 'first_type': 'dict'}
+  observational_only: {'type': 'bool', 'value': True}
+  predictive_claim_allowed: {'type': 'bool', 'value': False}
+  score_influence_allowed: {'type': 'bool', 'value': False}
+  risk_influence_allowed: {'type': 'bool', 'value': False}
+  decision_influence_allowed: {'type': 'bool', 'value': False}
+  order_execution_allowed: {'type': 'bool', 'value': False}
+  reasons: {'type': 'list', 'length': 0, 'first_type': None}
+  prospective_microstructure: {'type': 'dict', 'keys': ['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']}
+  research_only: {'type': 'bool', 'value': True}
+  alert_influence_allowed: {'type': 'bool', 'value': False}
+  promotion_allowed: {'type': 'bool', 'value': False}
+
+PROSPECTIVE_KEYS:
+['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']
+
+PROSPECTIVE_SAMPLE_COUNT: 292
+
+PROSPECTIVE_SAMPLE_0:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 1,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "BUY",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+PROSPECTIVE_SAMPLE_LAST:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 1,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "BUY",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+POSSIBLE_TIME_FIELDS_TOP_LEVEL:
+  analyzable_samples: {'type': 'int', 'value': 292}
+  price_capture: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  context_not_ready_samples: {'type': 'int', 'value': 0}
+  samples: {'type': 'list', 'length': 292, 'first_type': 'dict'}
+
+POSSIBLE_TIME_FIELDS_PROSPECTIVE_SAMPLE:
+====================================================================================================
+FILE: data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260921_163046.json
+TOP_LEVEL_KEYS:
+['alert_influence_allowed', 'analyzable_samples', 'collection_error_details', 'collection_errors', 'context_not_ready_samples', 'context_ready_at_start', 'data_ready', 'decision_influence_allowed', 'delta_failure_samples', 'delta_not_ready_samples', 'missing_price_count', 'observational_only', 'order_execution_allowed', 'phase', 'predictive_claim_allowed', 'price_capture', 'promotion_allowed', 'prospective_microstructure', 'reasons', 'requested_cycles', 'research_only', 'risk_influence_allowed', 'samples', 'score_influence_allowed', 'skipped_cycles', 'status', 'symbol', 'trade_context_ready', 'trade_context_ready_at_start', 'warmup']
+
+TOP_LEVEL_STRUCTURE:
+  status: {'type': 'str', 'value': 'COMPLETED'}
+  phase: {'type': 'str', 'value': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE'}
+  symbol: {'type': 'str', 'value': 'WINV26'}
+  warmup: {'type': 'dict', 'keys': ['analyzable_samples', 'errors', 'pa_bias', 'ready', 'skipped_cycles', 'status', 'structure_trend', 'trade_context_ready', 'trade_context_required', 'warmup_cycles']}
+  requested_cycles: {'type': 'int', 'value': 600}
+  analyzable_samples: {'type': 'int', 'value': 343}
+  skipped_cycles: {'type': 'int', 'value': 257}
+  collection_errors: {'type': 'int', 'value': 0}
+  collection_error_details: {'type': 'list', 'length': 0, 'first_type': None}
+  missing_price_count: {'type': 'int', 'value': 0}
+  price_capture: {'type': 'bool', 'value': True}
+  data_ready: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  trade_context_ready: {'type': 'bool', 'value': True}
+  trade_context_ready_at_start: {'type': 'bool', 'value': True}
+  context_ready_at_start: {'type': 'bool', 'value': True}
+  context_not_ready_samples: {'type': 'int', 'value': 0}
+  samples: {'type': 'list', 'length': 343, 'first_type': 'dict'}
+  observational_only: {'type': 'bool', 'value': True}
+  predictive_claim_allowed: {'type': 'bool', 'value': False}
+  score_influence_allowed: {'type': 'bool', 'value': False}
+  risk_influence_allowed: {'type': 'bool', 'value': False}
+  decision_influence_allowed: {'type': 'bool', 'value': False}
+  order_execution_allowed: {'type': 'bool', 'value': False}
+  reasons: {'type': 'list', 'length': 0, 'first_type': None}
+  prospective_microstructure: {'type': 'dict', 'keys': ['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']}
+  research_only: {'type': 'bool', 'value': True}
+  alert_influence_allowed: {'type': 'bool', 'value': False}
+  promotion_allowed: {'type': 'bool', 'value': False}
+
+PROSPECTIVE_KEYS:
+['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']
+
+PROSPECTIVE_SAMPLE_COUNT: 343
+
+PROSPECTIVE_SAMPLE_0:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 1,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "BUY",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+PROSPECTIVE_SAMPLE_LAST:
+{
+  "state": "CONFIRMED",
+  "direction": "BUY",
+  "confluence_quality": "MEDIUM",
+  "confidence": 0.4675,
+  "independent_evidence_count": 2,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "BUY",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BID_DOMINANT",
+  "book_direction": "BUY",
+  "book_confidence": 0.0875,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+POSSIBLE_TIME_FIELDS_TOP_LEVEL:
+  analyzable_samples: {'type': 'int', 'value': 343}
+  price_capture: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  context_not_ready_samples: {'type': 'int', 'value': 0}
+  samples: {'type': 'list', 'length': 343, 'first_type': 'dict'}
+
+POSSIBLE_TIME_FIELDS_PROSPECTIVE_SAMPLE:
+====================================================================================================
+FILE: data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260922_130220.json
+TOP_LEVEL_KEYS:
+['alert_influence_allowed', 'analyzable_samples', 'collection_error_details', 'collection_errors', 'context_not_ready_samples', 'context_ready_at_start', 'data_ready', 'decision_influence_allowed', 'delta_failure_samples', 'delta_not_ready_samples', 'missing_price_count', 'observational_only', 'order_execution_allowed', 'phase', 'predictive_claim_allowed', 'price_capture', 'promotion_allowed', 'prospective_microstructure', 'reasons', 'requested_cycles', 'research_only', 'risk_influence_allowed', 'samples', 'score_influence_allowed', 'skipped_cycles', 'status', 'symbol', 'trade_context_ready', 'trade_context_ready_at_start', 'warmup']
+
+TOP_LEVEL_STRUCTURE:
+  status: {'type': 'str', 'value': 'COMPLETED'}
+  phase: {'type': 'str', 'value': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE'}
+  symbol: {'type': 'str', 'value': 'WINV26'}
+  warmup: {'type': 'dict', 'keys': ['analyzable_samples', 'errors', 'pa_bias', 'ready', 'skipped_cycles', 'status', 'structure_trend', 'trade_context_ready', 'trade_context_required', 'warmup_cycles']}
+  requested_cycles: {'type': 'int', 'value': 600}
+  analyzable_samples: {'type': 'int', 'value': 268}
+  skipped_cycles: {'type': 'int', 'value': 332}
+  collection_errors: {'type': 'int', 'value': 0}
+  collection_error_details: {'type': 'list', 'length': 0, 'first_type': None}
+  missing_price_count: {'type': 'int', 'value': 0}
+  price_capture: {'type': 'bool', 'value': True}
+  data_ready: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  trade_context_ready: {'type': 'bool', 'value': False}
+  trade_context_ready_at_start: {'type': 'bool', 'value': True}
+  context_ready_at_start: {'type': 'bool', 'value': True}
+  context_not_ready_samples: {'type': 'int', 'value': 86}
+  samples: {'type': 'list', 'length': 268, 'first_type': 'dict'}
+  observational_only: {'type': 'bool', 'value': True}
+  predictive_claim_allowed: {'type': 'bool', 'value': False}
+  score_influence_allowed: {'type': 'bool', 'value': False}
+  risk_influence_allowed: {'type': 'bool', 'value': False}
+  decision_influence_allowed: {'type': 'bool', 'value': False}
+  order_execution_allowed: {'type': 'bool', 'value': False}
+  reasons: {'type': 'list', 'length': 0, 'first_type': None}
+  prospective_microstructure: {'type': 'dict', 'keys': ['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']}
+  research_only: {'type': 'bool', 'value': True}
+  alert_influence_allowed: {'type': 'bool', 'value': False}
+  promotion_allowed: {'type': 'bool', 'value': False}
+
+PROSPECTIVE_KEYS:
+['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']
+
+PROSPECTIVE_SAMPLE_COUNT: 268
+
+PROSPECTIVE_SAMPLE_0:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 1,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "BUY",
+  "order_flow_pressure": "BALANCED",
+  "flow_momentum": "MIXED",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "NEUTRAL",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+PROSPECTIVE_SAMPLE_LAST:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 0,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "NONE",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+POSSIBLE_TIME_FIELDS_TOP_LEVEL:
+  analyzable_samples: {'type': 'int', 'value': 268}
+  price_capture: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  context_not_ready_samples: {'type': 'int', 'value': 86}
+  samples: {'type': 'list', 'length': 268, 'first_type': 'dict'}
+
+POSSIBLE_TIME_FIELDS_PROSPECTIVE_SAMPLE:
+====================================================================================================
+FILE: data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260923_103430.json
+TOP_LEVEL_KEYS:
+['alert_influence_allowed', 'analyzable_samples', 'collection_error_details', 'collection_errors', 'context_not_ready_samples', 'context_ready_at_start', 'data_ready', 'decision_influence_allowed', 'delta_failure_samples', 'delta_not_ready_samples', 'missing_price_count', 'observational_only', 'order_execution_allowed', 'phase', 'predictive_claim_allowed', 'price_capture', 'promotion_allowed', 'prospective_microstructure', 'reasons', 'requested_cycles', 'research_only', 'risk_influence_allowed', 'samples', 'score_influence_allowed', 'skipped_cycles', 'status', 'symbol', 'trade_context_ready', 'trade_context_ready_at_start', 'warmup']
+
+TOP_LEVEL_STRUCTURE:
+  status: {'type': 'str', 'value': 'COMPLETED'}
+  phase: {'type': 'str', 'value': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE'}
+  symbol: {'type': 'str', 'value': 'WINV26'}
+  warmup: {'type': 'dict', 'keys': ['analyzable_samples', 'errors', 'pa_bias', 'ready', 'skipped_cycles', 'status', 'structure_trend', 'trade_context_ready', 'trade_context_required', 'warmup_cycles']}
+  requested_cycles: {'type': 'int', 'value': 600}
+  analyzable_samples: {'type': 'int', 'value': 279}
+  skipped_cycles: {'type': 'int', 'value': 321}
+  collection_errors: {'type': 'int', 'value': 0}
+  collection_error_details: {'type': 'list', 'length': 0, 'first_type': None}
+  missing_price_count: {'type': 'int', 'value': 0}
+  price_capture: {'type': 'bool', 'value': True}
+  data_ready: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  trade_context_ready: {'type': 'bool', 'value': True}
+  trade_context_ready_at_start: {'type': 'bool', 'value': True}
+  context_ready_at_start: {'type': 'bool', 'value': True}
+  context_not_ready_samples: {'type': 'int', 'value': 152}
+  samples: {'type': 'list', 'length': 279, 'first_type': 'dict'}
+  observational_only: {'type': 'bool', 'value': True}
+  predictive_claim_allowed: {'type': 'bool', 'value': False}
+  score_influence_allowed: {'type': 'bool', 'value': False}
+  risk_influence_allowed: {'type': 'bool', 'value': False}
+  decision_influence_allowed: {'type': 'bool', 'value': False}
+  order_execution_allowed: {'type': 'bool', 'value': False}
+  reasons: {'type': 'list', 'length': 0, 'first_type': None}
+  prospective_microstructure: {'type': 'dict', 'keys': ['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']}
+  research_only: {'type': 'bool', 'value': True}
+  alert_influence_allowed: {'type': 'bool', 'value': False}
+  promotion_allowed: {'type': 'bool', 'value': False}
+
+PROSPECTIVE_KEYS:
+['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']
+
+PROSPECTIVE_SAMPLE_COUNT: 279
+
+PROSPECTIVE_SAMPLE_0:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 1,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "SELL",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+PROSPECTIVE_SAMPLE_LAST:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 1,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "SELL",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+POSSIBLE_TIME_FIELDS_TOP_LEVEL:
+  analyzable_samples: {'type': 'int', 'value': 279}
+  price_capture: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  context_not_ready_samples: {'type': 'int', 'value': 152}
+  samples: {'type': 'list', 'length': 279, 'first_type': 'dict'}
+
+POSSIBLE_TIME_FIELDS_PROSPECTIVE_SAMPLE:
+====================================================================================================
+FILE: data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260923_123103.json
+TOP_LEVEL_KEYS:
+['alert_influence_allowed', 'analyzable_samples', 'collection_error_details', 'collection_errors', 'context_not_ready_samples', 'context_ready_at_start', 'data_ready', 'decision_influence_allowed', 'delta_failure_samples', 'delta_not_ready_samples', 'missing_price_count', 'observational_only', 'order_execution_allowed', 'phase', 'predictive_claim_allowed', 'price_capture', 'promotion_allowed', 'prospective_microstructure', 'reasons', 'requested_cycles', 'research_only', 'risk_influence_allowed', 'samples', 'score_influence_allowed', 'skipped_cycles', 'status', 'symbol', 'trade_context_ready', 'trade_context_ready_at_start', 'warmup']
+
+TOP_LEVEL_STRUCTURE:
+  status: {'type': 'str', 'value': 'COMPLETED'}
+  phase: {'type': 'str', 'value': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE'}
+  symbol: {'type': 'str', 'value': 'WINV26'}
+  warmup: {'type': 'dict', 'keys': ['analyzable_samples', 'errors', 'pa_bias', 'ready', 'skipped_cycles', 'status', 'structure_trend', 'trade_context_ready', 'trade_context_required', 'warmup_cycles']}
+  requested_cycles: {'type': 'int', 'value': 600}
+  analyzable_samples: {'type': 'int', 'value': 266}
+  skipped_cycles: {'type': 'int', 'value': 334}
+  collection_errors: {'type': 'int', 'value': 0}
+  collection_error_details: {'type': 'list', 'length': 0, 'first_type': None}
+  missing_price_count: {'type': 'int', 'value': 0}
+  price_capture: {'type': 'bool', 'value': True}
+  data_ready: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  trade_context_ready: {'type': 'bool', 'value': True}
+  trade_context_ready_at_start: {'type': 'bool', 'value': True}
+  context_ready_at_start: {'type': 'bool', 'value': True}
+  context_not_ready_samples: {'type': 'int', 'value': 0}
+  samples: {'type': 'list', 'length': 266, 'first_type': 'dict'}
+  observational_only: {'type': 'bool', 'value': True}
+  predictive_claim_allowed: {'type': 'bool', 'value': False}
+  score_influence_allowed: {'type': 'bool', 'value': False}
+  risk_influence_allowed: {'type': 'bool', 'value': False}
+  decision_influence_allowed: {'type': 'bool', 'value': False}
+  order_execution_allowed: {'type': 'bool', 'value': False}
+  reasons: {'type': 'list', 'length': 0, 'first_type': None}
+  prospective_microstructure: {'type': 'dict', 'keys': ['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']}
+  research_only: {'type': 'bool', 'value': True}
+  alert_influence_allowed: {'type': 'bool', 'value': False}
+  promotion_allowed: {'type': 'bool', 'value': False}
+
+PROSPECTIVE_KEYS:
+['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']
+
+PROSPECTIVE_SAMPLE_COUNT: 266
+
+PROSPECTIVE_SAMPLE_0:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 1,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "BUY",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+PROSPECTIVE_SAMPLE_LAST:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 1,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "BUY",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+POSSIBLE_TIME_FIELDS_TOP_LEVEL:
+  analyzable_samples: {'type': 'int', 'value': 266}
+  price_capture: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  context_not_ready_samples: {'type': 'int', 'value': 0}
+  samples: {'type': 'list', 'length': 266, 'first_type': 'dict'}
+
+POSSIBLE_TIME_FIELDS_PROSPECTIVE_SAMPLE:
+====================================================================================================
+FILE: data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260923_131852.json
+TOP_LEVEL_KEYS:
+['alert_influence_allowed', 'analyzable_samples', 'collection_error_details', 'collection_errors', 'context_not_ready_samples', 'context_ready_at_start', 'data_ready', 'decision_influence_allowed', 'delta_failure_samples', 'delta_not_ready_samples', 'missing_price_count', 'observational_only', 'order_execution_allowed', 'phase', 'predictive_claim_allowed', 'price_capture', 'promotion_allowed', 'prospective_microstructure', 'reasons', 'requested_cycles', 'research_only', 'risk_influence_allowed', 'samples', 'score_influence_allowed', 'skipped_cycles', 'status', 'symbol', 'trade_context_ready', 'trade_context_ready_at_start', 'warmup']
+
+TOP_LEVEL_STRUCTURE:
+  status: {'type': 'str', 'value': 'COMPLETED'}
+  phase: {'type': 'str', 'value': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE'}
+  symbol: {'type': 'str', 'value': 'WINV26'}
+  warmup: {'type': 'dict', 'keys': ['analyzable_samples', 'errors', 'pa_bias', 'ready', 'skipped_cycles', 'status', 'structure_trend', 'trade_context_ready', 'trade_context_required', 'warmup_cycles']}
+  requested_cycles: {'type': 'int', 'value': 600}
+  analyzable_samples: {'type': 'int', 'value': 268}
+  skipped_cycles: {'type': 'int', 'value': 332}
+  collection_errors: {'type': 'int', 'value': 0}
+  collection_error_details: {'type': 'list', 'length': 0, 'first_type': None}
+  missing_price_count: {'type': 'int', 'value': 0}
+  price_capture: {'type': 'bool', 'value': True}
+  data_ready: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  trade_context_ready: {'type': 'bool', 'value': False}
+  trade_context_ready_at_start: {'type': 'bool', 'value': True}
+  context_ready_at_start: {'type': 'bool', 'value': True}
+  context_not_ready_samples: {'type': 'int', 'value': 162}
+  samples: {'type': 'list', 'length': 268, 'first_type': 'dict'}
+  observational_only: {'type': 'bool', 'value': True}
+  predictive_claim_allowed: {'type': 'bool', 'value': False}
+  score_influence_allowed: {'type': 'bool', 'value': False}
+  risk_influence_allowed: {'type': 'bool', 'value': False}
+  decision_influence_allowed: {'type': 'bool', 'value': False}
+  order_execution_allowed: {'type': 'bool', 'value': False}
+  reasons: {'type': 'list', 'length': 0, 'first_type': None}
+  prospective_microstructure: {'type': 'dict', 'keys': ['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']}
+  research_only: {'type': 'bool', 'value': True}
+  alert_influence_allowed: {'type': 'bool', 'value': False}
+  promotion_allowed: {'type': 'bool', 'value': False}
+
+PROSPECTIVE_KEYS:
+['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']
+
+PROSPECTIVE_SAMPLE_COUNT: 268
+
+PROSPECTIVE_SAMPLE_0:
+{
+  "state": "CONFIRMED",
+  "direction": "BUY",
+  "confluence_quality": "MEDIUM",
+  "confidence": 0.45,
+  "independent_evidence_count": 2,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "BUY",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BID_DOMINANT",
+  "book_direction": "BUY",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+PROSPECTIVE_SAMPLE_LAST:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 0,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "NONE",
+  "order_flow_pressure": "BUY",
+  "flow_momentum": "MIXED",
+  "pattern_direction": "NONE",
+  "flow_direction": "BUY",
+  "structure_alignment": "NEUTRAL",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+POSSIBLE_TIME_FIELDS_TOP_LEVEL:
+  analyzable_samples: {'type': 'int', 'value': 268}
+  price_capture: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  context_not_ready_samples: {'type': 'int', 'value': 162}
+  samples: {'type': 'list', 'length': 268, 'first_type': 'dict'}
+
+POSSIBLE_TIME_FIELDS_PROSPECTIVE_SAMPLE:
+====================================================================================================
+FILE: data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260923_151347.json
+TOP_LEVEL_KEYS:
+['alert_influence_allowed', 'analyzable_samples', 'collection_error_details', 'collection_errors', 'context_not_ready_samples', 'context_ready_at_start', 'data_ready', 'decision_influence_allowed', 'delta_failure_samples', 'delta_not_ready_samples', 'missing_price_count', 'observational_only', 'order_execution_allowed', 'phase', 'predictive_claim_allowed', 'price_capture', 'promotion_allowed', 'prospective_microstructure', 'reasons', 'requested_cycles', 'research_only', 'risk_influence_allowed', 'samples', 'score_influence_allowed', 'skipped_cycles', 'status', 'symbol', 'trade_context_ready', 'trade_context_ready_at_start', 'warmup']
+
+TOP_LEVEL_STRUCTURE:
+  status: {'type': 'str', 'value': 'COMPLETED'}
+  phase: {'type': 'str', 'value': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE'}
+  symbol: {'type': 'str', 'value': 'WINV26'}
+  warmup: {'type': 'dict', 'keys': ['analyzable_samples', 'errors', 'pa_bias', 'ready', 'skipped_cycles', 'status', 'structure_trend', 'trade_context_ready', 'trade_context_required', 'warmup_cycles']}
+  requested_cycles: {'type': 'int', 'value': 600}
+  analyzable_samples: {'type': 'int', 'value': 257}
+  skipped_cycles: {'type': 'int', 'value': 343}
+  collection_errors: {'type': 'int', 'value': 0}
+  collection_error_details: {'type': 'list', 'length': 0, 'first_type': None}
+  missing_price_count: {'type': 'int', 'value': 0}
+  price_capture: {'type': 'bool', 'value': True}
+  data_ready: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  trade_context_ready: {'type': 'bool', 'value': False}
+  trade_context_ready_at_start: {'type': 'bool', 'value': True}
+  context_ready_at_start: {'type': 'bool', 'value': True}
+  context_not_ready_samples: {'type': 'int', 'value': 70}
+  samples: {'type': 'list', 'length': 257, 'first_type': 'dict'}
+  observational_only: {'type': 'bool', 'value': True}
+  predictive_claim_allowed: {'type': 'bool', 'value': False}
+  score_influence_allowed: {'type': 'bool', 'value': False}
+  risk_influence_allowed: {'type': 'bool', 'value': False}
+  decision_influence_allowed: {'type': 'bool', 'value': False}
+  order_execution_allowed: {'type': 'bool', 'value': False}
+  reasons: {'type': 'list', 'length': 0, 'first_type': None}
+  prospective_microstructure: {'type': 'dict', 'keys': ['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']}
+  research_only: {'type': 'bool', 'value': True}
+  alert_influence_allowed: {'type': 'bool', 'value': False}
+  promotion_allowed: {'type': 'bool', 'value': False}
+
+PROSPECTIVE_KEYS:
+['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']
+
+PROSPECTIVE_SAMPLE_COUNT: 257
+
+PROSPECTIVE_SAMPLE_0:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 1,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "SELL",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+PROSPECTIVE_SAMPLE_LAST:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 0,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "NONE",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0251,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+POSSIBLE_TIME_FIELDS_TOP_LEVEL:
+  analyzable_samples: {'type': 'int', 'value': 257}
+  price_capture: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  context_not_ready_samples: {'type': 'int', 'value': 70}
+  samples: {'type': 'list', 'length': 257, 'first_type': 'dict'}
+
+POSSIBLE_TIME_FIELDS_PROSPECTIVE_SAMPLE:
+====================================================================================================
+FILE: data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260924_164534.json
+TOP_LEVEL_KEYS:
+['alert_influence_allowed', 'analyzable_samples', 'collection_error_details', 'collection_errors', 'context_not_ready_samples', 'context_ready_at_start', 'data_ready', 'decision_influence_allowed', 'delta_failure_samples', 'delta_not_ready_samples', 'missing_price_count', 'observational_only', 'order_execution_allowed', 'phase', 'predictive_claim_allowed', 'price_capture', 'promotion_allowed', 'prospective_microstructure', 'reasons', 'requested_cycles', 'research_only', 'risk_influence_allowed', 'samples', 'score_influence_allowed', 'skipped_cycles', 'status', 'symbol', 'trade_context_ready', 'trade_context_ready_at_start', 'warmup']
+
+TOP_LEVEL_STRUCTURE:
+  status: {'type': 'str', 'value': 'COMPLETED'}
+  phase: {'type': 'str', 'value': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE'}
+  symbol: {'type': 'str', 'value': 'WINV26'}
+  warmup: {'type': 'dict', 'keys': ['analyzable_samples', 'errors', 'pa_bias', 'ready', 'skipped_cycles', 'status', 'structure_trend', 'trade_context_ready', 'trade_context_required', 'warmup_cycles']}
+  requested_cycles: {'type': 'int', 'value': 600}
+  analyzable_samples: {'type': 'int', 'value': 241}
+  skipped_cycles: {'type': 'int', 'value': 359}
+  collection_errors: {'type': 'int', 'value': 0}
+  collection_error_details: {'type': 'list', 'length': 0, 'first_type': None}
+  missing_price_count: {'type': 'int', 'value': 0}
+  price_capture: {'type': 'bool', 'value': True}
+  data_ready: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  trade_context_ready: {'type': 'bool', 'value': True}
+  trade_context_ready_at_start: {'type': 'bool', 'value': True}
+  context_ready_at_start: {'type': 'bool', 'value': True}
+  context_not_ready_samples: {'type': 'int', 'value': 0}
+  samples: {'type': 'list', 'length': 241, 'first_type': 'dict'}
+  observational_only: {'type': 'bool', 'value': True}
+  predictive_claim_allowed: {'type': 'bool', 'value': False}
+  score_influence_allowed: {'type': 'bool', 'value': False}
+  risk_influence_allowed: {'type': 'bool', 'value': False}
+  decision_influence_allowed: {'type': 'bool', 'value': False}
+  order_execution_allowed: {'type': 'bool', 'value': False}
+  reasons: {'type': 'list', 'length': 0, 'first_type': None}
+  prospective_microstructure: {'type': 'dict', 'keys': ['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']}
+  research_only: {'type': 'bool', 'value': True}
+  alert_influence_allowed: {'type': 'bool', 'value': False}
+  promotion_allowed: {'type': 'bool', 'value': False}
+
+PROSPECTIVE_KEYS:
+['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']
+
+PROSPECTIVE_SAMPLE_COUNT: 241
+
+PROSPECTIVE_SAMPLE_0:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 1,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "BUY",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+PROSPECTIVE_SAMPLE_LAST:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 1,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "BUY",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+POSSIBLE_TIME_FIELDS_TOP_LEVEL:
+  analyzable_samples: {'type': 'int', 'value': 241}
+  price_capture: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  context_not_ready_samples: {'type': 'int', 'value': 0}
+  samples: {'type': 'list', 'length': 241, 'first_type': 'dict'}
+
+POSSIBLE_TIME_FIELDS_PROSPECTIVE_SAMPLE:
+====================================================================================================
+FILE: data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260925_124732.json
+TOP_LEVEL_KEYS:
+['alert_influence_allowed', 'analyzable_samples', 'collection_error_details', 'collection_errors', 'context_not_ready_samples', 'context_ready_at_start', 'data_ready', 'decision_influence_allowed', 'delta_failure_samples', 'delta_not_ready_samples', 'missing_price_count', 'observational_only', 'order_execution_allowed', 'phase', 'predictive_claim_allowed', 'price_capture', 'promotion_allowed', 'prospective_microstructure', 'reasons', 'requested_cycles', 'research_only', 'risk_influence_allowed', 'samples', 'score_influence_allowed', 'skipped_cycles', 'status', 'symbol', 'trade_context_ready', 'trade_context_ready_at_start', 'warmup']
+
+TOP_LEVEL_STRUCTURE:
+  status: {'type': 'str', 'value': 'COMPLETED'}
+  phase: {'type': 'str', 'value': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE'}
+  symbol: {'type': 'str', 'value': 'WINV26'}
+  warmup: {'type': 'dict', 'keys': ['analyzable_samples', 'errors', 'pa_bias', 'ready', 'skipped_cycles', 'status', 'structure_trend', 'trade_context_ready', 'trade_context_required', 'warmup_cycles']}
+  requested_cycles: {'type': 'int', 'value': 600}
+  analyzable_samples: {'type': 'int', 'value': 289}
+  skipped_cycles: {'type': 'int', 'value': 311}
+  collection_errors: {'type': 'int', 'value': 0}
+  collection_error_details: {'type': 'list', 'length': 0, 'first_type': None}
+  missing_price_count: {'type': 'int', 'value': 0}
+  price_capture: {'type': 'bool', 'value': True}
+  data_ready: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  trade_context_ready: {'type': 'bool', 'value': True}
+  trade_context_ready_at_start: {'type': 'bool', 'value': True}
+  context_ready_at_start: {'type': 'bool', 'value': True}
+  context_not_ready_samples: {'type': 'int', 'value': 193}
+  samples: {'type': 'list', 'length': 289, 'first_type': 'dict'}
+  observational_only: {'type': 'bool', 'value': True}
+  predictive_claim_allowed: {'type': 'bool', 'value': False}
+  score_influence_allowed: {'type': 'bool', 'value': False}
+  risk_influence_allowed: {'type': 'bool', 'value': False}
+  decision_influence_allowed: {'type': 'bool', 'value': False}
+  order_execution_allowed: {'type': 'bool', 'value': False}
+  reasons: {'type': 'list', 'length': 0, 'first_type': None}
+  prospective_microstructure: {'type': 'dict', 'keys': ['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']}
+  research_only: {'type': 'bool', 'value': True}
+  alert_influence_allowed: {'type': 'bool', 'value': False}
+  promotion_allowed: {'type': 'bool', 'value': False}
+
+PROSPECTIVE_KEYS:
+['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']
+
+PROSPECTIVE_SAMPLE_COUNT: 289
+
+PROSPECTIVE_SAMPLE_0:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 1,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "SELL",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+PROSPECTIVE_SAMPLE_LAST:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 1,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "SELL",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+POSSIBLE_TIME_FIELDS_TOP_LEVEL:
+  analyzable_samples: {'type': 'int', 'value': 289}
+  price_capture: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  context_not_ready_samples: {'type': 'int', 'value': 193}
+  samples: {'type': 'list', 'length': 289, 'first_type': 'dict'}
+
+POSSIBLE_TIME_FIELDS_PROSPECTIVE_SAMPLE:
+====================================================================================================
+FILE: data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260925_133534.json
+TOP_LEVEL_KEYS:
+['alert_influence_allowed', 'analyzable_samples', 'collection_error_details', 'collection_errors', 'context_not_ready_samples', 'context_ready_at_start', 'data_ready', 'decision_influence_allowed', 'delta_failure_samples', 'delta_not_ready_samples', 'missing_price_count', 'observational_only', 'order_execution_allowed', 'phase', 'predictive_claim_allowed', 'price_capture', 'promotion_allowed', 'prospective_microstructure', 'reasons', 'requested_cycles', 'research_only', 'risk_influence_allowed', 'samples', 'score_influence_allowed', 'skipped_cycles', 'status', 'symbol', 'trade_context_ready', 'trade_context_ready_at_start', 'warmup']
+
+TOP_LEVEL_STRUCTURE:
+  status: {'type': 'str', 'value': 'COMPLETED'}
+  phase: {'type': 'str', 'value': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE'}
+  symbol: {'type': 'str', 'value': 'WINV26'}
+  warmup: {'type': 'dict', 'keys': ['analyzable_samples', 'errors', 'pa_bias', 'ready', 'skipped_cycles', 'status', 'structure_trend', 'trade_context_ready', 'trade_context_required', 'warmup_cycles']}
+  requested_cycles: {'type': 'int', 'value': 600}
+  analyzable_samples: {'type': 'int', 'value': 243}
+  skipped_cycles: {'type': 'int', 'value': 357}
+  collection_errors: {'type': 'int', 'value': 0}
+  collection_error_details: {'type': 'list', 'length': 0, 'first_type': None}
+  missing_price_count: {'type': 'int', 'value': 0}
+  price_capture: {'type': 'bool', 'value': True}
+  data_ready: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  trade_context_ready: {'type': 'bool', 'value': False}
+  trade_context_ready_at_start: {'type': 'bool', 'value': True}
+  context_ready_at_start: {'type': 'bool', 'value': True}
+  context_not_ready_samples: {'type': 'int', 'value': 136}
+  samples: {'type': 'list', 'length': 243, 'first_type': 'dict'}
+  observational_only: {'type': 'bool', 'value': True}
+  predictive_claim_allowed: {'type': 'bool', 'value': False}
+  score_influence_allowed: {'type': 'bool', 'value': False}
+  risk_influence_allowed: {'type': 'bool', 'value': False}
+  decision_influence_allowed: {'type': 'bool', 'value': False}
+  order_execution_allowed: {'type': 'bool', 'value': False}
+  reasons: {'type': 'list', 'length': 0, 'first_type': None}
+  prospective_microstructure: {'type': 'dict', 'keys': ['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']}
+  research_only: {'type': 'bool', 'value': True}
+  alert_influence_allowed: {'type': 'bool', 'value': False}
+  promotion_allowed: {'type': 'bool', 'value': False}
+
+PROSPECTIVE_KEYS:
+['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']
+
+PROSPECTIVE_SAMPLE_COUNT: 243
+
+PROSPECTIVE_SAMPLE_0:
+{
+  "state": "CONFIRMED",
+  "direction": "SELL",
+  "confluence_quality": "MEDIUM",
+  "confidence": 0.37,
+  "independent_evidence_count": 2,
+  "correlated_evidence_count": 1,
+  "conflict_count": 0,
+  "price_action_bias": "SELL",
+  "order_flow_pressure": "SELL",
+  "flow_momentum": "FADING_SELL",
+  "pattern_direction": "NONE",
+  "flow_direction": "SELL",
+  "structure_alignment": "NEUTRAL",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": true,
+  "passive_only": true
+}
+
+PROSPECTIVE_SAMPLE_LAST:
+{
+  "state": "INSUFFICIENT_DATA",
+  "direction": "NONE",
+  "confluence_quality": "INSUFFICIENT_DATA",
+  "confidence": 0.0,
+  "independent_evidence_count": 0,
+  "correlated_evidence_count": 0,
+  "conflict_count": 0,
+  "price_action_bias": "NONE",
+  "order_flow_pressure": "INSUFFICIENT_DATA",
+  "flow_momentum": "INSUFFICIENT_DATA",
+  "pattern_direction": "NONE",
+  "flow_direction": "NONE",
+  "structure_alignment": "UNAVAILABLE",
+  "structural_confidence": 0.0,
+  "book_pressure": "BALANCED",
+  "book_direction": "NONE",
+  "book_confidence": 0.0,
+  "book_available": true,
+  "book_correlated_with_delta": false,
+  "duplicate_evidence_risk": false,
+  "passive_only": true
+}
+
+POSSIBLE_TIME_FIELDS_TOP_LEVEL:
+  analyzable_samples: {'type': 'int', 'value': 243}
+  price_capture: {'type': 'bool', 'value': True}
+  delta_not_ready_samples: {'type': 'int', 'value': 0}
+  delta_failure_samples: {'type': 'int', 'value': 0}
+  context_not_ready_samples: {'type': 'int', 'value': 136}
+  samples: {'type': 'list', 'length': 243, 'first_type': 'dict'}
+
+POSSIBLE_TIME_FIELDS_PROSPECTIVE_SAMPLE:
+====================================================================================================
+STATUS=TEMPORAL_SCHEMA_PROBE_COMPLETED

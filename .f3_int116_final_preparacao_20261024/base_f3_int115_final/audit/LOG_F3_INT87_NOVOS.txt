@@ -1,0 +1,20 @@
+test_atomic_rejection (test_f3_int87_import_transition_monitor.ImportMonitorTests.test_atomic_rejection) ... ok
+test_flags (test_f3_int87_import_transition_monitor.ImportMonitorTests.test_flags) ... ok
+test_invalid_receipt (test_f3_int87_import_transition_monitor.ImportMonitorTests.test_invalid_receipt) ... ok
+test_invariant_preserving_forgery_limit (test_f3_int87_import_transition_monitor.ImportMonitorTests.test_invariant_preserving_forgery_limit) ... ok
+test_mixed_snapshot_types (test_f3_int87_import_transition_monitor.ImportMonitorTests.test_mixed_snapshot_types) ... ok
+test_no_append (test_f3_int87_import_transition_monitor.ImportMonitorTests.test_no_append) ... ok
+test_policy_mutation (test_f3_int87_import_transition_monitor.ImportMonitorTests.test_policy_mutation) ... ok
+test_receipt_matches (test_f3_int87_import_transition_monitor.ImportMonitorTests.test_receipt_matches) ... ok
+test_receipt_mismatch (test_f3_int87_import_transition_monitor.ImportMonitorTests.test_receipt_mismatch) ... ok
+test_success_on_prepare (test_f3_int87_import_transition_monitor.ImportMonitorTests.test_success_on_prepare) ... ok
+test_unchanged_rejection (test_f3_int87_import_transition_monitor.ImportMonitorTests.test_unchanged_rejection) ... ok
+test_unknown_operation_not_compared (test_f3_int87_import_transition_monitor.ImportMonitorTests.test_unknown_operation_not_compared) ... ok
+test_valid_commit (test_f3_int87_import_transition_monitor.ImportMonitorTests.test_valid_commit) ... ok
+test_valid_policy_commit (test_f3_int87_import_transition_monitor.ImportMonitorTests.test_valid_policy_commit) ... ok
+test_version_jump (test_f3_int87_import_transition_monitor.ImportMonitorTests.test_version_jump) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.926s
+
+OK

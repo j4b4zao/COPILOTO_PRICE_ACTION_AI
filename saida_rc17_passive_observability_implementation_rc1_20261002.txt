@@ -1,0 +1,51 @@
+STATUS = PASS
+HEAD_BEFORE = 326c8459776ee825841279768ec81d0f4f19630f
+HEAD_AFTER = 326c8459776ee825841279768ec81d0f4f19630f
+FILES_CREATED =
+analysis/diagnostics/market_structure_rc17_observability.py
+tests/test_market_structure_rc17_observability_rc1.py
+saida_rc17_passive_observability_implementation_rc1_20261002.txt
+FILES_MODIFIED =
+tools/profit_rtd_rc54_3_2_warmed_session.py
+tools/profit_rtd_microstructure_prospective_session.py
+IMPLEMENTATION_ARCHITECTURE = Detached diagnostic helper; capture_inputs copies ordered history before AnalysisPipeline.executar, build_diagnostic reads result after pipeline and refuses attribution if input history changed. No references to mutable candle/result objects are persisted. Optional session parameter enables attachment under raw samples[*].market_structure_observability. Existing structure, price_action and prospective_microstructure fields remain intact.
+SOURCE_TRACE = Collector builds context.market; MarketStructure priority 20 consumes candles.all()/candles[:-1]; PriceAction priority 50 copies structure.trend; observational recorders run after engines; warmed capture serializes the context. Capture boundary is before/after pipeline, not inside RC17. Analysis engines inspected do not update market history. Source remains unmodified.
+RC17_SOURCE_CHANGED = false
+RC17_SOURCE_SHA256 = 4eea98a71699db0f6e81f93386cecc46a9dba5a0435b2e821f5a8cae92420995
+PREDICATE_PROVENANCE = AST-extracted four comparison expressions from is_swing_high/is_swing_low in the exact SHA-pinned RC17 source. These expressions are evaluated only on detached copied candles for diagnostic evidence; no duplicate handwritten operational swing rule is introduced. Source drift disables diagnostics, never changes RC17.
+OBSERVABILITY_DEFAULT_ENABLED = false
+ACTIVATION = Explicit Python API argument market_structure_observability_enabled=True to tools.profit_rtd_microstructure_prospective_session.run_session or base.run_warmed_session. No CLI/default/warmup/readiness/protocol configuration altered. No API call performed on live sources in this implementation step.
+CAPTURE_SCOPE = Every analyzed main-window cycle when enabled. When collector returns no context the existing skipped-cycle behavior remains; RC17 was not executed and no diagnostic history is fabricated. Warmup behavior and gate are unchanged.
+FIELDS_CAPTURED = engine_version, rc17_source_sha256, symbol, timeframe, cycle, timestamp, market_ready, total_candle_count, closed_candle_count, guard_status, guard_reason, closed_candles[index,timestamp,open,high,low,close,volume], excluded_forming_candle, closed_history_sha256, history_unchanged_during_pipeline.
+FIELDS_CAPTURED_CANDIDATES = candidate_type HIGH/LOW, zero-based candidate_index, candidate candle timestamp/high/low, all five comparison_values, left_2/left_1/right_1/right_2 neighbor indexes/timestamps/high/low, predicate booleans, candidate_confirmed, failed_predicates. Equality does not confirm; 2-left/2-right uses original RC17 expressions.
+FIELDS_CAPTURED_SWINGS = swing_highs/swing_lows with history_index, timestamp, price, confirmation_cycle_or_timestamp; high/low counts; latest/previous swing records nullable. No absence coerced to zero.
+CONFIRMATION_TIMESTAMP_SEMANTICS = Observation cycle/time for the confirmed swing in this history snapshot, not a claim of its first-ever confirmation; confirmation_semantics explicitly records OBSERVED_THIS_CYCLE_NOT_FIRST_CONFIRMATION. Full per-cycle candidates and closed histories permit retrospective tracking of first appearance.
+FIELDS_CAPTURED_RESULT = observed_result[higher_high,higher_low,lower_high,lower_low,trend,valid,confidence,bos_up,bos_down,choch,last_high,last_low,reasons,status]. last_high/low preserve official zeros; nullable diagnostic swings distinguish absence.
+HASH_CONTRACT = SHA256 over UTF-8 canonical JSON of exact copied closed-history array; sorted object keys, compact separators, ensure_ascii=false, allow_nan=false. Original order and zero-based history indexes preserved. Timestamp encoded ISO8601. Invalid/nonserializable data produces DIAGNOSTIC_UNAVAILABLE.
+FAILURE_ISOLATION = Input-copy, diagnostic import/build/hash/serialization failures are captured in a diagnostic-only unavailable field. They do not throw into operational cycle accounting, alter formal fields or authorize decisions.
+TEST_COUNTS = 160 passed; 0 failed in final pytest run. Existing tests.test_full_pipeline_sideways script also PASS.
+TEST_SUITES = test_market_structure_rc17_observability_rc1; test_profit_rtd_microstructure_prospective_session; test_microstructure_confluence_rc1; test_microstructure_confluence_replay_rc2; test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.
+BEHAVIORAL_EQUIVALENCE_PROVEN = true
+EQUIVALENCE_EVIDENCE = Exact same input contexts with original RC17 and PriceAction are compared with/without diagnostic for UP/BUY, DOWN/SELL, SIDEWAYS/NONE, UNKNOWN/NONE. Entire context serialization compared including market/history, score, risk, decision and alert. Real capture integration tested with a fake in-memory collector/pipeline: disabled omits diagnostics; enabled adds only diagnostics; original samples apart from timestamps and accounting/readiness identical. No live collector executed.
+EXISTING_SIDEWAYS_TEST = Synthetic full pipeline demonstrates identical SIDEWAYS/valid/flags/PA NONE and WAIT behavior. No market source or workbook opened.
+SOURCE_PRESERVATION = RC17, PriceAction, Collector, CandleBuilder, MarketState and MultiTimeframeState compared to HEAD with normalized line endings: identical.
+DIFF_CHECK = PASS for modified capture files
+RC17_SEMANTICS_CHANGED = false
+PRICE_ACTION_SEMANTICS_CHANGED = false
+THRESHOLDS_CHANGED = false
+WARMUP_GATE_CHANGED = false
+TRADE_CONTEXT_REQUIRED_CHANGED = false
+COLLECTOR_READINESS_CHANGED = false
+OPERATIONAL_LOGIC_CHANGED = false
+SCORE_INFLUENCE = false
+RISK_INFLUENCE = false
+DECISION_INFLUENCE = false
+ALERT_INFLUENCE = false
+EXECUTION_INFLUENCE = false
+BOOK_CHANGED = false
+ORDER_FLOW_CHANGED = false
+SESSION19_EXECUTED = false
+COLLECTOR_EXECUTED = false
+STAGE_COMMIT_PUSH_EXECUTED = false
+WORKBOOKS_CHANGED = false
+PROTOCOL_CHANGED = false

@@ -1,0 +1,33 @@
+{
+  "stage": "F3-INT-114",
+  "checkpoint_type": "CANDIDATE",
+  "previous_definitive": "F3-INT-113",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "new_tests": {
+    "total": 18,
+    "passed_local_linux": 18,
+    "windows_regression": "PENDING",
+    "expected_full_total": 1388
+  },
+  "files_sha256": {
+    "tools/f3_int114_custody_recovery.py": "7f661785616e13b3b7ac2ee1650f3bb161227ccc700552f574ccaff8d6d5d727",
+    "tests/test_f3_int114_custody_recovery.py": "efe8df023eccd626f9068d76ecbbfa1ec54163725a097fbffdff6564c6c0105e"
+  },
+  "limitations": [
+    "No independent authentication of reference custody",
+    "No actual multiprocess SQLite or cross-host fencing validation",
+    "No physical storage durability validation",
+    "No execution identity attestation"
+  ]
+}

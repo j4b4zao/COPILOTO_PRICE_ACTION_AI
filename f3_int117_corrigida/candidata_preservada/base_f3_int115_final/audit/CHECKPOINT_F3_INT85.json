@@ -1,0 +1,36 @@
+{
+  "last_completed": "F3-INT-85",
+  "next_step": "F3-INT-86: politicas de envelope vinculadas ao snapshot e a proposta de importacao",
+  "f3": "OPEN",
+  "simulation_only": true,
+  "offline": true,
+  "certification": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "new_tests": {
+    "tests": 11,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 5.046,
+    "log": "LOG_F3_INT85_NOVOS.txt"
+  },
+  "regression": {
+    "tests": 996,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 148.744,
+    "log": "LOG_F3_INT85_REGRESSAO.txt"
+  },
+  "pending": [
+    "Autenticidade, consenso, persistencia e fencing reais nao verificados."
+  ]
+}

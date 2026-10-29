@@ -1,0 +1,14 @@
+test_A_joint_rollback_accepts_again_architectural_limit (__main__.BeforeContinuityTests.test_A_joint_rollback_accepts_again_architectural_limit) ... ok
+test_B_lost_acknowledgment_fails_closed_architectural_limit (__main__.BeforeContinuityTests.test_B_lost_acknowledgment_fails_closed_architectural_limit) ... ok
+test_C_process_restart_rolls_back_existing_protection (__main__.BeforeContinuityTests.test_C_process_restart_rolls_back_existing_protection) ... ok
+test_D_stale_anchor_rejected_existing_protection (__main__.BeforeContinuityTests.test_D_stale_anchor_rejected_existing_protection) ... ok
+test_E_cloned_databases_both_consume_external_fencing_required (__main__.BeforeContinuityTests.test_E_cloned_databases_both_consume_external_fencing_required) ... ok
+test_E_same_database_competitor_blocked_existing_protection (__main__.BeforeContinuityTests.test_E_same_database_competitor_blocked_existing_protection) ... ok
+test_F_history_divergence_rejected_existing_protection (__main__.BeforeContinuityTests.test_F_history_divergence_rejected_existing_protection) ... ok
+test_G_ignored_update_reports_success_real_defect (__main__.BeforeContinuityTests.test_G_ignored_update_reports_success_real_defect) ... ok
+test_H_reverted_update_reports_success_real_defect (__main__.BeforeContinuityTests.test_H_reverted_update_reports_success_real_defect) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 50.996s
+
+OK

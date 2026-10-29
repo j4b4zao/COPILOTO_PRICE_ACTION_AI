@@ -1,0 +1,31 @@
+{
+  "last_completed": "F3-INT-98",
+  "next_step": "F3-INT-99: scope/design review before implementation",
+  "f3": "OPEN",
+  "simulation_only": true,
+  "offline": true,
+  "certification": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "new_tests": {
+    "passed": 16,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "regression": {
+    "passed": 1145,
+    "failed": 0,
+    "exit_code": 0,
+    "seconds": 206.579
+  },
+  "pending": [
+    "Autenticidade, consenso, persistencia e fencing reais nao verificados."
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "samples": [
+    {
+      "price_action_direction": "NONE",
+      "flow_direction": "NONE",
+      "book_direction": "NONE"
+    },
+    {
+      "price_action_direction": "NONE",
+      "flow_direction": "NONE",
+      "book_direction": "NONE"
+    },
+    {
+      "price_action_direction": "NONE",
+      "flow_direction": "NONE",
+      "book_direction": "BUY"
+    },
+    {
+      "price_action_direction": "NONE",
+      "flow_direction": "NONE",
+      "book_direction": "BUY"
+    },
+    {
+      "price_action_direction": "NONE",
+      "flow_direction": "NONE",
+      "book_direction": "SELL"
+    },
+    {
+      "price_action_direction": "NONE",
+      "flow_direction": "NONE",
+      "book_direction": "NONE"
+    }
+  ]
+}

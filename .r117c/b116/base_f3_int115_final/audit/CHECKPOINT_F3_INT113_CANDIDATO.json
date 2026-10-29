@@ -1,0 +1,29 @@
+{
+  "stage": "F3-INT-113",
+  "checkpoint_type": "CANDIDATE",
+  "previous_definitive": "F3-INT-112",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "new_tests": {
+    "total": 13,
+    "passed_local": 13
+  },
+  "windows_full_regression": "PENDING",
+  "scope": "offline before/after snapshot comparison against externally retained inventory digest; not proof of executed code",
+  "limitations": [
+    "Self-asserted independent_reference flag does not authenticate custody or provenance",
+    "Snapshots supplied by caller do not prove timing or execution identity",
+    "Joint replacement of files and locally held pins cannot be detected without an independently trusted retained pin",
+    "No real multiprocess fencing, lost-ack resolution or physical durability guarantees"
+  ]
+}

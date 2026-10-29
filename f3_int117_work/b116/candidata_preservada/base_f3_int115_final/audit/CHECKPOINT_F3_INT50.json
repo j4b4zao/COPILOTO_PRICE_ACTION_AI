@@ -1,0 +1,36 @@
+{
+  "last_completed": "F3-INT-50",
+  "next_step": "F3-INT-51: sequencias de recuperacao com memoria simulada de replay e rollback entre rodadas",
+  "f3": "OPEN",
+  "simulation_only": true,
+  "offline": true,
+  "certification": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "new_tests": {
+    "tests": 26,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.122,
+    "log": "LOG_F3_INT50_NOVOS.txt"
+  },
+  "regression": {
+    "tests": 478,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 96.83,
+    "log": "LOG_F3_INT50_REGRESSAO.txt"
+  },
+  "pending": [
+    "Autenticidade, consenso, persistencia e fencing reais nao verificados."
+  ]
+}

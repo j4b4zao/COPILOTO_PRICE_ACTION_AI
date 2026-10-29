@@ -1,0 +1,10 @@
+{
+  "stage": "F3-INT-115_PID_MEMBERSHIP_CANDIDATA",
+  "base_zip_sha256": "865de779ba362b27737ebc885c5dfccfca11428b8c4bcbe77314ffe63690067d",
+  "modified_files": {
+    "audit/tests/test_f3_int115_multiprocess_recovery.py": "f62639e22d16598e9db4bb28a219e97ec962617c5560ac4e01481d0d83807392"
+  },
+  "f3": "OPEN",
+  "promoted": false,
+  "windows_regression": "PENDING"
+}

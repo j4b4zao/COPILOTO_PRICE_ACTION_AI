@@ -1,0 +1,99 @@
+﻿=== SESSION 16 PREFLIGHT RC1 ===
+=== HEAD ===
+a741be9c905009906c93130af648983377f8a3a3
+=== ACCUMULATION PROTOCOL ===
+validator_version = RC1-PA-BOOK-INDEPENDENT-REPLICATION-ACCUMULATION-PROTOCOL-VALIDATOR
+protocol_path = pa_book_replication_accumulation_protocol_rc1_20260930.json
+expected_sha256 = df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0
+actual_sha256 = df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0
+protocol_sha256_exact = True
+protocol_version_exact = True
+prior_evidence_exact = True
+frozen_hypothesis_exact = True
+future_block_exact = True
+outcome_policy_exact = True
+accumulation_policy_exact = True
+interpretation_policy_exact = True
+cohort_policy_exact = True
+safety_policy_exact = True
+future_collection_block = ['14', '15', '16', '17', '18']
+status = PASS
+future_collection_authorization = ACCUMULATION_PROTOCOL_VALIDATED_ONLY
+ACCUMULATION_PROTOCOL_EXIT_CODE=0
+=== STRUCTURAL PROTOCOL ===
+validator_version = RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-PROTOCOL-VALIDATOR
+fail_closed = True
+research_only = True
+
+protocol_path = pa_book_opposed_to_aligned_prospective_replication_protocol_rc1_20260929.json
+expected_sha256 = 53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c
+actual_sha256   = 53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c
+
+PROTOCOL_SHA256_EXACT = True
+PROTOCOL_VERSION_EXACT = True
+FROZEN_CHECKPOINT_IDENTITY_EXACT = True
+SAFETY_POLICY_EXACT = True
+REPLICATION_CONDITION_EXACT = True
+NO_THRESHOLDS_EXACT = True
+COHORT_POLICY_EXACT = True
+INTERPRETATION_POLICY_EXACT = True
+
+STATUS = PASS
+FUTURE_COLLECTION_AUTHORIZATION = PROTOCOL_VALIDATED_ONLY
+STRUCTURAL_PROTOCOL_EXIT_CODE=0
+=== SESSION 15 RESULT IDENTITY ===
+SESSION15_RAW_SHA256=C2DE4C96917D7E7F14E5AD1B168A7121388F7525FF5A4B0EEB9FC67B2D029CC2
+SESSION15_RESULT_SHA256=B570E2ADD5C6EB5A254637E5559E25FC12FAE21BCC1D85F540874739A25631E1
+=== PROSPECTIVE COLLECTOR CONTRACT ===
+
+  tools\profit_rtd_microstructure_prospective_session.py:40:    *,
+  tools\profit_rtd_microstructure_prospective_session.py:41:    cycles=600,
+  tools\profit_rtd_microstructure_prospective_session.py:42:    interval=0.25,
+> tools\profit_rtd_microstructure_prospective_session.py:43:    max_warmup_cycles=4800,
+> tools\profit_rtd_microstructure_prospective_session.py:44:    require_trade_context_at_start=False,
+  tools\profit_rtd_microstructure_prospective_session.py:45:    output_dir=None,
+  tools\profit_rtd_microstructure_prospective_session.py:46:    sleeper=None,
+  tools\profit_rtd_microstructure_prospective_session.py:47:):
+  tools\profit_rtd_microstructure_prospective_session.py:48:    previous_warm_history = base.warm_history
+  tools\profit_rtd_microstructure_prospective_session.py:49:    active_pipeline = None
+  tools\profit_rtd_microstructure_prospective_session.py:62:        kwargs = {
+  tools\profit_rtd_microstructure_prospective_session.py:63:            "cycles": cycles,
+  tools\profit_rtd_microstructure_prospective_session.py:64:            "interval": interval,
+> tools\profit_rtd_microstructure_prospective_session.py:65:            "max_warmup_cycles": max_warmup_cycles,
+> tools\profit_rtd_microstructure_prospective_session.py:66:            "require_trade_context_at_start": 
+require_trade_context_at_start,
+  tools\profit_rtd_microstructure_prospective_session.py:67:            "output_dir": output_dir,
+  tools\profit_rtd_microstructure_prospective_session.py:68:        }
+  tools\profit_rtd_microstructure_prospective_session.py:69:        if sleeper is not None:
+  tools\profit_rtd_microstructure_prospective_session.py:70:            kwargs["sleeper"] = sleeper
+> tools\profit_rtd_microstructure_prospective_session.py:71:        result = base.run_warmed_session(symbol, **kwargs)
+  tools\profit_rtd_microstructure_prospective_session.py:72:    finally:
+  tools\profit_rtd_microstructure_prospective_session.py:73:        base.warm_history = previous_warm_history
+  tools\profit_rtd_microstructure_prospective_session.py:74:
+  tools\profit_rtd_microstructure_prospective_session.py:75:    recorder = getattr(active_pipeline, 
+"microstructure_confluence_replay", None)
+  tools\profit_rtd_microstructure_prospective_session.py:76:    samples = [sample.to_dict() for sample in 
+getattr(recorder, "samples", ())]
+  tools\profit_rtd_microstructure_prospective_session.py:118:        args.symbol,
+  tools\profit_rtd_microstructure_prospective_session.py:119:        cycles=args.cycles,
+  tools\profit_rtd_microstructure_prospective_session.py:120:        interval=args.interval,
+> tools\profit_rtd_microstructure_prospective_session.py:121:        max_warmup_cycles=args.max_warmup_cycles,
+> tools\profit_rtd_microstructure_prospective_session.py:122:        
+require_trade_context_at_start=args.require_trade_context_at_start,
+  tools\profit_rtd_microstructure_prospective_session.py:123:        output_dir=args.output_dir,
+  tools\profit_rtd_microstructure_prospective_session.py:124:    )
+  tools\profit_rtd_microstructure_prospective_session.py:125:    evidence = result["prospective_microstructure"]
+  tools\profit_rtd_microstructure_prospective_session.py:126:    print("PROSPECTIVE_MICROSTRUCTURE=" + 
+str(result.get("status")))
+  tools\profit_rtd_microstructure_prospective_session.py:127:    print("data_ready=" + str(result.get("data_ready")))
+
+
+
+=== PROTECTED FILES ===
+ M Profit.xlsx
+ M connectors/excel_connector.py
+ M livroOfertas.xlsx
+ M saida.txt
+ M times&trades.xlsx
+=== FINAL HEAD ===
+a741be9c905009906c93130af648983377f8a3a3

@@ -1,0 +1,53 @@
+{
+  "stage": "F3-INT-112",
+  "checkpoint_type": "FINAL",
+  "previous_definitive": "F3-INT-111",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "new_tests": {
+    "total": 12,
+    "passed_on_linux": 12,
+    "passed_on_windows": 11,
+    "skipped_on_windows": 1,
+    "failed": 0,
+    "errors": 0
+  },
+  "windows_full_regression": "OK (skipped=1)",
+  "scope": "partial reproducible file inventory; no provenance authentication",
+  "files_sha256": {
+    "tools/f3_int112_snapshot_inventory.py": "af85e57242f6acab96025aa69df110cc697c684deec4fd56877bdcfaf51ab926",
+    "tests/test_f3_int112_snapshot_inventory.py": "38776107a0bce16bee6f4ced0fc8f2ba362d61f1a41c409a0a3c6afd225eba6f"
+  },
+  "status": "OFFLINE_REGRESSION_APPROVED_WITH_WINDOWS_SKIP",
+  "regression": {
+    "total": 1357,
+    "passed": 1356,
+    "skipped": 1,
+    "failures": 0,
+    "errors": 0,
+    "unittest_seconds": 757.715,
+    "result": "OK (skipped=1)",
+    "evidence_file": "RESULTADO_F3_INT112.txt",
+    "evidence_sha256": "2bbc9f6ba0502d04b433956029a1a622a0d1ca2650096b25e5c32ce1445b85b7",
+    "environment": "Windows PowerShell UTF-16 redirected log; process exit code not supplied"
+  },
+  "limitations": [
+    "Windows symbolic-link creation not permitted; scenario tested successfully on local Linux, not Windows",
+    "No independent proof that Windows-tested source matches candidate archive",
+    "Inventory digest match is unauthenticated; joint replacement is not detectable without independent pin",
+    "TOCTOU, multiprocess fencing, lost-ack resolution, hardware power-loss durability and provenance remain open"
+  ],
+  "last_completed": "F3-INT-112",
+  "f3_status": "OPEN"
+}

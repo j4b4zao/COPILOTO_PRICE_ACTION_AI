@@ -1,0 +1,61 @@
+﻿=== SESSION 14 STRUCTURAL REPLICATION RC1.2 ===
+=== FROZEN RAW SHA BEFORE EVALUATION ===
+RAW_SHA_BEFORE=D49879440B4DBAFA76B012162E3F9EAF2A8BD8F6555C269517EB91B0E2CE3F15
+RAW_SHA_EXPECTED=D49879440B4DBAFA76B012162E3F9EAF2A8BD8F6555C269517EB91B0E2CE3F15
+RAW_SHA_BEFORE_EXACT=True
+=== STRUCTURAL EVALUATOR ===
+{
+  "cohort_policy": {
+    "frozen_10_session_checkpoint_remains_immutable": true,
+    "future_sessions_are_evaluated_as_independent_prospective_replication": true,
+    "future_sessions_are_not_appended_to_frozen_checkpoint": true,
+    "no_retroactive_reclassification": true,
+    "sessions_11_and_12_remain_independent": true
+  },
+  "detail": "prospective_microstructure must be an object",
+  "evaluation_outcome": "NOT_EVALUABLE",
+  "evaluation_unit": "formal_OPPOSED_to_ALIGNED_transition",
+  "identity": null,
+  "interpretation": "DESCRIPTIVE_ONLY",
+  "interpretation_policy": {
+    "no_operational_promotion_from_this_protocol": true,
+    "no_post_hoc_admission_gate": true,
+    "no_threshold_optimization_after_observation": true,
+    "single_future_failure_is_not_refutation": true,
+    "single_future_replication_is_not_predictive_validation": true
+  },
+  "outcome": "NOT_EVALUABLE",
+  "outcome_scope": "SESSION_SUMMARY",
+  "protocol": {
+    "path": "pa_book_opposed_to_aligned_prospective_replication_protocol_rc1_20260929.json",
+    "sha256": "53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c",
+    "version": "RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-PROTOCOL"
+  },
+  "reason": "CAPTURE_INTEGRITY_FAILURE",
+  "safety": {
+    "alert_changed": false,
+    "canonical_conflict_redefined": false,
+    "checkpoint_extended": false,
+    "decision_changed": false,
+    "descriptive_only": true,
+    "execution_changed": false,
+    "operational_logic_changed": false,
+    "post_hoc_gate_added": false,
+    "predictive_claim_allowed": false,
+    "rc17_changed": false,
+    "research_only": true,
+    "risk_changed": false,
+    "score_changed": false,
+    "threshold_changed": false
+  },
+  "status": "COMPLETED",
+  "transitions": [],
+  "version": "RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-EVALUATOR"
+}
+EVALUATOR_EXIT_CODE=0
+=== FROZEN RAW SHA AFTER EVALUATION ===
+RAW_SHA_AFTER=D49879440B4DBAFA76B012162E3F9EAF2A8BD8F6555C269517EB91B0E2CE3F15
+RAW_SHA_UNCHANGED=True
+RAW_SHA_AFTER_EXACT=True
+=== HEAD AFTER EVALUATION ===
+a741be9c905009906c93130af648983377f8a3a3

@@ -1,0 +1,11 @@
+{
+  "stage": "F3-INT-110",
+  "checkpoint": "FINAL",
+  "base_package_sha256": "afab787a4565459c78519bfde2002d2dc90e6fef1a22c9f923330fdf3e7b251a",
+  "validation_evidence_sha256": {
+    "RESULTADO_F3_INT110.txt": "7abe07ce76828a18003990b6f1b93aff8e16f7eb015b3a16f7fa9febf1ac7d7d",
+    "F3_INT110_TESTES_NOVOS.txt": "1c07dff03c4a5c40d98733c0e330188c5bf831d289e678ff5342545682cd4c56"
+  },
+  "snapshot_file_count": 190,
+  "notes": "Manifest hash does not establish authenticity of the source."
+}

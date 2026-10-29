@@ -1,0 +1,466 @@
+﻿====================================================================================================
+FILE: .\analysis\analysis_pipeline.py
+====================================================================================================
+  130:         if psychology_session_journal is not None and not callable(
+  131:             getattr(psychology_session_journal, "record", None)
+  132:         ):
+  133:             raise TypeError(
+  134:                 "Psychology session journal deve expor record()."
+  135:             )
+  136: 
+  137:         self.event_bus = event_bus
+  138:         self.external_context_service = external_context_service
+  139:         self.book_depth_service = book_depth_service
+  140:         self.psychology_state_provider = psychology_state_provider
+  141:         self.psychology_runtime = psychology_runtime or TraderPsychologyRuntime()
+  142:         self.psychology_context_bridge = (
+  143:             psychology_context_bridge or TraderPsychologyContextBridge()
+  144:         )
+  145:         self.psychology_evidence_correlator = psychology_evidence_correlator
+  146:         self.psychology_confirmation_audit = psychology_confirmation_audit
+  147:         self.psychology_evidence_presenter = psychology_evidence_presenter
+  148:         self.psychology_session_journal = psychology_session_journal
+  149:         self.context = AnalysisContext()
+  150: 
+  151:         self.book_diagnostics_replay = BookDiagnosticsReplayRecorder()
+  152:         self.score_regime_mtf_ab = ScoreRegimeMtfABRecorder()
+  153:         self.score_external_context_ab = ScoreExternalContextABRecorder()
+  154:         self.score_order_flow_ab = ScoreOrderFlowABRecorder()
+  155:         self.score_order_flow_structure_ab = ScoreOrderFlowStructureABRecorder()
+  156:         self.score_book_depth_ab = ScoreBookDepthABRecorder()
+  157:         self.score_microstructure_eligibility_ab = ScoreMicrostructureEligibilityABRecorder()
+  158:         self.microstructure_confluence_replay = MicrostructureConfluenceReplayRecorder()
+  159:         self.microstructure_eligibility_replay = MicrostructureEligibilityReplayRecorder()
+  160: 
+  161:         self.price_action_engines = [
+  162:             MarketRegime(),
+  163:             MultiTimeframeAnalysis(),
+  164:             MarketStructure(),
+  165:             LiquidityAnalysis(),
+  166:             VolumeAnalysis(),
+  167:             OrderFlow(),
+  168:             BookDepthAnalysis(),
+  169:             PriceAction(),
+  170:             BookDiagnosticsEngine(),
+  171:         ]
+  172:         self.smart_money_engines = [Imbalance(), OrderBlock(), FairValueGap(), LiquidityPool()]
+  173:         self.ai_engines = [ContextEngine(), StrategyEngine(), ScoreEngine(), RiskManager(), DecisionEngine()]
+  174:         self.engines = self.price_action_engines + self.smart_money_engines + self.ai_engines
+  175:         self.engines.sort(key=lambda engine: engine.PRIORITY)
+  176: 
+  177:     def executar(self, context):
+  178:         if not isinstance(context, AnalysisContext):
+  179:             raise TypeError(
+  180:                 "AnalysisPipeline esperava AnalysisContext, "
+  181:                 f"recebeu {type(context).__name__}"
+  182:             )
+  183: 
+  184:         self.context = context
+  185:         self._refresh_external_context()
+  186:         self._refresh_book_depth()
+  187:         self.context.clear_results()
+  188: 
+  189:         for engine in self.engines:
+  190:             if not engine.ENABLED:
+  191:                 continue
+  192:             engine.executar(self.context)
+  193:             self._publish_engine(engine)
+  194: 
+  195:         # Todos os recorders abaixo executam depois do DecisionEngine e apenas
+  196:         # leem o resultado oficial jÃ¡ fechado do ciclo.
+  197:         self.book_diagnostics_replay.record(self.context)
+  198:         self.score_regime_mtf_ab.record(self.context)
+  199:         self.score_external_context_ab.record(self.context)
+  200:         self.score_order_flow_ab.record(self.context)
+  201:         self.score_order_flow_structure_ab.record(self.context)
+  202:         self.score_book_depth_ab.record(self.context)
+  203:         self.score_microstructure_eligibility_ab.record(self.context)
+  204:         self.microstructure_confluence_replay.record(self.context)
+  205:         self.microstructure_eligibility_replay.record(self.context)
+  206: 
+  207:         # A Psicologia roda somente depois do nÃºcleo operacional e dos replays.
+  208:         # Ela anexa um snapshot observacional e nunca retroalimenta as engines.
+  209:         self._refresh_trader_psychology()
+  210:         self._publish_loop()
+====================================================================================================
+FILE: .\analysis\analysis_pipeline.py
+====================================================================================================
+  210:         self._publish_loop()
+  211:         return self.context
+  212: 
+  213:     def _refresh_external_context(self) -> None:
+  214:         if self.external_context_service is None:
+  215:             return
+  216:         try:
+  217:             state = self.external_context_service.snapshot()
+  218:         except Exception as exc:
+  219:             self.context.external_market.clear()
+  220:             self.context.external_market.add_reason(
+  221:                 "Contexto externo indisponÃ­vel: " f"{type(exc).__name__}."
+  222:             )
+  223:             return
+  224:         if not isinstance(state, ExternalMarketState):
+  225:             self.context.external_market.clear()
+  226:             self.context.external_market.add_reason(
+  227:                 "ExternalContextService retornou estado invÃ¡lido."
+  228:             )
+  229:             return
+  230:         self.context.external_market = state
+  231: 
+  232:     def _refresh_book_depth(self) -> None:
+  233:         if self.book_depth_service is None:
+  234:             return
+  235:         symbol = str(getattr(self.context.market, "symbol", "") or "")
+  236:         try:
+  237:             snapshot = self.book_depth_service.snapshot(symbol)
+  238:         except Exception:
+  239:             self.context.book_depth = BookDepthSnapshot.unavailable(
+  240:                 symbol=symbol,
+  241:                 source="BOOK_DEPTH_SERVICE_ERROR",
+  242:             )
+  243:             return
+  244:         if not isinstance(snapshot, BookDepthSnapshot):
+  245:             self.context.book_depth = BookDepthSnapshot.unavailable(
+  246:                 symbol=symbol,
+  247:                 source="BOOK_DEPTH_INVALID_SNAPSHOT",
+  248:             )
+  249:             return
+  250:         self.context.book_depth = snapshot
+  251: 
+  252:     def _refresh_trader_psychology(self) -> None:
+  253:         if self.psychology_state_provider is None:
+  254:             return
+  255:         try:
+  256:             state = self.psychology_state_provider.snapshot(self.context)
+  257:             if not isinstance(state, TraderPsychologyState):
+  258:                 return
+  259:             runtime_result = self.psychology_runtime.process(state)
+  260:             evidence_correlator = getattr(
+  261:                 self,
+  262:                 "psychology_evidence_correlator",
+  263:                 None,
+  264:             )
+  265:             confirmation_audit = getattr(
+  266:                 self,
+  267:                 "psychology_confirmation_audit",
+  268:                 None,
+  269:             )
+  270:             if evidence_correlator is not None and confirmation_audit is not None:
+  271:                 try:
+  272:                     evidence = evidence_correlator.correlate(
+  273:                         runtime_result,
+  274:                         confirmation_audit.entries,
+  275:                     )
+  276:                     runtime_result = replace(
+  277:                         runtime_result,
+  278:                         evidence=evidence,
+  279:                     )
+  280:                     evidence_presenter = getattr(
+  281:                         self,
+  282:                         "psychology_evidence_presenter",
+  283:                         None,
+  284:                     )
+  285:                     if evidence_presenter is not None:
+  286:                         try:
+  287:                             runtime_result = evidence_presenter.enrich(
+  288:                                 runtime_result,
+  289:                                 evidence,
+  290:                             )
+  291:                         except Exception:
+  292:                             # A apresentaÃ§Ã£o Ã© secundÃ¡ria e nunca invalida
+  293:                             # o relatÃ³rio nem reenvia Ã¡udio.
+  294:                             pass
+  295:                 except Exception:
+  296:                     # A evidÃªncia Ã© explicativa e secundÃ¡ria: sua falha
+  297:                     # nÃ£o apaga o snapshot psicolÃ³gico principal.
+  298:                     pass
+  299:             session_journal = getattr(
+  300:                 self,
+  301:                 "psychology_session_journal",
+  302:                 None,
+  303:             )
+  304:             if session_journal is not None:
+  305:                 try:
+  306:                     session_journal.record(runtime_result)
+  307:                 except Exception:
+  308:                     # O diÃ¡rio Ã© observacional e nunca invalida o snapshot.
+  309:                     pass
+  310:             self.psychology_context_bridge.attach(
+====================================================================================================
+FILE: .\analysis\replay\microstructure_confluence_replay_recorder.py
+====================================================================================================
+    1: """Replay recorder observacional da confluÃªncia PA x Delta x BookDepth."""
+    2: 
+    3: from __future__ import annotations
+    4: 
+    5: import csv
+    6: import json
+    7: from collections import Counter, defaultdict
+    8: from dataclasses import asdict, dataclass, fields
+    9: from pathlib import Path
+   10: 
+   11: from analysis.replay.microstructure_confluence import MicrostructureConfluenceAudit
+   12: 
+   13: 
+   14: @dataclass(slots=True, frozen=True)
+   15: class MicrostructureConfluenceReplaySample:
+   16:     state: str = "INSUFFICIENT_DATA"
+   17:     direction: str = "NONE"
+   18:     confluence_quality: str = "INSUFFICIENT_DATA"
+   19:     confidence: float = 0.0
+   20:     independent_evidence_count: int = 0
+   21:     correlated_evidence_count: int = 0
+   22:     conflict_count: int = 0
+   23:     price_action_bias: str = "NONE"
+   24:     order_flow_pressure: str = "INSUFFICIENT_DATA"
+   25:     flow_momentum: str = "INSUFFICIENT_DATA"
+   26:     pattern_direction: str = "NONE"
+   27:     flow_direction: str = "NONE"
+   28:     structure_alignment: str = "UNAVAILABLE"
+   29:     structural_confidence: float = 0.0
+   30:     book_pressure: str = "UNAVAILABLE"
+   31:     book_direction: str = "NONE"
+   32:     book_confidence: float = 0.0
+   33:     book_available: bool = False
+   34:     book_correlated_with_delta: bool = False
+   35:     duplicate_evidence_risk: bool = False
+   36:     passive_only: bool = True
+   37: 
+   38:     def to_dict(self) -> dict:
+   39:         return asdict(self)
+   40: 
+   41:     @classmethod
+   42:     def from_dict(cls, payload: dict) -> "MicrostructureConfluenceReplaySample":
+   43:         if not isinstance(payload, dict):
+   44:             raise TypeError("Amostra de replay de microestrutura deve ser um dict.")
+   45:         allowed = {field.name for field in fields(cls)}
+   46:         unknown = set(payload) - allowed
+   47:         if unknown:
+   48:             raise ValueError(
+   49:                 "Campos desconhecidos na amostra de microestrutura: "
+   50:                 + ", ".join(sorted(unknown))
+   51:             )
+   52:         return cls(**payload)
+   53: 
+   54: 
+   55: class MicrostructureConfluenceReplayRecorder:
+   56:     VERSION = "RC2-MICROSTRUCTURE-CONFLUENCE-REPLAY-PERSISTENCE"
+   57: 
+   58:     def __init__(self, max_samples: int = 50000):
+   59:         self.max_samples = max(1, int(max_samples))
+   60:         self._samples: list[MicrostructureConfluenceReplaySample] = []
+   61:         self.audit = MicrostructureConfluenceAudit()
+   62: 
+   63:     @property
+   64:     def samples(self) -> tuple[MicrostructureConfluenceReplaySample, ...]:
+   65:         return tuple(self._samples)
+   66: 
+   67:     @property
+   68:     def size(self) -> int:
+   69:         return len(self._samples)
+   70: 
+   71:     def clear(self) -> None:
+   72:         self._samples.clear()
+   73: 
+   74:     def add_sample(self, sample: MicrostructureConfluenceReplaySample) -> None:
+   75:         if not isinstance(sample, MicrostructureConfluenceReplaySample):
+   76:             raise TypeError("sample deve ser MicrostructureConfluenceReplaySample.")
+   77:         self._append(sample)
+   78: 
+   79:     def record(self, context) -> MicrostructureConfluenceReplaySample:
+   80:         snapshot = self.audit.analyze(context)
+   81:         sample = MicrostructureConfluenceReplaySample(
+   82:             state=snapshot.state,
+   83:             direction=snapshot.direction,
+   84:             confluence_quality=snapshot.confluence_quality,
+   85:             confidence=snapshot.confidence,
+   86:             independent_evidence_count=snapshot.independent_evidence_count,
+   87:             correlated_evidence_count=snapshot.correlated_evidence_count,
+   88:             conflict_count=snapshot.conflict_count,
+   89:             price_action_bias=snapshot.price_action_bias,
+   90:             order_flow_pressure=snapshot.order_flow_pressure,
+   91:             flow_momentum=snapshot.flow_momentum,
+   92:             pattern_direction=snapshot.pattern_direction,
+   93:             flow_direction=snapshot.flow_direction,
+   94:             structure_alignment=snapshot.structure_alignment,
+   95:             structural_confidence=snapshot.structural_confidence,
+   96:             book_pressure=snapshot.book_pressure,
+   97:             book_direction=snapshot.book_direction,
+   98:             book_confidence=snapshot.book_confidence,
+   99:             book_available=snapshot.book_available,
+  100:             book_correlated_with_delta=snapshot.book_correlated_with_delta,
+  101:             duplicate_evidence_risk=snapshot.duplicate_evidence_risk,
+  102:             passive_only=True,
+  103:         )
+  104:         self._append(sample)
+  105:         return sample
+  106: 
+  107:     def summary(self) -> dict:
+  108:         total = len(self._samples)
+  109:         by_independent = Counter(s.independent_evidence_count for s in self._samples)
+  110:         by_quality = Counter(s.confluence_quality for s in self._samples)
+  111:         by_state = Counter(s.state for s in self._samples)
+  112:         return {
+  113:             "version": self.VERSION,
+  114:             "samples": total,
+  115:             "by_independent_evidence": dict(sorted(by_independent.items())),
+  116:             "by_quality": dict(sorted(by_quality.items())),
+  117:             "by_state": dict(sorted(by_state.items())),
+  118:             "correlated_samples": sum(s.correlated_evidence_count > 0 for s in self._samples),
+  119:             "conflict_samples": sum(s.conflict_count > 0 for s in self._samples),
+  120:             "book_available_samples": sum(s.book_available for s in self._samples),
+  121:             "average_confidence": (
+  122:                 round(sum(s.confidence for s in self._samples) / total, 4)
+  123:                 if total else 0.0
+  124:             ),
+  125:             "passive_only": True,
+  126:         }
+  127: 
+  128:     def distribution(self) -> dict:
+  129:         return {
+  130:             "one_source": sum(s.independent_evidence_count == 1 for s in self._samples),
+====================================================================================================
+FILE: .\analysis\book_depth_analysis.py
+====================================================================================================
+    1: """AnÃ¡lise observacional de profundidade real do Book."""
+    2: 
+    3: from ai.engine_base import EngineBase
+    4: 
+    5: 
+    6: class BookDepthAnalysis(EngineBase):
+    7:     NAME = "BookDepthAnalysis"
+    8:     VERSION = "RC1.1-ORDERING-FIX"
+    9:     ENABLED = True
+   10:     # Precisa executar depois de PriceAction (50), pois usa o bias do ciclo atual,
+   11:     # e antes do ContextEngine (70), que consome esta evidÃªncia observacional.
+   12:     PRIORITY = 55
+   13:     TOP_LEVELS = 3
+   14: 
+   15:     def executar(self, context):
+   16:         result = context.book_depth_analysis
+   17:         result.clear()
+   18:         result.start()
+   19:         result.source = "BOOK_DEPTH"
+   20: 
+   21:         book = context.book_depth
+   22:         if book is None or not book.available:
+   23:             result.add_reason("BOOK_DEPTH_UNAVAILABLE")
+   24:             result.skip()
+   25:             return context
+   26: 
+   27:         result.pressure = book.liquidity_pressure
+   28:         result.imbalance = float(book.imbalance)
+   29:         result.spread = float(book.spread or 0.0)
+   30: 
+   31:         mid = 0.0
+   32:         if book.best_bid is not None and book.best_ask is not None:
+   33:             mid = (book.best_bid + book.best_ask) / 2.0
+   34:         result.spread_ratio = (result.spread / mid) if mid > 0 else 0.0
+   35: 
+   36:         top = book.top(self.TOP_LEVELS)
+   37:         result.top_bid_concentration = self._concentration(top.bid_quantity, book.bid_quantity)
+   38:         result.top_ask_concentration = self._concentration(top.ask_quantity, book.ask_quantity)
+   39:         result.concentration_bias = self._concentration_bias(
+   40:             result.top_bid_concentration,
+   41:             result.top_ask_concentration,
+   42:         )
+   43: 
+   44:         pa_bias = str(getattr(context.price_action, "bias", "NONE") or "NONE").upper()
+   45:         of_pressure = str(getattr(context.order_flow, "pressure", "BALANCED") or "BALANCED").upper()
+   46:         book_direction = self._book_direction(result.pressure, result.concentration_bias)
+   47: 
+   48:         result.price_action_alignment = self._alignment(book_direction, pa_bias)
+   49:         result.order_flow_alignment = self._alignment(book_direction, of_pressure)
+   50:         result.duplicate_evidence_risk = bool(
+   51:             book_direction in {"BUY", "SELL"}
+   52:             and of_pressure == book_direction
+   53:         )
+   54: 
+   55:         strength = min(1.0, abs(result.imbalance))
+   56:         concentration_edge = abs(result.top_bid_concentration - result.top_ask_concentration)
+   57:         spread_penalty = min(0.5, result.spread_ratio * 1000.0)
+   58:         confidence = 0.65 * strength + 0.35 * concentration_edge - spread_penalty
+   59: 
+   60:         if result.price_action_alignment == "ALIGNED":
+   61:             confidence += 0.10
+   62:         elif result.price_action_alignment == "CONFLICT":
+   63:             confidence -= 0.10
+   64: 
+   65:         result.confidence = max(0.0, min(1.0, confidence))
+   66:         result.add_reason(f"BOOK_PRESSURE_{result.pressure}")
+   67:         result.add_reason(f"BOOK_PA_{result.price_action_alignment}")
+   68:         result.add_reason(f"BOOK_OF_{result.order_flow_alignment}")
+   69:         if result.duplicate_evidence_risk:
+   70:             result.add_reason("BOOK_ORDER_FLOW_DUPLICATE_EVIDENCE_RISK")
+   71:         result.validate()
+   72:         return context
+   73: 
+   74:     @staticmethod
+   75:     def _concentration(top_quantity, total_quantity):
+   76:         if total_quantity <= 0:
+   77:             return 0.0
+   78:         return max(0.0, min(1.0, float(top_quantity) / float(total_quantity)))
+   79: 
+   80:     @staticmethod
+   81:     def _concentration_bias(bid, ask):
+   82:         diff = bid - ask
+   83:         if diff >= 0.10:
+   84:             return "BID_DOMINANT"
+   85:         if diff <= -0.10:
+   86:             return "ASK_DOMINANT"
+   87:         return "BALANCED"
+   88: 
+   89:     @staticmethod
+   90:     def _book_direction(pressure, concentration_bias):
+   91:         if pressure == "BID_DOMINANT" or concentration_bias == "BID_DOMINANT":
+   92:             return "BUY"
+   93:         if pressure == "ASK_DOMINANT" or concentration_bias == "ASK_DOMINANT":
+   94:             return "SELL"
+   95:         return "NONE"
+   96: 
+   97:     @staticmethod
+   98:     def _alignment(book_direction, other_direction):
+   99:         if book_direction not in {"BUY", "SELL"}:
+  100:             return "NEUTRAL"
+  101:         if other_direction not in {"BUY", "SELL"}:
+  102:             return "UNAVAILABLE"
+  103:         return "ALIGNED" if book_direction == other_direction else "CONFLICT"
+====================================================================================================
+FILE: .\models\book_depth_analysis_result.py
+====================================================================================================
+    1: """Resultado observacional da anÃ¡lise de profundidade do Book."""
+    2: 
+    3: from dataclasses import dataclass
+    4: 
+    5: from models.result_base import ResultBase
+    6: 
+    7: 
+    8: @dataclass(slots=True)
+    9: class BookDepthAnalysisResult(ResultBase):
+   10:     pressure: str = "UNAVAILABLE"
+   11:     imbalance: float = 0.0
+   12:     spread: float = 0.0
+   13:     spread_ratio: float = 0.0
+   14:     top_bid_concentration: float = 0.0
+   15:     top_ask_concentration: float = 0.0
+   16:     concentration_bias: str = "BALANCED"
+   17:     price_action_alignment: str = "UNAVAILABLE"
+   18:     order_flow_alignment: str = "UNAVAILABLE"
+   19:     confidence: float = 0.0
+   20:     duplicate_evidence_risk: bool = False
+   21:     passive_only: bool = True
+   22: 
+   23:     def clear(self) -> None:
+   24:         ResultBase.clear(self)
+   25:         self.pressure = "UNAVAILABLE"
+   26:         self.imbalance = 0.0
+   27:         self.spread = 0.0
+   28:         self.spread_ratio = 0.0
+   29:         self.top_bid_concentration = 0.0
+   30:         self.top_ask_concentration = 0.0
+   31:         self.concentration_bias = "BALANCED"
+   32:         self.price_action_alignment = "UNAVAILABLE"
+   33:         self.order_flow_alignment = "UNAVAILABLE"
+   34:         self.confidence = 0.0
+   35:         self.duplicate_evidence_risk = False
+   36:         self.passive_only = True

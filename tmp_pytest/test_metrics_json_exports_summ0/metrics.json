@@ -1,0 +1,67 @@
+{
+  "scenarios": {
+    "by_bias": {
+      "BUY": {
+        "average_confidence": 0.8,
+        "average_delta": 1.6,
+        "grade_changes": 0,
+        "negative_adjustments": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "by_confidence": {
+      "HIGH": {
+        "average_confidence": 0.8,
+        "average_delta": 1.6,
+        "grade_changes": 0,
+        "negative_adjustments": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "by_risk": {
+      "RISK_ON": {
+        "average_confidence": 0.8,
+        "average_delta": 1.6,
+        "grade_changes": 0,
+        "negative_adjustments": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "by_status": {
+      "ALIGNED": {
+        "average_confidence": 0.8,
+        "average_delta": 1.6,
+        "grade_changes": 0,
+        "negative_adjustments": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "samples": 1,
+    "version": "RC3-EXTERNAL-CONTEXT-SCORE-AB-PERSISTENCE",
+    "weight": 2.0
+  },
+  "summary": {
+    "average_confidence": 0.8,
+    "average_delta": 1.6,
+    "grade_changes": 0,
+    "negative_adjustments": 0,
+    "neutral_adjustments": 0,
+    "positive_adjustments": 1,
+    "samples": 1,
+    "validity_changes": 0,
+    "version": "RC3-EXTERNAL-CONTEXT-SCORE-AB-PERSISTENCE",
+    "weight": 2.0
+  }
+}

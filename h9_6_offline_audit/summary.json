@@ -1,0 +1,90 @@
+{
+  "version": "RC7.13.23-H.9.6",
+  "orders_allowed": false,
+  "live_certified": false,
+  "flow_complete": false,
+  "stop_reason": "DURATION_LIMIT",
+  "samples": 3,
+  "config": {
+    "duration": 12,
+    "interval": 5,
+    "call_timeout": 10,
+    "max_age": 120
+  },
+  "sources": {
+    "Profit.xlsx": {
+      "updates": 1,
+      "read_errors": 0,
+      "no_update_samples": 1,
+      "no_trades_samples": 0,
+      "invalid_samples": 0,
+      "consecutive_no_update_seconds": 5.000000000000001,
+      "max_no_update_seconds": 5.000000000000001
+    },
+    "livroOfertas.xlsx": {
+      "updates": 1,
+      "read_errors": 0,
+      "no_update_samples": 1,
+      "no_trades_samples": 0,
+      "invalid_samples": 0,
+      "consecutive_no_update_seconds": 5.000000000000001,
+      "max_no_update_seconds": 5.000000000000001
+    },
+    "times&trades.xlsx": {
+      "updates": 1,
+      "read_errors": 0,
+      "no_update_samples": 1,
+      "no_trades_samples": 0,
+      "invalid_samples": 0,
+      "consecutive_no_update_seconds": 5.000000000000001,
+      "max_no_update_seconds": 5.000000000000001
+    }
+  },
+  "attachment": {
+    "pid": 10152,
+    "hwnd": 396152,
+    "workbooks_count": 3,
+    "full_names": [
+      "Profit.xlsx",
+      "livroOfertas.xlsx",
+      "times&trades.xlsx"
+    ]
+  },
+  "cleanup": {
+    "excel_quit_close_save_called": false
+  },
+  "elapsed_seconds": 12.0,
+  "request_latency_seconds": {
+    "count": 3,
+    "min": 0.04999999999999982,
+    "mean": 0.050000000000000176,
+    "max": 0.05000000000000071,
+    "p95": 0.05000000000000071
+  },
+  "source_read_latency_seconds": {
+    "Profit.xlsx": {
+      "count": 0,
+      "min": null,
+      "mean": null,
+      "max": null,
+      "p95": null
+    },
+    "livroOfertas.xlsx": {
+      "count": 0,
+      "min": null,
+      "mean": null,
+      "max": null,
+      "p95": null
+    },
+    "times&trades.xlsx": {
+      "count": 0,
+      "min": null,
+      "mean": null,
+      "max": null,
+      "p95": null
+    }
+  },
+  "finished_at": "2026-10-13T11:32:29.446978-03:00",
+  "mode": "OFFLINE_HISTORICAL_REPLAY_SYNTHETIC_CLOCK",
+  "events_sha256": "22782522b666622cd4f795b3a83152d554bb24edfa3e9d6a5e4255120f84f339"
+}

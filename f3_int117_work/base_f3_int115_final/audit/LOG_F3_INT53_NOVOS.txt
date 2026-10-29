@@ -1,0 +1,27 @@
+test_bad_argument_shape (test_f3_int53_interleaving.InterleavingTests.test_bad_argument_shape) ... ok
+test_bad_version_bool (test_f3_int53_interleaving.InterleavingTests.test_bad_version_bool) ... ok
+test_bad_version_negative (test_f3_int53_interleaving.InterleavingTests.test_bad_version_negative) ... ok
+test_branch_conflict (test_f3_int53_interleaving.InterleavingTests.test_branch_conflict) ... ok
+test_commit_advances (test_f3_int53_interleaving.InterleavingTests.test_commit_advances) ... ok
+test_competing_rounds_first_wins (test_f3_int53_interleaving.InterleavingTests.test_competing_rounds_first_wins) ... ok
+test_duplicate_argument (test_f3_int53_interleaving.InterleavingTests.test_duplicate_argument) ... ok
+test_duplicate_commit (test_f3_int53_interleaving.InterleavingTests.test_duplicate_commit) ... ok
+test_flags (test_f3_int53_interleaving.InterleavingTests.test_flags) ... ok
+test_forged_candidate (test_f3_int53_interleaving.InterleavingTests.test_forged_candidate) ... ok
+test_forged_round (test_f3_int53_interleaving.InterleavingTests.test_forged_round) ... ok
+test_invalid_commit_snapshot (test_f3_int53_interleaving.InterleavingTests.test_invalid_commit_snapshot) ... ok
+test_invalid_proposal (test_f3_int53_interleaving.InterleavingTests.test_invalid_proposal) ... ok
+test_mutable_history_rejected (test_f3_int53_interleaving.InterleavingTests.test_mutable_history_rejected) ... ok
+test_partition_rejected (test_f3_int53_interleaving.InterleavingTests.test_partition_rejected) ... ok
+test_prepare_no_mutation (test_f3_int53_interleaving.InterleavingTests.test_prepare_no_mutation) ... ok
+test_rebase_extension (test_f3_int53_interleaving.InterleavingTests.test_rebase_extension) ... ok
+test_rebase_replay (test_f3_int53_interleaving.InterleavingTests.test_rebase_replay) ... ok
+test_rejection_atomic (test_f3_int53_interleaving.InterleavingTests.test_rejection_atomic) ... ok
+test_reverse_winner (test_f3_int53_interleaving.InterleavingTests.test_reverse_winner) ... ok
+test_state_only_conflict (test_f3_int53_interleaving.InterleavingTests.test_state_only_conflict) ... ok
+test_version_only_conflict (test_f3_int53_interleaving.InterleavingTests.test_version_only_conflict) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.013s
+
+OK

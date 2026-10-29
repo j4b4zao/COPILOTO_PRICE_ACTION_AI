@@ -1,0 +1,35 @@
+{
+  "samples": [
+    {
+      "price_action": {
+        "bias": "NONE"
+      },
+      "imbalance": 0.9
+    }
+  ],
+  "prospective_microstructure": {
+    "captured_samples": 3,
+    "source_analyzable_samples": 3,
+    "sample_count_matches_source": true,
+    "samples": [
+      {
+        "price_action_direction": "BUY",
+        "flow_direction": "SELL",
+        "book_direction": "NONE",
+        "conflict": true
+      },
+      {
+        "price_action_direction": "BUY",
+        "flow_direction": "BUY",
+        "book_direction": "BUY",
+        "conflict": false
+      },
+      {
+        "price_action_direction": "NONE",
+        "flow_direction": "NONE",
+        "book_direction": "BUY",
+        "conflict": false
+      }
+    ]
+  }
+}

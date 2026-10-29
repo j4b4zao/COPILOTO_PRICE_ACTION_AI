@@ -1,0 +1,1839 @@
+﻿
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\lib\tests\test_function_base.py
+LineNumber : 2516
+Line       :         [[0.15391142, 0.18045767, 0.14197213],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\lib\tests\test_histograms.py
+LineNumber : 570
+Line       :         assert_almost_equal(avg, [0.15, 0.09, 0.08, 0.03], decimal=2)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\lib\tests\test_twodim_base.py
+LineNumber : 273
+Line       :              0.15886423, 1])
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\lib\_function_base_impl.py
+LineNumber : 3411
+Line       :     array([ 0.08      ,  0.15302337,  0.34890909,  0.60546483,  0.84123594, # may vary
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\lib\_function_base_impl.py
+LineNumber : 3413
+Line       :             0.15302337,  0.08      ])
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\random\tests\test_random.py
+LineNumber : 830
+Line       :         desired = np.array([[1.47145377828516666,  0.15052899268012659],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\random\tests\test_random.py
+LineNumber : 832
+Line       :                             [0.332334982684171,  0.15451287602753125]])
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\random\tests\test_randomstate.py
+LineNumber : 1063
+Line       :         desired = np.array([[1.47145377828516666,  0.15052899268012659],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\random\tests\test_randomstate.py
+LineNumber : 1065
+Line       :                             [0.332334982684171,  0.15451287602753125]])
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\_core\tests\test_multiarray.py
+LineNumber : 7488
+Line       :                         [0.15696029], [0.33612621]])
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\_core\tests\test_multiarray.py
+LineNumber : 7546
+Line       :         tgt = np.array([[0.15126730, 0.23068496, 0.45905553, 0.00256425]])
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\core\groupby\generic.py
+LineNumber : 3938
+Line       :             ...     "width": [0.7, 0.2, 0.15, 0.2, 1.1],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\core\frame.py
+LineNumber : 5723
+Line       :         Portland    17.0    62.6  290.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\core\frame.py
+LineNumber : 13282
+Line       :         a  0.316741       NaN -0.150812
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\core\frame.py
+LineNumber : 13284
+Line       :         c -0.150812  0.191417  0.895202
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\io\pytables.py
+LineNumber : 144
+Line       : _version = "0.15.2"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\plotting\_matplotlib\boxplot.py
+LineNumber : 341
+Line       :     maybe_adjust_figure(fig, bottom=0.15, top=0.9, left=0.1, right=0.9, wspace=0.2)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\plotting\_matplotlib\boxplot.py
+LineNumber : 542
+Line       :         maybe_adjust_figure(fig, bottom=0.15, top=0.9, left=0.1, right=0.9, wspace=0.2)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\plotting\_matplotlib\hist.py
+LineNumber : 412
+Line       :         fig, bottom=0.15, top=0.9, left=0.1, right=0.9, hspace=0.5, wspace=0.3
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\plotting\_core.py
+LineNumber : 251
+Line       :         ...     "width": [0.7, 0.2, 0.15, 0.2, 1.1],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\plotting\_core.py
+LineNumber : 965
+Line       :         ...         "width": [0.7, 0.2, 0.15, 0.2, 1.1],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\arrays\string_\test_string.py
+LineNumber : 344
+Line       :     # protocol added in 0.15.0
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\groupby\methods\test_kurt.py
+LineNumber : 54
+Line       :     expected = pd.DataFrame({"x": [2.1644713], "y": [0.1513969]}, dtype=dtype)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\groupby\methods\test_kurt.py
+LineNumber : 70
+Line       :     expected = pd.DataFrame({"x": [np.nan], "y": [0.1513969]})
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\indexing\test_chaining_and_caching.py
+LineNumber : 347
+Line       :             # GH#3970 this lookup used to break the chained setting to 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\indexing\test_chaining_and_caching.py
+LineNumber : 351
+Line       :                 df["bb"].iloc[0] = 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\io\formats\test_to_html.py
+LineNumber : 688
+Line       :         [0.950088, -0.151357],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\io\formats\test_to_html.py
+LineNumber : 708
+Line       :         [-0.977278, 0.950088, -0.151357, -0.103219, 0.410599],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\io\parser\common\test_common_basic.py
+LineNumber : 54
+Line       :             [-0.157161, 1.340307, 1.1957779562, -1.097007],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\io\parser\common\test_common_basic.py
+LineNumber : 191
+Line       :             [-0.157161, 1.340307, 1.1957779562, -1.097007],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\io\parser\test_read_fwf.py
+LineNumber : 440
+Line       : 2000-01-11T00:00:00  0.157160753327   34  foo"""
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\io\pytables\test_store.py
+LineNumber : 218
+Line       :     assert store.root.a._v_attrs.pandas_version == "0.15.2"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\io\pytables\test_store.py
+LineNumber : 219
+Line       :     assert store.root.b._v_attrs.pandas_version == "0.15.2"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\io\pytables\test_store.py
+LineNumber : 220
+Line       :     assert store.root.df1._v_attrs.pandas_version == "0.15.2"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\plotting\frame\test_frame_groupby.py
+LineNumber : 37
+Line       :                 "a": [-1.43, -0.15, -3.70, -1.43, -0.14],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\plotting\frame\test_frame_groupby.py
+LineNumber : 65
+Line       :                 "a": [-1.43, -0.15, -3.70, -1.43, -0.14],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\plotting\test_hist_method.py
+LineNumber : 472
+Line       :                 "width": [0.7, 0.2, 0.15, 0.2, 1.1],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\reshape\merge\test_multi.py
+LineNumber : 551
+Line       :                 "share": [1.0, 0.4, 0.6, 0.15, 0.6, 0.25, 1.0],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\reshape\merge\test_multi.py
+LineNumber : 579
+Line       :                     "share": [1.00, 0.40, 0.60, 0.15, 0.60, 0.25],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\reshape\merge\test_multi.py
+LineNumber : 673
+Line       :                 "share": [1.0, 0.4, 0.6, 0.15, 0.6, 0.25, 1.0],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\reshape\merge\test_multi.py
+LineNumber : 713
+Line       :                     "share": [0.6, 0.6, 0.6, 0.15, 0.15, 0.15, 0.6, 0.6],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\reshape\merge\test_multi.py
+LineNumber : 775
+Line       :                         0.15,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\reshape\merge\test_multi.py
+LineNumber : 776
+Line       :                         0.15,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\reshape\merge\test_multi.py
+LineNumber : 777
+Line       :                         0.15,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\test_algos.py
+LineNumber : 1218
+Line       :         breaks = [-1.606, -1.018, -0.431, 0.155, 0.741]
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\test_nanops.py
+LineNumber : 964
+Line       :                 [0.09317602, 0.60078248, 0.15871292],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\test_nanops.py
+LineNumber : 980
+Line       :                     [0.28559348, 0.49306186, 0.15246163],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\color.py
+LineNumber : 523
+Line       :             if s < 0.15:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\dotnet.py
+LineNumber : 591
+Line       :             return 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\dotnet.py
+LineNumber : 613
+Line       :             return 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\hdl.py
+LineNumber : 306
+Line       :                 # Probabilistic distribution functions (20.15)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\templates.py
+LineNumber : 195
+Line       :             rv += 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\templates.py
+LineNumber : 197
+Line       :             rv += 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\templates.py
+LineNumber : 199
+Line       :             rv += 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\templates.py
+LineNumber : 280
+Line       :             rv += 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\templates.py
+LineNumber : 282
+Line       :             rv += 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\templates.py
+LineNumber : 2354
+Line       :             rv += 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\best_trade_dynamics.py
+LineNumber : 107
+Line       :         score += cq * 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\channel_line_dynamics.py
+LineNumber : 10
+Line       :     TOLERANCE_RATIO = 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\failed_reversal_magnet_dynamics.py
+LineNumber : 41
+Line       :     TOUCH_TOLERANCE_RATIO = 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\horizontal_swing_dynamics.py
+LineNumber : 11
+Line       :     TOLERANCE_RATIO = 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\other_magnets_dynamics.py
+LineNumber : 54
+Line       :     TOUCH_ATR = 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\profit_taking_target_dynamics.py
+LineNumber : 46
+Line       :     TARGET_ZONE_FRACTION = 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\trend_line_dynamics.py
+LineNumber : 11
+Line       :     TOLERANCE_RATIO = 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_diagnostics_manual_promotion_contract.py
+LineNumber : 15
+Line       :     "CONTEXT": 0.15,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_diagnostics_outcome_analyzer.py
+LineNumber : 29
+Line       :             "by_book_direction": self._group(records, "book_direction"),
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_diagnostics_outcome_analyzer.py
+LineNumber : 68
+Line       :         directional = [o for o in outcomes if str(o.book_direction).upper() in {"BUY", "SELL"}]
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_diagnostics_outcome_analyzer.py
+LineNumber : 75
+Line       :             str(o.book_direction).upper() in {"BUY", "SELL"}
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_diagnostics_outcome_analyzer.py
+LineNumber : 76
+Line       :             and str(o.future_direction).upper() == str(o.book_direction).upper()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_diagnostics_outcome_labeler.py
+LineNumber : 26
+Line       :     book_direction: str = "NONE"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_diagnostics_outcome_labeler.py
+LineNumber : 73
+Line       :                 book_direction=str(sample.book_direction).upper(),
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_diagnostics_outcome_labeler.py
+LineNumber : 77
+Line       :         direction = str(sample.book_direction or "NONE").upper()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_diagnostics_outcome_labeler.py
+LineNumber : 121
+Line       :             book_direction=direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_diagnostics_replay_recorder.py
+LineNumber : 40
+Line       :     book_direction: str = "NONE"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_diagnostics_replay_recorder.py
+LineNumber : 93
+Line       :         book_direction = str(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_diagnostics_replay_recorder.py
+LineNumber : 100
+Line       :             book_direction=book_direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_diagnostics_replay_recorder.py
+LineNumber : 121
+Line       :             book_direction=book_direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_diagnostics_replay_recorder.py
+LineNumber : 223
+Line       :         book_direction: str,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_diagnostics_replay_recorder.py
+LineNumber : 229
+Line       :         if book_direction not in {"BUY", "SELL"}:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_diagnostics_replay_recorder.py
+LineNumber : 231
+Line       :         return "AGREE" if official_direction == book_direction else "CONFLICT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\historical_microstructure_bridge.py
+LineNumber : 37
+Line       :     book_pressure: str
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\historical_microstructure_bridge.py
+LineNumber : 94
+Line       :         book_pressure = self._book_pressure(imbalance)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\historical_microstructure_bridge.py
+LineNumber : 116
+Line       :                 valid=book_pressure != "BALANCED",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\historical_microstructure_bridge.py
+LineNumber : 117
+Line       :                 pressure=book_pressure,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\historical_microstructure_bridge.py
+LineNumber : 146
+Line       :             book_pressure=book_pressure,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\historical_microstructure_bridge.py
+LineNumber : 167
+Line       :     def _book_pressure(cls, imbalance: float) -> str:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\historical_microstructure_bridge.py
+LineNumber : 169
+Line       :             return "BID_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\historical_microstructure_bridge.py
+LineNumber : 171
+Line       :             return "ASK_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 24
+Line       :     book_pressure: str = "UNAVAILABLE"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 25
+Line       :     book_direction: str = "NONE"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 71
+Line       :         book_pressure = str(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 74
+Line       :         book_direction = self._book_direction(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 75
+Line       :             book_pressure,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 92
+Line       :             book_direction=book_direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 100
+Line       :             book_direction=book_direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 113
+Line       :             book_direction=book_direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 129
+Line       :             book_pressure=book_pressure,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 130
+Line       :             book_direction=book_direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 164
+Line       :     def _book_direction(pressure: str, concentration_bias: str) -> str:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 166
+Line       :         if pressure == "BID_DOMINANT":
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 168
+Line       :         elif pressure == "ASK_DOMINANT":
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 170
+Line       :         if concentration_bias == "BID_DOMINANT":
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 172
+Line       :         elif concentration_bias == "ASK_DOMINANT":
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 191
+Line       :         *, pa_bias, flow_direction, book_direction, book_correlated, delta_duplicate
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 208
+Line       :         if book_direction in {"BUY", "SELL"}:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 209
+Line       :             if book_direction == pa_bias:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 220
+Line       :     def _state(*, pa_bias, flow_direction, book_direction, conflict_count):
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 224
+Line       :             opposing = [d for d in (flow_direction, book_direction) if d in {"BUY", "SELL"} and d != 
+             pa_bias]
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 226
+Line       :         if flow_direction == pa_bias or book_direction == pa_bias:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 250
+Line       :         book_direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 268
+Line       :             base += 0.15 * structural_confidence
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 270
+Line       :             base -= 0.15 * max(structural_confidence, 0.5)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 272
+Line       :         if book_direction == pa_bias:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 274
+Line       :         elif book_direction in {"BUY", "SELL"}:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 30
+Line       :     book_pressure: str = "UNAVAILABLE"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 31
+Line       :     book_direction: str = "NONE"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 96
+Line       :             book_pressure=snapshot.book_pressure,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 97
+Line       :             book_direction=snapshot.book_direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_session_report.py
+LineNumber : 61
+Line       :         elif high_rate >= 0.15 or three_rate >= 0.10:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_eligibility_multi_session_comparator.py
+LineNumber : 48
+Line       :     MAX_ELIGIBLE_SPREAD = 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\score_microstructure_eligibility_ab_multi_session.py
+LineNumber : 39
+Line       :     MAX_STRONG_RATE_SPREAD = 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\score_microstructure_eligibility_ab_multi_session.py
+LineNumber : 41
+Line       :     STRONG_RATE = 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\score_microstructure_eligibility_ab_session_report.py
+LineNumber : 30
+Line       :     STRONG_RATE = 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 46
+Line       :         book_direction = self._book_direction(result.pressure, result.concentration_bias)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 48
+Line       :         result.price_action_alignment = self._alignment(book_direction, pa_bias)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 49
+Line       :         result.order_flow_alignment = self._alignment(book_direction, of_pressure)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 51
+Line       :             book_direction in {"BUY", "SELL"}
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 52
+Line       :             and of_pressure == book_direction
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 66
+Line       :         result.add_reason(f"BOOK_PRESSURE_{result.pressure}")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 84
+Line       :             return "BID_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 86
+Line       :             return "ASK_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 90
+Line       :     def _book_direction(pressure, concentration_bias):
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 91
+Line       :         if pressure == "BID_DOMINANT" or concentration_bias == "BID_DOMINANT":
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 93
+Line       :         if pressure == "ASK_DOMINANT" or concentration_bias == "ASK_DOMINANT":
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 98
+Line       :     def _alignment(book_direction, other_direction):
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 99
+Line       :         if book_direction not in {"BUY", "SELL"}:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 103
+Line       :         return "ALIGNED" if book_direction == other_direction else "CONFLICT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\multi_timeframe_analysis.py
+LineNumber : 181
+Line       :             result.confidence = min(result.confidence, 0.15)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\brain\context_engine.py
+LineNumber : 441
+Line       :             "BUY" if pressure == "BID_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\brain\context_engine.py
+LineNumber : 442
+Line       :             else "SELL" if pressure == "ASK_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\book_depth_multisession_comparator.py
+LineNumber : 61
+Line       :         elif valid >= 0.60 and degraded <= 0.15 and availability >= 0.80:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\book_depth_session_report.py
+LineNumber : 43
+Line       :         elif valid >= 0.60 and degraded <= 0.15:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\order_flow_observational_context.py
+LineNumber : 131
+Line       :         value += min(abs(persistence), 1.0) * 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\order_flow_observational_context.py
+LineNumber : 132
+Line       :         value += min(abs(imbalance), 1.0) * 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\order_flow_observational_context.py
+LineNumber : 134
+Line       :             value += 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\order_flow_observational_context.py
+LineNumber : 136
+Line       :             value -= 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_snapshot.py
+LineNumber : 24
+Line       :     book_pressure: str
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_snapshot.py
+LineNumber : 102
+Line       :         book_pressure = "UNAVAILABLE"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_snapshot.py
+LineNumber : 131
+Line       :             book_pressure = cls._pressure(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_snapshot.py
+LineNumber : 133
+Line       :                 "BID_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_snapshot.py
+LineNumber : 134
+Line       :                 "ASK_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_snapshot.py
+LineNumber : 152
+Line       :             book_pressure=book_pressure,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\models\book_depth.py
+LineNumber : 93
+Line       :         if value >= 0.15:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\models\book_depth.py
+LineNumber : 94
+Line       :             return "BID_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\models\book_depth.py
+LineNumber : 95
+Line       :         if value <= -0.15:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\models\book_depth.py
+LineNumber : 96
+Line       :             return "ASK_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\research\price_action\brooks\trading_range_reversal.py
+LineNumber : 91
+Line       :             missing.append("PLAYBOOK_DIRECTION_NOT_ALIGNED")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trading_range_reversal.py
+LineNumber : 94
+Line       : def test_playbook_direction_cannot_conflict():
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trading_range_reversal.py
+LineNumber : 105
+Line       :     assert not r.matched and "PLAYBOOK_DIRECTION_NOT_ALIGNED" in r.reasons
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py
+LineNumber : 8
+Line       : import tools.prospective_microstructure_book_directionality_diagnostics as diag
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py
+LineNumber : 29
+Line       :         "book_direction": book,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py
+LineNumber : 126
+Line       :         "book_direction": "BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py
+LineNumber : 131
+Line       :     assert diag._extract_book_direction(sample) == "BUY"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py
+LineNumber : 149
+Line       :     assert diag._extract_book_direction(sample) == "SELL"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py
+LineNumber : 327
+Line       :         conflict["book_directional_during_conflict"]
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py
+LineNumber : 338
+Line       :             "book_directional_during_conflict_rate"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py
+LineNumber : 374
+Line       :         == "BOOK_DIRECTIONALITY_DIAGNOSTICS_COMPLETED"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py
+LineNumber : 539
+Line       :     assert samples[0]["book_direction"] == "NONE"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py
+LineNumber : 542
+Line       :     assert samples[1]["book_direction"] == "BUY"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py
+LineNumber : 607
+Line       :             "book_directional_during_conflict"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py
+LineNumber : 613
+Line       : def test_canonical_prospective_book_direction_is_not_reconstructed_from_raw():
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py
+LineNumber : 640
+Line       :     assert diag._extract_book_direction(samples[0]) == "NONE"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_ab_multi_session_rc1.py
+LineNumber : 17
+Line       :     correlated_delta=0.15,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_ab_session_report_rc1.py
+LineNumber : 18
+Line       :         pressure="BID_DOMINANT" if delta >= 0 else "ASK_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_analysis_rc1.py
+LineNumber : 35
+Line       : def test_bid_dominant_book_aligns_with_buy():
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_analysis_rc1.py
+LineNumber : 38
+Line       :     assert context.book_depth_analysis.pressure == "BID_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_analysis_rc1.py
+LineNumber : 42
+Line       : def test_ask_dominant_book_aligns_with_sell():
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_analysis_rc1.py
+LineNumber : 45
+Line       :     assert context.book_depth_analysis.pressure == "ASK_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_analysis_rc1.py
+LineNumber : 93
+Line       :     result = BookDepthAnalysisResult(pressure="BID_DOMINANT", imbalance=0.7, confidence=0.8)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_contract_rc1.py
+LineNumber : 40
+Line       : def test_positive_imbalance_means_bid_dominant():
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_contract_rc1.py
+LineNumber : 45
+Line       :     assert snap.liquidity_pressure == "BID_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_contract_rc1.py
+LineNumber : 48
+Line       : def test_negative_imbalance_means_ask_dominant():
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_contract_rc1.py
+LineNumber : 53
+Line       :     assert snap.liquidity_pressure == "ASK_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_service_rc2.py
+LineNumber : 71
+Line       :     assert context.book_liquidity_pressure == "BID_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc10_outcomes.py
+LineNumber : 18
+Line       : def test_buy_book_direction_calculates_mfe_mae_and_1r_target():
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc10_outcomes.py
+LineNumber : 22
+Line       :         book_direction="BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc10_outcomes.py
+LineNumber : 41
+Line       : def test_sell_book_direction_calculates_directional_excursions():
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc10_outcomes.py
+LineNumber : 42
+Line       :     sample = BookDiagnosticsReplaySample(last_price=100.0, book_direction="SELL")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc10_outcomes.py
+LineNumber : 60
+Line       :         book_direction="SELL",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc10_outcomes.py
+LineNumber : 78
+Line       :     sample = BookDiagnosticsReplaySample(last_price=100.0, book_direction="BUY")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc10_outcomes.py
+LineNumber : 97
+Line       :         book_direction="BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc11_outcome_analyzer.py
+LineNumber : 13
+Line       :         book_direction=direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc11_outcome_analyzer.py
+LineNumber : 20
+Line       :         book_direction=direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc11_outcome_analyzer.py
+LineNumber : 63
+Line       :         book_direction="BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc11_outcome_analyzer.py
+LineNumber : 67
+Line       :             book_direction="BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc11_outcome_analyzer.py
+LineNumber : 76
+Line       :             book_direction="BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc13_session.py
+LineNumber : 12
+Line       :         book_direction=direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc13_session.py
+LineNumber : 19
+Line       :         book_direction=direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc14_regime.py
+LineNumber : 7
+Line       :     sample = BookDiagnosticsReplaySample(book_direction="BUY", book_state="CLEAN_DIRECTIONAL_CONTEXT")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc14_regime.py
+LineNumber : 8
+Line       :     outcome = BookDiagnosticsOutcome(book_direction="BUY", mfe_r=1.4, mae_r=0.4, book_first_touch=touch, 
+             future_direction="BUY")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc16_evidence_report.py
+LineNumber : 15
+Line       :         book_direction="BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc16_evidence_report.py
+LineNumber : 22
+Line       :         book_direction="BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc23_probation_runtime_adapter.py
+LineNumber : 75
+Line       :     adapter = BookDiagnosticsProbationRuntimeAdapter(_contract(initial_weight=0.15), _approval())
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc23_probation_runtime_adapter.py
+LineNumber : 81
+Line       :     assert contribution["weight"] == 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc26_controlled_integration_adapter.py
+LineNumber : 12
+Line       :         "approved_weight": 0.15,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc26_controlled_integration_adapter.py
+LineNumber : 59
+Line       :     assert event["weight"] == 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc8_replay.py
+LineNumber : 13
+Line       :     book_direction="BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc8_replay.py
+LineNumber : 32
+Line       :         synthesis_direction=book_direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc8_replay.py
+LineNumber : 56
+Line       :     assert sample.book_direction == "BUY"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc8_replay.py
+LineNumber : 64
+Line       :         _context(official_action="SELL", official_direction="SELL", book_direction="BUY")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc8_replay.py
+LineNumber : 70
+Line       : def test_wait_is_not_comparable_to_book_direction():
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc8_replay.py
+LineNumber : 73
+Line       :         _context(official_action="WAIT", official_direction="NONE", book_direction="BUY")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc8_replay.py
+LineNumber : 83
+Line       :         _context(official_action="SELL", official_direction="SELL", book_direction="BUY")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc8_replay.py
+LineNumber : 86
+Line       :         _context(official_action="WAIT", official_direction="NONE", book_direction="BUY")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc8_replay.py
+LineNumber : 102
+Line       :     recorder.record(_context(book_direction="SELL"))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc9_persistence_analysis.py
+LineNumber : 18
+Line       :     book_direction="BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc9_persistence_analysis.py
+LineNumber : 37
+Line       :         book_direction=book_direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc9_persistence_analysis.py
+LineNumber : 56
+Line       :             book_direction="SELL",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc9_persistence_analysis.py
+LineNumber : 99
+Line       :             book_direction="SELL",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc9_persistence_analysis.py
+LineNumber : 123
+Line       :             book_direction="BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_rc9_persistence_analysis.py
+LineNumber : 143
+Line       :             book_direction="SELL",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_walk_forward.py
+LineNumber : 10
+Line       :         book_direction="BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_diagnostics_walk_forward.py
+LineNumber : 17
+Line       :         book_direction="BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_methodology_observer_rc1.py
+LineNumber : 43
+Line       :         self.assertAlmostEqual(result.opportunity_adjusted_expectancy_r, 0.15)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_brooks_ranges_ch22_tight_trading_ranges.py
+LineNumber : 16
+Line       :     prices = [100.0, 100.2, 100.0, 100.15, 100.0, 100.18, 100.02, 100.16, 100.01, 100.14, 100.03]
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_context_book_depth_evidence_rc158.py
+LineNumber : 12
+Line       : def _book(*, pressure="BID_DOMINANT", confidence=0.8, valid=True, duplicate=False):
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_context_book_depth_evidence_rc158.py
+LineNumber : 16
+Line       :     result.imbalance = 0.4 if pressure == "BID_DOMINANT" else -0.4 if pressure == "ASK_DOMINANT" else 0.0
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_context_book_depth_evidence_rc158.py
+LineNumber : 18
+Line       :     result.concentration_bias = pressure if pressure in {"BID_DOMINANT", "ASK_DOMINANT"} else "BALANCED"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_context_book_depth_evidence_rc158.py
+LineNumber : 35
+Line       : def test_bid_dominant_aligns_with_buy_bias():
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_context_book_depth_evidence_rc158.py
+LineNumber : 46
+Line       : def test_ask_dominant_aligns_with_sell_bias():
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_context_book_depth_evidence_rc158.py
+LineNumber : 50
+Line       :         SimpleNamespace(bias="SELL"), checklist, _book(pressure="ASK_DOMINANT"), narrative
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_context_book_depth_evidence_rc158.py
+LineNumber : 60
+Line       :         SimpleNamespace(bias="BUY"), checklist, _book(pressure="ASK_DOMINANT"), narrative
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_historical_microstructure_bridge_rc1.py
+LineNumber : 43
+Line       :     assert result.book_pressure == "BID_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_historical_microstructure_bridge_rc1.py
+LineNumber : 65
+Line       :     assert result.book_pressure == "ASK_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_historical_microstructure_bridge_rc1.py
+LineNumber : 115
+Line       :     assert result.book_pressure == "BALANCED"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_historical_microstructure_confluence_report_rc1.py
+LineNumber : 11
+Line       :     book="BID_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_historical_microstructure_confluence_report_rc1.py
+LineNumber : 22
+Line       :         book_pressure=book,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_historical_microstructure_confluence_report_rc1.py
+LineNumber : 83
+Line       :             book="ASK_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_historical_microstructure_confluence_report_rc1.py
+LineNumber : 100
+Line       :             book="ASK_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_historical_microstructure_confluence_report_rc1.py
+LineNumber : 142
+Line       :             book="ASK_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_multi_session_rc1.py
+LineNumber : 54
+Line       :     reports = [_report(conflict=0.25), _report(conflict=0.20), _report(conflict=0.15)]
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_multi_session_rc1.py
+LineNumber : 77
+Line       :     assert result.weighted_three_source_rate == 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_rc2.py
+LineNumber : 14
+Line       :     book_pressure="BID_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_rc2.py
+LineNumber : 15
+Line       :     concentration_bias="BID_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_rc2.py
+LineNumber : 30
+Line       :             pressure=book_pressure,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_rc2.py
+LineNumber : 61
+Line       :         _context(book_pressure="ASK_DOMINANT", concentration_bias="ASK_DOMINANT")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_rc2.py
+LineNumber : 110
+Line       :     assert data["book_direction"] == "BUY"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_replay_rc2.py
+LineNumber : 18
+Line       :         book_direction="BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_replay_rc2.py
+LineNumber : 107
+Line       :         "book_pressure",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_replay_rc2.py
+LineNumber : 118
+Line       :     assert restored.book_pressure == "UNAVAILABLE"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_replay_rc3.py
+LineNumber : 8
+Line       : def _context(pa="BUY", flow="BUY", book="BID_DOMINANT", correlated=False, book_available=True):
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_replay_rc3.py
+LineNumber : 44
+Line       :     assert sample.book_pressure == "BID_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_replay_rc3.py
+LineNumber : 72
+Line       :     sample = recorder.record(_context(pa="BUY", flow="BUY", book="ASK_DOMINANT"))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_replay_rc3.py
+LineNumber : 105
+Line       :     recorder.record(_context(pa="SELL", flow="SELL", book="ASK_DOMINANT"))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_session_report_rc1.py
+LineNumber : 21
+Line       :         book_direction="BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_eligibility_multi_session_rc1.py
+LineNumber : 87
+Line       :         _report(conflict=0.15, state="PROMISING_ELIGIBILITY_SIGNAL"),
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_eligibility_multi_session_rc1.py
+LineNumber : 97
+Line       :         _report(strong=0.15, promising=0.15),
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_eligibility_multi_session_rc1.py
+LineNumber : 112
+Line       :     assert result.weighted_strong_candidate_rate == 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_eligibility_replay_rc1.py
+LineNumber : 8
+Line       : def _context(pa="BUY", flow="BUY", book="BID_DOMINANT", correlated=False, book_available=True, 
+             book_conf=0.9):
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_eligibility_replay_rc1.py
+LineNumber : 44
+Line       :     sample = recorder.record(_context(pa="BUY", flow="SELL", book="BID_DOMINANT"))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_eligibility_replay_rc1.py
+LineNumber : 60
+Line       :     recorder.record(_context(pa="BUY", flow="SELL", book="ASK_DOMINANT"))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_eligibility_replay_rc1.py
+LineNumber : 85
+Line       :     recorder.record(_context(pa="BUY", flow="SELL", book="ASK_DOMINANT"))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_multi_timeframe_rc3_4_regime_bridge.py
+LineNumber : 42
+Line       :     assert result.confidence <= 0.15
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_microstructure_prospective_session.py
+LineNumber : 22
+Line       :             pressure="BID_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_microstructure_prospective_session.py
+LineNumber : 23
+Line       :             concentration_bias="BID_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_microstructure_prospective_session.py
+LineNumber : 69
+Line       :     assert evidence["samples"][0]["book_pressure"] == "BID_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_order_flow_historical_shadow_reprocessor.py
+LineNumber : 149
+Line       :                 imbalance=-0.15,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc3.py
+LineNumber : 131
+Line       :     assert snapshot.book_pressure == "BID_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc3.py
+LineNumber : 139
+Line       :     assert snapshot.book_pressure == "UNAVAILABLE"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc38.py
+LineNumber : 25
+Line       :     assert bearish.liquidity_pressure == "ASK_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc39.py
+LineNumber : 16
+Line       : def test_rc39_reconciles_bid_dominant_matrix():
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc39.py
+LineNumber : 25
+Line       : def test_rc39_reconciles_ask_dominant_matrix_and_preserves_negative_sign():
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc39.py
+LineNumber : 35
+Line       :     test_rc39_reconciles_bid_dominant_matrix()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc39.py
+LineNumber : 36
+Line       :     test_rc39_reconciles_ask_dominant_matrix_and_preserves_negative_sign()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc42.py
+LineNumber : 1
+Line       : from tools.profit_rtd_book_directional_calibration_candidate import _percentile
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc43.py
+LineNumber : 1
+Line       : from tools.profit_rtd_book_directional_replay_shadow import _runs, _percentile
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_book_directionality_diagnostics_rc1.py
+LineNumber : 8
+Line       : import tools.prospective_microstructure_book_directionality_diagnostics as diag
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_book_directionality_diagnostics_rc1.py
+LineNumber : 29
+Line       :         "book_direction": book,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_book_directionality_diagnostics_rc1.py
+LineNumber : 126
+Line       :         "book_direction": "BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_book_directionality_diagnostics_rc1.py
+LineNumber : 131
+Line       :     assert diag._extract_book_direction(sample) == "BUY"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_book_directionality_diagnostics_rc1.py
+LineNumber : 149
+Line       :     assert diag._extract_book_direction(sample) == "SELL"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_book_directionality_diagnostics_rc1.py
+LineNumber : 327
+Line       :         conflict["book_directional_during_conflict"]
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_book_directionality_diagnostics_rc1.py
+LineNumber : 338
+Line       :             "book_directional_during_conflict_rate"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_book_directionality_diagnostics_rc1.py
+LineNumber : 374
+Line       :         == "BOOK_DIRECTIONALITY_DIAGNOSTICS_COMPLETED"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_book_directionality_diagnostics_rc1.py
+LineNumber : 539
+Line       :     assert samples[0]["book_direction"] == "NONE"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_book_directionality_diagnostics_rc1.py
+LineNumber : 542
+Line       :     assert samples[1]["book_direction"] == "BUY"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_book_directionality_diagnostics_rc1.py
+LineNumber : 607
+Line       :             "book_directional_during_conflict"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_book_directionality_diagnostics_rc1.py
+LineNumber : 613
+Line       : def test_canonical_prospective_book_direction_is_not_reconstructed_from_raw():
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_book_directionality_diagnostics_rc1.py
+LineNumber : 640
+Line       :     assert diag._extract_book_direction(samples[0]) == "NONE"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_conflict_episode_report_rc1.py
+LineNumber : 30
+Line       :         "book_direction": book,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_conflict_episode_report_rc1.py
+LineNumber : 129
+Line       :     assert episode["predominant_book_direction"] == "UNAVAILABLE"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_conflict_episode_report_rc1.py
+LineNumber : 131
+Line       :     assert episode["book_direction_counts"] == {"UNAVAILABLE": 2}
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_conflict_price_followthrough_rc1.py
+LineNumber : 48
+Line       :         "book_direction": book,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_conflict_price_followthrough_rc1.py
+LineNumber : 71
+Line       :         "predominant_book_direction": book,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_conflict_price_followthrough_rc1.py
+LineNumber : 238
+Line       :         book_direction="SELL",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_conflict_price_followthrough_rc1.py
+LineNumber : 250
+Line       :         book_direction="SELL",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_conflict_price_followthrough_rc1.py
+LineNumber : 262
+Line       :         book_direction="SELL",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_conflict_price_followthrough_rc1.py
+LineNumber : 272
+Line       :         book_direction="BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_conflict_price_followthrough_rc1.py
+LineNumber : 282
+Line       :         book_direction="NONE",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_conflict_session_stability_rc3.py
+LineNumber : 64
+Line       :         "predominant_book_direction": book,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_conflict_stratification_rc2.py
+LineNumber : 60
+Line       :         "predominant_book_direction": book,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_independent_evidence_comparison_rc1.py
+LineNumber : 101
+Line       :                     "book_directional": book,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_independent_evidence_comparison_rc1.py
+LineNumber : 174
+Line       :                 "predominant_book_direction": book,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_multi_session_audit_rc1.py
+LineNumber : 148
+Line       :                   "book_direction", "state", "conflict_count"), row))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_multi_session_audit_rc1.py
+LineNumber : 155
+Line       :         "book_available": 4, "book_directional": 3,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstructure_multi_session_audit_rc1.py
+LineNumber : 175
+Line       :         "book_available": True, "book_direction": "SELL",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_book_depth_ab_persistence_rc3.py
+LineNumber : 24
+Line       :         pressure="BID_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_book_depth_ab_persistence_rc3.py
+LineNumber : 53
+Line       :     assert "BID_DOMINANT" in text
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_book_depth_ab_persistence_rc3.py
+LineNumber : 107
+Line       :     recorder.add_sample(_sample(status="CONFLICT", pressure="ASK_DOMINANT", bias="SELL", confidence=0.5, 
+             confidence_bucket="MEDIUM", duplicate_evidence_risk=True, correlation_bucket="CORRELATED", 
+             correlation_factor=0.35, effective_strength=0.175, adjustment=-0.175, adjusted_total=79.825, 
+             delta=-0.175))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_book_depth_ab_rc1.py
+LineNumber : 16
+Line       :     pressure="BID_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_book_depth_ab_rc1.py
+LineNumber : 45
+Line       :         _context(status="CONFLICT", pressure="ASK_DOMINANT")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_book_depth_ab_scenarios_rc2.py
+LineNumber : 6
+Line       : def _context(*, total=75.0, grade="B", valid=True, bias="BUY", status="ALIGNED", 
+             pressure="BID_DOMINANT", confidence=0.8, duplicate=False, strategy_valid=True):
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_book_depth_ab_scenarios_rc2.py
+LineNumber : 22
+Line       :     recorder.record(_context(status="CONFLICT", pressure="ASK_DOMINANT"))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_book_depth_ab_scenarios_rc2.py
+LineNumber : 30
+Line       :     recorder.record(_context(pressure="BID_DOMINANT"))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_book_depth_ab_scenarios_rc2.py
+LineNumber : 31
+Line       :     recorder.record(_context(status="CONFLICT", pressure="ASK_DOMINANT"))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_book_depth_ab_scenarios_rc2.py
+LineNumber : 33
+Line       :     assert grouped["BID_DOMINANT"]["positive_adjustments"] == 1
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_book_depth_ab_scenarios_rc2.py
+LineNumber : 34
+Line       :     assert grouped["ASK_DOMINANT"]["negative_adjustments"] == 1
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_book_depth_ab_scenarios_rc2.py
+LineNumber : 40
+Line       :     recorder.record(_context(bias="SELL", pressure="ASK_DOMINANT"))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_book_depth_ab_scenarios_rc2.py
+LineNumber : 71
+Line       :     recorder.record(_context(bias="BUY", status="ALIGNED", pressure="BID_DOMINANT", confidence=0.85, 
+             duplicate=False))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_book_depth_ab_scenarios_rc2.py
+LineNumber : 72
+Line       :     recorder.record(_context(bias="BUY", status="ALIGNED", pressure="BID_DOMINANT", confidence=0.85, 
+             duplicate=True))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_book_depth_ab_scenarios_rc2.py
+LineNumber : 73
+Line       :     recorder.record(_context(bias="SELL", status="CONFLICT", pressure="BID_DOMINANT", confidence=0.85, 
+             duplicate=False))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_book_depth_ab_scenarios_rc2.py
+LineNumber : 76
+Line       :         pressure="bid_dominant",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_microstructure_eligibility_ab_rc13.py
+LineNumber : 28
+Line       :     book.pressure = "BID_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_microstructure_eligibility_ab_rc13.py
+LineNumber : 29
+Line       :     book.concentration_bias = "BID_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_microstructure_eligibility_ab_rc13.py
+LineNumber : 76
+Line       :     context.book_depth_analysis.pressure = "BID_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_microstructure_eligibility_ab_rc13.py
+LineNumber : 77
+Line       :     context.book_depth_analysis.concentration_bias = "BID_DOMINANT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\historical_microstructure_confluence_report.py
+LineNumber : 59
+Line       :     book_pressure: dict
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\historical_microstructure_confluence_report.py
+LineNumber : 80
+Line       :         if value in {"BUY", "BID_DOMINANT"}:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\historical_microstructure_confluence_report.py
+LineNumber : 83
+Line       :         if value in {"SELL", "ASK_DOMINANT"}:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\historical_microstructure_confluence_report.py
+LineNumber : 115
+Line       :         book_pressure = Counter()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\historical_microstructure_confluence_report.py
+LineNumber : 130
+Line       :                 getattr(result, "book_pressure", "NONE")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\historical_microstructure_confluence_report.py
+LineNumber : 137
+Line       :             book_pressure[
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\historical_microstructure_confluence_report.py
+LineNumber : 138
+Line       :                 str(getattr(result, "book_pressure", "NONE"))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\historical_microstructure_confluence_report.py
+LineNumber : 253
+Line       :             book_pressure=dict(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\historical_microstructure_confluence_report.py
+LineNumber : 254
+Line       :                 book_pressure
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_directional_calibration_candidate.py
+LineNumber : 103
+Line       :     print("PROFIT_RTD_BOOK_DIRECTIONAL_CALIBRATION_CANDIDATE=COMPLETED")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_directional_replay_shadow.py
+LineNumber : 107
+Line       :     print('PROFIT_RTD_BOOK_DIRECTIONAL_REPLAY_SHADOW=COMPLETED')
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 88
+Line       :     book_direction, state e conflict_count.
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 245
+Line       : def _extract_book_direction(sample: dict[str, Any]) -> str:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 249
+Line       :             "book_direction",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 251
+Line       :             "order_book_direction",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 410
+Line       :     conflict_book_directional = 0
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 438
+Line       :         book = _extract_book_direction(sample)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 507
+Line       :                 conflict_book_directional += 1
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 529
+Line       :     book_directional = book_buy + book_sell
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 539
+Line       :             "directional": book_directional,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 544
+Line       :                 book_directional,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 576
+Line       :             "book_directional_during_conflict": (
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 577
+Line       :                 conflict_book_directional
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 582
+Line       :             "book_directional_during_conflict_rate": _pct(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 583
+Line       :                 conflict_book_directional,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 642
+Line       :         "session11_book_directional_rate": (
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 645
+Line       :         "session12_book_directional_rate": (
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 648
+Line       :         "session11_book_directional_during_conflict": (
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 650
+Line       :                 "book_directional_during_conflict"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 653
+Line       :         "session12_book_directional_during_conflict": (
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 655
+Line       :                 "book_directional_during_conflict"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 670
+Line       :         "status": "BOOK_DIRECTIONALITY_DIAGNOSTICS_COMPLETED",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_episode_report.py
+LineNumber : 108
+Line       :             "book_direction",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_episode_report.py
+LineNumber : 122
+Line       :     book_counts = _direction_counts(episode_samples, "book_direction")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_episode_report.py
+LineNumber : 137
+Line       :         "book_direction_counts": book_counts,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_episode_report.py
+LineNumber : 144
+Line       :         "predominant_book_direction": _predominant(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_episode_report.py
+LineNumber : 145
+Line       :             [sample["book_direction"] for sample in episode_samples]
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 120
+Line       :     book_direction: str | None,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 124
+Line       :     book_signed = _signed_displacement(book_direction, raw_displacement)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 128
+Line       :     elif pa_direction in ("BUY", "SELL") and book_direction in ("BUY", "SELL"):
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 129
+Line       :         if pa_direction == book_direction:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 171
+Line       :     book_direction = episode["predominant_book_direction"]
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 185
+Line       :         "predominant_book_direction": book_direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 216
+Line       :                 book_direction=book_direction,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_session_stability.py
+LineNumber : 203
+Line       :                 episode.get("predominant_book_direction"),
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_session_stability.py
+LineNumber : 204
+Line       :                 "predominant_book_direction",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_session_stability.py
+LineNumber : 237
+Line       :                         "book_direction": book,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_stratification.py
+LineNumber : 230
+Line       :             book = episode.get("predominant_book_direction")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_stratification.py
+LineNumber : 254
+Line       :                         "book_direction": book,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_coverage_report.py
+LineNumber : 25
+Line       :         "book_directional": 0,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_coverage_report.py
+LineNumber : 37
+Line       :                 "book_direction", "state", "conflict_count",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_coverage_report.py
+LineNumber : 47
+Line       :         counts["book_directional"] += sample["book_direction"] in _DIRECTIONS
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_independent_evidence_comparison.py
+LineNumber : 138
+Line       :         "book_directional",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_independent_evidence_comparison.py
+LineNumber : 249
+Line       :             "predominant_book_direction"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_independent_evidence_comparison.py
+LineNumber : 344
+Line       :         "book_directional_rate": rate(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_independent_evidence_comparison.py
+LineNumber : 345
+Line       :             summary["book_directional"],
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_independent_evidence_comparison.py
+LineNumber : 389
+Line       :         "book_directional": coverage[
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_independent_evidence_comparison.py
+LineNumber : 390
+Line       :             "book_directional"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\historical_microstructure_confluence_report_LOCAL_BACKUP.py
+LineNumber : 59
+Line       :     book_pressure: dict
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\historical_microstructure_confluence_report_LOCAL_BACKUP.py
+LineNumber : 78
+Line       :         if value in {"BUY", "BID_DOMINANT"}:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\historical_microstructure_confluence_report_LOCAL_BACKUP.py
+LineNumber : 81
+Line       :         if value in {"SELL", "ASK_DOMINANT"}:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\historical_microstructure_confluence_report_LOCAL_BACKUP.py
+LineNumber : 113
+Line       :         book_pressure = Counter()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\historical_microstructure_confluence_report_LOCAL_BACKUP.py
+LineNumber : 128
+Line       :                 getattr(result, "book_pressure", "NONE")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\historical_microstructure_confluence_report_LOCAL_BACKUP.py
+LineNumber : 135
+Line       :             book_pressure[
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\historical_microstructure_confluence_report_LOCAL_BACKUP.py
+LineNumber : 136
+Line       :                 str(getattr(result, "book_pressure", "NONE"))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\historical_microstructure_confluence_report_LOCAL_BACKUP.py
+LineNumber : 251
+Line       :             book_pressure=dict(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\historical_microstructure_confluence_report_LOCAL_BACKUP.py
+LineNumber : 252
+Line       :                 book_pressure
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\inspect_prospective_book_exact_rc1.py
+LineNumber : 28
+Line       :         str(s.get("book_direction", "MISSING")).upper()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\inspect_prospective_book_exact_rc1.py
+LineNumber : 48
+Line       :     print("BOOK_DIRECTION_COUNTS =", dict(book))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\inspect_prospective_book_exact_rc1.py
+LineNumber : 49
+Line       :     print("BOOK_DIRECTIONAL =", book["BUY"] + book["SELL"])
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\inspect_prospective_book_exact_rc1.py
+LineNumber : 69
+Line       :         str(s.get("book_direction", "MISSING")).upper()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\inspect_prospective_book_exact_rc1.py
+LineNumber : 73
+Line       :     print("CONFLICT_BOOK_DIRECTION_COUNTS =", dict(conflict_book))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\inspect_prospective_book_exact_rc1.py
+LineNumber : 75
+Line       :         "CONFLICT_BOOK_DIRECTIONAL =",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\inspect_prospective_book_exact_rc1.py
+LineNumber : 84
+Line       :         direction = str(s.get("book_direction", "")).upper()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\inspect_prospective_book_exact_rc1.py
+LineNumber : 97
+Line       :             "book_pressure=", s.get("book_pressure"),
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\probe_book_directional.py
+LineNumber : 22
+Line       :         if str(s.get("book_direction", "")).upper() in {"BUY", "SELL"}
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\probe_book_directional.py
+LineNumber : 28
+Line       :     print("book_directional =", len(directional))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\probe_book_directional.py
+LineNumber : 31
+Line       :         "book_direction =",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\probe_book_directional.py
+LineNumber : 32
+Line       :         Counter(str(s.get("book_direction")) for s in samples),
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\probe_book_imbalance_boundary.py
+LineNumber : 33
+Line       :         direction = str(c.get("book_direction", "NONE")).upper()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\probe_book_imbalance_boundary.py
+LineNumber : 43
+Line       :         print("BOOK_DIRECTION =", direction)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\probe_book_imbalance_boundary.py
+LineNumber : 68
+Line       :                         c.get("book_direction"),
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\probe_book_imbalance_boundary.py
+LineNumber : 69
+Line       :                         c.get("book_pressure"),
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\probe_book_transitions.py
+LineNumber : 14
+Line       :     current = str(s.get("book_direction", "NONE")).upper()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\probe_book_transitions.py
+LineNumber : 28
+Line       :                 "book=", x.get("book_direction"),
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\probe_book_transitions.py
+LineNumber : 29
+Line       :                 "pressure=", x.get("book_pressure"),
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 88
+Line       :     book_direction, state e conflict_count.
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 200
+Line       : def _extract_book_direction(sample: dict[str, Any]) -> str:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 204
+Line       :             "book_direction",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 206
+Line       :             "order_book_direction",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 365
+Line       :     conflict_book_directional = 0
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 393
+Line       :         book = _extract_book_direction(sample)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 462
+Line       :                 conflict_book_directional += 1
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 484
+Line       :     book_directional = book_buy + book_sell
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 494
+Line       :             "directional": book_directional,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 499
+Line       :                 book_directional,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 531
+Line       :             "book_directional_during_conflict": (
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 532
+Line       :                 conflict_book_directional
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 537
+Line       :             "book_directional_during_conflict_rate": _pct(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 538
+Line       :                 conflict_book_directional,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 597
+Line       :         "session11_book_directional_rate": (
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 600
+Line       :         "session12_book_directional_rate": (
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 603
+Line       :         "session11_book_directional_during_conflict": (
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 605
+Line       :                 "book_directional_during_conflict"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 608
+Line       :         "session12_book_directional_during_conflict": (
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 610
+Line       :                 "book_directional_during_conflict"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+LineNumber : 625
+Line       :         "status": "BOOK_DIRECTIONALITY_DIAGNOSTICS_COMPLETED",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_historical_microstructure_confluence_report_rc1_LOCAL_BACKUP.py
+LineNumber : 11
+Line       :     book="BID_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_historical_microstructure_confluence_report_rc1_LOCAL_BACKUP.py
+LineNumber : 22
+Line       :         book_pressure=book,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_historical_microstructure_confluence_report_rc1_LOCAL_BACKUP.py
+LineNumber : 83
+Line       :             book="ASK_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_historical_microstructure_confluence_report_rc1_LOCAL_BACKUP.py
+LineNumber : 100
+Line       :             book="ASK_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_historical_microstructure_confluence_report_rc1_LOCAL_BACKUP.py
+LineNumber : 142
+Line       :             book="ASK_DOMINANT",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_book_directionality_diagnostics_rc1_current.p
+             y
+LineNumber : 8
+Line       : import tools.prospective_microstructure_book_directionality_diagnostics as diag
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_book_directionality_diagnostics_rc1_current.p
+             y
+LineNumber : 29
+Line       :         "book_direction": book,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_book_directionality_diagnostics_rc1_current.p
+             y
+LineNumber : 126
+Line       :         "book_direction": "BUY",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_book_directionality_diagnostics_rc1_current.p
+             y
+LineNumber : 131
+Line       :     assert diag._extract_book_direction(sample) == "BUY"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_book_directionality_diagnostics_rc1_current.p
+             y
+LineNumber : 149
+Line       :     assert diag._extract_book_direction(sample) == "SELL"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_book_directionality_diagnostics_rc1_current.p
+             y
+LineNumber : 327
+Line       :         conflict["book_directional_during_conflict"]
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_book_directionality_diagnostics_rc1_current.p
+             y
+LineNumber : 338
+Line       :             "book_directional_during_conflict_rate"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_book_directionality_diagnostics_rc1_current.p
+             y
+LineNumber : 374
+Line       :         == "BOOK_DIRECTIONALITY_DIAGNOSTICS_COMPLETED"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_book_directionality_diagnostics_rc1_current.p
+             y
+LineNumber : 537
+Line       :     assert samples[0]["book_direction"] == "NONE"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_book_directionality_diagnostics_rc1_current.p
+             y
+LineNumber : 540
+Line       :     assert samples[1]["book_direction"] == "BUY"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_book_directionality_diagnostics_rc1_current.p
+             y
+LineNumber : 603
+Line       :             "book_directional_during_conflict"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_book_directionality_diagnostics_rc1_current.p
+             y
+LineNumber : 609
+Line       : def test_canonical_prospective_book_direction_is_not_reconstructed_from_raw():
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_book_directionality_diagnostics_rc1_current.p
+             y
+LineNumber : 633
+Line       :     assert diag._extract_book_direction(samples[0]) == "NONE"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\verify_book_bridge_parity_rc1.py
+LineNumber : 106
+Line       :     print("book_directional =", buy + sell)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\verify_book_direction_parity_rc1.py
+LineNumber : 52
+Line       :     print("book_directional =", buy + sell)
+
+
+

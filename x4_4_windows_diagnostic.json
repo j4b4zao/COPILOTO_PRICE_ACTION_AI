@@ -1,0 +1,27 @@
+{
+  "phase": "X4.4_WINDOWS_READONLY_PREFLIGHT",
+  "mode": "METADATA_ONLY",
+  "python_version": "3.13.5",
+  "python_executable": "C:\\COPILOTO_PRICE_ACTION_AI\\ambiente\\Scripts\\python.exe",
+  "project_root": "C:\\COPILOTO_PRICE_ACTION_AI",
+  "workbook": "C:\\COPILOTO_PRICE_ACTION_AI\\Profit.xlsx",
+  "checks": {
+    "windows": true,
+    "project_root_exists": true,
+    "workbook_exists": true,
+    "excel_connector_exists": true,
+    "collector_exists": true,
+    "supervisor_exists": false
+  },
+  "safety": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false
+  },
+  "excel_com_accessed": false,
+  "rtd_accessed": false,
+  "orders_sent": false,
+  "windows_metadata_ready": false,
+  "live_rtd_certified": false,
+  "next_gate": "HUMAN_REVIEW_BEFORE_EXCEL_ACCESS"
+}

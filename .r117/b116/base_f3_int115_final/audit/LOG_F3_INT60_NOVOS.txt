@@ -1,0 +1,27 @@
+test_archive_bound (test_f3_int60_package_integrity.PackageTests.test_archive_bound) ... ok
+test_bad_manifest_digest (test_f3_int60_package_integrity.PackageTests.test_bad_manifest_digest) ... ok
+test_certification (test_f3_int60_package_integrity.PackageTests.test_certification) ... ok
+test_checkpoint_wrong_json_type (test_f3_int60_package_integrity.PackageTests.test_checkpoint_wrong_json_type) ... ok
+test_closed_f3 (test_f3_int60_package_integrity.PackageTests.test_closed_f3) ... ok
+test_duplicate_archive_name (test_f3_int60_package_integrity.PackageTests.test_duplicate_archive_name) ... ok
+test_duplicate_manifest_record (test_f3_int60_package_integrity.PackageTests.test_duplicate_manifest_record) ... ok
+test_external_digest_mismatch (test_f3_int60_package_integrity.PackageTests.test_external_digest_mismatch) ... ok
+test_failed_tests (test_f3_int60_package_integrity.PackageTests.test_failed_tests) ... ok
+test_integer_false_not_allowed (test_f3_int60_package_integrity.PackageTests.test_integer_false_not_allowed) ... ok
+test_invalid_bounds_and_zip (test_f3_int60_package_integrity.PackageTests.test_invalid_bounds_and_zip) ... ok
+test_invalid_expected_digest (test_f3_int60_package_integrity.PackageTests.test_invalid_expected_digest) ... ok
+test_latest_checkpoint_mismatch (test_f3_int60_package_integrity.PackageTests.test_latest_checkpoint_mismatch) ... ok
+test_log_tampering (test_f3_int60_package_integrity.PackageTests.test_log_tampering) ... ok
+test_missing_flag (test_f3_int60_package_integrity.PackageTests.test_missing_flag) ... ok
+test_missing_log (test_f3_int60_package_integrity.PackageTests.test_missing_log) ... ok
+test_promoted_flag (test_f3_int60_package_integrity.PackageTests.test_promoted_flag) ... ok
+test_truncated_manifest (test_f3_int60_package_integrity.PackageTests.test_truncated_manifest) ... ok
+test_unlisted_file (test_f3_int60_package_integrity.PackageTests.test_unlisted_file) ... ok
+test_unsafe_paths (test_f3_int60_package_integrity.PackageTests.test_unsafe_paths) ... ok
+test_valid (test_f3_int60_package_integrity.PackageTests.test_valid) ... ok
+test_zero_tests (test_f3_int60_package_integrity.PackageTests.test_zero_tests) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.081s
+
+OK

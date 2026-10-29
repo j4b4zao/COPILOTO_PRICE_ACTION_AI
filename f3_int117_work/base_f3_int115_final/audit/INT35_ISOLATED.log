@@ -1,0 +1,11 @@
+test_anchor_missing_in_short_copy_blocks_reconciliation (tests.test_f3_int35_reconciliation.ReconciliationAdversarial.test_anchor_missing_in_short_copy_blocks_reconciliation) ... ok
+test_corrupted_copy_fails_closed (tests.test_f3_int35_reconciliation.ReconciliationAdversarial.test_corrupted_copy_fails_closed) ... ok
+test_even_matching_anchor_does_not_promote_snapshot (tests.test_f3_int35_reconciliation.ReconciliationAdversarial.test_even_matching_anchor_does_not_promote_snapshot) ... ok
+test_identical_snapshots_not_authoritative (tests.test_f3_int35_reconciliation.ReconciliationAdversarial.test_identical_snapshots_not_authoritative) ... ok
+test_prefix_snapshot_cannot_prove_rollback_or_commit (tests.test_f3_int35_reconciliation.ReconciliationAdversarial.test_prefix_snapshot_cannot_prove_rollback_or_commit) ... ok
+test_valid_divergent_histories_are_rejected (tests.test_f3_int35_reconciliation.ReconciliationAdversarial.test_valid_divergent_histories_are_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK

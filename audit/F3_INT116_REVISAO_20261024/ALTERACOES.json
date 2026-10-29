@@ -1,0 +1,20 @@
+{
+  "added": [
+    "audit/ESPECIFICOS_F3_INT116.log",
+    "audit/EVIDENCIAS_F3_INT116/ANTES.json",
+    "audit/EVIDENCIAS_F3_INT116/ESPECIFICOS.log",
+    "audit/EVIDENCIAS_F3_INT116/ESPECIFICOS.log.execution.json",
+    "audit/EVIDENCIAS_F3_INT116/REGRESSAO_COMPLETA.log",
+    "audit/EVIDENCIAS_F3_INT116/REGRESSAO_COMPLETA.log.execution.json",
+    "audit/EVIDENCIAS_F3_INT116/RESULTADO.json",
+    "audit/MANIFESTO_F3_INT116_CANDIDATA.json",
+    "audit/MANIFESTO_F3_INT116_CANDIDATA.json.sha256",
+    "audit/RELATORIO_F3_INT116_CANDIDATA.md",
+    "audit/RUNNER_F3_INT116.log",
+    "audit/tests/test_f3_int116_commit_recovery.py",
+    "audit/tools/f3_int116_commit_recovery.py",
+    "audit/tools/f3_int116_run_audit.py"
+  ],
+  "modified": [],
+  "removed": []
+}

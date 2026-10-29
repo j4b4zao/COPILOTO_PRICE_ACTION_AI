@@ -1,0 +1,207 @@
+SESSION #18 SYMBOL MISMATCH DIAGNOSIS RC1
+Data: 2026-10-01
+STATUS = FAIL_CLOSED_CURRENT_SYMBOL_UNAVAILABLE
+Branch = brooks-stop-target-exact-audit-20260912
+HEAD inicial = a741be9c905009906c93130af648983377f8a3a3
+HEAD final = a741be9c905009906c93130af648983377f8a3a3
+Verificacao final: hashes dos cinco arquivos protegidos iguais aos iniciais.
+Unica entrada nova no git status: ?? saida_session18_symbol_mismatch_diagnosis_rc1.txt.
+Nenhuma entrada anterior removida.
+Escopo: diagnostico somente. Nenhuma coleta executada.
+
+IDENTIDADE SOLICITADA E LIMITACAO
+REQUESTED_SYMBOL = WINV26
+WORKBOOK_SYMBOL = INDETERMINADO_EM_TEMPO_REAL
+SYMBOL_MATCH = INDETERMINADO_EM_TEMPO_REAL
+
+Nao seria correto preencher true/false para a comparacao ATUAL sem acesso ao
+valor vivo. O valor realmente encontrado no arquivo salvo e explicitado abaixo:
+SAVED_PROFIT_WORKBOOK_SYMBOL = WINV26
+SAVED_TIMES_TRADES_WORKBOOK_SYMBOL = WINV26
+SAVED_BOOK_WORKBOOK_SYMBOL = WINV26
+SAVED_REQUESTED_SYMBOL_MATCH = true
+Esses valores salvos NAO comprovam correspondencia atual nem no momento da
+tentativa. O erro registrado prova uma divergencia na comparacao executada,
+mas sua mensagem nao inclui os dois valores.
+
+CAUSA CONFIRMADA E ORIGEM DA MENSAGEM
+market_data/profit_rtd_workbook_reader.py:64-71, metodo _symbol:
+  workbook_symbol = cls._text(matrix[0][0]).upper()
+  requested = cls._text(requested_symbol).upper()
+  if not workbook_symbol:
+      raise ValueError("Ativo RTD indisponivel.")
+  if requested and workbook_symbol != requested:
+      raise ValueError("Ativo solicitado difere do workbook RTD.")
+
+Ponto exato da comparacao: linha 69.
+Ponto exato do raise solicitado: linha 70.
+matrix[0][0] corresponde a Planilha1!A1 do workbook T&T ou Book.
+Intervalo lido: Planilha1!A1:H52, via ExcelRangeGateway.read_range.
+Normalizacao em ambos os lados: str(value or "").strip().upper().
+Nao ha conversao entre vencimentos, alias, remocao de sufixos, equivalencia
+WINV26/WINZ26 ou rolagem automatica nessa comparacao.
+
+A mensagem aparece em uma unica implementacao, compartilhada por:
+- ProfitRTDTimesTradesReader.read_times_trades;
+- ProfitRTDBookDepthReader.read_book_depth.
+
+ORIGEM EFETIVA NO WARMUP DESTE RUNNER
+O log mostra o erro imediatamente apos VOLUME DEBUG em todos os ciclos,
+antes de registros de validacao RTD/candles ou sucesso do pipeline.
+A cadeia estatica inspecionada e:
+1. warm_history chama collector.get_data().
+2. connectors/profit_reader.py: obter_dados retorna
+   "ativo": self._read("A", linha), com linha=2 e SHEET="Planilha1".
+   Portanto a origem do ativo da cotacao e Profit.xlsx!Planilha1!A2.
+   A1 e apenas o cabecalho "Asset".
+3. market_data/collector.py:126:
+   ativo = str(dados.get("ativo") or "").strip()
+4. market_data/collector.py:141-144:
+   profit_rtd_order_flow_pipeline.process(ativo, price=close).
+5. market_data/profit_rtd_order_flow_pipeline.py:50-51:
+   self.reader.read_times_trades(symbol), sem capturar a excecao.
+6. ProfitRTDTimesTradesReader valida o layout e chama _symbol(matrix, symbol).
+7. Compara times&trades.xlsx!Planilha1!A1 com Profit.xlsx!Planilha1!A2,
+   ambos normalizados.
+8. ValueError sobe ate o except Exception do warm_history, que registra o
+   erro e avanca para o proximo ciclo.
+
+Nesse caminho, requested_symbol significa o ativo oriundo de Profit.xlsx;
+NAO significa diretamente o argumento da linha de comando.
+O valor esperado pela comparacao era igualdade com o A2 vivo de Profit.xlsx.
+O valor nominal salvo de A2 e WINV26, mas seu valor durante a tentativa nao
+pode ser certificado pelo arquivo salvo de ontem.
+
+A base recebe/normaliza o argumento WINV26, mas warm_history usa _build_sources()
+sem passar esse argumento ao Collector. O Collector deriva ativo da cotacao.
+Trocar apenas o argumento CLI nao muda essa comparacao T&T x Profit.xlsx.
+
+O leitor do Livro usa o mesmo _symbol, mas NormalizedLevel2BookDepthProvider
+captura Exception e retorna BookDepthSnapshot.unavailable(...READER_ERROR).
+AnalysisPipeline tambem protege o refresh do book. Nesse fluxo original,
+a excecao de Book nao sobe como esse ValueError ao loop de warmup.
+Logo, a cadeia do T&T e a origem indicada pelo codigo e pelo ponto do log.
+Sem traceback/valores vivos, nao se deve inventar qual dos dois ativos
+estava configurado incorretamente durante os 4800 ciclos.
+
+LEITURA SOMENTE DO ARQUIVO SALVO
+Inspecao de XLSX como ZIP/XML, sem abrir no Excel, sem recalculo, sem save.
+Aba Planilha1 -> xl/worksheets/sheet1.xml; sharedStrings resolvidas.
+
+C:\COPILOTO_PRICE_ACTION_AI\Profit.xlsx
+- LastWriteTime: 2026-09-30 17:29:15.263612.
+- Planilha1!A1 = Asset.
+- Planilha1!A2 = WINV26, texto literal, sem formula.
+- Planilha1!B2: formula RTD("rtdtrading.rtdserver",, "WINV26_F_0", "DAT");
+  cache salvo 30/09/2026.
+- Planilha1!C2: formula com WINV26_F_0/HOR; cache 18:24:59.
+- Planilha1!D2: formula com WINV26_F_0/ULT; cache 187690.
+- Planilha1!K2: formula com WINV26_F_0/VEN; cache 14/10/2026.
+A configuracao persistida da cotacao aponta explicitamente para WINV26.
+
+C:\COPILOTO_PRICE_ACTION_AI\times&trades.xlsx
+- LastWriteTime: 2026-09-30 17:29:22.598912.
+- Planilha1!A1: cache WINV26.
+- Formula: RTD("rtdtrading.rtdserver",, "T&T0", "INFO", "ATV").
+- Planilha1!B1: cache Negocios; formula T&T0/INFO/TAB.
+- Planilha1!A3: cache 30/09/2026 18:24:58.990.
+O simbolo nao esta fixado como WINV26 na formula A1: ela pede ao servidor
+o ativo do slot T&T0. Esse slot pode apresentar outro ativo em runtime
+sem que o cache salvo do XLSX tenha sido atualizado.
+
+C:\COPILOTO_PRICE_ACTION_AI\livroOfertas.xlsx
+- LastWriteTime: 2026-09-30 17:29:19.021631.
+- Planilha1!A1: cache WINV26.
+- Formula: RTD("rtdtrading.rtdserver",, "BOOK0", "INFO", "ATV").
+- Planilha1!B1: cache Ofertas; formula BOOK0/INFO/TAB.
+O ativo do slot BOOK0 tambem e dinamico. Nao se deve confundir o cache
+de ontem com seu valor vivo de hoje.
+
+TENTATIVA DE LEITURA DO EXCEL ABERTO
+Foram tentadas apenas conexoes/leitura de instancias existentes:
+- xlwings.apps e enumeracao de books: nenhum workbook alvo acessivel,
+  consulta em 2026-10-01 16:03:21.
+- GetActiveObject('Excel.Application'): com_error -2147221021,
+  "Operacao nao disponivel".
+- Ferramenta de documentos conectados: nenhuma sessao conectada.
+- Get-Process mostrou EXCEL PIDs 6616, 7592 e 8796, SessionId=4.
+  Existencia dos processos nao garante acesso a seus workbooks.
+Nao foi criada instancia Excel, aberto workbook, alterado valor/formula,
+acionado refresh/recalculo, salvo, fechado ou terminado processo.
+Nao foi usado ExcelConnector.conectar: ele pode abrir uma nova instancia
+quando nao encontra workbook, comportamento inadequado para esta leitura.
+
+INSPECAO DO CONNECTOR
+connectors/excel_connector.py:
+- localiza workbooks pelo caminho absoluto normalizado;
+- rejeita multiplas instancias com o mesmo arquivo;
+- ler_celula retorna book.sheets[aba].range(celula).value;
+- em erro de leitura, retorna None;
+- nao normaliza nem troca simbolo.
+ProfitReader retorna A2 como "ativo"; nao compara com WINV26 do comando.
+ExcelRangeGateway le range.value em bloco do workbook conectado, com retry.
+Nenhum desses componentes resolve vencimento automaticamente.
+
+EVIDENCIA DA TENTATIVA
+
+Log: saida_session18_retry_20261001_145654_55b2b19500084708987b9c7a237ad81a.log
+SHA256 do log: f92afc315cceaee8c0266467b4e3d097ca95796b3fecc250f1882a84d149d09a
+Ocorrencias exatas da divergencia: 4800.
+Sequencia completa de ciclos 1 a 4800: true.
+[RC54.3.2 WARMUP] cycle=4800/4800 error=ValueError:Ativo solicitado difere do workbook RTD.
+PROSPECTIVE_MICROSTRUCTURE=ABORTED_CONTEXT_NOT_READY
+data_ready=False
+captured_samples=0
+sample_count_matches_source=True
+observational_only=True
+score_influence_allowed=False
+risk_influence_allowed=False
+decision_influence_allowed=False
+alert_influence_allowed=False
+order_execution_allowed=False
+PROCESS_EXIT_CODE=2
+
+Com isso, a causa do aborto de warmup e confirmada: divergencia de identidade
+entre as fontes, repetida em todos os ciclos. Nenhum contexto concluiu a
+etapa que permitiria history_ready. require_trade_context_at_start=False
+nao desativa a verificacao de simbolo nem evita essa excecao.
+A base retorna ABORTED_CONTEXT_NOT_READY antes da gravacao. A tentativa nao
+produziu Session #18 valida. Nao reclassificamos qualquer sessao anterior.
+
+ROLAGEM DE CONTRATO
+Nao foi possivel comprovar rolagem para outro WIN.
+Os arquivos persistidos apontam/cacheiam WINV26. O log nao revela o valor
+divergente e a leitura viva nao ficou disponivel. Pode existir outro ativo
+no slot T&T0 ou divergencia no A2 vivo, mas nenhum simbolo alternativo foi
+observado com seguranca. Nao se presume WINZ26 nem qualquer outro contrato.
+O vencimento 14/10/2026 citado acima e apenas o cache do proprio workbook,
+nao comprovacao de uma rolagem ocorrida hoje.
+
+SIMBOLO A PASSAR AO COLLECTOR E AJUSTES
+SIMBOLO_RECOMENDADO_PARA_NOVA_COLETA = NAO_DETERMINADO
+COMANDO_ALTERADO_RECOMENDADO = NENHUM
+Nao recomendar troca de argumento enquanto o ativo vivo estiver desconhecido.
+A precondicao e confirmar por leitura atual:
+Profit.xlsx!Planilha1!A2 == times&trades.xlsx!Planilha1!A1
+== livroOfertas.xlsx!Planilha1!A1, apos strip/upper, e confirmar que as
+formulas/fontes correspondem ao contrato pretendido.
+O argumento deve identificar esse mesmo contrato confirmado.
+A simples troca do argumento nao corrige a divergencia T&T x Profit.xlsx
+no warmup, pois o argumento nao controla esses slots RTD.
+Ha necessidade de esclarecer/alinha-los no ambiente de origem, se persistir
+a divergencia, mas nenhum ajuste concreto de simbolo/celula foi prescrito
+sem leitura atual. Nenhuma correcao de codigo demonstrada como necessaria.
+O gate de identidade funciona como protecao e nao deve ser removido.
+FAIL CLOSED: nenhuma alteracao ou coleta recomendada/executada neste estado.
+
+PRESERVACAO
+Nenhuma alteracao nos workbooks, connector, demais arquivos operacionais,
+codigo, protocolo, thresholds ou RC17. Nenhum stage/commit/restore/reset/clean.
+Unica escrita desta tarefa: saida_session18_symbol_mismatch_diagnosis_rc1.txt.
+Hashes iniciais dos arquivos protegidos:
+Profit.xlsx = FC87564123AF6775AECDFE1F0AB924DDA5F633F4E2A94F63295275DDCE569245
+times&trades.xlsx = 581A91EC9CFCB752F0F3E0B0659B17622F50BF38E54A4C308472B1E69E571547
+livroOfertas.xlsx = 4B7BB97B38EE5D4BAE1C50308B31E938EF69384F016B122D22C2F4389FFCC274
+connectors/excel_connector.py = F234EDD86D16AB637732438C0093FA84FD457A922044B49E6BD270074920D567
+saida.txt = C65F29EEEA5792E3CE9F91C42E0962EE2275E8BE9723738BC26E633A6CB14879
+

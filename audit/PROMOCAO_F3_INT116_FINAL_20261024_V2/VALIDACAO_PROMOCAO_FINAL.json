@@ -1,0 +1,30 @@
+{
+  "approved": true,
+  "promoted": true,
+  "stage": "F3-INT-116 FINAL",
+  "zip": "C:\\COPILOTO_PRICE_ACTION_AI\\audit\\F3_INT116_FINAL_COMPLETA_20261024.zip",
+  "sha256": "34e4acec456115cbfa9ddac7ce4efba0e7c8af5eab1c4e3970f5314aba0d94f8",
+  "crc_ok": true,
+  "unique_safe_members": true,
+  "zip_members": 3559,
+  "manifest_entries": 3557,
+  "all_member_hashes_ok": true,
+  "source_files_unchanged": 225,
+  "candidate_files_preserved": 1775,
+  "previous_final_files_preserved": 875,
+  "workspace_previous_final_artifacts_preserved": 40,
+  "workspace_markers_published": true,
+  "checkpoint_and_ultimo_identical": true,
+  "f3": "OPEN",
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "real_operations_authorized": false,
+  "stage117_implemented": false
+}

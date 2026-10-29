@@ -1,0 +1,1171 @@
+﻿
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:2:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:3:import argparse
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:4:import hashlib
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:5:import json
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:6:from collections import Counter
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:7:from pathlib import Path
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:8:from typing import Any
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:9:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:10:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:11:VERSION = 
+"RC1-PROSPECTIVE-MICROSTRUCTURE-PA-BOOK-TEMPORAL-PERSISTENCE-AUDIT"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:12:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:13:EXPECTED_FROZEN_SESSION_COUNT = 10
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:14:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:21:    return digest.hexdigest()
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:22:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:23:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:24:def _read_json(path: Path) -> Any:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:25:    with path.open("r", 
+encoding="utf-8-sig") as handle:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:26:        return json.load(handle)
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:27:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:28:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:29:def _safety() -> dict[str, Any]:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:48:    }
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:49:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:50:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:51:def _validate_prospective(payload: Any) 
+-> list[dict[str, Any]]:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:52:    if not isinstance(payload, dict):
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:53:        raise ValueError("session payload 
+must be a JSON object")
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:54:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:55:    prospective = 
+payload.get("prospective_microstructure")
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:56:    if not isinstance(prospective, dict):
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:57:        raise 
+ValueError("prospective_microstructure must be an object")
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:58:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:59:    samples = prospective.get("samples")
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:60:    if not isinstance(samples, list):
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:61:        raise ValueError(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:62:            
+"prospective_microstructure.samples must be a list"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:63:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:64:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:65:    if any(not isinstance(item, dict) for 
+item in samples):
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:66:        raise ValueError(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:67:            
+"prospective_microstructure.samples contains non-object entries"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:68:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:69:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:70:    captured = 
+prospective.get("captured_samples")
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:71:    if not isinstance(captured, int) or 
+isinstance(captured, bool):
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:72:        raise ValueError(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:73:            
+"prospective_microstructure.captured_samples must be an integer"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:74:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:75:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:76:    source = 
+prospective.get("source_analyzable_samples")
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:77:    if not isinstance(source, int) or 
+isinstance(source, bool):
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:78:        raise ValueError(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:79:            
+"prospective_microstructure.source_analyzable_samples "
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:80:            "must be an integer"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:81:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:82:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:83:    if 
+prospective.get("sample_count_matches_source") is not True:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:84:        raise ValueError(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:85:            
+"prospective_microstructure.sample_count_matches_source "
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:86:            "must be true"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:87:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:88:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:89:    if captured != len(samples):
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:90:        raise ValueError(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:91:            
+"prospective_microstructure.captured_samples "
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:92:            "does not match len(samples)"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:93:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:94:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:95:    if source != len(samples):
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:96:        raise ValueError(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:97:            
+"prospective_microstructure.source_analyzable_samples "
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:98:            "does not match len(samples)"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:99:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:100:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:101:    return samples
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:102:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:103:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:104:def _normalize_direction(
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:105:    value: Any,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:106:    field: str,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:107:    index: int,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:108:) -> str:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:109:    direction = str(value or 
+"").strip().upper()
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:110:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:111:    if direction not in {"BUY", "SELL", 
+"NONE"}:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:112:        raise ValueError(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:113:            f"invalid {field} at index 
+{index}: {direction!r}"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:114:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:115:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:116:    return direction
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:117:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:118:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:119:def _canonical_conflict(
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:140:    return value > 0
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:141:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:142:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:143:def _relation(pa: str, book: str) -> str 
+| None:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:144:    if pa not in {"BUY", "SELL"}:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:145:        return None
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:146:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:147:    if book not in {"BUY", "SELL"}:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:148:        return None
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:149:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:150:    if pa == book:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:151:        return "ALIGNED"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:152:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:153:    return "OPPOSED"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:154:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:155:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:156:def _pair(pa: str, book: str) -> str:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:157:    if pa not in {"BUY", "SELL"}:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:158:        raise ValueError(f"PA must be 
+directional: {pa!r}")
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:159:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:160:    if book not in {"BUY", "SELL"}:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:161:        raise ValueError(f"Book must be 
+directional: {book!r}")
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:162:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:163:    return f"{pa}_{book}"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:164:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:165:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:166:def _build_runs(
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:167:    samples: list[dict[str, Any]],
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:168:) -> tuple[list[dict[str, Any]], 
+dict[str, int]]:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:169:    directional_samples: list[dict[str, 
+Any]] = []
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:170:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:171:    aligned_samples = 0
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:172:    opposed_samples = 0
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:173:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:174:    for index, sample in 
+enumerate(samples):
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:175:        pa = _normalize_direction(
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:176:            
+sample.get("price_action_bias"),
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:177:            "price_action_bias",
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:178:            index,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:179:        )
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:180:        book = _normalize_direction(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:181:            sample.get("book_direction"),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:182:            "book_direction",
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:183:            index,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:184:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:185:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:188:            index,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:189:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:190:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:191:        relation = _relation(pa, book)
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:192:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:193:        if relation is None:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:194:            continue
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:195:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:196:        pair = _pair(pa, book)
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:197:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:198:        if relation == "ALIGNED":
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:199:            aligned_samples += 1
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:200:        else:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:201:            opposed_samples += 1
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:202:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:203:        directional_samples.append(
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:204:            {
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:205:                "index": index,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:206:                "relation": relation,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:207:                "pair": pair,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:208:                "price_action_bias": pa,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:209:                "book_direction": book,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:210:                "canonical_conflict": 
+canonical_conflict,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:211:            }
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:212:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:214:    runs: list[dict[str, Any]] = []
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:215:    current: dict[str, Any] | None = None
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:216:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:217:    for item in directional_samples:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:218:        if current is None:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:219:            current = {
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:220:                "relation": 
+item["relation"],
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:221:                "pair": item["pair"],
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:222:                "start_index": 
+item["index"],
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:223:                "end_index": 
+item["index"],
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:224:                "length": 1,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:234:        same_relation = (
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:235:            item["relation"] == 
+current["relation"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:236:        )
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:237:        same_pair = (
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:238:            item["pair"] == 
+current["pair"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:239:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:240:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:241:        if contiguous and same_relation 
+and same_pair:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:242:            current["end_index"] = 
+item["index"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:243:            current["length"] += 1
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:244:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:249:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:250:            current = {
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:251:                "relation": 
+item["relation"],
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:252:                "pair": item["pair"],
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:253:                "start_index": 
+item["index"],
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:254:                "end_index": 
+item["index"],
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:255:                "length": 1,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:262:        runs.append(current)
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:263:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:264:    counts = {
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:265:        
+"simultaneous_directional_samples": len(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:266:            directional_samples
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:267:        ),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:268:        "aligned_samples": 
+aligned_samples,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:269:        "opposed_samples": 
+opposed_samples,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:270:    }
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:271:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:272:    return runs, counts
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:276:    runs: list[dict[str, Any]],
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:277:) -> dict[str, Any]:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:278:    relation_counts: Counter[str] = 
+Counter()
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:279:    pair_counts: Counter[str] = Counter()
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:280:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:281:    lengths = {
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:282:        "ALIGNED": [],
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:283:        "OPPOSED": [],
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:284:    }
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:285:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:286:    conflict_bearing_runs = {
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:287:        "ALIGNED": 0,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:288:        "OPPOSED": 0,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:289:    }
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:290:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:291:    canonical_conflict_samples = {
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:292:        "ALIGNED": 0,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:293:        "OPPOSED": 0,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:294:    }
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:295:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:296:    for run in runs:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:297:        relation = run["relation"]
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:298:        pair = run["pair"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:299:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:300:        relation_counts[relation] += 1
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:301:        pair_counts[pair] += 1
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:302:        
+lengths[relation].append(run["length"])
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:303:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:304:        conflict_samples = run[
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:312:        if conflict_samples > 0:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:313:            
+conflict_bearing_runs[relation] += 1
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:314:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:315:    aligned_runs = 
+relation_counts["ALIGNED"]
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:316:    opposed_runs = 
+relation_counts["OPPOSED"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:317:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:318:    aligned_lengths = lengths["ALIGNED"]
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:319:    opposed_lengths = lengths["OPPOSED"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:320:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:321:    return {
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:322:        "total_runs": len(runs),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:323:        "aligned_runs": aligned_runs,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:324:        "opposed_runs": opposed_runs,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:325:        "pair_run_counts": {
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:326:            "BUY_BUY": 
+pair_counts["BUY_BUY"],
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:327:            "SELL_SELL": 
+pair_counts["SELL_SELL"],
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:328:            "BUY_SELL": 
+pair_counts["BUY_SELL"],
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:329:            "SELL_BUY": 
+pair_counts["SELL_BUY"],
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:330:        },
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:331:        "aligned_run_lengths": 
+aligned_lengths,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:332:        "opposed_run_lengths": 
+opposed_lengths,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:333:        "aligned_longest_run": (
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:334:            max(aligned_lengths)
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:335:            if aligned_lengths
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:336:            else 0
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:337:        ),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:338:        "opposed_longest_run": (
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:339:            max(opposed_lengths)
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:340:            if opposed_lengths
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:341:            else 0
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:342:        ),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:343:        "aligned_mean_run_length": (
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:344:            sum(aligned_lengths) / 
+len(aligned_lengths)
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:345:            if aligned_lengths
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:346:            else None
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:347:        ),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:348:        "opposed_mean_run_length": (
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:349:            sum(opposed_lengths) / 
+len(opposed_lengths)
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:350:            if opposed_lengths
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:351:            else None
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:352:        ),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:353:        "aligned_conflict_bearing_runs": 
+(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:354:            
+conflict_bearing_runs["ALIGNED"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:355:        ),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:356:        "opposed_conflict_bearing_runs": 
+(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:357:            
+conflict_bearing_runs["OPPOSED"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:358:        ),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:359:        
+"aligned_canonical_conflict_samples": (
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:360:            
+canonical_conflict_samples["ALIGNED"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:361:        ),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:362:        
+"opposed_canonical_conflict_samples": (
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:363:            
+canonical_conflict_samples["OPPOSED"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:364:        ),
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:365:    }
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:366:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:369:    label: str,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:370:    raw_path: Path,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:371:) -> dict[str, Any]:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:372:    payload = _read_json(raw_path)
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:373:    samples = 
+_validate_prospective(payload)
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:374:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:375:    runs, sample_counts = 
+_build_runs(samples)
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:376:    summary = _run_summary(runs)
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:377:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:378:    if (
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:379:        
+sample_counts["simultaneous_directional_samples"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:380:        != (
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:381:            
+sample_counts["aligned_samples"]
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:382:            + 
+sample_counts["opposed_samples"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:383:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:384:    ):
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:385:        raise ValueError(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:386:            "sample identity failed: 
+simultaneous != aligned + opposed"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:387:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:388:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:389:    if sum(
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:390:        run["length"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:391:        for run in runs
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:392:    ) != 
+sample_counts["simultaneous_directional_samples"]:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:393:        raise ValueError(
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:394:            "run identity failed: run 
+lengths do not sum to samples"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:395:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:406:        "runs": runs,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:407:        "run_definition": {
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:408:            "unit": "RUN",
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:409:            
+"requires_simultaneous_directionality": True,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:410:            
+"requires_immediate_index_contiguity": True,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:411:            
+"requires_same_exact_pa_book_pair": True,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:412:            "none_breaks_run": True,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:413:            "gap_breaks_run": True,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:414:            "pair_change_breaks_run": 
+True,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:415:            
+"canonical_conflict_does_not_define_run": True,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:416:        },
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:417:    }
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:461:            "one or more frozen session 
+artifacts mutated during audit"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:462:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:463:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:464:    aligned_samples = sum(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:465:        session["aligned_samples"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:466:        for session in sessions
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:467:    )
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:468:    opposed_samples = sum(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:469:        session["opposed_samples"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:470:        for session in sessions
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:471:    )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:472:    simultaneous = sum(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:473:        
+session["simultaneous_directional_samples"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:474:        for session in sessions
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:475:    )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:476:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:477:    aligned_runs = sum(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:478:        session["aligned_runs"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:479:        for session in sessions
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:480:    )
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:481:    opposed_runs = sum(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:482:        session["opposed_runs"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:483:        for session in sessions
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:484:    )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:485:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:486:    aligned_lengths = [
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:487:        length
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:488:        for session in sessions
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:489:        for length in 
+session["aligned_run_lengths"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:490:    ]
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:491:    opposed_lengths = [
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:492:        length
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:493:        for session in sessions
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:494:        for length in 
+session["opposed_run_lengths"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:495:    ]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:496:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:497:    pair_run_counts = {
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:498:        pair: sum(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:499:            
+session["pair_run_counts"][pair]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:500:            for session in sessions
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:501:        )
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:502:        for pair in (
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:503:            "BUY_BUY",
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:504:            "SELL_SELL",
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:505:            "BUY_SELL",
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:512:            session["samples"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:513:            for session in sessions
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:514:        ),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:515:        
+"simultaneous_directional_samples": simultaneous,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:516:        "aligned_samples": 
+aligned_samples,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:517:        "opposed_samples": 
+opposed_samples,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:518:        "total_runs": aligned_runs + 
+opposed_runs,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:519:        "aligned_runs": aligned_runs,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:520:        "opposed_runs": opposed_runs,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:521:        "pair_run_counts": 
+pair_run_counts,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:522:        "aligned_run_lengths": 
+aligned_lengths,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:523:        "opposed_run_lengths": 
+opposed_lengths,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:524:        "aligned_longest_run": (
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:525:            max(aligned_lengths)
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:526:            if aligned_lengths
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:527:            else 0
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:528:        ),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:529:        "opposed_longest_run": (
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:530:            max(opposed_lengths)
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:531:            if opposed_lengths
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:532:            else 0
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:533:        ),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:534:        "aligned_mean_run_length": (
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:535:            aligned_samples / 
+aligned_runs
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:536:            if aligned_runs
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:537:            else None
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:538:        ),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:539:        "opposed_mean_run_length": (
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:540:            opposed_samples / 
+opposed_runs
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:541:            if opposed_runs
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:542:            else None
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:543:        ),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:544:        "aligned_conflict_bearing_runs": 
+sum(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:545:            
+session["aligned_conflict_bearing_runs"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:546:            for session in sessions
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:547:        ),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:548:        "opposed_conflict_bearing_runs": 
+sum(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:549:            
+session["opposed_conflict_bearing_runs"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:550:            for session in sessions
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:551:        ),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:552:        
+"aligned_canonical_conflict_samples": sum(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:553:            
+session["aligned_canonical_conflict_samples"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:554:            for session in sessions
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:555:        ),
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:556:        
+"opposed_canonical_conflict_samples": sum(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:557:            
+session["opposed_canonical_conflict_samples"]
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:558:            for session in sessions
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:559:        ),
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:560:    }
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:561:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:562:    if simultaneous != aligned_samples + 
+opposed_samples:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:563:        raise ValueError(
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:564:            "aggregate sample identity 
+failed"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:565:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:566:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:567:    if sum(aligned_lengths) != 
+aligned_samples:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:568:        raise ValueError(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:569:            "aggregate aligned run 
+lengths do not sum to aligned samples"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:570:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:571:
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:572:    if sum(opposed_lengths) != 
+opposed_samples:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:573:        raise ValueError(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:574:            "aggregate opposed run 
+lengths do not sum to opposed samples"
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:575:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:576:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:577:    return {
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:578:        "version": VERSION,
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:579:        "status": 
+"PA_BOOK_TEMPORAL_PERSISTENCE_AUDIT_COMPLETED",
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:580:        "mode": 
+"FROZEN_10_SESSION_RETROSPECTIVE_RESEARCH_AUDIT",
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:581:        "session_count": len(sessions),
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:582:        "sessions": sessions,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:590:        "unit_separation": {
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:591:            "sample_unit": "SAMPLE",
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:592:            "temporal_unit": "RUN",
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:593:            
+"frozen_opposed_episode_count": 17,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:594:            
+"run_is_episode_claim_allowed": False,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:595:            
+"sample_is_run_claim_allowed": False,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:596:            
+"sample_is_episode_claim_allowed": False,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:600:        "interpretation_limits": [
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:601:            "DESCRIPTIVE_ONLY",
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:602:            
+"RUNS_ARE_NOT_CANONICAL_CONFLICT_EPISODES",
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:603:            
+"18_OPPOSED_RUNS_MUST_NOT_BE_EQUATED_WITH_17_OPPOSED_EPISODES",
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:604:            
+"SAMPLE_RUN_AND_EPISODE_UNITS_REMAIN_DISTINCT",
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:605:            
+"CANONICAL_CONFLICT_COMES_ONLY_FROM_CONFLICT_COUNT",
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:606:            "NO_PREDICTIVE_CLAIM",
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:624:    )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:625:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:626:    output_path.write_text(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:627:        json.dumps(
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:628:            report,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:629:            ensure_ascii=False,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:630:            indent=2,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:637:def main() -> None:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:638:    parser = argparse.ArgumentParser(
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:639:        description=(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:640:            "Passive fail-closed PA x 
+Book temporal persistence audit "
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:641:            "for the frozen 10-session 
+prospective microstructure cohort."
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:642:        )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:643:    )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:644:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:663:    )
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:664:
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:665:    print(
+> tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:666:        json.dumps(
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:667:            report,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:668:            ensure_ascii=False,
+  tools\prospective_microstructure_pa_book_temporal_persistence_audit.py:669:            indent=2,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:2:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:3:import argparse
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:4:import hashlib
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:5:import json
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:6:from datetime import datetime
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:7:from pathlib import Path
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:8:from statistics import mean, median
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:9:from typing import Any
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:10:
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:11:import 
+tools.prospective_microstructure_pa_book_temporal_persistence_audit as persistence
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:12:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:13:
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:14:VERSION = 
+"RC1-PROSPECTIVE-MICROSTRUCTURE-PA-BOOK-TEMPORAL-DURATION-AUDIT"
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:15:EXPECTED_FROZEN_SESSION_COUNT = 10
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:16:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:17:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:23:    return digest.hexdigest()
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:24:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:25:
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:26:def _read_json(path: Path) -> Any:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:27:    with path.open("r", 
+encoding="utf-8-sig") as handle:
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:28:        return json.load(handle)
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:29:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:30:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:31:def _parse_timestamp(value: Any, index: int) 
+-> datetime:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:44:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:45:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:46:def _validate_raw_samples(
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:47:    payload: Any,
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:48:    prospective_samples: list[dict[str, 
+Any]],
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:49:) -> list[dict[str, Any]]:
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:50:    raw_samples = payload.get("samples")
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:51:    if not isinstance(raw_samples, list):
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:52:        raise ValueError("top-level samples 
+must be a list")
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:53:    if any(not isinstance(item, dict) for 
+item in raw_samples):
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:54:        raise ValueError("top-level samples 
+contains non-object entries")
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:55:    if len(raw_samples) != 
+len(prospective_samples):
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:56:        raise ValueError(
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:57:            "raw/prospective positional 
+mapping failed: sample counts differ"
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:58:        )
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:59:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:60:    previous_timestamp: datetime | None = 
+None
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:137:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:138:def _duration_summary(runs: list[dict[str, 
+Any]]) -> dict[str, Any]:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:139:    by_relation = {
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:140:        "ALIGNED": [
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:141:            run["observed_duration_seconds"]
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:142:            for run in runs
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:143:            if run["relation"] == "ALIGNED"
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:144:        ],
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:145:        "OPPOSED": [
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:146:            run["observed_duration_seconds"]
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:147:            for run in runs
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:148:            if run["relation"] == "OPPOSED"
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:149:        ],
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:150:    }
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:151:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:173:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:174:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:175:def _audit_session(label: str, raw_path: 
+Path) -> dict[str, Any]:
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:176:    payload = _read_json(raw_path)
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:177:    prospective_samples = 
+persistence._validate_prospective(payload)
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:178:    raw_samples = 
+_validate_raw_samples(payload, prospective_samples)
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:179:
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:180:    runs, sample_counts = 
+persistence._build_runs(prospective_samples)
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:181:    persistence_summary = 
+persistence._run_summary(runs)
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:182:    enriched_runs = 
+_enrich_runs_with_duration(runs, raw_samples)
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:183:    duration_summary = 
+_duration_summary(enriched_runs)
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:184:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:185:    if (
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:186:        
+sample_counts["simultaneous_directional_samples"]
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:187:        != sample_counts["aligned_samples"] 
++ sample_counts["opposed_samples"]
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:188:    ):
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:189:        raise ValueError("sample identity 
+failed: simultaneous != aligned + opposed")
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:190:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:191:    if sum(run["length"] for run in 
+enriched_runs) != sample_counts[
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:192:        "simultaneous_directional_samples"
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:193:    ]:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:194:        raise ValueError("run identity 
+failed: run lengths do not sum to samples")
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:195:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:199:            "path": str(raw_path),
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:200:            "sha256": _sha256(raw_path),
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:201:        },
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:202:        "samples": len(prospective_samples),
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:203:        "raw_samples": len(raw_samples),
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:204:        
+"raw_prospective_positional_mapping": "VALIDATED_BY_EXACT_COUNT_AND_INDEX",
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:205:        **sample_counts,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:206:        **persistence_summary,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:207:        **duration_summary,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:208:        "runs": enriched_runs,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:209:        "run_definition": {
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:210:            "unit": "RUN",
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:211:            
+"requires_simultaneous_directionality": True,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:212:            
+"requires_immediate_index_contiguity": True,
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:213:            
+"requires_same_exact_pa_book_pair": True,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:214:            "none_breaks_run": True,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:215:            "gap_breaks_run": True,
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:216:            "pair_change_breaks_run": True,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:217:            
+"canonical_conflict_does_not_define_run": True,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:218:        },
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:219:        "duration_definition": {
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:220:            "unit": "SECONDS",
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:221:            "source": 
+"TOP_LEVEL_RAW_SAMPLE_TIMESTAMP_BY_EXACT_POSITIONAL_INDEX",
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:222:            "formula": 
+"LAST_RAW_TIMESTAMP_MINUS_FIRST_RAW_TIMESTAMP",
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:223:            
+"single_sample_run_duration_seconds": 0.0,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:224:            
+"single_sample_zero_means_no_observed_between_sample_interval": True,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:250:    if before != after:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:251:        raise ValueError("one or more 
+frozen session artifacts mutated during audit")
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:252:
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:253:    aligned_samples = 
+sum(session["aligned_samples"] for session in sessions)
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:254:    opposed_samples = 
+sum(session["opposed_samples"] for session in sessions)
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:255:    simultaneous = sum(
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:256:        
+session["simultaneous_directional_samples"] for session in sessions
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:257:    )
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:258:    aligned_runs = 
+sum(session["aligned_runs"] for session in sessions)
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:259:    opposed_runs = 
+sum(session["opposed_runs"] for session in sessions)
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:260:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:261:    all_runs = [run for session in sessions 
+for run in session["runs"]]
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:262:    aligned_lengths = [
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:263:        run["length"] for run in all_runs 
+if run["relation"] == "ALIGNED"
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:264:    ]
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:265:    opposed_lengths = [
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:266:        run["length"] for run in all_runs 
+if run["relation"] == "OPPOSED"
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:267:    ]
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:268:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:269:    duration_summary = 
+_duration_summary(all_runs)
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:270:
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:271:    pair_run_counts = {
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:272:        pair: 
+sum(session["pair_run_counts"][pair] for session in sessions)
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:273:        for pair in ("BUY_BUY", 
+"SELL_SELL", "BUY_SELL", "SELL_BUY")
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:274:    }
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:275:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:276:    aggregate = {
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:277:        "samples": sum(session["samples"] 
+for session in sessions),
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:278:        "simultaneous_directional_samples": 
+simultaneous,
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:279:        "aligned_samples": aligned_samples,
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:280:        "opposed_samples": opposed_samples,
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:281:        "total_runs": aligned_runs + 
+opposed_runs,
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:282:        "aligned_runs": aligned_runs,
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:283:        "opposed_runs": opposed_runs,
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:284:        "pair_run_counts": pair_run_counts,
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:285:        "aligned_run_lengths": 
+aligned_lengths,
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:286:        "opposed_run_lengths": 
+opposed_lengths,
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:287:        "aligned_longest_run": 
+max(aligned_lengths) if aligned_lengths else 0,
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:288:        "opposed_longest_run": 
+max(opposed_lengths) if opposed_lengths else 0,
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:289:        "aligned_mean_run_length": (
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:290:            aligned_samples / aligned_runs 
+if aligned_runs else None
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:291:        ),
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:292:        "opposed_mean_run_length": (
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:293:            opposed_samples / opposed_runs 
+if opposed_runs else None
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:294:        ),
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:295:        "aligned_conflict_bearing_runs": 
+sum(
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:296:            
+session["aligned_conflict_bearing_runs"] for session in sessions
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:297:        ),
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:298:        "opposed_conflict_bearing_runs": 
+sum(
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:299:            
+session["opposed_conflict_bearing_runs"] for session in sessions
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:300:        ),
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:301:        
+"aligned_canonical_conflict_samples": sum(
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:302:            
+session["aligned_canonical_conflict_samples"] for session in sessions
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:303:        ),
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:304:        
+"opposed_canonical_conflict_samples": sum(
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:305:            
+session["opposed_canonical_conflict_samples"] for session in sessions
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:306:        ),
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:307:        **duration_summary,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:308:    }
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:309:
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:310:    if simultaneous != aligned_samples + 
+opposed_samples:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:311:        raise ValueError("aggregate sample 
+identity failed")
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:312:    if sum(aligned_lengths) != 
+aligned_samples:
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:313:        raise ValueError("aggregate aligned 
+run lengths do not sum to aligned samples")
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:314:    if sum(opposed_lengths) != 
+opposed_samples:
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:315:        raise ValueError("aggregate opposed 
+run lengths do not sum to opposed samples")
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:316:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:317:    return {
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:318:        "version": VERSION,
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:319:        "status": 
+"PA_BOOK_TEMPORAL_DURATION_AUDIT_COMPLETED",
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:320:        "mode": 
+"FROZEN_10_SESSION_RETROSPECTIVE_RESEARCH_AUDIT",
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:321:        "session_count": len(sessions),
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:322:        "sessions": sessions,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:331:            "sample_unit": "SAMPLE",
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:332:            "temporal_unit": "RUN",
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:333:            "duration_unit": "SECONDS",
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:334:            "frozen_opposed_episode_count": 
+17,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:335:            "run_is_episode_claim_allowed": 
+False,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:336:            "sample_is_run_claim_allowed": 
+False,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:337:            
+"sample_is_episode_claim_allowed": False,
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:343:            "DESCRIPTIVE_ONLY",
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:344:            
+"OBSERVED_DURATION_IS_LAST_SAMPLE_TIMESTAMP_MINUS_FIRST_SAMPLE_TIMESTAMP",
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:345:            
+"SINGLE_SAMPLE_ZERO_DOES_NOT_CLAIM_TRUE_STATE_DURATION_WAS_ZERO",
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:346:            
+"RAW_AND_PROSPECTIVE_SAMPLES_ARE_JOINED_ONLY_BY_EXACT_POSITIONAL_INDEX",
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:347:            
+"RUNS_ARE_NOT_CANONICAL_CONFLICT_EPISODES",
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:348:            
+"18_OPPOSED_RUNS_MUST_NOT_BE_EQUATED_WITH_17_OPPOSED_EPISODES",
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:349:            
+"SAMPLE_RUN_DURATION_AND_EPISODE_UNITS_REMAIN_DISTINCT",
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:350:            
+"CANONICAL_CONFLICT_COMES_ONLY_FROM_CONFLICT_COUNT",
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:351:            "NO_PREDICTIVE_CLAIM",
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:362:def _write_report(report: dict[str, Any], 
+output_path: Path) -> None:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:363:    output_path.parent.mkdir(parents=True, 
+exist_ok=True)
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:364:    output_path.write_text(
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:365:        json.dumps(report, 
+ensure_ascii=False, indent=2) + "\n",
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:366:        encoding="utf-8",
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:367:    )
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:368:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:370:def main() -> None:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:371:    parser = argparse.ArgumentParser(
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:372:        description=(
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:373:            "Passive fail-closed PA x Book 
+temporal duration audit "
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:374:            "for the frozen 10-session 
+prospective microstructure cohort."
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:375:        )
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:376:    )
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:377:    parser.add_argument("sessions", 
+nargs="+", type=Path)
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:380:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:381:    report = build_report(args.sessions)
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:382:    _write_report(report, args.output)
+> tools\prospective_microstructure_pa_book_temporal_duration_audit.py:383:    print(json.dumps(report, 
+ensure_ascii=False, indent=2))
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:384:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:385:
+  tools\prospective_microstructure_pa_book_temporal_duration_audit.py:386:if __name__ == "__main__":
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:3:
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:4:import argparse
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:5:import hashlib
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:6:import json
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:7:from collections import Counter
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:8:from pathlib import Path
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:9:from statistics import mean, median
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:10:from typing import Any
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:11:
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:12:from tools import 
+prospective_microstructure_pa_book_temporal_duration_audit as duration
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:13:
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:14:VERSION = 
+"RC1-PROSPECTIVE-MICROSTRUCTURE-PA-BOOK-TEMPORAL-TRANSITION-AUDIT"
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:15:ROOT = Path(__file__).resolve().parents[1]
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:16:MANIFEST = ROOT / 
+"prospective_microstructure_conflict_10session_checkpoint_20260926.json"
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:17:# Semantic digest permits checkout newline 
+differences, but no manifest changes.
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:18:MANIFEST_DIGEST = 
+"066e2e7ad5b1c3cf43a8ae99c08b24b32bd40e8dbfd0f89e1b1765505651af54"
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:19:EXPECTED_BASELINE = {
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:20:    "samples": 2746, 
+"simultaneous_directional_samples": 356,
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:21:    "aligned_samples": 210, 
+"opposed_samples": 146,
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:22:    "total_runs": 35, "aligned_runs": 17, 
+"opposed_runs": 18,
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:23:}
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:24:RELATIONS = ("ALIGNED", "OPPOSED")
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:25:PAIRS = ("BUY_BUY", "SELL_SELL", 
+"BUY_SELL", "SELL_BUY")
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:26:
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:27:
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:28:def _frozen_entries() -> list[tuple[Path, 
+str]]:
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:29:    payload = duration._read_json(MANIFEST)
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:30:    digest = hashlib.sha256(json.dumps(
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:31:        payload, sort_keys=True, 
+separators=(",", ":")
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:32:    ).encode()).hexdigest()
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:33:    if digest != MANIFEST_DIGEST:
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:34:        raise ValueError("frozen manifest 
+identity changed")
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:35:    return [(ROOT / 
+Path(item["path"].replace("\\", "/")), item["sha256"])
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:36:            for item in 
+payload["sessions"]]
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:37:
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:38:
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:39:def _stats(values: list[int | float]) -> 
+dict[str, Any]:
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:47:
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:48:
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:49:def _transitions(session: dict[str, Any]) 
+-> list[dict[str, Any]]:
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:50:    """Gap samples excludes both 
+endpoints; adjacent exact-pair changes give 0."""
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:51:    rows = []
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:52:    runs = session["runs"]
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:53:    for number, (previous, following) in 
+enumerate(zip(runs, runs[1:]), 1):
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:60:               "next_run": number + 1, 
+"gap_samples": gap,
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:61:               "gap_seconds": 
+round(seconds, 6)}
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:62:        for prefix, run in (("previous", 
+previous), ("next", following)):
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:63:            for field in ("relation", 
+"pair", "canonical_conflict_samples"):
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:64:                row[f"{prefix}_{field}"] = 
+run[field]
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:65:        
+row.update(previous_end_index=previous["end_index"],
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:66:                   
+next_start_index=following["start_index"],
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:96:
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:97:
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:98:def _extend_report(report: dict[str, Any]) 
+-> dict[str, Any]:
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:99:    """Called only after Duration RC1 
+validates the raw/prospective inputs."""
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:100:    sessions = [{**s, "transitions": 
+_transitions(s)} for s in report["sessions"]]
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:101:    rows = [r for s in sessions for r in 
+s["transitions"]]
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:102:    expected = sum(max(len(s["runs"]) - 
+1, 0) for s in sessions)
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:103:    if len(rows) != expected:
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:104:        raise ValueError("transition 
+identity failed")
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:105:    return {
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:106:        **report, "version": VERSION, 
+"source_duration_version": duration.VERSION,
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:107:        "status": 
+"PA_BOOK_TEMPORAL_TRANSITION_AUDIT_COMPLETED", "sessions": sessions,
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:108:        "aggregate": 
+{**report["aggregate"], **_summary(rows),
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:109:                      
+"relation_transitions": _group_summary(rows, "relation", RELATIONS),
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:110:                      "pair_transitions": 
+_group_summary(rows, "pair", PAIRS)},
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:111:        "unit_separation": 
+{**report["unit_separation"], "transition_unit": "TRANSITION",
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:112:                            
+"transition_is_run_claim_allowed": False,
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:113:                            
+"transition_is_sample_claim_allowed": False,
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:157:
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:158:
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:159:def main() -> None:
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:160:    parser = 
+argparse.ArgumentParser(description="Passive frozen PA x Book transition audit")
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:161:    parser.add_argument("sessions", 
+nargs="*", type=Path)
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:162:    parser.add_argument("--output", 
+required=True, type=Path)
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:163:    args = parser.parse_args()
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:164:    # Exclusive creation prevents 
+overwriting inputs or existing research artifacts.
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:165:    report = build_report(args.sessions 
+or None)
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:166:    with args.output.open("x", 
+encoding="utf-8") as handle:
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:167:        handle.write(json.dumps(report, 
+ensure_ascii=False, indent=2) + "\n")
+> tools\prospective_microstructure_pa_book_temporal_transition_audit.py:168:    print(json.dumps({"status": 
+report["status"], "aggregate": report["aggregate"]}, indent=2))
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:169:
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:170:
+  tools\prospective_microstructure_pa_book_temporal_transition_audit.py:171:if __name__ == "__main__":
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:1:"""Frozen descriptive session 
+concentration, pair persistence and conflict overlap."""
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:2:from __future__ import annotations
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:3:
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:4:import argparse
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:5:import json
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:6:from collections import Counter
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:7:from pathlib import Path
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:8:from typing import Any
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:9:
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:10:from tools import 
+prospective_microstructure_pa_book_temporal_transition_audit as transition
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:11:
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:12:VERSION = 
+"RC1-PROSPECTIVE-MICROSTRUCTURE-PA-BOOK-SESSION-HETEROGENEITY-AUDIT"
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:13:MEASURES = 
+("simultaneous_directional_samples", "total_runs", "aligned_samples",
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:14:            "opposed_samples", 
+"aligned_runs", "opposed_runs")
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:15:
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:16:
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:17:def _concentration(counts: dict[str, 
+int]) -> dict[str, Any]:
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:33:            for s in sessions for 
+number, r in enumerate(s["runs"], 1)]
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:34:    rows = [t for s in sessions for t in 
+s["transitions"]]
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:35:    concentration = {m: 
+_concentration({s["label"]: s[m] for s in sessions}) for m in MEASURES}
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:36:    pairs = {}
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:37:    for pair in transition.PAIRS:
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:38:        subset = [r for r in runs if 
+r["pair"] == pair]
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:39:        pairs[pair] = {
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:40:            "samples": sum(r["length"] 
+for r in subset), "runs": len(subset),
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:41:            "run_lengths": 
+transition._stats([r["length"] for r in subset]),
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:42:            "observed_duration_seconds": 
+transition._stats([r["observed_duration_seconds"] for r in subset]),
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:43:            
+"total_observed_duration_seconds": round(sum(r["observed_duration_seconds"] for r in subset), 6),
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:44:            "sessions": 
+dict(sorted(Counter(r["session"] for r in subset).items())),
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:45:            "incoming_gap": 
+transition._summary([t for t in rows if t["next_pair"] == pair]),
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:46:            "outgoing_gap": 
+transition._summary([t for t in rows if t["previous_pair"] == pair]),
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:47:        }
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:48:    overlap = {}
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:49:    for relation in transition.RELATIONS:
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:59:            "samples": sum(r["length"] 
+for r in subset), "rows": annotated,
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:60:        }
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:61:    aggregate = base["aggregate"]
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:62:    if sum(p["samples"] for p in 
+pairs.values()) != aggregate["simultaneous_directional_samples"]:
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:63:        raise ValueError("pair sample 
+partition failed")
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:64:    if sum(p["runs"] for p in 
+pairs.values()) != aggregate["total_runs"]:
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:65:        raise ValueError("pair run 
+partition failed")
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:66:    for relation, item in 
+overlap.items():
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:67:        key = relation.lower()
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:68:        if (item["samples"] != 
+aggregate[key + "_samples"]
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:80:            "zero_gap_samples_count": 
+sum(t["gap_samples"] == 0 for t in rows),
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:81:            
+"positive_gap_samples_count": sum(t["gap_samples"] > 0 for t in rows),
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:82:        },
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:83:        "session_concentration": 
+concentration, "pair_persistence": pairs,
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:84:        "canonical_conflict_overlap": 
+overlap,
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:85:    }
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:86:
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:93:        if 
+transition.duration._sha256(path) != digest:
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:94:            raise ValueError("frozen 
+input mutated during heterogeneity audit")
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:95:    return {
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:96:        **base, "version": VERSION, 
+"source_transition_version": transition.VERSION,
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:97:        "status": 
+"PA_BOOK_SESSION_HETEROGENEITY_AUDIT_COMPLETED", **summary,
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:98:        "descriptive_definitions": {
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:99:            "share_denominator": 
+"SUM_OF_NAMED_MEASURE_ACROSS_ALL_TEN_FROZEN_SESSIONS",
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:100:            "sum_squared_shares": 
+"SUM_OF_SQUARED_SESSION_SHARES_NOT_AN_OPERATIONAL_SCORE",
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:101:            "empty_measure_share": None,
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:102:            "incoming_gap": 
+"TRANSITIONS_WHOSE_NEXT_RUN_HAS_THIS_PAIR",
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:103:            "outgoing_gap": 
+"TRANSITIONS_WHOSE_PREVIOUS_RUN_HAS_THIS_PAIR",
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:104:            
+"incoming_and_outgoing_must_not_be_summed": True,
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:105:            "full_conflict": 
+"CANONICAL_CONFLICT_SAMPLES_EQUALS_RUN_LENGTH",
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:106:            "partial_conflict": 
+"ZERO_LESS_THAN_CANONICAL_CONFLICT_SAMPLES_LESS_THAN_RUN_LENGTH",
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:110:        },
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:111:        "interpretation_limits": 
+[*base["interpretation_limits"],
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:112:            
+"UNEQUAL_OBSERVED_SESSION_WINDOWS_NO_EXPOSURE_ADJUSTMENT",
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:113:            
+"ABSENT_PAIR_HAS_NO_OBSERVED_DURATION_DISTRIBUTION",
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:114:            
+"NO_SHORT_LONG_GAP_THRESHOLDS",
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:115:            
+"NO_CAUSAL_CLAIM_FROM_CONFLICT_OVERLAP",
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:116:            
+"CONCENTRATION_IS_NOT_A_SCORE_OR_PROMOTION_CRITERION"],
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:118:
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:119:
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:120:def main() -> None:
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:121:    parser = 
+argparse.ArgumentParser(description="Passive frozen PA x Book session heterogeneity audit")
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:122:    parser.add_argument("--output", 
+required=True, type=Path)
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:123:    args = parser.parse_args()
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:124:    report = build_report()
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:125:    with args.output.open("x", 
+encoding="utf-8") as handle:
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:126:        handle.write(json.dumps(report, 
+ensure_ascii=False, indent=2) + "\n")
+> tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:127:    print(json.dumps({"status": 
+report["status"], "frozen_identity_exact": report["frozen_identity_exact"]}))
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:128:
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:129:
+  tools\prospective_microstructure_pa_book_session_heterogeneity_audit.py:130:if __name__ == "__main__":
+
+

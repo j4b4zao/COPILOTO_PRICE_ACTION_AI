@@ -1,0 +1,16 @@
+test_before_observed (test_f3_int110_offline_reconciliation.OfflineReconciliationTests.test_before_observed) ... ok
+test_committed_observed (test_f3_int110_offline_reconciliation.OfflineReconciliationTests.test_committed_observed) ... ok
+test_corrupt_store (test_f3_int110_offline_reconciliation.OfflineReconciliationTests.test_corrupt_store) ... ok
+test_equal_pins (test_f3_int110_offline_reconciliation.OfflineReconciliationTests.test_equal_pins) ... ok
+test_invalid_pins (test_f3_int110_offline_reconciliation.OfflineReconciliationTests.test_invalid_pins) ... ok
+test_joint_rollback_limit (test_f3_int110_offline_reconciliation.OfflineReconciliationTests.test_joint_rollback_limit) ... ok
+test_missing_store (test_f3_int110_offline_reconciliation.OfflineReconciliationTests.test_missing_store) ... ok
+test_no_operational_authorization (test_f3_int110_offline_reconciliation.OfflineReconciliationTests.test_no_operational_authorization) ... ok
+test_stale_after_pin (test_f3_int110_offline_reconciliation.OfflineReconciliationTests.test_stale_after_pin) ... ok
+test_wrong_chain_pin (test_f3_int110_offline_reconciliation.OfflineReconciliationTests.test_wrong_chain_pin) ... ok
+test_wrong_scope (test_f3_int110_offline_reconciliation.OfflineReconciliationTests.test_wrong_scope) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 6.172s
+
+OK

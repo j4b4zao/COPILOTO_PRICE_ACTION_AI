@@ -1,0 +1,63 @@
+﻿C:\COPILOTO_PRICE_ACTION_AI\analysis\analysis_pipeline.py:167: OrderFlow(),
+C:\COPILOTO_PRICE_ACTION_AI\analysis\order_flow.py:6: class OrderFlow(EngineBase):
+C:\COPILOTO_PRICE_ACTION_AI\core\analysis_context.py:123: self.order_flow.clear()
+C:\COPILOTO_PRICE_ACTION_AI\core\analysis_result.py:19: self.order_flow = None
+C:\COPILOTO_PRICE_ACTION_AI\core\copilot.py:25: self.order_flow = OrderFlow()
+C:\COPILOTO_PRICE_ACTION_AI\core\order_flow_state.py:190: self.history.clear()
+C:\COPILOTO_PRICE_ACTION_AI\core\order_flow_state.py:191: self.aggression_history.clear()
+C:\COPILOTO_PRICE_ACTION_AI\core\order_flow_state.py:192: self.price_history.clear()
+C:\COPILOTO_PRICE_ACTION_AI\market_data\collector.py:51: self.order_flow = (
+C:\COPILOTO_PRICE_ACTION_AI\market_data\collector.py:159: if integrity.symbol_changed:
+C:\COPILOTO_PRICE_ACTION_AI\market_data\collector.py:160: self.order_flow.clear()
+C:\COPILOTO_PRICE_ACTION_AI\market_data\collector.py:244: f"samples={source.order_flow_samples} resets={source.accumulator_resets} "
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_source_diagnostics.py:17: accumulator_resets: int = 0
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_source_diagnostics.py:44: self.accumulator_resets = 0
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_source_diagnostics.py:54: symbol_changed = bool(getattr(integrity, "symbol_changed", False))
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_source_diagnostics.py:67: if symbol_changed:
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_source_diagnostics.py:80: self.accumulator_resets += 1
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_source_diagnostics.py:104: accumulator_resets=self.accumulator_resets,
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_source_diagnostics.py:123: f"resets={state.accumulator_resets} "
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_source_integrity.py:12: symbol_changed: bool = False
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_source_integrity.py:41: symbol_changed = bool(self._last_symbol and symbol and symbol != self._last_symbol)
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_source_integrity.py:51: symbol_changed=symbol_changed,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_architecture_rc11.py:58: OrderFlow()._qualify_structure(context, result)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_architecture_rc11.py:67: OrderFlow()._qualify_structure(context, result)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_architecture_rc11.py:76: OrderFlow()._qualify_structure(context, result)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_architecture_rc11.py:85: OrderFlow()._qualify_structure(context, result)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_architecture_rc11.py:94: OrderFlow()._qualify_structure(context, result)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_chart_modes_rc43.py:92: OrderFlow().executar(context)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_chart_modes_rc43.py:108: OrderFlow().executar(context)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_chart_modes_rc43.py:126: OrderFlow().executar(context)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_chart_modes_rc43.py:150: OrderFlow().executar(context)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_chart_modes_rc43.py:166: OrderFlow().executar(context)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_confidence_rc44.py:21: OrderFlow().executar(context)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_confidence_rc44.py:105: OrderFlow().executar(context)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_foundation_rc40.py:116: OrderFlow().executar(context)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_foundation_rc40.py:126: OrderFlow().executar(context)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_history_rc41.py:74: OrderFlow().executar(context)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_history_rc41.py:90: OrderFlow().executar(context)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_history_rc41.py:105: OrderFlow().executar(context)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_patterns_rc42.py:31: OrderFlow().executar(context)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_patterns_rc42.py:139: context.order_flow = result
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_rc4_5_delta_dynamics.py:26: OrderFlow().executar(context)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_replay_metrics_rc49.py:22: context.order_flow.clear()
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_score_e2e_rc46.py:155: execute_silently(OrderFlow(), context)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_score_e2e_rc46.py:217: execute_silently(OrderFlow(), context)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_structure_evidence_rc51.py:21: OrderFlow()._qualify_structure(_context("BULLISH"), result)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_structure_evidence_rc51.py:27: OrderFlow()._qualify_structure(_context("BEARISH"), result)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_structure_evidence_rc51.py:33: OrderFlow()._qualify_structure(_context("BULLISH"), result)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_structure_evidence_rc51.py:39: OrderFlow()._qualify_structure(_context("BEARISH"), result)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_structure_evidence_rc51.py:45: OrderFlow()._qualify_structure(_context("TREND_UP"), result)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_structure_evidence_rc51.py:52: OrderFlow()._qualify_structure(_context("TREND_DOWN"), result)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_structure_evidence_rc51.py:59: OrderFlow()._qualify_structure(_context("SIDEWAYS"), result)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_structure_evidence_rc51.py:67: OrderFlow()._qualify_structure(context, result)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_structure_evidence_rc51.py:73: OrderFlow()._qualify_structure(_context("BULLISH"), result)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_structure_evidence_rc51.py:81: OrderFlow()._qualify_structure(_context("BULLISH"), result)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_source_diagnostics_rc18.py:6: def _decision(*, symbol="WINV26", duplicate=False, symbol_changed=False):
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_source_diagnostics_rc18.py:10: symbol_changed=symbol_changed,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_source_diagnostics_rc18.py:90: integrity=_decision(symbol="WINZ26", symbol_changed=True),
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_source_diagnostics_rc18.py:97: assert snapshot.accumulator_resets == 0
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_source_diagnostics_rc18.py:110: assert diagnostics.snapshot.accumulator_resets == 1
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_3_2.py:144: collector.order_flow = object()
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_source_integrity_rc17.py:50: assert decision.symbol_changed is False
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_source_integrity_rc17.py:71: assert decision.symbol_changed is True

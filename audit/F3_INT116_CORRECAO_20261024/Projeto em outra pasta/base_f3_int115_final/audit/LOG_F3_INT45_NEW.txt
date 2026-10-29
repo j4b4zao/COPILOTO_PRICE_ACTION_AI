@@ -1,0 +1,19 @@
+test_broken_transition (tests.test_f3_int45_joint_quorum.JointQuorumTests.test_broken_transition) ... ok
+test_collusion (tests.test_f3_int45_joint_quorum.JointQuorumTests.test_collusion) ... ok
+test_compromised (tests.test_f3_int45_joint_quorum.JointQuorumTests.test_compromised) ... ok
+test_disjoint_membership (tests.test_f3_int45_joint_quorum.JointQuorumTests.test_disjoint_membership) ... ok
+test_duplicate_vote (tests.test_f3_int45_joint_quorum.JointQuorumTests.test_duplicate_vote) ... ok
+test_insufficient (tests.test_f3_int45_joint_quorum.JointQuorumTests.test_insufficient) ... ok
+test_invalid_membership (tests.test_f3_int45_joint_quorum.JointQuorumTests.test_invalid_membership) ... ok
+test_invalid_pin (tests.test_f3_int45_joint_quorum.JointQuorumTests.test_invalid_pin) ... ok
+test_missing_pin (tests.test_f3_int45_joint_quorum.JointQuorumTests.test_missing_pin) ... ok
+test_nonmember (tests.test_f3_int45_joint_quorum.JointQuorumTests.test_nonmember) ... ok
+test_partition_contested (tests.test_f3_int45_joint_quorum.JointQuorumTests.test_partition_contested) ... ok
+test_strong_joint_fixture (tests.test_f3_int45_joint_quorum.JointQuorumTests.test_strong_joint_fixture) ... ok
+test_weak_overlap_not_guaranteed (tests.test_f3_int45_joint_quorum.JointQuorumTests.test_weak_overlap_not_guaranteed) ... ok
+test_wrong_pin (tests.test_f3_int45_joint_quorum.JointQuorumTests.test_wrong_pin) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.001s
+
+OK

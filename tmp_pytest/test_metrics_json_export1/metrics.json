@@ -1,0 +1,129 @@
+{
+  "scenarios": {
+    "by_confidence": {
+      "HIGH": {
+        "average_confidence": 0.85,
+        "average_correlated_evidence": 0.0,
+        "average_delta": 1.5,
+        "average_independent_evidence": 3.0,
+        "conflict_samples": 0,
+        "correlated_samples": 0,
+        "grade_changes": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "promising_samples": 0,
+        "samples": 1,
+        "strong_candidate_samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "by_conflict": {
+      "0": {
+        "average_confidence": 0.85,
+        "average_correlated_evidence": 0.0,
+        "average_delta": 1.5,
+        "average_independent_evidence": 3.0,
+        "conflict_samples": 0,
+        "correlated_samples": 0,
+        "grade_changes": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "promising_samples": 0,
+        "samples": 1,
+        "strong_candidate_samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "by_correlation": {
+      "INDEPENDENT": {
+        "average_confidence": 0.85,
+        "average_correlated_evidence": 0.0,
+        "average_delta": 1.5,
+        "average_independent_evidence": 3.0,
+        "conflict_samples": 0,
+        "correlated_samples": 0,
+        "grade_changes": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "promising_samples": 0,
+        "samples": 1,
+        "strong_candidate_samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "by_eligibility": {
+      "STRONG_CANDIDATE": {
+        "average_confidence": 0.85,
+        "average_correlated_evidence": 0.0,
+        "average_delta": 1.5,
+        "average_independent_evidence": 3.0,
+        "conflict_samples": 0,
+        "correlated_samples": 0,
+        "grade_changes": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "promising_samples": 0,
+        "samples": 1,
+        "strong_candidate_samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "by_independent_evidence": {
+      "3": {
+        "average_confidence": 0.85,
+        "average_correlated_evidence": 0.0,
+        "average_delta": 1.5,
+        "average_independent_evidence": 3.0,
+        "conflict_samples": 0,
+        "correlated_samples": 0,
+        "grade_changes": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "promising_samples": 0,
+        "samples": 1,
+        "strong_candidate_samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "by_quality": {
+      "HIGH": {
+        "average_confidence": 0.85,
+        "average_correlated_evidence": 0.0,
+        "average_delta": 1.5,
+        "average_independent_evidence": 3.0,
+        "conflict_samples": 0,
+        "correlated_samples": 0,
+        "grade_changes": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "promising_samples": 0,
+        "samples": 1,
+        "strong_candidate_samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "passive_only": true,
+    "samples": 1,
+    "version": "RC3-MICROSTRUCTURE-ELIGIBILITY-SCORE-AB-PERSISTENCE"
+  },
+  "summary": {
+    "average_confidence": 0.85,
+    "average_correlated_evidence": 0.0,
+    "average_delta": 1.5,
+    "average_independent_evidence": 3.0,
+    "conflict_samples": 0,
+    "correlated_samples": 0,
+    "correlation_factor": 0.5,
+    "grade_changes": 0,
+    "neutral_adjustments": 0,
+    "passive_only": true,
+    "positive_adjustments": 1,
+    "promising_factor": 0.5,
+    "promising_samples": 0,
+    "samples": 1,
+    "strong_candidate_samples": 1,
+    "validity_changes": 0,
+    "version": "RC3-MICROSTRUCTURE-ELIGIBILITY-SCORE-AB-PERSISTENCE",
+    "weight": 1.5
+  }
+}

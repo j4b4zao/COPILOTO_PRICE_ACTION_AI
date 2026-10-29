@@ -1,0 +1,16 @@
+test_aggregate_byte_bound (test_f3_int76_segmented_lineage.SegmentedLineageTests.test_aggregate_byte_bound) ... ok
+test_boundary_change_not_hidden (test_f3_int76_segmented_lineage.SegmentedLineageTests.test_boundary_change_not_hidden) ... ok
+test_declared_boundary_change (test_f3_int76_segmented_lineage.SegmentedLineageTests.test_declared_boundary_change) ... ok
+test_flags (test_f3_int76_segmented_lineage.SegmentedLineageTests.test_flags) ... ok
+test_gap_not_hidden (test_f3_int76_segmented_lineage.SegmentedLineageTests.test_gap_not_hidden) ... ok
+test_invalid_bounds (test_f3_int76_segmented_lineage.SegmentedLineageTests.test_invalid_bounds) ... ok
+test_invalid_records (test_f3_int76_segmented_lineage.SegmentedLineageTests.test_invalid_records) ... ok
+test_more_than_32_packages (test_f3_int76_segmented_lineage.SegmentedLineageTests.test_more_than_32_packages) ... ok
+test_package_byte_bound (test_f3_int76_segmented_lineage.SegmentedLineageTests.test_package_byte_bound) ... ok
+test_three_overlapping_segments (test_f3_int76_segmented_lineage.SegmentedLineageTests.test_three_overlapping_segments) ... ok
+test_unused_delta_rejected (test_f3_int76_segmented_lineage.SegmentedLineageTests.test_unused_delta_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.300s
+
+OK

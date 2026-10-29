@@ -1,0 +1,31 @@
+{
+  "notice": "Fixtures sinteticas offline. Contagens dos pacotes de exemplo nao sao checkpoints reais da auditoria. Sem autenticacao ou certificacao.",
+  "result": {
+    "status": "EVIDENCE_REGISTERED_FIXTURE_UNAUTHENTICATED",
+    "checked": 1,
+    "f3": "OPEN",
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false,
+    "registry": {
+      "reference_ids": [
+        "2f3f0fa704c323889f29800ea3db2c0da1c30b898494b2318355633f8b9003a7"
+      ],
+      "observable_ids": [
+        "3f0d9543c9b4d8ab889f879ae849be9631852e9611f0f771a861fdaed7766a1a"
+      ],
+      "namespace": "IMPORT_DIVERGENCE_V1"
+    },
+    "receipts": [
+      {
+        "reference_id": "2f3f0fa704c323889f29800ea3db2c0da1c30b898494b2318355633f8b9003a7",
+        "observable_id": "3f0d9543c9b4d8ab889f879ae849be9631852e9611f0f771a861fdaed7766a1a",
+        "classification": "ORDER_ONLY"
+      }
+    ]
+  }
+}

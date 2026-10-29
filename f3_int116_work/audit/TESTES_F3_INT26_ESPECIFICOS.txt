@@ -1,0 +1,13 @@
+test_closed_session_late_conflict_contested_externally (test_f3_int26_combined_faults.CombinedFaults.test_closed_session_late_conflict_contested_externally) ... ok
+test_discovered_descendant_without_exit_and_late_nonempty (test_f3_int26_combined_faults.CombinedFaults.test_discovered_descendant_without_exit_and_late_nonempty) ... ok
+test_duplicate_cross_attempt_and_cleanup_failure (test_f3_int26_combined_faults.CombinedFaults.test_duplicate_cross_attempt_and_cleanup_failure) ... ok
+test_late_cleanup_failure_and_stale_ticket (test_f3_int26_combined_faults.CombinedFaults.test_late_cleanup_failure_and_stale_ticket) ... ok
+test_late_creation_conflict_with_new_generation (test_f3_int26_combined_faults.CombinedFaults.test_late_creation_conflict_with_new_generation) ... ok
+test_late_negative_job_and_stale_ticket (test_f3_int26_combined_faults.CombinedFaults.test_late_negative_job_and_stale_ticket) ... ok
+test_stale_lease_cannot_add_after_generation_change (test_f3_int26_combined_faults.CombinedFaults.test_stale_lease_cannot_add_after_generation_change) ... ok
+test_unknown_attempt_plus_negative_job_blocks (test_f3_int26_combined_faults.CombinedFaults.test_unknown_attempt_plus_negative_job_blocks) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.111s
+
+OK

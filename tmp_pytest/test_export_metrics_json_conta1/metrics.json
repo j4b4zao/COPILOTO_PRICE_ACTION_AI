@@ -1,0 +1,51 @@
+{
+  "scenarios": {
+    "by_alignment": {
+      "BUY": {
+        "average_delta": 3.0,
+        "grade_changes": 0,
+        "negative_adjustments": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "by_bias": {
+      "BUY": {
+        "average_delta": 3.0,
+        "grade_changes": 0,
+        "negative_adjustments": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "by_regime": {
+      "TREND_UP": {
+        "average_delta": 3.0,
+        "grade_changes": 0,
+        "negative_adjustments": 0,
+        "neutral_adjustments": 0,
+        "positive_adjustments": 1,
+        "samples": 1,
+        "validity_changes": 0
+      }
+    },
+    "samples": 1,
+    "version": "RC3-REGIME-MTF-SCORE-AB-PERSISTENCE",
+    "weight": 3.0
+  },
+  "summary": {
+    "average_delta": 3.0,
+    "grade_changes": 0,
+    "negative_adjustments": 0,
+    "neutral_adjustments": 0,
+    "positive_adjustments": 1,
+    "samples": 1,
+    "validity_changes": 0,
+    "version": "RC3-REGIME-MTF-SCORE-AB-PERSISTENCE",
+    "weight": 3.0
+  }
+}

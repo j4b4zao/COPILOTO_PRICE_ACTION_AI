@@ -1,0 +1,131 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-COVERAGE",
+  "status": "DESCRIPTIVE_ONLY",
+  "eligible_sessions": 7,
+  "rejected_sessions": 0,
+  "sessions": [
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260921_130942.json",
+      "sha256": "a85544271ff2ac693535ae6ed1e6effb033846f7f1ff63d24208d69159337427",
+      "coverage": {
+        "samples": 292,
+        "pa_directional": 292,
+        "flow_directional": 38,
+        "book_available": 292,
+        "book_directional": 49,
+        "insufficient_data": 212,
+        "pa_directional_insufficient_data": 212,
+        "conflicts": 27,
+        "conflict_runs": 22,
+        "longest_conflict_run": 5
+      }
+    },
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260921_163046.json",
+      "sha256": "a3b74ad03c9338d28e0d81cf261e0c6d70d49ff4d20ca14e623695562ab90aa4",
+      "coverage": {
+        "samples": 343,
+        "pa_directional": 343,
+        "flow_directional": 24,
+        "book_available": 343,
+        "book_directional": 150,
+        "insufficient_data": 180,
+        "pa_directional_insufficient_data": 180,
+        "conflicts": 96,
+        "conflict_runs": 16,
+        "longest_conflict_run": 22
+      }
+    },
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260922_130220.json",
+      "sha256": "7c98319547891f0d53575fe8956e872b9b9681626b31b48ed26b25b62e6d56cd",
+      "coverage": {
+        "samples": 268,
+        "pa_directional": 182,
+        "flow_directional": 29,
+        "book_available": 268,
+        "book_directional": 1,
+        "insufficient_data": 248,
+        "pa_directional_insufficient_data": 162,
+        "conflicts": 7,
+        "conflict_runs": 7,
+        "longest_conflict_run": 1
+      }
+    },
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_103430.json",
+      "sha256": "137a74aeaa3d167e49c82203d738fbbac0d1a0c25797630b750dfcb9804b735b",
+      "coverage": {
+        "samples": 279,
+        "pa_directional": 127,
+        "flow_directional": 43,
+        "book_available": 279,
+        "book_directional": 74,
+        "insufficient_data": 222,
+        "pa_directional_insufficient_data": 70,
+        "conflicts": 53,
+        "conflict_runs": 7,
+        "longest_conflict_run": 18
+      }
+    },
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_123103.json",
+      "sha256": "e670e7f2a7ef4c1472b0cb9ac23c9ce9cd9a85e3b46801a00d4ed2205388d1ef",
+      "coverage": {
+        "samples": 266,
+        "pa_directional": 266,
+        "flow_directional": 64,
+        "book_available": 266,
+        "book_directional": 14,
+        "insufficient_data": 189,
+        "pa_directional_insufficient_data": 189,
+        "conflicts": 23,
+        "conflict_runs": 19,
+        "longest_conflict_run": 4
+      }
+    },
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_131852.json",
+      "sha256": "df5c37773747d4ae1131c15d12cea99ab9e4f07438b39b4e7d7b52cc018b827c",
+      "coverage": {
+        "samples": 268,
+        "pa_directional": 106,
+        "flow_directional": 37,
+        "book_available": 268,
+        "book_directional": 139,
+        "insufficient_data": 174,
+        "pa_directional_insufficient_data": 12,
+        "conflicts": 7,
+        "conflict_runs": 7,
+        "longest_conflict_run": 1
+      }
+    },
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_151347.json",
+      "sha256": "079038c684e952a0412d0f32c699e93b6d015359eb368ca0f5345360a98d8200",
+      "coverage": {
+        "samples": 257,
+        "pa_directional": 187,
+        "flow_directional": 27,
+        "book_available": 257,
+        "book_directional": 9,
+        "insufficient_data": 233,
+        "pa_directional_insufficient_data": 163,
+        "conflicts": 15,
+        "conflict_runs": 10,
+        "longest_conflict_run": 4
+      }
+    }
+  ],
+  "audit_stability": "INCONSISTENT",
+  "audit_recommendation": "REVIEW_STABILITY",
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}

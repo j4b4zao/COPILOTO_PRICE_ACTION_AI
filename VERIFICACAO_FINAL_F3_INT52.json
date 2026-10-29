@@ -1,0 +1,25 @@
+{
+  "package": "PACOTE_AUDITORIA_F3_INT52_LOCAL.zip",
+  "sha256": "e1d1b39d7ce3b2858801f79bde723840e07a8ae273ec8d8120d3fcf195636d2c",
+  "sidecar_matches": true,
+  "manifest_entries": 215,
+  "mismatches": [],
+  "zip_crc_ok": true,
+  "last_completed": "F3-INT-52",
+  "tests": 526,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "f3": "OPEN",
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "resume_guide_included": true,
+  "checkpoint_matches_workspace": true
+}

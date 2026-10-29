@@ -1,0 +1,18 @@
+test_byte_bound (test_f3_int91_evidence_registry.EvidenceRegistryTests.test_byte_bound) ... ok
+test_consumed_witness_registry_rejected (test_f3_int91_evidence_registry.EvidenceRegistryTests.test_consumed_witness_registry_rejected) ... ok
+test_cross_batch_replay (test_f3_int91_evidence_registry.EvidenceRegistryTests.test_cross_batch_replay) ... ok
+test_flags (test_f3_int91_evidence_registry.EvidenceRegistryTests.test_flags) ... ok
+test_invalid_bound (test_f3_int91_evidence_registry.EvidenceRegistryTests.test_invalid_bound) ... ok
+test_invalid_tail_atomic (test_f3_int91_evidence_registry.EvidenceRegistryTests.test_invalid_tail_atomic) ... ok
+test_outer_repacking_preserves_identity (test_f3_int91_evidence_registry.EvidenceRegistryTests.test_outer_repacking_preserves_identity) ... ok
+test_pair_orientation_has_same_observables (test_f3_int91_evidence_registry.EvidenceRegistryTests.test_pair_orientation_has_same_observables) ... ok
+test_reference_replay_atomic (test_f3_int91_evidence_registry.EvidenceRegistryTests.test_reference_replay_atomic) ... ok
+test_registration (test_f3_int91_evidence_registry.EvidenceRegistryTests.test_registration) ... ok
+test_reset_limit (test_f3_int91_evidence_registry.EvidenceRegistryTests.test_reset_limit) ... ok
+test_unpaired_registry_ids (test_f3_int91_evidence_registry.EvidenceRegistryTests.test_unpaired_registry_ids) ... ok
+test_wrong_namespace (test_f3_int91_evidence_registry.EvidenceRegistryTests.test_wrong_namespace) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 25.178s
+
+OK

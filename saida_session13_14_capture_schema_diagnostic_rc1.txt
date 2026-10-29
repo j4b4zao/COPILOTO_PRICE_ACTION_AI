@@ -1,0 +1,57 @@
+﻿=== SESSION 13 vs 14 CAPTURE SCHEMA DIAGNOSTIC ===
+=== FROZEN HASHES ===
+S13_SHA256=3A73D4B0A8C7F4ADF0917BB9CE5DC927323578C5729C455BC0A78D3C5BDB7A00
+S14_SHA256=D49879440B4DBAFA76B012162E3F9EAF2A8BD8F6555C269517EB91B0E2CE3F15
+=== JSON SCHEMA COMPARISON ===
+python.exe :   File "<string>", line 8
+No linha:24 caractere:1
++ & ".\ambiente\Scripts\python.exe" -c @'
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (  File "<string>", line 8:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    print(f---
+         ^
+SyntaxError: '(' was never closed
+SCHEMA_DIAGNOSTIC_EXIT_CODE=1
+=== COLLECTOR PROSPECTIVE REFERENCES ===
+
+=== ORCHESTRATED COLLECTOR REFERENCES ===
+
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:115:        output_dir=args.output_dir,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:116:    )
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:117:    session = result.get("session") or {}
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:118:    evidence = 
+session.get("prospective_microstructure") or {}
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:119:    preflight = result.get("preflight") or 
+{}
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:120:    summary = {
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:121:        "status": result["status"],
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:125:        "session_status": 
+session.get("status"),
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:126:        "data_ready": 
+session.get("data_ready"),
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:127:        "trade_context_ready_at_start": 
+session.get("trade_context_ready_at_start"),
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:128:        "analyzable_samples": 
+session.get("analyzable_samples"),
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:129:        "captured_samples": 
+evidence.get("captured_samples"),
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:130:        "sample_count_matches_source": 
+evidence.get("sample_count_matches_source"),
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:131:        "collection_errors": 
+session.get("collection_errors"),
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:132:        "missing_price_count": 
+session.get("missing_price_count"),
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:133:        "delta_failure_samples": 
+session.get("delta_failure_samples"),
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:134:        "output_path": 
+session.get("output_path"),
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:135:        "report": evidence.get("report"),
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:136:        **_safety(),
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:137:    }
+
+
+
+=== HEAD ===
+a741be9c905009906c93130af648983377f8a3a3

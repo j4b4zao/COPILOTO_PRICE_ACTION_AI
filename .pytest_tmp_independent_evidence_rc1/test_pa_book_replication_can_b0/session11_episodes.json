@@ -1,0 +1,29 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-CONFLICT-EPISODES",
+  "status": "DESCRIPTIVE_ONLY",
+  "eligible_sessions": 1,
+  "rejected_sessions": 0,
+  "sessions": [
+    {
+      "path": "session11.json",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "samples": 100,
+      "conflict_samples": 4,
+      "conflict_episodes": 4,
+      "longest_episode_samples": 1,
+      "mean_episode_samples": 1.0,
+      "episodes": []
+    }
+  ],
+  "audit_stability": "INSUFFICIENT_DATA",
+  "audit_recommendation": "COLLECT_MORE_DATA",
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}

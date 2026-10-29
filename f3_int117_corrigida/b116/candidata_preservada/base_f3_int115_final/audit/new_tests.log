@@ -1,0 +1,21 @@
+test_complete (test_f3_int108_typed_chain_guard.ChainGuardTests.test_complete) ... ok
+test_consumed_replay (test_f3_int108_typed_chain_guard.ChainGuardTests.test_consumed_replay) ... ok
+test_context_purpose_run_and_revision_mismatch (test_f3_int108_typed_chain_guard.ChainGuardTests.test_context_purpose_run_and_revision_mismatch) ... ok
+test_existing_validation_delegated (test_f3_int108_typed_chain_guard.ChainGuardTests.test_existing_validation_delegated) ... ok
+test_floor_checks_first_revision (test_f3_int108_typed_chain_guard.ChainGuardTests.test_floor_checks_first_revision) ... ok
+test_invalid_floor (test_f3_int108_typed_chain_guard.ChainGuardTests.test_invalid_floor) ... ok
+test_invalid_history (test_f3_int108_typed_chain_guard.ChainGuardTests.test_invalid_history) ... ok
+test_locks_and_no_state_mutation (test_f3_int108_typed_chain_guard.ChainGuardTests.test_locks_and_no_state_mutation) ... ok
+test_middle_removal (test_f3_int108_typed_chain_guard.ChainGuardTests.test_middle_removal) ... ok
+test_middle_substitution (test_f3_int108_typed_chain_guard.ChainGuardTests.test_middle_substitution) ... ok
+test_old_chain_with_matching_old_pin (test_f3_int108_typed_chain_guard.ChainGuardTests.test_old_chain_with_matching_old_pin) ... ok
+test_prefix_truncation (test_f3_int108_typed_chain_guard.ChainGuardTests.test_prefix_truncation) ... ok
+test_required_arguments_cannot_be_omitted (test_f3_int108_typed_chain_guard.ChainGuardTests.test_required_arguments_cannot_be_omitted) ... ok
+test_required_pin (test_f3_int108_typed_chain_guard.ChainGuardTests.test_required_pin) ... ok
+test_suffix_truncation (test_f3_int108_typed_chain_guard.ChainGuardTests.test_suffix_truncation) ... ok
+test_unrelated_consumed_chain (test_f3_int108_typed_chain_guard.ChainGuardTests.test_unrelated_consumed_chain) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 83.653s
+
+OK

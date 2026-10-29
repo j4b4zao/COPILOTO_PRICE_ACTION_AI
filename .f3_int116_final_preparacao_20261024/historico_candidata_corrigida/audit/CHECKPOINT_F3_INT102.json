@@ -1,0 +1,34 @@
+{
+  "last_completed": "F3-INT-102",
+  "new_tests": {
+    "passed": 14,
+    "failed": 0,
+    "source": "F3_INT102_TESTES_NOVOS.txt (candidate-local run); earlier user report"
+  },
+  "regression": {
+    "passed": 1199,
+    "failed": 0,
+    "exit_code": 0,
+    "seconds": 298.419,
+    "source": "saida(20261021-195042).txt (user Windows run, tail only)"
+  },
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "next_step": "F3-INT-103: review contract gaps before implementation",
+  "pending": [
+    "Authenticity, consensus, persistence and real fencing remain unverified.",
+    "Model-based explorations are bounded, not exhaustive.",
+    "Uploaded regression log contains tail only; standalone new-test results sourced separately."
+  ]
+}

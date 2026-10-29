@@ -1,0 +1,47 @@
+{
+    "etapa":  "F3-INT-118",
+    "classificacao":  "CANDIDATA",
+    "f3":  "OPEN",
+    "checkpoint_final_preservado":  "F3-INT-117 R2",
+    "operacoes_reais_autorizadas":  false,
+    "evidencias_autenticadas_independentemente":  false,
+    "durabilidade_fisica_comprovada":  false,
+    "regressao_reportada":  {
+                                "aprovados":  37,
+                                "duracao_segundos":  128.89
+                            },
+    "arquivos":  [
+                     {
+                         "arquivo":  "tools\\f3_int109_offline_consumption_store.py",
+                         "sha256":  "EA990A447AC3CBB31EE63DD4709C830C11088D202AE24703442545FB245C83CF"
+                     },
+                     {
+                         "arquivo":  "tools\\f3_int115_multiprocess_recovery.py",
+                         "sha256":  "FF92B7A3FA53C63E8C50BC5815A8E07880155EAC3340B14E699C62A5CB7AFD64"
+                     },
+                     {
+                         "arquivo":  "tools\\f3_int116_commit_recovery.py",
+                         "sha256":  "73D23AAEC864D34A81C187AF6FB6D2CED5D71CC4D5DA255B05775C44CA989D06"
+                     },
+                     {
+                         "arquivo":  "tools\\f3_int117_sqlite_write_faults.py",
+                         "sha256":  "43CBCB3FCE81E725F36ADFF6658F2AA6CE7FC5FE4686757A20A198B8DF13614D"
+                     },
+                     {
+                         "arquivo":  "tests\\test_f3_int109_offline_consumption_store.py",
+                         "sha256":  "BD0E4ACBB636D0C39A1506A65689815757A5A86F359C27B9AB2D83805A5AE9E9"
+                     },
+                     {
+                         "arquivo":  "tests\\test_f3_int115_multiprocess_recovery.py",
+                         "sha256":  "F62639E22D16598E9DB4BB28A219E97EC962617C5560AC4E01481D0D83807392"
+                     },
+                     {
+                         "arquivo":  "tests\\test_f3_int116_commit_recovery.py",
+                         "sha256":  "42EF0D75108969F16EC61B7598561B30BD8B38E2CB8C7FF4A60A975D51F195A3"
+                     },
+                     {
+                         "arquivo":  "tests\\test_f3_int117_sqlite_write_faults.py",
+                         "sha256":  "446A5D0EBE862E543A260D2706C0025410DBEF501ED84CCCFADE5116496ED06C"
+                     }
+                 ]
+}

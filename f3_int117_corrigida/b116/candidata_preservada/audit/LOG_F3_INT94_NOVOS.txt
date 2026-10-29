@@ -1,0 +1,16 @@
+test_attached_bad_bundle_rehashed_package (test_f3_int94_attached_evidence_verifier.AttachedEvidenceTests.test_attached_bad_bundle_rehashed_package) ... ok
+test_attachment_has_its_own_byte_cap (test_f3_int94_attached_evidence_verifier.AttachedEvidenceTests.test_attachment_has_its_own_byte_cap) ... ok
+test_bundle_pin (test_f3_int94_attached_evidence_verifier.AttachedEvidenceTests.test_bundle_pin) ... ok
+test_entire_chain (test_f3_int94_attached_evidence_verifier.AttachedEvidenceTests.test_entire_chain) ... ok
+test_flags (test_f3_int94_attached_evidence_verifier.AttachedEvidenceTests.test_flags) ... ok
+test_invalid_paths (test_f3_int94_attached_evidence_verifier.AttachedEvidenceTests.test_invalid_paths) ... ok
+test_invalid_pins (test_f3_int94_attached_evidence_verifier.AttachedEvidenceTests.test_invalid_pins) ... ok
+test_invalid_record (test_f3_int94_attached_evidence_verifier.AttachedEvidenceTests.test_invalid_record) ... ok
+test_missing_attachment (test_f3_int94_attached_evidence_verifier.AttachedEvidenceTests.test_missing_attachment) ... ok
+test_observable_pin (test_f3_int94_attached_evidence_verifier.AttachedEvidenceTests.test_observable_pin) ... ok
+test_package_pin (test_f3_int94_attached_evidence_verifier.AttachedEvidenceTests.test_package_pin) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 6.386s
+
+OK

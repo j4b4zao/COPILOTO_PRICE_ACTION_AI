@@ -1,0 +1,11 @@
+test_after_append_crash_requires_replay_not_guessing (test_f3_int34_persistence_simulation.SimulatedPersistence.test_after_append_crash_requires_replay_not_guessing) ... ok
+test_before_append_crash_leaves_no_record (test_f3_int34_persistence_simulation.SimulatedPersistence.test_before_append_crash_leaves_no_record) ... ok
+test_lease_rotation_fences_stale_writer (test_f3_int34_persistence_simulation.SimulatedPersistence.test_lease_rotation_fences_stale_writer) ... ok
+test_reorder_duplicate_and_missing_record_rejected (test_f3_int34_persistence_simulation.SimulatedPersistence.test_reorder_duplicate_and_missing_record_rejected) ... ok
+test_simulated_authority_never_certifies_native_or_orders (test_f3_int34_persistence_simulation.SimulatedPersistence.test_simulated_authority_never_certifies_native_or_orders) ... ok
+test_snapshot_is_not_an_authority_and_tamper_rejected (test_f3_int34_persistence_simulation.SimulatedPersistence.test_snapshot_is_not_an_authority_and_tamper_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK

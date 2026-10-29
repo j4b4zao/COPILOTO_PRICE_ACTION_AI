@@ -1,0 +1,1743 @@
+{
+  "version": "H.10 RC3.11",
+  "status": "PREPARED_NOT_EXECUTED",
+  "decision": "WAIT",
+  "orders_allowed": false,
+  "live_certified": false,
+  "flow_complete": false,
+  "data_origin": "SYNTHETIC_ONLY",
+  "candles": {
+    "up": [
+      {
+        "open": 10.5,
+        "high": 12,
+        "low": 9,
+        "close": 10.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:00:00-03:00"
+      },
+      {
+        "open": 10.5,
+        "high": 13,
+        "low": 8,
+        "close": 10.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:01:00-03:00"
+      },
+      {
+        "open": 12.5,
+        "high": 20,
+        "low": 5,
+        "close": 12.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:02:00-03:00"
+      },
+      {
+        "open": 11.0,
+        "high": 14,
+        "low": 8,
+        "close": 11.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:03:00-03:00"
+      },
+      {
+        "open": 11.0,
+        "high": 13,
+        "low": 9,
+        "close": 11.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:04:00-03:00"
+      },
+      {
+        "open": 12.5,
+        "high": 15,
+        "low": 10,
+        "close": 12.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:05:00-03:00"
+      },
+      {
+        "open": 16.0,
+        "high": 25,
+        "low": 7,
+        "close": 16.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:06:00-03:00"
+      },
+      {
+        "open": 13.0,
+        "high": 16,
+        "low": 10,
+        "close": 13.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:07:00-03:00"
+      },
+      {
+        "open": 13.0,
+        "high": 15,
+        "low": 11,
+        "close": 13.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:08:00-03:00"
+      },
+      {
+        "open": 14.5,
+        "high": 17,
+        "low": 12,
+        "close": 14.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:09:00-03:00"
+      },
+      {
+        "open": 15.5,
+        "high": 18,
+        "low": 13,
+        "close": 15.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:10:00-03:00"
+      }
+    ],
+    "down": [
+      {
+        "open": 89.5,
+        "high": 91,
+        "low": 88,
+        "close": 89.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:00:00-03:00"
+      },
+      {
+        "open": 89.5,
+        "high": 92,
+        "low": 87,
+        "close": 89.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:01:00-03:00"
+      },
+      {
+        "open": 87.5,
+        "high": 95,
+        "low": 80,
+        "close": 87.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:02:00-03:00"
+      },
+      {
+        "open": 89.0,
+        "high": 92,
+        "low": 86,
+        "close": 89.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:03:00-03:00"
+      },
+      {
+        "open": 89.0,
+        "high": 91,
+        "low": 87,
+        "close": 89.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:04:00-03:00"
+      },
+      {
+        "open": 87.5,
+        "high": 90,
+        "low": 85,
+        "close": 87.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:05:00-03:00"
+      },
+      {
+        "open": 84.0,
+        "high": 93,
+        "low": 75,
+        "close": 84.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:06:00-03:00"
+      },
+      {
+        "open": 87.0,
+        "high": 90,
+        "low": 84,
+        "close": 87.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:07:00-03:00"
+      },
+      {
+        "open": 87.0,
+        "high": 89,
+        "low": 85,
+        "close": 87.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:08:00-03:00"
+      },
+      {
+        "open": 85.5,
+        "high": 88,
+        "low": 83,
+        "close": 85.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:09:00-03:00"
+      },
+      {
+        "open": 84.5,
+        "high": 87,
+        "low": 82,
+        "close": 84.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:10:00-03:00"
+      }
+    ],
+    "sideways": [
+      {
+        "open": 10.5,
+        "high": 12,
+        "low": 9,
+        "close": 10.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:00:00-03:00"
+      },
+      {
+        "open": 10.5,
+        "high": 13,
+        "low": 8,
+        "close": 10.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:01:00-03:00"
+      },
+      {
+        "open": 12.5,
+        "high": 20,
+        "low": 5,
+        "close": 12.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:02:00-03:00"
+      },
+      {
+        "open": 11.0,
+        "high": 14,
+        "low": 8,
+        "close": 11.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:03:00-03:00"
+      },
+      {
+        "open": 11.0,
+        "high": 13,
+        "low": 9,
+        "close": 11.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:04:00-03:00"
+      },
+      {
+        "open": 12.5,
+        "high": 15,
+        "low": 10,
+        "close": 12.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:05:00-03:00"
+      },
+      {
+        "open": 12.5,
+        "high": 20,
+        "low": 5,
+        "close": 12.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:06:00-03:00"
+      },
+      {
+        "open": 13.0,
+        "high": 16,
+        "low": 10,
+        "close": 13.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:07:00-03:00"
+      },
+      {
+        "open": 13.0,
+        "high": 15,
+        "low": 11,
+        "close": 13.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:08:00-03:00"
+      },
+      {
+        "open": 14.5,
+        "high": 17,
+        "low": 12,
+        "close": 14.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:09:00-03:00"
+      },
+      {
+        "open": 15.5,
+        "high": 18,
+        "low": 13,
+        "close": 15.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:10:00-03:00"
+      }
+    ],
+    "bos_up": [
+      {
+        "open": 10.5,
+        "high": 12,
+        "low": 9,
+        "close": 10.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:00:00-03:00"
+      },
+      {
+        "open": 10.5,
+        "high": 13,
+        "low": 8,
+        "close": 10.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:01:00-03:00"
+      },
+      {
+        "open": 12.5,
+        "high": 20,
+        "low": 5,
+        "close": 12.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:02:00-03:00"
+      },
+      {
+        "open": 11.0,
+        "high": 14,
+        "low": 8,
+        "close": 11.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:03:00-03:00"
+      },
+      {
+        "open": 11.0,
+        "high": 13,
+        "low": 9,
+        "close": 11.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:04:00-03:00"
+      },
+      {
+        "open": 12.5,
+        "high": 15,
+        "low": 10,
+        "close": 12.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:05:00-03:00"
+      },
+      {
+        "open": 16.0,
+        "high": 25,
+        "low": 7,
+        "close": 16.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:06:00-03:00"
+      },
+      {
+        "open": 13.0,
+        "high": 16,
+        "low": 10,
+        "close": 13.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:07:00-03:00"
+      },
+      {
+        "open": 13.0,
+        "high": 15,
+        "low": 11,
+        "close": 13.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:08:00-03:00"
+      },
+      {
+        "open": 22.5,
+        "high": 30,
+        "low": 15,
+        "close": 28,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:09:00-03:00"
+      },
+      {
+        "open": 15.5,
+        "high": 18,
+        "low": 13,
+        "close": 15.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:10:00-03:00"
+      }
+    ],
+    "bos_down": [
+      {
+        "open": 89.5,
+        "high": 91,
+        "low": 88,
+        "close": 89.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:00:00-03:00"
+      },
+      {
+        "open": 89.5,
+        "high": 92,
+        "low": 87,
+        "close": 89.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:01:00-03:00"
+      },
+      {
+        "open": 87.5,
+        "high": 95,
+        "low": 80,
+        "close": 87.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:02:00-03:00"
+      },
+      {
+        "open": 89.0,
+        "high": 92,
+        "low": 86,
+        "close": 89.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:03:00-03:00"
+      },
+      {
+        "open": 89.0,
+        "high": 91,
+        "low": 87,
+        "close": 89.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:04:00-03:00"
+      },
+      {
+        "open": 87.5,
+        "high": 90,
+        "low": 85,
+        "close": 87.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:05:00-03:00"
+      },
+      {
+        "open": 84.0,
+        "high": 93,
+        "low": 75,
+        "close": 84.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:06:00-03:00"
+      },
+      {
+        "open": 87.0,
+        "high": 90,
+        "low": 84,
+        "close": 87.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:07:00-03:00"
+      },
+      {
+        "open": 87.0,
+        "high": 89,
+        "low": 85,
+        "close": 87.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:08:00-03:00"
+      },
+      {
+        "open": 77.5,
+        "high": 85,
+        "low": 70,
+        "close": 72,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:09:00-03:00"
+      },
+      {
+        "open": 84.5,
+        "high": 87,
+        "low": 82,
+        "close": 84.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:10:00-03:00"
+      }
+    ],
+    "choch": [
+      {
+        "open": 10.5,
+        "high": 12,
+        "low": 9,
+        "close": 10.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:00:00-03:00"
+      },
+      {
+        "open": 10.5,
+        "high": 13,
+        "low": 8,
+        "close": 10.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:01:00-03:00"
+      },
+      {
+        "open": 12.5,
+        "high": 20,
+        "low": 5,
+        "close": 12.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:02:00-03:00"
+      },
+      {
+        "open": 11.0,
+        "high": 14,
+        "low": 8,
+        "close": 11.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:03:00-03:00"
+      },
+      {
+        "open": 11.0,
+        "high": 13,
+        "low": 9,
+        "close": 11.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:04:00-03:00"
+      },
+      {
+        "open": 12.5,
+        "high": 15,
+        "low": 10,
+        "close": 12.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:05:00-03:00"
+      },
+      {
+        "open": 16.0,
+        "high": 25,
+        "low": 7,
+        "close": 16.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:06:00-03:00"
+      },
+      {
+        "open": 13.0,
+        "high": 16,
+        "low": 10,
+        "close": 13.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:07:00-03:00"
+      },
+      {
+        "open": 13.0,
+        "high": 15,
+        "low": 11,
+        "close": 13.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:08:00-03:00"
+      },
+      {
+        "open": 8.0,
+        "high": 13,
+        "low": 3,
+        "close": 4,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:09:00-03:00"
+      },
+      {
+        "open": 15.5,
+        "high": 18,
+        "low": 13,
+        "close": 15.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:10:00-03:00"
+      }
+    ],
+    "forming": [
+      {
+        "open": 10.5,
+        "high": 12,
+        "low": 9,
+        "close": 10.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:00:00-03:00"
+      },
+      {
+        "open": 10.5,
+        "high": 13,
+        "low": 8,
+        "close": 10.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:01:00-03:00"
+      },
+      {
+        "open": 12.5,
+        "high": 20,
+        "low": 5,
+        "close": 12.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:02:00-03:00"
+      },
+      {
+        "open": 11.0,
+        "high": 14,
+        "low": 8,
+        "close": 11.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:03:00-03:00"
+      },
+      {
+        "open": 11.0,
+        "high": 13,
+        "low": 9,
+        "close": 11.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:04:00-03:00"
+      },
+      {
+        "open": 12.5,
+        "high": 15,
+        "low": 10,
+        "close": 12.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:05:00-03:00"
+      },
+      {
+        "open": 16.0,
+        "high": 25,
+        "low": 7,
+        "close": 16.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:06:00-03:00"
+      },
+      {
+        "open": 13.0,
+        "high": 16,
+        "low": 10,
+        "close": 13.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:07:00-03:00"
+      },
+      {
+        "open": 13.0,
+        "high": 15,
+        "low": 11,
+        "close": 13.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:08:00-03:00"
+      },
+      {
+        "open": 14.5,
+        "high": 17,
+        "low": 12,
+        "close": 14.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:09:00-03:00"
+      },
+      {
+        "open": 499.5,
+        "high": 999,
+        "low": 0,
+        "close": 499.5,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:10:00-03:00"
+      }
+    ],
+    "insufficient": [
+      {
+        "open": 10.0,
+        "high": 12,
+        "low": 8,
+        "close": 10.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:00:00-03:00"
+      },
+      {
+        "open": 10.0,
+        "high": 12,
+        "low": 8,
+        "close": 10.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:01:00-03:00"
+      },
+      {
+        "open": 10.0,
+        "high": 12,
+        "low": 8,
+        "close": 10.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:02:00-03:00"
+      },
+      {
+        "open": 10.0,
+        "high": 12,
+        "low": 8,
+        "close": 10.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:03:00-03:00"
+      }
+    ],
+    "pa": [
+      {
+        "open": 100.0,
+        "high": 102,
+        "low": 98,
+        "close": 100.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:00:00-03:00"
+      },
+      {
+        "open": 100.0,
+        "high": 102,
+        "low": 98,
+        "close": 100.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:01:00-03:00"
+      },
+      {
+        "open": 100.0,
+        "high": 102,
+        "low": 98,
+        "close": 100.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:02:00-03:00"
+      },
+      {
+        "open": 100.0,
+        "high": 102,
+        "low": 98,
+        "close": 100.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:03:00-03:00"
+      },
+      {
+        "open": 100.0,
+        "high": 102,
+        "low": 98,
+        "close": 100.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:04:00-03:00"
+      },
+      {
+        "open": 100.0,
+        "high": 102,
+        "low": 98,
+        "close": 100.0,
+        "volume": 100,
+        "timestamp": "2026-01-01T10:05:00-03:00"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "ms_up",
+      "engine": "market_structure",
+      "scenario": "Tendência de alta",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.trend": "$Trend.UP",
+        "structure.valid": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "up"
+    },
+    {
+      "id": "ms_down",
+      "engine": "market_structure",
+      "scenario": "Tendência de baixa",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.trend": "$Trend.DOWN",
+        "structure.valid": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "down"
+    },
+    {
+      "id": "ms_sideways",
+      "engine": "market_structure",
+      "scenario": "Mercado lateral",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.trend": "$Trend.SIDEWAYS",
+        "structure.valid": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "sideways"
+    },
+    {
+      "id": "ms_hh_hl",
+      "engine": "market_structure",
+      "scenario": "HH e HL",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.hh": true,
+        "structure.hl": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "up"
+    },
+    {
+      "id": "ms_lh_ll",
+      "engine": "market_structure",
+      "scenario": "LH e LL",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.lh": true,
+        "structure.ll": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "down"
+    },
+    {
+      "id": "ms_bos_up",
+      "engine": "market_structure",
+      "scenario": "BOS de alta",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.bos_up": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "bos_up"
+    },
+    {
+      "id": "ms_bos_down",
+      "engine": "market_structure",
+      "scenario": "BOS de baixa",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.bos_down": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "bos_down"
+    },
+    {
+      "id": "ms_choch",
+      "engine": "market_structure",
+      "scenario": "CHOCH após HH/HL",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.choch": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "choch"
+    },
+    {
+      "id": "ms_forming",
+      "engine": "market_structure",
+      "scenario": "Candle em formação ignorado",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.trend": "$Trend.UP",
+        "structure.swing_high": 25,
+        "structure.swing_low": 7
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "forming"
+    },
+    {
+      "id": "ms_insufficient",
+      "engine": "market_structure",
+      "scenario": "Histórico insuficiente",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "insufficient"
+    },
+    {
+      "id": "pa_buy",
+      "engine": "price_action",
+      "scenario": "Sinal buy",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "structure.trend": "$Trend.UP"
+      },
+      "expected": {
+        "price_action.bias": "BUY",
+        "price_action.valid": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "pa",
+      "bounds": {
+        "price_action.score": [
+          30,
+          100
+        ]
+      }
+    },
+    {
+      "id": "pa_sell",
+      "engine": "price_action",
+      "scenario": "Sinal sell",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "structure.trend": "$Trend.DOWN"
+      },
+      "expected": {
+        "price_action.bias": "SELL",
+        "price_action.valid": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "pa",
+      "bounds": {
+        "price_action.score": [
+          30,
+          100
+        ]
+      }
+    },
+    {
+      "id": "pa_none",
+      "engine": "price_action",
+      "scenario": "Ausência de sinal",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "structure.trend": "$Trend.SIDEWAYS"
+      },
+      "expected": {
+        "price_action.bias": "NONE",
+        "price_action.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "pa"
+    },
+    {
+      "id": "pa_insufficient",
+      "engine": "price_action",
+      "scenario": "Histórico insuficiente",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "price_action.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "insufficient"
+    },
+    {
+      "id": "pa_conflict",
+      "engine": "price_action",
+      "scenario": "Bloqueio por padrões conflitantes",
+      "status": "BLOCKED_BY_CONTRACT",
+      "input": {},
+      "expected": {},
+      "reason": "Bias deriva da tendência; padrões somam score. Não há veto geral por conflito de padrões."
+    },
+    {
+      "id": "strategy_buy",
+      "engine": "strategy",
+      "scenario": "Setup comprador válido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "context.valid": true,
+        "context.bias": "BUY",
+        "structure.trend": "$Trend.UP",
+        "structure.valid": true,
+        "structure.bos_up": true,
+        "order_block.bullish": true,
+        "fair_value_gap.bullish": true,
+        "price_action.breakout": true,
+        "volume.high": true
+      },
+      "expected": {
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.name": "Trend Breakout"
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "strategy_sell",
+      "engine": "strategy",
+      "scenario": "Setup vendedor válido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "context.valid": true,
+        "context.bias": "SELL",
+        "structure.trend": "$Trend.DOWN",
+        "structure.valid": true,
+        "structure.bos_down": true,
+        "order_block.bearish": true,
+        "fair_value_gap.bearish": true,
+        "price_action.breakout": true,
+        "volume.high": true
+      },
+      "expected": {
+        "strategy.valid": true,
+        "strategy.signal": "SELL",
+        "strategy.name": "Trend Breakout"
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "strategy_invalid",
+      "engine": "strategy",
+      "scenario": "Setup inválido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "strategy.valid": false,
+        "strategy.signal": "NONE"
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "strategy_no_confluence",
+      "engine": "strategy",
+      "scenario": "Ausência de confluências",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "context.valid": true,
+        "context.bias": "BUY"
+      },
+      "expected": {
+        "strategy.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "strategy_conflict",
+      "engine": "strategy",
+      "scenario": "Veto de setups opostos",
+      "status": "BLOCKED_BY_CONTRACT",
+      "input": {},
+      "expected": {},
+      "reason": "Seleciona maior score; empate mantém primeiro pela prioridade. Não existe veto direcional geral."
+    },
+    {
+      "id": "strategy_tie_observed",
+      "engine": "strategy",
+      "scenario": "Seleção observável no empate oposto",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "context.valid": true,
+        "context.bias": "BUY",
+        "structure.trend": "$Trend.UP",
+        "structure.valid": true,
+        "structure.bos_up": true,
+        "order_block.bullish": true,
+        "fair_value_gap.bullish": true,
+        "price_action.breakout": false,
+        "volume.high": true,
+        "price_action.pullback": true,
+        "price_action.hammer": true,
+        "price_action.shooting_star": true,
+        "liquidity.valid": true,
+        "liquidity.sell_side": true,
+        "volume.valid": true,
+        "order_block.valid": true,
+        "order_block.bearish": true,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.bearish": true
+      },
+      "expected": {
+        "strategy.signal": "BUY",
+        "strategy.name": "Trend Pullback",
+        "strategy.score": 100
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "score_minimum",
+      "engine": "score",
+      "scenario": "Pontuação mínima zero",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "score.total": 0,
+        "score.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "score_threshold",
+      "engine": "score",
+      "scenario": "Limiar funcional 70",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "price_action.valid": true,
+        "price_action.score": 100,
+        "liquidity.valid": true,
+        "liquidity.confidence": 100,
+        "order_block.valid": true,
+        "order_block.strength": 1,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.strength": 1,
+        "context.valid": true,
+        "context.score": 100,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100
+      },
+      "expected": {
+        "score.total": 70,
+        "score.valid": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "score_intermediate",
+      "engine": "score",
+      "scenario": "Pontuação intermediária 30",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "strategy.valid": true,
+        "strategy.score": 100,
+        "price_action.valid": true,
+        "price_action.score": 100
+      },
+      "expected": {
+        "score.total": 30,
+        "score.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "score_high",
+      "engine": "score",
+      "scenario": "Pontuação elevada",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "structure.valid": true,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.hh": true,
+        "structure.choch": true,
+        "structure.confidence": 1,
+        "price_action.valid": true,
+        "price_action.score": 100,
+        "liquidity.valid": true,
+        "liquidity.confidence": 100,
+        "volume.valid": true,
+        "volume.strength": 1,
+        "order_block.valid": true,
+        "order_block.strength": 1,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.strength": 1,
+        "context.valid": true,
+        "context.score": 100,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100
+      },
+      "expected": {
+        "score.total": 100,
+        "score.valid": true,
+        "score.order_flow_applied": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "bounds": {
+        "score.total": [
+          0,
+          100
+        ]
+      }
+    },
+    {
+      "id": "score_favorable",
+      "engine": "score",
+      "scenario": "Confluências favoráveis",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "structure.valid": true,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.hh": true,
+        "structure.choch": true,
+        "structure.confidence": 1,
+        "price_action.valid": true,
+        "price_action.score": 100,
+        "liquidity.valid": true,
+        "liquidity.confidence": 100,
+        "volume.valid": true,
+        "volume.strength": 1,
+        "order_block.valid": true,
+        "order_block.strength": 1,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.strength": 1,
+        "context.valid": true,
+        "context.score": 100,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100
+      },
+      "expected": {
+        "score.total": 100,
+        "score.valid": true,
+        "score.order_flow_applied": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "bounds": {
+        "score.total": [
+          0,
+          100
+        ]
+      }
+    },
+    {
+      "id": "score_of_disabled",
+      "engine": "score",
+      "scenario": "Order Flow desabilitado",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "structure.valid": true,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.hh": true,
+        "structure.choch": true,
+        "structure.confidence": 1,
+        "price_action.valid": true,
+        "price_action.score": 100,
+        "liquidity.valid": true,
+        "liquidity.confidence": 100,
+        "volume.valid": true,
+        "volume.strength": 1,
+        "order_block.valid": true,
+        "order_block.strength": 1,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.strength": 1,
+        "context.valid": true,
+        "context.score": 100,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100
+      },
+      "expected": {
+        "score.total": 100,
+        "score.valid": true,
+        "score.order_flow_applied": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "bounds": {
+        "score.total": [
+          0,
+          100
+        ]
+      }
+    },
+    {
+      "id": "score_conflicting",
+      "engine": "score",
+      "scenario": "Confluências conflitantes sem veto presumido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "structure.valid": true,
+        "structure.trend": "$Trend.DOWN",
+        "structure.bos_up": true,
+        "structure.hh": true,
+        "structure.choch": true,
+        "structure.confidence": 1,
+        "price_action.valid": true,
+        "price_action.score": 100,
+        "liquidity.valid": true,
+        "liquidity.confidence": 100,
+        "volume.valid": true,
+        "volume.strength": 1,
+        "order_block.valid": true,
+        "order_block.strength": 1,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.strength": 1,
+        "context.valid": true,
+        "context.score": 100,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100
+      },
+      "expected": {
+        "score.total": 100,
+        "score.bias": "BUY"
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "score_bounded",
+      "engine": "score",
+      "scenario": "Score limitado 0..100",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "structure.valid": true,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.hh": true,
+        "structure.choch": true,
+        "structure.confidence": 1,
+        "price_action.valid": true,
+        "price_action.score": 1000,
+        "liquidity.valid": true,
+        "liquidity.confidence": 100,
+        "volume.valid": true,
+        "volume.strength": 1,
+        "order_block.valid": true,
+        "order_block.strength": 1,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.strength": 1,
+        "context.valid": true,
+        "context.score": 100,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 1000
+      },
+      "expected": {
+        "score.total": 100
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "bounds": {
+        "score.total": [
+          0,
+          100
+        ]
+      }
+    },
+    {
+      "id": "risk_valid_stop",
+      "engine": "risk",
+      "scenario": "Stop válido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "market.last_price": 1000,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.swing_high": 1200,
+        "structure.last_high": 1200,
+        "order_block.valid": true,
+        "order_block.bullish": true,
+        "order_block.low": 900,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.bullish": true,
+        "fair_value_gap.low": 900,
+        "volume.high": true,
+        "liquidity.buy_side": true
+      },
+      "expected": {
+        "risk.stop_loss": 900,
+        "risk.approved": true,
+        "risk.valid": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "risk_invalid_stop",
+      "engine": "risk",
+      "scenario": "Stop inválido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "market.last_price": 1000,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.swing_high": 1200,
+        "structure.last_high": 1200,
+        "order_block.valid": true,
+        "order_block.bullish": true,
+        "order_block.low": 1100,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.bullish": true,
+        "fair_value_gap.low": 1100,
+        "volume.high": true,
+        "liquidity.buy_side": true
+      },
+      "expected": {
+        "risk.approved": false,
+        "risk.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "risk_valid_target",
+      "engine": "risk",
+      "scenario": "Alvo válido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "market.last_price": 1000,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.swing_high": 1200,
+        "structure.last_high": 1200,
+        "order_block.valid": true,
+        "order_block.bullish": true,
+        "order_block.low": 900,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.bullish": true,
+        "fair_value_gap.low": 900,
+        "volume.high": true,
+        "liquidity.buy_side": true
+      },
+      "expected": {
+        "risk.take_profit": 1200,
+        "risk.risk_reward": 2,
+        "risk.approved": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "risk_rr_below",
+      "engine": "risk",
+      "scenario": "RR abaixo de 1.5",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "market.last_price": 1000,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.swing_high": 1100,
+        "structure.last_high": 1100,
+        "order_block.valid": true,
+        "order_block.bullish": true,
+        "order_block.low": 900,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.bullish": true,
+        "fair_value_gap.low": 900,
+        "volume.high": true,
+        "liquidity.buy_side": true
+      },
+      "expected": {
+        "risk.take_profit": 1100,
+        "risk.risk_reward": 1,
+        "risk.approved": false,
+        "risk.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "risk_no_bad_fallback",
+      "engine": "risk",
+      "scenario": "Rejeição sem fallback indevido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "market.last_price": 1000,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.swing_high": 1100,
+        "structure.last_high": 1100,
+        "order_block.valid": true,
+        "order_block.bullish": true,
+        "order_block.low": 900,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.bullish": true,
+        "fair_value_gap.low": 900,
+        "volume.high": true,
+        "liquidity.buy_side": true
+      },
+      "expected": {
+        "risk.take_profit": 1100,
+        "risk.risk_reward": 1,
+        "risk.approved": false,
+        "risk.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "risk_rr_above",
+      "engine": "risk",
+      "scenario": "RR acima do mínimo",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "market.last_price": 1000,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.swing_high": 1200,
+        "structure.last_high": 1200,
+        "order_block.valid": true,
+        "order_block.bullish": true,
+        "order_block.low": 900,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.bullish": true,
+        "fair_value_gap.low": 900,
+        "volume.high": true,
+        "liquidity.buy_side": true
+      },
+      "expected": {
+        "risk.risk_reward": 2,
+        "risk.approved": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "risk_invalid_target",
+      "engine": "risk",
+      "scenario": "Rejeição obrigatória de nível de alvo inválido",
+      "status": "BLOCKED_BY_CONTRACT",
+      "input": {},
+      "expected": {},
+      "reason": "Candidatos fora do lado/zerados são filtrados; ausência de estrutura válida permite fallback 2R. Não existe veto geral por nível inválido."
+    },
+    {
+      "id": "risk_fallback_absent",
+      "engine": "risk",
+      "scenario": "Fallback permitido somente sem candidato estrutural",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "market.last_price": 1000,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.swing_high": 0,
+        "structure.last_high": 0,
+        "order_block.valid": true,
+        "order_block.bullish": true,
+        "order_block.low": 900,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.bullish": true,
+        "fair_value_gap.low": 900,
+        "volume.high": true,
+        "liquidity.buy_side": true
+      },
+      "expected": {
+        "risk.take_profit": 1200,
+        "risk.risk_reward": 2,
+        "risk.approved": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "decision_buy",
+      "engine": "decision",
+      "scenario": "BUY aprovado em memória",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.name": "SYNTHETIC",
+        "risk.approved": true,
+        "risk.valid": true,
+        "risk.entry_price": 1000,
+        "risk.stop_loss": 900,
+        "risk.take_profit": 1200,
+        "risk.risk_reward": 2,
+        "score.valid": true,
+        "score.total": 80,
+        "score.confidence": 0.8
+      },
+      "expected": {
+        "decision.action": "BUY",
+        "decision.valid": true,
+        "decision.entry": 1000
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "decision_sell",
+      "engine": "decision",
+      "scenario": "SELL aprovado em memória",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "strategy.valid": true,
+        "strategy.signal": "SELL",
+        "strategy.name": "SYNTHETIC",
+        "risk.approved": true,
+        "risk.valid": true,
+        "risk.entry_price": 1000,
+        "risk.stop_loss": 1100,
+        "risk.take_profit": 800,
+        "risk.risk_reward": 2,
+        "score.valid": true,
+        "score.total": 80,
+        "score.confidence": 0.8
+      },
+      "expected": {
+        "decision.action": "SELL",
+        "decision.valid": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "decision_wait_evidence",
+      "engine": "decision",
+      "scenario": "WAIT por setup ausente",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "decision.action": "WAIT",
+        "decision.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "decision_wait_risk",
+      "engine": "decision",
+      "scenario": "WAIT por risco rejeitado",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.name": "SYNTHETIC",
+        "risk.approved": false,
+        "risk.valid": true,
+        "risk.entry_price": 1000,
+        "risk.stop_loss": 900,
+        "risk.take_profit": 1200,
+        "risk.risk_reward": 2,
+        "score.valid": true,
+        "score.total": 80,
+        "score.confidence": 0.8
+      },
+      "expected": {
+        "decision.action": "WAIT",
+        "decision.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "decision_wait_conflict",
+      "engine": "decision",
+      "scenario": "WAIT por conflito MTF",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.name": "SYNTHETIC",
+        "risk.approved": true,
+        "risk.valid": true,
+        "risk.entry_price": 1000,
+        "risk.stop_loss": 900,
+        "risk.take_profit": 1200,
+        "risk.risk_reward": 2,
+        "score.valid": true,
+        "score.total": 80,
+        "score.confidence": 0.8,
+        "multi_timeframe_analysis.valid": true,
+        "multi_timeframe_analysis.conflict": true,
+        "multi_timeframe_analysis.alignment": "BUY"
+      },
+      "expected": {
+        "decision.action": "WAIT",
+        "decision.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "decision_wait_invalid",
+      "engine": "decision",
+      "scenario": "WAIT por flag score inválido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.name": "SYNTHETIC",
+        "risk.approved": true,
+        "risk.valid": true,
+        "risk.entry_price": 1000,
+        "risk.stop_loss": 900,
+        "risk.take_profit": 1200,
+        "risk.risk_reward": 2,
+        "score.valid": false,
+        "score.total": 80,
+        "score.confidence": 0.8
+      },
+      "expected": {
+        "decision.action": "WAIT",
+        "decision.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "decision_invalid_raw",
+      "engine": "decision",
+      "scenario": "WAIT por dados brutos inválidos com flags aprovadas",
+      "status": "BLOCKED_BY_CONTRACT",
+      "input": {},
+      "expected": {},
+      "reason": "Não valida candles, freshness, NaN ou preços diretamente. Só gates strategy/risk/score/direction/MTF."
+    },
+    {
+      "id": "alert_buy",
+      "engine": "alert",
+      "scenario": "Alerta BUY coerente",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "decision.action": "BUY",
+        "decision.direction": "BUY",
+        "decision.signal": "BUY",
+        "decision.setup": "SYNTHETIC",
+        "decision.score": 80,
+        "decision.confidence": 0.8
+      },
+      "expected": {
+        "alert.valid": true,
+        "alert.action": "BUY",
+        "alert.direction": "BUY",
+        "alert.signal": "BUY",
+        "alert.timestamp": "01/01/2026 10:00:00"
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "alert_sell",
+      "engine": "alert",
+      "scenario": "Alerta SELL coerente",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "decision.action": "SELL",
+        "decision.direction": "SELL",
+        "decision.signal": "SELL",
+        "decision.setup": "SYNTHETIC",
+        "decision.score": 80,
+        "decision.confidence": 0.8
+      },
+      "expected": {
+        "alert.valid": true,
+        "alert.action": "SELL",
+        "alert.direction": "SELL",
+        "alert.signal": "SELL",
+        "alert.timestamp": "01/01/2026 10:00:00"
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "alert_wait",
+      "engine": "alert",
+      "scenario": "Nenhum alerta em WAIT",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "alert.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "alert_unapproved",
+      "engine": "alert",
+      "scenario": "Decisão não aprovada",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "decision.action": "NONE"
+      },
+      "expected": {
+        "alert.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "alert_inconsistent",
+      "engine": "alert",
+      "scenario": "Bloqueio de alerta inconsistente",
+      "status": "BLOCKED_BY_CONTRACT",
+      "input": {},
+      "expected": {},
+      "reason": "DecisionResult.approved depende apenas de action BUY/SELL; AlertManager não verifica valid/coerência de direction/signal/preços."
+    }
+  ]
+}

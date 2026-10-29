@@ -1,0 +1,334 @@
+﻿=== SESSION 15 WARM HISTORY GATE DIAGNOSTIC RC1 ===
+=== HEAD ===
+a741be9c905009906c93130af648983377f8a3a3
+=== COMPLETE WARM HISTORY GATE SOURCE ===
+from __future__ import annotations
+
+import argparse
+import time
+
+from analysis.analysis_pipeline import AnalysisPipeline
+from tools.profit_rtd_order_flow_combined_session import _build_sources
+
+
+def _enum_value(value):
+    return str(getattr(value, 'value', value)).strip().upper()
+
+
+def context_ready(context):
+    structure = context.structure
+    pa = context.price_action
+    structure_trend = _enum_value(structure.trend)
+    pa_bias = str(pa.bias or 'NONE').strip().upper()
+    structure_ok = bool(getattr(structure, 'valid', False)) and structure_trend not in {'', 'UNKNOWN'}
+    pa_ok = pa_bias not in {'', 'NONE', 'UNKNOWN'}
+    return structure_ok and pa_ok
+
+
+def history_ready(context):
+    structure = context.structure
+    structure_trend = _enum_value(structure.trend)
+    return bool(getattr(structure, 'valid', False)) and structure_trend not in {'', 'UNKNOWN'}
+
+
+def warm_history(symbol, *, interval=0.25, max_warmup_cycles=4800, require_trade_context=False, sleeper=time.sleep, collector=None, pipeline=None):
+    symbol = str(symbol or '').strip().upper()
+    if not symbol:
+        raise ValueError('symbol Ã© obrigatÃ³rio.')
+    if int(max_warmup_cycles) < 1:
+        raise ValueError('max_warmup_cycles deve ser >= 1.')
+    if float(interval) < 0:
+        raise ValueError('interval deve ser >= 0.')
+
+    if collector is None or pipeline is None:
+        collector, book_provider = _build_sources()
+        pipeline = AnalysisPipeline(book_depth_service=book_provider)
+
+    analyzable = 0
+    skipped = 0
+    errors = 0
+    last_context = None
+
+    for warmup_cycle in range(1, int(max_warmup_cycles) + 1):
+        try:
+            context = collector.get_data()
+            if context is None:
+                skipped += 1
+                print(f'[RC54.3.2 WARMUP] cycle={warmup_cycle}/{max_warmup_cycles} skipped=SOURCE_UNCHANGED_OR_INVALID')
+            else:
+                analyzable += 1
+                context = pipeline.executar(context)
+                last_context = context
+                structure_trend = _enum_value(context.structure.trend)
+                pa_bias = str(context.price_action.bias or 'NONE').strip().upper()
+                ready = history_ready(context)
+                trade_ready = context_ready(context)
+                candle_count = int(getattr(context.market, 'candle_count', 0) or 0)
+                print(
+                    f'[RC54.3.2 WARMUP] cycle={warmup_cycle}/{max_warmup_cycles} '
+                    f'analyzable={analyzable} candles={candle_count} '
+                    f'structure={structure_trend} pa_bias={pa_bias} '
+                    f'history_ready={ready} trade_context_ready={trade_ready}'
+                )
+                if ready and (not require_trade_context or trade_ready):
+                    return {
+                        'status': 'WARM_HISTORY_READY',
+                        'ready': True,
+                        'warmup_cycles': warmup_cycle,
+                        'analyzable_samples': analyzable,
+                        'skipped_cycles': skipped,
+                        'errors': errors,
+                        'structure_trend': structure_trend,
+                        'pa_bias': pa_bias,
+                        'trade_context_ready': trade_ready,
+                        'trade_context_required': bool(require_trade_context),
+                        'context': context,
+                        'collector': collector,
+                        'pipeline': pipeline,
+                    }
+        except Exception as exc:
+            errors += 1
+            print(f'[RC54.3.2 WARMUP] cycle={warmup_cycle}/{max_warmup_cycles} error={type(exc).__name__}:{exc}')
+
+        if warmup_cycle < int(max_warmup_cycles) and float(interval) > 0:
+            sleeper(float(interval))
+
+    structure_trend = _enum_value(last_context.structure.trend) if last_context is not None else 'UNKNOWN'
+    pa_bias = str(last_context.price_action.bias or 'NONE').strip().upper() if last_context is not None else 'NONE'
+    last_history_ready = history_ready(last_context) if last_context is not None else False
+    status = (
+        'WARM_TRADE_CONTEXT_NOT_READY'
+        if last_history_ready and require_trade_context
+        else 'WARM_HISTORY_NOT_READY'
+    )
+    return {
+        'status': status,
+        'ready': False,
+        'warmup_cycles': int(max_warmup_cycles),
+        'analyzable_samples': analyzable,
+        'skipped_cycles': skipped,
+        'errors': errors,
+        'structure_trend': structure_trend,
+        'pa_bias': pa_bias,
+        'trade_context_ready': context_ready(last_context) if last_context is not None else False,
+        'trade_context_required': bool(require_trade_context),
+        'context': last_context,
+        'collector': collector,
+        'pipeline': pipeline,
+    }
+
+
+def main(argv=None):
+    p = argparse.ArgumentParser(description='RC54.3.2: aquece histÃ³rico atÃ© Market Structure + Price Action ficarem prontos.')
+    p.add_argument('symbol')
+    p.add_argument('--interval', type=float, default=0.25)
+    p.add_argument('--max-warmup-cycles', type=int, default=4800)
+    a = p.parse_args(argv)
+    r = warm_history(a.symbol, interval=a.interval, max_warmup_cycles=a.max_warmup_cycles)
+    print(f"PROFIT_RTD_RC54_3_2={r['status']}")
+    for key in ('ready','warmup_cycles','analyzable_samples','skipped_cycles','errors','structure_trend','pa_bias'):
+        print(f'{key}={r[key]}')
+    print('observational_only=True')
+    print('predictive_claim_allowed=False')
+    print('score_influence_allowed=False')
+    print('risk_influence_allowed=False')
+    print('decision_influence_allowed=False')
+    print('order_execution_allowed=False')
+    return 0 if r['ready'] else 2
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
+=== CONTEXT_READY DEFINITION WITH LINE NUMBERS ===
+
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:3:import argparse
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:4:import time
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:5:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:6:from analysis.analysis_pipeline import AnalysisPipeline
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:7:from tools.profit_rtd_order_flow_combined_session import 
+_build_sources
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:8:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:9:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:10:def _enum_value(value):
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:11:    return str(getattr(value, 'value', value)).strip().upper()
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:12:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:13:
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:14:def context_ready(context):
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:15:    structure = context.structure
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:16:    pa = context.price_action
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:17:    structure_trend = _enum_value(structure.trend)
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:18:    pa_bias = str(pa.bias or 'NONE').strip().upper()
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:19:    structure_ok = bool(getattr(structure, 'valid', False)) and 
+structure_trend not in {'', 'UNKNOWN'}
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:20:    pa_ok = pa_bias not in {'', 'NONE', 'UNKNOWN'}
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:21:    return structure_ok and pa_ok
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:22:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:23:
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:24:def history_ready(context):
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:25:    structure = context.structure
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:26:    structure_trend = _enum_value(structure.trend)
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:27:    return bool(getattr(structure, 'valid', False)) and 
+structure_trend not in {'', 'UNKNOWN'}
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:28:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:29:
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:30:def warm_history(symbol, *, interval=0.25, 
+max_warmup_cycles=4800, require_trade_context=False, sleeper=time.sleep, collector=None, pipeline=None):
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:31:    symbol = str(symbol or '').strip().upper()
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:32:    if not symbol:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:33:        raise ValueError('symbol é obrigatório.')
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:34:    if int(max_warmup_cycles) < 1:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:35:        raise ValueError('max_warmup_cycles deve ser >= 1.')
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:36:    if float(interval) < 0:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:37:        raise ValueError('interval deve ser >= 0.')
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:38:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:39:    if collector is None or pipeline is None:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:40:        collector, book_provider = _build_sources()
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:41:        pipeline = 
+AnalysisPipeline(book_depth_service=book_provider)
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:42:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:52:                skipped += 1
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:53:                print(f'[RC54.3.2 WARMUP] 
+cycle={warmup_cycle}/{max_warmup_cycles} skipped=SOURCE_UNCHANGED_OR_INVALID')
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:54:            else:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:55:                analyzable += 1
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:56:                context = pipeline.executar(context)
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:57:                last_context = context
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:58:                structure_trend = 
+_enum_value(context.structure.trend)
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:59:                pa_bias = str(context.price_action.bias or 
+'NONE').strip().upper()
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:60:                ready = history_ready(context)
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:61:                trade_ready = context_ready(context)
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:62:                candle_count = int(getattr(context.market, 
+'candle_count', 0) or 0)
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:63:                print(
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:64:                    f'[RC54.3.2 WARMUP] 
+cycle={warmup_cycle}/{max_warmup_cycles} '
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:65:                    f'analyzable={analyzable} 
+candles={candle_count} '
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:66:                    f'structure={structure_trend} 
+pa_bias={pa_bias} '
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:67:                    f'history_ready={ready} 
+trade_context_ready={trade_ready}'
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:68:                )
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:69:                if ready and (not require_trade_context or 
+trade_ready):
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:70:                    return {
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:71:                        'status': 'WARM_HISTORY_READY',
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:72:                        'ready': True,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:73:                        'warmup_cycles': warmup_cycle,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:74:                        'analyzable_samples': analyzable,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:75:                        'skipped_cycles': skipped,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:76:                        'errors': errors,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:77:                        'structure_trend': structure_trend,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:78:                        'pa_bias': pa_bias,
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:79:                        'trade_context_ready': trade_ready,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:80:                        'trade_context_required': 
+bool(require_trade_context),
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:81:                        'context': context,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:82:                        'collector': collector,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:83:                        'pipeline': pipeline,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:84:                    }
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:85:        except Exception as exc:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:86:            errors += 1
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:87:            print(f'[RC54.3.2 WARMUP] 
+cycle={warmup_cycle}/{max_warmup_cycles} error={type(exc).__name__}:{exc}')
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:88:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:89:        if warmup_cycle < int(max_warmup_cycles) and 
+float(interval) > 0:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:90:            sleeper(float(interval))
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:91:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:92:    structure_trend = _enum_value(last_context.structure.trend) 
+if last_context is not None else 'UNKNOWN'
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:93:    pa_bias = str(last_context.price_action.bias or 
+'NONE').strip().upper() if last_context is not None else 'NONE'
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:94:    last_history_ready = history_ready(last_context) if 
+last_context is not None else False
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:95:    status = (
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:96:        'WARM_TRADE_CONTEXT_NOT_READY'
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:97:        if last_history_ready and require_trade_context
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:98:        else 'WARM_HISTORY_NOT_READY'
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:99:    )
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:100:    return {
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:101:        'status': status,
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:102:        'ready': False,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:103:        'warmup_cycles': int(max_warmup_cycles),
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:104:        'analyzable_samples': analyzable,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:105:        'skipped_cycles': skipped,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:106:        'errors': errors,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:107:        'structure_trend': structure_trend,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:108:        'pa_bias': pa_bias,
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:109:        'trade_context_ready': context_ready(last_context) if 
+last_context is not None else False,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:110:        'trade_context_required': bool(require_trade_context),
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:111:        'context': last_context,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:112:        'collector': collector,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:113:        'pipeline': pipeline,
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:114:    }
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:115:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:116:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:117:def main(argv=None):
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:118:    p = argparse.ArgumentParser(description='RC54.3.2: aquece 
+histórico até Market Structure + Price Action ficarem prontos.')
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:119:    p.add_argument('symbol')
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:120:    p.add_argument('--interval', type=float, default=0.25)
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:121:    p.add_argument('--max-warmup-cycles', type=int, default=4800)
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:122:    a = p.parse_args(argv)
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:123:    r = warm_history(a.symbol, interval=a.interval, 
+max_warmup_cycles=a.max_warmup_cycles)
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:124:    print(f"PROFIT_RTD_RC54_3_2={r['status']}")
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:125:    for key in 
+('ready','warmup_cycles','analyzable_samples','skipped_cycles','errors','structure_trend','pa_bias'):
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:126:        print(f'{key}={r[key]}')
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:127:    print('observational_only=True')
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:128:    print('predictive_claim_allowed=False')
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:129:    print('score_influence_allowed=False')
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:130:    print('risk_influence_allowed=False')
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:131:    print('decision_influence_allowed=False')
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:132:    print('order_execution_allowed=False')
+> tools\profit_rtd_rc54_3_2_warm_history_gate.py:133:    return 0 if r['ready'] else 2
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:134:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:135:
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:136:if __name__ == '__main__':
+  tools\profit_rtd_rc54_3_2_warm_history_gate.py:137:    raise SystemExit(main())
+
+
+
+=== IMPORTS / DEPENDENCIES ===
+
+tools\profit_rtd_rc54_3_2_warm_history_gate.py:1:from __future__ import annotations
+tools\profit_rtd_rc54_3_2_warm_history_gate.py:3:import argparse
+tools\profit_rtd_rc54_3_2_warm_history_gate.py:4:import time
+tools\profit_rtd_rc54_3_2_warm_history_gate.py:6:from analysis.analysis_pipeline import AnalysisPipeline
+tools\profit_rtd_rc54_3_2_warm_history_gate.py:7:from tools.profit_rtd_order_flow_combined_session import 
+_build_sources
+
+
+
+=== PROTOCOL VALIDATION ===
+validator_version = RC1-PA-BOOK-INDEPENDENT-REPLICATION-ACCUMULATION-PROTOCOL-VALIDATOR
+protocol_path = pa_book_replication_accumulation_protocol_rc1_20260930.json
+expected_sha256 = df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0
+actual_sha256 = df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0
+protocol_sha256_exact = True
+protocol_version_exact = True
+prior_evidence_exact = True
+frozen_hypothesis_exact = True
+future_block_exact = True
+outcome_policy_exact = True
+accumulation_policy_exact = True
+interpretation_policy_exact = True
+cohort_policy_exact = True
+safety_policy_exact = True
+future_collection_block = ['14', '15', '16', '17', '18']
+status = PASS
+future_collection_authorization = ACCUMULATION_PROTOCOL_VALIDATED_ONLY
+PROTOCOL_VALIDATOR_EXIT_CODE=0
+=== PROTECTED FILES ===
+ M Profit.xlsx
+ M connectors/excel_connector.py
+ M livroOfertas.xlsx
+ M saida.txt
+ M times&trades.xlsx
+=== FINAL HEAD ===
+a741be9c905009906c93130af648983377f8a3a3

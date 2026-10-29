@@ -1,0 +1,99 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-CHECKPOINT-MANIFEST",
+  "status": "CHECKPOINT_VERIFIED",
+  "verified": true,
+  "protocol": "PROSPECTIVE_MICROSTRUCTURE_CONFLICT_10_SESSION_CHECKPOINT",
+  "session_count": 10,
+  "sessions": [
+    {
+      "position": 1,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260901_120000.json",
+      "expected_sha256": "0000000000000000000000000000000000000000000000000000000000000001",
+      "actual_sha256": "0000000000000000000000000000000000000000000000000000000000000001",
+      "matched": true,
+      "reason": null
+    },
+    {
+      "position": 2,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260902_120000.json",
+      "expected_sha256": "0000000000000000000000000000000000000000000000000000000000000002",
+      "actual_sha256": "0000000000000000000000000000000000000000000000000000000000000002",
+      "matched": true,
+      "reason": null
+    },
+    {
+      "position": 3,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260903_120000.json",
+      "expected_sha256": "0000000000000000000000000000000000000000000000000000000000000003",
+      "actual_sha256": "0000000000000000000000000000000000000000000000000000000000000003",
+      "matched": true,
+      "reason": null
+    },
+    {
+      "position": 4,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260904_120000.json",
+      "expected_sha256": "0000000000000000000000000000000000000000000000000000000000000004",
+      "actual_sha256": "0000000000000000000000000000000000000000000000000000000000000004",
+      "matched": true,
+      "reason": null
+    },
+    {
+      "position": 5,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260905_120000.json",
+      "expected_sha256": "0000000000000000000000000000000000000000000000000000000000000005",
+      "actual_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "matched": true,
+      "reason": null
+    },
+    {
+      "position": 6,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260906_120000.json",
+      "expected_sha256": "0000000000000000000000000000000000000000000000000000000000000006",
+      "actual_sha256": "0000000000000000000000000000000000000000000000000000000000000006",
+      "matched": true,
+      "reason": null
+    },
+    {
+      "position": 7,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260907_120000.json",
+      "expected_sha256": "0000000000000000000000000000000000000000000000000000000000000007",
+      "actual_sha256": "0000000000000000000000000000000000000000000000000000000000000007",
+      "matched": true,
+      "reason": null
+    },
+    {
+      "position": 8,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260908_120000.json",
+      "expected_sha256": "0000000000000000000000000000000000000000000000000000000000000008",
+      "actual_sha256": "0000000000000000000000000000000000000000000000000000000000000008",
+      "matched": true,
+      "reason": null
+    },
+    {
+      "position": 9,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260909_120000.json",
+      "expected_sha256": "0000000000000000000000000000000000000000000000000000000000000009",
+      "actual_sha256": "0000000000000000000000000000000000000000000000000000000000000009",
+      "matched": true,
+      "reason": null
+    },
+    {
+      "position": 10,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260910_120000.json",
+      "expected_sha256": "000000000000000000000000000000000000000000000000000000000000000a",
+      "actual_sha256": "000000000000000000000000000000000000000000000000000000000000000a",
+      "matched": true,
+      "reason": null
+    }
+  ],
+  "reasons": [],
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}

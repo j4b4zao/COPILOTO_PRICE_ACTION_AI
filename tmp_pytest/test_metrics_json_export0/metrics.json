@@ -1,0 +1,103 @@
+{
+  "distribution": {
+    "one_source": 0,
+    "three_sources": 0,
+    "two_sources": 1,
+    "with_conflict": 0,
+    "with_correlation": 0
+  },
+  "scenarios": {
+    "by_conflict": {
+      "NO_CONFLICT": {
+        "average_confidence": 0.7,
+        "average_conflict_count": 0.0,
+        "average_correlated_evidence": 0.0,
+        "average_independent_evidence": 2.0,
+        "book_available_samples": 1,
+        "conflict_samples": 0,
+        "correlated_samples": 0,
+        "samples": 1
+      }
+    },
+    "by_correlation": {
+      "INDEPENDENT": {
+        "average_confidence": 0.7,
+        "average_conflict_count": 0.0,
+        "average_correlated_evidence": 0.0,
+        "average_independent_evidence": 2.0,
+        "book_available_samples": 1,
+        "conflict_samples": 0,
+        "correlated_samples": 0,
+        "samples": 1
+      }
+    },
+    "by_direction": {
+      "BUY": {
+        "average_confidence": 0.7,
+        "average_conflict_count": 0.0,
+        "average_correlated_evidence": 0.0,
+        "average_independent_evidence": 2.0,
+        "book_available_samples": 1,
+        "conflict_samples": 0,
+        "correlated_samples": 0,
+        "samples": 1
+      }
+    },
+    "by_independent_evidence": {
+      "2": {
+        "average_confidence": 0.7,
+        "average_conflict_count": 0.0,
+        "average_correlated_evidence": 0.0,
+        "average_independent_evidence": 2.0,
+        "book_available_samples": 1,
+        "conflict_samples": 0,
+        "correlated_samples": 0,
+        "samples": 1
+      }
+    },
+    "by_quality": {
+      "MEDIUM": {
+        "average_confidence": 0.7,
+        "average_conflict_count": 0.0,
+        "average_correlated_evidence": 0.0,
+        "average_independent_evidence": 2.0,
+        "book_available_samples": 1,
+        "conflict_samples": 0,
+        "correlated_samples": 0,
+        "samples": 1
+      }
+    },
+    "by_state": {
+      "CONFIRMED": {
+        "average_confidence": 0.7,
+        "average_conflict_count": 0.0,
+        "average_correlated_evidence": 0.0,
+        "average_independent_evidence": 2.0,
+        "book_available_samples": 1,
+        "conflict_samples": 0,
+        "correlated_samples": 0,
+        "samples": 1
+      }
+    },
+    "samples": 1,
+    "version": "RC2-MICROSTRUCTURE-CONFLUENCE-REPLAY-PERSISTENCE"
+  },
+  "summary": {
+    "average_confidence": 0.7,
+    "book_available_samples": 1,
+    "by_independent_evidence": {
+      "2": 1
+    },
+    "by_quality": {
+      "MEDIUM": 1
+    },
+    "by_state": {
+      "CONFIRMED": 1
+    },
+    "conflict_samples": 0,
+    "correlated_samples": 0,
+    "passive_only": true,
+    "samples": 1,
+    "version": "RC2-MICROSTRUCTURE-CONFLUENCE-REPLAY-PERSISTENCE"
+  }
+}

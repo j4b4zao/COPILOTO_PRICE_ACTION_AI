@@ -1,0 +1,8 @@
+﻿TEST_EXIT_CODE=0
+........................................................................ [ 59%]
+..................................................                       [100%]
+122 passed in 2.49s
+=== DIFF STAT ===
+ ...pa_book_structural_replication_evaluator_rc1.py | 32 +++++++++++++++++++---
+ ...ure_pa_book_structural_replication_evaluator.py | 30 ++++++++++++++------
+ 2 files changed, 50 insertions(+), 12 deletions(-)

@@ -1,0 +1,97 @@
+STATUS=PASS
+BRANCH=brooks-stop-target-exact-audit-20260912
+BASE_HEAD=d020b2cb0d7ec9044441e7f8c023cd9890eb3771
+FINAL_HEAD=dcdaf8dfb5f664b86099584a1e97786ba6323fe8
+VERSION=RC1-EXTERNAL-PER-ASSET-READONLY-BOT-PRESENTATION-BRIDGE
+FILES_CREATED=tests/test_external_per_asset_readonly_bot_presentation_bridge_rc1.py; saida_external_per_asset_readonly_bot_presentation_bridge_rc1_implementation_20261006.txt (local report)
+FILES_MODIFIED=app/bot.py
+COMMIT_FILES=app/bot.py; tests/test_external_per_asset_readonly_bot_presentation_bridge_rc1.py
+BOT_MOSTRAR_BACKWARD_COMPATIBLE=true
+EXPLICIT_OPT_IN_REQUIRED=true
+COMPLETED_AUDIT_ONLY=true
+NO_PERSISTENT_EXTERNAL_STATE=true
+NO_CACHE_REUSE=true
+CORE_OUTPUT_PRESERVED_WHEN_DISABLED=true
+EXTERNAL_BLOCK_AFTER_CORE=true
+NONE_AUDIT_UNAVAILABLE=true
+EXTERNAL_FAILURE_ISOLATED=true
+KEYBOARD_INTERRUPT_PROPAGATES=true
+SYSTEM_EXIT_PROPAGATES=true
+EXTERNAL_PRINT_FAILURE_ISOLATED=true
+CORE_FAILURE_POLICY_UNCHANGED=true
+PROTECTED_FILES_PRESERVED=true
+LOCAL_ORIGIN_EQUAL=true
+DEFAULT_ENABLED=false
+SERVICE_ACCEPTED=false
+COLLECTOR_ACCEPTED=false
+SNAPSHOT_ACCEPTED=false
+RAW_QUOTES_ACCEPTED=false
+CONTEXT_MUTATED=false
+AUDIT_MUTATED=false
+DECISION_MUTATED=false
+RISK_MUTATED=false
+ALERT_MUTATED=false
+LIVE_COLLECTION_EXECUTED=false
+PROVIDER_FETCH_DELTA=0
+COLLECTOR_CALL_DELTA=0
+SERVICE_CALL_DELTA=0
+NETWORK_CALL_DELTA=0
+CLOCK_CALL_DELTA=0
+STRATEGY_CALL_DELTA=0
+SCORE_CALL_DELTA=0
+RISK_CALL_DELTA=0
+DECISION_CALL_DELTA=0
+ALERT_CALL_DELTA=0
+CONTEXT_ENGINE_CALL_DELTA=0
+PIPELINE_CALL_DELTA=0
+FILE_WRITE_DELTA=0
+NEW_TESTS_PASSED=40
+NEW_TESTS_FAILED=0
+EXTERNAL_PRESENTER_TESTS_PASSED=289
+EXTERNAL_PRESENTER_TESTS_FAILED=0
+DASHBOARD_TESTS_PASSED=17
+DASHBOARD_TESTS_FAILED=0
+ORDER_FLOW_TESTS_PASSED=36
+ORDER_FLOW_TESTS_FAILED=0
+SAFETY_TESTS_PASSED=419
+SAFETY_TESTS_FAILED=0
+LEGACY_OFFLINE_VALIDATIONS_PASSED=5
+LEGACY_OFFLINE_VALIDATIONS_FAILED=0
+NEW_TESTS_ERRORS=0
+RC51_TESTS_PASSED=10
+NEW_REGRESSION_FAILURES=0
+ANALYSIS_CONTEXT_CHANGED=false
+PIPELINE_CHANGED=false
+SYSTEM_INITIALIZER_CHANGED=false
+EXTERNAL_CONTEXT_CHANGED=false
+EXTERNAL_BRIDGE_CHANGED=false
+EXTERNAL_SNAPSHOT_CHANGED=false
+CORE_DASHBOARD_CHANGED=false
+EXTERNAL_PRESENTER_CHANGED=false
+STRATEGY_CHANGED=false
+SCORE_CHANGED=false
+RISK_CHANGED=false
+DECISION_CHANGED=false
+ALERT_CHANGED=false
+MTF_CHANGED=false
+ORDER_FLOW_CHANGED=false
+RC51_CHANGED=false
+RC17_CHANGED=false
+PRICE_ACTION_CHANGED=false
+TASK_SOURCE_TEST_FILES=app/bot.py; tests/test_external_per_asset_readonly_bot_presentation_bridge_rc1.py
+STAGED_FILES=app/bot.py; tests/test_external_per_asset_readonly_bot_presentation_bridge_rc1.py (verified before commit; index empty after commit)
+COMMIT_SHA=dcdaf8dfb5f664b86099584a1e97786ba6323fe8
+PUSH_STATUS=SUCCESS; non-force push
+NEXT_STEP=EXTERNAL_PER_ASSET_READONLY_BOT_BRIDGE_RC1_POST_IMPLEMENTATION_AUDIT
+CONCLUSION=PASS: optional completed-audit presentation only; all gates passed; no live collection or startup integration.
+
+EVIDENCE
+New acceptance: 40 passed, 0 failures/errors.
+Combined external/core/OrderFlow: 342 passed (289 + 17 + 36, RC51 subset 10).
+Safety: 419 passed. Legacy offline validations: 5 passed.
+All existing tracked-file SHA256 hashes matched the before-edit baseline except authorized app/bot.py.
+Bot.__init__ and Bot.executar source segments and AST unchanged. New imports only completed-audit contract and presenter.
+Side-effect guards wrap all presentation cases, including failures, invalid inputs and no-cache sequence; all guard call counts and datetime clock callbacks zero. Logger, filesystem, service, collector, provider, network, bridge/observer, core engine, initializer and pipeline calls guarded.
+Disabled stdout compared byte-for-byte to Bot from BASE_HEAD for BUY, SELL, WAIT, risk rejection and MTF conflict. Entire contexts serialized before/after; audits copied before/after.
+Ordinary external compute failure selects fixed marker; external print attempted once and suppressed on failure. BaseException signals propagate. Core renderer and core print exceptions propagate before any external call.
+Protected preexisting local modifications preserved and excluded from staging/commit. Report remains a local uncommitted artifact.

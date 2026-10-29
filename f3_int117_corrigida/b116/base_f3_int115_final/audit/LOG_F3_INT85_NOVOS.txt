@@ -1,0 +1,16 @@
+test_budget_preserves_contender_commit (test_f3_int85_import_retry.ImportRetryTests.test_budget_preserves_contender_commit) ... ok
+test_duplicate_canonical_blocks_rebase (test_f3_int85_import_retry.ImportRetryTests.test_duplicate_canonical_blocks_rebase) ... ok
+test_flags (test_f3_int85_import_retry.ImportRetryTests.test_flags) ... ok
+test_invalid_bounds (test_f3_int85_import_retry.ImportRetryTests.test_invalid_bounds) ... ok
+test_invalid_contenders (test_f3_int85_import_retry.ImportRetryTests.test_invalid_contenders) ... ok
+test_no_contention (test_f3_int85_import_retry.ImportRetryTests.test_no_contention) ... ok
+test_one_stale_attempt_then_rebase (test_f3_int85_import_retry.ImportRetryTests.test_one_stale_attempt_then_rebase) ... ok
+test_original_unchanged (test_f3_int85_import_retry.ImportRetryTests.test_original_unchanged) ... ok
+test_rejected_contender_does_not_block_main_commit (test_f3_int85_import_retry.ImportRetryTests.test_rejected_contender_does_not_block_main_commit) ... ok
+test_stale_result_does_not_erase_snapshot (test_f3_int85_import_retry.ImportRetryTests.test_stale_result_does_not_erase_snapshot) ... ok
+test_two_stale_attempts_then_rebase (test_f3_int85_import_retry.ImportRetryTests.test_two_stale_attempts_then_rebase) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 4.868s
+
+OK

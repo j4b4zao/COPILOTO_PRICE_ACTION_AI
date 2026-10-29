@@ -1,0 +1,56 @@
+{
+  "samples": [
+    {
+      "timestamp": "2026-09-29T10:00:00.000",
+      "cycle": 1
+    },
+    {
+      "timestamp": "2026-09-29T10:00:01.000",
+      "cycle": 2
+    },
+    {
+      "timestamp": "2026-09-29T10:00:02.000",
+      "cycle": 3
+    },
+    {
+      "timestamp": "2026-09-29T10:00:03.000",
+      "cycle": 4
+    },
+    {
+      "timestamp": "2026-09-29T10:00:04.000",
+      "cycle": 5
+    }
+  ],
+  "prospective_microstructure": {
+    "captured_samples": 5,
+    "source_analyzable_samples": 5,
+    "sample_count_matches_source": true,
+    "samples": [
+      {
+        "price_action_bias": "BUY",
+        "book_direction": "BUY",
+        "conflict_count": 0
+      },
+      {
+        "price_action_bias": "BUY",
+        "book_direction": "BUY",
+        "conflict_count": 0
+      },
+      {
+        "price_action_bias": "BUY",
+        "book_direction": "NONE",
+        "conflict_count": 0
+      },
+      {
+        "price_action_bias": "BUY",
+        "book_direction": "SELL",
+        "conflict_count": 1
+      },
+      {
+        "price_action_bias": "BUY",
+        "book_direction": "SELL",
+        "conflict_count": 1
+      }
+    ]
+  }
+}

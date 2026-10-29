@@ -1,0 +1,49 @@
+﻿=== REPLICATION ACCUMULATION PROTOCOL PUSH GATE ===
+=== PUSH ===
+git : To https://github.com/j4b4zao/COPILOTO_PRICE_ACTION_AI.git
+No linha:11 caractere:1
++ git push origin brooks-stop-target-exact-audit-20260912 `
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To https://gith...E_ACTION_AI.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   24f9c61..a741be9  brooks-stop-target-exact-audit-20260912 -> brooks-stop-target-exact-audit-20260912
+PUSH_EXIT_CODE=0
+=== FETCH ===
+FETCH_EXIT_CODE=0
+LOCAL_HEAD=a741be9c905009906c93130af648983377f8a3a3
+ORIGIN_HEAD=a741be9c905009906c93130af648983377f8a3a3
+LOCAL_ORIGIN_EXACT=True
+EXPECTED_COMMIT=a741be9c905009906c93130af648983377f8a3a3
+EXPECTED_COMMIT_EXACT=True
+=== PROTOCOL VALIDATION FROM COMMITTED STATE ===
+validator_version = RC1-PA-BOOK-INDEPENDENT-REPLICATION-ACCUMULATION-PROTOCOL-VALIDATOR
+protocol_path = pa_book_replication_accumulation_protocol_rc1_20260930.json
+expected_sha256 = df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0
+actual_sha256 = df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0
+protocol_sha256_exact = True
+protocol_version_exact = True
+prior_evidence_exact = True
+frozen_hypothesis_exact = True
+future_block_exact = True
+outcome_policy_exact = True
+accumulation_policy_exact = True
+interpretation_policy_exact = True
+cohort_policy_exact = True
+safety_policy_exact = True
+future_collection_block = ['14', '15', '16', '17', '18']
+status = PASS
+future_collection_authorization = ACCUMULATION_PROTOCOL_VALIDATED_ONLY
+VALIDATOR_EXIT_CODE=0
+=== PROTOCOL SHA ===
+PROTOCOL_SHA256=DF868857D61205D9D95FF43E9259F7F8528E8FEB66F0561869F20B4BE78479B0
+PROTOCOL_SHA_EXACT=True
+=== COMMIT FILES ===
+pa_book_replication_accumulation_protocol_rc1_20260930.json
+validate_pa_book_replication_accumulation_protocol_rc1.py
+=== PROTECTED OPERATIONAL FILES ===
+ M Profit.xlsx
+ M connectors/excel_connector.py
+ M livroOfertas.xlsx
+ M saida.txt
+ M times&trades.xlsx

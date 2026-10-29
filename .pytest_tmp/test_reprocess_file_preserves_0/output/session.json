@@ -1,0 +1,29 @@
+{
+  "status": "COMPLETED",
+  "samples": [
+    {
+      "price_action": {
+        "marker": "ENRICHED"
+      },
+      "candle_evidence": {
+        "status": "CANDLE_EVIDENCE_READY",
+        "candle_id": "WINV26|M1|2026-09-11T10:00:00",
+        "open": 100.0,
+        "high": 105.0,
+        "low": 95.0,
+        "close": 102.0,
+        "volume": 1000.0
+      }
+    }
+  ],
+  "brooks_management_postprocessed_after_candle_evidence": true,
+  "brooks_management_reprocessed_offline": true,
+  "brooks_management_research_only": true,
+  "brooks_management_observational_only": true,
+  "brooks_management_predictive_claim_allowed": false,
+  "brooks_management_score_influence_allowed": false,
+  "brooks_management_risk_influence_allowed": false,
+  "brooks_management_decision_influence_allowed": false,
+  "brooks_management_alert_influence_allowed": false,
+  "brooks_management_order_execution_allowed": false
+}

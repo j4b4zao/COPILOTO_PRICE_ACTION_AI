@@ -1,0 +1,880 @@
+﻿{
+  "result": "ATTACHMENT_AVAILABLE",
+  "reasons": [],
+  "attachments": [
+    {
+      "method": "GetActiveObject",
+      "hwnd": 133934,
+      "pid": 10152,
+      "workbooks_count": 3,
+      "workbooks": [
+        "C:\\COPILOTO_PRICE_ACTION_AI\\livroOfertas.xlsx",
+        "C:\\COPILOTO_PRICE_ACTION_AI\\Profit.xlsx",
+        "C:\\COPILOTO_PRICE_ACTION_AI\\times&trades.xlsx"
+      ]
+    }
+  ],
+  "errors": [],
+  "timestamp": "2026-10-13T10:58:25.748927-03:00",
+  "processes_before": [
+    {
+      "pid": 10152,
+      "session": 1,
+      "owner": "DESKTOP-158793C\\jb",
+      "elevated": 0,
+      "integrity": 8192,
+      "machine": "0x8664",
+      "architecture": "x64",
+      "Id": 10152,
+      "SessionId": 1,
+      "Path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+      "MainWindowHandle": 68630,
+      "MainWindowTitle": "Profit - Excel"
+    }
+  ],
+  "processes_after": [
+    {
+      "pid": 10152,
+      "session": 1,
+      "owner": "DESKTOP-158793C\\jb",
+      "elevated": 0,
+      "integrity": 8192,
+      "machine": "0x8664",
+      "architecture": "x64",
+      "Id": 10152,
+      "SessionId": 1,
+      "Path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+      "MainWindowHandle": 68630,
+      "MainWindowTitle": "Profit - Excel"
+    }
+  ],
+  "context": {
+    "pid": 5228,
+    "session": 1,
+    "owner": "DESKTOP-158793C\\jb",
+    "elevated": 0,
+    "integrity": 8192,
+    "machine": "0x8664",
+    "architecture": "x64",
+    "executable": "C:\\Users\\jb\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+    "python_bits": 64,
+    "parent_pid": 1700,
+    "parent": {
+      "pid": 1700,
+      "session": 1,
+      "owner": "DESKTOP-158793C\\jb",
+      "elevated": 0,
+      "integrity": 8192,
+      "machine": "0x8664",
+      "architecture": "x64"
+    },
+    "cwd": "C:\\COPILOTO_GIT_SYNC"
+  },
+  "rot_monikers": [
+    "C:\\COPILOTO_PRICE_ACTION_AI\\livroOfertas.xlsx",
+    "!{00024500-0000-0000-C000-000000000046}",
+    "!{00024505-0016-0000-C000-000000000046}",
+    "C:\\COPILOTO_PRICE_ACTION_AI\\times&trades.xlsx",
+    "C:\\COPILOTO_PRICE_ACTION_AI\\Profit.xlsx"
+  ],
+  "windows": [
+    {
+      "hwnd": 133782,
+      "pid": 10152,
+      "class": "HardwareMonitorWindowClass"
+    },
+    {
+      "hwnd": 459720,
+      "pid": 10152,
+      "class": "ThunderMain"
+    },
+    {
+      "hwnd": 68758,
+      "pid": 10152,
+      "class": "ComboLBox"
+    },
+    {
+      "hwnd": 68630,
+      "pid": 10152,
+      "class": "XLMAIN"
+    },
+    {
+      "hwnd": 68642,
+      "pid": 10152,
+      "class": "EXCEL2"
+    },
+    {
+      "hwnd": 68674,
+      "pid": 10152,
+      "class": "MsoCommandBar"
+    },
+    {
+      "hwnd": 68720,
+      "pid": 10152,
+      "class": "MsoWorkPane"
+    },
+    {
+      "hwnd": 68678,
+      "pid": 10152,
+      "class": "NUIPane"
+    },
+    {
+      "hwnd": 68680,
+      "pid": 10152,
+      "class": "NetUIHWND"
+    },
+    {
+      "hwnd": 68636,
+      "pid": 10152,
+      "class": "EXCEL2"
+    },
+    {
+      "hwnd": 68672,
+      "pid": 10152,
+      "class": "MsoCommandBar"
+    },
+    {
+      "hwnd": 68722,
+      "pid": 10152,
+      "class": "MsoWorkPane"
+    },
+    {
+      "hwnd": 68646,
+      "pid": 10152,
+      "class": "NUIPane"
+    },
+    {
+      "hwnd": 68648,
+      "pid": 10152,
+      "class": "NetUIHWND"
+    },
+    {
+      "hwnd": 68682,
+      "pid": 10152,
+      "class": "NetUICtrlNotifySink"
+    },
+    {
+      "hwnd": 265082,
+      "pid": 10152,
+      "class": "RICHEDIT60W"
+    },
+    {
+      "hwnd": 68684,
+      "pid": 10152,
+      "class": "NetUICtrlNotifySink"
+    },
+    {
+      "hwnd": 68706,
+      "pid": 10152,
+      "class": "RICHEDIT60W"
+    },
+    {
+      "hwnd": 68686,
+      "pid": 10152,
+      "class": "NetUICtrlNotifySink"
+    },
+    {
+      "hwnd": 68708,
+      "pid": 10152,
+      "class": "RICHEDIT60W"
+    },
+    {
+      "hwnd": 68688,
+      "pid": 10152,
+      "class": "NetUICtrlNotifySink"
+    },
+    {
+      "hwnd": 68710,
+      "pid": 10152,
+      "class": "RICHEDIT60W"
+    },
+    {
+      "hwnd": 68650,
+      "pid": 10152,
+      "class": "EXCEL<"
+    },
+    {
+      "hwnd": 68652,
+      "pid": 10152,
+      "class": "NUIScrollbar"
+    },
+    {
+      "hwnd": 68654,
+      "pid": 10152,
+      "class": "NetUIHWND"
+    },
+    {
+      "hwnd": 68664,
+      "pid": 10152,
+      "class": "EXCEL;"
+    },
+    {
+      "hwnd": 68666,
+      "pid": 10152,
+      "class": "ComboBox"
+    },
+    {
+      "hwnd": 68670,
+      "pid": 10152,
+      "class": "Edit"
+    },
+    {
+      "hwnd": 68662,
+      "pid": 10152,
+      "class": "EXCELG"
+    },
+    {
+      "hwnd": 68660,
+      "pid": 10152,
+      "class": "EXCELG"
+    },
+    {
+      "hwnd": 68658,
+      "pid": 10152,
+      "class": "EXCELG"
+    },
+    {
+      "hwnd": 68656,
+      "pid": 10152,
+      "class": "EXCELG"
+    },
+    {
+      "hwnd": 68640,
+      "pid": 10152,
+      "class": "EXCEL2"
+    },
+    {
+      "hwnd": 68638,
+      "pid": 10152,
+      "class": "EXCEL2"
+    },
+    {
+      "hwnd": 68632,
+      "pid": 10152,
+      "class": "XLDESK"
+    },
+    {
+      "hwnd": 68690,
+      "pid": 10152,
+      "class": "EXCEL7"
+    },
+    {
+      "hwnd": 68692,
+      "pid": 10152,
+      "class": "NUIScrollbar"
+    },
+    {
+      "hwnd": 68694,
+      "pid": 10152,
+      "class": "NetUIHWND"
+    },
+    {
+      "hwnd": 68696,
+      "pid": 10152,
+      "class": "NUIScrollbar"
+    },
+    {
+      "hwnd": 68698,
+      "pid": 10152,
+      "class": "NetUIHWND"
+    },
+    {
+      "hwnd": 68700,
+      "pid": 10152,
+      "class": "XLCTL"
+    },
+    {
+      "hwnd": 68702,
+      "pid": 10152,
+      "class": "XLCTL"
+    },
+    {
+      "hwnd": 68704,
+      "pid": 10152,
+      "class": "XLCTL"
+    },
+    {
+      "hwnd": 68634,
+      "pid": 10152,
+      "class": "EXCEL6"
+    },
+    {
+      "hwnd": 68644,
+      "pid": 10152,
+      "class": "MsoWorkPane"
+    },
+    {
+      "hwnd": 68676,
+      "pid": 10152,
+      "class": "MsoWorkPane"
+    },
+    {
+      "hwnd": 68668,
+      "pid": 10152,
+      "class": "ComboLBox"
+    },
+    {
+      "hwnd": 133922,
+      "pid": 10152,
+      "class": "MsoPeopleSearchMessages"
+    },
+    {
+      "hwnd": 134090,
+      "pid": 10152,
+      "class": "OfficePowerManagerWindow"
+    },
+    {
+      "hwnd": 394580,
+      "pid": 10152,
+      "class": "ARC Event Window 00"
+    },
+    {
+      "hwnd": 526906,
+      "pid": 10152,
+      "class": "ARC Event Window 00"
+    },
+    {
+      "hwnd": 461766,
+      "pid": 10152,
+      "class": "ARC Event Window 00"
+    },
+    {
+      "hwnd": 134066,
+      "pid": 10152,
+      "class": "OleDdeWndClass"
+    },
+    {
+      "hwnd": 134060,
+      "pid": 10152,
+      "class": "MsoStdCompMgr"
+    },
+    {
+      "hwnd": 330718,
+      "pid": 10152,
+      "class": "ComboLBox"
+    },
+    {
+      "hwnd": 133950,
+      "pid": 10152,
+      "class": "ComboLBox"
+    },
+    {
+      "hwnd": 199676,
+      "pid": 10152,
+      "class": "XLMAIN"
+    },
+    {
+      "hwnd": 133948,
+      "pid": 10152,
+      "class": "EXCEL;"
+    },
+    {
+      "hwnd": 133944,
+      "pid": 10152,
+      "class": "ComboBox"
+    },
+    {
+      "hwnd": 134012,
+      "pid": 10152,
+      "class": "Edit"
+    },
+    {
+      "hwnd": 263268,
+      "pid": 10152,
+      "class": "EXCEL<"
+    },
+    {
+      "hwnd": 330692,
+      "pid": 10152,
+      "class": "NUIScrollbar"
+    },
+    {
+      "hwnd": 263746,
+      "pid": 10152,
+      "class": "NetUIHWND"
+    },
+    {
+      "hwnd": 133932,
+      "pid": 10152,
+      "class": "EXCELG"
+    },
+    {
+      "hwnd": 984834,
+      "pid": 10152,
+      "class": "EXCELG"
+    },
+    {
+      "hwnd": 133930,
+      "pid": 10152,
+      "class": "EXCELG"
+    },
+    {
+      "hwnd": 133938,
+      "pid": 10152,
+      "class": "EXCELG"
+    },
+    {
+      "hwnd": 196686,
+      "pid": 10152,
+      "class": "EXCEL2"
+    },
+    {
+      "hwnd": 134074,
+      "pid": 10152,
+      "class": "EXCEL2"
+    },
+    {
+      "hwnd": 199568,
+      "pid": 10152,
+      "class": "EXCEL2"
+    },
+    {
+      "hwnd": 525266,
+      "pid": 10152,
+      "class": "XLDESK"
+    },
+    {
+      "hwnd": 265152,
+      "pid": 10152,
+      "class": "EXCEL6"
+    },
+    {
+      "hwnd": 459432,
+      "pid": 10152,
+      "class": "EXCEL2"
+    },
+    {
+      "hwnd": 396152,
+      "pid": 10152,
+      "class": "XLMAIN"
+    },
+    {
+      "hwnd": 134268,
+      "pid": 10152,
+      "class": "EXCEL2"
+    },
+    {
+      "hwnd": 68764,
+      "pid": 10152,
+      "class": "MsoCommandBar"
+    },
+    {
+      "hwnd": 68810,
+      "pid": 10152,
+      "class": "MsoWorkPane"
+    },
+    {
+      "hwnd": 68768,
+      "pid": 10152,
+      "class": "NUIPane"
+    },
+    {
+      "hwnd": 68770,
+      "pid": 10152,
+      "class": "NetUIHWND"
+    },
+    {
+      "hwnd": 134146,
+      "pid": 10152,
+      "class": "EXCEL2"
+    },
+    {
+      "hwnd": 68762,
+      "pid": 10152,
+      "class": "MsoCommandBar"
+    },
+    {
+      "hwnd": 68812,
+      "pid": 10152,
+      "class": "MsoWorkPane"
+    },
+    {
+      "hwnd": 68736,
+      "pid": 10152,
+      "class": "NUIPane"
+    },
+    {
+      "hwnd": 68738,
+      "pid": 10152,
+      "class": "NetUIHWND"
+    },
+    {
+      "hwnd": 68772,
+      "pid": 10152,
+      "class": "NetUICtrlNotifySink"
+    },
+    {
+      "hwnd": 68774,
+      "pid": 10152,
+      "class": "NetUICtrlNotifySink"
+    },
+    {
+      "hwnd": 68796,
+      "pid": 10152,
+      "class": "RICHEDIT60W"
+    },
+    {
+      "hwnd": 68776,
+      "pid": 10152,
+      "class": "NetUICtrlNotifySink"
+    },
+    {
+      "hwnd": 68798,
+      "pid": 10152,
+      "class": "RICHEDIT60W"
+    },
+    {
+      "hwnd": 68778,
+      "pid": 10152,
+      "class": "NetUICtrlNotifySink"
+    },
+    {
+      "hwnd": 68800,
+      "pid": 10152,
+      "class": "RICHEDIT60W"
+    },
+    {
+      "hwnd": 68740,
+      "pid": 10152,
+      "class": "EXCEL<"
+    },
+    {
+      "hwnd": 68742,
+      "pid": 10152,
+      "class": "NUIScrollbar"
+    },
+    {
+      "hwnd": 68744,
+      "pid": 10152,
+      "class": "NetUIHWND"
+    },
+    {
+      "hwnd": 68754,
+      "pid": 10152,
+      "class": "EXCEL;"
+    },
+    {
+      "hwnd": 68756,
+      "pid": 10152,
+      "class": "ComboBox"
+    },
+    {
+      "hwnd": 68760,
+      "pid": 10152,
+      "class": "Edit"
+    },
+    {
+      "hwnd": 68752,
+      "pid": 10152,
+      "class": "EXCELG"
+    },
+    {
+      "hwnd": 68750,
+      "pid": 10152,
+      "class": "EXCELG"
+    },
+    {
+      "hwnd": 68748,
+      "pid": 10152,
+      "class": "EXCELG"
+    },
+    {
+      "hwnd": 68746,
+      "pid": 10152,
+      "class": "EXCELG"
+    },
+    {
+      "hwnd": 265322,
+      "pid": 10152,
+      "class": "EXCEL2"
+    },
+    {
+      "hwnd": 134156,
+      "pid": 10152,
+      "class": "EXCEL2"
+    },
+    {
+      "hwnd": 134158,
+      "pid": 10152,
+      "class": "XLDESK"
+    },
+    {
+      "hwnd": 68780,
+      "pid": 10152,
+      "class": "EXCEL7"
+    },
+    {
+      "hwnd": 68782,
+      "pid": 10152,
+      "class": "NUIScrollbar"
+    },
+    {
+      "hwnd": 68784,
+      "pid": 10152,
+      "class": "NetUIHWND"
+    },
+    {
+      "hwnd": 68786,
+      "pid": 10152,
+      "class": "NUIScrollbar"
+    },
+    {
+      "hwnd": 68788,
+      "pid": 10152,
+      "class": "NetUIHWND"
+    },
+    {
+      "hwnd": 68790,
+      "pid": 10152,
+      "class": "XLCTL"
+    },
+    {
+      "hwnd": 68792,
+      "pid": 10152,
+      "class": "XLCTL"
+    },
+    {
+      "hwnd": 68794,
+      "pid": 10152,
+      "class": "XLCTL"
+    },
+    {
+      "hwnd": 134152,
+      "pid": 10152,
+      "class": "EXCEL6"
+    },
+    {
+      "hwnd": 68734,
+      "pid": 10152,
+      "class": "MsoWorkPane"
+    },
+    {
+      "hwnd": 68766,
+      "pid": 10152,
+      "class": "MsoWorkPane"
+    },
+    {
+      "hwnd": 133934,
+      "pid": 10152,
+      "class": "XLMAIN"
+    },
+    {
+      "hwnd": 133802,
+      "pid": 10152,
+      "class": "EXCEL2"
+    },
+    {
+      "hwnd": 133872,
+      "pid": 10152,
+      "class": "MsoCommandBar"
+    },
+    {
+      "hwnd": 134064,
+      "pid": 10152,
+      "class": "MsoWorkPane"
+    },
+    {
+      "hwnd": 133900,
+      "pid": 10152,
+      "class": "NUIPane"
+    },
+    {
+      "hwnd": 133916,
+      "pid": 10152,
+      "class": "NetUIHWND"
+    },
+    {
+      "hwnd": 133942,
+      "pid": 10152,
+      "class": "EXCEL2"
+    },
+    {
+      "hwnd": 133868,
+      "pid": 10152,
+      "class": "MsoCommandBar"
+    },
+    {
+      "hwnd": 134062,
+      "pid": 10152,
+      "class": "MsoWorkPane"
+    },
+    {
+      "hwnd": 133810,
+      "pid": 10152,
+      "class": "NUIPane"
+    },
+    {
+      "hwnd": 133816,
+      "pid": 10152,
+      "class": "NetUIHWND"
+    },
+    {
+      "hwnd": 133928,
+      "pid": 10152,
+      "class": "NetUICtrlNotifySink"
+    },
+    {
+      "hwnd": 133918,
+      "pid": 10152,
+      "class": "NetUICtrlNotifySink"
+    },
+    {
+      "hwnd": 525216,
+      "pid": 10152,
+      "class": "RICHEDIT60W"
+    },
+    {
+      "hwnd": 134036,
+      "pid": 10152,
+      "class": "NetUICtrlNotifySink"
+    },
+    {
+      "hwnd": 133998,
+      "pid": 10152,
+      "class": "RICHEDIT60W"
+    },
+    {
+      "hwnd": 134070,
+      "pid": 10152,
+      "class": "NetUICtrlNotifySink"
+    },
+    {
+      "hwnd": 134002,
+      "pid": 10152,
+      "class": "RICHEDIT60W"
+    },
+    {
+      "hwnd": 133838,
+      "pid": 10152,
+      "class": "EXCEL;"
+    },
+    {
+      "hwnd": 330720,
+      "pid": 10152,
+      "class": "ComboBox"
+    },
+    {
+      "hwnd": 199390,
+      "pid": 10152,
+      "class": "Edit"
+    },
+    {
+      "hwnd": 133820,
+      "pid": 10152,
+      "class": "EXCEL<"
+    },
+    {
+      "hwnd": 133824,
+      "pid": 10152,
+      "class": "NUIScrollbar"
+    },
+    {
+      "hwnd": 133828,
+      "pid": 10152,
+      "class": "NetUIHWND"
+    },
+    {
+      "hwnd": 133844,
+      "pid": 10152,
+      "class": "EXCELG"
+    },
+    {
+      "hwnd": 133842,
+      "pid": 10152,
+      "class": "EXCELG"
+    },
+    {
+      "hwnd": 133834,
+      "pid": 10152,
+      "class": "EXCELG"
+    },
+    {
+      "hwnd": 133832,
+      "pid": 10152,
+      "class": "EXCELG"
+    },
+    {
+      "hwnd": 133798,
+      "pid": 10152,
+      "class": "EXCEL2"
+    },
+    {
+      "hwnd": 329682,
+      "pid": 10152,
+      "class": "EXCEL2"
+    },
+    {
+      "hwnd": 133936,
+      "pid": 10152,
+      "class": "XLDESK"
+    },
+    {
+      "hwnd": 134056,
+      "pid": 10152,
+      "class": "EXCEL7"
+    },
+    {
+      "hwnd": 134040,
+      "pid": 10152,
+      "class": "NUIScrollbar"
+    },
+    {
+      "hwnd": 134042,
+      "pid": 10152,
+      "class": "NetUIHWND"
+    },
+    {
+      "hwnd": 134044,
+      "pid": 10152,
+      "class": "NUIScrollbar"
+    },
+    {
+      "hwnd": 134046,
+      "pid": 10152,
+      "class": "NetUIHWND"
+    },
+    {
+      "hwnd": 199588,
+      "pid": 10152,
+      "class": "XLCTL"
+    },
+    {
+      "hwnd": 134132,
+      "pid": 10152,
+      "class": "XLCTL"
+    },
+    {
+      "hwnd": 134000,
+      "pid": 10152,
+      "class": "XLCTL"
+    },
+    {
+      "hwnd": 133946,
+      "pid": 10152,
+      "class": "EXCEL6"
+    },
+    {
+      "hwnd": 133804,
+      "pid": 10152,
+      "class": "MsoWorkPane"
+    },
+    {
+      "hwnd": 133886,
+      "pid": 10152,
+      "class": "MsoWorkPane"
+    },
+    {
+      "hwnd": 134068,
+      "pid": 10152,
+      "class": "MSCTFIME UI"
+    },
+    {
+      "hwnd": 132194,
+      "pid": 10152,
+      "class": "IME"
+    }
+  ],
+  "cleanup": "REFERENCES_RELEASED_NO_QUIT_CLOSE_SAVE",
+  "contract": "WINV26",
+  "live_certified": false
+}

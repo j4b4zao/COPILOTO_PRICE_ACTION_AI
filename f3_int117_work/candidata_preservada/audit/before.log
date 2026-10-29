@@ -1,0 +1,10 @@
+test_interrupted_naive_json_write (__main__.BeforePersistenceTests.test_interrupted_naive_json_write) ... ok
+test_parseable_corruption_erases_consumption (__main__.BeforePersistenceTests.test_parseable_corruption_erases_consumption) ... ok
+test_restart_loses_memory_history (__main__.BeforePersistenceTests.test_restart_loses_memory_history) ... ok
+test_rollback_of_entire_caller_state (__main__.BeforePersistenceTests.test_rollback_of_entire_caller_state) ... ok
+test_two_consumers_same_snapshot (__main__.BeforePersistenceTests.test_two_consumers_same_snapshot) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 63.932s
+
+OK

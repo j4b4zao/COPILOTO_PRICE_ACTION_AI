@@ -1,0 +1,36 @@
+{
+  "last_completed": "F3-INT-92",
+  "next_step": "F3-INT-93: corpus metamorfico limitado de bundles e identidades de evidencia",
+  "f3": "OPEN",
+  "simulation_only": true,
+  "offline": true,
+  "certification": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "new_tests": {
+    "tests": 8,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 18.19,
+    "log": "LOG_F3_INT92_NOVOS.txt"
+  },
+  "regression": {
+    "tests": 1081,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 196.821,
+    "log": "LOG_F3_INT92_REGRESSAO.txt"
+  },
+  "pending": [
+    "Autenticidade, consenso, persistencia e fencing reais nao verificados."
+  ]
+}

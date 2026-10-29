@@ -1,0 +1,102 @@
+{
+  "stage": "F3-INT-120 T4",
+  "classification": "ACCEPTANCE_CRITERIA_ONLY",
+  "source_sha256": "CB30069CFB1D59908516F8B11C1FEDEDB845ADD63B1E00F79F4811721C828AE7",
+  "criteria": [
+    {
+      "threat_id": "T01",
+      "scenario": "ROLLBACK_CONJUNTO_LOCAL",
+      "required_behavior": "REJECT",
+      "test_implemented": false,
+      "test_executed": false,
+      "evidence_verified": false,
+      "accepted": false
+    },
+    {
+      "threat_id": "T02",
+      "scenario": "CHAVE_CONTROLADA_PELO_ATACANTE",
+      "required_behavior": "REJECT",
+      "test_implemented": false,
+      "test_executed": false,
+      "evidence_verified": false,
+      "accepted": false
+    },
+    {
+      "threat_id": "T03",
+      "scenario": "RESPOSTA_EXTERNA_ANTIGA",
+      "required_behavior": "REJECT",
+      "test_implemented": false,
+      "test_executed": false,
+      "evidence_verified": false,
+      "accepted": false
+    },
+    {
+      "threat_id": "T04",
+      "scenario": "SEQUENCIA_REPETIDA",
+      "required_behavior": "REJECT_OR_IDEMPOTENT_REPLAY",
+      "test_implemented": false,
+      "test_executed": false,
+      "evidence_verified": false,
+      "accepted": false
+    },
+    {
+      "threat_id": "T05",
+      "scenario": "ACK_PERDIDO",
+      "required_behavior": "RECOVER_WITHOUT_DUPLICATION",
+      "test_implemented": false,
+      "test_executed": false,
+      "evidence_verified": false,
+      "accepted": false
+    },
+    {
+      "threat_id": "T06",
+      "scenario": "FALHA_DURANTE_PERSISTENCIA",
+      "required_behavior": "NO_FALSE_ACK",
+      "test_implemented": false,
+      "test_executed": false,
+      "evidence_verified": false,
+      "accepted": false
+    },
+    {
+      "threat_id": "T07",
+      "scenario": "ROLLBACK_DA_TESTEMUNHA",
+      "required_behavior": "DETECT_OR_BLOCK",
+      "test_implemented": false,
+      "test_executed": false,
+      "evidence_verified": false,
+      "accepted": false
+    },
+    {
+      "threat_id": "T08",
+      "scenario": "TESTEMUNHA_INDISPONIVEL",
+      "required_behavior": "BLOCK",
+      "test_implemented": false,
+      "test_executed": false,
+      "evidence_verified": false,
+      "accepted": false
+    },
+    {
+      "threat_id": "T09",
+      "scenario": "DIVERGENCIA_SQLITE",
+      "required_behavior": "REJECT",
+      "test_implemented": false,
+      "test_executed": false,
+      "evidence_verified": false,
+      "accepted": false
+    },
+    {
+      "threat_id": "T10",
+      "scenario": "ROTACAO_NAO_AUTORIZADA",
+      "required_behavior": "REJECT",
+      "test_implemented": false,
+      "test_executed": false,
+      "evidence_verified": false,
+      "accepted": false
+    }
+  ],
+  "independent_witness_verified": false,
+  "physical_durability_verified": false,
+  "promotion_allowed": false,
+  "official_checkpoint": "F3-INT-117 R2 FINAL",
+  "f3": "OPEN"
+}

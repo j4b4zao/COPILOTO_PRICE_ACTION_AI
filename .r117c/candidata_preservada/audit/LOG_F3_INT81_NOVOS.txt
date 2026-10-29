@@ -1,0 +1,15 @@
+test_bound_witness (test_f3_int81_package_bound_witness.PackageWitnessTests.test_bound_witness) ... ok
+test_flags (test_f3_int81_package_bound_witness.PackageWitnessTests.test_flags) ... ok
+test_formatting_keeps_canonical_pin (test_f3_int81_package_bound_witness.PackageWitnessTests.test_formatting_keeps_canonical_pin) ... ok
+test_invalid_paths (test_f3_int81_package_bound_witness.PackageWitnessTests.test_invalid_paths) ... ok
+test_invalid_pin (test_f3_int81_package_bound_witness.PackageWitnessTests.test_invalid_pin) ... ok
+test_missing_file (test_f3_int81_package_bound_witness.PackageWitnessTests.test_missing_file) ... ok
+test_package_hash_binding (test_f3_int81_package_bound_witness.PackageWitnessTests.test_package_hash_binding) ... ok
+test_wrong_json_schema (test_f3_int81_package_bound_witness.PackageWitnessTests.test_wrong_json_schema) ... ok
+test_wrong_pin (test_f3_int81_package_bound_witness.PackageWitnessTests.test_wrong_pin) ... ok
+test_wrong_record_type (test_f3_int81_package_bound_witness.PackageWitnessTests.test_wrong_record_type) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 1.226s
+
+OK

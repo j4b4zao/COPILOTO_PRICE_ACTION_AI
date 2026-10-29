@@ -1,0 +1,282 @@
+[
+  {
+    "module": "test_h10_rc3_14_alert_safety",
+    "tests": 148,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_15_engine_manager_order",
+    "tests": 13,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_16_decision_safety",
+    "tests": 209,
+    "subtests": 10,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_17_risk_safety",
+    "tests": 154,
+    "subtests": 28,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_1_collector_numeric",
+    "tests": 214,
+    "subtests": 21,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_2_symbol_isolation",
+    "tests": 27,
+    "subtests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_1_volume_hold",
+    "tests": 6,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_2_temporal_validator",
+    "tests": 18,
+    "subtests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_2c_temporal_observation",
+    "tests": 12,
+    "subtests": 9,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_3b_snapshot_consistency",
+    "tests": 20,
+    "subtests": 10,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_3c_snapshot_observation",
+    "tests": 16,
+    "subtests": 7,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_3e_cycle_trace",
+    "tests": 12,
+    "subtests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_3g_reread_capability",
+    "tests": 16,
+    "subtests": 19,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_3h_reread_guard",
+    "tests": 14,
+    "subtests": 15,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_3i_reader_declarations",
+    "tests": 10,
+    "subtests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_3j_structured_cell_read",
+    "tests": 16,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_3k_reader_metadata",
+    "tests": 17,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_3l_acquisition_metadata",
+    "tests": 15,
+    "subtests": 12,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_3n_metadata_trust",
+    "tests": 15,
+    "subtests": 7,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_3p_acquisition_diagnostics",
+    "tests": 34,
+    "subtests": 7,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_3r_temporal_cycle_association",
+    "tests": 23,
+    "subtests": 8,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_3s_temporal_diagnostics",
+    "tests": 10,
+    "subtests": 30,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_18_3_3t2_acquisition_diagnostics_integration",
+    "tests": 28,
+    "subtests": 33,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_context_confluence",
+    "tests": 10,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc2_observational_adapter",
+    "tests": 10,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_1_interface_contract",
+    "tests": 10,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_2_dependency_audit",
+    "tests": 6,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_3_offline_gate",
+    "tests": 8,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_4_mock_adapter",
+    "tests": 10,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_5_model_contracts",
+    "tests": 9,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_6_contract_crosscheck",
+    "tests": 8,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_7_1_diagnose",
+    "tests": 5,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_7_offline_preflight",
+    "tests": 8,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_8_transitive_audit",
+    "tests": 6,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "test_h10_rc3_interface_inventory",
+    "tests": 4,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+]

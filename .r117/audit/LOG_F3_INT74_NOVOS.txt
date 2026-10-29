@@ -1,0 +1,24 @@
+test_bad_bounds (test_f3_int74_declared_delta.DeclaredDeltaTests.test_bad_bounds) ... ok
+test_blank_reason (test_f3_int74_declared_delta.DeclaredDeltaTests.test_blank_reason) ... ok
+test_bool_stage (test_f3_int74_declared_delta.DeclaredDeltaTests.test_bool_stage) ... ok
+test_count_still_checked (test_f3_int74_declared_delta.DeclaredDeltaTests.test_count_still_checked) ... ok
+test_declared_replacement (test_f3_int74_declared_delta.DeclaredDeltaTests.test_declared_replacement) ... ok
+test_delta_bound (test_f3_int74_declared_delta.DeclaredDeltaTests.test_delta_bound) ... ok
+test_duplicate (test_f3_int74_declared_delta.DeclaredDeltaTests.test_duplicate) ... ok
+test_flags (test_f3_int74_declared_delta.DeclaredDeltaTests.test_flags) ... ok
+test_identity_delta (test_f3_int74_declared_delta.DeclaredDeltaTests.test_identity_delta) ... ok
+test_invalid_paths (test_f3_int74_declared_delta.DeclaredDeltaTests.test_invalid_paths) ... ok
+test_mutable_declarations (test_f3_int74_declared_delta.DeclaredDeltaTests.test_mutable_declarations) ... ok
+test_no_delta_unchanged (test_f3_int74_declared_delta.DeclaredDeltaTests.test_no_delta_unchanged) ... ok
+test_old_verifier_remains_strict (test_f3_int74_declared_delta.DeclaredDeltaTests.test_old_verifier_remains_strict) ... ok
+test_removed_source_never_authorized (test_f3_int74_declared_delta.DeclaredDeltaTests.test_removed_source_never_authorized) ... ok
+test_undeclared (test_f3_int74_declared_delta.DeclaredDeltaTests.test_undeclared) ... ok
+test_unused_declaration (test_f3_int74_declared_delta.DeclaredDeltaTests.test_unused_declaration) ... ok
+test_wrong_after (test_f3_int74_declared_delta.DeclaredDeltaTests.test_wrong_after) ... ok
+test_wrong_before (test_f3_int74_declared_delta.DeclaredDeltaTests.test_wrong_before) ... ok
+test_wrong_stage (test_f3_int74_declared_delta.DeclaredDeltaTests.test_wrong_stage) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.268s
+
+OK

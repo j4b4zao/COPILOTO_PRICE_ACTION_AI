@@ -1,0 +1,393 @@
+﻿===== COLLECTOR INIT =====
+"""Coleta Profit/Excel com integridade, diagnÃ³stico, qualidade e recorder de Delta."""
+
+import math
+
+from connectors.profit_reader import ProfitReader
+from core.analysis_context import AnalysisContext
+from core.market_clock import MarketClock
+from core.multi_timeframe_state import MultiTimeframeState
+from core.order_flow_state import OrderFlowState
+from core.renko_state import RenkoState
+from enums.chart_mode import ChartMode
+from market_data.profit_delta_quality_validator import ProfitDeltaQualityValidator
+from market_data.profit_delta_session_recorder import ProfitDeltaSessionRecorder
+from market_data.profit_delta_source_diagnostics import ProfitDeltaSourceDiagnostics
+from market_data.profit_source_integrity import ProfitSourceIntegrityGuard
+from market_data.profit_rtd_validation_recorder import ProfitRTDValidationRecorder
+
+
+class Collector:
+    NAME = "Collector"
+    VERSION = "RC25-PROFIT-RTD-VOLUME-HOLD"
+
+    def __init__(self, excel=None, reader=None, multi_timeframe=None, renko_state=None,
+                 order_flow_state=None, chart_mode=None, renko_brick_size=None, clock=None,
+                 source_guard=None, source_diagnostics=None, delta_quality_validator=None,
+                 delta_session_recorder=None, enable_profit_rtd_order_flow=None,
+                 profit_rtd_order_flow_pipeline=None, profit_rtd_validation_recorder=None):
+        if excel is None:
+            from connectors.excel_connector import ExcelConnector
+            excel = ExcelConnector()
+        self.excel = excel
+        self.reader = reader if reader is not None else ProfitReader(self.excel)
+
+        from config.settings import (
+            CHART_MODE,
+            ENABLE_PROFIT_RTD_ORDER_FLOW,
+            EXCEL_PATH,
+            RENKO_BRICK_SIZE,
+        )
+
+        self.chart_mode = ChartMode.normalize(
+            chart_mode if chart_mode is not None else CHART_MODE
+        )
+        brick_size = renko_brick_size if renko_brick_size is not None else RENKO_BRICK_SIZE
+        self.multi_timeframe = (
+            multi_timeframe if multi_timeframe is not None else MultiTimeframeState()
+        )
+        self.renko = (
+            renko_state if renko_state is not None else RenkoState(brick_size=brick_size)
+        )
+        self.order_flow = (
+            order_flow_state if order_flow_state is not None else OrderFlowState()
+        )
+        self.source_guard = (
+            source_guard if source_guard is not None else ProfitSourceIntegrityGuard()
+        )
+        self.source_diagnostics = (
+            source_diagnostics
+            if source_diagnostics is not None
+            else ProfitDeltaSourceDiagnostics()
+        )
+        self.delta_quality_validator = (
+            delta_quality_validator
+            if delta_quality_validator is not None
+            else ProfitDeltaQualityValidator()
+        )
+        self.delta_session_recorder = (
+            delta_session_recorder
+            if delta_session_recorder is not None
+            else ProfitDeltaSessionRecorder()
+        )
+        self.profit_rtd_validation_recorder = (
+            profit_rtd_validation_recorder
+            if profit_rtd_validation_recorder is not None
+            else ProfitRTDValidationRecorder()
+        )
+        self.last_delta_quality = self.delta_quality_validator.evaluate(
+            self.order_flow,
+            self.source_diagnostics.snapshot,
+        )
+        self.market = self._primary_market()
+        self.last_new_candles = {
+            timeframe: False for timeframe in self.multi_timeframe.TIMEFRAMES
+        }
+        self.last_closed_renko_bricks = 0
+        self.clock = clock if clock is not None else MarketClock
+        self.last_valid_volume = None
+
+        self.enable_profit_rtd_order_flow = bool(
+            ENABLE_PROFIT_RTD_ORDER_FLOW
+            if enable_profit_rtd_order_flow is None
+            else enable_profit_rtd_order_flow
+        )
+        self.profit_rtd_order_flow_pipeline = profit_rtd_order_flow_pipeline
+        self.last_profit_rtd_receipt = None
+
+        if not self.excel.conectar(EXCEL_PATH):
+            raise RuntimeError("NÃ£o foi possÃ­vel conectar ao Excel.")
+
+        if self.enable_profit_rtd_order_flow and self.profit_rtd_order_flow_pipeline is None:
+            self.profit_rtd_order_flow_pipeline = self._build_profit_rtd_order_flow_pipeline()
+
+    def get_data(self):
+        dados = self.reader.obter_dados()
+        if not dados:
+            return None
+
+        raw_volume = dados.get("volume")
+        volume, volume_held = self._resolve_cumulative_volume(raw_volume)
+        print(
+            f"[VOLUME DEBUG] raw={raw_volume!r} converted={volume} "
+            f"held_last_valid={volume_held}"
+        )
+        if volume is None:
+            print(
+                "[DATA WARNING] Volume acumulado indisponÃ­vel e ainda sem baseline vÃ¡lido. "
+                "Leitura ignorada."
+            )
+            return None
+        if volume_held:
+            print(
+                "[DATA WARNING] Volume acumulado indisponÃ­vel nesta leitura; "
+                "mantendo Ãºltimo valor vÃ¡lido para evitar reset artificial."
+            )
+
+        ativo = str(dados.get("ativo") or "").strip()
+        if not ativo:
+            print("[DATA WARNING] Ativo invÃ¡lido recebido. Leitura ignorada.")
+            return None
+
+
+===== COLLECTOR GET DATA COMPLETE =====
+
+  market_data\collector.py:98:            raise RuntimeError("Não foi possível conectar ao Excel.")
+  market_data\collector.py:99:
+  market_data\collector.py:100:        if self.enable_profit_rtd_order_flow and self.profit_rtd_order_flow_pipeline is 
+None:
+  market_data\collector.py:101:            self.profit_rtd_order_flow_pipeline = 
+self._build_profit_rtd_order_flow_pipeline()
+  market_data\collector.py:102:
+> market_data\collector.py:103:    def get_data(self):
+  market_data\collector.py:104:        dados = self.reader.obter_dados()
+  market_data\collector.py:105:        if not dados:
+  market_data\collector.py:106:            return None
+  market_data\collector.py:107:
+  market_data\collector.py:108:        raw_volume = dados.get("volume")
+  market_data\collector.py:109:        volume, volume_held = self._resolve_cumulative_volume(raw_volume)
+  market_data\collector.py:110:        print(
+  market_data\collector.py:111:            f"[VOLUME DEBUG] raw={raw_volume!r} converted={volume} "
+  market_data\collector.py:112:            f"held_last_valid={volume_held}"
+  market_data\collector.py:113:        )
+  market_data\collector.py:114:        if volume is None:
+  market_data\collector.py:115:            print(
+  market_data\collector.py:116:                "[DATA WARNING] Volume acumulado indisponível e ainda sem baseline 
+válido. "
+  market_data\collector.py:117:                "Leitura ignorada."
+  market_data\collector.py:118:            )
+  market_data\collector.py:119:            return None
+  market_data\collector.py:120:        if volume_held:
+  market_data\collector.py:121:            print(
+  market_data\collector.py:122:                "[DATA WARNING] Volume acumulado indisponível nesta leitura; "
+  market_data\collector.py:123:                "mantendo último valor válido para evitar reset artificial."
+  market_data\collector.py:124:            )
+  market_data\collector.py:125:
+  market_data\collector.py:126:        ativo = str(dados.get("ativo") or "").strip()
+  market_data\collector.py:127:        if not ativo:
+  market_data\collector.py:128:            print("[DATA WARNING] Ativo inválido recebido. Leitura ignorada.")
+  market_data\collector.py:129:            return None
+  market_data\collector.py:130:
+  market_data\collector.py:131:        close = self.to_float(dados.get("close"))
+  market_data\collector.py:132:        if not math.isfinite(close) or close <= 0:
+  market_data\collector.py:133:            print(f"[DATA WARNING] Preço inválido recebido: {close!r}. Leitura 
+ignorada.")
+  market_data\collector.py:134:            return None
+  market_data\collector.py:135:
+  market_data\collector.py:136:        aggression_buy = self.to_optional_float(dados.get("agressao_compra"))
+  market_data\collector.py:137:        aggression_sell = self.to_optional_float(dados.get("agressao_venda"))
+  market_data\collector.py:138:        integrity = self.source_guard.inspect(dados)
+  market_data\collector.py:139:
+  market_data\collector.py:140:        if self.enable_profit_rtd_order_flow:
+  market_data\collector.py:141:            self.last_profit_rtd_receipt = self.profit_rtd_order_flow_pipeline.process(
+  market_data\collector.py:142:                ativo,
+  market_data\collector.py:143:                price=close,
+  market_data\collector.py:144:            )
+  market_data\collector.py:145:            self.profit_rtd_validation_recorder.record(self.last_profit_rtd_receipt)
+  market_data\collector.py:146:            diagnostic_buy = self.order_flow.cumulative_buy
+  market_data\collector.py:147:            diagnostic_sell = self.order_flow.cumulative_sell
+  market_data\collector.py:148:            validation = self.profit_rtd_validation_recorder.snapshot
+  market_data\collector.py:149:            print(
+  market_data\collector.py:150:                "[PROFIT RTD VALIDATION] "
+  market_data\collector.py:151:                f"cycles={validation.total_cycles} updates={validation.state_updates} "
+  market_data\collector.py:152:                f"new_trades={validation.total_new_trades} 
+resets={validation.baseline_resets} "
+  market_data\collector.py:153:                f"continuity={validation.continuity_rate:.0%} "
+  market_data\collector.py:154:                f"last={validation.last_continuity}"
+  market_data\collector.py:155:            )
+  market_data\collector.py:156:        else:
+  market_data\collector.py:157:            diagnostic_buy = aggression_buy
+  market_data\collector.py:158:            diagnostic_sell = aggression_sell
+  market_data\collector.py:159:            if integrity.symbol_changed:
+  market_data\collector.py:160:                self.order_flow.clear()
+  market_data\collector.py:161:
+  market_data\collector.py:162:        if integrity.duplicate:
+  market_data\collector.py:163:            if not self.enable_profit_rtd_order_flow:
+  market_data\collector.py:164:                if aggression_buy is None or aggression_sell is None:
+  market_data\collector.py:165:                    self.order_flow.mark_unavailable()
+  market_data\collector.py:166:                else:
+  market_data\collector.py:167:                    self.order_flow.mark_waiting("SOURCE_UNCHANGED")
+  market_data\collector.py:168:            self._observe_delta_source(integrity, diagnostic_buy, diagnostic_sell)
+  market_data\collector.py:169:            print("[DATA WAIT] Snapshot do Profit sem mudança; ciclo ignorado.")
+  market_data\collector.py:170:            return None
+  market_data\collector.py:171:
+  market_data\collector.py:172:        timestamp = self.clock.now()
+  market_data\collector.py:173:        self.last_new_candles = self.multi_timeframe.update_tick(
+  market_data\collector.py:174:            symbol=ativo,
+  market_data\collector.py:175:            price=close,
+  market_data\collector.py:176:            cumulative_volume=volume,
+  market_data\collector.py:177:            timestamp=timestamp,
+  market_data\collector.py:178:        )
+  market_data\collector.py:179:
+  market_data\collector.py:180:        if self.chart_mode == ChartMode.RENKO:
+  market_data\collector.py:181:            self.last_closed_renko_bricks = self.renko.update_tick(
+  market_data\collector.py:182:                symbol=ativo,
+  market_data\collector.py:183:                price=close,
+  market_data\collector.py:184:                cumulative_volume=volume,
+  market_data\collector.py:185:                timestamp=timestamp,
+  market_data\collector.py:186:            )
+  market_data\collector.py:187:
+  market_data\collector.py:188:        if not self.enable_profit_rtd_order_flow:
+  market_data\collector.py:189:            self._update_order_flow(
+  market_data\collector.py:190:                aggression_buy=aggression_buy,
+  market_data\collector.py:191:                aggression_sell=aggression_sell,
+  market_data\collector.py:192:                price=close,
+  market_data\collector.py:193:            )
+  market_data\collector.py:194:
+  market_data\collector.py:195:        self._observe_delta_source(integrity, diagnostic_buy, diagnostic_sell)
+  market_data\collector.py:196:
+  market_data\collector.py:197:        candle = self.market.last_candle
+  market_data\collector.py:198:        print(
+  market_data\collector.py:199:            "[CANDLE DEBUG] "
+  market_data\collector.py:200:            f"time={timestamp} period={candle.timestamp if candle else None} "
+  market_data\collector.py:201:            f"new={self.last_new_candles} price={close:.2f} 
+cumulative_volume={volume:.2f} "
+  market_data\collector.py:202:            f"candle_volume={candle.volume if candle else None} "
+  market_data\collector.py:203:            f"history=M1:{self.multi_timeframe.get('M1').candle_count},"
+  market_data\collector.py:204:            f"M5:{self.multi_timeframe.get('M5').candle_count},"
+  market_data\collector.py:205:            f"M15:{self.multi_timeframe.get('M15').candle_count} "
+  market_data\collector.py:206:            f"chart_mode={self.chart_mode.value} primary={self.market.timeframe} "
+  market_data\collector.py:207:            f"renko_bricks={self.renko.market.candle_count} "
+  market_data\collector.py:208:            f"order_flow_source={'PROFIT_RTD_TT' if self.enable_profit_rtd_order_flow 
+else 'LEGACY'}"
+  market_data\collector.py:209:        )
+  market_data\collector.py:210:
+  market_data\collector.py:211:        return AnalysisContext(
+  market_data\collector.py:212:            market=self.market,
+  market_data\collector.py:213:            multi_timeframe=self.multi_timeframe,
+  market_data\collector.py:214:            order_flow_state=self.order_flow,
+  market_data\collector.py:215:        )
+  market_data\collector.py:216:
+  market_data\collector.py:217:    def _build_profit_rtd_order_flow_pipeline(self):
+  market_data\collector.py:218:        from market_data.excel_range_gateway import ExcelRangeGateway
+  market_data\collector.py:219:        from market_data.profit_rtd_order_flow_pipeline import ProfitRTDOrderFlowPipeline
+  market_data\collector.py:220:        from market_data.profit_rtd_workbook_reader import ProfitRTDTimesTradesReader
+  market_data\collector.py:221:
+  market_data\collector.py:222:        gateway = ExcelRangeGateway(self.excel)
+  market_data\collector.py:223:        reader = ProfitRTDTimesTradesReader(gateway)
+  market_data\collector.py:224:        return ProfitRTDOrderFlowPipeline(reader, self.order_flow)
+  market_data\collector.py:225:
+  market_data\collector.py:226:    def _observe_delta_source(self, integrity, aggression_buy, aggression_sell):
+  market_data\collector.py:227:        self.source_diagnostics.observe(
+  market_data\collector.py:228:            integrity=integrity,
+  market_data\collector.py:229:            aggression_buy=aggression_buy,
+  market_data\collector.py:230:            aggression_sell=aggression_sell,
+  market_data\collector.py:231:            order_flow=self.order_flow,
+  market_data\collector.py:232:        )
+  market_data\collector.py:233:        source = self.source_diagnostics.snapshot
+  market_data\collector.py:234:        self.last_delta_quality = self.delta_quality_validator.evaluate(
+  market_data\collector.py:235:            self.order_flow,
+  market_data\collector.py:236:            source,
+  market_data\collector.py:237:        )
+  market_data\collector.py:238:        quality = self.last_delta_quality
+  market_data\collector.py:239:        self.delta_session_recorder.record(source, quality)
+  market_data\collector.py:240:        print(
+  market_data\collector.py:241:            "[DELTA SOURCE] "
+  market_data\collector.py:242:            f"status={source.status} symbol={source.symbol} 
+fresh={source.fresh_snapshots} "
+  market_data\collector.py:243:            f"duplicates={source.duplicate_snapshots} 
+aggression={source.aggression_availability_rate:.0%} "
+  market_data\collector.py:244:            f"samples={source.order_flow_samples} resets={source.accumulator_resets} "
+  market_data\collector.py:245:            f"symbol_changes={source.symbol_changes}"
+  market_data\collector.py:246:        )
+  market_data\collector.py:247:        print(
+  market_data\collector.py:248:            "[DELTA QUALITY] "
+  market_data\collector.py:249:            f"status={quality.status} samples={quality.sample_count} 
+delta={quality.recent_delta:.2f} "
+  market_data\collector.py:250:            f"dominance={quality.dominance:.2f} persistence={quality.persistence:.2f} "
+  market_data\collector.py:251:            f"avg_abs={quality.average_abs_delta:.2f} 
+max_abs={quality.max_abs_delta:.2f} "
+  market_data\collector.py:252:            f"zero_rate={quality.zero_delta_rate:.0%} anomalies={quality.anomaly_count} "
+  market_data\collector.py:253:            f"reasons={','.join(quality.reasons) if quality.reasons else 'OK'}"
+  market_data\collector.py:254:        )
+  market_data\collector.py:255:
+  market_data\collector.py:256:    def delta_session_summary(self) -> dict:
+  market_data\collector.py:257:        return self.delta_session_recorder.summary()
+  market_data\collector.py:258:
+  market_data\collector.py:259:    def profit_rtd_validation_summary(self) -> dict:
+  market_data\collector.py:260:        return self.profit_rtd_validation_recorder.snapshot.to_dict()
+  market_data\collector.py:261:
+  market_data\collector.py:262:    def export_profit_rtd_validation_session(self, target, *, overwrite: bool = False):
+  market_data\collector.py:263:        from market_data.profit_rtd_validation_exporter import 
+ProfitRTDValidationExporter
+  market_data\collector.py:264:
+  market_data\collector.py:265:        exporter = ProfitRTDValidationExporter()
+  market_data\collector.py:266:        return exporter.export(
+  market_data\collector.py:267:            self.profit_rtd_validation_recorder.snapshot,
+  market_data\collector.py:268:            target,
+  market_data\collector.py:269:            overwrite=overwrite,
+  market_data\collector.py:270:        )
+  market_data\collector.py:271:
+  market_data\collector.py:272:    def _primary_market(self):
+  market_data\collector.py:273:        return (
+  market_data\collector.py:274:            self.renko.market
+  market_data\collector.py:275:            if self.chart_mode == ChartMode.RENKO
+  market_data\collector.py:276:            else self.multi_timeframe.primary
+  market_data\collector.py:277:        )
+  market_data\collector.py:278:
+  market_data\collector.py:279:    def _update_order_flow(self, *, aggression_buy, aggression_sell, price):
+  market_data\collector.py:280:        if aggression_buy is None or aggression_sell is None:
+  market_data\collector.py:281:            self.order_flow.mark_unavailable()
+  market_data\collector.py:282:            return
+  market_data\collector.py:283:
+
+===== WARM HISTORY =====
+
+===== CONTEXT COLLECTOR REFERENCES =====
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\core\kernel.py
+LineNumber : 23
+Line       :         self.collector = collector
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\core\kernel.py
+LineNumber : 48
+Line       :                 market = self.collector.executar()
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\core\system_initializer.py
+LineNumber : 9
+Line       : from market_data.collector import Collector
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\core\system_initializer.py
+LineNumber : 142
+Line       :         self.collector = None
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\core\system_initializer.py
+LineNumber : 331
+Line       :         self.collector = Collector()
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_order_flow_combined_session.py
+LineNumber : 38
+Line       :     from market_data.collector import Collector
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_order_flow_combined_session.py
+LineNumber : 43
+Line       :     collector = Collector(enable_profit_rtd_order_flow=False)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py
+LineNumber : 98
+Line       :     collector = warm['collector']
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_validation_session.py
+LineNumber : 58
+Line       :     from market_data.collector import Collector
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_validation_session.py
+LineNumber : 64
+Line       :     collector = Collector(enable_profit_rtd_order_flow=False)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_validation_session.py
+LineNumber : 163
+Line       :         active_collector = collector if collector is not None else _build_real_collector()
+
+
+

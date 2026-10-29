@@ -1,0 +1,15 @@
+test_bool_actor (test_f3_int84_import_schedule_divergence.ImportScheduleTests.test_bool_actor) ... ok
+test_duplicate_witness_converges_only_in_fixture (test_f3_int84_import_schedule_divergence.ImportScheduleTests.test_duplicate_witness_converges_only_in_fixture) ... ok
+test_flags (test_f3_int84_import_schedule_divergence.ImportScheduleTests.test_flags) ... ok
+test_invalid_batches (test_f3_int84_import_schedule_divergence.ImportScheduleTests.test_invalid_batches) ... ok
+test_invalid_bounds (test_f3_int84_import_schedule_divergence.ImportScheduleTests.test_invalid_bounds) ... ok
+test_invalid_order (test_f3_int84_import_schedule_divergence.ImportScheduleTests.test_invalid_order) ... ok
+test_order_only_difference_when_serial (test_f3_int84_import_schedule_divergence.ImportScheduleTests.test_order_only_difference_when_serial) ... ok
+test_six_schedules_disjoint_batches (test_f3_int84_import_schedule_divergence.ImportScheduleTests.test_six_schedules_disjoint_batches) ... ok
+test_stale_commit_preserves_snapshot (test_f3_int84_import_schedule_divergence.ImportScheduleTests.test_stale_commit_preserves_snapshot) ... ok
+test_three_actors_bounded_prefix (test_f3_int84_import_schedule_divergence.ImportScheduleTests.test_three_actors_bounded_prefix) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 18.233s
+
+OK

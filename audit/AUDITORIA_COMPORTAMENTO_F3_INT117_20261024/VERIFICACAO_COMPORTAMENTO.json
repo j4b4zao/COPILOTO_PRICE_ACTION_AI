@@ -1,0 +1,189 @@
+{
+  "verdict": "REPROVADO",
+  "new_tests_executed": 0,
+  "reason_no_new_tests": "Sources and existing counterexample match byte-for-byte; no unresolved divergence needs another execution",
+  "checks": {
+    "tools/f3_int117_sqlite_write_faults.py": true,
+    "tools/f3_int117_run_audit.py": true,
+    "tests/test_f3_int117_sqlite_write_faults.py": true,
+    "tests/test_f3_int117_runner.py": true,
+    "229_sources_same_as_execution": true,
+    "3559_historical_same": true,
+    "ESPECIFICOS_log_unchanged": true,
+    "ESPECIFICOS_metadata_same": true,
+    "REGRESSAO_COMPLETA_log_unchanged": true,
+    "REGRESSAO_COMPLETA_metadata_same": true,
+    "capacity_counterexample_record": true,
+    "prior_O_reexecution_21_pass": true,
+    "workspace_116_final": true,
+    "seven_flags_false": true
+  },
+  "native_records": {
+    "ESPECIFICOS": [
+      {
+        "mode": "normal",
+        "error": null,
+        "events": [
+          "connection_opened_rw",
+          "begin_entered",
+          "update_entered",
+          "update_returned",
+          "commit_entered",
+          "commit_returned",
+          "connection_closed"
+        ],
+        "integrity": "ok",
+        "reconciliation": "COMMITTED_OBSERVED_UNAUTHENTICATED",
+        "replays": [
+          "STATE_ANCHOR_MISMATCH",
+          "STALE_CHAIN_REVISION",
+          "STATE_ANCHOR_MISMATCH",
+          "STALE_CHAIN_REVISION"
+        ],
+        "retry_allowed": false,
+        "automatic_retries": 0,
+        "fixture_removed": true
+      },
+      {
+        "mode": "full",
+        "error": {
+          "phase": "UPDATE",
+          "sqlite_errorcode": 13,
+          "primary_code": 13,
+          "sqlite_errorname": "SQLITE_FULL",
+          "message": "database or disk is full"
+        },
+        "events": [
+          "connection_opened_rw",
+          "begin_entered",
+          "update_entered",
+          "sqlite_error_UPDATE",
+          "connection_closed"
+        ],
+        "integrity": "ok",
+        "reconciliation": "NOT_COMMITTED_OBSERVED_UNAUTHENTICATED",
+        "replays": [
+          "STATE_ANCHOR_MISMATCH",
+          "STALE_CHAIN_REVISION"
+        ],
+        "retry_allowed": false,
+        "automatic_retries": 0,
+        "fixture_removed": true
+      },
+      {
+        "mode": "readonly",
+        "error": {
+          "phase": "UPDATE",
+          "sqlite_errorcode": 8,
+          "primary_code": 8,
+          "sqlite_errorname": "SQLITE_READONLY",
+          "message": "attempt to write a readonly database"
+        },
+        "events": [
+          "connection_opened_ro",
+          "begin_entered",
+          "update_entered",
+          "sqlite_error_UPDATE",
+          "connection_closed"
+        ],
+        "integrity": "ok",
+        "reconciliation": "NOT_COMMITTED_OBSERVED_UNAUTHENTICATED",
+        "replays": [
+          "STATE_ANCHOR_MISMATCH",
+          "STALE_CHAIN_REVISION"
+        ],
+        "retry_allowed": false,
+        "automatic_retries": 0,
+        "fixture_removed": true
+      }
+    ],
+    "REGRESSAO_COMPLETA": [
+      {
+        "mode": "normal",
+        "error": null,
+        "events": [
+          "connection_opened_rw",
+          "begin_entered",
+          "update_entered",
+          "update_returned",
+          "commit_entered",
+          "commit_returned",
+          "connection_closed"
+        ],
+        "integrity": "ok",
+        "reconciliation": "COMMITTED_OBSERVED_UNAUTHENTICATED",
+        "replays": [
+          "STATE_ANCHOR_MISMATCH",
+          "STALE_CHAIN_REVISION",
+          "STATE_ANCHOR_MISMATCH",
+          "STALE_CHAIN_REVISION"
+        ],
+        "retry_allowed": false,
+        "automatic_retries": 0,
+        "fixture_removed": true
+      },
+      {
+        "mode": "full",
+        "error": {
+          "phase": "UPDATE",
+          "sqlite_errorcode": 13,
+          "primary_code": 13,
+          "sqlite_errorname": "SQLITE_FULL",
+          "message": "database or disk is full"
+        },
+        "events": [
+          "connection_opened_rw",
+          "begin_entered",
+          "update_entered",
+          "sqlite_error_UPDATE",
+          "connection_closed"
+        ],
+        "integrity": "ok",
+        "reconciliation": "NOT_COMMITTED_OBSERVED_UNAUTHENTICATED",
+        "replays": [
+          "STATE_ANCHOR_MISMATCH",
+          "STALE_CHAIN_REVISION"
+        ],
+        "retry_allowed": false,
+        "automatic_retries": 0,
+        "fixture_removed": true
+      },
+      {
+        "mode": "readonly",
+        "error": {
+          "phase": "UPDATE",
+          "sqlite_errorcode": 8,
+          "primary_code": 8,
+          "sqlite_errorname": "SQLITE_READONLY",
+          "message": "attempt to write a readonly database"
+        },
+        "events": [
+          "connection_opened_ro",
+          "begin_entered",
+          "update_entered",
+          "sqlite_error_UPDATE",
+          "connection_closed"
+        ],
+        "integrity": "ok",
+        "reconciliation": "NOT_COMMITTED_OBSERVED_UNAUTHENTICATED",
+        "replays": [
+          "STATE_ANCHOR_MISMATCH",
+          "STALE_CHAIN_REVISION"
+        ],
+        "retry_allowed": false,
+        "automatic_retries": 0,
+        "fixture_removed": true
+      }
+    ]
+  },
+  "source_files_sha256": {
+    "tools/f3_int117_sqlite_write_faults.py": "7775676060ac7dc4a189593b45c78227263613cf82513265115c5af1440f5682",
+    "tools/f3_int117_run_audit.py": "0dcbc2b0f8e268ef7d20b6e2608f09667a9526b9dba8a0eb6de9629beb950437",
+    "tests/test_f3_int117_sqlite_write_faults.py": "446a5d0ebe862e543a260d2706c0025410dbef501ed84cccfade5116496ed06c",
+    "tests/test_f3_int117_runner.py": "a2735a75992e8b15a98ed79addd79a9b5fde6e2e5b81f15e92f204ef56f32f94"
+  },
+  "evidence_reused": [
+    "../AUDITORIA_F3_INT117_20261024/REEXECUCAO.json",
+    "../AUDITORIA_F3_INT117_20261024/DIFERENCA_CAPACIDADE_REVISAO5000.json"
+  ]
+}

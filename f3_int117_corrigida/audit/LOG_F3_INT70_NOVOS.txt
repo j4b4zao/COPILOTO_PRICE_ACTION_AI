@@ -1,0 +1,23 @@
+test_bool_schema (test_f3_int70_crash_witness_codec.CodecTests.test_bool_schema) ... ok
+test_canonical_roundtrip (test_f3_int70_crash_witness_codec.CodecTests.test_canonical_roundtrip) ... ok
+test_deep_json (test_f3_int70_crash_witness_codec.CodecTests.test_deep_json) ... ok
+test_digest_tampering (test_f3_int70_crash_witness_codec.CodecTests.test_digest_tampering) ... ok
+test_duplicate_argument (test_f3_int70_crash_witness_codec.CodecTests.test_duplicate_argument) ... ok
+test_duplicate_json_key (test_f3_int70_crash_witness_codec.CodecTests.test_duplicate_json_key) ... ok
+test_event_tampering (test_f3_int70_crash_witness_codec.CodecTests.test_event_tampering) ... ok
+test_flags (test_f3_int70_crash_witness_codec.CodecTests.test_flags) ... ok
+test_invalid_encoder_input (test_f3_int70_crash_witness_codec.CodecTests.test_invalid_encoder_input) ... ok
+test_nonfinite_json (test_f3_int70_crash_witness_codec.CodecTests.test_nonfinite_json) ... ok
+test_oversized_bytes (test_f3_int70_crash_witness_codec.CodecTests.test_oversized_bytes) ... ok
+test_request_tampering (test_f3_int70_crash_witness_codec.CodecTests.test_request_tampering) ... ok
+test_roundtrip (test_f3_int70_crash_witness_codec.CodecTests.test_roundtrip) ... ok
+test_unknown_argument_field (test_f3_int70_crash_witness_codec.CodecTests.test_unknown_argument_field) ... ok
+test_unknown_schema (test_f3_int70_crash_witness_codec.CodecTests.test_unknown_schema) ... ok
+test_unknown_tag (test_f3_int70_crash_witness_codec.CodecTests.test_unknown_tag) ... ok
+test_unknown_top_level_field (test_f3_int70_crash_witness_codec.CodecTests.test_unknown_top_level_field) ... ok
+test_wrong_input_type (test_f3_int70_crash_witness_codec.CodecTests.test_wrong_input_type) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.746s
+
+OK

@@ -1,0 +1,22 @@
+{
+  "samples": [
+    {
+      "imbalance": 0.0
+    }
+  ],
+  "prospective_microstructure": {
+    "captured_samples": 2,
+    "source_analyzable_samples": 2,
+    "sample_count_matches_source": true,
+    "samples": [
+      {
+        "book_pressure": "BALANCED",
+        "book_direction": "NONE"
+      },
+      {
+        "book_pressure": "BID_DOMINANT",
+        "book_direction": "BUY"
+      }
+    ]
+  }
+}

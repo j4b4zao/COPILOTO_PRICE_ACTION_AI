@@ -1,0 +1,37 @@
+{
+  "last_completed": "F3-INT-106",
+  "status": "OFFLINE_REGRESSION_APPROVED",
+  "new_tests": {
+    "passed": 15,
+    "failed": 0,
+    "exit_code": 0,
+    "seconds": 39.204,
+    "source": "saida(20261021-204909).txt (user Windows run)"
+  },
+  "regression": {
+    "passed": 1259,
+    "failed": 0,
+    "exit_code": 0,
+    "seconds": 421.355,
+    "source": "saida(20261021-204909).txt (user Windows run)"
+  },
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "next_step": "F3-INT-107: review contracts and identify a nonredundant offline-only audit extension",
+  "pending": [
+    "Origin authentication, persistence, consensus and real fencing remain unverified.",
+    "Bounded model explorations are not exhaustive.",
+    "No live trading authorization."
+  ]
+}

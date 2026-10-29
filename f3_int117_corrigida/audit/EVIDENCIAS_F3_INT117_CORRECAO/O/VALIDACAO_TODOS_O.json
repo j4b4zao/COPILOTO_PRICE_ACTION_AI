@@ -1,0 +1,291 @@
+{
+  "execution": {
+    "command": [
+      "C:\\Users\\jb\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "-B",
+      "-c",
+      "import subprocess,sys;sys.exit(subprocess.call([sys.executable,'-O','-B','-m','unittest','discover','-s','tests','-p','test_f3_int117_*.py','-v']))"
+    ],
+    "timed_out": false,
+    "exception": null,
+    "exit_code": 0,
+    "cleanup": {
+      "confirmed": true,
+      "active_processes": 0,
+      "live_io_threads": [],
+      "direct_exit_code": 0,
+      "processes": [
+        {
+          "identity": {
+            "pid": 2040,
+            "ppid": 8424,
+            "creation_100ns": 134373448109170885
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true,
+          "exit_confirmed": true,
+          "confirmation_ns": 11300
+        },
+        {
+          "identity": {
+            "pid": 14516,
+            "ppid": 2040,
+            "creation_100ns": 134373448110900411
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true,
+          "exit_confirmed": true,
+          "confirmation_ns": 6000
+        },
+        {
+          "identity": {
+            "pid": 4796,
+            "ppid": 14516,
+            "creation_100ns": 134373448297361506
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true,
+          "exit_confirmed": true,
+          "confirmation_ns": 3900
+        },
+        {
+          "identity": {
+            "pid": 14840,
+            "ppid": 14516,
+            "creation_100ns": 134373449152812974
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true,
+          "exit_confirmed": true,
+          "confirmation_ns": 3400
+        },
+        {
+          "identity": {
+            "pid": 2300,
+            "ppid": 14516,
+            "creation_100ns": 134373449161448453
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true,
+          "exit_confirmed": true,
+          "confirmation_ns": 3200
+        },
+        {
+          "identity": {
+            "pid": 10364,
+            "ppid": 14516,
+            "creation_100ns": 134373449169332951
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true,
+          "exit_confirmed": true,
+          "confirmation_ns": 3200
+        },
+        {
+          "identity": {
+            "pid": 13640,
+            "ppid": 14516,
+            "creation_100ns": 134373449181539906
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true,
+          "exit_confirmed": true,
+          "confirmation_ns": 3500
+        },
+        {
+          "identity": {
+            "pid": 12128,
+            "ppid": 14516,
+            "creation_100ns": 134373449197782561
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true,
+          "exit_confirmed": true,
+          "confirmation_ns": 3100
+        },
+        {
+          "identity": {
+            "pid": 3572,
+            "ppid": 14516,
+            "creation_100ns": 134373449207894717
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true,
+          "exit_confirmed": true,
+          "confirmation_ns": 3100
+        },
+        {
+          "identity": {
+            "pid": 5740,
+            "ppid": 14516,
+            "creation_100ns": 134373449216761940
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true,
+          "exit_confirmed": true,
+          "confirmation_ns": 3200
+        },
+        {
+          "identity": {
+            "pid": 7648,
+            "ppid": 14516,
+            "creation_100ns": 134373449397486286
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true,
+          "exit_confirmed": true,
+          "confirmation_ns": 3100
+        },
+        {
+          "identity": {
+            "pid": 14984,
+            "ppid": 14516,
+            "creation_100ns": 134373449404639103
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true,
+          "exit_confirmed": true,
+          "confirmation_ns": 3200
+        }
+      ],
+      "job_events": [
+        {
+          "message": 6,
+          "pid": 2040,
+          "monotonic_ns": 24795592766000
+        },
+        {
+          "message": 6,
+          "pid": 14516,
+          "monotonic_ns": 24795765418300
+        },
+        {
+          "message": 6,
+          "pid": 4796,
+          "monotonic_ns": 24814400909200
+        },
+        {
+          "message": 7,
+          "pid": 4796,
+          "monotonic_ns": 24846102864800
+        },
+        {
+          "message": 6,
+          "pid": 14840,
+          "monotonic_ns": 24899946582200
+        },
+        {
+          "message": 7,
+          "pid": 14840,
+          "monotonic_ns": 24900806266500
+        },
+        {
+          "message": 6,
+          "pid": 2300,
+          "monotonic_ns": 24900810113100
+        },
+        {
+          "message": 7,
+          "pid": 2300,
+          "monotonic_ns": 24901594460300
+        },
+        {
+          "message": 6,
+          "pid": 10364,
+          "monotonic_ns": 24901598571600
+        },
+        {
+          "message": 7,
+          "pid": 10364,
+          "monotonic_ns": 24902808266300
+        },
+        {
+          "message": 6,
+          "pid": 13640,
+          "monotonic_ns": 24902823175600
+        },
+        {
+          "message": 7,
+          "pid": 13640,
+          "monotonic_ns": 24904440023000
+        },
+        {
+          "message": 6,
+          "pid": 12128,
+          "monotonic_ns": 24904444171300
+        },
+        {
+          "message": 7,
+          "pid": 12128,
+          "monotonic_ns": 24905451238500
+        },
+        {
+          "message": 6,
+          "pid": 3572,
+          "monotonic_ns": 24905454770600
+        },
+        {
+          "message": 7,
+          "pid": 3572,
+          "monotonic_ns": 24906337314700
+        },
+        {
+          "message": 6,
+          "pid": 5740,
+          "monotonic_ns": 24906341518300
+        },
+        {
+          "message": 7,
+          "pid": 5740,
+          "monotonic_ns": 24924410437300
+        },
+        {
+          "message": 6,
+          "pid": 7648,
+          "monotonic_ns": 24924414047300
+        },
+        {
+          "message": 7,
+          "pid": 7648,
+          "monotonic_ns": 24925125934800
+        },
+        {
+          "message": 6,
+          "pid": 14984,
+          "monotonic_ns": 24925129323600
+        },
+        {
+          "message": 7,
+          "pid": 14984,
+          "monotonic_ns": 24925998655600
+        },
+        {
+          "message": 7,
+          "pid": 14516,
+          "monotonic_ns": 24945144441500
+        },
+        {
+          "message": 7,
+          "pid": 2040,
+          "monotonic_ns": 24945155712000
+        },
+        {
+          "message": 4,
+          "pid": 0,
+          "monotonic_ns": 24945157217500
+        }
+      ],
+      "tracker_error": null,
+      "error": null,
+      "elapsed_ns": 1278900
+    },
+    "seconds": 149.587
+  },
+  "counts": {
+    "total": 35,
+    "passed": 35,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

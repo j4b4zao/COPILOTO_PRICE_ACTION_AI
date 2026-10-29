@@ -1,0 +1,250 @@
+SESSION #18 LIVE SYMBOL IDENTITY RC1
+Data: 2026-10-01
+LIVE_SYMBOL_IDENTITY = UNAVAILABLE
+HEAD inicial = a741be9c905009906c93130af648983377f8a3a3
+HEAD final = a741be9c905009906c93130af648983377f8a3a3
+Verificacao final: todos os nove hashes inspecionados iguais aos iniciais.
+Isso inclui os cinco arquivos operacionais protegidos e os readers/gateway.
+Git status: unica entrada nova = ?? saida_session18_live_symbol_identity_rc1.txt.
+Nenhuma entrada anterior removida. Nenhum arquivo existente alterado pela tarefa.
+Branch = brooks-stop-target-exact-audit-20260912
+Escopo: somente diagnostico. Nenhuma coleta ou correcao.
+
+RESULTADO
+O teste pelo caminho real de leitura nao conseguiu obter valores vivos.
+Nao houve MATCH nem MISMATCH medido pelo Python nesta etapa.
+PROFIT_SYMBOL = UNAVAILABLE
+TIMES_TRADES_SYMBOL = UNAVAILABLE
+BOOK_SYMBOL = UNAVAILABLE
+Ausencia de acesso nao significa celula vazia, None real no Excel ou mismatch.
+Nao se atribui WINV26 aos resultados Python a partir da observacao manual.
+
+VERIFICACAO MANUAL FORNECIDA PELO USUARIO
+Profit.xlsx -> Planilha1!A2 = WINV26
+times&trades.xlsx -> Planilha1!A1 = WINV26
+livroOfertas.xlsx -> Planilha1!A1 = WINV26
+MANUAL_SYMBOL_IDENTITY = MATCH
+Fonte: verificacao manual informada nesta solicitacao; nao leitura desta tarefa.
+Nao alterar simbolos, formulas, arquivos ou slots a partir deste diagnostico.
+Essa observacao atual nao contradiz necessariamente a falha anterior: instante
+de leitura e objetos/workbooks ligados ao Python podem ter sido diferentes.
+
+COMO OS WORKBOOKS SAO LOCALIZADOS
+config/settings.py:15,18,21 define caminhos absolutos:
+EXCEL_PATH = C:\COPILOTO_PRICE_ACTION_AI\Profit.xlsx
+PROFIT_RTD_TIMES_TRADES_PATH = C:\COPILOTO_PRICE_ACTION_AI\times&trades.xlsx
+PROFIT_RTD_ORDER_BOOK_PATH = C:\COPILOTO_PRICE_ACTION_AI\livroOfertas.xlsx
+
+tools/profit_rtd_order_flow_combined_session.py:37-58, _build_sources:
+1. Collector(enable_profit_rtd_order_flow=False) conecta Profit.xlsx.
+   market_data/collector.py usa ExcelConnector.conectar(EXCEL_PATH).
+2. Um ExcelConnector separado conecta o caminho T&T.
+   ProfitRTDTimesTradesReader(ExcelRangeGateway(tt_excel)).
+3. Um ExcelConnector separado conecta o caminho Book.
+   ProfitRTDBookDepthReader(ExcelRangeGateway(book_excel)).
+4. Nao ha requisito nessa construcao de que as tres conexoes usem o mesmo PID.
+
+connectors/excel_connector.py:6-7 e 16-38:
+- normaliza caminho com os.fspath -> os.path.abspath -> os.path.normcase;
+- enumera xw.apps, depois app.books;
+- compara book.fullname normalizado ao caminho alvo normalizado;
+- se houver mais de um match, levanta RuntimeError e retorna False no except;
+- se houver um match, armazena self.app e self.book desse match;
+- se nao houver match, o codigo normal cria xw.App(visible=False) e abre
+  o arquivo na nova instancia;
+- nao escolhe explicitamente a janela visivel/ativa do usuario;
+- o print "Excel conectado" nao informa FullName, PID ou caminho escolhido.
+Esse fallback de abrir instancia NAO foi chamado neste teste.
+
+LEITURA DOS VALORES E COMPARACAO
+ProfitReader:
+- SHEET="Planilha1", linha default=2.
+- obter_dados retorna "ativo": self._read("A", linha).
+- _read("A",2) chama ExcelConnector.ler_celula("Planilha1","A2").
+- ler_celula usa self.book.sheets[aba].range(celula).value.
+- excecao de leitura e engolida e vira None.
+- Collector transforma o ativo em str(... or "").strip().
+
+T&T / Book:
+- ExcelRangeGateway.read_range usa o self.book do connector conectado;
+- le book.sheets["Planilha1"].range("A1:H52").value;
+- tenta 3 vezes em erro COM, com intervalo 0.05 s;
+- ausencia de book: RuntimeError("Conexao Excel ainda nao possui workbook aberto.");
+- nao procura outro workbook e nao atualiza a conexao por conta propria;
+- reader._matrix valida dimensoes; matrix[0][0] representa A1.
+
+market_data/profit_rtd_workbook_reader.py:64-71:
+  workbook_symbol = cls._text(matrix[0][0]).upper()
+  requested = cls._text(requested_symbol).upper()
+  if not workbook_symbol: erro de ativo indisponivel
+  if requested and workbook_symbol != requested:
+      ValueError("Ativo solicitado difere do workbook RTD.")
+_text = str(value or "").strip().
+A comparacao e igualdade exata apos strip().upper(). Nao resolve aliases,
+nao troca vencimento e nao elimina caracteres internos/invisiveis arbitrarios.
+
+market_data/profit_rtd_order_flow_pipeline.py:50-51:
+process(symbol, price=...) chama reader.read_times_trades(symbol).
+No warmup, esse symbol e originado de Profit.xlsx A2 pelo Collector.
+O argumento WINV26 do comando nao altera o ativo de nenhum workbook.
+O erro do T&T propaga ao except do warmup.
+Erros do Book sao capturados pelo NormalizedLevel2BookDepthProvider e viram
+snapshot indisponivel. Isso aponta a divergencia anterior para T&T x cotacao
+no fluxo inspecionado, nao demonstra qual valor estava em cada lado.
+
+METODO DO TESTE ISOLADO
+Foi executado Python -B (sem gravar bytecode), importando as classes reais:
+ExcelConnector, ProfitReader, ExcelRangeGateway,
+ProfitRTDTimesTradesReader e ProfitRTDBookDepthReader.
+Nao foi instanciado Collector nem executado pipeline/warmup/coleta.
+
+A selecao buscou somente instancias ja abertas por xw.apps/app.books, com a
+MESMA _normalized_path usada pelo connector. Havendo exatamente um match,
+o plano do teste era vincular app/book ao objeto connector em memoria e usar:
+- ProfitReader(conn)._read("A",2);
+- ProfitRTDTimesTradesReader(ExcelRangeGateway(conn))._matrix()[0][0];
+- ProfitRTDBookDepthReader(ExcelRangeGateway(conn))._matrix()[0][0].
+Nenhuma mudanca nos arquivos de codigo ou nos objetos Excel foi feita.
+ExcelConnector.conectar nao foi chamado porque seu fallback poderia abrir
+nova instancia, expressamente proibido pelo usuario.
+
+Como nenhum workbook foi encontrado, o caminho Profit retornou None pelo
+tratamento de excecao do connector, classificado como UNAVAILABLE, nao como
+valor bruto real da celula. Os readers T&T/Book chegaram ao gateway, que
+levantou erro por ausencia de workbook conectado.
+Portanto houve tentativa pelo mesmo caminho/gateway, mas nao leitura
+bem-sucedida de valores Excel. Nao foi simulado MATCH.
+
+EVIDENCIA DE ACESSIBILIDADE
+
+Hora da tentativa: 2026-10-01T16:53:35.484197
+Python PID: 14184; Windows SessionId: 4.
+xlwings_app_pids = []
+existing_workbooks = []
+Erros na enumeracao: []
+O Windows listou EXCEL PID 7848, SessionId=4, MainWindowTitle vazio.
+Logo, uma diferenca de SessionId nao foi demonstrada: Python e Excel tinham 4.
+Acesso ao processo nao implica acesso ao desktop/objetos COM do workbook.
+Tentativa de anexar SOMENTE ao PID existente:
+KeyError('Could not find an Excel instance with this PID.')
+GetActiveObject('Excel.Application'), sem criar instancia:
+com_error(-2147221021, 'Operação não disponível', None, None)
+Janelas de nivel superior acessiveis para PID 7848:
+[]
+Causa tecnica observada de UNAVAILABLE: nenhuma instancia/workbook enumeravel
+por xlwings nesse contexto e nenhum objeto Excel ativo acessivel por COM.
+A causa subjacente dessa invisibilidade (desktop, permissao, registro COM,
+estado da instancia etc.) nao foi estabelecida. Nao afirmar que Excel estava
+fechado nem que o usuario conferiu o arquivo errado.
+
+RESULTADOS POR FONTE
+PROFIT_SYMBOL
+Caminho alvo absoluto: C:\COPILOTO_PRICE_ACTION_AI\Profit.xlsx
+Celula: Planilha1!A2
+Workbook.FullName efetivamente conectado: UNAVAILABLE
+PID/instancia efetivamente conectada: UNAVAILABLE
+Matches de caminho acessiveis: 0
+Valor bruto: UNAVAILABLE (nenhum valor Excel obtido)
+Valor normalizado strip().upper(): UNAVAILABLE
+Erro: RuntimeError('No existing exact-path workbook accessible; ExcelConnector.ler_celula returns None without a connected book')
+
+TIMES_TRADES_SYMBOL
+Caminho alvo absoluto: C:\COPILOTO_PRICE_ACTION_AI\times&trades.xlsx
+Celula: Planilha1!A1
+Workbook.FullName efetivamente conectado: UNAVAILABLE
+PID/instancia efetivamente conectada: UNAVAILABLE
+Matches de caminho acessiveis: 0
+Valor bruto: UNAVAILABLE (nenhum valor Excel obtido)
+Valor normalizado strip().upper(): UNAVAILABLE
+Erro: RuntimeError('Conexão Excel ainda não possui workbook aberto.')
+
+BOOK_SYMBOL
+Caminho alvo absoluto: C:\COPILOTO_PRICE_ACTION_AI\livroOfertas.xlsx
+Celula: Planilha1!A1
+Workbook.FullName efetivamente conectado: UNAVAILABLE
+PID/instancia efetivamente conectada: UNAVAILABLE
+Matches de caminho acessiveis: 0
+Valor bruto: UNAVAILABLE (nenhum valor Excel obtido)
+Valor normalizado strip().upper(): UNAVAILABLE
+Erro: RuntimeError('Conexão Excel ainda não possui workbook aberto.')
+
+
+AVALIACAO DOS RISCOS
+1. Multiplas instancias:
+   Permitidas. As tres fontes podem se ligar a PIDs diferentes.
+   O connector rejeita duplicidade do MESMO caminho somente entre os objetos
+   que consegue enumerar. Instancia invisivel a enumeracao nao entra no teste.
+   Nenhuma duplicidade atual foi comprovada, pois a enumeracao nao viu books.
+
+2. Workbook duplicado:
+   Mais de um match do mesmo FullName visivel leva a falha de conexao, nao a
+   escolha silenciosa de um deles. Mas o fallback pode abrir outra copia
+   quando nao enxerga a ja aberta. Isso e risco do codigo, nao fato confirmado
+   sobre a tentativa anterior. Os logs nao registram quais PIDs foram usados.
+
+3. Mesmo nome em outro caminho:
+   Nome isolado nao basta: o connector usa FullName absoluto normalizado.
+   Outro diretorio nao deveria casar por basename.
+   A normalizacao nao resolve junctions/symlinks, aliases de caminho ou
+   identidade fisica de arquivo. Esses casos nao foram comprovados aqui.
+
+4. Workbook diferente do visivel:
+   O connector nao escolhe a janela ativa; usa caminho exato entre objetos
+   enumerados ou abre instancia invisivel no fallback.
+   Pode haver copia visivel de outro caminho, copia recuperada ou outra
+   instancia. Nenhuma dessas hipoteses foi demonstrada neste teste.
+   Depois de conectar, o gateway le a referencia book retida, sem revalidar
+   continuamente FullName/PID contra a janela vista pelo usuario.
+
+5. Valor RTD stale/cacheado:
+   O pipeline le .value do Excel em memoria. Nao le XML/cache do XLSX em disco
+   durante essa operacao.
+   .value pode refletir o ultimo valor calculado recebido pelo Excel, inclusive
+   valor antigo/erro em caso de RTD sem atualizacao.
+   Nao existe no gate _symbol uma verificacao de frescor/timestamp do simbolo.
+   Retry do gateway e para excecao de acesso, nao para mismatch nem dado stale.
+   Uma resposta RTD stale por muitos ciclos e possivel, mas nao foi comprovada.
+   Cache salvo de ontem nao explica por si qual .value foi retornado hoje.
+
+6. Formula versus valor calculado:
+   ProfitReader e ExcelRangeGateway usam .value, nao .formula nem texto da
+   formula. Portanto a string RTD(...) nao e o simbolo comparado.
+   Profit A2 era texto literal WINV26 na leitura persistida anterior.
+   T&T A1 e Book A1 tinham formulas RTD com T&T0/INFO/ATV e BOOK0/INFO/ATV.
+   Esses dados de disco sao antecedentes, nao leitura viva deste teste.
+
+7. T&T0/BOOK0 temporariamente em outro ativo:
+   As formulas desses slots nao fixam WINV26; recebem o ativo anunciado pelo
+   servidor para o slot. Mudanca/estado diferente do slot pode mudar A1.
+   O snapshot manual atual WINV26 nao reconstrui o estado durante 4800 ciclos.
+   Nao houve prova de troca/rolagem e nenhum novo simbolo foi observado.
+
+8. Leitura em instantes diferentes:
+   Profit e T&T sao consultados sequencialmente, em chamadas separadas; nao
+   ha snapshot atomico entre os workbooks.
+   Mudanca entre consultas e possivel. Persistencia em 4800 ciclos nao permite
+   reduzir a causa a um unico transiente, e tampouco prova cache/duplicidade.
+
+9. Igualdade visual versus igualdade exata:
+   strip/upper trata espacos externos e caixa, mas nao garante equivalencia
+   de caracteres visualmente parecidos ou caracteres internos invisiveis.
+   Sem repr/valor bruto vivo, essa hipotese tambem nao pode ser confirmada.
+
+INTERPRETACAO DO INCIDENTE
+O log anterior registrou a divergencia por 4800 ciclos, mas nao os valores
+brutos/normalizados, FullName, PID nem traceback completo.
+A verificacao manual atual e informacao valida sobre o que o usuario ve agora.
+Ela nao determina retroativamente o objeto e o valor recebido pelo Python.
+Com acesso vivo indisponivel, a causa exata continua sem evidencia suficiente.
+Nao declarar problema de simbolo, rolagem, cache ou instancia como comprovado.
+
+FAIL CLOSED
+LIVE_SYMBOL_IDENTITY = UNAVAILABLE
+O gate de identidade NAO foi certificado pelo teste Python.
+Nenhuma correcao e nenhuma coleta executada ou iniciada.
+Nao alterar simbolos, formulas ou workbooks.
+Nenhuma mudanca de codigo, protocolo, thresholds ou RC17.
+Nenhum stage, commit, restore, reset, clean, exclusao ou nova instancia Excel.
+Nao foi solicitado salvar, atualizar RTD, recalcular, fechar ou reiniciar Excel.
+Unica escrita da tarefa: saida_session18_live_symbol_identity_rc1.txt.
+

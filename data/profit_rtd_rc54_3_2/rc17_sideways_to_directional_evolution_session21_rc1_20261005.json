@@ -1,0 +1,188 @@
+{
+  "evaluator_version": "RC1-RC17-SIDEWAYS-TO-DIRECTIONAL-EVOLUTION-EVALUATOR",
+  "session_id": 21,
+  "protocol": {
+    "version": "RC1-RC17-SIDEWAYS-TO-DIRECTIONAL-EVOLUTION-PROTOCOL",
+    "sha256": "2a278e7c4c438098d9ce167a778f7386a09b341a555a73e322598215150ebdb3"
+  },
+  "raw": {
+    "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20261005_112225.json",
+    "filename": "profit_rtd_rc54_3_2_WINV26_20261005_112225.json",
+    "sha256": "d99d363d19879d85d7b0ab3ebbbaacefad12440dec14bf0114c5569fc78c3967",
+    "size": 8238310
+  },
+  "capture_summary": {
+    "symbol": "WINV26",
+    "requested_cycles": 600,
+    "total_cycles": 600,
+    "analyzable_samples": 276,
+    "skipped_cycles": 324,
+    "errors": 0
+  },
+  "integrity": {
+    "valid": true,
+    "failures": [],
+    "raw_sha_before": "d99d363d19879d85d7b0ab3ebbbaacefad12440dec14bf0114c5569fc78c3967",
+    "raw_sha_after": "d99d363d19879d85d7b0ab3ebbbaacefad12440dec14bf0114c5569fc78c3967",
+    "raw_unchanged": true
+  },
+  "state_counts": {
+    "TREND_COUNTS": {
+      "UP": 0,
+      "DOWN": 14,
+      "SIDEWAYS": 262,
+      "UNKNOWN": 0
+    },
+    "PA_BIAS_COUNTS": {
+      "BUY": 0,
+      "SELL": 14,
+      "NONE": 262
+    },
+    "total_analyzed_samples": 276,
+    "sideways_none_samples": 262,
+    "up_buy_samples": 0,
+    "down_sell_samples": 14,
+    "unknown_none_samples": 0
+  },
+  "swing_state_counts": {
+    "SAMPLES_WITH_HIGH_ONLY": 147,
+    "SAMPLES_WITH_LOW_ONLY": 0,
+    "SAMPLES_WITH_BOTH_SWING_TYPES": 129,
+    "SAMPLES_WITH_NO_SWINGS": 0
+  },
+  "transition_counts": {
+    "UP_TO_UP": 0,
+    "UP_TO_DOWN": 0,
+    "UP_TO_SIDEWAYS": 0,
+    "DOWN_TO_UP": 0,
+    "DOWN_TO_DOWN": 13,
+    "DOWN_TO_SIDEWAYS": 0,
+    "SIDEWAYS_TO_UP": 0,
+    "SIDEWAYS_TO_DOWN": 1,
+    "SIDEWAYS_TO_SIDEWAYS": 261
+  },
+  "unknown_transition_counts": {
+    "UP_TO_UNKNOWN": 0,
+    "DOWN_TO_UNKNOWN": 0,
+    "SIDEWAYS_TO_UNKNOWN": 0,
+    "UNKNOWN_TO_UP": 0,
+    "UNKNOWN_TO_DOWN": 0,
+    "UNKNOWN_TO_SIDEWAYS": 0,
+    "UNKNOWN_TO_UNKNOWN": 0
+  },
+  "primary_event_count": 1,
+  "primary_events": [
+    {
+      "from_cycle": 564,
+      "to_cycle": 566,
+      "from_timestamp": "2026-10-05T11:21:59.899",
+      "to_timestamp": "2026-10-05T11:22:01.586",
+      "before": {
+        "cycle": 564,
+        "timestamp": "2026-10-05T11:21:59.899",
+        "trend": "SIDEWAYS",
+        "price_action_bias": "NONE",
+        "valid": true,
+        "HH": false,
+        "HL": false,
+        "LH": true,
+        "LL": false,
+        "swing_high_count": 2,
+        "swing_low_count": 1,
+        "latest_swing_high": {
+          "history_index": 10,
+          "timestamp": "2026-10-05T11:18:00",
+          "price": 208180.0,
+          "confirmation_cycle_or_timestamp": {
+            "cycle": 564,
+            "timestamp": "2026-10-05T11:21:59.899"
+          },
+          "confirmation_semantics": "OBSERVED_THIS_CYCLE_NOT_FIRST_CONFIRMATION"
+        },
+        "previous_swing_high": {
+          "history_index": 4,
+          "timestamp": "2026-10-05T11:12:00",
+          "price": 209290.0,
+          "confirmation_cycle_or_timestamp": {
+            "cycle": 564,
+            "timestamp": "2026-10-05T11:21:59.899"
+          },
+          "confirmation_semantics": "OBSERVED_THIS_CYCLE_NOT_FIRST_CONFIRMATION"
+        },
+        "latest_swing_low": {
+          "history_index": 8,
+          "timestamp": "2026-10-05T11:16:00",
+          "price": 207765.0,
+          "confirmation_cycle_or_timestamp": {
+            "cycle": 564,
+            "timestamp": "2026-10-05T11:21:59.899"
+          },
+          "confirmation_semantics": "OBSERVED_THIS_CYCLE_NOT_FIRST_CONFIRMATION"
+        },
+        "previous_swing_low": null,
+        "closed_history_sha256": "80a2e8fb937419cae27719e8e51b98fe347095e5c4498667aa620826d10bad0e"
+      },
+      "after": {
+        "cycle": 566,
+        "timestamp": "2026-10-05T11:22:01.586",
+        "trend": "DOWN",
+        "price_action_bias": "SELL",
+        "valid": true,
+        "HH": false,
+        "HL": false,
+        "LH": true,
+        "LL": true,
+        "swing_high_count": 2,
+        "swing_low_count": 2,
+        "latest_swing_high": {
+          "history_index": 10,
+          "timestamp": "2026-10-05T11:18:00",
+          "price": 208180.0,
+          "confirmation_cycle_or_timestamp": {
+            "cycle": 566,
+            "timestamp": "2026-10-05T11:22:01.586"
+          },
+          "confirmation_semantics": "OBSERVED_THIS_CYCLE_NOT_FIRST_CONFIRMATION"
+        },
+        "previous_swing_high": {
+          "history_index": 4,
+          "timestamp": "2026-10-05T11:12:00",
+          "price": 209290.0,
+          "confirmation_cycle_or_timestamp": {
+            "cycle": 566,
+            "timestamp": "2026-10-05T11:22:01.586"
+          },
+          "confirmation_semantics": "OBSERVED_THIS_CYCLE_NOT_FIRST_CONFIRMATION"
+        },
+        "latest_swing_low": {
+          "history_index": 11,
+          "timestamp": "2026-10-05T11:19:00",
+          "price": 207645.0,
+          "confirmation_cycle_or_timestamp": {
+            "cycle": 566,
+            "timestamp": "2026-10-05T11:22:01.586"
+          },
+          "confirmation_semantics": "OBSERVED_THIS_CYCLE_NOT_FIRST_CONFIRMATION"
+        },
+        "previous_swing_low": {
+          "history_index": 8,
+          "timestamp": "2026-10-05T11:16:00",
+          "price": 207765.0,
+          "confirmation_cycle_or_timestamp": {
+            "cycle": 566,
+            "timestamp": "2026-10-05T11:22:01.586"
+          },
+          "confirmation_semantics": "OBSERVED_THIS_CYCLE_NOT_FIRST_CONFIRMATION"
+        },
+        "closed_history_sha256": "745b21ff3ea74ab1fd62b350edf0cdd6e3806d3452056a72cf873ec24d8e34f0"
+      }
+    }
+  ],
+  "session_classification": "DIRECTIONAL_TRANSITION_OBSERVED",
+  "research_only": true,
+  "descriptive_only": true,
+  "predictive_validation": false,
+  "causal_validation": false,
+  "operational_promotion": false,
+  "threshold_optimization": false
+}

@@ -1,0 +1,235 @@
+STATUS = PASS
+HEAD_BEFORE = 326c8459776ee825841279768ec81d0f4f19630f
+HEAD_AFTER = 326c8459776ee825841279768ec81d0f4f19630f
+FORMAL_PA_BIAS_SOURCE_FILE = analysis/price_action/price_action.py
+FORMAL_PA_BIAS_SOURCE_CLASS = PriceAction
+FORMAL_PA_BIAS_SOURCE_FUNCTION = _update_bias(context)
+FORMAL_PA_BIAS_RULE = context.price_action.trend == Trend.UP -> BUY; == Trend.DOWN -> SELL; else -> NONE. Trend is copied from context.structure.trend by _copy_structure. No Book, Order Flow, regime, BOS, CHOCH, candle-direction or pattern condition changes this bias rule.
+
+SOURCE_TRACE
+1. tools/profit_rtd_microstructure_prospective_session.py:run_session lines 77-87: serializes active_pipeline.microstructure_confluence_replay.samples using sample.to_dict into prospective_microstructure.samples. Warmup recorder is cleared before the main window; no bias is calculated in this wrapper.
+2. analysis/replay/microstructure_confluence_replay_recorder.py:MicrostructureConfluenceReplayRecorder.record lines 79-89 calls self.audit.analyze(context), then copies snapshot.price_action_bias into MicrostructureConfluenceReplaySample.price_action_bias. to_dict uses dataclasses.asdict.
+3. analysis/replay/microstructure_confluence.py:MicrostructureConfluenceAudit.analyze lines 51-56 reads context.price_action.bias, converts str(value or NONE).upper(), and returns that same value at line 121. Missing price_action/bias also defaults to NONE, but the compared raws contain both bias and trend.
+4. tools/profit_rtd_rc54_3_2_warmed_session.py:run_warmed_session lines 121-126 receives collector.get_data context, calls pipeline.executar(context), then persists snapshot_context. tools/profit_rtd_rc54_3_pa_structure_context_session.py:snapshot_context lines 33-67 separately copies context.structure and context.price_action fields.
+5. analysis/analysis_pipeline.py:AnalysisPipeline.__init__/executar installs analysis.price_action.price_action.PriceAction, not analysis/price_action_engine.py:PriceActionEngine. Engines are sorted by PRIORITY; MarketStructure=20 precedes PriceAction=50. clear_results resets structure/PA before engines; recorder executes after engines.
+6. core/analysis_context.py:AnalysisContext.structure is StructureResult; price_action is PriceActionResult. models/price_action_result.py:clear sets trend UNKNOWN and bias NONE. PriceAction.executar returns early when market.ready is false; otherwise clears, copies structure, performs diagnostics, calls _update_bias. The only bias assignments in this class are BUY/SELL/NONE in _update_bias.
+7. analysis/price_action/price_action.py:PriceAction._copy_structure lines 183-201 copies structure.trend, last_high/low, BOS and CHOCH. _update_bias lines 539-575 consumes result.trend only. Patterns and other copied fields do not override bias.
+8. analysis/market_structure.py:MarketStructure.executar (RC17-CLOSED-CANDLE) requires market.ready, >=6 total candles and >=5 closed candles; excludes candles[-1]. Confirmed swing high requires high strictly greater than each of two left and two right closed neighbors; swing low requires low strictly less than all four. Two most recent highs increasing -> HH; lows increasing -> HL; highs decreasing -> LH; lows decreasing -> LL. HH and HL -> UP; LH and LL -> DOWN; at least one confirmed swing but neither pair -> SIDEWAYS; no swings -> UNKNOWN, valid=false. SIDEWAYS sets valid=true at the end. BOS/CHOCH change confidence and flags, not trend.
+9. market_data/collector.py:Collector.get_data reads ProfitReader quote, validates symbol/price/volume, processes ticks with MultiTimeframeState.update_tick and returns AnalysisContext(market=self.market,...). _primary_market selects renko.market for RENKO, otherwise multi_timeframe.primary. core/multi_timeframe_state.py uses independent M1/M5/M15 CandleBuilder histories; primary M1. core/candle_builder.py:CandleBuilder constructs OHLC from observed last prices by period; core/market_state.py:MarketState.ready requires >=5 candles. All five raws persist timeframe M1.
+10. tools/profit_rtd_rc54_3_2_warm_history_gate.py:history_ready = structure.valid and trend not empty/UNKNOWN (SIDEWAYS accepted); context_ready additionally requires PA bias not empty/NONE/UNKNOWN. trade_context_required true in #13, false in #15-#18. This admits ready lateral history without directional PA; it does not assign bias.
+
+SESSION | TOTAL | PA_BUY | PA_SELL | PA_NONE | STRUCTURE_STATE | RELEVANT_INPUT_STATE | INPUT_MISSING_COUNT | INPUT_STALE_OR_CONSTANT | ROOT_CAUSE_CLASSIFICATION | EVIDENCE
+13 | 255 | 0 | 255 | 0 | valid=true; DOWN throughout | structure.trend=PA.trend=DOWN; raw bias=formal bias | 0 direct-rule field occurrences | trend constant; price varies; stale NOT_PROVEN | G: directional DOWN/LH+LL explains SELL | LH=true, LL=true throughout
+15 | 270 | 0 | 0 | 270 | valid=true; SIDEWAYS throughout | structure.trend=PA.trend=SIDEWAYS; raw bias=formal bias | 0 direct-rule field occurrences | trend constant; price varies; stale NOT_PROVEN | A+D+G: legitimate trend-only SIDEWAYS branch; no directional swing pair | HH=false, LH=false, LL=false; HL=true in 55 samples
+16 | 279 | 0 | 0 | 279 | valid=true; SIDEWAYS throughout | structure.trend=PA.trend=SIDEWAYS; raw bias=formal bias | 0 direct-rule field occurrences | trend constant; price varies; stale NOT_PROVEN | A+D+G: legitimate trend-only SIDEWAYS branch; no directional swing pair | HH=HL=LH=LL=false throughout
+17 | 286 | 0 | 0 | 286 | valid=true; SIDEWAYS throughout | structure.trend=PA.trend=SIDEWAYS; raw bias=formal bias | 0 direct-rule field occurrences | trend constant; price varies; stale NOT_PROVEN | A+D+G: legitimate trend-only SIDEWAYS branch; no directional swing pair | HH=HL=LH=LL=false throughout
+18 | 258 | 0 | 0 | 258 | valid=true; SIDEWAYS throughout | structure.trend=PA.trend=SIDEWAYS; raw bias=formal bias | 0 direct-rule field occurrences | trend constant; price varies; stale NOT_PROVEN | A+D+G: legitimate trend-only SIDEWAYS branch; no directional swing pair | HH=HL=LH=LL=false throughout
+
+INPUT_MISSING_COUNT_SCOPE = missing/null occurrences only for structure.trend, price_action.trend and price_action.bias. Full upstream candle history is not persisted, so its missing observation count cannot be represented as zero.
+ROOT_CAUSE_SUPPORTED = true
+ROOT_CAUSE_CONFIDENCE = HIGH for the immediate formal cause (persisted SIDEWAYS -> NONE versus DOWN -> SELL); insufficient evidence for exhaustive upstream swing/history provenance or feed freshness.
+
+CODE_PROVEN_FACTS
+PA bias is calculated by PriceAction from MarketStructure, received via AnalysisContext by the observational recorder, and serialized without a collector-specific direction rule. The separate legacy PriceActionEngine is not used by AnalysisPipeline and returns pattern/strength/trend/event, not this formal bias.
+NONE can also occur for UNKNOWN/other trends or market-not-ready defaults in general, but those alternatives are not observed in the persisted valid/SIDEWAYS states of #15-#18.
+Zero last_low is StructureResult default; after structure clear it remains zero when no swing_low is assigned. The snapshots explicitly coerce absent levels to 0.0. It is not itself a missing input to _update_bias. A single confirmed swing suffices for SIDEWAYS/valid history; two highs plus two lows with matching direction are needed for UP/DOWN.
+
+DATA_PROVEN_FACTS
+All five sessions have equal valid raw/prospective positional capture. Raw price_action.bias matches prospective price_action_bias at every index. All have structure.valid=true, data_ready=true and WARM_HISTORY_READY/ready=true. Relevant top-level snapshot keys are identical.
+#13: warmup DOWN/SELL, trade_context_required=true, trade_context_ready=true. #15-#18: warmup SIDEWAYS/NONE, required=false, trade_context_ready=false. No direct PA rule field is missing, null, empty or UNKNOWN in any of these five sessions.
+Book BUY/SELL in #15/#17/#18 is independently persisted and cannot force PA direction. #16 has Book NONE in all samples.
+
+INFERENCES
+The different trade_context_required setting explains selection of a directional starting window in #13 versus acceptance of SIDEWAYS in #15-#18. It does not prove a change in bias calculation or explain why market prices produced different swings.
+Constant structural trend/levels is consistent with closed-candle confirmation and limited observation windows. It is not proof of stale data. Last-price distinct counts and changing candle direction rebut a wholly constant persisted input series, but do not certify feed freshness.
+
+UNRESOLVED
+Complete closed-candle history consumed by MarketStructure, market.candle_count/market.ready per sample, confirmed swing arrays/indexes/counts, prior swing prices, structure reasons, full AnalysisContext and market regime are not persisted. candle_evidence is the current/forming candle (closed_candle_claim_allowed=false), not the full closed-candle input array. Exact upstream reconstruction of every swing is unavailable and was not attempted.
+Classification B (missing operational bias input), C (stale), E (early-return insufficient history), F (schema loss) is not supported as the immediate cause. D SIDEWAYS and A formal legitimate rule are directly supported; G warmup acceptance policy and incomplete directional swing pairs are code/data supported. Deeper swing provenance remains H indeterminate.
+
+PER_SESSION_PERSISTED_EVIDENCE
+SESSION = 13
+RAW_FILE = data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260930_093955.json
+RAW_SHA256 = 3A73D4B0A8C7F4ADF0917BB9CE5DC927323578C5729C455BC0A78D3C5BDB7A00
+WARMUP = {"analyzable_samples": 466, "errors": 0, "pa_bias": "SELL", "ready": true, "skipped_cycles": 615, "status": "WARM_HISTORY_READY", "structure_trend": "DOWN", "trade_context_ready": true, "trade_context_required": true, "warmup_cycles": 1081}
+FORMAL_PA_COUNTS = {"SELL": 255}
+FORMAL_BOOK_COUNTS = {"NONE": 238, "SELL": 10, "BUY": 7}
+structure.valid = {"distinct": 1, "missing": 0, "values": {"true": 255}}
+structure.trend = {"distinct": 1, "missing": 0, "values": {"\"DOWN\"": 255}}
+structure.hh = {"distinct": 1, "missing": 0, "values": {"false": 255}}
+structure.hl = {"distinct": 1, "missing": 0, "values": {"false": 255}}
+structure.lh = {"distinct": 1, "missing": 0, "values": {"true": 255}}
+structure.ll = {"distinct": 1, "missing": 0, "values": {"true": 255}}
+structure.bos_up = {"distinct": 1, "missing": 0, "values": {"false": 255}}
+structure.bos_down = {"distinct": 2, "missing": 0, "values": {"false": 109, "true": 146}}
+structure.choch = {"distinct": 1, "missing": 0, "values": {"false": 255}}
+structure.last_high = {"distinct": 1, "missing": 0, "values": {"186695.0": 255}}
+structure.last_low = {"distinct": 1, "missing": 0, "values": {"186025.0": 255}}
+price_action.trend = {"distinct": 1, "missing": 0, "values": {"\"DOWN\"": 255}}
+price_action.bias = {"distinct": 1, "missing": 0, "values": {"\"SELL\"": 255}}
+price_action.bar_direction = {"distinct": 2, "missing": 0, "values": {"\"BEAR\"": 144, "\"BULL\"": 111}}
+price_action.bar_classification = {"distinct": 1, "missing": 0, "values": {"\"TREND_BAR\"": 255}}
+trade_context_ready = {"distinct": 1, "missing": 0, "values": {"true": 255}}
+data_ready = {"distinct": 1, "missing": 0, "values": {"true": 255}}
+last_price = {"distinct": 92, "missing": 0, "values": {"185800.0": 9, "185840.0": 10}}
+candle_evidence.open = {"distinct": 7, "max": 186295.0, "min": 185710.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.high = {"distinct": 34, "max": 186380.0, "min": 185710.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.low = {"distinct": 36, "max": 186295.0, "min": 185660.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.close = {"distinct": 92, "max": 186380.0, "min": 185660.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.volume = {"distinct": 208, "max": 3356862101.0, "min": 0.0, "missing_null": 0, "zero_count": 1}
+candle_evidence.timestamp = {"distinct": 7, "missing_null": 0, "values": {"\"2026-09-30T09:33:00\"": 37, "\"2026-09-30T09:34:00\"": 38, "\"2026-09-30T09:35:00\"": 34, "\"2026-09-30T09:36:00\"": 37, "\"2026-09-30T09:37:00\"": 36, "\"2026-09-30T09:38:00\"": 38, "\"2026-09-30T09:39:00\"": 35}}
+candle_evidence.timeframe = {"distinct": 1, "missing_null": 0, "values": {"\"M1\"": 255}}
+candle_evidence.status = {"distinct": 1, "missing_null": 0, "values": {"\"CANDLE_EVIDENCE_READY\"": 255}}
+NOT_PERSISTED = full closed history, swing arrays/indexes/counts, market candle_count/ready, market regime, full AnalysisContext
+
+SESSION = 15
+RAW_FILE = data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260930_161432.json
+RAW_SHA256 = C2DE4C96917D7E7F14E5AD1B168A7121388F7525FF5A4B0EEB9FC67B2D029CC2
+WARMUP = {"analyzable_samples": 187, "errors": 0, "pa_bias": "NONE", "ready": true, "skipped_cycles": 285, "status": "WARM_HISTORY_READY", "structure_trend": "SIDEWAYS", "trade_context_ready": false, "trade_context_required": false, "warmup_cycles": 472}
+FORMAL_PA_COUNTS = {"NONE": 270}
+FORMAL_BOOK_COUNTS = {"NONE": 249, "BUY": 16, "SELL": 5}
+structure.valid = {"distinct": 1, "missing": 0, "values": {"true": 270}}
+structure.trend = {"distinct": 1, "missing": 0, "values": {"\"SIDEWAYS\"": 270}}
+structure.hh = {"distinct": 1, "missing": 0, "values": {"false": 270}}
+structure.hl = {"distinct": 2, "missing": 0, "values": {"false": 215, "true": 55}}
+structure.lh = {"distinct": 1, "missing": 0, "values": {"false": 270}}
+structure.ll = {"distinct": 1, "missing": 0, "values": {"false": 270}}
+structure.bos_up = {"distinct": 2, "missing": 0, "values": {"false": 174, "true": 96}}
+structure.bos_down = {"distinct": 1, "missing": 0, "values": {"false": 270}}
+structure.choch = {"distinct": 1, "missing": 0, "values": {"false": 270}}
+structure.last_high = {"distinct": 2, "missing": 0, "values": {"0.0": 157, "187700.0": 113}}
+structure.last_low = {"distinct": 2, "missing": 0, "values": {"187325.0": 215, "187605.0": 55}}
+price_action.trend = {"distinct": 1, "missing": 0, "values": {"\"SIDEWAYS\"": 270}}
+price_action.bias = {"distinct": 1, "missing": 0, "values": {"\"NONE\"": 270}}
+price_action.bar_direction = {"distinct": 2, "missing": 0, "values": {"\"BEAR\"": 52, "\"BULL\"": 218}}
+price_action.bar_classification = {"distinct": 2, "missing": 0, "values": {"\"DOJI\"": 89, "\"TREND_BAR\"": 181}}
+trade_context_ready = {"distinct": 1, "missing": 0, "values": {"false": 270}}
+data_ready = {"distinct": 1, "missing": 0, "values": {"true": 270}}
+last_price = {"distinct": 43, "missing": 0, "values": {"187660.0": 16, "187715.0": 16}}
+candle_evidence.open = {"distinct": 8, "max": 187835.0, "min": 187610.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.high = {"distinct": 31, "max": 187850.0, "min": 187620.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.low = {"distinct": 22, "max": 187835.0, "min": 187600.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.close = {"distinct": 43, "max": 187850.0, "min": 187600.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.volume = {"distinct": 210, "max": 1210948737.0, "min": 0.0, "missing_null": 0, "zero_count": 1}
+candle_evidence.timestamp = {"distinct": 8, "missing_null": 0, "values": {"\"2026-09-30T16:07:00\"": 33, "\"2026-09-30T16:08:00\"": 42, "\"2026-09-30T16:09:00\"": 45, "\"2026-09-30T16:10:00\"": 37, "\"2026-09-30T16:11:00\"": 17, "\"2026-09-30T16:12:00\"": 41, "\"2026-09-30T16:13:00\"": 35, "\"2026-09-30T16:14:00\"": 20}}
+candle_evidence.timeframe = {"distinct": 1, "missing_null": 0, "values": {"\"M1\"": 270}}
+candle_evidence.status = {"distinct": 1, "missing_null": 0, "values": {"\"CANDLE_EVIDENCE_READY\"": 270}}
+NOT_PERSISTED = full closed history, swing arrays/indexes/counts, market candle_count/ready, market regime, full AnalysisContext
+
+SESSION = 16
+RAW_FILE = data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260930_164805.json
+RAW_SHA256 = DA29A70F46EEC8E2AF1E6426BAF6324CD7733981EF1AFD7628075F4DE75C01AA
+WARMUP = {"analyzable_samples": 303, "errors": 0, "pa_bias": "NONE", "ready": true, "skipped_cycles": 447, "status": "WARM_HISTORY_READY", "structure_trend": "SIDEWAYS", "trade_context_ready": false, "trade_context_required": false, "warmup_cycles": 750}
+FORMAL_PA_COUNTS = {"NONE": 279}
+FORMAL_BOOK_COUNTS = {"NONE": 279}
+structure.valid = {"distinct": 1, "missing": 0, "values": {"true": 279}}
+structure.trend = {"distinct": 1, "missing": 0, "values": {"\"SIDEWAYS\"": 279}}
+structure.hh = {"distinct": 1, "missing": 0, "values": {"false": 279}}
+structure.hl = {"distinct": 1, "missing": 0, "values": {"false": 279}}
+structure.lh = {"distinct": 1, "missing": 0, "values": {"false": 279}}
+structure.ll = {"distinct": 1, "missing": 0, "values": {"false": 279}}
+structure.bos_up = {"distinct": 1, "missing": 0, "values": {"false": 279}}
+structure.bos_down = {"distinct": 1, "missing": 0, "values": {"false": 279}}
+structure.choch = {"distinct": 1, "missing": 0, "values": {"false": 279}}
+structure.last_high = {"distinct": 1, "missing": 0, "values": {"188175.0": 279}}
+structure.last_low = {"distinct": 1, "missing": 0, "values": {"0.0": 279}}
+price_action.trend = {"distinct": 1, "missing": 0, "values": {"\"SIDEWAYS\"": 279}}
+price_action.bias = {"distinct": 1, "missing": 0, "values": {"\"NONE\"": 279}}
+price_action.bar_direction = {"distinct": 3, "missing": 0, "values": {"\"BEAR\"": 165, "\"BULL\"": 37, "\"NONE\"": 77}}
+price_action.bar_classification = {"distinct": 2, "missing": 0, "values": {"\"DOJI\"": 77, "\"TREND_BAR\"": 202}}
+trade_context_ready = {"distinct": 1, "missing": 0, "values": {"false": 279}}
+data_ready = {"distinct": 1, "missing": 0, "values": {"true": 279}}
+last_price = {"distinct": 22, "missing": 0, "values": {"188055.0": 36, "188060.0": 36}}
+candle_evidence.open = {"distinct": 4, "max": 188055.0, "min": 187945.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.high = {"distinct": 11, "max": 188075.0, "min": 187945.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.low = {"distinct": 14, "max": 188055.0, "min": 187915.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.close = {"distinct": 22, "max": 188075.0, "min": 187915.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.volume = {"distinct": 210, "max": 645659071.0, "min": 1805045.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.timestamp = {"distinct": 8, "missing_null": 0, "values": {"\"2026-09-30T16:41:00\"": 46, "\"2026-09-30T16:42:00\"": 36, "\"2026-09-30T16:43:00\"": 41, "\"2026-09-30T16:44:00\"": 43, "\"2026-09-30T16:45:00\"": 37, "\"2026-09-30T16:46:00\"": 37, "\"2026-09-30T16:47:00\"": 35, "\"2026-09-30T16:48:00\"": 4}}
+candle_evidence.timeframe = {"distinct": 1, "missing_null": 0, "values": {"\"M1\"": 279}}
+candle_evidence.status = {"distinct": 1, "missing_null": 0, "values": {"\"CANDLE_EVIDENCE_READY\"": 279}}
+NOT_PERSISTED = full closed history, swing arrays/indexes/counts, market candle_count/ready, market regime, full AnalysisContext
+
+SESSION = 17
+RAW_FILE = data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260930_171544.json
+RAW_SHA256 = E7934AC0606EB6BADB2A0B456038B26658CF1396F93CB89E06823F7206768221
+WARMUP = {"analyzable_samples": 168, "errors": 0, "pa_bias": "NONE", "ready": true, "skipped_cycles": 190, "status": "WARM_HISTORY_READY", "structure_trend": "SIDEWAYS", "trade_context_ready": false, "trade_context_required": false, "warmup_cycles": 358}
+FORMAL_PA_COUNTS = {"NONE": 286}
+FORMAL_BOOK_COUNTS = {"NONE": 214, "BUY": 64, "SELL": 8}
+structure.valid = {"distinct": 1, "missing": 0, "values": {"true": 286}}
+structure.trend = {"distinct": 1, "missing": 0, "values": {"\"SIDEWAYS\"": 286}}
+structure.hh = {"distinct": 1, "missing": 0, "values": {"false": 286}}
+structure.hl = {"distinct": 1, "missing": 0, "values": {"false": 286}}
+structure.lh = {"distinct": 1, "missing": 0, "values": {"false": 286}}
+structure.ll = {"distinct": 1, "missing": 0, "values": {"false": 286}}
+structure.bos_up = {"distinct": 1, "missing": 0, "values": {"false": 286}}
+structure.bos_down = {"distinct": 1, "missing": 0, "values": {"false": 286}}
+structure.choch = {"distinct": 1, "missing": 0, "values": {"false": 286}}
+structure.last_high = {"distinct": 1, "missing": 0, "values": {"187955.0": 286}}
+structure.last_low = {"distinct": 1, "missing": 0, "values": {"0.0": 286}}
+price_action.trend = {"distinct": 1, "missing": 0, "values": {"\"SIDEWAYS\"": 286}}
+price_action.bias = {"distinct": 1, "missing": 0, "values": {"\"NONE\"": 286}}
+price_action.bar_direction = {"distinct": 2, "missing": 0, "values": {"\"BEAR\"": 117, "\"BULL\"": 169}}
+price_action.bar_classification = {"distinct": 1, "missing": 0, "values": {"\"TREND_BAR\"": 286}}
+trade_context_ready = {"distinct": 1, "missing": 0, "values": {"false": 286}}
+data_ready = {"distinct": 1, "missing": 0, "values": {"true": 286}}
+last_price = {"distinct": 42, "missing": 0, "values": {"187810.0": 16, "187815.0": 20}}
+candle_evidence.open = {"distinct": 8, "max": 187855.0, "min": 187650.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.high = {"distinct": 25, "max": 187865.0, "min": 187650.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.low = {"distinct": 26, "max": 187855.0, "min": 187640.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.close = {"distinct": 42, "max": 187865.0, "min": 187640.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.volume = {"distinct": 232, "max": 594002019.0, "min": 4728889.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.timestamp = {"distinct": 8, "missing_null": 0, "values": {"\"2026-09-30T17:08:00\"": 39, "\"2026-09-30T17:09:00\"": 37, "\"2026-09-30T17:10:00\"": 34, "\"2026-09-30T17:11:00\"": 41, "\"2026-09-30T17:12:00\"": 36, "\"2026-09-30T17:13:00\"": 37, "\"2026-09-30T17:14:00\"": 36, "\"2026-09-30T17:15:00\"": 26}}
+candle_evidence.timeframe = {"distinct": 1, "missing_null": 0, "values": {"\"M1\"": 286}}
+candle_evidence.status = {"distinct": 1, "missing_null": 0, "values": {"\"CANDLE_EVIDENCE_READY\"": 286}}
+NOT_PERSISTED = full closed history, swing arrays/indexes/counts, market candle_count/ready, market regime, full AnalysisContext
+
+SESSION = 18
+RAW_FILE = data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20261002_093840.json
+RAW_SHA256 = 983317089A735A7FD52FDD7EF89B527FF5815953D28F22958A3826BFCD3EB0CA
+WARMUP = {"analyzable_samples": 342, "errors": 0, "pa_bias": "NONE", "ready": true, "skipped_cycles": 427, "status": "WARM_HISTORY_READY", "structure_trend": "SIDEWAYS", "trade_context_ready": false, "trade_context_required": false, "warmup_cycles": 769}
+FORMAL_PA_COUNTS = {"NONE": 258}
+FORMAL_BOOK_COUNTS = {"SELL": 44, "NONE": 199, "BUY": 15}
+structure.valid = {"distinct": 1, "missing": 0, "values": {"true": 258}}
+structure.trend = {"distinct": 1, "missing": 0, "values": {"\"SIDEWAYS\"": 258}}
+structure.hh = {"distinct": 1, "missing": 0, "values": {"false": 258}}
+structure.hl = {"distinct": 1, "missing": 0, "values": {"false": 258}}
+structure.lh = {"distinct": 1, "missing": 0, "values": {"false": 258}}
+structure.ll = {"distinct": 1, "missing": 0, "values": {"false": 258}}
+structure.bos_up = {"distinct": 1, "missing": 0, "values": {"false": 258}}
+structure.bos_down = {"distinct": 1, "missing": 0, "values": {"false": 258}}
+structure.choch = {"distinct": 1, "missing": 0, "values": {"false": 258}}
+structure.last_high = {"distinct": 1, "missing": 0, "values": {"189715.0": 258}}
+structure.last_low = {"distinct": 1, "missing": 0, "values": {"0.0": 258}}
+price_action.trend = {"distinct": 1, "missing": 0, "values": {"\"SIDEWAYS\"": 258}}
+price_action.bias = {"distinct": 1, "missing": 0, "values": {"\"NONE\"": 258}}
+price_action.bar_direction = {"distinct": 2, "missing": 0, "values": {"\"BEAR\"": 215, "\"BULL\"": 43}}
+price_action.bar_classification = {"distinct": 1, "missing": 0, "values": {"\"TREND_BAR\"": 258}}
+trade_context_ready = {"distinct": 1, "missing": 0, "values": {"false": 258}}
+data_ready = {"distinct": 1, "missing": 0, "values": {"true": 258}}
+last_price = {"distinct": 103, "missing": 0, "values": {"188400.0": 10, "188660.0": 8}}
+candle_evidence.open = {"distinct": 7, "max": 189005.0, "min": 188400.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.high = {"distinct": 20, "max": 189100.0, "min": 188400.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.low = {"distinct": 47, "max": 189005.0, "min": 188350.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.close = {"distinct": 103, "max": 189100.0, "min": 188350.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.volume = {"distinct": 200, "max": 4924127539.0, "min": 27889977.0, "missing_null": 0, "zero_count": 0}
+candle_evidence.timestamp = {"distinct": 7, "missing_null": 0, "values": {"\"2026-10-02T09:32:00\"": 39, "\"2026-10-02T09:33:00\"": 35, "\"2026-10-02T09:34:00\"": 38, "\"2026-10-02T09:35:00\"": 35, "\"2026-10-02T09:36:00\"": 43, "\"2026-10-02T09:37:00\"": 36, "\"2026-10-02T09:38:00\"": 32}}
+candle_evidence.timeframe = {"distinct": 1, "missing_null": 0, "values": {"\"M1\"": 258}}
+candle_evidence.status = {"distinct": 1, "missing_null": 0, "values": {"\"CANDLE_EVIDENCE_READY\"": 258}}
+NOT_PERSISTED = full closed history, swing arrays/indexes/counts, market candle_count/ready, market regime, full AnalysisContext
+
+TESTS = 24 existing pytest tests passed (microstructure_confluence_rc1, replay_rc2, prospective_session); existing full_pipeline_sideways script PASS. Initial script stdout encoding error resolved with PYTHONIOENCODING=utf-8; no code modification.
+RESEARCH_ONLY = true
+DIAGNOSTIC_ONLY = true
+CODE_CHANGED = false
+THRESHOLD_CHANGED = false
+RC17_CHANGED = false
+PRICE_ACTION_CHANGED = false
+MARKET_STRUCTURE_CHANGED = false
+COLLECTOR_CHANGED = false
+OPERATIONAL_LOGIC_CHANGED = false
+SESSION19_EXECUTED = false
+COLLECTOR_EXECUTED = false
+STAGE_COMMIT_PUSH_EXECUTED = false
+FORMAL_PA_RECONSTRUCTED_OR_REPLACED = false
+RAW_CHANGED = false

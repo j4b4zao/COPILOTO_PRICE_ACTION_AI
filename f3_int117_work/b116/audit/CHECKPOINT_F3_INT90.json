@@ -1,0 +1,36 @@
+{
+  "last_completed": "F3-INT-90",
+  "next_step": "F3-INT-91: registro tipado atomico de referencias e observacoes finitas de evidencias",
+  "f3": "OPEN",
+  "simulation_only": true,
+  "offline": true,
+  "certification": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "new_tests": {
+    "tests": 12,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 5.348,
+    "log": "LOG_F3_INT90_NOVOS.txt"
+  },
+  "regression": {
+    "tests": 1060,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 174.449,
+    "log": "LOG_F3_INT90_REGRESSAO.txt"
+  },
+  "pending": [
+    "Autenticidade, consenso, persistencia e fencing reais nao verificados."
+  ]
+}

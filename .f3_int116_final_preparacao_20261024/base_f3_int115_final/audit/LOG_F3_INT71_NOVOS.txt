@@ -1,0 +1,11 @@
+test_bad_baseline (test_f3_int71_codec_mutation.MutationCorpusTests.test_bad_baseline) ... ok
+test_bad_bound (test_f3_int71_codec_mutation.MutationCorpusTests.test_bad_bound) ... ok
+test_bound_is_not_full_coverage (test_f3_int71_codec_mutation.MutationCorpusTests.test_bound_is_not_full_coverage) ... ok
+test_flags (test_f3_int71_codec_mutation.MutationCorpusTests.test_flags) ... ok
+test_full_corpus (test_f3_int71_codec_mutation.MutationCorpusTests.test_full_corpus) ... ok
+test_labels_unique_and_deterministic (test_f3_int71_codec_mutation.MutationCorpusTests.test_labels_unique_and_deterministic) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.967s
+
+OK

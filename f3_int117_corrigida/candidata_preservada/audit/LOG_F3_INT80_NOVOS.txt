@@ -1,0 +1,16 @@
+test_corrupted_digest (test_f3_int80_envelope_contract_crosscheck.EnvelopeContractTests.test_corrupted_digest) ... ok
+test_corrupted_logs (test_f3_int80_envelope_contract_crosscheck.EnvelopeContractTests.test_corrupted_logs) ... ok
+test_explicit_extension_labeled (test_f3_int80_envelope_contract_crosscheck.EnvelopeContractTests.test_explicit_extension_labeled) ... ok
+test_flags (test_f3_int80_envelope_contract_crosscheck.EnvelopeContractTests.test_flags) ... ok
+test_invalid_policy (test_f3_int80_envelope_contract_crosscheck.EnvelopeContractTests.test_invalid_policy) ... ok
+test_invalid_records (test_f3_int80_envelope_contract_crosscheck.EnvelopeContractTests.test_invalid_records) ... ok
+test_source_inventory_alias_rejected_by_both (test_f3_int80_envelope_contract_crosscheck.EnvelopeContractTests.test_source_inventory_alias_rejected_by_both) ... ok
+test_stage_one_not_in_anchored_comparison_domain (test_f3_int80_envelope_contract_crosscheck.EnvelopeContractTests.test_stage_one_not_in_anchored_comparison_domain) ... ok
+test_stricter_count_policy_labeled (test_f3_int80_envelope_contract_crosscheck.EnvelopeContractTests.test_stricter_count_policy_labeled) ... ok
+test_valid_common_domain (test_f3_int80_envelope_contract_crosscheck.EnvelopeContractTests.test_valid_common_domain) ... ok
+test_zero_predecessor_count_not_in_comparison_domain (test_f3_int80_envelope_contract_crosscheck.EnvelopeContractTests.test_zero_predecessor_count_not_in_comparison_domain) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.191s
+
+OK

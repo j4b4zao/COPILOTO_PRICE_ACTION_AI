@@ -1,0 +1,214 @@
+﻿=== SESSION 13 vs 14 CAPTURE SCHEMA DIAGNOSTIC RC2 ===
+=== FROZEN HASHES ===
+S13_SHA256=3A73D4B0A8C7F4ADF0917BB9CE5DC927323578C5729C455BC0A78D3C5BDB7A00
+S14_SHA256=D49879440B4DBAFA76B012162E3F9EAF2A8BD8F6555C269517EB91B0E2CE3F15
+=== JSON SCHEMA COMPARISON ===
+--- S13 ---
+TOP_LEVEL_KEYS=['alert_influence_allowed', 'analyzable_samples', 'collection_error_details', 'collection_errors', 'context_not_ready_samples', 'context_ready_at_start', 'data_ready', 'decision_influence_allowed', 'delta_failure_samples', 'delta_not_ready_samples', 'missing_price_count', 'observational_only', 'order_execution_allowed', 'phase', 'predictive_claim_allowed', 'price_capture', 'promotion_allowed', 'prospective_microstructure', 'reasons', 'requested_cycles', 'research_only', 'risk_influence_allowed', 'samples', 'score_influence_allowed', 'skipped_cycles', 'status', 'symbol', 'trade_context_ready', 'trade_context_ready_at_start', 'warmup']
+STATUS='COMPLETED'
+SYMBOL='WINV26'
+SAMPLES_TYPE=list
+SAMPLES_COUNT=255
+PROSPECTIVE_PRESENT=True
+PROSPECTIVE_TYPE=dict
+PROSPECTIVE_KEYS=['alert_influence_allowed', 'captured_samples', 'decision_influence_allowed', 'observational_only', 'order_execution_allowed', 'predictive_claim_allowed', 'promotion_allowed', 'report', 'research_only', 'risk_influence_allowed', 'sample_count_matches_source', 'samples', 'score_influence_allowed', 'source_analyzable_samples', 'stage']
+PROSPECTIVE_SAMPLES_TYPE=list
+PROSPECTIVE_SAMPLES_COUNT=255
+PROSPECTIVE_FIRST_KEYS=['book_available', 'book_confidence', 'book_correlated_with_delta', 'book_direction', 'book_pressure', 'confidence', 'conflict_count', 'confluence_quality', 'correlated_evidence_count', 'direction', 'duplicate_evidence_risk', 'flow_direction', 'flow_momentum', 'independent_evidence_count', 'order_flow_pressure', 'passive_only', 'pattern_direction', 'price_action_bias', 'state', 'structural_confidence', 'structure_alignment']
+RAW_FIRST_SAMPLE_KEYS=['acceleration', 'alignment', 'book_status', 'candle_evidence', 'confidence', 'context_ready', 'cycle', 'data_ready', 'delta_status', 'dominance', 'imbalance', 'last_price', 'persistence', 'price_action', 'recent_delta', 'spread', 'structure', 'timestamp', 'trade_context_ready']
+RAW_FIRST_DIRECTIONAL_KEYS=['book_status', 'price_action']
+
+--- S14 ---
+TOP_LEVEL_KEYS=['analyzable_samples', 'brooks_alert_influence_allowed', 'brooks_breakout_memory_capture', 'brooks_decision_influence_allowed', 'brooks_delta_rtd_telemetry_capture', 'brooks_delta_rtd_telemetry_research_only', 'brooks_first_pullback_alert_influence_allowed', 'brooks_first_pullback_capture', 'brooks_first_pullback_decision_influence_allowed', 'brooks_first_pullback_order_execution_allowed', 'brooks_first_pullback_predictive_claim_allowed', 'brooks_first_pullback_research_only', 'brooks_first_pullback_risk_influence_allowed', 'brooks_first_pullback_score_influence_allowed', 'brooks_major_reversal_context_capture', 'brooks_management_history_source', 'brooks_management_postprocessed_after_candle_evidence', 'brooks_order_execution_allowed', 'brooks_predictive_claim_allowed', 'brooks_research_only', 'brooks_risk_influence_allowed', 'brooks_score_influence_allowed', 'brooks_stop_target_capture', 'brooks_stop_target_history_source', 'brooks_stop_target_postprocessed_after_candle_evidence', 'brooks_trading_range_capture', 'brooks_trailing_stop_capture', 'brooks_wedge_three_pushes_capture', 'collection_error_details', 'collection_errors', 'context_not_ready_samples', 'context_ready_at_start', 'data_ready', 'decision_influence_allowed', 'delta_failure_samples', 'delta_not_ready_samples', 'missing_price_count', 'observational_only', 'order_execution_allowed', 'phase', 'predictive_claim_allowed', 'price_capture', 'reasons', 'requested_cycles', 'risk_influence_allowed', 'samples', 'score_influence_allowed', 'skipped_cycles', 'status', 'symbol', 'trade_context_ready', 'trade_context_ready_at_start', 'warmup']
+STATUS='COMPLETED'
+SYMBOL='WINV26'
+SAMPLES_TYPE=list
+SAMPLES_COUNT=279
+PROSPECTIVE_PRESENT=False
+PROSPECTIVE_TYPE=NoneType
+RAW_FIRST_SAMPLE_KEYS=['acceleration', 'alignment', 'book_status', 'candle_evidence', 'confidence', 'context_ready', 'cycle', 'data_ready', 'delta_rtd_telemetry', 'delta_status', 'dominance', 'imbalance', 'last_price', 'persistence', 'price_action', 'recent_delta', 'spread', 'structure', 'timestamp', 'trade_context_ready']
+RAW_FIRST_DIRECTIONAL_KEYS=['book_status', 'price_action']
+
+SCHEMA_DIAGNOSTIC_EXIT_CODE=0
+=== ORCHESTRATOR CLI CONTRACT ===
+usage: profit_rtd_microstructure_prospective_orchestrated_session.py
+       [-h] [--preflight-cycles PREFLIGHT_CYCLES]
+       [--preflight-interval PREFLIGHT_INTERVAL] [--cycles CYCLES]
+       [--interval INTERVAL] [--max-warmup-cycles MAX_WARMUP_CYCLES]
+       [--output-dir OUTPUT_DIR] [--verbose]
+       symbol
+
+Preflight e coleta prospectiva de microestrutura sob um unico lock.
+
+positional arguments:
+  symbol
+
+options:
+  -h, --help            show this help message and exit
+  --preflight-cycles PREFLIGHT_CYCLES
+  --preflight-interval PREFLIGHT_INTERVAL
+  --cycles CYCLES
+  --interval INTERVAL
+  --max-warmup-cycles MAX_WARMUP_CYCLES
+  --output-dir OUTPUT_DIR
+  --verbose
+ORCHESTRATOR_HELP_EXIT_CODE=0
+=== ORCHESTRATOR ARGUMENTS ===
+
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:6:import json
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:7:
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:8:from 
+tools.profit_rtd_microstructure_prospective_session import run_session
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:9:from 
+tools.profit_rtd_rc54_5_3_market_activity_preflight import check_market_activity
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:10:from 
+tools.profit_rtd_rc54_5_4_orchestrated_session_runner import (
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:11:    RunnerAlreadyActiveError,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:12:    _call_with_output,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:13:    _runner_lock,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:14:)
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:28:
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:29:
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:30:def run_orchestrated_prospective_session(
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:31:    symbol,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:32:    *,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:33:    preflight_cycles=90,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:34:    preflight_interval=0.25,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:35:    cycles=600,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:36:    interval=0.25,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:37:    max_warmup_cycles=1800,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:38:    require_trade_context_at_start=True,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:39:    concise_output=True,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:40:    progress_every=50,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:41:    output_dir=None,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:42:    lock_dir=None,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:43:):
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:45:    try:
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:46:        with _runner_lock(symbol, 
+lock_dir=lock_dir):
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:47:            preflight = _call_with_output(
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:48:                check_market_activity,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:49:                
+concise_output=concise_output,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:50:                
+progress_every=progress_every,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:51:                cycles=preflight_cycles,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:52:                interval=preflight_interval,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:53:                min_analyzable=10,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:54:                min_price_changes=2,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:60:                    "symbol": symbol,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:61:                    "preflight": preflight,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:62:                    "warmup_started": False,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:63:                    "session": None,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:64:                    **_safety(),
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:65:                }
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:66:            session = _call_with_output(
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:67:                lambda **kwargs: 
+run_session(symbol, **kwargs),
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:68:                
+concise_output=concise_output,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:69:                
+progress_every=progress_every,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:70:                cycles=cycles,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:71:                interval=interval,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:72:                
+max_warmup_cycles=max_warmup_cycles,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:73:                
+require_trade_context_at_start=require_trade_context_at_start,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:74:                output_dir=output_dir,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:75:            )
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:76:            completed = 
+session.get("status") == "COMPLETED" and session.get("data_ready") is True
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:77:            return {
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:78:                "status": 
+"SESSION_COMPLETED" if completed else "SESSION_ABORTED_AFTER_PREFLIGHT",
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:79:                "symbol": symbol,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:80:                "preflight": preflight,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:81:                "warmup_started": True,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:82:                "session": session,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:83:                **_safety(),
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:84:            }
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:88:            "symbol": symbol,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:89:            "preflight": {"active": False, 
+"reasons": ["RC54_RUNNER_ALREADY_ACTIVE"]},
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:90:            "warmup_started": False,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:91:            "session": None,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:92:            **_safety(),
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:93:        }
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:95:
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:96:def main(argv=None):
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:97:    parser = 
+argparse.ArgumentParser(description=__doc__)
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:98:    parser.add_argument("symbol")
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:99:    
+parser.add_argument("--preflight-cycles", type=int, default=90)
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:100:    
+parser.add_argument("--preflight-interval", type=float, default=0.25)
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:101:    parser.add_argument("--cycles", 
+type=int, default=600)
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:102:    parser.add_argument("--interval", 
+type=float, default=0.25)
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:103:    
+parser.add_argument("--max-warmup-cycles", type=int, default=1800)
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:104:    parser.add_argument("--output-dir")
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:105:    parser.add_argument("--verbose", 
+action="store_true")
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:106:    args = parser.parse_args(argv)
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:107:    result = 
+run_orchestrated_prospective_session(
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:108:        args.symbol,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:109:        
+preflight_cycles=args.preflight_cycles,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:110:        
+preflight_interval=args.preflight_interval,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:111:        cycles=args.cycles,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:112:        interval=args.interval,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:113:        
+max_warmup_cycles=args.max_warmup_cycles,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:114:        concise_output=not args.verbose,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:115:        output_dir=args.output_dir,
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:116:    )
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:117:    session = result.get("session") or {}
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:118:    evidence = 
+session.get("prospective_microstructure") or {}
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:119:    preflight = result.get("preflight") or 
+{}
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:120:    summary = {
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:122:        "symbol": result["symbol"],
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:123:        "preflight": preflight,
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:124:        "warmup_started": 
+result["warmup_started"],
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:125:        "session_status": 
+session.get("status"),
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:126:        "data_ready": 
+session.get("data_ready"),
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:127:        "trade_context_ready_at_start": 
+session.get("trade_context_ready_at_start"),
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:128:        "analyzable_samples": 
+session.get("analyzable_samples"),
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:129:        "captured_samples": 
+evidence.get("captured_samples"),
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:130:        "sample_count_matches_source": 
+evidence.get("sample_count_matches_source"),
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:131:        "collection_errors": 
+session.get("collection_errors"),
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:132:        "missing_price_count": 
+session.get("missing_price_count"),
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:133:        "delta_failure_samples": 
+session.get("delta_failure_samples"),
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:134:        "output_path": 
+session.get("output_path"),
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:135:        "report": evidence.get("report"),
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:136:        **_safety(),
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:137:    }
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:138:    print(json.dumps(summary, 
+ensure_ascii=False, indent=2))
+> tools\profit_rtd_microstructure_prospective_orchestrated_session.py:139:    return 0 if result["status"] == 
+"SESSION_COMPLETED" else 2
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:140:
+  tools\profit_rtd_microstructure_prospective_orchestrated_session.py:141:
+
+
+
+=== HEAD ===
+a741be9c905009906c93130af648983377f8a3a3

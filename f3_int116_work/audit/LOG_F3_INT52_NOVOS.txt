@@ -1,0 +1,28 @@
+test_bad_history_member (test_f3_int52_recovery_continuity.ContinuityTests.test_bad_history_member) ... ok
+test_bad_state (test_f3_int52_recovery_continuity.ContinuityTests.test_bad_state) ... ok
+test_bool_bound (test_f3_int52_recovery_continuity.ContinuityTests.test_bool_bound) ... ok
+test_bootstrap (test_f3_int52_recovery_continuity.ContinuityTests.test_bootstrap) ... ok
+test_cross_round_replay (test_f3_int52_recovery_continuity.ContinuityTests.test_cross_round_replay) ... ok
+test_extension (test_f3_int52_recovery_continuity.ContinuityTests.test_extension) ... ok
+test_list_snapshot (test_f3_int52_recovery_continuity.ContinuityTests.test_list_snapshot) ... ok
+test_membership_rewrite (test_f3_int52_recovery_continuity.ContinuityTests.test_membership_rewrite) ... ok
+test_memory_head_mismatch (test_f3_int52_recovery_continuity.ContinuityTests.test_memory_head_mismatch) ... ok
+test_missing_snapshot (test_f3_int52_recovery_continuity.ContinuityTests.test_missing_snapshot) ... ok
+test_multiple_extensions (test_f3_int52_recovery_continuity.ContinuityTests.test_multiple_extensions) ... ok
+test_new_bad_link (test_f3_int52_recovery_continuity.ContinuityTests.test_new_bad_link) ... ok
+test_orphan_memory (test_f3_int52_recovery_continuity.ContinuityTests.test_orphan_memory) ... ok
+test_partition_unchanged (test_f3_int52_recovery_continuity.ContinuityTests.test_partition_unchanged) ... ok
+test_predecessor_rewrite (test_f3_int52_recovery_continuity.ContinuityTests.test_predecessor_rewrite) ... ok
+test_reject_then_extend (test_f3_int52_recovery_continuity.ContinuityTests.test_reject_then_extend) ... ok
+test_round_replay (test_f3_int52_recovery_continuity.ContinuityTests.test_round_replay) ... ok
+test_small_bound (test_f3_int52_recovery_continuity.ContinuityTests.test_small_bound) ... ok
+test_state_reset_stays_untrusted (test_f3_int52_recovery_continuity.ContinuityTests.test_state_reset_stays_untrusted) ... ok
+test_threshold_rewrite (test_f3_int52_recovery_continuity.ContinuityTests.test_threshold_rewrite) ... ok
+test_truncated_history (test_f3_int52_recovery_continuity.ContinuityTests.test_truncated_history) ... ok
+test_truncated_votes (test_f3_int52_recovery_continuity.ContinuityTests.test_truncated_votes) ... ok
+test_vote_rewrite (test_f3_int52_recovery_continuity.ContinuityTests.test_vote_rewrite) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 0.014s
+
+OK

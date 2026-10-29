@@ -1,0 +1,19 @@
+test_forged_acquire_token_locally_consistent (tests.test_f3_int42_adversarial_handoff.AdversarialHandoffTests.test_forged_acquire_token_locally_consistent) ... ok
+test_forged_release_accepted_locally_not_authenticated (tests.test_f3_int42_adversarial_handoff.AdversarialHandoffTests.test_forged_release_accepted_locally_not_authenticated) ... ok
+test_fork_pinned_to_left (tests.test_f3_int42_adversarial_handoff.AdversarialHandoffTests.test_fork_pinned_to_left) ... ok
+test_fork_pinned_to_right (tests.test_f3_int42_adversarial_handoff.AdversarialHandoffTests.test_fork_pinned_to_right) ... ok
+test_fork_with_shared_pin (tests.test_f3_int42_adversarial_handoff.AdversarialHandoffTests.test_fork_with_shared_pin) ... ok
+test_future_pin (tests.test_f3_int42_adversarial_handoff.AdversarialHandoffTests.test_future_pin) ... ok
+test_identical_history_not_authenticated (tests.test_f3_int42_adversarial_handoff.AdversarialHandoffTests.test_identical_history_not_authenticated) ... ok
+test_invalid_local_view (tests.test_f3_int42_adversarial_handoff.AdversarialHandoffTests.test_invalid_local_view) ... ok
+test_invalid_pin (tests.test_f3_int42_adversarial_handoff.AdversarialHandoffTests.test_invalid_pin) ... ok
+test_missing_or_malformed_view (tests.test_f3_int42_adversarial_handoff.AdversarialHandoffTests.test_missing_or_malformed_view) ... ok
+test_no_pin_even_identical (tests.test_f3_int42_adversarial_handoff.AdversarialHandoffTests.test_no_pin_even_identical) ... ok
+test_no_pin_fails_closed (tests.test_f3_int42_adversarial_handoff.AdversarialHandoffTests.test_no_pin_fails_closed) ... ok
+test_pin_mismatch_both (tests.test_f3_int42_adversarial_handoff.AdversarialHandoffTests.test_pin_mismatch_both) ... ok
+test_prefix_uncertain (tests.test_f3_int42_adversarial_handoff.AdversarialHandoffTests.test_prefix_uncertain) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.000s
+
+OK

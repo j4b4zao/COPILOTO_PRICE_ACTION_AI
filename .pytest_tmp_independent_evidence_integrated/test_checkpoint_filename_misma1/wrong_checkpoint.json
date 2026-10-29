@@ -1,0 +1,67 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-CHECKPOINT-MANIFEST",
+  "status": "IDENTITY_LOCK_ONLY",
+  "protocol": "PROSPECTIVE_MICROSTRUCTURE_CONFLICT_10_SESSION_CHECKPOINT",
+  "session_count": 10,
+  "sessions": [
+    {
+      "position": 1,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260901_120000.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000001"
+    },
+    {
+      "position": 2,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260902_120000.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000002"
+    },
+    {
+      "position": 3,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260903_120000.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    {
+      "position": 4,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260904_120000.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000004"
+    },
+    {
+      "position": 5,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260905_120000.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000005"
+    },
+    {
+      "position": 6,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260906_120000.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000006"
+    },
+    {
+      "position": 7,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260907_120000.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000007"
+    },
+    {
+      "position": 8,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260908_120000.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000008"
+    },
+    {
+      "position": 9,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260909_120000.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000009"
+    },
+    {
+      "position": 10,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260910_120000.json",
+      "sha256": "000000000000000000000000000000000000000000000000000000000000000a"
+    }
+  ],
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}

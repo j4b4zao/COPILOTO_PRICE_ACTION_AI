@@ -1,0 +1,154 @@
+{
+  "classification": "LOCAL_EVIDENCE_CONSOLIDATION",
+  "coverage": [
+    {
+      "expected": "REJECT",
+      "formal_evidence_verified": false,
+      "formal_test_executed": false,
+      "formally_accepted": false,
+      "local_coverage": "LOCAL_SIMULATION_ONLY",
+      "local_tests_reported": [
+        "U7"
+      ],
+      "name": "ROLLBACK_CONJUNTO_LOCAL",
+      "remaining_gap": "EXTERNAL_MONOTONIC_REFERENCE",
+      "threat_id": "T01"
+    },
+    {
+      "expected": "REJECT",
+      "formal_evidence_verified": false,
+      "formal_test_executed": false,
+      "formally_accepted": false,
+      "local_coverage": "PARTIAL_LOCAL_COVERAGE",
+      "local_tests_reported": [
+        "U8",
+        "U16.1"
+      ],
+      "name": "CHAVE_CONTROLADA_PELO_ATACANTE",
+      "remaining_gap": "INDEPENDENT_TRUSTED_KEY_CONFIGURATION",
+      "threat_id": "T02"
+    },
+    {
+      "expected": "REJECT",
+      "formal_evidence_verified": false,
+      "formal_test_executed": false,
+      "formally_accepted": false,
+      "local_coverage": "LOCAL_SIMULATION_ONLY",
+      "local_tests_reported": [
+        "U8"
+      ],
+      "name": "RESPOSTA_EXTERNA_ANTIGA",
+      "remaining_gap": "REAL_EXTERNAL_CHALLENGE_RESPONSE",
+      "threat_id": "T03"
+    },
+    {
+      "expected": "REJECT_OR_IDEMPOTENT_REPLAY",
+      "formal_evidence_verified": false,
+      "formal_test_executed": false,
+      "formally_accepted": false,
+      "local_coverage": "LOCAL_SIMULATION_ONLY",
+      "local_tests_reported": [
+        "U6",
+        "U9"
+      ],
+      "name": "SEQUENCIA_REPETIDA",
+      "remaining_gap": "EXTERNAL_ATOMIC_CONCURRENCY",
+      "threat_id": "T04"
+    },
+    {
+      "expected": "RECOVER_WITHOUT_DUPLICATION",
+      "formal_evidence_verified": false,
+      "formal_test_executed": false,
+      "formally_accepted": false,
+      "local_coverage": "LOCAL_SIMULATION_ONLY",
+      "local_tests_reported": [
+        "U3"
+      ],
+      "name": "ACK_PERDIDO",
+      "remaining_gap": "EXTERNAL_DURABLE_ACK_RECOVERY",
+      "threat_id": "T05"
+    },
+    {
+      "expected": "NO_FALSE_ACK",
+      "formal_evidence_verified": false,
+      "formal_test_executed": false,
+      "formally_accepted": false,
+      "local_coverage": "PARTIAL_LOCAL_COVERAGE",
+      "local_tests_reported": [
+        "U4",
+        "U5"
+      ],
+      "name": "FALHA_DURANTE_PERSISTENCIA",
+      "remaining_gap": "PHYSICAL_POWER_LOSS_TEST",
+      "threat_id": "T06"
+    },
+    {
+      "expected": "DETECT_OR_BLOCK",
+      "formal_evidence_verified": false,
+      "formal_test_executed": false,
+      "formally_accepted": false,
+      "local_coverage": "PARTIAL_LOCAL_COVERAGE",
+      "local_tests_reported": [
+        "U7"
+      ],
+      "name": "ROLLBACK_DA_TESTEMUNHA",
+      "remaining_gap": "INDEPENDENT_WITNESS_ROLLBACK_PROTECTION",
+      "threat_id": "T07"
+    },
+    {
+      "expected": "BLOCK",
+      "formal_evidence_verified": false,
+      "formal_test_executed": false,
+      "formally_accepted": false,
+      "local_coverage": "PARTIAL_LOCAL_COVERAGE",
+      "local_tests_reported": [
+        "E3",
+        "U12"
+      ],
+      "name": "TESTEMUNHA_INDISPONIVEL",
+      "remaining_gap": "REAL_EXTERNAL_OUTAGE_AND_TIMEOUT",
+      "threat_id": "T08"
+    },
+    {
+      "expected": "REJECT",
+      "formal_evidence_verified": false,
+      "formal_test_executed": false,
+      "formally_accepted": false,
+      "local_coverage": "LOCAL_SIMULATION_ONLY",
+      "local_tests_reported": [
+        "U13"
+      ],
+      "name": "DIVERGENCIA_SQLITE",
+      "remaining_gap": "PRODUCTION_ADAPTER_INTEGRATION",
+      "threat_id": "T09"
+    },
+    {
+      "expected": "REJECT",
+      "formal_evidence_verified": false,
+      "formal_test_executed": false,
+      "formally_accepted": false,
+      "local_coverage": "PARTIAL_LOCAL_COVERAGE",
+      "local_tests_reported": [
+        "U16.1"
+      ],
+      "name": "ROTACAO_NAO_AUTORIZADA",
+      "remaining_gap": "AUTHENTICATED_AUDITABLE_KEY_ROTATION",
+      "threat_id": "T10"
+    }
+  ],
+  "external_witness_implemented": false,
+  "f3": "OPEN",
+  "formal_criteria_accepted": 0,
+  "formal_criteria_total": 10,
+  "generated_utc": "2026-10-28T19:35:58.496382+00:00",
+  "independent_custody_verified": false,
+  "local_checks_reported": {
+    "note": "Historical user-reported local results; not independently re-executed by U17",
+    "passed": 191,
+    "total": 191
+  },
+  "official_checkpoint": "F3-INT-117 R2 FINAL",
+  "physical_power_loss_verified": false,
+  "promotion_allowed": false,
+  "stage": "F3-INT-120-U17"
+}

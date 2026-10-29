@@ -1,0 +1,37 @@
+{
+  "stage": "F3-INT-101",
+  "status": "FINAL_VALIDATED_BY_USER_LOCAL_RUN",
+  "validation_source": "saida(20261021-192246).txt",
+  "validation_date": "2026-10-21",
+  "candidate_zip_sha256": "88337047ea6319b7fa2acf79260407179ddf979044e2429fe34e446fcf0ff362",
+  "new_tests": {
+    "passed": 17,
+    "failed": 0,
+    "exit_code": 0,
+    "seconds": 41.045
+  },
+  "regression": {
+    "passed": 1185,
+    "failed": 0,
+    "exit_code": 0,
+    "seconds": 331.898
+  },
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "next_step": "F3-INT-102: review existing evidence contracts before implementation",
+  "pending": [
+    "Authenticity, consensus, persistence and real fencing remain unverified.",
+    "Model-based explorations are bounded, not exhaustive."
+  ]
+}

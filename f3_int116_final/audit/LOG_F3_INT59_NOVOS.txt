@@ -1,0 +1,14 @@
+test_adversarial_depth (test_f3_int59_schedule_symmetry.SymmetryTests.test_adversarial_depth) ... ok
+test_asymmetric_arguments (test_f3_int59_schedule_symmetry.SymmetryTests.test_asymmetric_arguments) ... ok
+test_duplicate_rounds (test_f3_int59_schedule_symmetry.SymmetryTests.test_duplicate_rounds) ... ok
+test_four_actor_2520_orders (test_f3_int59_schedule_symmetry.SymmetryTests.test_four_actor_2520_orders) ... ok
+test_incomplete_does_not_claim_symmetry (test_f3_int59_schedule_symmetry.SymmetryTests.test_incomplete_does_not_claim_symmetry) ... ok
+test_invalid_actor_count (test_f3_int59_schedule_symmetry.SymmetryTests.test_invalid_actor_count) ... ok
+test_invalid_bound (test_f3_int59_schedule_symmetry.SymmetryTests.test_invalid_bound) ... ok
+test_invalid_recovery (test_f3_int59_schedule_symmetry.SymmetryTests.test_invalid_recovery) ... ok
+test_one_two_three_actor_families (test_f3_int59_schedule_symmetry.SymmetryTests.test_one_two_three_actor_families) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 3.160s
+
+OK

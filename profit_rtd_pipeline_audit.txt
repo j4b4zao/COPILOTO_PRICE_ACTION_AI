@@ -1,0 +1,105 @@
+﻿===== PROFIT RTD ORDER FLOW PIPELINE =====
+   1: """Pipeline explÃ­cita T&T RTD -> dedup -> agressÃ£o -> OrderFlowState (RC7)."""
+   2: 
+   3: from __future__ import annotations
+   4: 
+   5: from dataclasses import dataclass
+   6: 
+   7: from market_data.profit_rtd_incremental_aggression import (
+   8:     ProfitRTDIncrementalAggressionBuilder,
+   9: )
+  10: from market_data.profit_rtd_order_flow_state_adapter import (
+  11:     ProfitRTDOrderFlowStateAdapter,
+  12: )
+  13: from market_data.profit_rtd_times_trades_deduplicator import (
+  14:     ProfitRTDTimesTradesDeduplicator,
+  15: )
+  16: 
+  17: 
+  18: @dataclass(frozen=True, slots=True)
+  19: class ProfitRTDOrderFlowPipelineReceipt:
+  20:     symbol: str
+  21:     timestamp: str
+  22:     continuity: str
+  23:     new_trade_count: int
+  24:     state_updated: bool
+  25:     baseline_reset: bool
+  26:     source_units: int
+  27:     source: str = "PROFIT_RTD"
+  28:     semantics: str = "EXPLICIT_TT_RTD_TO_ORDER_FLOW_STATE"
+  29:     observational_only: bool = True
+  30:     score_influence_allowed: bool = False
+  31:     decision_influence_allowed: bool = False
+  32:     order_execution_allowed: bool = False
+  33: 
+  34: 
+  35: class ProfitRTDOrderFlowPipeline:
+  36:     """Cadeia explÃ­cita e opt-in; nÃ£o Ã© chamada automaticamente pelo Collector."""
+  37: 
+  38:     NAME = "ProfitRTDOrderFlowPipeline"
+  39:     VERSION = "RC7"
+  40: 
+  41:     def __init__(self, times_trades_reader, order_flow_state, *, deduplicator=None,
+  42:                  aggression_builder=None, state_adapter=None):
+  43:         if not callable(getattr(times_trades_reader, "read_times_trades", None)):
+  44:             raise TypeError("times_trades_reader deve expor read_times_trades().")
+  45:         self.reader = times_trades_reader
+  46:         self.deduplicator = deduplicator or ProfitRTDTimesTradesDeduplicator()
+  47:         self.aggression_builder = aggression_builder or ProfitRTDIncrementalAggressionBuilder
+  48:         self.state_adapter = state_adapter or ProfitRTDOrderFlowStateAdapter(order_flow_state)
+  49: 
+  50:     def process(self, symbol: str, *, price: float) -> ProfitRTDOrderFlowPipelineReceipt:
+  51:         payload = self.reader.read_times_trades(symbol)
+  52:         batch = self.deduplicator.observe(payload)
+  53:         snapshot = self.aggression_builder.build(batch)
+  54:         state_receipt = self.state_adapter.apply(snapshot, price=price)
+  55:         return ProfitRTDOrderFlowPipelineReceipt(
+  56:             symbol=snapshot.symbol,
+  57:             timestamp=snapshot.timestamp,
+  58:             continuity=snapshot.continuity,
+  59:             new_trade_count=snapshot.new_trade_count,
+  60:             state_updated=state_receipt.state_updated,
+  61:             baseline_reset=state_receipt.baseline_reset,
+  62:             source_units=state_receipt.source_units,
+  63:         )
+  64: 
+  65:     def clear(self) -> None:
+  66:         clear_dedup = getattr(self.deduplicator, "clear", None)
+  67:         if callable(clear_dedup):
+  68:             clear_dedup()
+  69:         clear_adapter = getattr(self.state_adapter, "clear", None)
+  70:         if callable(clear_adapter):
+  71:             clear_adapter()
+
+===== COLLECTOR PIPELINE BUILDER =====
+ 100:         if self.enable_profit_rtd_order_flow and self.profit_rtd_order_flow_pipeline is None:
+ 101:             self.profit_rtd_order_flow_pipeline = self._build_profit_rtd_order_flow_pipeline()
+ 102: 
+ 103:     def get_data(self):
+ 104:         dados = self.reader.obter_dados()
+ 105:         if not dados:
+ 106:             return None
+ 107: 
+ 108:         raw_volume = dados.get("volume")
+ 109:         volume, volume_held = self._resolve_cumulative_volume(raw_volume)
+ 110:         print(
+ 111:             f"[VOLUME DEBUG] raw={raw_volume!r} converted={volume} "
+ 112:             f"held_last_valid={volume_held}"
+ 113:         )
+ 114:         if volume is None:
+ 115:             print(
+ 116:                 "[DATA WARNING] Volume acumulado indisponÃ­vel e ainda sem baseline vÃ¡lido. "
+ 117:                 "Leitura ignorada."
+ 118:             )
+ 119:             return None
+ 120:         if volume_held:
+ 121:             print(
+ 122:                 "[DATA WARNING] Volume acumulado indisponÃ­vel nesta leitura; "
+ 123:                 "mantendo Ãºltimo valor vÃ¡lido para evitar reset artificial."
+ 124:             )
+ 125: 
+ 126:         ativo = str(dados.get("ativo") or "").strip()
+ 127:         if not ativo:
+ 128:             print("[DATA WARNING] Ativo invÃ¡lido recebido. Leitura ignorada.")
+ 129:             return None
+ 130: 

@@ -1,0 +1,257 @@
+STATUS=PASS
+TASK=POST-RC1.1 ROADMAP RESUME AUDIT RC1 NEXT SAFE MODULE SELECTION
+DATE=2026-10-05
+BRANCH=brooks-stop-target-exact-audit-20260912
+HEAD=590b8575981c55d8fafc32fac8fe72080db93c62
+ORIGIN_HEAD=590b8575981c55d8fafc32fac8fe72080db93c62
+GIT_FETCH_STATUS=PASS
+RC1_1_STATUS=CLOSED_PASS
+RC17_STATUS=CLOSED_CONSOLIDATED
+CLOSED_MODULES_REOPENED=false
+AUDIT_METHOD=Tracked repository inventory, direct production code/contract/consumer/test inspection, current bootstrap and console call-chain tracing, and in-memory execution of existing offline producer fixtures. No live collection, provider call or new implementation.
+DOCUMENTATION_CAVEAT=PROJECT_STATUS_2026-08-24.md remains useful historical context, but its pending RC10/RC11 calendar work is already implemented in later code. Old completion percentages and old dashboard test counts were not adopted as current roadmap evidence. Current code takes precedence.
+AUDIT_TEST_SCOPE=Relevant test files inspected; no pytest suite run or new tests created for this selection-only task. Existing buy/sell fixture producers executed in memory to verify actual available data; no proposed presenter prototyped.
+
+DASHBOARD_STATE=PARTIAL_LEGACY_INTERFACE_INCOMPATIBLE
+CHECKLIST_STATE=IMPLEMENTED_WITH_PARTIAL_POPULATION_AND_NO_CURRENT_DEDICATED_PANEL
+RISK_VISUALIZATION_STATE=PARTIAL_LEVELS_AND_REASONS_AVAILABLE_NO_TYPED_CURRENT_PANEL
+NEWS_STATE=MISSING_DEDICATED_PRODUCTION_PROVIDER_AND_NEWS_CONTRACT
+CALENDAR_STATE=IMPLEMENTED_OBSERVATIONAL_RUNTIME_AND_CONTROLLED_CAPTURE; DEFAULT_MAIN_PIPELINE_NOT_WIRED
+VISUAL_TRIGGERS_STATE=PARTIAL_BUY_SELL_WAIT_CONSOLE_AND_ALERT_TEXT_IMPLEMENTED; CHART_MARKERS_NOT_FOUND
+EXTERNAL_CONTEXT_PRESENTATION_STATE=PARTIAL_AGGREGATED_STATE_AND_NARRATIVE; PER_ASSET_AUDIT_UI_MISSING
+MTF_PRESENTATION_STATE=IMPLEMENTED_ACTIVE_INFORMATIVE_CONSOLE_MONITOR
+ORDER_FLOW_PRESENTATION_STATE=IMPLEMENTED_ACTIVE_INFORMATIVE_CONSOLE_MONITOR; NEWER_DYNAMICS_NOT_ALL_DISPLAYED
+RENKO_PRESENTATION_STATE=PARTIAL_CORE_INTEGRATION_IMPLEMENTED; TIMEFRAME_AND_ORDER_FLOW_SAMPLING_DISPLAYED; NO_BRICK_SPECIFIC_PANEL
+MARKET_REGIME_PRESENTATION_STATE=PARTIAL_TYPED_RESULT_AND_CONTEXT_NARRATIVE_EXIST; NO_CURRENT_GENERIC_REGIME_PANEL
+AL_BROOKS_STATE=IMPLEMENTED_RESEARCH_ONLY; OPERATIONAL_PROMOTION_FROZEN
+OTHER_RELEVANT_GAP=Checklist/decision explanatory presentation lacks a current typed view; specialized voice/psychology dashboard projections already exist and must not be mistaken for a complete trading dashboard.
+
+CURRENT_MAIN_CHAIN=app/run.py -> app/main.py -> app/bot.py Bot -> SystemInitializer.inicializar -> AnalysisPipeline.executar(AnalysisContext) -> Bot.mostrar(context).
+BOOTSTRAP_OBSERVATION=SystemInitializer creates AnalysisPipeline with psychology services and event bus, but does not inject external_context_service or economic calendar runtime by default. It instantiates legacy Monitor and AlertManager; Bot display uses its own mostrar plus MTF and OrderFlow renderers.
+LEGACY_PATH_OBSERVATION=core/kernel.py targets older collector/pipeline/monitor signatures. dashboard/dashboard.py and dashboard/dashboard_engine.py were not found imported by current app/core startup paths. Do not repair or replace the legacy runtime during the selected slice.
+CURRENT_CONSOLE_OUTPUT=Bot.mostrar prints symbol/timeframe/price/structure/strategy/score/decision action plus OrderFlowMonitor.render and MultiTimeframeMonitor.render; it does not expose a compact current risk/checklist/decision-reasons panel.
+
+CANDIDATE_A=Dashboard / Checklist / Risk Visualization
+STATE=PARTIAL
+FILES=dashboard/dashboard.py; dashboard/dashboard_engine.py; app/bot.py; core/analysis_context.py; models/trade_checklist.py; models/strategy_result.py; models/score_result.py; models/risk_result.py; models/decision_result.py; models/alert_result.py; brain/context_engine.py; risk/risk_manager.py; decision/decision_engine.py
+CURRENT_PRODUCERS=ContextEngine -> TradeChecklist/MarketNarrative; StrategyEngine -> StrategyResult; ScoreEngine -> ScoreResult; RiskManager -> RiskResult; DecisionEngine -> DecisionResult; AlertManager -> AlertResult when independently invoked.
+CURRENT_CONSUMERS=Bot.mostrar consumes part of current typed results. Legacy Dashboard requires structure.tendencia, zone/order_flow/decision/risk dicts and trade_status; legacy DashboardEngine assumes regime.get(), setup, quality and signal, absent in AnalysisContext.
+TESTS=tests/test_full_pipeline_buy.py; tests/test_full_pipeline_sell.py; tests/test_risk_rejection.py; tests/test_risk_rc10.py; tests/test_multi_timeframe_conflict_safety_gate_rc36.py. No dedicated current generic trading-dashboard test file found; specialized voice/psychology dashboard tests are separate.
+OPERATIONAL_COUPLING=Data producers are operational; a detached projector/renderer after completed analysis can remain read-only. The UI must not call engines or write AnalysisContext.
+MISSING_CONTRACT=Typed detached presentation view for official decision, existing checklist and calculated risk levels, with exact provenance and explicit validity/absence semantics.
+MISSING_UI_OR_PRESENTATION=Compact compatible risk/checklist panel and decision-reason display on the actual console path.
+DEPENDENCIES=Existing typed results only; stdlib; no provider/network/UI toolkit addition.
+RISK_LEVEL=LOW for bounded passive console projection; MEDIUM for full legacy GUI replacement.
+EXPECTED_VALUE=HIGH: visible decision explanation and risk levels from existing results.
+CURRENT_REPRODUCTION=DashboardEngine().atualizar(AnalysisContext()) raises AttributeError: 'RegimeResult' object has no attribute 'get'. Context remains unchanged.
+CHECKLIST_CAVEAT=Current ContextEngine sets only selected operational flags and informative evidence fields. No risk_ok writer found in the main producer chain; model defaults/reset keep risk_ok false. In both existing approved BUY/SELL fixtures, risk.approved=true and decision.approved=true while checklist.approved=false. The presenter must preserve these distinct reported values and never make checklist.approved the trading verdict or fill missing flags.
+
+CANDIDATE_B_NEWS=News ingestion/presentation
+STATE=MISSING_PRODUCTION_CONTRACT
+FILES=docs/providers/FINANCIALJUICE_PROVIDER_ASSESSMENT.md; no news-named tracked production files or dedicated news provider found in current code inventory/search.
+CURRENT_PRODUCERS=NONE located for general headline/news feed.
+CURRENT_CONSUMERS=NONE located for news feed in current app/analysis chain.
+TESTS=No dedicated current news contract test located.
+OPERATIONAL_COUPLING=Not currently wired; a future live source needs provenance, timestamps, licensing/auth and transport controls.
+MISSING_CONTRACT=Authorized source interface, identity/provenance, time semantics, stale/missing handling and explicit read-only consumer.
+MISSING_UI_OR_PRESENTATION=News view lacks a production data contract.
+DEPENDENCIES=New provider/contract and possibly credentials/network. Repository FinancialJuice assessment records a blocked source; current external licensing/API availability was not independently checked.
+RISK_LEVEL=HIGH for live ingestion.
+EXPECTED_VALUE=MEDIUM until reliable feed/contract available; not selected.
+
+CANDIDATE_B_CALENDAR=Economic calendar presentation or live integration
+STATE=IMPLEMENTED_OBSERVATIONAL; PARTIAL_MAIN_RUNTIME_PRESENTATION
+FILES=economic_context/economic_event.py; economic_context/economic_calendar_state.py; economic_context/economic_calendar_engine.py; economic_context/economic_calendar_service.py; economic_context/economic_calendar_runtime.py; economic_context/fail_safe_economic_calendar_provider.py; economic_context/economic_calendar_payload_normalizer.py; economic_context/trading_economics_calendar_fetcher.py; economic_context/trading_economics_config.py; economic_context/trading_economics_controlled_pipeline.py; economic_context/trading_economics_capture_preflight.py; app/economic_calendar_capture_cli.py
+CURRENT_PRODUCERS=Normalized events -> relevance filter -> EconomicCalendarEngine -> EconomicCalendarState; runtime supplies diagnostics and session recorders.
+CURRENT_CONSUMERS=Service/runtime attach(), controlled capture/replay/trial CLIs and session reports. AnalysisContext has economic_calendar, but AnalysisPipeline/SystemInitializer do not refresh it automatically.
+TESTS=tests/test_economic_calendar_rc1.py through existing rc27.py; tests/test_economic_calendar_rc5.py explicitly covers classification, stale/partial payload and core-preserving attach.
+OPERATIONAL_COUPLING=Calendar code is observational. No calendar-driven Score/Risk/Decision/Alert trade gate found in current operational engines.
+MISSING_CONTRACT=No missing base offline event/state contract; main presentation needs explicit preloaded snapshot boundary. Live source readiness is not certified by source-code presence.
+MISSING_UI_OR_PRESENTATION=Calendar summary/status panel absent from current Bot display.
+DEPENDENCIES=Already-present runtime for offline display; controlled provider opt-in/auth/network for actual capture.
+RISK_LEVEL=LOW for preloaded-state display; HIGH for unsupervised live integration.
+EXPECTED_VALUE=MEDIUM now; use existing contract only, not a new live provider step.
+REAL_PROVIDER_PRESENT=true (TradingEconomicsCalendarFetcher implementation; actual credentials/provider readiness NOT_EVALUATED)
+OFFLINE_CONTRACT_PRESENT=true
+PIPELINE_CONSUMER_PRESENT=Explicit service/runtime attach and controlled runtime present; automatic main AnalysisPipeline consumer absent.
+OPERATIONAL_GATE_PRESENT=false (trade gate); separate capture/trial/preflight guards exist and must not be confused with trade gating.
+
+CANDIDATE_C=Visual triggers / alerts visualization
+STATE=PARTIAL_PRESENTATION_ONLY_GAP
+FILES=alerts/alert_manager.py; models/alert_result.py; models/decision_result.py; app/bot.py; dashboard/dashboard.py
+CURRENT_PRODUCERS=DecisionEngine supplies official BUY/SELL/WAIT; AlertManager supplies approved alert text/result.
+CURRENT_CONSUMERS=Bot.mostrar prints decision.action; AlertManager prints approved alert with score/confidence and optional OrderFlow contribution.
+TESTS=tests/test_order_flow_alert_observability_rc47.py; tests/test_order_flow_score_e2e_rc46.py; existing full-pipeline fixtures.
+OPERATIONAL_COUPLING=Existing AlertManager is operational and mutates AlertResult. New visualization must read results only and never call it to manufacture an alert.
+MISSING_CONTRACT=Passive status/marker projection preserving supplied action, validity and reasons.
+MISSING_UI_OR_PRESENTATION=Distinct visual badges/markers and WAIT explanations; no chart-marker renderer found in audited current presentation path.
+DEPENDENCIES=Existing decision/alert result for console badges; chart widget/framework for actual chart markers.
+RISK_LEVEL=LOW for passive text; MEDIUM for chart infrastructure.
+EXPECTED_VALUE=MEDIUM; official decision/reason presentation belongs in selected A slice, without introducing a separate signal engine.
+
+CANDIDATE_D=External Context downstream observational consumption
+STATE=PARTIAL; RC1.1_CLOSED
+FILES=external_context/external_context_service.py; external_context/external_observational_snapshot.py; analysis/research/intermarket_external_context_bridge.py; analysis/research/intermarket_context_observer.py; core/analysis_context.py; brain/context_engine.py
+CURRENT_PRODUCERS=Optional service collector captures envelope; existing bridge returns ExternalBridgeAudit assets/readiness. Aggregated ExternalMarketState supplies legacy context evidence.
+CURRENT_CONSUMERS=ContextEngine reads aggregated state into informative checklist/narrative. No app/dashboard/monitor consumer of per-asset ExternalBridgeAudit found; diagnostic service methods only.
+TESTS=tests/test_external_observational_snapshot_rc1.py; tests/test_intermarket_external_context_bridge_rc1.py; tests/test_context_engine_external_evidence_rc15_5.py.
+OPERATIONAL_COUPLING=Closed per-asset route is detached and opt-in; aggregated contextual evidence is already consumed. UI must accept a precomputed audit separately, without feeding Score/Decision/Risk/Alert.
+MISSING_CONTRACT=Presentation adapter for precomputed ExternalBridgeAudit, including absent evidence, tri-state provider_identity_verified and readiness provenance.
+MISSING_UI_OR_PRESENTATION=AVAILABLE/STALE/FUTURE/MISSING/INVALID per-asset table and separate identity/readiness labels.
+DEPENDENCIES=Existing audit must first be supplied by an explicit caller with reference/threshold/map; default main bootstrap does not capture it.
+RISK_LEVEL=LOW for detached supplied-audit UI; MEDIUM for runtime wiring.
+EXPECTED_VALUE=MEDIUM; viable future dashboard component, not the selected first slice.
+SAFE_PRESENTATION_LOCATION=New passive dashboard layer accepting existing ExternalBridgeAudit as an optional separate argument; must not perform fetch or recompute audit/readiness. Deferred from selected first slice to preserve small scope.
+
+CANDIDATE_E=Multi-timeframe presentation/diagnostics
+STATE=IMPLEMENTED_ACTIVE
+FILES=monitor/multi_timeframe_monitor.py; models/multi_timeframe_result.py; analysis/multi_timeframe_analysis.py; app/bot.py
+CURRENT_PRODUCERS=MultiTimeframeAnalysis -> MultiTimeframeResult from existing M15/M5/M1 state.
+CURRENT_CONSUMERS=Active Bot console renderer, ContextEngine evidence, existing DecisionEngine MTF safety gate.
+TESTS=tests/test_multi_timeframe_monitor_rc34.py; tests/test_multi_timeframe_contract_audit_rc1.py; tests/test_multi_timeframe_conflict_safety_gate_rc36.py.
+OPERATIONAL_COUPLING=Existing analyzer/gate is operational; monitor is informative and only reads context.
+MISSING_CONTRACT=No missing base text-render contract; optional generic-dashboard packaging only.
+MISSING_UI_OR_PRESENTATION=Unified panel/chart overlay, not basic MTF diagnostic text.
+DEPENDENCIES=Existing MultiTimeframeResult and renderer.
+RISK_LEVEL=LOW for unchanged presentation reuse; HIGH for changing closed gate logic.
+EXPECTED_VALUE=LOW incremental standalone value versus filling absent risk/checklist view.
+
+CANDIDATE_F=Order Flow diagnostics/presentation
+STATE=IMPLEMENTED_ACTIVE; PARTIAL_NEWER_FIELD_PRESENTATION
+FILES=monitor/order_flow_monitor.py; models/order_flow_result.py; analysis/order_flow.py; core/order_flow_state.py; brain/context_engine.py; alerts/alert_manager.py
+CURRENT_PRODUCERS=Collector/OrderFlow state -> analysis result, including sampling, patterns, confidence and delta dynamics.
+CURRENT_CONSUMERS=Active Bot monitor, informative checklist/narrative, experimental score path and alert contribution display.
+TESTS=tests/test_order_flow_confidence_rc44.py; tests/test_order_flow_rc4_5_delta_dynamics.py; tests/test_order_flow_structure_evidence_rc51.py; tests/test_order_flow_alert_observability_rc47.py.
+OPERATIONAL_COUPLING=Existing experimental score consumers exist; renderer changes can remain passive.
+MISSING_CONTRACT=No missing basic monitor contract; latest dynamics/structure fields need optional display projection.
+MISSING_UI_OR_PRESENTATION=Some newer fields such as momentum/acceleration/structure alignment are not in the RC4.4 monitor; richer visualization optional.
+DEPENDENCIES=Existing result fields only.
+RISK_LEVEL=LOW presentation-only; HIGH for changing score experiment semantics.
+EXPECTED_VALUE=MEDIUM, but current usable monitor makes A more urgent.
+
+CANDIDATE_G=Renko integration/presentation
+STATE=IMPLEMENTED_INTEGRATION; PARTIAL_PRESENTATION
+FILES=core/renko_state.py; enums/chart_mode.py; market_data/collector.py; core/market_state.py; app/bot.py
+CURRENT_PRODUCERS=RenkoState.update_tick produces MarketState timeframe RENKO_<size>; collector chooses main market and RENKO_CLOSE OrderFlow sampling.
+CURRENT_CONSUMERS=Existing pipeline and Bot timeframe/OrderFlow monitor; existing MTF remains separately informative.
+TESTS=tests/test_renko_chart_mode_rc37.py; tests/test_renko_pipeline_rc38.py; tests/test_order_flow_chart_modes_rc43.py.
+OPERATIONAL_COUPLING=Brick construction and collector selection affect analytic input; display-only integration is safer.
+MISSING_CONTRACT=No missing construction contract; richer display would need explicit closed/current brick labels without inferring completion from time.
+MISSING_UI_OR_PRESENTATION=Brick-specific chart/panel, beyond current timeframe/sampling text.
+DEPENDENCIES=Existing market/renko data; chart tooling for full visualization.
+RISK_LEVEL=MEDIUM full presentation; LOW existing-field text.
+EXPECTED_VALUE=MEDIUM; does not justify touching collector/brick logic now.
+
+CANDIDATE_H=Market Regime presentation
+STATE=IMPLEMENTED_ANALYSIS; PARTIAL_PRESENTATION
+FILES=analysis/market_regime.py; models/regime_result.py; brain/context_engine.py; models/market_narrative.py; dashboard/dashboard_engine.py
+CURRENT_PRODUCERS=MarketRegime RC3.0 -> RegimeResult with transition, pending candidate, confirmation count, volatility and confidence.
+CURRENT_CONSUMERS=ContextEngine narrative/evidence, MTF regime bridge, legacy dashboard expects dict and is incompatible.
+TESTS=tests/test_market_regime_rc3_transition_confirmation.py; tests/test_context_engine_rc15_4_regime_mtf.py; tests/test_multi_timeframe_rc3_4_regime_bridge.py.
+OPERATIONAL_COUPLING=Existing regime logic participates in contextual/MTF safety; projection must copy values only.
+MISSING_CONTRACT=Current typed regime presentation adapter.
+MISSING_UI_OR_PRESENTATION=Readable current/pending regime and supplied confirmation/confidence status.
+DEPENDENCIES=Existing RegimeResult.
+RISK_LEVEL=LOW passive display; HIGH analyzer/threshold modification.
+EXPECTED_VALUE=MEDIUM; existing fields can later be included in dashboard, without selecting a second module.
+
+CANDIDATE_I=Al Brooks research integration
+STATE=IMPLEMENTED_RESEARCH_ONLY; FROZEN_RESEARCH_FOR_OPERATIONAL_PROMOTION
+FILES=research/price_action/brooks/registry.py; research/price_action/brooks/* classifiers; tools/profit_rtd_brooks_research_evidence_suite.py; tools/rc17_sideways_to_directional_evolution_consolidation.py; docs/brooks_research_status_v1.md
+CURRENT_PRODUCERS=Research classifiers/registry/suite and formal evidence tools.
+CURRENT_CONSUMERS=Research evidence reports and offline audits; no permission for operational promotion.
+TESTS=tests/research/price_action/brooks/test_registry.py; tests/research/price_action/brooks/test_research_evidence_suite.py; existing RC17 protocol/evaluator/consolidation tests.
+OPERATIONAL_COUPLING=Registry/result safety flags prohibit predictive claims, Score/Risk/Decision/Alert influence and order execution.
+MISSING_CONTRACT=Operational promotion not authorized or justified by this audit; closed RC17 work is not a new roadmap gap to reopen.
+MISSING_UI_OR_PRESENTATION=Optional research-report browsing only, separate from trading verdict.
+DEPENDENCIES=Frozen evidence and research safety contracts.
+RISK_LEVEL=HIGH operational integration.
+EXPECTED_VALUE=LOW for immediate next safe production slice; deferred.
+
+CANDIDATE_J=Specialized voice/psychology dashboard and operational explanation consolidation
+STATE=IMPLEMENTED_SPECIALIZED_DASHBOARD; PARTIAL_GENERIC_EXPLANATION
+FILES=analysis/replay/book_diagnostics_voice_health_dashboard_projection.py; analysis/replay/book_diagnostics_voice_dashboard_widget.py; psychology/trader_psychology_dashboard_projection.py; core/system_initializer.py; models/market_narrative.py; decision/decision_engine.py
+CURRENT_PRODUCERS=Existing health/readiness/session/review contracts and operational decision reasons.
+CURRENT_CONSUMERS=Specialized service projections/widgets and SystemInitializer psychology export methods; generic console omits decision reasons.
+TESTS=tests/test_book_diagnostics_voice_health_dashboard_projection_rc58.py; tests/test_book_diagnostics_voice_dashboard_widget.py; tests/test_trader_psychology_rc24.py.
+OPERATIONAL_COUPLING=Existing specialized projections demonstrate readonly presentation pattern; no need for new voice/audio pipeline.
+MISSING_CONTRACT=Generic current operational view, covered by candidate A rather than a new specialized redesign.
+MISSING_UI_OR_PRESENTATION=Unified current decision/risk/checklist explanation.
+DEPENDENCIES=Existing typed outcomes; reuse approach, not specialized voice/psychology data logic.
+RISK_LEVEL=LOW scoped presentation; MEDIUM cross-service aggregation.
+EXPECTED_VALUE=LOW incremental specialist work now; HIGH value of generic gap covered by A.
+
+ROADMAP_MATRIX=
+Ratings are qualitative, not numerical scores. Size/risk/value/priority use LOW/MEDIUM/HIGH. DATA indicates whether the proposed presentation has already-produced inputs; offline testability describes whether fixtures can validate it without provider/network. Priority HIGH identifies exactly the single selected module.
+| CANDIDATE | CURRENT_STATE | IMPLEMENTATION_SIZE | ARCHITECTURAL_RISK | OPERATIONAL_RISK | DATA_ALREADY_AVAILABLE | OFFLINE_TESTABILITY | DEPENDENCIES | USER_VALUE | RECOMMENDED_PRIORITY |
+| A Dashboard/Checklist/Risk | PARTIAL legacy incompatible | LOW for bounded console slice | LOW | LOW | YES | HIGH | typed AnalysisContext + stdlib | HIGH | HIGH SELECTED |
+| B News | MISSING production contract | HIGH | HIGH | MEDIUM | NO | MEDIUM after contract | new licensed provider/contracts | MEDIUM | LOW |
+| B Calendar | IMPLEMENTED observational/partial main display | MEDIUM | MEDIUM | LOW for preloaded display | PARTIAL default unavailable | HIGH | existing runtime; live requires opt-in/auth | MEDIUM | MEDIUM |
+| C Visual triggers | PARTIAL console; chart absent | MEDIUM for chart | MEDIUM | LOW passive | YES official results | HIGH | marker/chart framework for charts | MEDIUM | MEDIUM |
+| D Per-asset external context UI | PARTIAL UI missing; RC1.1 closed | LOW adapter; MEDIUM wiring | MEDIUM | LOW detached | PARTIAL opt-in audit only | HIGH | explicitly supplied ExternalBridgeAudit | MEDIUM | MEDIUM |
+| E MTF presentation | IMPLEMENTED active monitor | LOW | LOW | LOW passive | YES | HIGH | existing monitor/result | MEDIUM | LOW |
+| F Order Flow presentation | IMPLEMENTED monitor/partial newer fields | LOW | LOW | LOW passive | YES | HIGH | existing result/monitor | MEDIUM | MEDIUM |
+| G Renko presentation | IMPLEMENTED core/partial UI | MEDIUM | MEDIUM | LOW display; HIGH rebuilding inputs | YES | HIGH | market/renko state; chart for richer UI | MEDIUM | LOW |
+| H Regime presentation | PARTIAL generic UI | LOW | LOW | LOW passive | YES | HIGH | existing RegimeResult | MEDIUM | MEDIUM |
+| I Brooks operational integration | FROZEN_RESEARCH | HIGH | HIGH | HIGH | RESEARCH_ONLY | HIGH contract tests; no performance certification | promotion/evidence beyond scope | LOW immediate safe value | LOW DEFERRED |
+| J Specialized dashboards | IMPLEMENTED specialist/partial generic | MEDIUM aggregation | MEDIUM | LOW passive | YES specialist data | HIGH | existing specialist services | MEDIUM | LOW |
+
+RECOMMENDED_MODULE=Dashboard / Checklist / Risk Visualization
+RECOMMENDED_MODULE_COUNT=1
+RECOMMENDED_SLICE=COPILOT READONLY DASHBOARD CHECKLIST RISK CONSOLE PROJECTION RC1
+WHY_NOW=Current main console lacks compact risk/checklist/reason display; legacy dashboard fails against actual typed context. Decision/risk/checklist data already exist, so a small pure projection and text renderer can deliver visible value without modifying analytic producers, adding thresholds or opening providers. MTF/OrderFlow already have active text renderers; news/live calendar need more dependencies. No closed module needs reopening.
+SLICE_BOUNDARY=One new passive presentation module with detached immutable view plus deterministic text renderer; one presentation-only call/print in Bot.mostrar after existing official analysis has finished; targeted new tests. No GUI/chart/server/framework or provider wiring. Existing MTF/OrderFlow text remains reusable. First slice focuses official decision, reasons, score/strategy identity, reported checklist and existing risk levels.
+FILES_LIKELY_INVOLVED=NEW dashboard/copilot_readonly_dashboard.py; NEW tests/test_copilot_readonly_dashboard_rc1.py; app/bot.py ONLY Bot.mostrar presentation hook.
+FILES_MUST_NOT_CHANGE=analysis/analysis_pipeline.py; core/analysis_context.py; core/system_initializer.py; brain/context_engine.py; strategies/strategy_engine.py; ai/score_engine_rc13_2.py; risk/risk_manager.py; decision/decision_engine.py; alerts/alert_manager.py; models/trade_checklist.py and other operational result models; external_context/*; analysis/research/intermarket_external_context_bridge.py; analysis/research/intermarket_context_observer.py; external_context/providers/provider_symbol_map.py; analysis/market_structure.py; analysis/price_action/*; analysis/multi_timeframe_analysis.py; analysis/market_regime.py; research/price_action/brooks/*; RC17 tools/tests/data; market_data/collector.py; core/renko_state.py; monitor/*; protected files. Legacy dashboard files remain unchanged in this slice. app/bot.py collection loop/startup must not change.
+INPUT_CONTRACTS=Completed AnalysisContext supplied by caller; market.symbol/timeframe/last_price/timestamp; StrategyResult valid/status/name/setup_id/signal; ScoreResult valid/status/total/grade/confidence; RiskResult valid/status/approved/risk_level/entry_price/stop_loss/take_profit/risk_reward/position_size/reasons; DecisionResult valid/status/action/direction/approved/confidence/entry/stop/target/reasons; existing TradeChecklist raw criteria and read-only reported ready/approved/score/completion properties. AlertResult may be shown only if already supplied, with valid/status; never invoke AlertManager to populate it. Preserve raw supplied lifecycle status and valid values independently: engines do not all consistently transition ResultStatus.
+OUTPUT_CONTRACT=Proposed immutable detached CopilotReadonlyDashboardView RC1 plus deterministic render(view)->str, serializable detached payload. Sections: market identity; OFFICIAL DECISION copied exactly with reasons and validity; STRATEGY/SCORE copied; CALCULATED RISK LEVELS with approval/validity and supplied reasons; REPORTED CHECKLIST values clearly separate from official trading authorization. No reference to mutable source lists/dicts. No fabricated prices, normalized direction, derived trade approval or changed confidence. Represent unavailable/not-executed/invalid source explicitly; defaults do not become trade permission. No implicit wall clock, stdout/file/network side effects in projector/renderer; printing confined to existing Bot display method.
+OFFICIAL_VERDICT_RULE=decision.action/approved are the supplied official outcome; checklist ready/approved are labeled only as reported checklist values. No synchronization or repair of checklist.risk_ok/bos/choch in this slice. For WAIT with calculated risk levels, show levels as producer evidence, not an executable proposal.
+EXTERNAL_CONTEXT_FIRST_SLICE=No per-asset audit generation, opt-in enabling or service wiring. A future separate dashboard extension may accept an already-computed ExternalBridgeAudit; identity None must stay UNKNOWN and readiness stay observational. That extension is not selected or authorized here.
+DATA_ALREADY_AVAILABLE=true (for selected core decision/risk/checklist presentation)
+NEW_ANALYTIC_LOGIC_REQUIRED=false
+OPERATIONAL_INFLUENCE_ALLOWED=false
+NEW_THRESHOLD_ALLOWED=false
+NETWORK_REQUIRED=false
+NEW_PROVIDER_REQUIRED=false
+NEW_GUI_FRAMEWORK_REQUIRED=false
+OFFLINE_TEST_PLAN=Use existing deterministic buy/sell histories and WAIT/risk-rejection/MTF-conflict fixtures. Assert exact field copying and stable rendered strings, official action/reasons unchanged, unavailable/NOT_EXECUTED handling, supplied lifecycle status not reclassified, checklist false with approved BUY/SELL preserved without overriding verdict, calculated levels under WAIT labeled informational, immutable detached view, original and returned nested mutation isolation, deterministic output for identical input, stable invalid-input handling without fabricated verdict. Compare entire pickled context before/after projector/renderer and before/after the presentation-only Bot hook. Spies must prove zero collector/provider fetch, zero network, zero engine/AlertManager execution and zero file writes. Invoke Bot.mostrar on prepared context without Bot startup/live loop. Run targeted new tests first, then current producer, MTF monitor/safety, OrderFlow monitor/alert and unchanged external/RC17 contract regressions as appropriate.
+ACCEPTANCE_GATE=Exactly selected presentation files changed; all new and targeted legacy checks PASS; byte/semantic preservation of operational context/results before/after display; official BUY/SELL/WAIT copied without inference; checklist mismatch surfaced without producer repair; no thresholds or runtime decisions added; no fetch/provider/network/audio/order/file side effects; closed RC1.1/RC17/MTF/PriceAction untouched; protected hashes unchanged; console hook failure cannot modify official results or trigger collection. Implementation and any commit/push require the subsequent explicitly scoped implementation task.
+CURRENT_READONLY_PRODUCER_EVIDENCE=Existing BUY fixture: decision BUY, score 82.5, risk approved true, entry 172400, stop 172100, target 173000, R:R 2.0, checklist.ready true, checklist.approved false, checklist.risk_ok false. Existing SELL fixture: decision SELL, score 82.5, risk approved true, entry 169600, stop 169900, target 169000, R:R 2.0, same checklist discrepancy. Both have decision explanation strings already available. No new analytic logic required to display these values.
+IMPLEMENTATION_CREATED=false
+CODE_CHANGED=false
+TESTS_CHANGED=false
+LIVE_COLLECTION_EXECUTED=false
+NETWORK_CALLS_OTHER_THAN_AUTHORIZED_GIT_FETCH=0
+
+HEAD_UNCHANGED=true
+ORIGIN_UNCHANGED=true
+TRACKED_FILES_CHANGED=false
+STAGED_FILES=NONE
+PROTECTED_FILES_PRESERVED=true
+RC17_UNCHANGED=true
+PRICE_ACTION_UNCHANGED=true
+MTF_UNCHANGED=true
+EXTERNAL_CONTEXT_RC1_1_UNCHANGED=true
+STRATEGY_UNCHANGED=true
+SCORE_UNCHANGED=true
+DECISION_UNCHANGED=true
+RISK_UNCHANGED=true
+ALERT_UNCHANGED=true
+ALL_TRACKED_BASELINE_SHA256=c2d71dd4717fc2117e3aed2ad23c7984891f237b4e1e2857b18e7415d7c1b78a
+ALL_TRACKED_FINAL_SHA256=c2d71dd4717fc2117e3aed2ad23c7984891f237b4e1e2857b18e7415d7c1b78a
+RAW_RESULT_DIRECTORY_DIGEST_BEFORE=93202e7f0967cf26dab8f6bbf2d7c48fdf57281fec40c9c362b490a86cae236a
+RAW_RESULT_DIRECTORY_DIGEST_AFTER=93202e7f0967cf26dab8f6bbf2d7c48fdf57281fec40c9c362b490a86cae236a
+PROTECTED_HASHES_BEFORE_AND_AFTER={"saida_rc17_formal_consolidation_19_23_rc1_20261005.txt":"f43e05b320394bfc1df879df1c2b2f475b53fd5a6483e57f48f1598e28a95b82","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_consolidation_19_23_rc1_20261005.json":"968f463fe21b83ca976e8928e7519e2ed4c7a0b81db9738c417ec08aa101bba2","saida_rc17_session23_final_structural_audit_comparison_19_23_rc1_20261005.txt":"1256632165f4a2d0f0971f819af016657a8c150f8a11249e99e618597f5aae99","data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261005_124328.json":"db02232416fb21d69565f6becf98a351fd50e17009097fb38ed5bc769cc0147b","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_session23_rc1_20261005.json":"1ffe4aa8e3e1c05652416fc3c6c7acfe89a88789531ac68837adcd0845ab6095","data/profit_rtd_rc54_3_2/saida_rc17_sideways_to_directional_session23_rc1_20261005.txt":"d363e43d9d7216745ba10fa9772f23873e611c075ba7d022023976475f9dbccf","saida_rc17_session22_structural_audit_comparison_19_22_rc1_20261005.txt":"f368bab2739077e451ecb754dd90c78cce8c6b1aa57ff1e06d02296678a8ded2","data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261005_120328.json":"5a2f640c0d18d3dcded12e491c77fe69e9df3e2b9c5724f0ea12676dc600a884","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_session22_rc1_20261005.json":"167673ab374320028d72224fa373d2015d935d161904abb9afe4cd741035ebf5","data/profit_rtd_rc54_3_2/saida_rc17_sideways_to_directional_session22_rc1_20261005.txt":"4eaa6498aad7208754b3090287c438db5f3e2f04c7ecc93f5ba20e51c206c36a","saida_rc17_session21_directional_transition_audit_comparison_19_21_rc1_20261005.txt":"a300c91e44bccc95b38226ea7b1a525493140e14b15631db7df36e1f2b19aab6","data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261005_112225.json":"d99d363d19879d85d7b0ab3ebbbaacefad12440dec14bf0114c5569fc78c3967","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_session21_rc1_20261005.json":"84b8ad827176b32258964142f971d81cef51d05224d1f650000e02bd7d587711","data/profit_rtd_rc54_3_2/saida_rc17_sideways_to_directional_session21_rc1_20261005.txt":"9006f70bb952f4262d596c7168aad4d2799c5de0f02eb7f59b48d308f3d3a1ab","saida_rc17_session20_structural_audit_comparison_19_20_rc1_20261005.txt":"d8cd1d5f1c1b2e0c7f51b55a9fe6f9960e6c4b5d86bc72fb513ecd36bc12cfd8","data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261005_102113.json":"64ca107e086b609c1d6856f13955e2ed27e4d4c2241cf40d5e58982484442cff","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_session20_rc1_20261005.json":"5af01be275f268f84cc21fd3e1227d54da4a044d2768d3709df23d8ff92b12c4","data/profit_rtd_rc54_3_2/saida_rc17_sideways_to_directional_session20_rc1_20261005.txt":"837f3a368dce84d1735010bddaeef8d69381080c66fbe6a4197422befaba1f04","saida_rc17_session19_post_capture_structural_audit_rc1_20261005.txt":"cac0d3637eddb5deeb77b0dbb0e9584b4bbf22131e5bd6ccae23b4673c1cb6e2","rc17_sideways_to_directional_evolution_protocol_rc1_20261002.json":"2a278e7c4c438098d9ce167a778f7386a09b341a555a73e322598215150ebdb3","data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261005_094823.json":"d64d66eebdfb2ee6dd6d9eede06d622556cdc5de12077d062ad7654712c89624","data/profit_rtd_rc54_3_2/rc17_sideways_to_directional_evolution_session19_rc1_20261005.json":"3b3f1fe4e8d37dbe14dbb5585e73e1d495887eae9106a6757b01840dca267ef4","data/profit_rtd_rc54_3_2/saida_rc17_sideways_to_directional_session19_rc1_20261005.txt":"b37e40c0701393409f1e2614c3d8cbe338dfb0435e34fbf5b542d7ad33a5d783","Profit.xlsx":"8694fd1583bead42d786cd2bafc68200baead445a9150c1e6045b6347535e2cb","connectors/excel_connector.py":"f234edd86d16ab637732438c0093fa84fd457a922044b49e6bd270074920d567","livroOfertas.xlsx":"db9d59836299a0e69efefa39a934180f3ec6f21f723ed1d115d297388e37ab67","saida.txt":"99d0374af231c064d3fd4c50e299f687d2ab2e0e89cd8c7006b2cd01d06c70fa","times&trades.xlsx":"564bc2ac2eeef9067e98c23c9e3fd8fd14a507752acd052bffab36f4b69c8b04"}
+PRESERVATION_METHOD=All tracked file byte hashes unchanged, including five preexisting local modifications. Protected prior RC17 raw/formal artifacts and directory inventory unchanged. No cleaning of preexisting tracked/untracked state.
+GIT_STATUS_SHORT_BEFORE_CAPTURED=true
+GIT_STATUS_SHORT_AFTER_CHECK=PASS
+GIT_STATUS_SHORT_ONLY_ADDED_ENTRY=?? saida_post_rc1_1_roadmap_resume_audit_rc1_20261005.txt
+GIT_STATUS_SHORT_REMOVED_ENTRIES=NONE
+GIT_STATUS_SHORT_PREEXISTING_ENTRIES_PRESERVED=true
+COMMIT_EXECUTED=false
+PUSH_EXECUTED=false
+GIT_ADD_EXECUTED=false
+NEXT_STEP=COPILOT_READONLY_DASHBOARD_CHECKLIST_RISK_CONSOLE_PROJECTION_RC1_IMPLEMENTATION
+NEXT_STEP_EXECUTED=false
+CONCLUSION=PASS. Real repository and current consumers audited; exactly one module selected by qualitative evidence. Small passive dashboard/checklist/risk console slice defined from available producer data, with explicit checklist/decision separation and no operational influence. Only this report created; no implementation, new analytic logic, staging, commit, push, live collection or reopening of closed modules.
+

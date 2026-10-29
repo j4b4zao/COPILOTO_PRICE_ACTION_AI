@@ -1,0 +1,373 @@
+﻿====================================================================================================
+FILE: .\models\book_depth.py
+====================================================================================================
+   70:     def spread(self) -> float | None:
+   71:         if self.best_bid is None or self.best_ask is None:
+   72:             return None
+   73:         return round(self.best_ask - self.best_bid, 10)
+   74: 
+   75:     @property
+   76:     def bid_quantity(self) -> float:
+   77:         return round(sum(level.quantity for level in self.bids), 10)
+   78: 
+   79:     @property
+   80:     def ask_quantity(self) -> float:
+   81:         return round(sum(level.quantity for level in self.asks), 10)
+   82: 
+   83:     @property
+   84:     def imbalance(self) -> float:
+   85:         total = self.bid_quantity + self.ask_quantity
+   86:         if total <= 0:
+   87:             return 0.0
+   88:         return round((self.bid_quantity - self.ask_quantity) / total, 6)
+   89: 
+   90:     @property
+   91:     def liquidity_pressure(self) -> str:
+   92:         value = self.imbalance
+   93:         if value >= 0.15:
+   94:             return "BID_DOMINANT"
+   95:         if value <= -0.15:
+   96:             return "ASK_DOMINANT"
+   97:         return "BALANCED"
+   98: 
+   99:     def top(self, levels: int = 5) -> "BookDepthSnapshot":
+  100:         levels = max(1, int(levels))
+  101:         return BookDepthSnapshot(
+  102:             symbol=self.symbol,
+  103:             timestamp=self.timestamp,
+  104:             bids=self.bids[:levels],
+  105:             asks=self.asks[:levels],
+  106:             source=self.source,
+  107:             available=self.available,
+  108:         )
+  109: 
+  110:     def to_dict(self) -> dict:
+====================================================================================================
+FILE: .\analysis\book_depth_analysis.py
+====================================================================================================
+   30: 
+   31:         mid = 0.0
+   32:         if book.best_bid is not None and book.best_ask is not None:
+   33:             mid = (book.best_bid + book.best_ask) / 2.0
+   34:         result.spread_ratio = (result.spread / mid) if mid > 0 else 0.0
+   35: 
+   36:         top = book.top(self.TOP_LEVELS)
+   37:         result.top_bid_concentration = self._concentration(top.bid_quantity, book.bid_quantity)
+   38:         result.top_ask_concentration = self._concentration(top.ask_quantity, book.ask_quantity)
+   39:         result.concentration_bias = self._concentration_bias(
+   40:             result.top_bid_concentration,
+   41:             result.top_ask_concentration,
+   42:         )
+   43: 
+   44:         pa_bias = str(getattr(context.price_action, "bias", "NONE") or "NONE").upper()
+   45:         of_pressure = str(getattr(context.order_flow, "pressure", "BALANCED") or "BALANCED").upper()
+   46:         book_direction = self._book_direction(result.pressure, result.concentration_bias)
+   47: 
+   48:         result.price_action_alignment = self._alignment(book_direction, pa_bias)
+   49:         result.order_flow_alignment = self._alignment(book_direction, of_pressure)
+   50:         result.duplicate_evidence_risk = bool(
+   51:             book_direction in {"BUY", "SELL"}
+   52:             and of_pressure == book_direction
+   53:         )
+   54: 
+   55:         strength = min(1.0, abs(result.imbalance))
+   56:         concentration_edge = abs(result.top_bid_concentration - result.top_ask_concentration)
+   57:         spread_penalty = min(0.5, result.spread_ratio * 1000.0)
+   58:         confidence = 0.65 * strength + 0.35 * concentration_edge - spread_penalty
+   59: 
+   60:         if result.price_action_alignment == "ALIGNED":
+   61:             confidence += 0.10
+   62:         elif result.price_action_alignment == "CONFLICT":
+   63:             confidence -= 0.10
+   64: 
+   65:         result.confidence = max(0.0, min(1.0, confidence))
+   66:         result.add_reason(f"BOOK_PRESSURE_{result.pressure}")
+   67:         result.add_reason(f"BOOK_PA_{result.price_action_alignment}")
+   68:         result.add_reason(f"BOOK_OF_{result.order_flow_alignment}")
+   69:         if result.duplicate_evidence_risk:
+   70:             result.add_reason("BOOK_ORDER_FLOW_DUPLICATE_EVIDENCE_RISK")
+   71:         result.validate()
+   72:         return context
+   73: 
+   74:     @staticmethod
+   75:     def _concentration(top_quantity, total_quantity):
+   76:         if total_quantity <= 0:
+   77:             return 0.0
+   78:         return max(0.0, min(1.0, float(top_quantity) / float(total_quantity)))
+   79: 
+   80:     @staticmethod
+   81:     def _concentration_bias(bid, ask):
+   82:         diff = bid - ask
+   83:         if diff >= 0.10:
+   84:             return "BID_DOMINANT"
+   85:         if diff <= -0.10:
+   86:             return "ASK_DOMINANT"
+   87:         return "BALANCED"
+   88: 
+   89:     @staticmethod
+   90:     def _book_direction(pressure, concentration_bias):
+   91:         if pressure == "BID_DOMINANT" or concentration_bias == "BID_DOMINANT":
+   92:             return "BUY"
+   93:         if pressure == "ASK_DOMINANT" or concentration_bias == "ASK_DOMINANT":
+   94:             return "SELL"
+   95:         return "NONE"
+   96: 
+   97:     @staticmethod
+   98:     def _alignment(book_direction, other_direction):
+   99:         if book_direction not in {"BUY", "SELL"}:
+  100:             return "NEUTRAL"
+  101:         if other_direction not in {"BUY", "SELL"}:
+  102:             return "UNAVAILABLE"
+  103:         return "ALIGNED" if book_direction == other_direction else "CONFLICT"
+====================================================================================================
+FILE: .\brain\context_engine.py
+====================================================================================================
+  420:         checklist.book_depth_pressure = str(
+  421:             book_depth.pressure or "UNAVAILABLE"
+  422:         ).upper()
+  423:         checklist.book_depth_imbalance = max(
+  424:             -1.0, min(1.0, float(book_depth.imbalance or 0.0))
+  425:         )
+  426:         checklist.book_depth_spread_ratio = max(
+  427:             0.0, float(book_depth.spread_ratio or 0.0)
+  428:         )
+  429:         checklist.book_depth_concentration_bias = str(
+  430:             book_depth.concentration_bias or "BALANCED"
+  431:         ).upper()
+  432:         checklist.book_depth_confidence = min(
+  433:             max(float(book_depth.confidence or 0.0), 0.0), 1.0
+  434:         )
+  435:         checklist.book_depth_duplicate_evidence_risk = bool(
+  436:             book_depth.duplicate_evidence_risk
+  437:         )
+  438: 
+  439:         pressure = checklist.book_depth_pressure
+  440:         pressure_direction = (
+  441:             "BUY" if pressure == "BID_DOMINANT"
+  442:             else "SELL" if pressure == "ASK_DOMINANT"
+  443:             else "NONE"
+  444:         )
+  445: 
+  446:         if pressure_direction == "NONE":
+  447:             checklist.book_depth_status = "NEUTRAL"
+  448:             narrative.weaknesses.append(
+  449:                 "BookDepth apresenta pressÃ£o de liquidez equilibrada."
+  450:             )
+  451:             return
+  452: 
+  453:         if result.bias == pressure_direction:
+  454:             checklist.book_depth_aligned = True
+  455:             checklist.book_depth_status = "ALIGNED"
+  456:             narrative.strengths.append(
+  457:                 "BookDepth confirma a direÃ§Ã£o do Price Action "
+  458:                 f"({checklist.book_depth_confidence:.0%} confianÃ§a observacional)."
+  459:             )
+  460:         elif result.bias in ("BUY", "SELL"):
+====================================================================================================
+FILE: .\market_data\profit_rtd_order_flow_snapshot.py
+====================================================================================================
+   90:             else:
+   91:                 raise ValueError("Agressor incompatÃ­vel com T&T RTD.")
+   92:             total += quantity
+   93: 
+   94:         classified = buy + sell
+   95:         delta = buy - sell
+   96:         delta_ratio = delta / classified if classified > 0 else 0.0
+   97:         aggression_pressure = cls._pressure(delta_ratio, "BUY", "SELL")
+   98: 
+   99:         bid_quantity = 0.0
+  100:         ask_quantity = 0.0
+  101:         book_imbalance = 0.0
+  102:         book_pressure = "UNAVAILABLE"
+  103:         if book_payload is not None:
+  104:             if not isinstance(book_payload, dict):
+  105:                 raise TypeError("Payload de Book deve ser dict.")
+  106:             book_symbol = str(book_payload.get("symbol") or "").strip().upper()
+  107:             if book_symbol != symbol:
+  108:                 raise ValueError("Ativo do Book difere do T&T RTD.")
+  109:             if not book_payload.get("passive_only", False):
+  110:                 raise ValueError("Payload de Book deve permanecer passivo.")
+  111:             bids = book_payload.get("bids")
+  112:             asks = book_payload.get("asks")
+  113:             if not isinstance(bids, list) or not isinstance(asks, list) or not bids or not asks:
+  114:                 raise ValueError("Payload de Book incompleto.")
+  115:             bid_quantity = sum(
+  116:                 cls._non_negative_quantity(level.get("quantity"))
+  117:                 for level in bids
+  118:                 if isinstance(level, dict)
+  119:             )
+  120:             ask_quantity = sum(
+  121:                 cls._non_negative_quantity(level.get("quantity"))
+  122:                 for level in asks
+  123:                 if isinstance(level, dict)
+  124:             )
+  125:             book_total = bid_quantity + ask_quantity
+  126:             book_imbalance = (
+  127:                 (bid_quantity - ask_quantity) / book_total
+  128:                 if book_total > 0
+  129:                 else 0.0
+  130:             )
+  131:             book_pressure = cls._pressure(
+  132:                 book_imbalance,
+  133:                 "BID_DOMINANT",
+  134:                 "ASK_DOMINANT",
+  135:             )
+  136: 
+  137:         return ProfitRTDOrderFlowWindowSnapshot(
+  138:             symbol=symbol,
+  139:             timestamp=timestamp,
+  140:             trade_count=len(trades),
+  141:             buyer_aggressed_quantity=buy,
+  142:             seller_aggressed_quantity=sell,
+  143:             rlp_quantity=rlp,
+  144:             classified_aggression_quantity=classified,
+  145:             total_traded_quantity=total,
+  146:             delta=delta,
+  147:             delta_ratio=delta_ratio,
+  148:             aggression_pressure=aggression_pressure,
+  149:             bid_quantity=bid_quantity,
+  150:             ask_quantity=ask_quantity,
+  151:             book_imbalance=book_imbalance,
+  152:             book_pressure=book_pressure,
+  153:         )
+  154: 
+  155:     @classmethod
+  156:     def _pressure(cls, ratio, positive, negative):
+  157:         if ratio >= cls.PRESSURE_THRESHOLD:
+  158:             return positive
+  159:         if ratio <= -cls.PRESSURE_THRESHOLD:
+  160:             return negative
+  161:         return "BALANCED"
+  162: 
+  163:     @staticmethod
+  164:     def _non_negative_quantity(value):
+  165:         if isinstance(value, bool):
+====================================================================================================
+FILE: .\analysis\replay\microstructure_confluence.py
+====================================================================================================
+   55:         ).upper()
+   56:         momentum = str(
+   57:             getattr(flow, "flow_momentum", "INSUFFICIENT_DATA") or "INSUFFICIENT_DATA"
+   58:         ).upper()
+   59:         pattern_direction = str(
+   60:             getattr(flow, "pattern_direction", "NONE") or "NONE"
+   61:         ).upper()
+   62:         structure_alignment = str(
+   63:             getattr(flow, "structure_alignment", "UNAVAILABLE") or "UNAVAILABLE"
+   64:         ).upper()
+   65:         structural_confidence = self._clamp(
+   66:             getattr(flow, "structural_pattern_confidence", 0.0)
+   67:         )
+   68:         flow_direction = self._flow_direction(pressure, momentum, pattern_direction)
+   69: 
+   70:         book_available = bool(getattr(book, "valid", False))
+   71:         book_pressure = str(
+   72:             getattr(book, "pressure", "UNAVAILABLE") or "UNAVAILABLE"
+   73:         ).upper()
+   74:         book_direction = self._book_direction(
+   75:             book_pressure,
+   76:             str(getattr(book, "concentration_bias", "BALANCED") or "BALANCED").upper(),
+   77:         ) if book_available else "NONE"
+   78:         book_confidence = self._clamp(getattr(book, "confidence", 0.0)) if book_available else 0.0
+   79:         book_correlated = bool(
+   80:             getattr(book, "duplicate_evidence_risk", False)
+   81:         ) if book_available else False
+   82: 
+   83:         delta_duplicate = self._duplicate_risk(
+   84:             pressure=pressure,
+   85:             momentum=momentum,
+   86:             pattern_direction=pattern_direction,
+   87:         )
+   88: 
+   89:         independent_count, correlated_count, conflict_count = self._evidence_counts(
+   90:             pa_bias=pa_bias,
+   91:             flow_direction=flow_direction,
+   92:             book_direction=book_direction,
+   93:             book_correlated=book_correlated,
+   94:             delta_duplicate=delta_duplicate,
+   95:         )
+   96: 
+   97:         state, direction = self._state(
+   98:             pa_bias=pa_bias,
+   99:             flow_direction=flow_direction,
+  100:             book_direction=book_direction,
+  101:             conflict_count=conflict_count,
+  102:         )
+  103:         quality = self._quality(
+  104:             state=state,
+  105:             independent_count=independent_count,
+  106:             conflict_count=conflict_count,
+  107:         )
+  108:         confidence = self._confidence(
+  109:             state=state,
+  110:             momentum=momentum,
+  111:             structure_alignment=structure_alignment,
+  112:             structural_confidence=structural_confidence,
+  113:             book_direction=book_direction,
+  114:             pa_bias=pa_bias,
+  115:             book_confidence=book_confidence,
+  116:             book_correlated=book_correlated,
+  117:             conflict_count=conflict_count,
+  118:         )
+  119: 
+  120:         return MicrostructureConfluenceSnapshot(
+  121:             price_action_bias=pa_bias,
+  122:             order_flow_pressure=pressure,
+  123:             flow_momentum=momentum,
+  124:             pattern_direction=pattern_direction,
+  125:             flow_direction=flow_direction,
+  126:             structure_alignment=structure_alignment,
+  127:             structural_confidence=structural_confidence,
+  128:             book_available=book_available,
+  129:             book_pressure=book_pressure,
+  130:             book_direction=book_direction,
+  131:             book_confidence=book_confidence,
+  132:             book_correlated_with_delta=book_correlated,
+  133:             state=state,
+  134:             direction=direction,
+  135:             confidence=confidence,
+  136:             confluence_quality=quality,
+  137:             independent_evidence_count=independent_count,
+  138:             correlated_evidence_count=correlated_count,
+  139:             conflict_count=conflict_count,
+  140:             duplicate_evidence_risk=delta_duplicate or book_correlated,
+  141:             passive_only=True,
+  142:         )
+  143: 
+  144:     @staticmethod
+  145:     def _flow_direction(pressure: str, momentum: str, pattern_direction: str) -> str:
+  146:         candidates = []
+  147:         if pressure in {"BUY", "SELL"}:
+  148:             candidates.append(pressure)
+  149:         if momentum.endswith("_BUY"):
+  150:             candidates.append("BUY")
+  151:         elif momentum.endswith("_SELL"):
+  152:             candidates.append("SELL")
+  153:         if pattern_direction in {"BUY", "SELL"}:
+  154:             candidates.append(pattern_direction)
+  155:         if not candidates:
+  156:             return "NONE"
+  157:         buy = candidates.count("BUY")
+  158:         sell = candidates.count("SELL")
+  159:         if buy == sell:
+  160:             return "NONE"
+  161:         return "BUY" if buy > sell else "SELL"
+  162: 
+  163:     @staticmethod
+  164:     def _book_direction(pressure: str, concentration_bias: str) -> str:
+  165:         votes = []
+  166:         if pressure == "BID_DOMINANT":
+  167:             votes.append("BUY")
+  168:         elif pressure == "ASK_DOMINANT":
+  169:             votes.append("SELL")
+  170:         if concentration_bias == "BID_DOMINANT":
+  171:             votes.append("BUY")
+  172:         elif concentration_bias == "ASK_DOMINANT":
+  173:             votes.append("SELL")
+  174:         if not votes or votes.count("BUY") == votes.count("SELL"):
+  175:             return "NONE"
+  176:         return "BUY" if votes.count("BUY") > votes.count("SELL") else "SELL"
+  177: 
+  178:     @staticmethod
+  179:     def _duplicate_risk(*, pressure: str, momentum: str, pattern_direction: str) -> bool:
+  180:         derived = 0

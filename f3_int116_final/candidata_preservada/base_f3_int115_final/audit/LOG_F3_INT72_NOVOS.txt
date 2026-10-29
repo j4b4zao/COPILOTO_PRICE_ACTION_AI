@@ -1,0 +1,19 @@
+test_byte_bound (test_f3_int72_atomic_witness_batch.AtomicBatchTests.test_byte_bound) ... ok
+test_cross_batch_replay (test_f3_int72_atomic_witness_batch.AtomicBatchTests.test_cross_batch_replay) ... ok
+test_duplicate_in_batch (test_f3_int72_atomic_witness_batch.AtomicBatchTests.test_duplicate_in_batch) ... ok
+test_flags (test_f3_int72_atomic_witness_batch.AtomicBatchTests.test_flags) ... ok
+test_formatting_does_not_evade_replay (test_f3_int72_atomic_witness_batch.AtomicBatchTests.test_formatting_does_not_evade_replay) ... ok
+test_hash_mismatch_tail_atomic (test_f3_int72_atomic_witness_batch.AtomicBatchTests.test_hash_mismatch_tail_atomic) ... ok
+test_invalid_bounds (test_f3_int72_atomic_witness_batch.AtomicBatchTests.test_invalid_bounds) ... ok
+test_invalid_record (test_f3_int72_atomic_witness_batch.AtomicBatchTests.test_invalid_record) ... ok
+test_invalid_registry (test_f3_int72_atomic_witness_batch.AtomicBatchTests.test_invalid_registry) ... ok
+test_invalid_tail_atomic (test_f3_int72_atomic_witness_batch.AtomicBatchTests.test_invalid_tail_atomic) ... ok
+test_memory_bound (test_f3_int72_atomic_witness_batch.AtomicBatchTests.test_memory_bound) ... ok
+test_record_bound (test_f3_int72_atomic_witness_batch.AtomicBatchTests.test_record_bound) ... ok
+test_registry_reset_limit (test_f3_int72_atomic_witness_batch.AtomicBatchTests.test_registry_reset_limit) ... ok
+test_valid_batch (test_f3_int72_atomic_witness_batch.AtomicBatchTests.test_valid_batch) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 1.454s
+
+OK

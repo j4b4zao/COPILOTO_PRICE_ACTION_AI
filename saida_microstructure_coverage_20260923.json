@@ -1,0 +1,35 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-COVERAGE",
+  "status": "DESCRIPTIVE_ONLY",
+  "eligible_sessions": 1,
+  "rejected_sessions": 0,
+  "sessions": [
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_103430.json",
+      "sha256": "137a74aeaa3d167e49c82203d738fbbac0d1a0c25797630b750dfcb9804b735b",
+      "coverage": {
+        "samples": 279,
+        "pa_directional": 127,
+        "flow_directional": 43,
+        "book_available": 279,
+        "book_directional": 74,
+        "insufficient_data": 222,
+        "pa_directional_insufficient_data": 70,
+        "conflicts": 53,
+        "conflict_runs": 7,
+        "longest_conflict_run": 18
+      }
+    }
+  ],
+  "audit_stability": "INSUFFICIENT_DATA",
+  "audit_recommendation": "COLLECT_MORE_DATA",
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}

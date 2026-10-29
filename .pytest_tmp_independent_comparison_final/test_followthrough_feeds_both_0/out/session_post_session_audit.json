@@ -1,0 +1,77 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-POST-SESSION-AUDIT",
+  "status": "POST_SESSION_AUDIT_COMPLETED",
+  "session_count": 1,
+  "input_sessions": [
+    {
+      "position": 1,
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\.pytest_tmp_independent_comparison_final\\test_followthrough_feeds_both_0\\session.json",
+      "sha256": "0eb397ade230e07d99ef4ac8e2dd03f971d8179e488bb94d042e41d1ffb2a1e1"
+    }
+  ],
+  "horizons": [
+    1,
+    5,
+    10,
+    20
+  ],
+  "artifacts": [
+    {
+      "stage": "coverage",
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\.pytest_tmp_independent_comparison_final\\test_followthrough_feeds_both_0\\out\\session_coverage.json",
+      "sha256": "1b37e8bc68083852d9095f9fc150d2720ef81538450113530a33ba335102b107",
+      "version": "COVERAGE",
+      "status": "OK"
+    },
+    {
+      "stage": "episodes",
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\.pytest_tmp_independent_comparison_final\\test_followthrough_feeds_both_0\\out\\session_episodes.json",
+      "sha256": "57d4db7f0e38112fcece1621bfbed277764319660192ef557814af3d319adfd2",
+      "version": "EPISODES",
+      "status": "OK"
+    },
+    {
+      "stage": "followthrough",
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\.pytest_tmp_independent_comparison_final\\test_followthrough_feeds_both_0\\out\\session_followthrough.json",
+      "sha256": "e99000f947fc82194c7eadd191d5207b134772efdb81c6f3853e6ea6ea749108",
+      "version": "FOLLOWTHROUGH",
+      "status": "OK"
+    },
+    {
+      "stage": "stratification",
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\.pytest_tmp_independent_comparison_final\\test_followthrough_feeds_both_0\\out\\session_stratification.json",
+      "sha256": "2a81d55a7692eb55e670c95214b9b3d448125acb0c1707cd076246703d42fdaf",
+      "version": "STRATIFICATION",
+      "status": "OK"
+    },
+    {
+      "stage": "stability",
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\.pytest_tmp_independent_comparison_final\\test_followthrough_feeds_both_0\\out\\session_stability.json",
+      "sha256": "99f703b59cb6185b35dd174034cb32b31c115524f6d9709bd435fe9d8f1cbcc8",
+      "version": "STABILITY",
+      "status": "OK"
+    }
+  ],
+  "pipeline": {
+    "coverage": "COMPLETED",
+    "episodes": "COMPLETED",
+    "followthrough": "COMPLETED",
+    "stratification": "COMPLETED",
+    "stability": "COMPLETED"
+  },
+  "architecture": {
+    "session_selection": "EXPLICIT_ONLY",
+    "glob_discovery_allowed": false,
+    "historical_checkpoint_mutated": false,
+    "input_mutation_allowed": false
+  },
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}

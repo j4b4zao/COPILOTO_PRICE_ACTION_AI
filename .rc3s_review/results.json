@@ -1,0 +1,29 @@
+[
+  {
+    "suite": "S",
+    "files": 1,
+    "tests": 10,
+    "subtests": 30,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "suite": "H10_regressions",
+    "files": 21,
+    "tests": 1036,
+    "subtests": 168,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "suite": "H10_root",
+    "files": 12,
+    "tests": 94,
+    "subtests": 0,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+]

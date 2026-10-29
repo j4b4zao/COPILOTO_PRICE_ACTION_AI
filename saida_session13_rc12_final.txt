@@ -1,0 +1,180 @@
+﻿=== EVALUATOR OUTPUT ===
+{
+  "cohort_policy": {
+    "frozen_10_session_checkpoint_remains_immutable": true,
+    "future_sessions_are_evaluated_as_independent_prospective_replication": true,
+    "future_sessions_are_not_appended_to_frozen_checkpoint": true,
+    "no_retroactive_reclassification": true,
+    "sessions_11_and_12_remain_independent": true
+  },
+  "detail": null,
+  "evaluation_outcome": "REPLICATED",
+  "evaluation_unit": "formal_OPPOSED_to_ALIGNED_transition",
+  "identity": {
+    "aligned_samples": 10,
+    "formal_run_count": 11,
+    "opposed_samples": 7,
+    "opposed_to_aligned_transition_count": 1,
+    "prospective_sample_count": 255,
+    "raw_prospective_positional_identity": "VALIDATED",
+    "raw_sample_count": 255,
+    "simultaneous_directional_samples": 17
+  },
+  "interpretation": "DESCRIPTIVE_ONLY",
+  "interpretation_policy": {
+    "no_operational_promotion_from_this_protocol": true,
+    "no_post_hoc_admission_gate": true,
+    "no_threshold_optimization_after_observation": true,
+    "single_future_failure_is_not_refutation": true,
+    "single_future_replication_is_not_predictive_validation": true
+  },
+  "outcome": "REPLICATED",
+  "outcome_scope": "SESSION_SUMMARY",
+  "protocol": {
+    "path": "pa_book_opposed_to_aligned_prospective_replication_protocol_rc1_20260929.json",
+    "sha256": "53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c",
+    "version": "RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-PROTOCOL"
+  },
+  "reason": "ALL_OBSERVED_TARGET_TRANSITIONS_REPLICATED",
+  "safety": {
+    "alert_changed": false,
+    "canonical_conflict_redefined": false,
+    "checkpoint_extended": false,
+    "decision_changed": false,
+    "descriptive_only": true,
+    "execution_changed": false,
+    "operational_logic_changed": false,
+    "post_hoc_gate_added": false,
+    "predictive_claim_allowed": false,
+    "rc17_changed": false,
+    "research_only": true,
+    "risk_changed": false,
+    "score_changed": false,
+    "threshold_changed": false
+  },
+  "status": "COMPLETED",
+  "transitions": [
+    {
+      "conditions": {
+        "all_intermediate_pa_directions_equal_start_pa_direction": true,
+        "at_least_one_intermediate_book_none": true,
+        "at_least_one_intermediate_sample": true,
+        "no_intermediate_book_direction_opposite_to_start_pa_direction_after_opposed_run_end": true,
+        "same_pa_direction_from_opposed_end_to_aligned_start": true
+      },
+      "end_pa_direction": "SELL",
+      "evaluation_outcome": "REPLICATED",
+      "following_end_index": 195,
+      "following_pair": "SELL_SELL",
+      "following_relation": "ALIGNED",
+      "following_start_index": 194,
+      "gap_samples": 27,
+      "previous_end_index": 166,
+      "previous_pair": "SELL_BUY",
+      "previous_relation": "OPPOSED",
+      "previous_start_index": 164,
+      "replicated": true,
+      "start_pa_direction": "SELL"
+    }
+  ],
+  "version": "RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-EVALUATOR"
+}
+=== SESSION13 SHA ===
+
+
+Algorithm : SHA256
+Hash      : 3A73D4B0A8C7F4ADF0917BB9CE5DC927323578C5729C455BC0A78D3C5BDB7A00
+Path      : C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260930_093955.json
+
+
+
+=== RC1.2 RESULT SHA ===
+
+
+Algorithm : SHA256
+Hash      : A3961F5FC5E6D4C5047635AE19B7A3D60623D602F1E81A41C49BC54FBD053A69
+Path      : C:\COPILOTO_PRICE_ACTION_AI\pa_book_structural_replication_session13_rc12_20260930.json
+
+
+
+=== RC1.2 RESULT ===
+{
+  "cohort_policy": {
+    "frozen_10_session_checkpoint_remains_immutable": true,
+    "future_sessions_are_evaluated_as_independent_prospective_replication": true,
+    "future_sessions_are_not_appended_to_frozen_checkpoint": true,
+    "no_retroactive_reclassification": true,
+    "sessions_11_and_12_remain_independent": true
+  },
+  "detail": null,
+  "evaluation_outcome": "REPLICATED",
+  "evaluation_unit": "formal_OPPOSED_to_ALIGNED_transition",
+  "identity": {
+    "aligned_samples": 10,
+    "formal_run_count": 11,
+    "opposed_samples": 7,
+    "opposed_to_aligned_transition_count": 1,
+    "prospective_sample_count": 255,
+    "raw_prospective_positional_identity": "VALIDATED",
+    "raw_sample_count": 255,
+    "simultaneous_directional_samples": 17
+  },
+  "interpretation": "DESCRIPTIVE_ONLY",
+  "interpretation_policy": {
+    "no_operational_promotion_from_this_protocol": true,
+    "no_post_hoc_admission_gate": true,
+    "no_threshold_optimization_after_observation": true,
+    "single_future_failure_is_not_refutation": true,
+    "single_future_replication_is_not_predictive_validation": true
+  },
+  "outcome": "REPLICATED",
+  "outcome_scope": "SESSION_SUMMARY",
+  "protocol": {
+    "path": "pa_book_opposed_to_aligned_prospective_replication_protocol_rc1_20260929.json",
+    "sha256": "53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c",
+    "version": "RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-PROTOCOL"
+  },
+  "reason": "ALL_OBSERVED_TARGET_TRANSITIONS_REPLICATED",
+  "safety": {
+    "alert_changed": false,
+    "canonical_conflict_redefined": false,
+    "checkpoint_extended": false,
+    "decision_changed": false,
+    "descriptive_only": true,
+    "execution_changed": false,
+    "operational_logic_changed": false,
+    "post_hoc_gate_added": false,
+    "predictive_claim_allowed": false,
+    "rc17_changed": false,
+    "research_only": true,
+    "risk_changed": false,
+    "score_changed": false,
+    "threshold_changed": false
+  },
+  "status": "COMPLETED",
+  "transitions": [
+    {
+      "conditions": {
+        "all_intermediate_pa_directions_equal_start_pa_direction": true,
+        "at_least_one_intermediate_book_none": true,
+        "at_least_one_intermediate_sample": true,
+        "no_intermediate_book_direction_opposite_to_start_pa_direction_after_opposed_run_end": true,
+        "same_pa_direction_from_opposed_end_to_aligned_start": true
+      },
+      "end_pa_direction": "SELL",
+      "evaluation_outcome": "REPLICATED",
+      "following_end_index": 195,
+      "following_pair": "SELL_SELL",
+      "following_relation": "ALIGNED",
+      "following_start_index": 194,
+      "gap_samples": 27,
+      "previous_end_index": 166,
+      "previous_pair": "SELL_BUY",
+      "previous_relation": "OPPOSED",
+      "previous_start_index": 164,
+      "replicated": true,
+      "start_pa_direction": "SELL"
+    }
+  ],
+  "version": "RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-EVALUATOR"
+}

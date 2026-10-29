@@ -1,0 +1,36 @@
+{
+  "last_completed": "F3-INT-96",
+  "next_step": "F3-INT-97: codec JSON schema2 com politica explicita vinculada aos traces",
+  "f3": "OPEN",
+  "simulation_only": true,
+  "offline": true,
+  "certification": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "new_tests": {
+    "tests": 9,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 6.886,
+    "log": "LOG_F3_INT96_NOVOS.txt"
+  },
+  "regression": {
+    "tests": 1116,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 237.674,
+    "log": "LOG_F3_INT96_REGRESSAO.txt"
+  },
+  "pending": [
+    "Autenticidade, consenso, persistencia e fencing reais nao verificados."
+  ]
+}

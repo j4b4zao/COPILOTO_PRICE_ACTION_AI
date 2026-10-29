@@ -1,0 +1,2 @@
+symbol,timeframe,timestamp,candle_count,last_price,official_action,official_direction,official_score,official_risk_reward,official_setup,official_entry,official_stop,official_target,book_state,book_direction,book_score,book_caution_count,trend_control_state,reversal_pressure_state,market_environment_state,direction_agreement,book_passive_only
+WINV26,M5,2026-08-22T10:00:00-03:00,30,170000.0,BUY,BUY,90.0,2.0,TEST,0.0,0.0,0.0,CLEAN_DIRECTIONAL_CONTEXT,BUY,80.0,0,STRONG_CONTROL,NONE,NORMAL_OR_OTHER,AGREE,True

@@ -1,0 +1,14 @@
+test_all_partition_sizes_agree (test_f3_int77_partition_crosscheck.PartitionCrosscheckTests.test_all_partition_sizes_agree) ... ok
+test_boundary_delta_agrees (test_f3_int77_partition_crosscheck.PartitionCrosscheckTests.test_boundary_delta_agrees) ... ok
+test_count_fault_rejected_everywhere (test_f3_int77_partition_crosscheck.PartitionCrosscheckTests.test_count_fault_rejected_everywhere) ... ok
+test_flags (test_f3_int77_partition_crosscheck.PartitionCrosscheckTests.test_flags) ... ok
+test_invalid_count (test_f3_int77_partition_crosscheck.PartitionCrosscheckTests.test_invalid_count) ... ok
+test_invalid_sizes (test_f3_int77_partition_crosscheck.PartitionCrosscheckTests.test_invalid_sizes) ... ok
+test_missing_stage_rejected_everywhere (test_f3_int77_partition_crosscheck.PartitionCrosscheckTests.test_missing_stage_rejected_everywhere) ... ok
+test_order_fault_rejected_everywhere (test_f3_int77_partition_crosscheck.PartitionCrosscheckTests.test_order_fault_rejected_everywhere) ... ok
+test_undeclared_delta_rejected_everywhere (test_f3_int77_partition_crosscheck.PartitionCrosscheckTests.test_undeclared_delta_rejected_everywhere) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 1.201s
+
+OK

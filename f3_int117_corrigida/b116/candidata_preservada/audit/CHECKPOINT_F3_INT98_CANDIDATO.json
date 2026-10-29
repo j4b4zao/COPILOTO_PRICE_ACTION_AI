@@ -1,0 +1,19 @@
+{
+  "stage": "F3-INT-98",
+  "status": "CANDIDATE_PENDING_FULL_REGRESSION",
+  "last_fully_logged_upstream": "F3-INT-97",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "new_tests": {"passed": 16, "failed": 0},
+  "full_regression": {"status": "TIMEOUT_UNVERIFIED", "timeout_seconds": 300},
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  }
+}

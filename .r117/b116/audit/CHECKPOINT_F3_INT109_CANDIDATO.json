@@ -1,0 +1,53 @@
+{
+  "stage": "F3-INT-109",
+  "status": "CANDIDATO",
+  "command": [
+    "C:\\Users\\jb\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "test_f3_int109_offline_consumption_store.ConsumptionStoreTests",
+    "test_f3_int108_typed_chain_guard.ChainGuardTests",
+    "-v"
+  ],
+  "total": 45,
+  "passed": 45,
+  "new_passed": 29,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "expected failures": 0,
+  "unexpected successes": 0,
+  "exit_code": 0,
+  "seconds": 100.448,
+  "unittest_seconds": 99.822,
+  "previous_files_unchanged": true,
+  "definitive_last_completed": "F3-INT-108",
+  "definitive_marker_updated": false,
+  "f3": "OPEN",
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "full_regression_executed": false,
+  "source_sha256": {
+    "tools/f3_int109_offline_consumption_store.py": "ea990a447ac3cbb31ee63dd4709c830c11088d202ae24703442545fb245c83cf",
+    "tests/test_f3_int109_offline_consumption_store.py": "bd0e4acbb636d0c39a1506a65689815757a5a86f359c27b9ab2d83805a5ae9e9",
+    "reproduce_f3_int109_before.py": "d60138bbb8bab7248a678167e6a6b442095fc0c450517ff65ed0f48ffd58e35b"
+  },
+  "approved": true,
+  "pending": [
+    "Regressao historica completa ainda nao executada nesta etapa.",
+    "Ancora externa e SQLite nao possuem commit distribuido; perda de confirmacao exige reconciliacao.",
+    "Rollback conjunto de banco e ancora continua possivel.",
+    "Durabilidade de hardware, origem, fencing e autenticacao reais nao demonstrados."
+  ]
+}

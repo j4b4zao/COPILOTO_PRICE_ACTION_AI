@@ -1,0 +1,134 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-BOOK-OBSERVABILITY-AUDIT",
+  "status": "BOOK_OBSERVABILITY_AUDIT_COMPLETED",
+  "mode": "INDEPENDENT_SESSION_RESEARCH_AUDIT",
+  "sessions": [
+    {
+      "label": "INDEPENDENT_SESSION_11",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_113219.json",
+        "sha256": "429862d7201dd6db119ec67c67a4e0a1464ba34ac47de4dedbe83416a3da6932"
+      },
+      "samples": 265,
+      "pressure_threshold": 0.15,
+      "imbalance_range": {
+        "min": -0.07519,
+        "max": 0.096048
+      },
+      "canonical_pressure_counts": {
+        "BID_DOMINANT": 0,
+        "ASK_DOMINANT": 0,
+        "BALANCED": 265
+      },
+      "canonical_direction_counts": {
+        "BUY": 0,
+        "SELL": 0,
+        "NONE": 265
+      },
+      "matrix": [
+        {
+          "expected_pressure": "BALANCED",
+          "canonical_pressure": "BALANCED",
+          "expected_direction": "NONE",
+          "canonical_direction": "NONE",
+          "count": 265
+        }
+      ],
+      "pressure_mismatch_count": 0,
+      "direction_not_explained_by_imbalance_count": 0,
+      "all_pressure_explained_by_imbalance": true,
+      "all_direction_explained_by_imbalance": true,
+      "pressure_mismatches": [],
+      "direction_not_explained_by_imbalance": [],
+      "concentration_bias_persisted": false,
+      "interpretation": {
+        "pressure_rule_is_sufficient_for_observed_output": true,
+        "concentration_bias_required_to_explain_observed_output": false,
+        "concentration_bias_was_balanced_claim_allowed": false
+      }
+    },
+    {
+      "label": "INDEPENDENT_SESSION_12",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+        "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e"
+      },
+      "samples": 238,
+      "pressure_threshold": 0.15,
+      "imbalance_range": {
+        "min": -0.034599,
+        "max": 0.298955
+      },
+      "canonical_pressure_counts": {
+        "BID_DOMINANT": 76,
+        "ASK_DOMINANT": 0,
+        "BALANCED": 162
+      },
+      "canonical_direction_counts": {
+        "BUY": 76,
+        "SELL": 0,
+        "NONE": 162
+      },
+      "matrix": [
+        {
+          "expected_pressure": "BALANCED",
+          "canonical_pressure": "BALANCED",
+          "expected_direction": "NONE",
+          "canonical_direction": "NONE",
+          "count": 162
+        },
+        {
+          "expected_pressure": "BID_DOMINANT",
+          "canonical_pressure": "BID_DOMINANT",
+          "expected_direction": "BUY",
+          "canonical_direction": "BUY",
+          "count": 76
+        }
+      ],
+      "pressure_mismatch_count": 0,
+      "direction_not_explained_by_imbalance_count": 0,
+      "all_pressure_explained_by_imbalance": true,
+      "all_direction_explained_by_imbalance": true,
+      "pressure_mismatches": [],
+      "direction_not_explained_by_imbalance": [],
+      "concentration_bias_persisted": false,
+      "interpretation": {
+        "pressure_rule_is_sufficient_for_observed_output": true,
+        "concentration_bias_required_to_explain_observed_output": false,
+        "concentration_bias_was_balanced_claim_allowed": false
+      }
+    }
+  ],
+  "combined_session_count": null,
+  "combined_checkpoint_created": false,
+  "cohort_redefinition": false,
+  "formal_pressure_rule": {
+    "source": "BookDepthSnapshot.liquidity_pressure",
+    "bid_dominant_minimum": 0.15,
+    "ask_dominant_maximum": -0.15,
+    "otherwise": "BALANCED"
+  },
+  "interpretation_limits": [
+    "DESCRIPTIVE_ONLY",
+    "INDEPENDENT_SESSIONS_ARE_NOT_A_COMBINED_COHORT",
+    "CONCENTRATION_BIAS_IS_NOT_PERSISTED",
+    "SUFFICIENCY_DOES_NOT_PROVE_CONCENTRATION_BIAS_WAS_BALANCED",
+    "NO_PREDICTIVE_CLAIM",
+    "NO_THRESHOLD_CHANGE_ALLOWED",
+    "NO_RC17_CHANGE_ALLOWED",
+    "NO_OPERATIONAL_INFERENCE_ALLOWED"
+  ],
+  "research_only": true,
+  "observational_only": true,
+  "descriptive_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false,
+  "threshold_change_allowed": false,
+  "rc17_change_allowed": false,
+  "order_flow_score_change_allowed": false
+}

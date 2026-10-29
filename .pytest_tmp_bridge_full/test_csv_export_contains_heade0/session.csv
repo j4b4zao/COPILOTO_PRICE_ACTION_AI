@@ -1,0 +1,2 @@
+baseline_total,adjusted_total,delta,baseline_grade,adjusted_grade,grade_changed,baseline_valid,adjusted_valid,validity_changed,bias,pattern_direction,structure_alignment,structural_confidence,confidence_bucket,adjustment,passive_only
+75.0,76.2,1.2,B,B,False,True,True,False,BUY,BUY,ALIGNED,0.8,HIGH,1.2,True

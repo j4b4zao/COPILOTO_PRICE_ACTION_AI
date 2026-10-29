@@ -1,0 +1,16 @@
+test_byte_budget (test_f3_int73_package_lineage.LineageTests.test_byte_budget) ... ok
+test_count_discontinuity (test_f3_int73_package_lineage.LineageTests.test_count_discontinuity) ... ok
+test_duplicate_stage (test_f3_int73_package_lineage.LineageTests.test_duplicate_stage) ... ok
+test_flags (test_f3_int73_package_lineage.LineageTests.test_flags) ... ok
+test_invalid_anchor (test_f3_int73_package_lineage.LineageTests.test_invalid_anchor) ... ok
+test_invalid_records (test_f3_int73_package_lineage.LineageTests.test_invalid_records) ... ok
+test_prior_source_mutation (test_f3_int73_package_lineage.LineageTests.test_prior_source_mutation) ... ok
+test_prior_source_removed (test_f3_int73_package_lineage.LineageTests.test_prior_source_removed) ... ok
+test_skipped_stage (test_f3_int73_package_lineage.LineageTests.test_skipped_stage) ... ok
+test_valid (test_f3_int73_package_lineage.LineageTests.test_valid) ... ok
+test_wrong_hash (test_f3_int73_package_lineage.LineageTests.test_wrong_hash) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.027s
+
+OK

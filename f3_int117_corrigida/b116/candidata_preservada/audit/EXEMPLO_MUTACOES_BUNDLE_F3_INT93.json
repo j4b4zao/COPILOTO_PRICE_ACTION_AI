@@ -1,0 +1,144 @@
+{
+  "notice": "Fixtures sinteticas offline. Contagens dos pacotes de exemplo nao sao checkpoints reais da auditoria. Sem autenticacao ou certificacao.",
+  "result": {
+    "status": "BUNDLE_CORPUS_FIXTURE_UNAUTHENTICATED",
+    "checked": 25,
+    "f3": "OPEN",
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false,
+    "complete": true,
+    "observations": [
+      [
+        "outer_repack",
+        "REFERENCE",
+        "REFERENCE"
+      ],
+      [
+        "pretty_manifest",
+        "REFERENCE",
+        "REFERENCE"
+      ],
+      [
+        "reverse_catalog_order",
+        "REFERENCE",
+        "REFERENCE"
+      ],
+      [
+        "reverse_pair",
+        "OBSERVATIONS",
+        "OBSERVATIONS"
+      ],
+      [
+        "manifest_schema_True",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "manifest_schema_0",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "manifest_schema_2",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "manifest_schema_None",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "manifest_schema_[]",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "manifest_schema_{}",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "manifest_records_[]",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "manifest_records_None",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "manifest_records_[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "extra_manifest_field",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "duplicate_catalog_record",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "catalog_escape",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "catalog_bool_stage",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "bad_witness_digest",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "bad_trace_digest_rehashed",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "bad_witness_schema_rehashed",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "extra_file",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "missing_witness",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "truncate_0",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "truncate_2269",
+        "REJECT",
+        "REJECT"
+      ],
+      [
+        "truncate_4538",
+        "REJECT",
+        "REJECT"
+      ]
+    ],
+    "failures": []
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "stage": "F3-INT-115",
+  "checkpoint_type": "FINAL",
+  "date": "2026-10-23",
+  "previous_definitive": "F3-INT-114",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "status": "OFFLINE_WINDOWS_REGRESSION_APPROVED_UNAUTHENTICATED",
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "windows_specific_tests": {
+    "total": 17,
+    "passed": 17,
+    "failed": 0,
+    "errors": 0,
+    "seconds": 74.124,
+    "evidence_file": "audit/EVIDENCIAS_F3_INT115_FINAL/RESULTADO_F3_INT115_PID_02.txt",
+    "evidence_sha256": "a5dea052b3bd4427d09eedc44331f8d65505e04c4918abeb9ee85a930872a051"
+  },
+  "windows_full_regression": {
+    "total": 1421,
+    "passed": 1420,
+    "skipped": 1,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 804.052,
+    "result": "OK (skipped=1)",
+    "evidence_file": "audit/EVIDENCIAS_F3_INT115_FINAL/RESULTADO_F3_INT115_REGRESSAO_FINAL.txt",
+    "evidence_sha256": "ee8193da1b3532b7ae4580d36440e0201d7dc7f43e581a5e2b742818e5191715",
+    "environment": "Windows PowerShell; exit code not independently captured"
+  },
+  "limitations": [
+    "No authenticated linkage between Windows execution logs and package source hashes",
+    "No independent custody or authenticated witness",
+    "Windows symlink test skipped (permissions)",
+    "Actual origin of launcher/worker PID divergence remains unproven",
+    "Windows process containment demonstrated in test scenarios only",
+    "No cross-host guarantee or physical storage durability guarantee",
+    "No real trading authorization; F3 remains OPEN",
+    "NativeCommandError PowerShell stderr wrapper present; unittest summary OK; exit code not independently supplied"
+  ],
+  "files_sha256": {
+    "audit/tests/test_f3_int115_multiprocess_recovery.py": "f62639e22d16598e9db4bb28a219e97ec962617c5560ac4e01481d0d83807392",
+    "audit/tests/test_f3_int115_process_control.py": "ca6710356b6b66636d1b4caa03a1e4cbb21c09aacb760269a2a1959c1a6ad72d",
+    "audit/tests/test_f3_int115_process_identity.py": "ff5d969407f2e90baf54f3a2e220383f5c50f0cbb714787cc3ea2ad417dcfc6a",
+    "audit/tools/f3_int115_consolidate_final.py": "ef31c1eeea703f73ba1ff8bc88943c82aa8cb8f55d41853537b8cc348ca22360",
+    "audit/tools/f3_int115_investigate_identity.py": "319a726cde68f970ab87cbd1c3a886c6a0f1530ce2ce2129e9c0ba806c13948e",
+    "audit/tools/f3_int115_multiprocess_recovery.py": "ff92b7a3fa53c63e8c50bc5815a8e07880155eac3340b14e699c62a5cb7afd64",
+    "audit/tools/f3_int115_process_control.py": "05b44e551c2ba62696670be1692361b6213ddafbe2287b7767acb5e7bfd68c27",
+    "audit/tools/f3_int115_process_identity.py": "935e1dbd03ad2e3d60674ecb181fa8a62807aa76ab4c5e32cbcc7a81023e27f8",
+    "audit/tools/f3_int115_run_candidate.py": "b01a1ad10f8a0374ed30c8f21c63c111e3bebfe5a8d5c37544b2faf45e88391b",
+    "audit/tools/f3_int115_technical_audit_20261023.py": "95ff29c309f88f3ac5fdf6865d38176c62abba9f71e700bdd30f23dfb9434046"
+  }
+}

@@ -1,0 +1,1 @@
+F3-INT-114 ainda não implementada. Prioridades: custódia externa verificável, lacunas TOCTOU, contenção multiprocesso, ACK perdido e limites físicos de durabilidade. Manter F3 OPEN e todos os bloqueios false.

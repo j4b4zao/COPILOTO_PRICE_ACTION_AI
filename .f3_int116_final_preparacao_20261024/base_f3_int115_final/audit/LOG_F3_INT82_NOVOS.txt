@@ -1,0 +1,18 @@
+test_atomic_success (test_f3_int82_atomic_package_witness_batch.PackageBatchTests.test_atomic_success) ... ok
+test_byte_limit (test_f3_int82_atomic_package_witness_batch.PackageBatchTests.test_byte_limit) ... ok
+test_cross_batch_replay (test_f3_int82_atomic_package_witness_batch.PackageBatchTests.test_cross_batch_replay) ... ok
+test_different_package_same_witness (test_f3_int82_atomic_package_witness_batch.PackageBatchTests.test_different_package_same_witness) ... ok
+test_duplicate_canonical_witness (test_f3_int82_atomic_package_witness_batch.PackageBatchTests.test_duplicate_canonical_witness) ... ok
+test_flags (test_f3_int82_atomic_package_witness_batch.PackageBatchTests.test_flags) ... ok
+test_formatting_does_not_evade_registry (test_f3_int82_atomic_package_witness_batch.PackageBatchTests.test_formatting_does_not_evade_registry) ... ok
+test_invalid_bound (test_f3_int82_atomic_package_witness_batch.PackageBatchTests.test_invalid_bound) ... ok
+test_invalid_registry (test_f3_int82_atomic_package_witness_batch.PackageBatchTests.test_invalid_registry) ... ok
+test_invalid_requests (test_f3_int82_atomic_package_witness_batch.PackageBatchTests.test_invalid_requests) ... ok
+test_reset_registry_limit_demonstrated (test_f3_int82_atomic_package_witness_batch.PackageBatchTests.test_reset_registry_limit_demonstrated) ... ok
+test_wrong_package_digest_tail_atomic (test_f3_int82_atomic_package_witness_batch.PackageBatchTests.test_wrong_package_digest_tail_atomic) ... ok
+test_wrong_pin_tail_atomic (test_f3_int82_atomic_package_witness_batch.PackageBatchTests.test_wrong_pin_tail_atomic) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 3.767s
+
+OK

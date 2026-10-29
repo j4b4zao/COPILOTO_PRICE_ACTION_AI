@@ -1,0 +1,72 @@
+MULTITIMEFRAME CONFLICT SAFETY GATE RC3.6 - auditoria offline 2026-10-03
+STATUS=PASS
+PASS refere-se aos criterios desta tarefa. A suite completa conserva cinco falhas antigas explicitamente classificadas abaixo.
+HEAD_BEFORE=5374135842fe42980872fd58be4709c1ef540d74
+HEAD_AFTER=5374135842fe42980872fd58be4709c1ef540d74
+BRANCH=brooks-stop-target-exact-audit-20260912
+DECISION_VERSION_BEFORE=RC9.2
+DECISION_VERSION_AFTER=RC9.3-MTF-CONFLICT-SAFETY-RC3.6
+FILES_MODIFIED=decision/decision_engine.py; tests/test_multi_timeframe_contract_audit_rc1.py
+FILES_CREATED=tests/test_multi_timeframe_conflict_safety_gate_rc36.py; saida_multitimeframe_conflict_safety_gate_rc36_20261003.txt
+GATE_RULE_IMPLEMENTED=apos preservar valid=false como informativo, multi_timeframe.conflict verdadeiro bloqueia operacao direcional com Decision WAIT; Alert existente produz NONE e nao aprovado. Gates legados CONFLICT e BUY/SELL opostos permanecem.
+USES_CONFLICT_BOOLEAN=true
+DEPENDS_ONLY_ON_ALIGNMENT_STRING=false
+CONFLICT_M5_BUY_RESULT=Decision WAIT; approved=false; Alert NONE; valid=false
+CONFLICT_M5_SELL_RESULT=Decision WAIT; approved=false; Alert NONE; valid=false
+CONFLICT_M1_BUY_RESULT=Decision WAIT; approved=false; Alert NONE; valid=false
+CONFLICT_M1_SELL_RESULT=Decision WAIT; approved=false; Alert NONE; valid=false
+CONFLICT_REGIME_BUY_RESULT=Decision WAIT; approved=false; Alert NONE; valid=false
+CONFLICT_REGIME_SELL_RESULT=Decision WAIT; approved=false; Alert NONE; valid=false
+UNKNOWN_ALIGNMENT_CONFLICT_TRUE_RESULT=AUDIT_UNKNOWN bloqueia BUY e SELL com WAIT / NONE
+BUY_ALIGNED_RESULT=Decision BUY; Alert BUY; aprovacao preservada
+SELL_ALIGNED_RESULT=Decision SELL; Alert SELL; aprovacao preservada
+INSUFFICIENT_DATA_VALID_FALSE_RESULT=informativo; BUY/SELL e respectivos Alert preservados em contexto elegivel
+INVALID_CONFLICT_TRUE_RESULT=informativo; BUY/SELL preservados, pois valid=false precede o gate
+WAIT_CONTEXT_BEHAVIOR=conflict=false preserva BUY/SELL e Alert correspondentes em contexto elegivel
+WAIT_M5_BEHAVIOR=conflict=false preserva BUY/SELL e Alert correspondentes em contexto elegivel
+WAIT_TRIGGER_BEHAVIOR=conflict=false preserva BUY/SELL e Alert correspondentes em contexto elegivel
+WAIT_REGIME_BEHAVIOR=conflict=false preserva BUY/SELL e Alert correspondentes em contexto elegivel
+WAIT_POLICY_CHANGED=false
+LEGACY_CONFLICT_BEHAVIOR=WAIT / NONE preservados mesmo com conflict=false
+OPPOSITE_BUY_SELL_BEHAVIOR=WAIT / NONE preservados
+SAFETY_GATE_TESTS=34 passed; 0 failed
+SAFETY_GATE_TEST_COUNTS=34 passed; 0 failed
+CONTRACT_CHARACTERIZATION_TEST_COUNTS=286 passed; 0 failed
+EXISTING_TEST_COUNTS=327 passed; 5 failed (286 caracterizacao + 41 demais testes antigos aprovados)
+TOTAL_TEST_COUNTS=361 passed; 5 failed; 366 total; 5.90s
+PRODUCER_SEMANTICS_STALE_TESTS=2
+  tests/test_multi_timeframe_e2e_rc36.py::teste_wait_preserva_operacao_valida - BUY produzido versus WAIT esperado; fixture antiga
+  tests/test_multi_timeframe_analysis_rc32.py::teste_aguarda_timeframe_lateral - BUY produzido versus WAIT esperado; fixture antiga
+LEGACY_ALIGNMENT_STRING_EXPECTATION_FAILURES=3
+  tests/test_multi_timeframe_e2e_rc36.py::teste_candles_em_conflito_bloqueiam_alerta - CONFLICT_M5 versus CONFLICT; falha anterior a verificacao de Decision/Alert
+  tests/test_multi_timeframe_analysis_rc32.py::teste_conflito_direcional - CONFLICT_M5 versus CONFLICT
+  tests/test_multi_timeframe_analysis_rc32.py::teste_resultado_informativo_nao_altera_decisao - CONFLICT_REGIME versus CONFLICT
+UNEXPECTED_FAILURES=0
+REGRESSION_COMPARISON=mesmas cinco falhas antigas da auditoria anterior; nenhuma falha nova
+TEST_EXECUTION=Python313 -m pytest, offline, PYTHONDONTWRITEBYTECODE=1, -q --basetemp temporario exclusivo -p no:cacheprovider --tb=short
+TEST_FILES=tests/test_multi_timeframe_e2e_rc36.py; tests/test_multi_timeframe_analysis_rc32.py; tests/test_multi_timeframe_state_rc30.py; tests/test_multi_timeframe_rc3_3.py; tests/test_multi_timeframe_rc3_4_regime_bridge.py; tests/test_multi_timeframe_monitor_rc34.py; tests/test_multi_timeframe_contract_audit_rc1.py; tests/test_multi_timeframe_conflict_safety_gate_rc36.py
+TEST_LIST_NOTE=test_multi_timeframe_analysis_rc32.py estava duplicado na solicitacao e foi executado uma vez na suite
+TEST_DATA=estados sinteticos; inclui conflitos reais produzidos por M5, M1 e regime em BUY e SELL
+CODE_OPERATIONAL_CHANGED=true
+DECISION_CHANGED=true
+ALERT_CHANGED=false
+SCORE_CHANGED=false
+RISK_CHANGED=false
+STRATEGY_CHANGED=false
+COLLECTOR_CHANGED=false
+MTF_PRODUCER_CHANGED=false
+MTF_STATE_CHANGED=false
+CONTEXT_ENGINE_CHANGED=false
+RC17_CHANGED=false
+SESSION19_23_EXECUTED=false
+COLLECTOR_EXECUTED=false
+REAL_MARKET_DATA_USED=false
+STAGE_COMMIT_PUSH_EXECUTED=false
+PROTECTED_FILES_PRESERVED=true
+PROTECTED_VERIFICATION=SHA256 antes/depois identico para arquivos rastreados Python/JSON (exceto Decision) e Profit.xlsx, livroOfertas.xlsx, times&trades.xlsx, saida.txt; inclui connectors/excel_connector.py
+PROTECTED_AGGREGATE_SHA256_BEFORE=748D76880AB988A4F2F314912F2F06268983CFCECD12B0EF50B20C3EB8F0BB13
+PROTECTED_AGGREGATE_SHA256_AFTER=748D76880AB988A4F2F314912F2F06268983CFCECD12B0EF50B20C3EB8F0BB13
+RC17_PROTOCOL_SHA256=2A278E7C4C438098D9CE167A778F7386A09B341A555A73E322598215150EBDB3
+PREEXISTING_LOCAL_CHANGES=preservadas; nenhuma restauracao ou limpeza executada
+STAGED_DIFF=empty
+FINAL=correcao minima auditada; fixtures antigas e politica WAIT_* mantidas; trabalho encerrado apos este relatorio

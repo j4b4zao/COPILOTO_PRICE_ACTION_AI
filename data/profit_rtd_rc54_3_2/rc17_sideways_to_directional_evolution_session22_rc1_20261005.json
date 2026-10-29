@@ -1,0 +1,82 @@
+{
+  "evaluator_version": "RC1-RC17-SIDEWAYS-TO-DIRECTIONAL-EVOLUTION-EVALUATOR",
+  "session_id": 22,
+  "protocol": {
+    "version": "RC1-RC17-SIDEWAYS-TO-DIRECTIONAL-EVOLUTION-PROTOCOL",
+    "sha256": "2a278e7c4c438098d9ce167a778f7386a09b341a555a73e322598215150ebdb3"
+  },
+  "raw": {
+    "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20261005_120328.json",
+    "filename": "profit_rtd_rc54_3_2_WINV26_20261005_120328.json",
+    "sha256": "5a2f640c0d18d3dcded12e491c77fe69e9df3e2b9c5724f0ea12676dc600a884",
+    "size": 6839180
+  },
+  "capture_summary": {
+    "symbol": "WINV26",
+    "requested_cycles": 600,
+    "total_cycles": 600,
+    "analyzable_samples": 254,
+    "skipped_cycles": 346,
+    "errors": 0
+  },
+  "integrity": {
+    "valid": true,
+    "failures": [],
+    "raw_sha_before": "5a2f640c0d18d3dcded12e491c77fe69e9df3e2b9c5724f0ea12676dc600a884",
+    "raw_sha_after": "5a2f640c0d18d3dcded12e491c77fe69e9df3e2b9c5724f0ea12676dc600a884",
+    "raw_unchanged": true
+  },
+  "state_counts": {
+    "TREND_COUNTS": {
+      "UP": 0,
+      "DOWN": 0,
+      "SIDEWAYS": 254,
+      "UNKNOWN": 0
+    },
+    "PA_BIAS_COUNTS": {
+      "BUY": 0,
+      "SELL": 0,
+      "NONE": 254
+    },
+    "total_analyzed_samples": 254,
+    "sideways_none_samples": 254,
+    "up_buy_samples": 0,
+    "down_sell_samples": 0,
+    "unknown_none_samples": 0
+  },
+  "swing_state_counts": {
+    "SAMPLES_WITH_HIGH_ONLY": 64,
+    "SAMPLES_WITH_LOW_ONLY": 0,
+    "SAMPLES_WITH_BOTH_SWING_TYPES": 190,
+    "SAMPLES_WITH_NO_SWINGS": 0
+  },
+  "transition_counts": {
+    "UP_TO_UP": 0,
+    "UP_TO_DOWN": 0,
+    "UP_TO_SIDEWAYS": 0,
+    "DOWN_TO_UP": 0,
+    "DOWN_TO_DOWN": 0,
+    "DOWN_TO_SIDEWAYS": 0,
+    "SIDEWAYS_TO_UP": 0,
+    "SIDEWAYS_TO_DOWN": 0,
+    "SIDEWAYS_TO_SIDEWAYS": 253
+  },
+  "unknown_transition_counts": {
+    "UP_TO_UNKNOWN": 0,
+    "DOWN_TO_UNKNOWN": 0,
+    "SIDEWAYS_TO_UNKNOWN": 0,
+    "UNKNOWN_TO_UP": 0,
+    "UNKNOWN_TO_DOWN": 0,
+    "UNKNOWN_TO_SIDEWAYS": 0,
+    "UNKNOWN_TO_UNKNOWN": 0
+  },
+  "primary_event_count": 0,
+  "primary_events": [],
+  "session_classification": "NO_DIRECTIONAL_TRANSITION_OBSERVED",
+  "research_only": true,
+  "descriptive_only": true,
+  "predictive_validation": false,
+  "causal_validation": false,
+  "operational_promotion": false,
+  "threshold_optimization": false
+}

@@ -1,0 +1,23 @@
+{
+  "command": [
+    "C:\\Users\\jb\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_f3_int115_*.py",
+    "-v"
+  ],
+  "timed_out": false,
+  "exception": null,
+  "exit_code": 0,
+  "cleanup": {
+    "active_processes": 0,
+    "live_io_threads": [],
+    "direct_exit_code": 0
+  },
+  "seconds": 97.732
+}

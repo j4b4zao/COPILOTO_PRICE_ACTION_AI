@@ -1,0 +1,549 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-PA-BOOK-OPPORTUNITY-AUDIT",
+  "status": "PA_BOOK_OPPORTUNITY_AUDIT_COMPLETED",
+  "mode": "FROZEN_10_SESSION_RETROSPECTIVE_RESEARCH_AUDIT",
+  "session_count": 10,
+  "sessions": [
+    {
+      "label": "FROZEN_SESSION_01",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260921_130942.json",
+        "sha256": "a85544271ff2ac693535ae6ed1e6effb033846f7f1ff63d24208d69159337427"
+      },
+      "samples": 292,
+      "pa_directional": 292,
+      "book_directional": 49,
+      "simultaneous_directional": 49,
+      "aligned": 41,
+      "opposed": 8,
+      "pa_buy_book_buy": 41,
+      "pa_sell_book_sell": 0,
+      "pa_buy_book_sell": 8,
+      "pa_sell_book_buy": 0,
+      "pa_directional_book_none": 243,
+      "canonical_conflict_samples": 27,
+      "simultaneous_canonical_conflict": 11,
+      "aligned_canonical_conflict": 3,
+      "opposed_canonical_conflict": 8,
+      "aligned_rate_among_simultaneous": 0.8367346938775511,
+      "opposed_rate_among_simultaneous": 0.16326530612244897,
+      "relationship_matrix": [
+        {
+          "price_action_bias": "BUY",
+          "book_direction": "BUY",
+          "count": 41
+        },
+        {
+          "price_action_bias": "BUY",
+          "book_direction": "NONE",
+          "count": 243
+        },
+        {
+          "price_action_bias": "BUY",
+          "book_direction": "SELL",
+          "count": 8
+        }
+      ],
+      "interpretation": {
+        "unit": "SAMPLE",
+        "opportunity_definition": "price_action_bias and book_direction are both BUY or SELL",
+        "conflict_source": "canonical conflict_count > 0 only",
+        "opposed_does_not_imply_canonical_conflict": true,
+        "episode_equivalence_claim_allowed": false
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_02",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260921_163046.json",
+        "sha256": "a3b74ad03c9338d28e0d81cf261e0c6d70d49ff4d20ca14e623695562ab90aa4"
+      },
+      "samples": 343,
+      "pa_directional": 343,
+      "book_directional": 150,
+      "simultaneous_directional": 150,
+      "aligned": 64,
+      "opposed": 86,
+      "pa_buy_book_buy": 64,
+      "pa_sell_book_sell": 0,
+      "pa_buy_book_sell": 86,
+      "pa_sell_book_buy": 0,
+      "pa_directional_book_none": 193,
+      "canonical_conflict_samples": 96,
+      "simultaneous_canonical_conflict": 90,
+      "aligned_canonical_conflict": 4,
+      "opposed_canonical_conflict": 86,
+      "aligned_rate_among_simultaneous": 0.4266666666666667,
+      "opposed_rate_among_simultaneous": 0.5733333333333334,
+      "relationship_matrix": [
+        {
+          "price_action_bias": "BUY",
+          "book_direction": "BUY",
+          "count": 64
+        },
+        {
+          "price_action_bias": "BUY",
+          "book_direction": "NONE",
+          "count": 193
+        },
+        {
+          "price_action_bias": "BUY",
+          "book_direction": "SELL",
+          "count": 86
+        }
+      ],
+      "interpretation": {
+        "unit": "SAMPLE",
+        "opportunity_definition": "price_action_bias and book_direction are both BUY or SELL",
+        "conflict_source": "canonical conflict_count > 0 only",
+        "opposed_does_not_imply_canonical_conflict": true,
+        "episode_equivalence_claim_allowed": false
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_03",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260922_130220.json",
+        "sha256": "7c98319547891f0d53575fe8956e872b9b9681626b31b48ed26b25b62e6d56cd"
+      },
+      "samples": 268,
+      "pa_directional": 182,
+      "book_directional": 1,
+      "simultaneous_directional": 1,
+      "aligned": 1,
+      "opposed": 0,
+      "pa_buy_book_buy": 1,
+      "pa_sell_book_sell": 0,
+      "pa_buy_book_sell": 0,
+      "pa_sell_book_buy": 0,
+      "pa_directional_book_none": 181,
+      "canonical_conflict_samples": 7,
+      "simultaneous_canonical_conflict": 0,
+      "aligned_canonical_conflict": 0,
+      "opposed_canonical_conflict": 0,
+      "aligned_rate_among_simultaneous": 1.0,
+      "opposed_rate_among_simultaneous": 0.0,
+      "relationship_matrix": [
+        {
+          "price_action_bias": "BUY",
+          "book_direction": "BUY",
+          "count": 1
+        },
+        {
+          "price_action_bias": "BUY",
+          "book_direction": "NONE",
+          "count": 181
+        },
+        {
+          "price_action_bias": "NONE",
+          "book_direction": "NONE",
+          "count": 86
+        }
+      ],
+      "interpretation": {
+        "unit": "SAMPLE",
+        "opportunity_definition": "price_action_bias and book_direction are both BUY or SELL",
+        "conflict_source": "canonical conflict_count > 0 only",
+        "opposed_does_not_imply_canonical_conflict": true,
+        "episode_equivalence_claim_allowed": false
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_04",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_103430.json",
+        "sha256": "137a74aeaa3d167e49c82203d738fbbac0d1a0c25797630b750dfcb9804b735b"
+      },
+      "samples": 279,
+      "pa_directional": 127,
+      "book_directional": 74,
+      "simultaneous_directional": 48,
+      "aligned": 0,
+      "opposed": 48,
+      "pa_buy_book_buy": 0,
+      "pa_sell_book_sell": 0,
+      "pa_buy_book_sell": 0,
+      "pa_sell_book_buy": 48,
+      "pa_directional_book_none": 79,
+      "canonical_conflict_samples": 53,
+      "simultaneous_canonical_conflict": 48,
+      "aligned_canonical_conflict": 0,
+      "opposed_canonical_conflict": 48,
+      "aligned_rate_among_simultaneous": 0.0,
+      "opposed_rate_among_simultaneous": 1.0,
+      "relationship_matrix": [
+        {
+          "price_action_bias": "NONE",
+          "book_direction": "BUY",
+          "count": 24
+        },
+        {
+          "price_action_bias": "NONE",
+          "book_direction": "NONE",
+          "count": 126
+        },
+        {
+          "price_action_bias": "NONE",
+          "book_direction": "SELL",
+          "count": 2
+        },
+        {
+          "price_action_bias": "SELL",
+          "book_direction": "BUY",
+          "count": 48
+        },
+        {
+          "price_action_bias": "SELL",
+          "book_direction": "NONE",
+          "count": 79
+        }
+      ],
+      "interpretation": {
+        "unit": "SAMPLE",
+        "opportunity_definition": "price_action_bias and book_direction are both BUY or SELL",
+        "conflict_source": "canonical conflict_count > 0 only",
+        "opposed_does_not_imply_canonical_conflict": true,
+        "episode_equivalence_claim_allowed": false
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_05",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_123103.json",
+        "sha256": "e670e7f2a7ef4c1472b0cb9ac23c9ce9cd9a85e3b46801a00d4ed2205388d1ef"
+      },
+      "samples": 266,
+      "pa_directional": 266,
+      "book_directional": 14,
+      "simultaneous_directional": 14,
+      "aligned": 14,
+      "opposed": 0,
+      "pa_buy_book_buy": 14,
+      "pa_sell_book_sell": 0,
+      "pa_buy_book_sell": 0,
+      "pa_sell_book_buy": 0,
+      "pa_directional_book_none": 252,
+      "canonical_conflict_samples": 23,
+      "simultaneous_canonical_conflict": 0,
+      "aligned_canonical_conflict": 0,
+      "opposed_canonical_conflict": 0,
+      "aligned_rate_among_simultaneous": 1.0,
+      "opposed_rate_among_simultaneous": 0.0,
+      "relationship_matrix": [
+        {
+          "price_action_bias": "BUY",
+          "book_direction": "BUY",
+          "count": 14
+        },
+        {
+          "price_action_bias": "BUY",
+          "book_direction": "NONE",
+          "count": 252
+        }
+      ],
+      "interpretation": {
+        "unit": "SAMPLE",
+        "opportunity_definition": "price_action_bias and book_direction are both BUY or SELL",
+        "conflict_source": "canonical conflict_count > 0 only",
+        "opposed_does_not_imply_canonical_conflict": true,
+        "episode_equivalence_claim_allowed": false
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_06",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_131852.json",
+        "sha256": "df5c37773747d4ae1131c15d12cea99ab9e4f07438b39b4e7d7b52cc018b827c"
+      },
+      "samples": 268,
+      "pa_directional": 106,
+      "book_directional": 139,
+      "simultaneous_directional": 90,
+      "aligned": 90,
+      "opposed": 0,
+      "pa_buy_book_buy": 90,
+      "pa_sell_book_sell": 0,
+      "pa_buy_book_sell": 0,
+      "pa_sell_book_buy": 0,
+      "pa_directional_book_none": 16,
+      "canonical_conflict_samples": 7,
+      "simultaneous_canonical_conflict": 4,
+      "aligned_canonical_conflict": 4,
+      "opposed_canonical_conflict": 0,
+      "aligned_rate_among_simultaneous": 1.0,
+      "opposed_rate_among_simultaneous": 0.0,
+      "relationship_matrix": [
+        {
+          "price_action_bias": "BUY",
+          "book_direction": "BUY",
+          "count": 90
+        },
+        {
+          "price_action_bias": "BUY",
+          "book_direction": "NONE",
+          "count": 16
+        },
+        {
+          "price_action_bias": "NONE",
+          "book_direction": "BUY",
+          "count": 38
+        },
+        {
+          "price_action_bias": "NONE",
+          "book_direction": "NONE",
+          "count": 113
+        },
+        {
+          "price_action_bias": "NONE",
+          "book_direction": "SELL",
+          "count": 11
+        }
+      ],
+      "interpretation": {
+        "unit": "SAMPLE",
+        "opportunity_definition": "price_action_bias and book_direction are both BUY or SELL",
+        "conflict_source": "canonical conflict_count > 0 only",
+        "opposed_does_not_imply_canonical_conflict": true,
+        "episode_equivalence_claim_allowed": false
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_07",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_151347.json",
+        "sha256": "079038c684e952a0412d0f32c699e93b6d015359eb368ca0f5345360a98d8200"
+      },
+      "samples": 257,
+      "pa_directional": 187,
+      "book_directional": 9,
+      "simultaneous_directional": 4,
+      "aligned": 0,
+      "opposed": 4,
+      "pa_buy_book_buy": 0,
+      "pa_sell_book_sell": 0,
+      "pa_buy_book_sell": 0,
+      "pa_sell_book_buy": 4,
+      "pa_directional_book_none": 183,
+      "canonical_conflict_samples": 15,
+      "simultaneous_canonical_conflict": 4,
+      "aligned_canonical_conflict": 0,
+      "opposed_canonical_conflict": 4,
+      "aligned_rate_among_simultaneous": 0.0,
+      "opposed_rate_among_simultaneous": 1.0,
+      "relationship_matrix": [
+        {
+          "price_action_bias": "NONE",
+          "book_direction": "NONE",
+          "count": 65
+        },
+        {
+          "price_action_bias": "NONE",
+          "book_direction": "SELL",
+          "count": 5
+        },
+        {
+          "price_action_bias": "SELL",
+          "book_direction": "BUY",
+          "count": 4
+        },
+        {
+          "price_action_bias": "SELL",
+          "book_direction": "NONE",
+          "count": 183
+        }
+      ],
+      "interpretation": {
+        "unit": "SAMPLE",
+        "opportunity_definition": "price_action_bias and book_direction are both BUY or SELL",
+        "conflict_source": "canonical conflict_count > 0 only",
+        "opposed_does_not_imply_canonical_conflict": true,
+        "episode_equivalence_claim_allowed": false
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_08",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260924_164534.json",
+        "sha256": "403fc536ce8659708c2abdef09bc07dd895e32ce15a8d6b33e1b5a237657eeb8"
+      },
+      "samples": 241,
+      "pa_directional": 241,
+      "book_directional": 0,
+      "simultaneous_directional": 0,
+      "aligned": 0,
+      "opposed": 0,
+      "pa_buy_book_buy": 0,
+      "pa_sell_book_sell": 0,
+      "pa_buy_book_sell": 0,
+      "pa_sell_book_buy": 0,
+      "pa_directional_book_none": 241,
+      "canonical_conflict_samples": 4,
+      "simultaneous_canonical_conflict": 0,
+      "aligned_canonical_conflict": 0,
+      "opposed_canonical_conflict": 0,
+      "aligned_rate_among_simultaneous": null,
+      "opposed_rate_among_simultaneous": null,
+      "relationship_matrix": [
+        {
+          "price_action_bias": "BUY",
+          "book_direction": "NONE",
+          "count": 241
+        }
+      ],
+      "interpretation": {
+        "unit": "SAMPLE",
+        "opportunity_definition": "price_action_bias and book_direction are both BUY or SELL",
+        "conflict_source": "canonical conflict_count > 0 only",
+        "opposed_does_not_imply_canonical_conflict": true,
+        "episode_equivalence_claim_allowed": false
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_09",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260925_124732.json",
+        "sha256": "ede8e44c46e31185efe325690db5fcce6110bdae0cf9a78fdd0936ac78b4132f"
+      },
+      "samples": 289,
+      "pa_directional": 96,
+      "book_directional": 0,
+      "simultaneous_directional": 0,
+      "aligned": 0,
+      "opposed": 0,
+      "pa_buy_book_buy": 0,
+      "pa_sell_book_sell": 0,
+      "pa_buy_book_sell": 0,
+      "pa_sell_book_buy": 0,
+      "pa_directional_book_none": 96,
+      "canonical_conflict_samples": 6,
+      "simultaneous_canonical_conflict": 0,
+      "aligned_canonical_conflict": 0,
+      "opposed_canonical_conflict": 0,
+      "aligned_rate_among_simultaneous": null,
+      "opposed_rate_among_simultaneous": null,
+      "relationship_matrix": [
+        {
+          "price_action_bias": "NONE",
+          "book_direction": "NONE",
+          "count": 193
+        },
+        {
+          "price_action_bias": "SELL",
+          "book_direction": "NONE",
+          "count": 96
+        }
+      ],
+      "interpretation": {
+        "unit": "SAMPLE",
+        "opportunity_definition": "price_action_bias and book_direction are both BUY or SELL",
+        "conflict_source": "canonical conflict_count > 0 only",
+        "opposed_does_not_imply_canonical_conflict": true,
+        "episode_equivalence_claim_allowed": false
+      }
+    },
+    {
+      "label": "FROZEN_SESSION_10",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260925_133534.json",
+        "sha256": "1034540eb18f5389d105360619913afbcab2ce705472dcb2d68e4b569def91c3"
+      },
+      "samples": 243,
+      "pa_directional": 107,
+      "book_directional": 0,
+      "simultaneous_directional": 0,
+      "aligned": 0,
+      "opposed": 0,
+      "pa_buy_book_buy": 0,
+      "pa_sell_book_sell": 0,
+      "pa_buy_book_sell": 0,
+      "pa_sell_book_buy": 0,
+      "pa_directional_book_none": 107,
+      "canonical_conflict_samples": 9,
+      "simultaneous_canonical_conflict": 0,
+      "aligned_canonical_conflict": 0,
+      "opposed_canonical_conflict": 0,
+      "aligned_rate_among_simultaneous": null,
+      "opposed_rate_among_simultaneous": null,
+      "relationship_matrix": [
+        {
+          "price_action_bias": "NONE",
+          "book_direction": "NONE",
+          "count": 136
+        },
+        {
+          "price_action_bias": "SELL",
+          "book_direction": "NONE",
+          "count": 107
+        }
+      ],
+      "interpretation": {
+        "unit": "SAMPLE",
+        "opportunity_definition": "price_action_bias and book_direction are both BUY or SELL",
+        "conflict_source": "canonical conflict_count > 0 only",
+        "opposed_does_not_imply_canonical_conflict": true,
+        "episode_equivalence_claim_allowed": false
+      }
+    }
+  ],
+  "aggregate": {
+    "samples": 2746,
+    "pa_directional": 1947,
+    "book_directional": 436,
+    "simultaneous_directional": 356,
+    "aligned": 210,
+    "opposed": 146,
+    "pa_buy_book_buy": 210,
+    "pa_sell_book_sell": 0,
+    "pa_buy_book_sell": 94,
+    "pa_sell_book_buy": 52,
+    "pa_directional_book_none": 1591,
+    "canonical_conflict_samples": 247,
+    "simultaneous_canonical_conflict": 157,
+    "aligned_canonical_conflict": 11,
+    "opposed_canonical_conflict": 146,
+    "aligned_rate_among_simultaneous": 0.5898876404494382,
+    "opposed_rate_among_simultaneous": 0.4101123595505618
+  },
+  "frozen_checkpoint_session_count": 10,
+  "checkpoint_extended": false,
+  "independent_sessions_appended": false,
+  "combined_session_count": null,
+  "combined_checkpoint_created": false,
+  "cohort_redefinition": false,
+  "unit_separation": {
+    "this_audit_unit": "SAMPLE",
+    "frozen_opposed_episode_count": 17,
+    "episode_count_used_as_sample_count": false,
+    "sample_count_used_as_episode_count": false,
+    "sample_episode_equivalence_claim_allowed": false
+  },
+  "interpretation": "DESCRIPTIVE_ONLY",
+  "interpretation_limits": [
+    "DESCRIPTIVE_ONLY",
+    "SAMPLE_LEVEL_OPPORTUNITIES_ARE_NOT_EPISODES",
+    "146_OPPOSED_SAMPLES_MUST_NOT_BE_EQUATED_WITH_17_OPPOSED_EPISODES",
+    "CANONICAL_CONFLICT_COMES_ONLY_FROM_CONFLICT_COUNT",
+    "NO_PREDICTIVE_CLAIM",
+    "NO_THRESHOLD_CHANGE_ALLOWED",
+    "NO_RC17_CHANGE_ALLOWED",
+    "NO_OPERATIONAL_INFERENCE_ALLOWED",
+    "FROZEN_10_SESSION_CHECKPOINT_IS_NOT_EXTENDED",
+    "INDEPENDENT_SESSIONS_11_AND_12_ARE_NOT_APPENDED"
+  ],
+  "research_only": true,
+  "observational_only": true,
+  "descriptive_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false,
+  "threshold_change_allowed": false,
+  "rc17_change_allowed": false,
+  "order_flow_score_change_allowed": false,
+  "threshold_changed": false,
+  "rc17_changed": false,
+  "operational_logic_changed": false
+}

@@ -1,0 +1,38 @@
+{
+  "last_completed": "F3-INT-107",
+  "status": "OFFLINE_REGRESSION_APPROVED",
+  "new_tests": {
+    "passed": 18,
+    "failed": 0,
+    "exit_code": 0,
+    "seconds": 100.352,
+    "source": "saida(20261021-214145).txt (user Windows run)"
+  },
+  "regression": {
+    "passed": 1277,
+    "failed": 0,
+    "exit_code": 0,
+    "seconds": 480.411,
+    "source": "saida(20261021-214145).txt (user Windows run)"
+  },
+  "validated_candidate_sha256": "b51954c39f14aa0cce4332ee102ae5d37f886fa06d161477c8322014f98a4f70",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "next_step": "F3-INT-108: review interbatch replay and prefix truncation scenarios offline",
+  "pending": [
+    "Origin authentication, persistence, consensus and real fencing remain unverified.",
+    "Bounded model explorations are not exhaustive.",
+    "No live trading authorization."
+  ]
+}

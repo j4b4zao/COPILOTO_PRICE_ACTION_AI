@@ -1,0 +1,10 @@
+{
+  "original_runs": 50,
+  "original_failures": 22,
+  "original_errors": 6,
+  "pinned_runs": 100,
+  "termination_race_same_handle": 99,
+  "generic_pid_running": 99,
+  "pid_reuse_observed": 0,
+  "all_pinned_handles_eventually_signaled": true
+}

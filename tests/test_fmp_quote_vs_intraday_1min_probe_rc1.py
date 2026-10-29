@@ -182,3 +182,47 @@ def test_comparator_rejects_invalid_reference_before_network(timestamp):
     with pytest.raises(ValueError):
         run(enabled=True, reference_timestamp=timestamp,
             maximum_staleness_seconds=3600, fmp_api_key="test")
+
+
+@pytest.mark.parametrize("quote_state", ["FUTURE", "STALE", "UNAVAILABLE"])
+@pytest.mark.parametrize("intraday_state", ["FRESH", "HTTP_402"])
+def test_intraday_never_replaces_unusable_quote(quote_state, intraday_state):
+    from datetime import datetime, timedelta
+    from urllib.error import HTTPError
+
+    reference = datetime.fromisoformat("2026-10-07T13:56:25+00:00")
+    calls = []
+
+    def quote(request, timeout):
+        calls.append(("quote", _symbol(request)))
+        if quote_state == "UNAVAILABLE":
+            return _Response([])
+        age = -1 if quote_state == "FUTURE" else 3601
+        return _Response([{"symbol": _symbol(request), "price": 100,
+                           "changePercentage": 1,
+                           "timestamp": (reference - timedelta(seconds=age)).timestamp()}])
+
+    def minute(request, timeout):
+        calls.append(("minute", _symbol(request)))
+        if intraday_state == "HTTP_402":
+            raise HTTPError(request.full_url, 402, "restricted", {}, None)
+        return _Response([{"date": reference.isoformat(), "close": 999}])
+
+    result = run(enabled=True, reference_timestamp=reference.isoformat(),
+                 maximum_staleness_seconds=3600, fmp_api_key="offline",
+                 quote_opener=quote, intraday_opener=minute)
+    assert calls == [(source, symbol) for symbol in ("^GSPC", "^IXIC", "^VIX")
+                     for source in ("quote", "minute")]
+    assert result["operational_influence_allowed"] is False
+    for row in result["rows"]:
+        assert set(row) == {"symbol", "quote", "intraday_1min"}
+        if quote_state == "UNAVAILABLE":
+            assert row["quote"] is None
+        else:
+            assert row["quote"]["status"] == quote_state
+            assert row["quote"]["price"] == 100
+        if intraday_state == "HTTP_402":
+            assert row["intraday_1min"] == {"status": "HTTP_ERROR", "http_status": 402}
+        else:
+            assert row["intraday_1min"]["status"] == "FRESH"
+            assert row["intraday_1min"]["close"] == 999

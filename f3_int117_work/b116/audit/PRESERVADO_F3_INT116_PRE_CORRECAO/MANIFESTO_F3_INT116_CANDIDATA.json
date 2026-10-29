@@ -1,0 +1,29 @@
+{
+  "stage": "F3-INT-116",
+  "checkpoint_type": "CANDIDATE_FOR_REVIEW",
+  "f3": "OPEN",
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "promoted": false,
+  "files_sha256": {
+    "EVIDENCIAS_F3_INT116/ANTES.json": "7098438f113345cc37a1d62b8ad59ae35ede9c0b0d1901d98742b8292138ebc8",
+    "EVIDENCIAS_F3_INT116/ESPECIFICOS.log": "5ecc6e1b4f27de2cbe1351b46f6ac710c990b48c63745f11a3e96a0c604a0f21",
+    "EVIDENCIAS_F3_INT116/ESPECIFICOS.log.execution.json": "b6dfd50a7d0f7e7c95db79915fc3b4865d0d00aa23682fd759f93e6aad826f6d",
+    "EVIDENCIAS_F3_INT116/REGRESSAO_COMPLETA.log": "df256eb2e70337e5e484ad964e7c76e08c7a4984d1f7feb696374b5043e67423",
+    "EVIDENCIAS_F3_INT116/REGRESSAO_COMPLETA.log.execution.json": "a1cbe91e8a783fbb2d6e32b417626df5af08c5767dddf362ff231ee24d24ae1f",
+    "EVIDENCIAS_F3_INT116/RESULTADO.json": "3b2768e4e89715a3881de22a748378e7a594817298ad618ffe9fd7d92d8a9a7d",
+    "tests/test_f3_int116_commit_recovery.py": "42ef0d75108969f16ec61b7598561b30bd8b38e2cb8c7ff4a60a975d51f195a3",
+    "tools/f3_int116_commit_recovery.py": "73d23aaec864d34a81c187af6fb6d2ced5d71cc4d5da255b05775c44ca989d06",
+    "tools/f3_int116_run_audit.py": "e1596e4055cc93014f322ee3de37bf4ec9136e44d69a8ecae8f2fbf39fa452b4",
+    "ESPECIFICOS_F3_INT116.log": "4433df8bec94f2b0d4ef9514dc1b1610ad34452c40c5623be4dbee57d6237380",
+    "RELATORIO_F3_INT116_CANDIDATA.md": "9b66efca7a6237b8d04d7e4fd1febc4ddc11410832494c926d493611964dcd38",
+    "RUNNER_F3_INT116.log": "dc3af46008a2734cfe147cab842d0d66c8adc187d3c79909b6633dc3b815c8f4"
+  }
+}

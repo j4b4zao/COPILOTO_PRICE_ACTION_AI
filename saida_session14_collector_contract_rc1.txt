@@ -1,0 +1,121 @@
+﻿=== SESSION 14 COLLECTOR CONTRACT ===
+=== COLLECTOR HELP ===
+usage: profit_rtd_rc54_3_2_brooks_warmed_session.py [-h] [--cycles CYCLES]
+                                                    [--interval INTERVAL]
+                                                    [--max-warmup-cycles MAX_WARMUP_CYCLES]
+                                                    [--output-dir OUTPUT_DIR]
+                                                    symbol
+
+RC54.3.2 warmed session com evidencia observacional Brooks.
+
+positional arguments:
+  symbol
+
+options:
+  -h, --help            show this help message and exit
+  --cycles CYCLES
+  --interval INTERVAL
+  --max-warmup-cycles MAX_WARMUP_CYCLES
+  --output-dir OUTPUT_DIR
+HELP_EXIT_CODE=0
+=== ARGPARSE CONTRACT ===
+
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:165:        return payload
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:166:
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:167:    samples = payload.get("samples")
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:168:    if not isinstance(samples, list):
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:169:        return payload
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:170:
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:171:    for item in samples:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:172:        if not isinstance(item, dict):
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:173:            continue
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:205:        return payload
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:206:
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:207:    samples = payload.get("samples")
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:208:    if not isinstance(samples, list):
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:209:        return payload
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:210:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:212:    last_candle_id = None
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:213:
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:214:    for item in samples:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:215:        if not isinstance(item, dict):
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:216:            continue
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:251:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:252:def run_warmed_session(
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:253:    symbol,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:254:    *,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:255:    cycles=600,
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:256:    interval=0.25,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:257:    max_warmup_cycles=4800,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:258:    require_trade_context_at_start=False,
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:259:    output_dir=None,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:260:    sleeper=None,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:261:):
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:286:        kwargs = {
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:287:            "cycles": cycles,
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:288:            "interval": interval,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:289:            "max_warmup_cycles": max_warmup_cycles,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:290:            "require_trade_context_at_start": 
+require_trade_context_at_start,
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:291:            "output_dir": output_dir,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:292:        }
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:293:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:295:            kwargs["sleeper"] = sleeper
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:296:
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:297:        result = base.run_warmed_session(symbol, **kwargs)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:298:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:299:    finally:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:305:    result.update(flags)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:306:
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:307:    output_path = result.get("output_path")
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:308:
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:309:    if output_path:
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:310:        path = Path(output_path)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:311:        payload = 
+json.loads(path.read_text(encoding="utf-8"))
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:312:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:323:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:324:def main(argv=None):
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:325:    parser = argparse.ArgumentParser(
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:326:        description="RC54.3.2 warmed session com evidencia 
+observacional Brooks."
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:327:    )
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:328:
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:329:    parser.add_argument("symbol")
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:330:    parser.add_argument("--cycles", type=int, default=600)
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:331:    parser.add_argument("--interval", type=float, 
+default=0.25)
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:332:    parser.add_argument("--max-warmup-cycles", type=int, 
+default=4800)
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:333:    parser.add_argument("--output-dir")
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:334:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:335:    args = parser.parse_args(argv)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:336:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:337:    result = run_warmed_session(
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:338:        args.symbol,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:339:        cycles=args.cycles,
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:340:        interval=args.interval,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:341:        max_warmup_cycles=args.max_warmup_cycles,
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:342:        output_dir=args.output_dir,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:343:    )
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:344:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:349:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:350:    for key in (
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:351:        "symbol",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:352:        "requested_cycles",
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:353:        "analyzable_samples",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:354:        "skipped_cycles",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:355:        "collection_errors",
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:398:    )
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:399:
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:400:    if result.get("output_path"):
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:401:        print("output_path=" + str(result["output_path"]))
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:402:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:403:    return 0 if result.get("status") == "COMPLETED" else 2
+
+
+
+=== SESSION 13 FILE IDENTITY ===
+3A73D4B0A8C7F4ADF0917BB9CE5DC927323578C5729C455BC0A78D3C5BDB7A00
+=== CURRENT PROTOCOL HEAD ===
+a741be9c905009906c93130af648983377f8a3a3

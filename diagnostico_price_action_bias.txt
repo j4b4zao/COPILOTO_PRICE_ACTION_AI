@@ -1,0 +1,1163 @@
+﻿
+  analysis\book_depth_analysis.py:36:        top = book.top(self.TOP_LEVELS)
+  analysis\book_depth_analysis.py:37:        result.top_bid_concentration = self._concentration(top.bid_quantity, 
+book.bid_quantity)
+  analysis\book_depth_analysis.py:38:        result.top_ask_concentration = self._concentration(top.ask_quantity, 
+book.ask_quantity)
+> analysis\book_depth_analysis.py:39:        result.concentration_bias = self._concentration_bias(
+  analysis\book_depth_analysis.py:40:            result.top_bid_concentration,
+  analysis\book_depth_analysis.py:41:            result.top_ask_concentration,
+  analysis\book_depth_analysis.py:42:        )
+  analysis\book_depth_analysis.py:43:
+> analysis\book_depth_analysis.py:44:        pa_bias = str(getattr(context.price_action, "bias", "NONE") or 
+"NONE").upper()
+  analysis\book_depth_analysis.py:45:        of_pressure = str(getattr(context.order_flow, "pressure", "BALANCED") or 
+"BALANCED").upper()
+  analysis\book_depth_analysis.py:46:        book_direction = self._book_direction(result.pressure, 
+result.concentration_bias)
+  analysis\book_depth_analysis.py:47:
+  analysis\book_depth_analysis.py:48:        result.price_action_alignment = self._alignment(book_direction, pa_bias)
+  analysis\book_depth_analysis.py:49:        result.order_flow_alignment = self._alignment(book_direction, 
+of_pressure)
+  analysis\book_depth_analysis.py:50:        result.duplicate_evidence_risk = bool(
+  analysis\book_depth_analysis.py:51:            book_direction in {"BUY", "SELL"}
+  analysis\book_depth_analysis.py:52:            and of_pressure == book_direction
+  analysis\book_depth_analysis.py:88:
+  analysis\book_depth_analysis.py:89:    @staticmethod
+  analysis\book_depth_analysis.py:90:    def _book_direction(pressure, concentration_bias):
+> analysis\book_depth_analysis.py:91:        if pressure == "BID_DOMINANT" or concentration_bias == "BID_DOMINANT":
+  analysis\book_depth_analysis.py:92:            return "BUY"
+> analysis\book_depth_analysis.py:93:        if pressure == "ASK_DOMINANT" or concentration_bias == "ASK_DOMINANT":
+  analysis\book_depth_analysis.py:94:            return "SELL"
+  analysis\book_depth_analysis.py:95:        return "NONE"
+  analysis\book_depth_analysis.py:96:
+  analysis\book_depth_analysis.py:97:    @staticmethod
+  analysis\book_depth_analysis.py:98:    def _alignment(book_direction, other_direction):
+  analysis\book_depth_analysis.py:99:        if book_direction not in {"BUY", "SELL"}:
+  analysis\book_depth_analysis.py:100:            return "NEUTRAL"
+  analysis\book_depth_analysis.py:101:        if other_direction not in {"BUY", "SELL"}:
+  analysis\book_diagnostics_engine.py:141:            observations.append((breakout_direction, breakout_score))
+  analysis\book_diagnostics_engine.py:142:
+  analysis\book_diagnostics_engine.py:143:        if not observations:
+> analysis\book_diagnostics_engine.py:144:            result.directional_bias = "NONE"
+  analysis\book_diagnostics_engine.py:145:            result.alignment = "NEUTRAL"
+  analysis\book_diagnostics_engine.py:146:            result.add_reason("BOOK_ALIGNMENT_NEUTRAL")
+  analysis\book_diagnostics_engine.py:147:        else:
+  analysis\book_diagnostics_engine.py:148:            buy_count = sum(direction == "BUY" for direction, _ in 
+observations)
+  analysis\book_diagnostics_engine.py:149:            sell_count = sum(direction == "SELL" for direction, _ in 
+observations)
+  analysis\book_diagnostics_engine.py:150:
+  analysis\book_diagnostics_engine.py:151:            if buy_count > sell_count:
+  analysis\book_diagnostics_engine.py:152:                bias, majority, minority = "BUY", buy_count, sell_count
+  analysis\book_diagnostics_engine.py:158:            result.aligned_diagnostics = majority
+  analysis\book_diagnostics_engine.py:159:            result.conflicting_diagnostics = minority
+  analysis\book_diagnostics_engine.py:160:
+> analysis\book_diagnostics_engine.py:161:            if bias == "NONE":
+> analysis\book_diagnostics_engine.py:162:                result.directional_bias = "NONE"
+  analysis\book_diagnostics_engine.py:163:                result.alignment = "CONFLICT"
+  analysis\book_diagnostics_engine.py:164:            else:
+> analysis\book_diagnostics_engine.py:165:                result.directional_bias = bias
+  analysis\book_diagnostics_engine.py:166:                if minority > 0:
+  analysis\book_diagnostics_engine.py:167:                    result.alignment = "MAJORITY_WITH_CONFLICT"
+  analysis\book_diagnostics_engine.py:168:                elif majority >= 3:
+  analysis\book_diagnostics_engine.py:169:                    result.alignment = "FULL_ALIGNMENT"
+  analysis\book_diagnostics_engine.py:170:                elif majority == 2:
+  analysis\book_diagnostics_engine.py:171:                    result.alignment = "ALIGNED"
+  analysis\book_diagnostics_engine.py:172:                else:
+  analysis\book_diagnostics_engine.py:173:                    result.alignment = "PARTIAL"
+  analysis\multi_timeframe_analysis.py:81:    def _set_hierarchical_alignment(result, m15, m5, m1) -> None:
+  analysis\multi_timeframe_analysis.py:82:        if m15 == Trend.SIDEWAYS:
+  analysis\multi_timeframe_analysis.py:83:            result.alignment = "WAIT_CONTEXT"
+> analysis\multi_timeframe_analysis.py:84:            result.bias = "NONE"
+  analysis\multi_timeframe_analysis.py:85:            result.aligned = False
+  analysis\multi_timeframe_analysis.py:86:            result.conflict = False
+  analysis\multi_timeframe_analysis.py:87:            result.confidence = 0.35
+  analysis\multi_timeframe_analysis.py:88:            result.add_reason(
+  analysis\multi_timeframe_analysis.py:89:                "M15 está lateral; contexto superior ainda não autoriza 
+bias direcional."
+  analysis\multi_timeframe_analysis.py:90:            )
+  analysis\multi_timeframe_analysis.py:91:            return
+  analysis\multi_timeframe_analysis.py:92:
+  analysis\multi_timeframe_analysis.py:95:
+  analysis\multi_timeframe_analysis.py:96:        if m5 == opposite:
+  analysis\multi_timeframe_analysis.py:97:            result.alignment = "CONFLICT_M5"
+> analysis\multi_timeframe_analysis.py:98:            result.bias = "NONE"
+  analysis\multi_timeframe_analysis.py:99:            result.aligned = False
+  analysis\multi_timeframe_analysis.py:100:            result.conflict = True
+  analysis\multi_timeframe_analysis.py:101:            result.confidence = 0.0
+  analysis\multi_timeframe_analysis.py:102:            result.add_reason(
+  analysis\multi_timeframe_analysis.py:103:                "M5 contradiz diretamente o contexto direcional definido 
+pelo M15."
+  analysis\multi_timeframe_analysis.py:104:            )
+  analysis\multi_timeframe_analysis.py:105:            return
+  analysis\multi_timeframe_analysis.py:106:
+  analysis\multi_timeframe_analysis.py:107:        if m5 == Trend.SIDEWAYS:
+  analysis\multi_timeframe_analysis.py:108:            result.alignment = "WAIT_M5"
+> analysis\multi_timeframe_analysis.py:109:            result.bias = expected
+  analysis\multi_timeframe_analysis.py:110:            result.aligned = False
+  analysis\multi_timeframe_analysis.py:111:            result.conflict = False
+  analysis\multi_timeframe_analysis.py:112:            result.confidence = 0.50
+  analysis\multi_timeframe_analysis.py:113:            result.add_reason(
+  analysis\multi_timeframe_analysis.py:114:                f"M15 define bias {expected}, mas M5 ainda não confirmou o 
+setup."
+  analysis\multi_timeframe_analysis.py:115:            )
+  analysis\multi_timeframe_analysis.py:116:            return
+  analysis\multi_timeframe_analysis.py:117:
+  analysis\multi_timeframe_analysis.py:118:        if m1 == opposite:
+  analysis\multi_timeframe_analysis.py:119:            result.alignment = "CONFLICT_M1"
+> analysis\multi_timeframe_analysis.py:120:            result.bias = expected
+  analysis\multi_timeframe_analysis.py:121:            result.aligned = False
+  analysis\multi_timeframe_analysis.py:122:            result.conflict = True
+  analysis\multi_timeframe_analysis.py:123:            result.confidence = 0.25
+  analysis\multi_timeframe_analysis.py:124:            result.add_reason(
+  analysis\multi_timeframe_analysis.py:125:                "M1 contradiz o contexto M15/M5; gatilho deve ser 
+aguardado."
+  analysis\multi_timeframe_analysis.py:126:            )
+  analysis\multi_timeframe_analysis.py:127:            return
+  analysis\multi_timeframe_analysis.py:128:
+  analysis\multi_timeframe_analysis.py:129:        if m1 == Trend.SIDEWAYS:
+  analysis\multi_timeframe_analysis.py:130:            result.alignment = "WAIT_TRIGGER"
+> analysis\multi_timeframe_analysis.py:131:            result.bias = expected
+  analysis\multi_timeframe_analysis.py:132:            result.aligned = False
+  analysis\multi_timeframe_analysis.py:133:            result.conflict = False
+  analysis\multi_timeframe_analysis.py:134:            result.confidence = 0.70
+  analysis\multi_timeframe_analysis.py:135:            result.add_reason(
+  analysis\multi_timeframe_analysis.py:136:                f"M15 e M5 confirmam {expected}; M1 ainda aguarda gatilho 
+direcional."
+  analysis\multi_timeframe_analysis.py:137:            )
+  analysis\multi_timeframe_analysis.py:138:            return
+  analysis\multi_timeframe_analysis.py:139:
+  analysis\multi_timeframe_analysis.py:140:        result.alignment = expected
+> analysis\multi_timeframe_analysis.py:141:        result.bias = expected
+  analysis\multi_timeframe_analysis.py:142:        result.aligned = True
+  analysis\multi_timeframe_analysis.py:143:        result.conflict = False
+  analysis\multi_timeframe_analysis.py:144:        result.confidence = 1.0
+  analysis\multi_timeframe_analysis.py:145:        result.add_reason(
+  analysis\multi_timeframe_analysis.py:146:            f"Hierarquia confirmada: M15 contexto, M5 setup e M1 gatilho 
+em {expected}."
+  analysis\multi_timeframe_analysis.py:147:        )
+  analysis\multi_timeframe_analysis.py:148:
+  analysis\multi_timeframe_analysis.py:149:    @staticmethod
+  analysis\multi_timeframe_analysis.py:159:            )
+  analysis\multi_timeframe_analysis.py:160:            return
+  analysis\multi_timeframe_analysis.py:161:
+> analysis\multi_timeframe_analysis.py:162:        if result.bias == "NONE":
+  analysis\multi_timeframe_analysis.py:163:            result.regime_compatible = regime in {"RANGE", "TRANSITION"}
+  analysis\multi_timeframe_analysis.py:164:            return
+  analysis\multi_timeframe_analysis.py:165:
+> analysis\multi_timeframe_analysis.py:166:        expected_regime = "TREND_UP" if result.bias == "BUY" else 
+"TREND_DOWN"
+  analysis\multi_timeframe_analysis.py:167:        opposite_regime = "TREND_DOWN" if expected_regime == "TREND_UP" 
+else "TREND_UP"
+  analysis\multi_timeframe_analysis.py:168:
+  analysis\multi_timeframe_analysis.py:169:        if regime == expected_regime:
+  analysis\multi_timeframe_analysis.py:170:            result.regime_compatible = True
+  analysis\multi_timeframe_analysis.py:171:            result.add_reason(
+  analysis\multi_timeframe_analysis.py:172:                f"MarketRegime {regime} confirma o bias multi-timeframe 
+{result.bias}."
+  analysis\multi_timeframe_analysis.py:173:            )
+  analysis\multi_timeframe_analysis.py:174:            return
+> analysis\price_action_engine.py:1:class PriceActionEngine:
+  analysis\price_action_engine.py:2:
+  analysis\price_action_engine.py:3:    def analisar(self, candle, estrutura):
+  analysis\price_action_engine.py:4:
+  analysis\price_action_engine.py:5:        if not candle:
+  analysis\price_action_engine.py:6:            return None
+  analysis\price_action_engine.py:7:
+  analysis\price_action_engine.py:8:        corpo = candle.get("corpo", 0)
+  analysis\price_action_engine.py:9:        sombra_sup = candle.get("sombra_superior", 0)
+  analysis\price_action\bar_count_dynamics.py:77:        two_leg = self._has_two_counter_legs(closed, start, 
+signal_idx, trend)
+  analysis\price_action\bar_count_dynamics.py:78:        abc = two_leg and attempt_count >= 2
+  analysis\price_action\bar_count_dynamics.py:79:        confirmed = self._confirmed_after_signal(closed, signal_idx, 
+trend)
+> analysis\price_action\bar_count_dynamics.py:80:        continuation_bias = confirmed and attempt_count in (1, 2)
+  analysis\price_action\bar_count_dynamics.py:81:        exhaustion_risk = attempt_count >= 3
+  analysis\price_action\bar_count_dynamics.py:82:
+  analysis\price_action\bar_count_dynamics.py:83:        reasons = [f"TREND_{trend}", pattern]
+  analysis\price_action\bar_count_dynamics.py:84:        if first_failed:
+  analysis\price_action\bar_count_dynamics.py:85:            reasons.append("FIRST_ATTEMPT_FAILED")
+  analysis\price_action\bar_count_dynamics.py:86:        if two_leg:
+  analysis\price_action\bar_count_dynamics.py:87:            reasons.append("TWO_LEG_PULLBACK")
+  analysis\price_action\bar_count_dynamics.py:88:        if abc:
+  analysis\price_action\bar_count_dynamics.py:106:            two_leg_pullback=two_leg,
+  analysis\price_action\bar_count_dynamics.py:107:            first_attempt_failed=first_failed,
+  analysis\price_action\bar_count_dynamics.py:108:            signal_confirmed=confirmed,
+> analysis\price_action\bar_count_dynamics.py:109:            continuation_bias=continuation_bias,
+  analysis\price_action\bar_count_dynamics.py:110:            exhaustion_risk=exhaustion_risk,
+  analysis\price_action\bar_count_dynamics.py:111:            reasons=tuple(reasons),
+  analysis\price_action\bar_count_dynamics.py:112:        )
+  analysis\price_action\bar_count_dynamics.py:113:
+  analysis\price_action\bar_count_dynamics.py:114:    def _infer_trend(self, candles):
+  analysis\price_action\bar_count_dynamics.py:115:        sample = candles[-12:]
+  analysis\price_action\bar_count_dynamics.py:116:        if len(sample) < 8:
+  analysis\price_action\bar_count_dynamics.py:117:            return "NONE"
+  analysis\price_action\broad_channel_dynamics.py:62:            trend,
+  analysis\price_action\broad_channel_dynamics.py:63:            tolerance,
+  analysis\price_action\broad_channel_dynamics.py:64:        )
+> analysis\price_action\broad_channel_dynamics.py:65:        resumption_bias = bool(
+  analysis\price_action\broad_channel_dynamics.py:66:            valid
+  analysis\price_action\broad_channel_dynamics.py:67:            and not failed_breakout_risk
+  analysis\price_action\broad_channel_dynamics.py:68:            and cls._last_leg_aligned(window, trend)
+  analysis\price_action\broad_channel_dynamics.py:69:        )
+  analysis\price_action\broad_channel_dynamics.py:70:
+  analysis\price_action\broad_channel_dynamics.py:71:        if valid and very_deep_count >= 2:
+  analysis\price_action\broad_channel_dynamics.py:72:            state = "BROAD_CHANNEL_EXTREME"
+  analysis\price_action\broad_channel_dynamics.py:73:            quality = "LOW"
+  analysis\price_action\double_flag_dynamics.py:141:            resumed_trend=resumed,
+  analysis\price_action\double_flag_dynamics.py:142:            failed_pattern=failed,
+  analysis\price_action\double_flag_dynamics.py:143:            quality_score=round(score, 1),
+> analysis\price_action\double_flag_dynamics.py:144:            continuation_bias=resumed and not failed,
+  analysis\price_action\double_flag_dynamics.py:145:            reasons=tuple(reasons),
+  analysis\price_action\double_flag_dynamics.py:146:        )
+  analysis\price_action\double_flag_dynamics.py:147:
+  analysis\price_action\double_flag_dynamics.py:148:    def _infer_trend(self, candles):
+  analysis\price_action\double_flag_dynamics.py:149:        # Use the broader closed-bar context so the flag itself 
+does not have
+  analysis\price_action\double_flag_dynamics.py:150:        # to look directional. This is a continuation pattern.
+  analysis\price_action\double_flag_dynamics.py:151:        sample = candles[-14:]
+  analysis\price_action\double_flag_dynamics.py:152:        if len(sample) < 10:
+  analysis\price_action\dueling_lines_dynamics.py:125:        else:
+  analysis\price_action\dueling_lines_dynamics.py:126:            state = "NO_DUELING_LINES"
+  analysis\price_action\dueling_lines_dynamics.py:127:
+> analysis\price_action\dueling_lines_dynamics.py:128:        continuation_bias = state == "DUELING_LINES_CONFIRMED"
+  analysis\price_action\dueling_lines_dynamics.py:129:        reversal_risk = invalidated
+  analysis\price_action\dueling_lines_dynamics.py:130:
+  analysis\price_action\dueling_lines_dynamics.py:131:        reasons = [f"TREND_{trend}"]
+  analysis\price_action\dueling_lines_dynamics.py:132:        if wedge:
+  analysis\price_action\dueling_lines_dynamics.py:133:            reasons.append("THREE_PUSH_WEDGE_PULLBACK")
+  analysis\price_action\dueling_lines_dynamics.py:134:        if trendline_touch:
+  analysis\price_action\dueling_lines_dynamics.py:135:            reasons.append("TRENDLINE_TOUCH")
+  analysis\price_action\dueling_lines_dynamics.py:136:        for name, _ in secondary_candidates:
+  analysis\price_action\dueling_lines_dynamics.py:159:            signal_bar_index=signal_idx,
+  analysis\price_action\dueling_lines_dynamics.py:160:            signal_quality=round(signal_quality, 3),
+  analysis\price_action\dueling_lines_dynamics.py:161:            reaction_confirmed=reaction,
+> analysis\price_action\dueling_lines_dynamics.py:162:            continuation_bias=continuation_bias,
+  analysis\price_action\dueling_lines_dynamics.py:163:            reversal_risk=reversal_risk,
+  analysis\price_action\dueling_lines_dynamics.py:164:            reasons=tuple(reasons),
+  analysis\price_action\dueling_lines_dynamics.py:165:        )
+  analysis\price_action\dueling_lines_dynamics.py:166:
+  analysis\price_action\dueling_lines_dynamics.py:167:    def _infer_trend(self, candles):
+  analysis\price_action\dueling_lines_dynamics.py:168:        sample = candles[-12:]
+  analysis\price_action\dueling_lines_dynamics.py:169:        atr = max(self._average_range(sample), 1e-9)
+  analysis\price_action\dueling_lines_dynamics.py:170:        delta = float(sample[-1].close) - float(sample[0].close)
+  analysis\price_action\first_ma_gap_bar_dynamics.py:76:        reaction_confirmed = self._reaction_confirmed(bar, 
+post, direction)
+  analysis\price_action\first_ma_gap_bar_dynamics.py:77:        failed_signal = self._signal_failed(bar, post, 
+direction)
+  analysis\price_action\first_ma_gap_bar_dynamics.py:78:        reversal_risk = failed_signal or 
+self._opposite_follow_through(post, direction)
+> analysis\price_action\first_ma_gap_bar_dynamics.py:79:        continuation_bias = reaction_confirmed and not 
+reversal_risk
+  analysis\price_action\first_ma_gap_bar_dynamics.py:80:
+  analysis\price_action\first_ma_gap_bar_dynamics.py:81:        if failed_signal:
+  analysis\price_action\first_ma_gap_bar_dynamics.py:82:            state = "FIRST_MA_GAP_SIGNAL_FAILED"
+  analysis\price_action\first_ma_gap_bar_dynamics.py:83:        elif reaction_confirmed:
+  analysis\price_action\first_ma_gap_bar_dynamics.py:84:            state = "FIRST_MA_GAP_REACTION_CONFIRMED"
+  analysis\price_action\first_ma_gap_bar_dynamics.py:85:        elif post:
+  analysis\price_action\first_ma_gap_bar_dynamics.py:86:            state = "FIRST_MA_GAP_WAIT_CONFIRMATION"
+  analysis\price_action\first_ma_gap_bar_dynamics.py:87:        else:
+  analysis\price_action\first_ma_gap_bar_dynamics.py:112:            prior_extreme=prior_extreme,
+  analysis\price_action\first_ma_gap_bar_dynamics.py:113:            signal_bar_quality=quality,
+  analysis\price_action\first_ma_gap_bar_dynamics.py:114:            reaction_confirmed=reaction_confirmed,
+> analysis\price_action\first_ma_gap_bar_dynamics.py:115:            continuation_bias=continuation_bias,
+  analysis\price_action\first_ma_gap_bar_dynamics.py:116:            reversal_risk=reversal_risk,
+  analysis\price_action\first_ma_gap_bar_dynamics.py:117:            failed_signal=failed_signal,
+  analysis\price_action\first_ma_gap_bar_dynamics.py:118:            reasons=tuple(reasons),
+  analysis\price_action\first_ma_gap_bar_dynamics.py:119:        )
+  analysis\price_action\first_ma_gap_bar_dynamics.py:120:
+  analysis\price_action\first_ma_gap_bar_dynamics.py:121:    def _infer_prior_trend(self, candles):
+  analysis\price_action\first_ma_gap_bar_dynamics.py:122:        # Use the earlier part of the lookback so the 
+corrective move that creates
+  analysis\price_action\first_ma_gap_bar_dynamics.py:123:        # the first opposite-side EMA gap does not erase the 
+original trend.
+  analysis\price_action\first_pullback_sequence_dynamics.py:107:            reasons.append("TRADING_RANGE_TRANSITION")
+  analysis\price_action\first_pullback_sequence_dynamics.py:108:
+  analysis\price_action\first_pullback_sequence_dynamics.py:109:        maturity_score = round((stage_index / 8.0) * 
+100.0, 1)
+> analysis\price_action\first_pullback_sequence_dynamics.py:110:        continuation_bias = stage_index <= 3
+  analysis\price_action\first_pullback_sequence_dynamics.py:111:        reversal_risk = stage_index >= 6
+  analysis\price_action\first_pullback_sequence_dynamics.py:112:
+  analysis\price_action\first_pullback_sequence_dynamics.py:113:        return FirstPullbackSequenceResult(
+  analysis\price_action\first_pullback_sequence_dynamics.py:114:            valid=stage_index > 0,
+  analysis\price_action\first_pullback_sequence_dynamics.py:115:            direction=direction,
+  analysis\price_action\first_pullback_sequence_dynamics.py:116:            stage=self.STAGES[stage_index],
+  analysis\price_action\first_pullback_sequence_dynamics.py:117:            stage_index=stage_index,
+  analysis\price_action\first_pullback_sequence_dynamics.py:118:            first_pullback_bars=pullback_bars,
+  analysis\price_action\first_pullback_sequence_dynamics.py:125:            two_sided_trading=two_sided,
+  analysis\price_action\first_pullback_sequence_dynamics.py:126:            trading_range_transition=range_transition,
+  analysis\price_action\first_pullback_sequence_dynamics.py:127:            trend_maturity_score=maturity_score,
+> analysis\price_action\first_pullback_sequence_dynamics.py:128:            continuation_bias=continuation_bias,
+  analysis\price_action\first_pullback_sequence_dynamics.py:129:            reversal_risk=reversal_risk,
+  analysis\price_action\first_pullback_sequence_dynamics.py:130:            reasons=tuple(reasons),
+  analysis\price_action\first_pullback_sequence_dynamics.py:131:        )
+  analysis\price_action\first_pullback_sequence_dynamics.py:132:
+  analysis\price_action\first_pullback_sequence_dynamics.py:133:    def _infer_direction(self, candles):
+  analysis\price_action\first_pullback_sequence_dynamics.py:134:        sample = candles[-10:]
+  analysis\price_action\first_pullback_sequence_dynamics.py:135:        closes = [float(x.close) for x in sample]
+  analysis\price_action\first_pullback_sequence_dynamics.py:136:        avg_range = self._average_range(sample)
+  analysis\price_action\higher_timeframe_context_dynamics.py:55:                daily_strength=d_str,
+  analysis\price_action\higher_timeframe_context_dynamics.py:56:                weekly_strength=w_str,
+  analysis\price_action\higher_timeframe_context_dynamics.py:57:                monthly_strength=m_str,
+> analysis\price_action\higher_timeframe_context_dynamics.py:58:                higher_timeframe_bias="NONE",
+  analysis\price_action\higher_timeframe_context_dynamics.py:59:                quality_score=35.0,
+  analysis\price_action\higher_timeframe_context_dynamics.py:60:                
+reasons=("NO_DIRECTIONAL_HIGHER_TIMEFRAME_BIAS",),
+  analysis\price_action\higher_timeframe_context_dynamics.py:61:            )
+  analysis\price_action\higher_timeframe_context_dynamics.py:62:
+  analysis\price_action\higher_timeframe_context_dynamics.py:63:        buy_count = directional.count("BUY")
+  analysis\price_action\higher_timeframe_context_dynamics.py:64:        sell_count = directional.count("SELL")
+> analysis\price_action\higher_timeframe_context_dynamics.py:65:        bias = "BUY" if buy_count > sell_count else 
+"SELL" if sell_count > buy_count else "NONE"
+  analysis\price_action\higher_timeframe_context_dynamics.py:66:        alignment_count = max(buy_count, sell_count)
+  analysis\price_action\higher_timeframe_context_dynamics.py:67:        conflict_count = min(buy_count, sell_count)
+  analysis\price_action\higher_timeframe_context_dynamics.py:68:
+  analysis\price_action\higher_timeframe_context_dynamics.py:69:        result = HigherTimeframeContextResult(
+  analysis\price_action\higher_timeframe_context_dynamics.py:70:            valid=True,
+  analysis\price_action\higher_timeframe_context_dynamics.py:71:            daily_direction=d_dir,
+  analysis\price_action\higher_timeframe_context_dynamics.py:72:            weekly_direction=w_dir,
+  analysis\price_action\higher_timeframe_context_dynamics.py:73:            monthly_direction=m_dir,
+  analysis\price_action\higher_timeframe_context_dynamics.py:76:            monthly_strength=m_str,
+  analysis\price_action\higher_timeframe_context_dynamics.py:77:            alignment_count=alignment_count,
+  analysis\price_action\higher_timeframe_context_dynamics.py:78:            conflict_count=conflict_count,
+> analysis\price_action\higher_timeframe_context_dynamics.py:79:            higher_timeframe_bias=bias,
+  analysis\price_action\higher_timeframe_context_dynamics.py:80:            direction=bias,
+  analysis\price_action\higher_timeframe_context_dynamics.py:81:        )
+  analysis\price_action\higher_timeframe_context_dynamics.py:82:
+  analysis\price_action\higher_timeframe_context_dynamics.py:83:        if buy_count == 3 or sell_count == 3:
+  analysis\price_action\higher_timeframe_context_dynamics.py:84:            result.status = 
+"HIGHER_TIMEFRAME_FULL_ALIGNMENT"
+  analysis\price_action\higher_timeframe_context_dynamics.py:85:            result.quality_score = 95.0
+  analysis\price_action\higher_timeframe_context_dynamics.py:86:            result.reasons = ("D1_W1_MN1_ALIGNED",)
+  analysis\price_action\higher_timeframe_context_dynamics.py:87:        elif alignment_count == 2 and conflict_count 
+== 0:
+  analysis\price_action\higher_timeframe_context_dynamics.py:99:        else:
+  analysis\price_action\higher_timeframe_context_dynamics.py:100:            result.status = 
+"HIGHER_TIMEFRAME_CONFLICT"
+  analysis\price_action\higher_timeframe_context_dynamics.py:101:            result.direction = "NONE"
+> analysis\price_action\higher_timeframe_context_dynamics.py:102:            result.higher_timeframe_bias = "NONE"
+  analysis\price_action\higher_timeframe_context_dynamics.py:103:            result.quality_score = 42.0
+  analysis\price_action\higher_timeframe_context_dynamics.py:104:            result.reasons = 
+("NO_CLEAR_HIGHER_TIMEFRAME_MAJORITY",)
+  analysis\price_action\higher_timeframe_context_dynamics.py:105:
+  analysis\price_action\higher_timeframe_context_dynamics.py:106:        # Higher timeframe context can filter 
+confidence, but never forces an entry.
+  analysis\price_action\higher_timeframe_context_dynamics.py:107:        result.execution_allowed = True
+  analysis\price_action\higher_timeframe_context_dynamics.py:108:        return result
+  analysis\price_action\higher_timeframe_context_dynamics.py:109:
+  analysis\price_action\higher_timeframe_context_dynamics.py:110:    @classmethod
+  analysis\price_action\leg_count_dynamics.py:89:        third_attempt = counted == 3
+  analysis\price_action\leg_count_dynamics.py:90:        fourth_plus_attempt = counted >= 4
+  analysis\price_action\leg_count_dynamics.py:91:
+> analysis\price_action\leg_count_dynamics.py:92:        continuation_bias = counted in (1, 2) and not compressing
+  analysis\price_action\leg_count_dynamics.py:93:        exhaustion_risk = counted >= 3 or (counted >= 2 and 
+compressing)
+  analysis\price_action\leg_count_dynamics.py:94:        trading_range_risk = context == "TRADING_RANGE" or 
+exhaustion_risk
+  analysis\price_action\leg_count_dynamics.py:95:
+  analysis\price_action\leg_count_dynamics.py:96:        reasons = [
+  analysis\price_action\leg_count_dynamics.py:97:            f"CONTEXT_{context}",
+  analysis\price_action\leg_count_dynamics.py:98:            f"DIRECTION_{direction}",
+  analysis\price_action\leg_count_dynamics.py:99:            f"LEG_COUNT_{counted}",
+  analysis\price_action\leg_count_dynamics.py:100:        ]
+  analysis\price_action\leg_count_dynamics.py:129:            leg_size_ratio=round(leg_size_ratio, 3),
+  analysis\price_action\leg_count_dynamics.py:130:            compressing=compressing,
+  analysis\price_action\leg_count_dynamics.py:131:            expanding=expanding,
+> analysis\price_action\leg_count_dynamics.py:132:            continuation_bias=continuation_bias,
+  analysis\price_action\leg_count_dynamics.py:133:            exhaustion_risk=exhaustion_risk,
+  analysis\price_action\leg_count_dynamics.py:134:            trading_range_risk=trading_range_risk,
+  analysis\price_action\leg_count_dynamics.py:135:            pivot_count=len(pivots),
+  analysis\price_action\leg_count_dynamics.py:136:            reasons=tuple(reasons),
+  analysis\price_action\leg_count_dynamics.py:137:        )
+  analysis\price_action\leg_count_dynamics.py:138:
+  analysis\price_action\leg_count_dynamics.py:139:    def _confirmed_pivots(self, candles):
+  analysis\price_action\leg_count_dynamics.py:140:        s = self.SWING_STRENGTH
+  analysis\price_action\price_action.py:72:)
+  analysis\price_action\price_action.py:73:
+  analysis\price_action\price_action.py:74:
+> analysis\price_action\price_action.py:75:class PriceAction(EngineBase):
+  analysis\price_action\price_action.py:76:
+  analysis\price_action\price_action.py:77:    NAME = "PriceAction"
+  analysis\price_action\price_action.py:78:
+  analysis\price_action\price_action.py:79:    VERSION = "RC9.16"
+  analysis\price_action\price_action.py:80:
+  analysis\price_action\price_action.py:81:    ENABLED = True
+  analysis\price_action\price_action.py:82:
+  analysis\price_action\price_action.py:83:    PRIORITY = 50
+  analysis\price_action\price_action.py:548:
+  analysis\price_action\price_action.py:549:        if result.trend == Trend.UP:
+  analysis\price_action\price_action.py:550:
+> analysis\price_action\price_action.py:551:            result.bias = "BUY"
+  analysis\price_action\price_action.py:552:
+  analysis\price_action\price_action.py:553:            evidence.add(
+  analysis\price_action\price_action.py:554:                "TREND_BUY"
+  analysis\price_action\price_action.py:555:            )
+  analysis\price_action\price_action.py:556:
+  analysis\price_action\price_action.py:557:        # ------------------------------------------------------
+  analysis\price_action\price_action.py:558:        # TENDÊNCIA DE BAIXA
+  analysis\price_action\price_action.py:559:        # ------------------------------------------------------
+  analysis\price_action\price_action.py:560:
+  analysis\price_action\price_action.py:561:        elif result.trend == Trend.DOWN:
+  analysis\price_action\price_action.py:562:
+> analysis\price_action\price_action.py:563:            result.bias = "SELL"
+  analysis\price_action\price_action.py:564:
+  analysis\price_action\price_action.py:565:            evidence.add(
+  analysis\price_action\price_action.py:566:                "TREND_SELL"
+  analysis\price_action\price_action.py:567:            )
+  analysis\price_action\price_action.py:568:
+  analysis\price_action\price_action.py:569:        # ------------------------------------------------------
+  analysis\price_action\price_action.py:570:        # LATERAL / DESCONHECIDA
+  analysis\price_action\price_action.py:571:        # ------------------------------------------------------
+  analysis\price_action\price_action.py:572:
+  analysis\price_action\price_action.py:573:        else:
+  analysis\price_action\price_action.py:574:
+> analysis\price_action\price_action.py:575:            result.bias = "NONE"
+  analysis\price_action\price_action.py:576:
+  analysis\price_action\price_action.py:577:    # ==========================================================
+  analysis\price_action\price_action.py:578:    # SCORE
+  analysis\price_action\price_action.py:579:    # ==========================================================
+  analysis\price_action\price_action.py:580:
+  analysis\price_action\price_action.py:581:    def _calculate_score(self, context):
+  analysis\price_action\price_action.py:582:
+  analysis\price_action\price_action.py:583:        result = context.price_action
+  analysis\price_action\reversal_pattern_dynamics.py:94:            signal_confirmed=confirmed,
+  analysis\price_action\reversal_pattern_dynamics.py:95:            pattern_quality=round(detected["quality"], 1),
+  analysis\price_action\reversal_pattern_dynamics.py:96:            continuation_of_old_trend_risk=old_trend_risk,
+> analysis\price_action\reversal_pattern_dynamics.py:97:            reversal_bias=confirmed and trendline_break,
+  analysis\price_action\reversal_pattern_dynamics.py:98:            reasons=tuple(reasons),
+  analysis\price_action\reversal_pattern_dynamics.py:99:        )
+  analysis\price_action\reversal_pattern_dynamics.py:100:
+  analysis\price_action\reversal_pattern_dynamics.py:101:    def _detect_double(self, pivots, prior, atr):
+  analysis\price_action\reversal_pattern_dynamics.py:102:        kind = "HIGH" if prior == "UP" else "LOW"
+  analysis\price_action\reversal_pattern_dynamics.py:103:        ps = [p for p in pivots if p[1] == kind]
+  analysis\price_action\reversal_pattern_dynamics.py:104:        if len(ps) < 2:
+  analysis\price_action\reversal_pattern_dynamics.py:105:            return None
+  analysis\price_action\timeframe_chart_dynamics.py:67:        refinement_tf = str(refinement_timeframe).upper()
+  analysis\price_action\timeframe_chart_dynamics.py:68:        ctype = str(chart_type or "CANDLE").upper()
+  analysis\price_action\timeframe_chart_dynamics.py:69:
+> analysis\price_action\timeframe_chart_dynamics.py:70:        context_bias = 
+self._normalize_bias(signals.get(context_tf))
+> analysis\price_action\timeframe_chart_dynamics.py:71:        execution_bias = 
+self._normalize_bias(signals.get(execution_tf))
+> analysis\price_action\timeframe_chart_dynamics.py:72:        refinement_bias = 
+self._normalize_bias(signals.get(refinement_tf))
+  analysis\price_action\timeframe_chart_dynamics.py:73:
+> analysis\price_action\timeframe_chart_dynamics.py:74:        if context_bias == "NONE" and execution_bias == "NONE":
+  analysis\price_action\timeframe_chart_dynamics.py:75:            return TimeframeChartResult(
+  analysis\price_action\timeframe_chart_dynamics.py:76:                context_timeframe=context_tf,
+  analysis\price_action\timeframe_chart_dynamics.py:77:                execution_timeframe=execution_tf,
+  analysis\price_action\timeframe_chart_dynamics.py:78:                refinement_timeframe=refinement_tf,
+> analysis\price_action\timeframe_chart_dynamics.py:79:                context_bias=context_bias,
+> analysis\price_action\timeframe_chart_dynamics.py:80:                execution_bias=execution_bias,
+> analysis\price_action\timeframe_chart_dynamics.py:81:                refinement_bias=refinement_bias,
+  analysis\price_action\timeframe_chart_dynamics.py:82:                chart_type=ctype,
+  analysis\price_action\timeframe_chart_dynamics.py:83:                chart_type_supported=ctype in 
+self.SUPPORTED_CHART_TYPES,
+  analysis\price_action\timeframe_chart_dynamics.py:84:                reasons=("INSUFFICIENT_DIRECTIONAL_CONTEXT",),
+  analysis\price_action\timeframe_chart_dynamics.py:85:            )
+  analysis\price_action\timeframe_chart_dynamics.py:86:
+  analysis\price_action\timeframe_chart_dynamics.py:87:        chart_supported = ctype in self.SUPPORTED_CHART_TYPES
+  analysis\price_action\timeframe_chart_dynamics.py:88:
+  analysis\price_action\timeframe_chart_dynamics.py:89:        context_execution_aligned = (
+  analysis\price_action\timeframe_chart_dynamics.py:90:            context_bias in {"BUY", "SELL"}
+> analysis\price_action\timeframe_chart_dynamics.py:91:            and execution_bias == context_bias
+  analysis\price_action\timeframe_chart_dynamics.py:92:        )
+  analysis\price_action\timeframe_chart_dynamics.py:93:
+  analysis\price_action\timeframe_chart_dynamics.py:94:        lower_confirms = (
+  analysis\price_action\timeframe_chart_dynamics.py:95:            execution_bias in {"BUY", "SELL"}
+> analysis\price_action\timeframe_chart_dynamics.py:96:            and refinement_bias == execution_bias
+  analysis\price_action\timeframe_chart_dynamics.py:97:        )
+  analysis\price_action\timeframe_chart_dynamics.py:98:
+  analysis\price_action\timeframe_chart_dynamics.py:99:        lower_conflict = (
+  analysis\price_action\timeframe_chart_dynamics.py:100:            execution_bias in {"BUY", "SELL"}
+  analysis\price_action\timeframe_chart_dynamics.py:101:            and refinement_bias in {"BUY", "SELL"}
+  analysis\price_action\timeframe_chart_dynamics.py:102:            and refinement_bias != execution_bias
+  analysis\price_action\timeframe_chart_dynamics.py:103:        )
+  analysis\price_action\timeframe_chart_dynamics.py:104:
+  analysis\price_action\timeframe_chart_dynamics.py:105:        aligned = context_execution_aligned and (
+> analysis\price_action\timeframe_chart_dynamics.py:106:            refinement_bias == "NONE" or lower_confirms
+  analysis\price_action\timeframe_chart_dynamics.py:107:        )
+  analysis\price_action\timeframe_chart_dynamics.py:108:
+  analysis\price_action\timeframe_chart_dynamics.py:109:        # M1 refines an existing M5 thesis. It must not 
+create an opposite
+  analysis\price_action\timeframe_chart_dynamics.py:110:        # thesis by itself when M15/M5 already agree.
+  analysis\price_action\timeframe_chart_dynamics.py:111:        refinement_allowed = (
+  analysis\price_action\timeframe_chart_dynamics.py:112:            execution_bias in {"BUY", "SELL"}
+  analysis\price_action\timeframe_chart_dynamics.py:113:            and not lower_conflict
+  analysis\price_action\timeframe_chart_dynamics.py:114:        )
+  analysis\price_action\timeframe_chart_dynamics.py:120:
+  analysis\price_action\timeframe_chart_dynamics.py:121:        if context_execution_aligned:
+  analysis\price_action\timeframe_chart_dynamics.py:122:            score += 35.0
+> analysis\price_action\timeframe_chart_dynamics.py:123:        elif context_bias == "NONE":
+  analysis\price_action\timeframe_chart_dynamics.py:124:            score += 10.0
+  analysis\price_action\timeframe_chart_dynamics.py:125:
+  analysis\price_action\timeframe_chart_dynamics.py:126:        if lower_confirms:
+  analysis\price_action\timeframe_chart_dynamics.py:127:            score += 20.0
+> analysis\price_action\timeframe_chart_dynamics.py:128:        elif refinement_bias == "NONE":
+  analysis\price_action\timeframe_chart_dynamics.py:129:            score += 10.0
+  analysis\price_action\timeframe_chart_dynamics.py:130:        elif lower_conflict:
+  analysis\price_action\timeframe_chart_dynamics.py:131:            score -= 15.0
+  analysis\price_action\timeframe_chart_dynamics.py:132:
+  analysis\price_action\timeframe_chart_dynamics.py:133:        if chart_supported:
+  analysis\price_action\timeframe_chart_dynamics.py:134:            score += 10.0
+  analysis\price_action\timeframe_chart_dynamics.py:135:
+  analysis\price_action\timeframe_chart_dynamics.py:136:        score = min(max(score, 0.0), 100.0)
+  analysis\price_action\timeframe_chart_dynamics.py:175:            context_timeframe=context_tf,
+  analysis\price_action\timeframe_chart_dynamics.py:176:            execution_timeframe=execution_tf,
+  analysis\price_action\timeframe_chart_dynamics.py:177:            refinement_timeframe=refinement_tf,
+> analysis\price_action\timeframe_chart_dynamics.py:178:            context_bias=context_bias,
+> analysis\price_action\timeframe_chart_dynamics.py:179:            execution_bias=execution_bias,
+> analysis\price_action\timeframe_chart_dynamics.py:180:            refinement_bias=refinement_bias,
+  analysis\price_action\timeframe_chart_dynamics.py:181:            aligned=aligned,
+  analysis\price_action\timeframe_chart_dynamics.py:182:            
+context_execution_aligned=context_execution_aligned,
+  analysis\price_action\timeframe_chart_dynamics.py:183:            lower_timeframe_confirms=lower_confirms,
+  analysis\price_action\timeframe_chart_dynamics.py:184:            lower_timeframe_conflict=lower_conflict,
+  analysis\price_action\timeframe_chart_dynamics.py:185:            refinement_allowed=refinement_allowed,
+  analysis\price_action\timeframe_chart_dynamics.py:186:            chart_type=ctype,
+  analysis\price_action\timeframe_chart_dynamics.py:187:            chart_type_supported=chart_supported,
+  analysis\price_action\timeframe_chart_dynamics.py:188:            quality_score=round(score, 1),
+  analysis\price_action\trading_range_playbook_dynamics.py:85:            setup_direction = "SELL"
+  analysis\price_action\trading_range_playbook_dynamics.py:86:
+  analysis\price_action\trading_range_playbook_dynamics.py:87:        avoid_middle = zone == "MIDDLE"
+> analysis\price_action\trading_range_playbook_dynamics.py:88:        scalp_bias = zone in ("LOW", "HIGH") and not 
+breakout_attempt
+  analysis\price_action\trading_range_playbook_dynamics.py:89:        swing_candidate = height >= 
+self._average_range(sample) * 4.0
+  analysis\price_action\trading_range_playbook_dynamics.py:90:
+  analysis\price_action\trading_range_playbook_dynamics.py:91:        state = "RANGE_MIDDLE_AVOID"
+  analysis\price_action\trading_range_playbook_dynamics.py:92:        if h2:
+  analysis\price_action\trading_range_playbook_dynamics.py:93:            state = "BUY_LOW_H2"
+  analysis\price_action\trading_range_playbook_dynamics.py:94:        elif l2:
+  analysis\price_action\trading_range_playbook_dynamics.py:95:            state = "SELL_HIGH_L2"
+  analysis\price_action\trading_range_playbook_dynamics.py:96:        elif breakout_attempt:
+  analysis\price_action\trading_range_playbook_dynamics.py:133:            l2_near_high=l2,
+  analysis\price_action\trading_range_playbook_dynamics.py:134:            breakout_attempt=breakout_attempt,
+  analysis\price_action\trading_range_playbook_dynamics.py:135:            failed_breakout_risk=failed_breakout,
+> analysis\price_action\trading_range_playbook_dynamics.py:136:            scalp_bias=scalp_bias,
+  analysis\price_action\trading_range_playbook_dynamics.py:137:            avoid_middle=avoid_middle,
+  analysis\price_action\trading_range_playbook_dynamics.py:138:            swing_candidate=swing_candidate,
+  analysis\price_action\trading_range_playbook_dynamics.py:139:            reasons=tuple(reasons),
+  analysis\price_action\trading_range_playbook_dynamics.py:140:        )
+  analysis\price_action\trading_range_playbook_dynamics.py:141:
+  analysis\price_action\trading_range_playbook_dynamics.py:142:    def _zone(self, position):
+  analysis\price_action\trading_range_playbook_dynamics.py:143:        if position <= self.EDGE_FRACTION:
+  analysis\price_action\trading_range_playbook_dynamics.py:144:            return "LOW"
+  analysis\price_action\trending_range_day_dynamics.py:91:        else:
+  analysis\price_action\trending_range_day_dynamics.py:92:            state = "BREAKOUT_PHASE"
+  analysis\price_action\trending_range_day_dynamics.py:93:
+> analysis\price_action\trending_range_day_dynamics.py:94:        direction_bias = "BUY" if direction == "UP" else 
+"SELL"
+  analysis\price_action\trending_range_day_dynamics.py:95:
+  analysis\price_action\trending_range_day_dynamics.py:96:        if trend in (Trend.UP, Trend.DOWN):
+  analysis\price_action\trending_range_day_dynamics.py:97:            aligned = (
+  analysis\price_action\trending_range_day_dynamics.py:98:                trend == Trend.UP and direction == "UP"
+  analysis\price_action\trending_range_day_dynamics.py:99:            ) or (
+  analysis\price_action\trending_range_day_dynamics.py:100:                trend == Trend.DOWN and direction == "DOWN"
+  analysis\price_action\trending_range_day_dynamics.py:101:            )
+  analysis\price_action\trending_range_day_dynamics.py:102:        else:
+  analysis\price_action\twenty_gap_bars_dynamics.py:80:        current_close = float(closed[-1].close)
+  analysis\price_action\twenty_gap_bars_dynamics.py:81:        distance_to_extreme = abs(prior_extreme - 
+current_close) if prior_extreme else 0.0
+  analysis\price_action\twenty_gap_bars_dynamics.py:82:        stretched = gap_count >= self.MIN_GAP_BARS
+> analysis\price_action\twenty_gap_bars_dynamics.py:83:        continuation_bias = first_touch and reaction_confirmed 
+and not prior_reversal
+  analysis\price_action\twenty_gap_bars_dynamics.py:84:
+  analysis\price_action\twenty_gap_bars_dynamics.py:85:        if prior_reversal:
+  analysis\price_action\twenty_gap_bars_dynamics.py:86:            state = "REVERSAL_PRECEDES_TOUCH"
+  analysis\price_action\twenty_gap_bars_dynamics.py:87:        elif not first_touch:
+  analysis\price_action\twenty_gap_bars_dynamics.py:88:            state = "TWENTY_GAP_ACTIVE"
+  analysis\price_action\twenty_gap_bars_dynamics.py:89:        elif reaction_confirmed:
+  analysis\price_action\twenty_gap_bars_dynamics.py:90:            state = "FIRST_TOUCH_REACTION_CONFIRMED"
+  analysis\price_action\twenty_gap_bars_dynamics.py:91:        elif crossed:
+  analysis\price_action\twenty_gap_bars_dynamics.py:117:            prior_trend_reversal=prior_reversal,
+  analysis\price_action\twenty_gap_bars_dynamics.py:118:            prior_extreme=prior_extreme,
+  analysis\price_action\twenty_gap_bars_dynamics.py:119:            distance_to_prior_extreme=distance_to_extreme,
+> analysis\price_action\twenty_gap_bars_dynamics.py:120:            continuation_bias=continuation_bias,
+  analysis\price_action\twenty_gap_bars_dynamics.py:121:            stretched_trend=stretched,
+  analysis\price_action\twenty_gap_bars_dynamics.py:122:            reasons=tuple(reasons),
+  analysis\price_action\twenty_gap_bars_dynamics.py:123:        )
+  analysis\price_action\twenty_gap_bars_dynamics.py:124:
+  analysis\price_action\twenty_gap_bars_dynamics.py:125:    def _detect_gap_sequence(self, candles, ema):
+  analysis\price_action\twenty_gap_bars_dynamics.py:126:        # Find the latest run of bars entirely on one side of 
+the EMA and then
+  analysis\price_action\twenty_gap_bars_dynamics.py:127:        # the first subsequent touch, if any.
+  analysis\price_action\twenty_gap_bars_dynamics.py:128:        best_direction = "NONE"
+  analysis\price_action\wedge_pullback_dynamics.py:82:
+  analysis\price_action\wedge_pullback_dynamics.py:83:        with_trend = True
+  analysis\price_action\wedge_pullback_dynamics.py:84:        countertrend_reversal = False
+> analysis\price_action\wedge_pullback_dynamics.py:85:        continuation_bias = breakout_confirmed and not tight
+  analysis\price_action\wedge_pullback_dynamics.py:86:        reversal_watch = shrinking or expanding
+  analysis\price_action\wedge_pullback_dynamics.py:87:        exhaustion_risk = shrinking or len(pushes) >= 3
+  analysis\price_action\wedge_pullback_dynamics.py:88:
+  analysis\price_action\wedge_pullback_dynamics.py:89:        if tight and not breakout_confirmed:
+  analysis\price_action\wedge_pullback_dynamics.py:90:            pattern = "THREE_PUSH_TIGHT_CHANNEL"
+> analysis\price_action\wedge_pullback_dynamics.py:91:            continuation_bias = False
+  analysis\price_action\wedge_pullback_dynamics.py:92:        elif breakout_confirmed:
+  analysis\price_action\wedge_pullback_dynamics.py:93:            pattern = "WEDGE_PULLBACK_CONFIRMED"
+  analysis\price_action\wedge_pullback_dynamics.py:94:        else:
+  analysis\price_action\wedge_pullback_dynamics.py:95:            pattern = "WEDGE_PULLBACK_WAIT"
+  analysis\price_action\wedge_pullback_dynamics.py:96:
+  analysis\price_action\wedge_pullback_dynamics.py:97:        reasons = [
+  analysis\price_action\wedge_pullback_dynamics.py:98:            f"TREND_{trend}",
+  analysis\price_action\wedge_pullback_dynamics.py:99:            "THREE_PUSH_PATTERN",
+  analysis\price_action\wedge_pullback_dynamics.py:125:            countertrend_reversal=countertrend_reversal,
+  analysis\price_action\wedge_pullback_dynamics.py:126:            breakout_confirmed=breakout_confirmed,
+  analysis\price_action\wedge_pullback_dynamics.py:127:            breakout_strength=round(breakout_strength, 1),
+> analysis\price_action\wedge_pullback_dynamics.py:128:            continuation_bias=continuation_bias,
+  analysis\price_action\wedge_pullback_dynamics.py:129:            reversal_watch=reversal_watch,
+  analysis\price_action\wedge_pullback_dynamics.py:130:            exhaustion_risk=exhaustion_risk,
+  analysis\price_action\wedge_pullback_dynamics.py:131:            reasons=tuple(reasons),
+  analysis\price_action\wedge_pullback_dynamics.py:132:        )
+  analysis\price_action\wedge_pullback_dynamics.py:133:
+  analysis\price_action\wedge_pullback_dynamics.py:134:    def _infer_trend(self, candles):
+  analysis\price_action\wedge_pullback_dynamics.py:135:        sample = candles[-12:]
+  analysis\price_action\wedge_pullback_dynamics.py:136:        atr = max(self._average_range(sample), 1e-9)
+  analysis\replay\historical_microstructure_bridge.py:28:    cycle: int
+  analysis\replay\historical_microstructure_bridge.py:29:    timestamp: str
+  analysis\replay\historical_microstructure_bridge.py:30:    source_alignment: str
+> analysis\replay\historical_microstructure_bridge.py:31:    price_action_bias: str
+  analysis\replay\historical_microstructure_bridge.py:32:    structure_trend: str
+  analysis\replay\historical_microstructure_bridge.py:33:    recent_delta: float
+  analysis\replay\historical_microstructure_bridge.py:34:    dominance: float
+  analysis\replay\historical_microstructure_bridge.py:35:    imbalance: float
+  analysis\replay\historical_microstructure_bridge.py:36:    order_flow_pressure: str
+  analysis\replay\historical_microstructure_bridge.py:37:    book_pressure: str
+  analysis\replay\historical_microstructure_bridge.py:38:    confluence: dict
+  analysis\replay\historical_microstructure_bridge.py:39:    eligibility: dict
+  analysis\replay\historical_microstructure_bridge.py:77:        pa = sample["price_action"]
+  analysis\replay\historical_microstructure_bridge.py:78:        structure = sample["structure"]
+  analysis\replay\historical_microstructure_bridge.py:79:
+> analysis\replay\historical_microstructure_bridge.py:80:        pa_bias = str(pa.get("bias", "NONE") or 
+"NONE").upper()
+  analysis\replay\historical_microstructure_bridge.py:81:        structure_trend = str(
+  analysis\replay\historical_microstructure_bridge.py:82:            structure.get("trend", "UNKNOWN") or "UNKNOWN"
+  analysis\replay\historical_microstructure_bridge.py:83:        ).upper()
+  analysis\replay\historical_microstructure_bridge.py:84:
+  analysis\replay\historical_microstructure_bridge.py:85:        recent_delta = 
+self._float(sample.get("recent_delta"))
+  analysis\replay\historical_microstructure_bridge.py:86:        dominance = abs(self._float(sample.get("dominance")))
+  analysis\replay\historical_microstructure_bridge.py:87:        imbalance = self._float(sample.get("imbalance"))
+  analysis\replay\historical_microstructure_bridge.py:88:
+  analysis\replay\historical_microstructure_bridge.py:95:
+  analysis\replay\historical_microstructure_bridge.py:96:        context = SimpleNamespace(
+  analysis\replay\historical_microstructure_bridge.py:97:            price_action=SimpleNamespace(
+> analysis\replay\historical_microstructure_bridge.py:98:                bias=pa_bias,
+  analysis\replay\historical_microstructure_bridge.py:99:            ),
+  analysis\replay\historical_microstructure_bridge.py:100:            structure=SimpleNamespace(
+  analysis\replay\historical_microstructure_bridge.py:101:                trend=structure_trend,
+  analysis\replay\historical_microstructure_bridge.py:102:            ),
+  analysis\replay\historical_microstructure_bridge.py:103:            order_flow=SimpleNamespace(
+  analysis\replay\historical_microstructure_bridge.py:104:                pressure=order_flow_pressure,
+  analysis\replay\historical_microstructure_bridge.py:105:
+  analysis\replay\historical_microstructure_bridge.py:106:                # Nao reconstruiveis com fidelidade a 
+partir do
+  analysis\replay\historical_microstructure_bridge.py:115:                # Level 2 suficiente para reconstruir 
+BookDepthAnalysis.
+  analysis\replay\historical_microstructure_bridge.py:116:                valid=book_pressure != "BALANCED",
+  analysis\replay\historical_microstructure_bridge.py:117:                pressure=book_pressure,
+> analysis\replay\historical_microstructure_bridge.py:118:                concentration_bias="BALANCED",
+  analysis\replay\historical_microstructure_bridge.py:119:
+  analysis\replay\historical_microstructure_bridge.py:120:                # Sem concentracao top-N e spread 
+normalizado historicos,
+  analysis\replay\historical_microstructure_bridge.py:121:                # nao fabricamos confianca.
+  analysis\replay\historical_microstructure_bridge.py:122:                confidence=0.0,
+  analysis\replay\historical_microstructure_bridge.py:123:
+  analysis\replay\historical_microstructure_bridge.py:124:                # O imbalance usado no RC54 participa da 
+mesma camada
+  analysis\replay\historical_microstructure_bridge.py:125:                # observacional Delta/Book; 
+conservadoramente tratamos
+  analysis\replay\historical_microstructure_bridge.py:126:                # como potencialmente correlato.
+  analysis\replay\historical_microstructure_bridge.py:137:            source_alignment=str(
+  analysis\replay\historical_microstructure_bridge.py:138:                sample.get("alignment", "NEUTRAL") or 
+"NEUTRAL"
+  analysis\replay\historical_microstructure_bridge.py:139:            ).upper(),
+> analysis\replay\historical_microstructure_bridge.py:140:            price_action_bias=pa_bias,
+  analysis\replay\historical_microstructure_bridge.py:141:            structure_trend=structure_trend,
+  analysis\replay\historical_microstructure_bridge.py:142:            recent_delta=recent_delta,
+  analysis\replay\historical_microstructure_bridge.py:143:            dominance=dominance,
+  analysis\replay\historical_microstructure_bridge.py:144:            imbalance=imbalance,
+  analysis\replay\historical_microstructure_bridge.py:145:            order_flow_pressure=order_flow_pressure,
+  analysis\replay\historical_microstructure_bridge.py:146:            book_pressure=book_pressure,
+  analysis\replay\historical_microstructure_bridge.py:147:            confluence=confluence.to_dict(),
+  analysis\replay\historical_microstructure_bridge.py:148:            eligibility=eligibility.to_dict(),
+  analysis\replay\microstructure_confluence.py:13:
+  analysis\replay\microstructure_confluence.py:14:@dataclass(slots=True, frozen=True)
+  analysis\replay\microstructure_confluence.py:15:class MicrostructureConfluenceSnapshot:
+> analysis\replay\microstructure_confluence.py:16:    price_action_bias: str = "NONE"
+  analysis\replay\microstructure_confluence.py:17:    order_flow_pressure: str = "INSUFFICIENT_DATA"
+  analysis\replay\microstructure_confluence.py:18:    flow_momentum: str = "INSUFFICIENT_DATA"
+  analysis\replay\microstructure_confluence.py:19:    pattern_direction: str = "NONE"
+  analysis\replay\microstructure_confluence.py:20:    flow_direction: str = "NONE"
+  analysis\replay\microstructure_confluence.py:21:    structure_alignment: str = "UNAVAILABLE"
+  analysis\replay\microstructure_confluence.py:22:    structural_confidence: float = 0.0
+  analysis\replay\microstructure_confluence.py:23:    book_available: bool = False
+  analysis\replay\microstructure_confluence.py:24:    book_pressure: str = "UNAVAILABLE"
+  analysis\replay\microstructure_confluence.py:49:        flow = getattr(context, "order_flow", None)
+  analysis\replay\microstructure_confluence.py:50:        book = getattr(context, "book_depth_analysis", None)
+  analysis\replay\microstructure_confluence.py:51:
+> analysis\replay\microstructure_confluence.py:52:        pa_bias = str(getattr(pa, "bias", "NONE") or "NONE").upper()
+  analysis\replay\microstructure_confluence.py:53:        pressure = str(
+  analysis\replay\microstructure_confluence.py:54:            getattr(flow, "pressure", "INSUFFICIENT_DATA") or 
+"INSUFFICIENT_DATA"
+  analysis\replay\microstructure_confluence.py:55:        ).upper()
+  analysis\replay\microstructure_confluence.py:56:        momentum = str(
+  analysis\replay\microstructure_confluence.py:57:            getattr(flow, "flow_momentum", "INSUFFICIENT_DATA") or 
+"INSUFFICIENT_DATA"
+  analysis\replay\microstructure_confluence.py:58:        ).upper()
+  analysis\replay\microstructure_confluence.py:59:        pattern_direction = str(
+  analysis\replay\microstructure_confluence.py:60:            getattr(flow, "pattern_direction", "NONE") or "NONE"
+  analysis\replay\microstructure_confluence.py:87:        )
+  analysis\replay\microstructure_confluence.py:88:
+  analysis\replay\microstructure_confluence.py:89:        independent_count, correlated_count, conflict_count = 
+self._evidence_counts(
+> analysis\replay\microstructure_confluence.py:90:            pa_bias=pa_bias,
+  analysis\replay\microstructure_confluence.py:91:            flow_direction=flow_direction,
+  analysis\replay\microstructure_confluence.py:92:            book_direction=book_direction,
+  analysis\replay\microstructure_confluence.py:93:            book_correlated=book_correlated,
+  analysis\replay\microstructure_confluence.py:94:            delta_duplicate=delta_duplicate,
+  analysis\replay\microstructure_confluence.py:95:        )
+  analysis\replay\microstructure_confluence.py:96:
+  analysis\replay\microstructure_confluence.py:97:        state, direction = self._state(
+> analysis\replay\microstructure_confluence.py:98:            pa_bias=pa_bias,
+  analysis\replay\microstructure_confluence.py:99:            flow_direction=flow_direction,
+  analysis\replay\microstructure_confluence.py:100:            book_direction=book_direction,
+  analysis\replay\microstructure_confluence.py:101:            conflict_count=conflict_count,
+  analysis\replay\microstructure_confluence.py:102:        )
+  analysis\replay\microstructure_confluence.py:103:        quality = self._quality(
+  analysis\replay\microstructure_confluence.py:104:            state=state,
+  analysis\replay\microstructure_confluence.py:105:            independent_count=independent_count,
+  analysis\replay\microstructure_confluence.py:106:            conflict_count=conflict_count,
+  analysis\replay\microstructure_confluence.py:111:            structure_alignment=structure_alignment,
+  analysis\replay\microstructure_confluence.py:112:            structural_confidence=structural_confidence,
+  analysis\replay\microstructure_confluence.py:113:            book_direction=book_direction,
+> analysis\replay\microstructure_confluence.py:114:            pa_bias=pa_bias,
+  analysis\replay\microstructure_confluence.py:115:            book_confidence=book_confidence,
+  analysis\replay\microstructure_confluence.py:116:            book_correlated=book_correlated,
+  analysis\replay\microstructure_confluence.py:117:            conflict_count=conflict_count,
+  analysis\replay\microstructure_confluence.py:118:        )
+  analysis\replay\microstructure_confluence.py:119:
+  analysis\replay\microstructure_confluence.py:120:        return MicrostructureConfluenceSnapshot(
+> analysis\replay\microstructure_confluence.py:121:            price_action_bias=pa_bias,
+  analysis\replay\microstructure_confluence.py:122:            order_flow_pressure=pressure,
+  analysis\replay\microstructure_confluence.py:123:            flow_momentum=momentum,
+  analysis\replay\microstructure_confluence.py:124:            pattern_direction=pattern_direction,
+  analysis\replay\microstructure_confluence.py:125:            flow_direction=flow_direction,
+  analysis\replay\microstructure_confluence.py:126:            structure_alignment=structure_alignment,
+  analysis\replay\microstructure_confluence.py:127:            structural_confidence=structural_confidence,
+  analysis\replay\microstructure_confluence.py:128:            book_available=book_available,
+  analysis\replay\microstructure_confluence.py:129:            book_pressure=book_pressure,
+  analysis\replay\microstructure_confluence.py:167:            votes.append("BUY")
+  analysis\replay\microstructure_confluence.py:168:        elif pressure == "ASK_DOMINANT":
+  analysis\replay\microstructure_confluence.py:169:            votes.append("SELL")
+> analysis\replay\microstructure_confluence.py:170:        if concentration_bias == "BID_DOMINANT":
+  analysis\replay\microstructure_confluence.py:171:            votes.append("BUY")
+> analysis\replay\microstructure_confluence.py:172:        elif concentration_bias == "ASK_DOMINANT":
+  analysis\replay\microstructure_confluence.py:173:            votes.append("SELL")
+  analysis\replay\microstructure_confluence.py:174:        if not votes or votes.count("BUY") == votes.count("SELL"):
+  analysis\replay\microstructure_confluence.py:175:            return "NONE"
+  analysis\replay\microstructure_confluence.py:176:        return "BUY" if votes.count("BUY") > votes.count("SELL") 
+else "SELL"
+  analysis\replay\microstructure_confluence.py:177:
+  analysis\replay\microstructure_confluence.py:178:    @staticmethod
+  analysis\replay\microstructure_confluence.py:179:    def _duplicate_risk(*, pressure: str, momentum: str, 
+pattern_direction: str) -> bool:
+  analysis\replay\microstructure_confluence.py:180:        derived = 0
+  analysis\replay\microstructure_confluence_replay_recorder.py:20:    independent_evidence_count: int = 0
+  analysis\replay\microstructure_confluence_replay_recorder.py:21:    correlated_evidence_count: int = 0
+  analysis\replay\microstructure_confluence_replay_recorder.py:22:    conflict_count: int = 0
+> analysis\replay\microstructure_confluence_replay_recorder.py:23:    price_action_bias: str = "NONE"
+  analysis\replay\microstructure_confluence_replay_recorder.py:24:    order_flow_pressure: str = "INSUFFICIENT_DATA"
+  analysis\replay\microstructure_confluence_replay_recorder.py:25:    flow_momentum: str = "INSUFFICIENT_DATA"
+  analysis\replay\microstructure_confluence_replay_recorder.py:26:    pattern_direction: str = "NONE"
+  analysis\replay\microstructure_confluence_replay_recorder.py:27:    flow_direction: str = "NONE"
+  analysis\replay\microstructure_confluence_replay_recorder.py:28:    structure_alignment: str = "UNAVAILABLE"
+  analysis\replay\microstructure_confluence_replay_recorder.py:29:    structural_confidence: float = 0.0
+  analysis\replay\microstructure_confluence_replay_recorder.py:30:    book_pressure: str = "UNAVAILABLE"
+  analysis\replay\microstructure_confluence_replay_recorder.py:31:    book_direction: str = "NONE"
+  analysis\replay\microstructure_confluence_replay_recorder.py:86:            
+independent_evidence_count=snapshot.independent_evidence_count,
+  analysis\replay\microstructure_confluence_replay_recorder.py:87:            
+correlated_evidence_count=snapshot.correlated_evidence_count,
+  analysis\replay\microstructure_confluence_replay_recorder.py:88:            conflict_count=snapshot.conflict_count,
+> analysis\replay\microstructure_confluence_replay_recorder.py:89:            
+price_action_bias=snapshot.price_action_bias,
+  analysis\replay\microstructure_confluence_replay_recorder.py:90:            
+order_flow_pressure=snapshot.order_flow_pressure,
+  analysis\replay\microstructure_confluence_replay_recorder.py:91:            flow_momentum=snapshot.flow_momentum,
+  analysis\replay\microstructure_confluence_replay_recorder.py:92:            
+pattern_direction=snapshot.pattern_direction,
+  analysis\replay\microstructure_confluence_replay_recorder.py:93:            flow_direction=snapshot.flow_direction,
+  analysis\replay\microstructure_confluence_replay_recorder.py:94:            
+structure_alignment=snapshot.structure_alignment,
+  analysis\replay\microstructure_confluence_replay_recorder.py:95:            
+structural_confidence=snapshot.structural_confidence,
+  analysis\replay\microstructure_confluence_replay_recorder.py:96:            book_pressure=snapshot.book_pressure,
+  analysis\replay\microstructure_confluence_replay_recorder.py:97:            book_direction=snapshot.book_direction,
+  analysis\replay\score_book_depth_ab_recorder.py:89:        baseline_total = float(getattr(score, "total", 0.0) or 
+0.0)
+  analysis\replay\score_book_depth_ab_recorder.py:90:        baseline_grade = str(getattr(score, "grade", 
+"REPROVADO") or "REPROVADO")
+  analysis\replay\score_book_depth_ab_recorder.py:91:        baseline_valid = bool(getattr(score, "valid", False))
+> analysis\replay\score_book_depth_ab_recorder.py:92:        bias = str(getattr(score, "bias", "NONE") or 
+"NONE").upper()
+  analysis\replay\score_book_depth_ab_recorder.py:93:        status = str(
+  analysis\replay\score_book_depth_ab_recorder.py:94:            getattr(checklist, "book_depth_status", 
+"UNAVAILABLE") or "UNAVAILABLE"
+  analysis\replay\score_book_depth_ab_recorder.py:95:        ).upper()
+  analysis\replay\score_book_depth_ab_recorder.py:96:        pressure = str(
+  analysis\replay\score_book_depth_ab_recorder.py:97:            getattr(checklist, "book_depth_pressure", 
+"UNAVAILABLE") or "UNAVAILABLE"
+  analysis\replay\score_book_depth_ab_recorder.py:98:        ).upper()
+  analysis\replay\score_book_depth_ab_recorder.py:99:        confidence = self._clamp(
+  analysis\replay\score_book_depth_ab_recorder.py:100:            getattr(checklist, "book_depth_confidence", 0.0)
+  analysis\replay\score_book_depth_ab_recorder.py:125:            baseline_valid=baseline_valid,
+  analysis\replay\score_book_depth_ab_recorder.py:126:            adjusted_valid=adjusted_valid,
+  analysis\replay\score_book_depth_ab_recorder.py:127:            validity_changed=baseline_valid != adjusted_valid,
+> analysis\replay\score_book_depth_ab_recorder.py:128:            bias=bias,
+  analysis\replay\score_book_depth_ab_recorder.py:129:            status=status,
+  analysis\replay\score_book_depth_ab_recorder.py:130:            pressure=pressure,
+  analysis\replay\score_book_depth_ab_recorder.py:131:            confidence=confidence,
+  analysis\replay\score_book_depth_ab_recorder.py:132:            
+confidence_bucket=self._confidence_bucket(confidence, status),
+  analysis\replay\score_book_depth_ab_recorder.py:133:            duplicate_evidence_risk=duplicate,
+  analysis\replay\score_book_depth_ab_recorder.py:134:            correlation_bucket="CORRELATED" if duplicate else 
+"INDEPENDENT",
+  analysis\replay\score_book_depth_ab_recorder.py:135:            correlation_factor=correlation_factor,
+  analysis\replay\score_book_depth_ab_recorder.py:136:            effective_strength=effective_strength,
+  analysis\replay\score_book_depth_ab_recorder.py:161:            "by_confidence": 
+self._group_by("confidence_bucket"),
+  analysis\replay\score_book_depth_ab_recorder.py:162:        }
+  analysis\replay\score_book_depth_ab_recorder.py:163:
+> analysis\replay\score_book_depth_ab_recorder.py:164:    def scenario(self, *, status=None, pressure=None, 
+bias=None, correlation=None, confidence=None) -> dict:
+  analysis\replay\score_book_depth_ab_recorder.py:165:        selected = list(self._samples)
+  analysis\replay\score_book_depth_ab_recorder.py:166:        filters = {}
+  analysis\replay\score_book_depth_ab_recorder.py:167:        for field, raw_value in (
+  analysis\replay\score_book_depth_ab_recorder.py:168:            ("status", status),
+  analysis\replay\score_book_depth_ab_recorder.py:169:            ("pressure", pressure),
+  analysis\replay\score_book_depth_ab_recorder.py:170:            ("bias", bias),
+  analysis\replay\score_book_depth_ab_recorder.py:171:            ("correlation_bucket", correlation),
+  analysis\replay\score_book_depth_ab_recorder.py:172:            ("confidence_bucket", confidence),
+  analysis\replay\score_external_context_ab_recorder.py:97:        baseline_total = float(getattr(score, "total", 
+0.0) or 0.0)
+  analysis\replay\score_external_context_ab_recorder.py:98:        baseline_grade = str(getattr(score, "grade", 
+"REPROVADO") or "REPROVADO")
+  analysis\replay\score_external_context_ab_recorder.py:99:        baseline_valid = bool(getattr(score, "valid", 
+False))
+> analysis\replay\score_external_context_ab_recorder.py:100:        bias = str(getattr(score, "bias", "NONE") or 
+"NONE").upper()
+  analysis\replay\score_external_context_ab_recorder.py:101:
+  analysis\replay\score_external_context_ab_recorder.py:102:        status = str(
+  analysis\replay\score_external_context_ab_recorder.py:103:            getattr(checklist, "external_context_status", 
+"UNAVAILABLE")
+  analysis\replay\score_external_context_ab_recorder.py:104:            or "UNAVAILABLE"
+  analysis\replay\score_external_context_ab_recorder.py:105:        ).upper()
+  analysis\replay\score_external_context_ab_recorder.py:106:        confidence = self._clamp_confidence(
+  analysis\replay\score_external_context_ab_recorder.py:107:            getattr(checklist, 
+"external_context_confidence", 0.0)
+  analysis\replay\score_external_context_ab_recorder.py:108:        )
+  analysis\replay\score_external_context_ab_recorder.py:128:            baseline_valid=baseline_valid,
+  analysis\replay\score_external_context_ab_recorder.py:129:            adjusted_valid=adjusted_valid,
+  analysis\replay\score_external_context_ab_recorder.py:130:            validity_changed=baseline_valid != 
+adjusted_valid,
+> analysis\replay\score_external_context_ab_recorder.py:131:            bias=bias,
+  analysis\replay\score_external_context_ab_recorder.py:132:            external_status=status,
+  analysis\replay\score_external_context_ab_recorder.py:133:            external_risk=str(
+  analysis\replay\score_external_context_ab_recorder.py:134:                getattr(context, "external_risk", 
+"NEUTRAL") or "NEUTRAL"
+  analysis\replay\score_external_context_ab_recorder.py:135:            ).upper(),
+> analysis\replay\score_external_context_ab_recorder.py:136:            external_bias=str(
+  analysis\replay\score_external_context_ab_recorder.py:137:                getattr(context, "external_bias", 
+"NEUTRAL") or "NEUTRAL"
+  analysis\replay\score_external_context_ab_recorder.py:138:            ).upper(),
+  analysis\replay\score_external_context_ab_recorder.py:139:            external_confidence=confidence,
+  analysis\replay\score_external_context_ab_recorder.py:140:            
+confidence_bucket=self._confidence_bucket(status, confidence),
+  analysis\replay\score_external_context_ab_recorder.py:141:            adjustment=round(adjustment, 2),
+  analysis\replay\score_external_context_ab_recorder.py:142:            passive_only=True,
+  analysis\replay\score_external_context_ab_recorder.py:143:        )
+  analysis\replay\score_external_context_ab_recorder.py:144:
+  analysis\replay\score_external_context_ab_recorder.py:174:        *,
+  analysis\replay\score_external_context_ab_recorder.py:175:        risk=None,
+  analysis\replay\score_external_context_ab_recorder.py:176:        status=None,
+> analysis\replay\score_external_context_ab_recorder.py:177:        bias=None,
+  analysis\replay\score_external_context_ab_recorder.py:178:        confidence=None,
+  analysis\replay\score_external_context_ab_recorder.py:179:    ) -> dict:
+  analysis\replay\score_external_context_ab_recorder.py:180:        selected = self._samples
+  analysis\replay\score_external_context_ab_recorder.py:181:        filters = {}
+  analysis\replay\score_external_context_ab_recorder.py:182:
+  analysis\replay\score_external_context_ab_recorder.py:183:        if risk is not None:
+  analysis\replay\score_external_context_ab_recorder.py:184:            value = str(risk).upper()
+  analysis\replay\score_external_context_ab_recorder.py:185:            filters["external_risk"] = value
+  analysis\replay\score_external_context_ab_recorder.py:193:        if bias is not None:
+  analysis\replay\score_external_context_ab_recorder.py:194:            value = str(bias).upper()
+  analysis\replay\score_external_context_ab_recorder.py:195:            filters["bias"] = value
+> analysis\replay\score_external_context_ab_recorder.py:196:            selected = [s for s in selected if s.bias == 
+value]
+  analysis\replay\score_external_context_ab_recorder.py:197:
+  analysis\replay\score_external_context_ab_recorder.py:198:        if confidence is not None:
+  analysis\replay\score_external_context_ab_recorder.py:199:            value = str(confidence).upper()
+  analysis\replay\score_external_context_ab_recorder.py:200:            filters["confidence_bucket"] = value
+  analysis\replay\score_external_context_ab_recorder.py:201:            selected = [s for s in selected if 
+s.confidence_bucket == value]
+  analysis\replay\score_external_context_ab_recorder.py:202:
+  analysis\replay\score_external_context_ab_recorder.py:203:        return {
+  analysis\replay\score_external_context_ab_recorder.py:204:            "version": self.VERSION,
+  analysis\replay\score_order_flow_ab_recorder.py:101:        baseline_total = float(getattr(score, "total", 0.0) or 
+0.0)
+  analysis\replay\score_order_flow_ab_recorder.py:102:        baseline_grade = str(getattr(score, "grade", 
+"REPROVADO") or "REPROVADO")
+  analysis\replay\score_order_flow_ab_recorder.py:103:        baseline_valid = bool(getattr(score, "valid", False))
+> analysis\replay\score_order_flow_ab_recorder.py:104:        bias = str(getattr(score, "bias", "NONE") or 
+"NONE").upper()
+  analysis\replay\score_order_flow_ab_recorder.py:105:
+  analysis\replay\score_order_flow_ab_recorder.py:106:        status = str(
+  analysis\replay\score_order_flow_ab_recorder.py:107:            getattr(checklist, "order_flow_status", 
+"UNAVAILABLE")
+  analysis\replay\score_order_flow_ab_recorder.py:108:            or "UNAVAILABLE"
+  analysis\replay\score_order_flow_ab_recorder.py:109:        ).upper()
+  analysis\replay\score_order_flow_ab_recorder.py:110:        momentum = str(
+  analysis\replay\score_order_flow_ab_recorder.py:111:            getattr(checklist, "order_flow_momentum", 
+"INSUFFICIENT_DATA")
+  analysis\replay\score_order_flow_ab_recorder.py:112:            or "INSUFFICIENT_DATA"
+  analysis\replay\score_order_flow_ab_recorder.py:140:            baseline_valid=baseline_valid,
+  analysis\replay\score_order_flow_ab_recorder.py:141:            adjusted_valid=adjusted_valid,
+  analysis\replay\score_order_flow_ab_recorder.py:142:            validity_changed=baseline_valid != adjusted_valid,
+> analysis\replay\score_order_flow_ab_recorder.py:143:            bias=bias,
+  analysis\replay\score_order_flow_ab_recorder.py:144:            order_flow_status=status,
+  analysis\replay\score_order_flow_ab_recorder.py:145:            flow_momentum=momentum,
+  analysis\replay\score_order_flow_ab_recorder.py:146:            delta_persistence=persistence,
+  analysis\replay\score_order_flow_ab_recorder.py:147:            delta_impulse_ratio=impulse,
+  analysis\replay\score_order_flow_ab_recorder.py:148:            evidence_strength=evidence_strength,
+  analysis\replay\score_order_flow_ab_recorder.py:149:            
+strength_bucket=self._strength_bucket(evidence_strength),
+  analysis\replay\score_order_flow_ab_recorder.py:150:            adjustment=round(adjustment, 2),
+  analysis\replay\score_order_flow_ab_recorder.py:151:            passive_only=True,
+  analysis\replay\score_order_flow_ab_recorder.py:172:            "by_strength": self._group_by("strength_bucket"),
+  analysis\replay\score_order_flow_ab_recorder.py:173:        }
+  analysis\replay\score_order_flow_ab_recorder.py:174:
+> analysis\replay\score_order_flow_ab_recorder.py:175:    def scenario(self, *, status=None, momentum=None, 
+bias=None, strength=None) -> dict:
+  analysis\replay\score_order_flow_ab_recorder.py:176:        selected = self._samples
+  analysis\replay\score_order_flow_ab_recorder.py:177:        filters = {}
+  analysis\replay\score_order_flow_ab_recorder.py:178:
+  analysis\replay\score_order_flow_ab_recorder.py:179:        if status is not None:
+  analysis\replay\score_order_flow_ab_recorder.py:180:            value = str(status).upper()
+  analysis\replay\score_order_flow_ab_recorder.py:181:            filters["order_flow_status"] = value
+  analysis\replay\score_order_flow_ab_recorder.py:182:            selected = [s for s in selected if 
+s.order_flow_status == value]
+  analysis\replay\score_order_flow_ab_recorder.py:183:
+  analysis\replay\score_order_flow_ab_recorder.py:189:        if bias is not None:
+  analysis\replay\score_order_flow_ab_recorder.py:190:            value = str(bias).upper()
+  analysis\replay\score_order_flow_ab_recorder.py:191:            filters["bias"] = value
+> analysis\replay\score_order_flow_ab_recorder.py:192:            selected = [s for s in selected if s.bias == value]
+  analysis\replay\score_order_flow_ab_recorder.py:193:
+  analysis\replay\score_order_flow_ab_recorder.py:194:        if strength is not None:
+  analysis\replay\score_order_flow_ab_recorder.py:195:            value = str(strength).upper()
+  analysis\replay\score_order_flow_ab_recorder.py:196:            filters["strength_bucket"] = value
+  analysis\replay\score_order_flow_ab_recorder.py:197:            selected = [s for s in selected if 
+s.strength_bucket == value]
+  analysis\replay\score_order_flow_ab_recorder.py:198:
+  analysis\replay\score_order_flow_ab_recorder.py:199:        return {
+  analysis\replay\score_order_flow_ab_recorder.py:200:            "version": self.VERSION,
+  analysis\replay\score_order_flow_structure_ab_recorder.py:87:        baseline_total = float(getattr(score, "total", 
+0.0) or 0.0)
+  analysis\replay\score_order_flow_structure_ab_recorder.py:88:        baseline_grade = str(getattr(score, "grade", 
+"REPROVADO") or "REPROVADO")
+  analysis\replay\score_order_flow_structure_ab_recorder.py:89:        baseline_valid = bool(getattr(score, "valid", 
+False))
+> analysis\replay\score_order_flow_structure_ab_recorder.py:90:        bias = str(getattr(score, "bias", "NONE") or 
+"NONE").upper()
+  analysis\replay\score_order_flow_structure_ab_recorder.py:91:        pattern_direction = str(
+  analysis\replay\score_order_flow_structure_ab_recorder.py:92:            getattr(checklist, 
+"order_flow_pattern_direction", "NONE") or "NONE"
+  analysis\replay\score_order_flow_structure_ab_recorder.py:93:        ).upper()
+  analysis\replay\score_order_flow_structure_ab_recorder.py:94:        alignment = str(
+  analysis\replay\score_order_flow_structure_ab_recorder.py:95:            getattr(checklist, 
+"order_flow_structure_alignment", "UNAVAILABLE")
+  analysis\replay\score_order_flow_structure_ab_recorder.py:96:            or "UNAVAILABLE"
+  analysis\replay\score_order_flow_structure_ab_recorder.py:97:        ).upper()
+  analysis\replay\score_order_flow_structure_ab_recorder.py:98:        confidence = self._clamp(
+  analysis\replay\score_order_flow_structure_ab_recorder.py:100:        )
+  analysis\replay\score_order_flow_structure_ab_recorder.py:101:
+  analysis\replay\score_order_flow_structure_ab_recorder.py:102:        adjustment = self._adjustment(
+> analysis\replay\score_order_flow_structure_ab_recorder.py:103:            bias=bias,
+  analysis\replay\score_order_flow_structure_ab_recorder.py:104:            pattern_direction=pattern_direction,
+  analysis\replay\score_order_flow_structure_ab_recorder.py:105:            alignment=alignment,
+  analysis\replay\score_order_flow_structure_ab_recorder.py:106:            confidence=confidence,
+  analysis\replay\score_order_flow_structure_ab_recorder.py:107:        )
+  analysis\replay\score_order_flow_structure_ab_recorder.py:108:        adjusted_total = round(min(max(baseline_total 
++ adjustment, 0.0), 100.0), 2)
+  analysis\replay\score_order_flow_structure_ab_recorder.py:109:        adjusted_grade = self._grade(adjusted_total)
+  analysis\replay\score_order_flow_structure_ab_recorder.py:110:        adjusted_valid = bool(
+  analysis\replay\score_order_flow_structure_ab_recorder.py:111:            getattr(context.strategy, "valid", False)
+  analysis\replay\score_order_flow_structure_ab_recorder.py:122:            baseline_valid=baseline_valid,
+  analysis\replay\score_order_flow_structure_ab_recorder.py:123:            adjusted_valid=adjusted_valid,
+  analysis\replay\score_order_flow_structure_ab_recorder.py:124:            validity_changed=baseline_valid != 
+adjusted_valid,
+> analysis\replay\score_order_flow_structure_ab_recorder.py:125:            bias=bias,
+  analysis\replay\score_order_flow_structure_ab_recorder.py:126:            pattern_direction=pattern_direction,
+  analysis\replay\score_order_flow_structure_ab_recorder.py:127:            structure_alignment=alignment,
+  analysis\replay\score_order_flow_structure_ab_recorder.py:128:            structural_confidence=confidence,
+  analysis\replay\score_order_flow_structure_ab_recorder.py:129:            
+confidence_bucket=self._confidence_bucket(confidence),
+  analysis\replay\score_order_flow_structure_ab_recorder.py:130:            adjustment=round(adjustment, 2),
+  analysis\replay\score_order_flow_structure_ab_recorder.py:131:            passive_only=True,
+  analysis\replay\score_order_flow_structure_ab_recorder.py:132:        )
+  analysis\replay\score_order_flow_structure_ab_recorder.py:133:        self.add_sample(sample)
+  analysis\replay\score_order_flow_structure_ab_recorder.py:151:            "by_confidence": 
+self._group_by("confidence_bucket"),
+  analysis\replay\score_order_flow_structure_ab_recorder.py:152:        }
+  analysis\replay\score_order_flow_structure_ab_recorder.py:153:
+> analysis\replay\score_order_flow_structure_ab_recorder.py:154:    def scenario(self, *, alignment=None, 
+pattern_direction=None, bias=None, confidence=None) -> dict:
+  analysis\replay\score_order_flow_structure_ab_recorder.py:155:        selected = self._samples
+  analysis\replay\score_order_flow_structure_ab_recorder.py:156:        filters = {}
+  analysis\replay\score_order_flow_structure_ab_recorder.py:157:
+  analysis\replay\score_order_flow_structure_ab_recorder.py:158:        if alignment is not None:
+  analysis\replay\score_order_flow_structure_ab_recorder.py:159:            value = str(alignment).upper()
+  analysis\replay\score_order_flow_structure_ab_recorder.py:160:            filters["structure_alignment"] = value
+  analysis\replay\score_order_flow_structure_ab_recorder.py:161:            selected = [s for s in selected if 
+s.structure_alignment == value]
+  analysis\replay\score_order_flow_structure_ab_recorder.py:162:        if pattern_direction is not None:
+  analysis\replay\score_order_flow_structure_ab_recorder.py:166:        if bias is not None:
+  analysis\replay\score_order_flow_structure_ab_recorder.py:167:            value = str(bias).upper()
+  analysis\replay\score_order_flow_structure_ab_recorder.py:168:            filters["bias"] = value
+> analysis\replay\score_order_flow_structure_ab_recorder.py:169:            selected = [s for s in selected if s.bias 
+== value]
+  analysis\replay\score_order_flow_structure_ab_recorder.py:170:        if confidence is not None:
+  analysis\replay\score_order_flow_structure_ab_recorder.py:171:            value = str(confidence).upper()
+  analysis\replay\score_order_flow_structure_ab_recorder.py:172:            filters["confidence_bucket"] = value
+  analysis\replay\score_order_flow_structure_ab_recorder.py:173:            selected = [s for s in selected if 
+s.confidence_bucket == value]
+  analysis\replay\score_order_flow_structure_ab_recorder.py:174:
+  analysis\replay\score_order_flow_structure_ab_recorder.py:175:        return {
+  analysis\replay\score_order_flow_structure_ab_recorder.py:176:            "version": self.VERSION,
+  analysis\replay\score_order_flow_structure_ab_recorder.py:177:            "filters": filters,
+  analysis\replay\score_order_flow_structure_ab_recorder.py:272:        if pattern_direction not in ("BUY", "SELL") 
+or confidence <= 0.0:
+  analysis\replay\score_order_flow_structure_ab_recorder.py:273:            return 0.0
+  analysis\replay\score_order_flow_structure_ab_recorder.py:274:
+> analysis\replay\score_order_flow_structure_ab_recorder.py:275:        same_bias = bias == pattern_direction
+  analysis\replay\score_order_flow_structure_ab_recorder.py:276:        if alignment == "ALIGNED":
+  analysis\replay\score_order_flow_structure_ab_recorder.py:277:            sign = 1.0 if same_bias else -1.0
+  analysis\replay\score_order_flow_structure_ab_recorder.py:278:            return sign * self.weight * confidence
+  analysis\replay\score_order_flow_structure_ab_recorder.py:279:        if alignment == "CONFLICT":
+  analysis\replay\score_order_flow_structure_ab_recorder.py:280:            sign = -1.0 if same_bias else 1.0
+  analysis\replay\score_order_flow_structure_ab_recorder.py:281:            return sign * self.weight * 
+self.CONFLICT_FACTOR * confidence
+  analysis\replay\score_order_flow_structure_ab_recorder.py:282:        if alignment == "NEUTRAL":
+  analysis\replay\score_order_flow_structure_ab_recorder.py:283:            sign = 1.0 if same_bias else -1.0
+  analysis\replay\score_regime_mtf_ab_recorder.py:89:        baseline_total = float(getattr(score, "total", 0.0) or 
+0.0)
+  analysis\replay\score_regime_mtf_ab_recorder.py:90:        baseline_grade = str(getattr(score, "grade", 
+"REPROVADO") or "REPROVADO")
+  analysis\replay\score_regime_mtf_ab_recorder.py:91:        baseline_valid = bool(getattr(score, "valid", False))
+> analysis\replay\score_regime_mtf_ab_recorder.py:92:        bias = str(getattr(score, "bias", "NONE") or 
+"NONE").upper()
+  analysis\replay\score_regime_mtf_ab_recorder.py:93:
+  analysis\replay\score_regime_mtf_ab_recorder.py:94:        adjustment = ScoreEngineRC13_2._contextual_adjustment(
+> analysis\replay\score_regime_mtf_ab_recorder.py:95:            score_bias=bias,
+  analysis\replay\score_regime_mtf_ab_recorder.py:96:            multi_timeframe=mtf,
+  analysis\replay\score_regime_mtf_ab_recorder.py:97:            weight=self.weight,
+  analysis\replay\score_regime_mtf_ab_recorder.py:98:        )
+  analysis\replay\score_regime_mtf_ab_recorder.py:99:
+  analysis\replay\score_regime_mtf_ab_recorder.py:100:        adjusted_total = min(max(baseline_total + adjustment, 
+0.0), 100.0)
+  analysis\replay\score_regime_mtf_ab_recorder.py:101:        adjusted_total = round(adjusted_total, 2)
+  analysis\replay\score_regime_mtf_ab_recorder.py:102:        adjusted_grade = self._grade(adjusted_total)
+  analysis\replay\score_regime_mtf_ab_recorder.py:103:        adjusted_valid = bool(
+  analysis\replay\score_regime_mtf_ab_recorder.py:115:            baseline_valid=baseline_valid,
+  analysis\replay\score_regime_mtf_ab_recorder.py:116:            adjusted_valid=adjusted_valid,
+  analysis\replay\score_regime_mtf_ab_recorder.py:117:            validity_changed=baseline_valid != adjusted_valid,
+> analysis\replay\score_regime_mtf_ab_recorder.py:118:            bias=bias,
+  analysis\replay\score_regime_mtf_ab_recorder.py:119:            mtf_alignment=str(
+  analysis\replay\score_regime_mtf_ab_recorder.py:120:                getattr(mtf, "alignment", "INSUFFICIENT_DATA")
+  analysis\replay\score_regime_mtf_ab_recorder.py:121:                or "INSUFFICIENT_DATA"
+  analysis\replay\score_regime_mtf_ab_recorder.py:122:            ).upper(),
+  analysis\replay\score_regime_mtf_ab_recorder.py:123:            regime_context=str(
+  analysis\replay\score_regime_mtf_ab_recorder.py:124:                getattr(mtf, "regime_context", "UNKNOWN") or 
+"UNKNOWN"
+  analysis\replay\score_regime_mtf_ab_recorder.py:125:            ).upper(),
+  analysis\replay\score_regime_mtf_ab_recorder.py:126:            regime_compatible=bool(getattr(mtf, 
+"regime_compatible", False)),
+  analysis\replay\score_regime_mtf_ab_recorder.py:155:            "by_bias": self._group_by("bias"),
+  analysis\replay\score_regime_mtf_ab_recorder.py:156:        }
+  analysis\replay\score_regime_mtf_ab_recorder.py:157:
+> analysis\replay\score_regime_mtf_ab_recorder.py:158:    def scenario(self, *, regime=None, alignment=None, 
+bias=None) -> dict:
+  analysis\replay\score_regime_mtf_ab_recorder.py:159:        selected = self._samples
+  analysis\replay\score_regime_mtf_ab_recorder.py:160:        filters = {}
+  analysis\replay\score_regime_mtf_ab_recorder.py:161:
+  analysis\replay\score_regime_mtf_ab_recorder.py:162:        if regime is not None:
+  analysis\replay\score_regime_mtf_ab_recorder.py:163:            value = str(regime).upper()
+  analysis\replay\score_regime_mtf_ab_recorder.py:164:            filters["regime_context"] = value
+  analysis\replay\score_regime_mtf_ab_recorder.py:165:            selected = [s for s in selected if s.regime_context 
+== value]
+  analysis\replay\score_regime_mtf_ab_recorder.py:166:        if alignment is not None:
+  analysis\replay\score_regime_mtf_ab_recorder.py:170:        if bias is not None:
+  analysis\replay\score_regime_mtf_ab_recorder.py:171:            value = str(bias).upper()
+  analysis\replay\score_regime_mtf_ab_recorder.py:172:            filters["bias"] = value
+> analysis\replay\score_regime_mtf_ab_recorder.py:173:            selected = [s for s in selected if s.bias == value]
+  analysis\replay\score_regime_mtf_ab_recorder.py:174:
+  analysis\replay\score_regime_mtf_ab_recorder.py:175:        return {
+  analysis\replay\score_regime_mtf_ab_recorder.py:176:            "version": self.VERSION,
+  analysis\replay\score_regime_mtf_ab_recorder.py:177:            "filters": filters,
+  analysis\replay\score_regime_mtf_ab_recorder.py:178:            **self._metrics(selected),
+  analysis\replay\score_regime_mtf_ab_recorder.py:179:            "weight": self.weight,
+  analysis\replay\score_regime_mtf_ab_recorder.py:180:        }
+  analysis\replay\score_regime_mtf_ab_recorder.py:181:
+  analysis\research\price_action_evidence_observer.py:12:
+  analysis\research\price_action_evidence_observer.py:13:
+  analysis\research\price_action_evidence_observer.py:14:@dataclass(frozen=True, slots=True)
+> analysis\research\price_action_evidence_observer.py:15:class PriceActionEvidence:
+  analysis\research\price_action_evidence_observer.py:16:    session_id: str
+  analysis\research\price_action_evidence_observer.py:17:    pattern: str
+  analysis\research\price_action_evidence_observer.py:18:    regime: str
+  analysis\research\price_action_evidence_observer.py:19:    timeframe: str
+  analysis\research\price_action_evidence_observer.py:20:    location_context: str
+  analysis\research\price_action_evidence_observer.py:21:    horizon_steps: int
+  analysis\research\price_action_evidence_observer.py:22:    forward_return: float
+  analysis\research\price_action_evidence_observer.py:23:    volume: float | None = None
+  analysis\research\price_action_evidence_observer.py:44:
+  analysis\research\price_action_evidence_observer.py:45:
+  analysis\research\price_action_evidence_observer.py:46:@dataclass(frozen=True, slots=True)
+> analysis\research\price_action_evidence_observer.py:47:class PriceActionEvidenceBucket:
+  analysis\research\price_action_evidence_observer.py:48:    key: str
+  analysis\research\price_action_evidence_observer.py:49:    observations: int
+  analysis\research\price_action_evidence_observer.py:50:    mean_forward_return: float
+  analysis\research\price_action_evidence_observer.py:51:    positive_rate: float
+  analysis\research\price_action_evidence_observer.py:52:    mean_volume_ratio: float | None
+  analysis\research\price_action_evidence_observer.py:53:    sessions: int
+  analysis\research\price_action_evidence_observer.py:54:    maximum_session_share: float
+  analysis\research\price_action_evidence_observer.py:55:    session_mean_returns: tuple[tuple[str, float], ...]
+  analysis\research\price_action_evidence_observer.py:63:
+  analysis\research\price_action_evidence_observer.py:64:
+  analysis\research\price_action_evidence_observer.py:65:@dataclass(frozen=True, slots=True)
+> analysis\research\price_action_evidence_observer.py:66:class PriceActionEvidenceReport:
+  analysis\research\price_action_evidence_observer.py:67:    status: str
+  analysis\research\price_action_evidence_observer.py:68:    buckets: tuple[PriceActionEvidenceBucket, ...]
+  analysis\research\price_action_evidence_observer.py:69:    insufficient_buckets: tuple[str, ...]
+  analysis\research\price_action_evidence_observer.py:70:    reasons: tuple[str, ...]
+  analysis\research\price_action_evidence_observer.py:71:    observational_only: bool = True
+  analysis\research\price_action_evidence_observer.py:72:    predictive_claim_allowed: bool = False
+  analysis\research\price_action_evidence_observer.py:73:    score_influence_allowed: bool = False
+  analysis\research\price_action_evidence_observer.py:74:    risk_influence_allowed: bool = False
+  analysis\research\price_action_evidence_observer.py:77:    order_execution_allowed: bool = False
+  analysis\research\price_action_evidence_observer.py:78:
+  analysis\research\price_action_evidence_observer.py:79:
+> analysis\research\price_action_evidence_observer.py:80:class PriceActionEvidenceObserver:
+  analysis\research\price_action_evidence_observer.py:81:    """Mede resultados por contexto sem transformar padroes 
+em sinais."""
+  analysis\research\price_action_evidence_observer.py:82:
+  analysis\research\price_action_evidence_observer.py:83:    NAME = "PriceActionEvidenceObserver"
+  analysis\research\price_action_evidence_observer.py:84:    VERSION = "RC1"
+  analysis\research\price_action_evidence_observer.py:85:
+  analysis\research\price_action_evidence_observer.py:86:    @staticmethod
+  analysis\research\price_action_evidence_observer.py:87:    def _directional_session_gap(
+  analysis\research\price_action_evidence_observer.py:88:        *, dominant_sessions: int, sessions: int, 
+minimum_share: float
+
+

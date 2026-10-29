@@ -1,0 +1,19 @@
+{
+  "prospective_microstructure": {
+    "captured_samples": 2,
+    "source_analyzable_samples": 2,
+    "sample_count_matches_source": true,
+    "samples": [
+      {
+        "price_action_bias": "BUY",
+        "book_direction": "BUY",
+        "conflict_count": 0
+      },
+      {
+        "price_action_bias": "BUY",
+        "book_direction": "SELL",
+        "conflict_count": 1
+      }
+    ]
+  }
+}

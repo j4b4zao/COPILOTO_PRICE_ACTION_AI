@@ -1,0 +1,77 @@
+EXTERNAL CONTEXT OFFLINE IDENTITY/FRESHNESS BRIDGE RC1
+STATUS=PASS
+BRANCH=brooks-stop-target-exact-audit-20260912
+HEAD_BEFORE=6b73c760ad25ae4e77fb35f7d3977eb4f3d3ffbd
+HEAD_AFTER=6b73c760ad25ae4e77fb35f7d3977eb4f3d3ffbd
+BRIDGE_FILE=analysis/research/intermarket_external_context_bridge.py
+BRIDGE_VERSION=RC1-INTERMARKET-EXTERNAL-CONTEXT-IDENTITY-FRESHNESS-BRIDGE
+FILES_CREATED=analysis/research/intermarket_external_context_bridge.py; tests/test_intermarket_external_context_bridge_rc1.py; saida_external_context_identity_freshness_bridge_rc1_20261003.txt
+FILES_MODIFIED=none
+CONTRACTS_INSPECTED=external_market_collector/state/service; http_json_provider; provider_symbol_map; symbol_resolution_provider; semantic_symbol_resolution_engine; intermarket_context_observer; tests HTTP provider/pipeline/observer
+INPUT_CONTRACT=dict keyed by exact canonical symbol, each value a provider quote dict {price, change, timestamp} or None; optional canonical_symbol/internal_symbol, provider_symbol/symbol, provider_name/provider, source, status when supplied. Optional symbol_map uses actual ProviderSymbolMap.snapshot() structure {provider,symbols,status,...}. Explicit reference_timestamp with timezone and maximum_staleness_seconds supplied by caller.
+INPUT_CONTRACT_RATIONALE=collector calls fetch(canonical) returning quote dict or None before aggregation; HTTP quote contains no identity fields. Canonical request key is preserved as evidence. No ExternalMarketState timestamp used.
+OUTPUT_CONTRACT=ExternalBridgeAudit frozen dataclass: tuple of seven ExternalAssetAudit records, tuple of existing IntermarketPoint records using price as value, existing IntermarketReadiness result. Detached copies of input evidence; observational_only=true. No operational context object.
+CANONICAL_SYMBOLS_SUPPORTED=US500; NASDAQ; DXY; VIX; US10Y; OIL; GOLD
+REQUIRED_SYMBOLS=US500; NASDAQ; DXY; VIX (actual collector REQUIRED_FOR_CONTEXT)
+OPTIONAL_SYMBOLS=US10Y; OIL; GOLD
+IDENTITY_FIELDS_PRESERVED=canonical key; declared canonical/internal symbol; provider symbol; provider name; source; provider status when provided. Missing provenance remains None.
+IDENTITY_VALIDATION=exact canonical declarations and explicit provider aliases checked against known canonical identities and caller-supplied validated symbol map; contradictory aliases, map ownership, duplicate mapped alias, provider name mismatch, or non-MAPPED resolution status exclude observation from observer points. No alias correction or guessed equivalence.
+PROVIDER_IDENTITY_VERIFIED=tri-state; None means unknown/unverified alias, true/false only with map evidence; identity_valid means no proven contradiction, not independently verified market identity
+TIMESTAMP_FIELDS_PRESERVED=original_timestamp; normalized_timestamp UTC; original parsed timezone information; original UTC offset seconds; timestamp_valid
+USES_PER_ASSET_TIMESTAMP=true
+USES_AGGREGATED_TIMESTAMP_FOR_FRESHNESS=false
+OBSERVER_REUSED=true
+OBSERVER_CHANGED=false
+OBSERVER_CONSUMPTION=existing audit_readiness called per asset, including optionals, and once for required portfolio readiness; no staleness threshold algorithm duplicated. Existing rolling_correlation consumes bridge points unchanged.
+STALE_CASE_RESULT=each of seven assets individually tested at reference minus 11 seconds with caller limit 10; stale asset remains STALE and retains own timestamp. Required stale causes DATA_NOT_READY; optional stale reported individually without changing required readiness.
+FUTURE_CASE_RESULT=VIX at reference plus 1 second appears in existing observer stale_assets; per-asset future=true and status FUTURE; DATA_NOT_READY
+MISSING_REQUIRED_CASE_RESULT=each of US500/NASDAQ/DXY/VIX absent => MISSING; price/change None; observer missing_assets identifies required asset; DATA_NOT_READY
+MISSING_OPTIONAL_CASE_RESULT=each of US10Y/OIL/GOLD absent => MISSING; price/change None; required readiness remains DATA_READY
+IDENTITY_MISMATCH_RESULT=US500/NASDAQ, DXY/US10Y, OIL/GOLD mismatches tested through canonical_symbol/internal_symbol/provider_symbol/symbol; identity_valid=false and no mislabeled observer point; required mismatches DATA_NOT_READY
+TIMEZONE_CASE_RESULT=2026-10-03T09:00:00-03:00 preserved verbatim and normalized to 2026-10-03T12:00:00+00:00; offset=-10800; equivalent to UTC observer timestamp
+NAIVE_OR_ABSENT_TIMESTAMP_RESULT=invalid; no timezone assumed or timestamp fabricated; observation excluded and required asset reported unavailable by observer
+UNALIGNED_TIMESTAMP_RESULT=individual timestamps retained; exact common-time correlation logic stays in observer; US500/NASDAQ offset by 3 seconds yields zero aligned observations in snapshot test
+ZERO_QUOTE_RESULT=change=0 valid and preserved; price=0 rejected following existing HTTP provider positive-price contract, retained as evidence and not mislabeled missing
+NAN_INF_RESULT=price/change non-finite rejected using existing IntermarketPoint finite-value contract; raw evidence retained; no neutral or zero substitution
+CORRELATION_CLAIMS=diagnostic only; no prediction, causality, edge or operational threshold introduced
+INPUT_MUTATION=false
+NEW_TEST_COUNTS=51 passed; 0 failed
+EXISTING_TEST_COUNTS=15 pytest tests passed (10 HTTP provider + 5 observer); 4 pipeline scenarios explicitly executed with asserts, all passed
+TOTAL_PYTEST_COUNTS=66 passed; 0 failed; 1.46s
+PIPELINE_COLLECTION_NOTE=test_external_context_pipeline.py defines executable scenarios/main, no pytest-collected tests. Invoked RISK ON, RISK OFF, NEUTRAL, INVALID with assertions offline, stdout captured.
+UNEXPECTED_FAILURES=0
+TEST_EXECUTION=Python313 -m pytest specified four files -q --basetemp exclusive temporary directory -p no:cacheprovider --tb=short; local dependencies; PYTHONDONTWRITEBYTECODE=1
+EXTERNAL_STATE_CHANGED=false
+EXTERNAL_COLLECTOR_CHANGED=false
+EXTERNAL_ENGINE_CHANGED=false
+EXTERNAL_SERVICE_CHANGED=false
+PROVIDERS_CHANGED=false
+ANALYSIS_PIPELINE_CHANGED=false
+ANALYSIS_CONTEXT_CHANGED=false
+SCORE_CHANGED=false
+DECISION_CHANGED=false
+ALERT_CHANGED=false
+RISK_CHANGED=false
+STRATEGY_CHANGED=false
+BRIDGE_OPERATIONAL_INTEGRATION=false
+SCORE_INFLUENCE=false
+DECISION_INFLUENCE=false
+RISK_INFLUENCE=false
+ALERT_INFLUENCE=false
+ORDER_EXECUTION_INFLUENCE=false
+MTF_CHANGED=false
+MTF_TEST_RERUN=false; no dependency or protected file change; aggregate hashes include all tracked MTF code/tests
+RC17_CHANGED=false
+RC17_PROTOCOL_SHA256=2A278E7C4C438098D9CE167A778F7386A09B341A555A73E322598215150EBDB3
+SESSION19_23_EXECUTED=false
+COLLECTOR_EXECUTED=false (no operational/live collector; existing pipeline scenarios only call synthetic offline coletar(dict))
+REAL_MARKET_DATA_USED=false
+NETWORK_USED=false
+STAGE_COMMIT_PUSH_EXECUTED=false
+PROTECTED_FILES_PRESERVED=true
+PROTECTED_VERIFICATION=identical SHA256 aggregate before/after of every tracked Python/JSON and Profit.xlsx, livroOfertas.xlsx, times&trades.xlsx, saida.txt; includes connectors/excel_connector.py, operational core, RC17 and MTF
+PROTECTED_AGGREGATE_SHA256_BEFORE=EDDE643CA98CFDB1F8A38F39A391F500E631E080D0276216AB2062B56C83239C
+PROTECTED_AGGREGATE_SHA256_AFTER=EDDE643CA98CFDB1F8A38F39A391F500E631E080D0276216AB2062B56C83239C
+PREEXISTING_LOCAL_CHANGES=preserved; no cleanup/reset/restore
+STAGED_DIFF=empty
+FINAL=standalone offline bridge audited; stop after report; no operational integration or real provider activation

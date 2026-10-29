@@ -1,0 +1,115 @@
+{
+  "scope": "Static AST/import/call/promotion checks on new simulator modules only; not proof of safety or certification",
+  "modules": [
+    {
+      "stage": 53,
+      "file": "f3_int53_interleaving_simulator.py",
+      "sha256": "20e367ab3fd307011f8479b7231d24760fd363db2711e786c1451c78c73906aa"
+    },
+    {
+      "stage": 54,
+      "file": "f3_int54_schedule_divergence_simulator.py",
+      "sha256": "e9a2ad14e2f84c2bf3e388b4e692d7962316865c02479fe8d82dbbafcc895570"
+    },
+    {
+      "stage": 55,
+      "file": "f3_int55_divergence_witness_simulator.py",
+      "sha256": "c943d4343b1b6dfd680dd631acfd52d35100a4a7ca8192939e9b5729de60c191"
+    },
+    {
+      "stage": 56,
+      "file": "f3_int56_bounded_ingestion_simulator.py",
+      "sha256": "2984670780337c97c09cb1e26b17385300e57638426543352a53f5e3c25475ee"
+    },
+    {
+      "stage": 57,
+      "file": "f3_int57_retry_interleaving_simulator.py",
+      "sha256": "25eee68bb4dbf96542eaf69777c93036df9cd6ec02c6de3a17cb09b0332461a2"
+    },
+    {
+      "stage": 58,
+      "file": "f3_int58_bounded_exploration_simulator.py",
+      "sha256": "c36f527028dcf422fd04ee183ed2de1a23ca7cf70d5a158ad195a17a204d89c6"
+    },
+    {
+      "stage": 59,
+      "file": "f3_int59_schedule_symmetry_simulator.py",
+      "sha256": "755f0cbbbe58352b7dfbbdf007ff691bbcf137d4375b906485750bc8d03da3ef"
+    },
+    {
+      "stage": 60,
+      "file": "f3_int60_package_integrity_simulator.py",
+      "sha256": "75350febe0c26030d5f2355e5edbd699efb9a62fb9cea57d66fbec5a4b3fe202"
+    },
+    {
+      "stage": 61,
+      "file": "f3_int61_portable_package_simulator.py",
+      "sha256": "91f948b93984c70bd69a3222823119221b8cb06d7e658c9ce6d74046b2a47ace"
+    },
+    {
+      "stage": 62,
+      "file": "f3_int62_strict_evidence_simulator.py",
+      "sha256": "f60a23fe3308c39dac071afc7539900f7e90a38aa2e796dad4b5e6355c61b004"
+    },
+    {
+      "stage": 63,
+      "file": "f3_int63_snapshot_reset_simulator.py",
+      "sha256": "3f56ca401ff8c86f2001f47501a1e48bea6d4ce506733c9218784c50e6672891"
+    },
+    {
+      "stage": 64,
+      "file": "f3_int64_transition_monitor_simulator.py",
+      "sha256": "225d2d7143bed306376a6cdb9962b8584dd19091c3abb17d0fd8442ffa46c6ff"
+    },
+    {
+      "stage": 65,
+      "file": "f3_int65_differential_trace_simulator.py",
+      "sha256": "534df57c4fc675cae8523268607faec2b0d1b6e5e9f9c9db1772d172bb9f954b"
+    },
+    {
+      "stage": 66,
+      "file": "f3_int66_crash_schedule_simulator.py",
+      "sha256": "dfa096205411459c7d83bc03473fb2212359fa29ed26367ed37c07fd42e9abf7"
+    },
+    {
+      "stage": 67,
+      "file": "f3_int67_crash_exploration_simulator.py",
+      "sha256": "510e01500a6940bdca48d703e59e6e1030fe74df9c2a407252a66b8a5bbd661b"
+    },
+    {
+      "stage": 68,
+      "file": "f3_int68_crash_witness_simulator.py",
+      "sha256": "76978bd750321df689c5a2a9d344752f2bcf34a788c3ed7f93c19649bdbd2f8e"
+    },
+    {
+      "stage": 69,
+      "file": "f3_int69_crash_minimizer_simulator.py",
+      "sha256": "b16e59e71dcc9439da0aad0a28b35da5ae528a8ee07c647aa146f50f47e6bfe5"
+    },
+    {
+      "stage": 70,
+      "file": "f3_int70_crash_witness_codec.py",
+      "sha256": "6b5954061a709b71613c47edba434c75d72d1dabdb224e53c5e022fad20d19f8"
+    },
+    {
+      "stage": 71,
+      "file": "f3_int71_codec_mutation_simulator.py",
+      "sha256": "4c9c37ec9a74f1976a69ba0efe77932e96b8c9fe6952e937095ddefb789f19db"
+    },
+    {
+      "stage": 72,
+      "file": "f3_int72_atomic_witness_batch_simulator.py",
+      "sha256": "67a779d1609f2f2dd5251ff826114a659591e3126915bd3728479c0c0ba5e078"
+    },
+    {
+      "stage": 73,
+      "file": "f3_int73_package_lineage_simulator.py",
+      "sha256": "cc2776173911983c390dee4599185701025b34d2ab40d73f8cedfcb28570ac2b"
+    }
+  ],
+  "inherited_flag_core_unchanged": true,
+  "original_zip_unchanged": true,
+  "findings": [],
+  "f3": "OPEN",
+  "certification": false
+}

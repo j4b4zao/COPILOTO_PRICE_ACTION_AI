@@ -1,0 +1,78 @@
+﻿=== SESSION 15 PROSPECTIVE PREFLIGHT ===
+=== HEAD ===
+a741be9c905009906c93130af648983377f8a3a3
+=== ACCUMULATION PROTOCOL ===
+validator_version = RC1-PA-BOOK-INDEPENDENT-REPLICATION-ACCUMULATION-PROTOCOL-VALIDATOR
+protocol_path = pa_book_replication_accumulation_protocol_rc1_20260930.json
+expected_sha256 = df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0
+actual_sha256 = df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0
+protocol_sha256_exact = True
+protocol_version_exact = True
+prior_evidence_exact = True
+frozen_hypothesis_exact = True
+future_block_exact = True
+outcome_policy_exact = True
+accumulation_policy_exact = True
+interpretation_policy_exact = True
+cohort_policy_exact = True
+safety_policy_exact = True
+future_collection_block = ['14', '15', '16', '17', '18']
+status = PASS
+future_collection_authorization = ACCUMULATION_PROTOCOL_VALIDATED_ONLY
+ACCUMULATION_PROTOCOL_EXIT_CODE=0
+=== STRUCTURAL PROTOCOL ===
+validator_version = RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-PROTOCOL-VALIDATOR
+fail_closed = True
+research_only = True
+
+protocol_path = pa_book_opposed_to_aligned_prospective_replication_protocol_rc1_20260929.json
+expected_sha256 = 53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c
+actual_sha256   = 53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c
+
+PROTOCOL_SHA256_EXACT = True
+PROTOCOL_VERSION_EXACT = True
+FROZEN_CHECKPOINT_IDENTITY_EXACT = True
+SAFETY_POLICY_EXACT = True
+REPLICATION_CONDITION_EXACT = True
+NO_THRESHOLDS_EXACT = True
+COHORT_POLICY_EXACT = True
+INTERPRETATION_POLICY_EXACT = True
+
+STATUS = PASS
+FUTURE_COLLECTION_AUTHORIZATION = PROTOCOL_VALIDATED_ONLY
+STRUCTURAL_PROTOCOL_EXIT_CODE=0
+=== CORRECT COLLECTOR CONTRACT ===
+usage: profit_rtd_microstructure_prospective_orchestrated_session.py
+       [-h] [--preflight-cycles PREFLIGHT_CYCLES]
+       [--preflight-interval PREFLIGHT_INTERVAL] [--cycles CYCLES]
+       [--interval INTERVAL] [--max-warmup-cycles MAX_WARMUP_CYCLES]
+       [--output-dir OUTPUT_DIR] [--verbose]
+       symbol
+
+Preflight e coleta prospectiva de microestrutura sob um unico lock.
+
+positional arguments:
+  symbol
+
+options:
+  -h, --help            show this help message and exit
+  --preflight-cycles PREFLIGHT_CYCLES
+  --preflight-interval PREFLIGHT_INTERVAL
+  --cycles CYCLES
+  --interval INTERVAL
+  --max-warmup-cycles MAX_WARMUP_CYCLES
+  --output-dir OUTPUT_DIR
+  --verbose
+ORCHESTRATOR_HELP_EXIT_CODE=0
+=== SESSION 14 PRESERVED ===
+S14_SHA256=D49879440B4DBAFA76B012162E3F9EAF2A8BD8F6555C269517EB91B0E2CE3F15
+S14_EXPECTED=D49879440B4DBAFA76B012162E3F9EAF2A8BD8F6555C269517EB91B0E2CE3F15
+=== SESSION 13 REFERENCE ===
+S13_SHA256=3A73D4B0A8C7F4ADF0917BB9CE5DC927323578C5729C455BC0A78D3C5BDB7A00
+S13_EXPECTED=3A73D4B0A8C7F4ADF0917BB9CE5DC927323578C5729C455BC0A78D3C5BDB7A00
+=== GIT STATUS PROTECTED FILES ===
+ M Profit.xlsx
+ M connectors/excel_connector.py
+ M livroOfertas.xlsx
+ M saida.txt
+ M times&trades.xlsx

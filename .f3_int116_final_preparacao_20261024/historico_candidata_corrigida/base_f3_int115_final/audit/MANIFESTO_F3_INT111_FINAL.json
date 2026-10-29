@@ -1,0 +1,11 @@
+{
+  "stage": "F3-INT-111",
+  "checkpoint": "FINAL",
+  "base_package_sha256": "d4a903c67a11b3013ea4b32ead9cb4087eb47254b73155336f71c2ebfa8886ca",
+  "candidate_package_sha256": "d559b2a0a5cf9c57d35d183b594b96f5bccff15f827c51109ced8b51ab0217bd",
+  "regression_log_sha256": "71ea1432b1c694ab3d639edfd0f9ca3ce27eb9c0c655acd5e24251ecf8262eeb",
+  "snapshot_source_count": 192,
+  "snapshot_source_digest_sha256": "e39c44dbe24ea4414c56b3fad6a86f9a253ea745b750522778adbb671fdcb858",
+  "files_recovered_from_base": 19,
+  "notes": "Integrity is not provenance/authenticity; Windows tested bytes not independently attested."
+}

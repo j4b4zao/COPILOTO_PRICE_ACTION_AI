@@ -1,0 +1,670 @@
+﻿
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\historical_microstructure_confluence_report.py
+LineNumber : 4
+Line       : Consolida resultados produzidos pelo HistoricalMicrostructureBridge.
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_directional_calibration_candidate.py
+LineNumber : 103
+Line       :     print("PROFIT_RTD_BOOK_DIRECTIONAL_CALIBRATION_CANDIDATE=COMPLETED")
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_directional_replay_shadow.py
+LineNumber : 107
+Line       :     print('PROFIT_RTD_BOOK_DIRECTIONAL_REPLAY_SHADOW=COMPLETED')
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_delta_recovery_audit.py
+LineNumber : 78
+Line       :         "context_ready": sample.get("context_ready"),
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_delta_recovery_audit.py
+LineNumber : 79
+Line       :         "trade_context_ready": sample.get("trade_context_ready"),
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_microstructure_prospective_orchestrated_session.py
+LineNumber : 127
+Line       :         "trade_context_ready_at_start": session.get("trade_context_ready_at_start"),
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_microstructure_prospective_orchestrated_session.py
+LineNumber : 129
+Line       :         "captured_samples": evidence.get("captured_samples"),
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_microstructure_prospective_session.py
+LineNumber : 81
+Line       :         "source_analyzable_samples": int(result.get("analyzable_samples", 0) or 0),
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_microstructure_prospective_session.py
+LineNumber : 82
+Line       :         "captured_samples": len(samples),
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_microstructure_prospective_session.py
+LineNumber : 128
+Line       :     print("captured_samples=" + str(evidence["captured_samples"]))
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_order_flow_historical_shadow_reprocessor.py
+LineNumber : 58
+Line       :         and sample.get("context_ready") is True
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_1_context_readiness_auditor.py
+LineNumber : 95
+Line       :         'combined_context_ready': combined_ready,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_1_context_readiness_auditor.py
+LineNumber : 96
+Line       :         'combined_context_ready_rate': rate(combined_ready),
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_1_context_readiness_auditor.py
+LineNumber : 106
+Line       :         verdict = 'CONTEXT_READY_FOR_OBSERVATIONAL_CONFLUENCE_AUDIT'
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py
+LineNumber : 15
+Line       : from tools.profit_rtd_rc54_3_2_warm_history_gate import context_ready, warm_history
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py
+LineNumber : 90
+Line       :             'data_ready': False, 'trade_context_ready': False,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py
+LineNumber : 91
+Line       :             'trade_context_ready_at_start': False, 'context_ready_at_start': False,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py
+LineNumber : 129
+Line       :                 item['trade_context_ready'] = context_ready(context)
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py
+LineNumber : 131
+Line       :                 item['context_ready'] = item['trade_context_ready']
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py
+LineNumber : 132
+Line       :                 if not item['trade_context_ready']:
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py
+LineNumber : 144
+Line       :                 print(f"[RC54.3.2] cycle={cycle}/{cycles} alignment={item['alignment']} 
+             price={item['last_price']} structure={item['structure']['trend']} pa_bias={item['price_action']['bias']} 
+             ready={item['context_ready']}")
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py
+LineNumber : 164
+Line       :     trade_context_ready = bool(samples) and bool(samples[-1]['trade_context_ready'])
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py
+LineNumber : 175
+Line       :         'trade_context_ready': trade_context_ready,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py
+LineNumber : 176
+Line       :         'trade_context_ready_at_start': bool(warm.get('trade_context_ready', True)),
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py
+LineNumber : 177
+Line       :         'context_ready_at_start': bool(warm.get('trade_context_ready', True)),
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py
+LineNumber : 206
+Line       :     print('trade_context_ready_at_start=' + str(r['trade_context_ready_at_start']))
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py
+LineNumber : 207
+Line       :     print('context_ready_at_start=' + str(r['context_ready_at_start']))
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py
+LineNumber : 212
+Line       :     for key in ('data_ready','delta_not_ready_samples','delta_failure_samples','trade_context_ready'):
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warm_history_gate.py
+LineNumber : 14
+Line       : def context_ready(context):
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warm_history_gate.py
+LineNumber : 61
+Line       :                 trade_ready = context_ready(context)
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warm_history_gate.py
+LineNumber : 67
+Line       :                     f'history_ready={ready} trade_context_ready={trade_ready}'
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warm_history_gate.py
+LineNumber : 79
+Line       :                         'trade_context_ready': trade_ready,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warm_history_gate.py
+LineNumber : 109
+Line       :         'trade_context_ready': context_ready(last_context) if last_context is not None else False,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_3_readiness_drop_auditor.py
+LineNumber : 16
+Line       : def _trade_context_ready(sample):
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_3_readiness_drop_auditor.py
+LineNumber : 17
+Line       :     return bool(sample.get('trade_context_ready', sample.get('context_ready', False)))
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_3_readiness_drop_auditor.py
+LineNumber : 65
+Line       :         ready = _trade_context_ready(sample)
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_4_context_qualified_order_flow_auditor.py
+LineNumber : 25
+Line       : def _trade_context_ready(sample):
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_4_context_qualified_order_flow_auditor.py
+LineNumber : 26
+Line       :     return bool(sample.get('trade_context_ready', sample.get('context_ready', False)))
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_4_context_qualified_order_flow_auditor.py
+LineNumber : 102
+Line       :         if not _trade_context_ready(sample):
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_4_context_qualified_order_flow_auditor.py
+LineNumber : 138
+Line       :     ready_indices = [i for i, s in enumerate(samples) if _trade_context_ready(s)]
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_4_context_qualified_order_flow_auditor.py
+LineNumber : 156
+Line       :                 if not _trade_context_ready(samples[j]):
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_4_orchestrated_session_runner.py
+LineNumber : 94
+Line       :                 r'history_ready=([^ ]+)', r'trade_context_ready=([^ ]+)', r'ready=([^ ]+)',
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_4_orchestrated_session_runner.py
+LineNumber : 261
+Line       :         print('session_trade_context_ready=' + str(s.get('trade_context_ready')))
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 30
+Line       :     trade_context_ready_at_start_value = _read_field(payload, summary, 'trade_context_ready_at_start', 
+             None)
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 31
+Line       :     legacy_context_ready_at_start_raw = bool(_read_field(payload, summary, 'context_ready_at_start', 
+             False))
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 32
+Line       :     context_ready_raw = (
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 33
+Line       :         legacy_context_ready_at_start_raw
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 34
+Line       :         if trade_context_ready_at_start_value is None
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 35
+Line       :         else bool(trade_context_ready_at_start_value)
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 40
+Line       :     context_ready_inferred_from_warmup = False
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 41
+Line       :     context_ready = context_ready_raw
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 42
+Line       :     trade_context_reasons = [] if context_ready else ['TRADE_CONTEXT_NOT_READY_AT_START']
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 71
+Line       :         'context_ready_at_start_raw': context_ready_raw,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 72
+Line       :         'trade_context_ready_at_start_raw': context_ready_raw,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 73
+Line       :         'legacy_context_ready_at_start_raw': legacy_context_ready_at_start_raw,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 74
+Line       :         'context_ready_at_start': context_ready,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 75
+Line       :         'trade_context_ready_at_start': context_ready,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 76
+Line       :         'context_ready_inferred_from_warmup': context_ready_inferred_from_warmup,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 111
+Line       :         'context_ready_at_start_raw',
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 112
+Line       :         'trade_context_ready_at_start_raw',
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 113
+Line       :         'legacy_context_ready_at_start_raw',
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 114
+Line       :         'context_ready_at_start',
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 115
+Line       :         'trade_context_ready_at_start',
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_5_session_readiness_report.py
+LineNumber : 116
+Line       :         'context_ready_inferred_from_warmup',
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_multi_session_evidence_accumulator.py
+LineNumber : 12
+Line       : def _trade_context_ready(sample):
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_multi_session_evidence_accumulator.py
+LineNumber : 13
+Line       :     return bool(sample.get('trade_context_ready', sample.get('context_ready', False)))
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_multi_session_evidence_accumulator.py
+LineNumber : 86
+Line       :         ready_indices = [i for i, s in enumerate(samples) if _trade_context_ready(s)]
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_multi_session_evidence_accumulator.py
+LineNumber : 104
+Line       :                 if any(not _trade_context_ready(samples[k]) for k in range(i, j + 1)):
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_7_session_consistency_robustness_auditor.py
+LineNumber : 13
+Line       : def _trade_context_ready(sample):
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_7_session_consistency_robustness_auditor.py
+LineNumber : 14
+Line       :     return bool(sample.get('trade_context_ready', sample.get('context_ready', False)))
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_7_session_consistency_robustness_auditor.py
+LineNumber : 46
+Line       :             if not _trade_context_ready(sample):
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_7_session_consistency_robustness_auditor.py
+LineNumber : 58
+Line       :                 if any(not _trade_context_ready(samples[k]) for k in range(i, j + 1)):
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_8_oos_candidate_validator.py
+LineNumber : 18
+Line       : def _trade_context_ready(sample):
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_8_oos_candidate_validator.py
+LineNumber : 19
+Line       :     return bool(sample.get('trade_context_ready', sample.get('context_ready', False)))
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_8_oos_candidate_validator.py
+LineNumber : 50
+Line       :         indices = [i for i, sample in enumerate(samples) if _trade_context_ready(sample) and 
+             _bucket(sample) == candidate]
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_8_oos_candidate_validator.py
+LineNumber : 60
+Line       :                 if j >= len(samples) or any(not _trade_context_ready(samples[k]) for k in range(i, j + 
+             1)):
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_offline_recomposer.py
+LineNumber : 26
+Line       :     return bool(sample.get('trade_context_ready', sample.get('context_ready', False)))
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 162
+Line       : def _extract_book_direction(sample: dict[str, Any]) -> str:
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 166
+Line       :             "book_direction",
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 168
+Line       :             "order_book_direction",
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 303
+Line       :     conflict_book_directional = 0
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 331
+Line       :         book = _extract_book_direction(sample)
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 400
+Line       :                 conflict_book_directional += 1
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 422
+Line       :     book_directional = book_buy + book_sell
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 432
+Line       :             "directional": book_directional,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 437
+Line       :                 book_directional,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 469
+Line       :             "book_directional_during_conflict": (
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 470
+Line       :                 conflict_book_directional
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 475
+Line       :             "book_directional_during_conflict_rate": _pct(
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 476
+Line       :                 conflict_book_directional,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 535
+Line       :         "session11_book_directional_rate": (
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 538
+Line       :         "session12_book_directional_rate": (
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 541
+Line       :         "session11_book_directional_during_conflict": (
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 543
+Line       :                 "book_directional_during_conflict"
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 546
+Line       :         "session12_book_directional_during_conflict": (
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 548
+Line       :                 "book_directional_during_conflict"
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 563
+Line       :         "status": "BOOK_DIRECTIONALITY_DIAGNOSTICS_COMPLETED",
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_episode_report.py
+LineNumber : 17
+Line       : from tools.prospective_microstructure_coverage_report import _coverage
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_episode_report.py
+LineNumber : 108
+Line       :             "book_direction",
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_episode_report.py
+LineNumber : 122
+Line       :     book_counts = _direction_counts(episode_samples, "book_direction")
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_episode_report.py
+LineNumber : 137
+Line       :         "book_direction_counts": book_counts,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_episode_report.py
+LineNumber : 144
+Line       :         "predominant_book_direction": _predominant(
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_episode_report.py
+LineNumber : 145
+Line       :             [sample["book_direction"] for sample in episode_samples]
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 120
+Line       :     book_direction: str | None,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 124
+Line       :     book_signed = _signed_displacement(book_direction, raw_displacement)
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 128
+Line       :     elif pa_direction in ("BUY", "SELL") and book_direction in ("BUY", "SELL"):
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 129
+Line       :         if pa_direction == book_direction:
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 171
+Line       :     book_direction = episode["predominant_book_direction"]
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 185
+Line       :         "predominant_book_direction": book_direction,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 216
+Line       :                 book_direction=book_direction,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_session_stability.py
+LineNumber : 203
+Line       :                 episode.get("predominant_book_direction"),
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_session_stability.py
+LineNumber : 204
+Line       :                 "predominant_book_direction",
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_session_stability.py
+LineNumber : 237
+Line       :                         "book_direction": book,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_stratification.py
+LineNumber : 230
+Line       :             book = episode.get("predominant_book_direction")
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_stratification.py
+LineNumber : 254
+Line       :                         "book_direction": book,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_coverage_report.py
+LineNumber : 25
+Line       :         "book_directional": 0,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_coverage_report.py
+LineNumber : 37
+Line       :                 "book_direction", "state", "conflict_count",
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_coverage_report.py
+LineNumber : 47
+Line       :         counts["book_directional"] += sample["book_direction"] in _DIRECTIONS
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_independent_evidence_comparison.py
+LineNumber : 138
+Line       :         "book_directional",
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_independent_evidence_comparison.py
+LineNumber : 249
+Line       :             "predominant_book_direction"
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_independent_evidence_comparison.py
+LineNumber : 344
+Line       :         "book_directional_rate": rate(
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_independent_evidence_comparison.py
+LineNumber : 345
+Line       :             summary["book_directional"],
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_independent_evidence_comparison.py
+LineNumber : 389
+Line       :         "book_directional": coverage[
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_independent_evidence_comparison.py
+LineNumber : 390
+Line       :             "book_directional"
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_multi_session_audit.py
+LineNumber : 67
+Line       :     if payload.get("trade_context_ready_at_start") is not True:
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_multi_session_audit.py
+LineNumber : 72
+Line       :     source_samples = evidence.get("source_analyzable_samples")
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_multi_session_audit.py
+LineNumber : 73
+Line       :     captured_samples = evidence.get("captured_samples")
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_multi_session_audit.py
+LineNumber : 78
+Line       :         if captured_samples != len(samples):
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_multi_session_audit.py
+LineNumber : 96
+Line       :     if report.get("samples") != captured_samples:
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_post_session_audit.py
+LineNumber : 34
+Line       : from tools.prospective_microstructure_coverage_report import (
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_post_session_audit.py
+LineNumber : 35
+Line       :     report_paths as coverage_report_paths,
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_post_session_audit.py
+LineNumber : 289
+Line       :     coverage = coverage_report_paths(
+Context    : Microsoft.PowerShell.Commands.MatchInfoContext
+
+
+

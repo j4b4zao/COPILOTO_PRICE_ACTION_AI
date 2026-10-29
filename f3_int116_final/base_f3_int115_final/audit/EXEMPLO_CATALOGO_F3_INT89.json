@@ -1,0 +1,15 @@
+{
+  "notice": "Fixtures sinteticas offline. Contagens dos pacotes de exemplo nao sao checkpoints reais da auditoria. Sem autenticacao ou certificacao.",
+  "records": [
+    {
+      "file": "EXEMPLO_CATALOGO_F3_INT89_0.package",
+      "stage": 53,
+      "sha256": "67cb0ad83dd68a83b0f1c42d8e139f83bb81495a3aa8a28e4fae358467779871"
+    },
+    {
+      "file": "EXEMPLO_CATALOGO_F3_INT89_1.package",
+      "stage": 54,
+      "sha256": "e332e50710dfd6eb9b5ea628bba5c0d6b241e73a500bb1b61fac17e35c26ce64"
+    }
+  ]
+}

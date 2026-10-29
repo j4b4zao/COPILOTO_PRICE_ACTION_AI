@@ -1,0 +1,8 @@
+{
+  "source": "C:\\Users\\jb\\Downloads\\PACOTE_AUDITORIA_F3_INT49_CHAT.zip",
+  "sha256": "369837914532d92c9882b882cfb2e59c01bc168afe124c66edf0a2a51b20d173",
+  "manifest_entries": 183,
+  "mismatches": [],
+  "extraction": "auditoria_f3_isolada",
+  "reported_baseline_tests": 452
+}

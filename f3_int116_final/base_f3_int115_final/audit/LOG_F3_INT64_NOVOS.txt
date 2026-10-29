@@ -1,0 +1,22 @@
+test_all_two_actor_trace_transitions (test_f3_int64_transition_monitor.MonitorTests.test_all_two_actor_trace_transitions) ... ok
+test_epoch_rollback (test_f3_int64_transition_monitor.MonitorTests.test_epoch_rollback) ... ok
+test_evidence_not_appended (test_f3_int64_transition_monitor.MonitorTests.test_evidence_not_appended) ... ok
+test_flags (test_f3_int64_transition_monitor.MonitorTests.test_flags) ... ok
+test_invalid_snapshot (test_f3_int64_transition_monitor.MonitorTests.test_invalid_snapshot) ... ok
+test_invariant_preserving_forgery_limit (test_f3_int64_transition_monitor.MonitorTests.test_invariant_preserving_forgery_limit) ... ok
+test_prefix_rewrite (test_f3_int64_transition_monitor.MonitorTests.test_prefix_rewrite) ... ok
+test_prepare_forged_commit_status (test_f3_int64_transition_monitor.MonitorTests.test_prepare_forged_commit_status) ... ok
+test_rejection_mutation (test_f3_int64_transition_monitor.MonitorTests.test_rejection_mutation) ... ok
+test_round_not_appended (test_f3_int64_transition_monitor.MonitorTests.test_round_not_appended) ... ok
+test_same_epoch_pin_change (test_f3_int64_transition_monitor.MonitorTests.test_same_epoch_pin_change) ... ok
+test_unchanged_rejection (test_f3_int64_transition_monitor.MonitorTests.test_unchanged_rejection) ... ok
+test_unknown_nested_state (test_f3_int64_transition_monitor.MonitorTests.test_unknown_nested_state) ... ok
+test_valid_bootstrap (test_f3_int64_transition_monitor.MonitorTests.test_valid_bootstrap) ... ok
+test_valid_extension (test_f3_int64_transition_monitor.MonitorTests.test_valid_extension) ... ok
+test_version_jump (test_f3_int64_transition_monitor.MonitorTests.test_version_jump) ... ok
+test_version_not_incremented (test_f3_int64_transition_monitor.MonitorTests.test_version_not_incremented) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.020s
+
+OK

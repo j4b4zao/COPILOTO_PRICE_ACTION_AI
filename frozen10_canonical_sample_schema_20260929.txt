@@ -1,0 +1,530 @@
+﻿============================================================
+FILE=.\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260921_130942.json
+prospective_exists=True
+captured_samples=292
+source_analyzable_samples=292
+sample_count_matches_source=True
+samples_count=292
+--- FIRST SAMPLE PROPERTIES ---
+state
+direction
+confluence_quality
+confidence
+independent_evidence_count
+correlated_evidence_count
+conflict_count
+price_action_bias
+order_flow_pressure
+flow_momentum
+pattern_direction
+flow_direction
+structure_alignment
+structural_confidence
+book_pressure
+book_direction
+book_confidence
+book_available
+book_correlated_with_delta
+duplicate_evidence_risk
+passive_only
+--- FIRST SAMPLE ---
+{
+    "state":  "INSUFFICIENT_DATA",
+    "direction":  "NONE",
+    "confluence_quality":  "INSUFFICIENT_DATA",
+    "confidence":  0.0,
+    "independent_evidence_count":  1,
+    "correlated_evidence_count":  0,
+    "conflict_count":  0,
+    "price_action_bias":  "BUY",
+    "order_flow_pressure":  "INSUFFICIENT_DATA",
+    "flow_momentum":  "INSUFFICIENT_DATA",
+    "pattern_direction":  "NONE",
+    "flow_direction":  "NONE",
+    "structure_alignment":  "UNAVAILABLE",
+    "structural_confidence":  0.0,
+    "book_pressure":  "BALANCED",
+    "book_direction":  "NONE",
+    "book_confidence":  0.0,
+    "book_available":  true,
+    "book_correlated_with_delta":  false,
+    "duplicate_evidence_risk":  false,
+    "passive_only":  true
+}
+============================================================
+FILE=.\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260921_163046.json
+prospective_exists=True
+captured_samples=343
+source_analyzable_samples=343
+sample_count_matches_source=True
+samples_count=343
+--- FIRST SAMPLE PROPERTIES ---
+state
+direction
+confluence_quality
+confidence
+independent_evidence_count
+correlated_evidence_count
+conflict_count
+price_action_bias
+order_flow_pressure
+flow_momentum
+pattern_direction
+flow_direction
+structure_alignment
+structural_confidence
+book_pressure
+book_direction
+book_confidence
+book_available
+book_correlated_with_delta
+duplicate_evidence_risk
+passive_only
+--- FIRST SAMPLE ---
+{
+    "state":  "INSUFFICIENT_DATA",
+    "direction":  "NONE",
+    "confluence_quality":  "INSUFFICIENT_DATA",
+    "confidence":  0.0,
+    "independent_evidence_count":  1,
+    "correlated_evidence_count":  0,
+    "conflict_count":  0,
+    "price_action_bias":  "BUY",
+    "order_flow_pressure":  "INSUFFICIENT_DATA",
+    "flow_momentum":  "INSUFFICIENT_DATA",
+    "pattern_direction":  "NONE",
+    "flow_direction":  "NONE",
+    "structure_alignment":  "UNAVAILABLE",
+    "structural_confidence":  0.0,
+    "book_pressure":  "BALANCED",
+    "book_direction":  "NONE",
+    "book_confidence":  0.0,
+    "book_available":  true,
+    "book_correlated_with_delta":  false,
+    "duplicate_evidence_risk":  false,
+    "passive_only":  true
+}
+============================================================
+FILE=.\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260922_130220.json
+prospective_exists=True
+captured_samples=268
+source_analyzable_samples=268
+sample_count_matches_source=True
+samples_count=268
+--- FIRST SAMPLE PROPERTIES ---
+state
+direction
+confluence_quality
+confidence
+independent_evidence_count
+correlated_evidence_count
+conflict_count
+price_action_bias
+order_flow_pressure
+flow_momentum
+pattern_direction
+flow_direction
+structure_alignment
+structural_confidence
+book_pressure
+book_direction
+book_confidence
+book_available
+book_correlated_with_delta
+duplicate_evidence_risk
+passive_only
+--- FIRST SAMPLE ---
+{
+    "state":  "INSUFFICIENT_DATA",
+    "direction":  "NONE",
+    "confluence_quality":  "INSUFFICIENT_DATA",
+    "confidence":  0.0,
+    "independent_evidence_count":  1,
+    "correlated_evidence_count":  0,
+    "conflict_count":  0,
+    "price_action_bias":  "BUY",
+    "order_flow_pressure":  "BALANCED",
+    "flow_momentum":  "MIXED",
+    "pattern_direction":  "NONE",
+    "flow_direction":  "NONE",
+    "structure_alignment":  "NEUTRAL",
+    "structural_confidence":  0.0,
+    "book_pressure":  "BALANCED",
+    "book_direction":  "NONE",
+    "book_confidence":  0.0,
+    "book_available":  true,
+    "book_correlated_with_delta":  false,
+    "duplicate_evidence_risk":  false,
+    "passive_only":  true
+}
+============================================================
+FILE=.\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260923_103430.json
+prospective_exists=True
+captured_samples=279
+source_analyzable_samples=279
+sample_count_matches_source=True
+samples_count=279
+--- FIRST SAMPLE PROPERTIES ---
+state
+direction
+confluence_quality
+confidence
+independent_evidence_count
+correlated_evidence_count
+conflict_count
+price_action_bias
+order_flow_pressure
+flow_momentum
+pattern_direction
+flow_direction
+structure_alignment
+structural_confidence
+book_pressure
+book_direction
+book_confidence
+book_available
+book_correlated_with_delta
+duplicate_evidence_risk
+passive_only
+--- FIRST SAMPLE ---
+{
+    "state":  "INSUFFICIENT_DATA",
+    "direction":  "NONE",
+    "confluence_quality":  "INSUFFICIENT_DATA",
+    "confidence":  0.0,
+    "independent_evidence_count":  1,
+    "correlated_evidence_count":  0,
+    "conflict_count":  0,
+    "price_action_bias":  "SELL",
+    "order_flow_pressure":  "INSUFFICIENT_DATA",
+    "flow_momentum":  "INSUFFICIENT_DATA",
+    "pattern_direction":  "NONE",
+    "flow_direction":  "NONE",
+    "structure_alignment":  "UNAVAILABLE",
+    "structural_confidence":  0.0,
+    "book_pressure":  "BALANCED",
+    "book_direction":  "NONE",
+    "book_confidence":  0.0,
+    "book_available":  true,
+    "book_correlated_with_delta":  false,
+    "duplicate_evidence_risk":  false,
+    "passive_only":  true
+}
+============================================================
+FILE=.\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260923_123103.json
+prospective_exists=True
+captured_samples=266
+source_analyzable_samples=266
+sample_count_matches_source=True
+samples_count=266
+--- FIRST SAMPLE PROPERTIES ---
+state
+direction
+confluence_quality
+confidence
+independent_evidence_count
+correlated_evidence_count
+conflict_count
+price_action_bias
+order_flow_pressure
+flow_momentum
+pattern_direction
+flow_direction
+structure_alignment
+structural_confidence
+book_pressure
+book_direction
+book_confidence
+book_available
+book_correlated_with_delta
+duplicate_evidence_risk
+passive_only
+--- FIRST SAMPLE ---
+{
+    "state":  "INSUFFICIENT_DATA",
+    "direction":  "NONE",
+    "confluence_quality":  "INSUFFICIENT_DATA",
+    "confidence":  0.0,
+    "independent_evidence_count":  1,
+    "correlated_evidence_count":  0,
+    "conflict_count":  0,
+    "price_action_bias":  "BUY",
+    "order_flow_pressure":  "INSUFFICIENT_DATA",
+    "flow_momentum":  "INSUFFICIENT_DATA",
+    "pattern_direction":  "NONE",
+    "flow_direction":  "NONE",
+    "structure_alignment":  "UNAVAILABLE",
+    "structural_confidence":  0.0,
+    "book_pressure":  "BALANCED",
+    "book_direction":  "NONE",
+    "book_confidence":  0.0,
+    "book_available":  true,
+    "book_correlated_with_delta":  false,
+    "duplicate_evidence_risk":  false,
+    "passive_only":  true
+}
+============================================================
+FILE=.\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260923_131852.json
+prospective_exists=True
+captured_samples=268
+source_analyzable_samples=268
+sample_count_matches_source=True
+samples_count=268
+--- FIRST SAMPLE PROPERTIES ---
+state
+direction
+confluence_quality
+confidence
+independent_evidence_count
+correlated_evidence_count
+conflict_count
+price_action_bias
+order_flow_pressure
+flow_momentum
+pattern_direction
+flow_direction
+structure_alignment
+structural_confidence
+book_pressure
+book_direction
+book_confidence
+book_available
+book_correlated_with_delta
+duplicate_evidence_risk
+passive_only
+--- FIRST SAMPLE ---
+{
+    "state":  "CONFIRMED",
+    "direction":  "BUY",
+    "confluence_quality":  "MEDIUM",
+    "confidence":  0.45,
+    "independent_evidence_count":  2,
+    "correlated_evidence_count":  0,
+    "conflict_count":  0,
+    "price_action_bias":  "BUY",
+    "order_flow_pressure":  "INSUFFICIENT_DATA",
+    "flow_momentum":  "INSUFFICIENT_DATA",
+    "pattern_direction":  "NONE",
+    "flow_direction":  "NONE",
+    "structure_alignment":  "UNAVAILABLE",
+    "structural_confidence":  0.0,
+    "book_pressure":  "BID_DOMINANT",
+    "book_direction":  "BUY",
+    "book_confidence":  0.0,
+    "book_available":  true,
+    "book_correlated_with_delta":  false,
+    "duplicate_evidence_risk":  false,
+    "passive_only":  true
+}
+============================================================
+FILE=.\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260923_151347.json
+prospective_exists=True
+captured_samples=257
+source_analyzable_samples=257
+sample_count_matches_source=True
+samples_count=257
+--- FIRST SAMPLE PROPERTIES ---
+state
+direction
+confluence_quality
+confidence
+independent_evidence_count
+correlated_evidence_count
+conflict_count
+price_action_bias
+order_flow_pressure
+flow_momentum
+pattern_direction
+flow_direction
+structure_alignment
+structural_confidence
+book_pressure
+book_direction
+book_confidence
+book_available
+book_correlated_with_delta
+duplicate_evidence_risk
+passive_only
+--- FIRST SAMPLE ---
+{
+    "state":  "INSUFFICIENT_DATA",
+    "direction":  "NONE",
+    "confluence_quality":  "INSUFFICIENT_DATA",
+    "confidence":  0.0,
+    "independent_evidence_count":  1,
+    "correlated_evidence_count":  0,
+    "conflict_count":  0,
+    "price_action_bias":  "SELL",
+    "order_flow_pressure":  "INSUFFICIENT_DATA",
+    "flow_momentum":  "INSUFFICIENT_DATA",
+    "pattern_direction":  "NONE",
+    "flow_direction":  "NONE",
+    "structure_alignment":  "UNAVAILABLE",
+    "structural_confidence":  0.0,
+    "book_pressure":  "BALANCED",
+    "book_direction":  "NONE",
+    "book_confidence":  0.0,
+    "book_available":  true,
+    "book_correlated_with_delta":  false,
+    "duplicate_evidence_risk":  false,
+    "passive_only":  true
+}
+============================================================
+FILE=.\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260924_164534.json
+prospective_exists=True
+captured_samples=241
+source_analyzable_samples=241
+sample_count_matches_source=True
+samples_count=241
+--- FIRST SAMPLE PROPERTIES ---
+state
+direction
+confluence_quality
+confidence
+independent_evidence_count
+correlated_evidence_count
+conflict_count
+price_action_bias
+order_flow_pressure
+flow_momentum
+pattern_direction
+flow_direction
+structure_alignment
+structural_confidence
+book_pressure
+book_direction
+book_confidence
+book_available
+book_correlated_with_delta
+duplicate_evidence_risk
+passive_only
+--- FIRST SAMPLE ---
+{
+    "state":  "INSUFFICIENT_DATA",
+    "direction":  "NONE",
+    "confluence_quality":  "INSUFFICIENT_DATA",
+    "confidence":  0.0,
+    "independent_evidence_count":  1,
+    "correlated_evidence_count":  0,
+    "conflict_count":  0,
+    "price_action_bias":  "BUY",
+    "order_flow_pressure":  "INSUFFICIENT_DATA",
+    "flow_momentum":  "INSUFFICIENT_DATA",
+    "pattern_direction":  "NONE",
+    "flow_direction":  "NONE",
+    "structure_alignment":  "UNAVAILABLE",
+    "structural_confidence":  0.0,
+    "book_pressure":  "BALANCED",
+    "book_direction":  "NONE",
+    "book_confidence":  0.0,
+    "book_available":  true,
+    "book_correlated_with_delta":  false,
+    "duplicate_evidence_risk":  false,
+    "passive_only":  true
+}
+============================================================
+FILE=.\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260925_124732.json
+prospective_exists=True
+captured_samples=289
+source_analyzable_samples=289
+sample_count_matches_source=True
+samples_count=289
+--- FIRST SAMPLE PROPERTIES ---
+state
+direction
+confluence_quality
+confidence
+independent_evidence_count
+correlated_evidence_count
+conflict_count
+price_action_bias
+order_flow_pressure
+flow_momentum
+pattern_direction
+flow_direction
+structure_alignment
+structural_confidence
+book_pressure
+book_direction
+book_confidence
+book_available
+book_correlated_with_delta
+duplicate_evidence_risk
+passive_only
+--- FIRST SAMPLE ---
+{
+    "state":  "INSUFFICIENT_DATA",
+    "direction":  "NONE",
+    "confluence_quality":  "INSUFFICIENT_DATA",
+    "confidence":  0.0,
+    "independent_evidence_count":  1,
+    "correlated_evidence_count":  0,
+    "conflict_count":  0,
+    "price_action_bias":  "SELL",
+    "order_flow_pressure":  "INSUFFICIENT_DATA",
+    "flow_momentum":  "INSUFFICIENT_DATA",
+    "pattern_direction":  "NONE",
+    "flow_direction":  "NONE",
+    "structure_alignment":  "UNAVAILABLE",
+    "structural_confidence":  0.0,
+    "book_pressure":  "BALANCED",
+    "book_direction":  "NONE",
+    "book_confidence":  0.0,
+    "book_available":  true,
+    "book_correlated_with_delta":  false,
+    "duplicate_evidence_risk":  false,
+    "passive_only":  true
+}
+============================================================
+FILE=.\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260925_133534.json
+prospective_exists=True
+captured_samples=243
+source_analyzable_samples=243
+sample_count_matches_source=True
+samples_count=243
+--- FIRST SAMPLE PROPERTIES ---
+state
+direction
+confluence_quality
+confidence
+independent_evidence_count
+correlated_evidence_count
+conflict_count
+price_action_bias
+order_flow_pressure
+flow_momentum
+pattern_direction
+flow_direction
+structure_alignment
+structural_confidence
+book_pressure
+book_direction
+book_confidence
+book_available
+book_correlated_with_delta
+duplicate_evidence_risk
+passive_only
+--- FIRST SAMPLE ---
+{
+    "state":  "CONFIRMED",
+    "direction":  "SELL",
+    "confluence_quality":  "MEDIUM",
+    "confidence":  0.37,
+    "independent_evidence_count":  2,
+    "correlated_evidence_count":  1,
+    "conflict_count":  0,
+    "price_action_bias":  "SELL",
+    "order_flow_pressure":  "SELL",
+    "flow_momentum":  "FADING_SELL",
+    "pattern_direction":  "NONE",
+    "flow_direction":  "SELL",
+    "structure_alignment":  "NEUTRAL",
+    "structural_confidence":  0.0,
+    "book_pressure":  "BALANCED",
+    "book_direction":  "NONE",
+    "book_confidence":  0.0,
+    "book_available":  true,
+    "book_correlated_with_delta":  false,
+    "duplicate_evidence_risk":  true,
+    "passive_only":  true
+}

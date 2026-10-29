@@ -1,0 +1,4052 @@
+{
+  "accepted_sessions": [
+    "profit_rtd_rc54_3_2_WINV26_20260911_095316.json",
+    "profit_rtd_rc54_3_2_WINV26_20260911_113650.json",
+    "profit_rtd_rc54_3_2_WINV26_20260911_141336.json"
+  ],
+  "alert_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "eligible_sessions": 3,
+  "hypothesis_freeze_allowed": false,
+  "input_sessions": 3,
+  "mode": "SELECTION",
+  "observational_only": true,
+  "order_execution_allowed": false,
+  "predictive_claim_allowed": false,
+  "promotion_allowed": false,
+  "rejected_sessions": [],
+  "research_only": true,
+  "risk_influence_allowed": false,
+  "score_influence_allowed": false,
+  "selection_cutoff": null,
+  "setups": {
+    "BROOKS_BREAKOUT_PULLBACK_V1": {
+      "alert_influence_allowed": false,
+      "complete_sequences": 7,
+      "decision_influence_allowed": false,
+      "eligible_sessions": 3,
+      "event_deduplication": "SAME_DIRECTION_LEVEL_RETEST_REJECTION_RESUMPTION",
+      "hypothesis_freeze_allowed": false,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "reasons": [
+        "COMPLETE_EXPLICIT_SEQUENCE_OBSERVED_RESEARCH_ONLY"
+      ],
+      "research_only": true,
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "sessions": [
+        {
+          "alert_influence_allowed": false,
+          "complete_sequences": 0,
+          "decision_influence_allowed": false,
+          "event_deduplication": "SAME_DIRECTION_LEVEL_RETEST_REJECTION_RESUMPTION",
+          "exact_candles": 4,
+          "incomplete": [],
+          "incomplete_candidates": 0,
+          "observational_only": true,
+          "order_execution_allowed": false,
+          "predictive_claim_allowed": false,
+          "producer_phase_coverage": {
+            "breakout_phase_contract": [
+              "BREAKOUT_CONFIRMED",
+              "BREAKOUT_FAILED",
+              "BREAKOUT_PENDING",
+              "BREAKOUT_TESTED",
+              "RANGE"
+            ],
+            "observed_breakout_phases": [
+              "BREAKOUT_CONFIRMED",
+              "BREAKOUT_FAILED",
+              "BREAKOUT_TESTED",
+              "RANGE"
+            ],
+            "observed_signal_phases": [
+              "ENTRY_STALLED",
+              "FOLLOW_THROUGH"
+            ],
+            "pullback_source": "BROOKS_BREAKOUT_PHASE_BREAKOUT_TESTED",
+            "rejection_source": "BROOKS_BREAKOUT_PHASE_BREAKOUT_TESTED_HOLD",
+            "research_breakout_memory": true,
+            "research_breakout_memory_direction_field": "brooks_research_breakout_memory_direction",
+            "research_breakout_memory_level_field": "brooks_research_breakout_memory_level",
+            "research_breakout_memory_max_sequence_candles": 20,
+            "resumption_source": "BROOKS_SIGNAL_ENTRY_OR_FOLLOW_THROUGH_AFTER_TEST",
+            "signal_phase_contract": [
+              "ENTRY_STALLED",
+              "ENTRY_TRIGGERED",
+              "FOLLOW_THROUGH",
+              "SETUP_PENDING"
+            ]
+          },
+          "reasons": [
+            "NO_COMPLETE_EXPLICIT_BREAKOUT_PULLBACK_SEQUENCE"
+          ],
+          "research_only": true,
+          "risk_influence_allowed": false,
+          "score_influence_allowed": false,
+          "sequences": [],
+          "session": "profit_rtd_rc54_3_2_WINV26_20260911_095316.json",
+          "status": "INSUFFICIENT_SEQUENCE_EVIDENCE",
+          "unique_matched_event_count": 0,
+          "unique_matched_events": []
+        },
+        {
+          "alert_influence_allowed": false,
+          "complete_sequences": 0,
+          "decision_influence_allowed": false,
+          "event_deduplication": "SAME_DIRECTION_LEVEL_RETEST_REJECTION_RESUMPTION",
+          "exact_candles": 96,
+          "incomplete": [
+            {
+              "direction": "SELL",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:36:00",
+                  "level": null,
+                  "source": "STRUCTURE_BOS_DOWN"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_NOT_CONFIRMED",
+                "REJECTION_NOT_CONFIRMED",
+                "RESUMPTION_NOT_CONFIRMED"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:38:00",
+                  "level": null,
+                  "source": "STRUCTURE_BOS_DOWN"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_NOT_CONFIRMED",
+                "REJECTION_NOT_CONFIRMED",
+                "RESUMPTION_NOT_CONFIRMED"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "BUY",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-11T11:00:00",
+                  "level": null,
+                  "source": "STRUCTURE_BOS_UP"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_NOT_CONFIRMED",
+                "REJECTION_NOT_CONFIRMED",
+                "RESUMPTION_NOT_CONFIRMED"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "BUY",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-11T11:01:00",
+                  "level": null,
+                  "source": "STRUCTURE_BOS_UP"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_NOT_CONFIRMED",
+                "REJECTION_NOT_CONFIRMED",
+                "RESUMPTION_NOT_CONFIRMED"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "BUY",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-11T11:02:00",
+                  "level": 189485.0,
+                  "source": "STRUCTURE_BOS_UP"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_NOT_CONFIRMED",
+                "REJECTION_NOT_CONFIRMED",
+                "RESUMPTION_NOT_CONFIRMED"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "BUY",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-11T11:03:00",
+                  "level": 189485.0,
+                  "source": "STRUCTURE_BOS_UP"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_NOT_CONFIRMED",
+                "REJECTION_NOT_CONFIRMED",
+                "RESUMPTION_NOT_CONFIRMED"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "BUY",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-11T11:06:00",
+                  "level": 189485.0,
+                  "source": "STRUCTURE_BOS_UP"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_NOT_CONFIRMED",
+                "REJECTION_NOT_CONFIRMED",
+                "RESUMPTION_NOT_CONFIRMED"
+              ],
+              "sequence_complete": false
+            }
+          ],
+          "incomplete_candidates": 7,
+          "observational_only": true,
+          "order_execution_allowed": false,
+          "predictive_claim_allowed": false,
+          "producer_phase_coverage": {
+            "breakout_phase_contract": [
+              "BREAKOUT_CONFIRMED",
+              "BREAKOUT_FAILED",
+              "BREAKOUT_PENDING",
+              "BREAKOUT_TESTED",
+              "RANGE"
+            ],
+            "observed_breakout_phases": [
+              "BREAKOUT_CONFIRMED",
+              "BREAKOUT_FAILED",
+              "BREAKOUT_PENDING",
+              "RANGE"
+            ],
+            "observed_signal_phases": [
+              "ENTRY_STALLED",
+              "ENTRY_TRIGGERED",
+              "FOLLOW_THROUGH"
+            ],
+            "pullback_source": "BROOKS_BREAKOUT_PHASE_BREAKOUT_TESTED",
+            "rejection_source": "BROOKS_BREAKOUT_PHASE_BREAKOUT_TESTED_HOLD",
+            "research_breakout_memory": true,
+            "research_breakout_memory_direction_field": "brooks_research_breakout_memory_direction",
+            "research_breakout_memory_level_field": "brooks_research_breakout_memory_level",
+            "research_breakout_memory_max_sequence_candles": 20,
+            "resumption_source": "BROOKS_SIGNAL_ENTRY_OR_FOLLOW_THROUGH_AFTER_TEST",
+            "signal_phase_contract": [
+              "ENTRY_STALLED",
+              "ENTRY_TRIGGERED",
+              "FOLLOW_THROUGH",
+              "SETUP_PENDING"
+            ]
+          },
+          "reasons": [
+            "NO_COMPLETE_EXPLICIT_BREAKOUT_PULLBACK_SEQUENCE"
+          ],
+          "research_only": true,
+          "risk_influence_allowed": false,
+          "score_influence_allowed": false,
+          "sequences": [],
+          "session": "profit_rtd_rc54_3_2_WINV26_20260911_113650.json",
+          "status": "INSUFFICIENT_SEQUENCE_EVIDENCE",
+          "unique_matched_event_count": 0,
+          "unique_matched_events": []
+        },
+        {
+          "alert_influence_allowed": false,
+          "complete_sequences": 7,
+          "decision_influence_allowed": false,
+          "event_deduplication": "SAME_DIRECTION_LEVEL_RETEST_REJECTION_RESUMPTION",
+          "exact_candles": 91,
+          "incomplete": [
+            {
+              "direction": "SELL",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:48:00",
+                  "level": 188415.0,
+                  "source": "STRUCTURE_BOS_DOWN"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_NOT_CONFIRMED",
+                "REJECTION_NOT_CONFIRMED",
+                "RESUMPTION_NOT_CONFIRMED"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:49:00",
+                  "level": 188415.0,
+                  "source": "STRUCTURE_BOS_DOWN"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_NOT_CONFIRMED",
+                "REJECTION_NOT_CONFIRMED",
+                "RESUMPTION_NOT_CONFIRMED"
+              ],
+              "sequence_complete": false
+            }
+          ],
+          "incomplete_candidates": 2,
+          "observational_only": true,
+          "order_execution_allowed": false,
+          "predictive_claim_allowed": false,
+          "producer_phase_coverage": {
+            "breakout_phase_contract": [
+              "BREAKOUT_CONFIRMED",
+              "BREAKOUT_FAILED",
+              "BREAKOUT_PENDING",
+              "BREAKOUT_TESTED",
+              "RANGE"
+            ],
+            "observed_breakout_phases": [
+              "BREAKOUT_CONFIRMED",
+              "BREAKOUT_FAILED",
+              "BREAKOUT_PENDING",
+              "BREAKOUT_TESTED",
+              "RANGE"
+            ],
+            "observed_signal_phases": [
+              "ENTRY_STALLED",
+              "ENTRY_TRIGGERED",
+              "FOLLOW_THROUGH",
+              "SETUP_PENDING"
+            ],
+            "pullback_source": "BROOKS_BREAKOUT_PHASE_BREAKOUT_TESTED",
+            "rejection_source": "BROOKS_BREAKOUT_PHASE_BREAKOUT_TESTED_HOLD",
+            "research_breakout_memory": true,
+            "research_breakout_memory_direction_field": "brooks_research_breakout_memory_direction",
+            "research_breakout_memory_level_field": "brooks_research_breakout_memory_level",
+            "research_breakout_memory_max_sequence_candles": 20,
+            "resumption_source": "BROOKS_SIGNAL_ENTRY_OR_FOLLOW_THROUGH_AFTER_TEST",
+            "signal_phase_contract": [
+              "ENTRY_STALLED",
+              "ENTRY_TRIGGERED",
+              "FOLLOW_THROUGH",
+              "SETUP_PENDING"
+            ]
+          },
+          "reasons": [],
+          "research_only": true,
+          "risk_influence_allowed": false,
+          "score_influence_allowed": false,
+          "sequences": [
+            {
+              "direction": "SELL",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:16:00",
+                  "level": 189235.0,
+                  "source": "STRUCTURE_BOS_DOWN"
+                },
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:28:00",
+                  "source": "RESEARCH_BREAKOUT_MEMORY_LEVEL_RETEST"
+                },
+                "rejection": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:28:00",
+                  "source": "RESEARCH_BREAKOUT_MEMORY_LEVEL_HELD"
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:31:00",
+                  "source": "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+                }
+              },
+              "invalidated": false,
+              "matched": true,
+              "reasons": [
+                "BREAKOUT_PULLBACK_SEQUENCE_OBSERVED"
+              ],
+              "sequence_complete": true
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:17:00",
+                  "level": 189235.0,
+                  "source": "STRUCTURE_BOS_DOWN"
+                },
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:28:00",
+                  "source": "RESEARCH_BREAKOUT_MEMORY_LEVEL_RETEST"
+                },
+                "rejection": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:28:00",
+                  "source": "RESEARCH_BREAKOUT_MEMORY_LEVEL_HELD"
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:31:00",
+                  "source": "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+                }
+              },
+              "invalidated": false,
+              "matched": true,
+              "reasons": [
+                "BREAKOUT_PULLBACK_SEQUENCE_OBSERVED"
+              ],
+              "sequence_complete": true
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:18:00",
+                  "level": 189235.0,
+                  "source": "STRUCTURE_BOS_DOWN"
+                },
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:28:00",
+                  "source": "RESEARCH_BREAKOUT_MEMORY_LEVEL_RETEST"
+                },
+                "rejection": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:28:00",
+                  "source": "RESEARCH_BREAKOUT_MEMORY_LEVEL_HELD"
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:31:00",
+                  "source": "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+                }
+              },
+              "invalidated": false,
+              "matched": true,
+              "reasons": [
+                "BREAKOUT_PULLBACK_SEQUENCE_OBSERVED"
+              ],
+              "sequence_complete": true
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:19:00",
+                  "level": 189235.0,
+                  "source": "STRUCTURE_BOS_DOWN"
+                },
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:28:00",
+                  "source": "RESEARCH_BREAKOUT_MEMORY_LEVEL_RETEST"
+                },
+                "rejection": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:28:00",
+                  "source": "RESEARCH_BREAKOUT_MEMORY_LEVEL_HELD"
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:31:00",
+                  "source": "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+                }
+              },
+              "invalidated": false,
+              "matched": true,
+              "reasons": [
+                "BREAKOUT_PULLBACK_SEQUENCE_OBSERVED"
+              ],
+              "sequence_complete": true
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:41:00",
+                  "level": 188640.0,
+                  "source": "STRUCTURE_BOS_DOWN"
+                },
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:44:00",
+                  "source": "RESEARCH_BREAKOUT_MEMORY_LEVEL_RETEST"
+                },
+                "rejection": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:44:00",
+                  "source": "RESEARCH_BREAKOUT_MEMORY_LEVEL_HELD"
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:46:00",
+                  "source": "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+                }
+              },
+              "invalidated": false,
+              "matched": true,
+              "reasons": [
+                "BREAKOUT_PULLBACK_SEQUENCE_OBSERVED"
+              ],
+              "sequence_complete": true
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:42:00",
+                  "level": 188640.0,
+                  "source": "STRUCTURE_BOS_DOWN"
+                },
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:44:00",
+                  "source": "RESEARCH_BREAKOUT_MEMORY_LEVEL_RETEST"
+                },
+                "rejection": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:44:00",
+                  "source": "RESEARCH_BREAKOUT_MEMORY_LEVEL_HELD"
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:46:00",
+                  "source": "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+                }
+              },
+              "invalidated": false,
+              "matched": true,
+              "reasons": [
+                "BREAKOUT_PULLBACK_SEQUENCE_OBSERVED"
+              ],
+              "sequence_complete": true
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "breakout": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:47:00",
+                  "level": 188520.0,
+                  "source": "STRUCTURE_BOS_DOWN"
+                },
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:55:00",
+                  "source": "RESEARCH_BREAKOUT_MEMORY_LEVEL_RETEST"
+                },
+                "rejection": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:55:00",
+                  "source": "RESEARCH_BREAKOUT_MEMORY_LEVEL_HELD"
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:56:00",
+                  "source": "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+                }
+              },
+              "invalidated": false,
+              "matched": true,
+              "reasons": [
+                "BREAKOUT_PULLBACK_SEQUENCE_OBSERVED"
+              ],
+              "sequence_complete": true
+            }
+          ],
+          "session": "profit_rtd_rc54_3_2_WINV26_20260911_141336.json",
+          "status": "MATCHES_OBSERVED",
+          "unique_matched_event_count": 3,
+          "unique_matched_events": [
+            {
+              "direction": "SELL",
+              "event_start_candle_id": "WINV26|M1|2026-09-11T13:16:00",
+              "level": 189235.0,
+              "member_breakout_candle_ids": [
+                "WINV26|M1|2026-09-11T13:16:00",
+                "WINV26|M1|2026-09-11T13:17:00",
+                "WINV26|M1|2026-09-11T13:18:00",
+                "WINV26|M1|2026-09-11T13:19:00"
+              ],
+              "pullback_candle_id": "WINV26|M1|2026-09-11T13:28:00",
+              "rejection_candle_id": "WINV26|M1|2026-09-11T13:28:00",
+              "resumption_candle_id": "WINV26|M1|2026-09-11T13:31:00"
+            },
+            {
+              "direction": "SELL",
+              "event_start_candle_id": "WINV26|M1|2026-09-11T13:41:00",
+              "level": 188640.0,
+              "member_breakout_candle_ids": [
+                "WINV26|M1|2026-09-11T13:41:00",
+                "WINV26|M1|2026-09-11T13:42:00"
+              ],
+              "pullback_candle_id": "WINV26|M1|2026-09-11T13:44:00",
+              "rejection_candle_id": "WINV26|M1|2026-09-11T13:44:00",
+              "resumption_candle_id": "WINV26|M1|2026-09-11T13:46:00"
+            },
+            {
+              "direction": "SELL",
+              "event_start_candle_id": "WINV26|M1|2026-09-11T13:47:00",
+              "level": 188520.0,
+              "member_breakout_candle_ids": [
+                "WINV26|M1|2026-09-11T13:47:00"
+              ],
+              "pullback_candle_id": "WINV26|M1|2026-09-11T13:55:00",
+              "rejection_candle_id": "WINV26|M1|2026-09-11T13:55:00",
+              "resumption_candle_id": "WINV26|M1|2026-09-11T13:56:00"
+            }
+          ]
+        }
+      ],
+      "status": "MATCHES_OBSERVED",
+      "unique_matched_event_count": 3
+    },
+    "BROOKS_FAILED_BREAKOUT_V1": {
+      "accepted_session_count": 3,
+      "accepted_sessions": [
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "deduplication": "EXACT_CANDLE_LAST_REVISION",
+            "exact_candle_identity_available": true,
+            "hypothesis_freeze_allowed": false,
+            "matched_sequence_count": 0,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequence_count": 0,
+            "sequences": [],
+            "status": "AUDIT_COMPLETED"
+          },
+          "session_index": 0
+        },
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "deduplication": "EXACT_CANDLE_LAST_REVISION",
+            "exact_candle_identity_available": true,
+            "hypothesis_freeze_allowed": false,
+            "matched_sequence_count": 0,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequence_count": 2,
+            "sequences": [
+              {
+                "breakout_direction": "DOWN",
+                "invalidated": false,
+                "matched": false,
+                "reason": "BREAKOUT_FAILURE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T10:02:00"
+              },
+              {
+                "alert_influence_allowed": false,
+                "breakout_direction": "UP",
+                "candle_id": "WINV26|M1|2026-09-11T11:03:00",
+                "decision_influence_allowed": false,
+                "direction": "SELL",
+                "failure_candle_id": "WINV26|M1|2026-09-11T11:03:00",
+                "invalidated": false,
+                "matched": false,
+                "observational_only": true,
+                "order_execution_allowed": false,
+                "predictive_claim_allowed": false,
+                "reasons": [
+                  "OPPOSITE_RESPONSE_NOT_CONFIRMED"
+                ],
+                "research_only": true,
+                "response_candle_id": null,
+                "response_direction": "SELL",
+                "risk_influence_allowed": false,
+                "score_influence_allowed": false,
+                "sequence_complete": false,
+                "setup_name": "BROOKS_FAILED_BREAKOUT_V1",
+                "start_candle_id": "WINV26|M1|2026-09-11T11:02:00"
+              }
+            ],
+            "status": "AUDIT_COMPLETED"
+          },
+          "session_index": 1
+        },
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "deduplication": "EXACT_CANDLE_LAST_REVISION",
+            "exact_candle_identity_available": true,
+            "hypothesis_freeze_allowed": false,
+            "matched_sequence_count": 0,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequence_count": 13,
+            "sequences": [
+              {
+                "alert_influence_allowed": false,
+                "breakout_direction": "DOWN",
+                "candle_id": "WINV26|M1|2026-09-11T12:52:00",
+                "decision_influence_allowed": false,
+                "direction": "BUY",
+                "failure_candle_id": "WINV26|M1|2026-09-11T12:52:00",
+                "invalidated": false,
+                "matched": false,
+                "observational_only": true,
+                "order_execution_allowed": false,
+                "predictive_claim_allowed": false,
+                "reasons": [
+                  "OPPOSITE_RESPONSE_NOT_CONFIRMED"
+                ],
+                "research_only": true,
+                "response_candle_id": null,
+                "response_direction": "BUY",
+                "risk_influence_allowed": false,
+                "score_influence_allowed": false,
+                "sequence_complete": false,
+                "setup_name": "BROOKS_FAILED_BREAKOUT_V1",
+                "start_candle_id": "WINV26|M1|2026-09-11T12:51:00"
+              },
+              {
+                "breakout_direction": "DOWN",
+                "invalidated": false,
+                "matched": false,
+                "reason": "BREAKOUT_FAILURE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T12:54:00"
+              },
+              {
+                "breakout_direction": "DOWN",
+                "invalidated": false,
+                "matched": false,
+                "reason": "BREAKOUT_FAILURE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:15:00"
+              },
+              {
+                "breakout_direction": "DOWN",
+                "invalidated": false,
+                "matched": false,
+                "reason": "BREAKOUT_FAILURE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:31:00"
+              },
+              {
+                "breakout_direction": "DOWN",
+                "invalidated": false,
+                "matched": false,
+                "reason": "BREAKOUT_FAILURE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:32:00"
+              },
+              {
+                "breakout_direction": "DOWN",
+                "invalidated": false,
+                "matched": false,
+                "reason": "BREAKOUT_FAILURE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:33:00"
+              },
+              {
+                "breakout_direction": "DOWN",
+                "invalidated": false,
+                "matched": false,
+                "reason": "BREAKOUT_FAILURE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:34:00"
+              },
+              {
+                "breakout_direction": "DOWN",
+                "invalidated": false,
+                "matched": false,
+                "reason": "BREAKOUT_FAILURE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:35:00"
+              },
+              {
+                "breakout_direction": "DOWN",
+                "invalidated": false,
+                "matched": false,
+                "reason": "BREAKOUT_FAILURE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:37:00"
+              },
+              {
+                "breakout_direction": "DOWN",
+                "invalidated": false,
+                "matched": false,
+                "reason": "BREAKOUT_FAILURE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:41:00"
+              },
+              {
+                "breakout_direction": "DOWN",
+                "invalidated": false,
+                "matched": false,
+                "reason": "BREAKOUT_FAILURE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:42:00"
+              },
+              {
+                "breakout_direction": "DOWN",
+                "invalidated": false,
+                "matched": false,
+                "reason": "BREAKOUT_FAILURE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:47:00"
+              },
+              {
+                "breakout_direction": "DOWN",
+                "invalidated": false,
+                "matched": false,
+                "reason": "BREAKOUT_FAILURE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:49:00"
+              }
+            ],
+            "status": "AUDIT_COMPLETED"
+          },
+          "session_index": 2
+        }
+      ],
+      "alert_influence_allowed": false,
+      "decision_influence_allowed": false,
+      "hypothesis_freeze_allowed": false,
+      "matched_sequence_count": 0,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "rejected_session_count": 0,
+      "rejected_sessions": [],
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "status": "MULTI_SESSION_AUDIT_COMPLETED"
+    },
+    "BROOKS_MAJOR_TREND_REVERSAL_V1": {
+      "accepted_session_count": 3,
+      "accepted_sessions": [
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "deduplication": "EXACT_CANDLE_LAST_REVISION",
+            "event_deduplication": "OVERLAPPING_MATCHES_SAME_DIRECTION_UNTIL_RESPONSE",
+            "exact_candle_identity_available": true,
+            "hypothesis_freeze_allowed": false,
+            "matched_sequence_count": 0,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequence_count": 0,
+            "sequences": [],
+            "status": "AUDIT_COMPLETED",
+            "unique_matched_event_count": 0,
+            "unique_matched_events": []
+          },
+          "session_index": 0
+        },
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "deduplication": "EXACT_CANDLE_LAST_REVISION",
+            "event_deduplication": "OVERLAPPING_MATCHES_SAME_DIRECTION_UNTIL_RESPONSE",
+            "exact_candle_identity_available": true,
+            "hypothesis_freeze_allowed": false,
+            "matched_sequence_count": 5,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequence_count": 13,
+            "sequences": [
+              {
+                "alert_influence_allowed": false,
+                "candle_id": "WINV26|M1|2026-09-11T10:15:00",
+                "context_valid": true,
+                "decision_influence_allowed": false,
+                "direction": "SELL",
+                "invalidated": true,
+                "matched": false,
+                "observational_only": true,
+                "order_execution_allowed": false,
+                "predictive_claim_allowed": false,
+                "prior_trend": "BUY",
+                "reasons": [
+                  "MAJOR_TREND_REVERSAL_INVALIDATED"
+                ],
+                "research_only": true,
+                "response_candle_id": null,
+                "risk_influence_allowed": false,
+                "score_influence_allowed": false,
+                "sequence_complete": false,
+                "setup_name": "BROOKS_MAJOR_TREND_REVERSAL_V1",
+                "start_candle_id": "WINV26|M1|2026-09-11T10:15:00",
+                "structural_change_candle_id": "WINV26|M1|2026-09-11T10:16:00"
+              },
+              {
+                "direction": "BUY",
+                "invalidated": true,
+                "matched": false,
+                "prior_trend": "SELL",
+                "reason": "STRUCTURAL_INVALIDATION_BEFORE_CHANGE",
+                "start_candle_id": "WINV26|M1|2026-09-11T10:34:00"
+              },
+              {
+                "alert_influence_allowed": false,
+                "candle_id": "WINV26|M1|2026-09-11T10:39:00",
+                "context_valid": true,
+                "decision_influence_allowed": false,
+                "direction": "BUY",
+                "invalidated": false,
+                "matched": true,
+                "observational_only": true,
+                "order_execution_allowed": false,
+                "predictive_claim_allowed": false,
+                "prior_trend": "SELL",
+                "reasons": [
+                  "MAJOR_TREND_REVERSAL_SEQUENCE_OBSERVED"
+                ],
+                "research_only": true,
+                "response_candle_id": "WINV26|M1|2026-09-11T10:45:00",
+                "risk_influence_allowed": false,
+                "score_influence_allowed": false,
+                "sequence_complete": true,
+                "setup_name": "BROOKS_MAJOR_TREND_REVERSAL_V1",
+                "start_candle_id": "WINV26|M1|2026-09-11T10:39:00",
+                "structural_change_candle_id": "WINV26|M1|2026-09-11T10:44:00"
+              },
+              {
+                "alert_influence_allowed": false,
+                "candle_id": "WINV26|M1|2026-09-11T10:41:00",
+                "context_valid": true,
+                "decision_influence_allowed": false,
+                "direction": "BUY",
+                "invalidated": false,
+                "matched": true,
+                "observational_only": true,
+                "order_execution_allowed": false,
+                "predictive_claim_allowed": false,
+                "prior_trend": "SELL",
+                "reasons": [
+                  "MAJOR_TREND_REVERSAL_SEQUENCE_OBSERVED"
+                ],
+                "research_only": true,
+                "response_candle_id": "WINV26|M1|2026-09-11T10:45:00",
+                "risk_influence_allowed": false,
+                "score_influence_allowed": false,
+                "sequence_complete": true,
+                "setup_name": "BROOKS_MAJOR_TREND_REVERSAL_V1",
+                "start_candle_id": "WINV26|M1|2026-09-11T10:41:00",
+                "structural_change_candle_id": "WINV26|M1|2026-09-11T10:44:00"
+              },
+              {
+                "alert_influence_allowed": false,
+                "candle_id": "WINV26|M1|2026-09-11T10:43:00",
+                "context_valid": true,
+                "decision_influence_allowed": false,
+                "direction": "BUY",
+                "invalidated": false,
+                "matched": true,
+                "observational_only": true,
+                "order_execution_allowed": false,
+                "predictive_claim_allowed": false,
+                "prior_trend": "SELL",
+                "reasons": [
+                  "MAJOR_TREND_REVERSAL_SEQUENCE_OBSERVED"
+                ],
+                "research_only": true,
+                "response_candle_id": "WINV26|M1|2026-09-11T10:45:00",
+                "risk_influence_allowed": false,
+                "score_influence_allowed": false,
+                "sequence_complete": true,
+                "setup_name": "BROOKS_MAJOR_TREND_REVERSAL_V1",
+                "start_candle_id": "WINV26|M1|2026-09-11T10:43:00",
+                "structural_change_candle_id": "WINV26|M1|2026-09-11T10:44:00"
+              },
+              {
+                "alert_influence_allowed": false,
+                "candle_id": "WINV26|M1|2026-09-11T10:44:00",
+                "context_valid": true,
+                "decision_influence_allowed": false,
+                "direction": "BUY",
+                "invalidated": false,
+                "matched": true,
+                "observational_only": true,
+                "order_execution_allowed": false,
+                "predictive_claim_allowed": false,
+                "prior_trend": "SELL",
+                "reasons": [
+                  "MAJOR_TREND_REVERSAL_SEQUENCE_OBSERVED"
+                ],
+                "research_only": true,
+                "response_candle_id": "WINV26|M1|2026-09-11T10:46:00",
+                "risk_influence_allowed": false,
+                "score_influence_allowed": false,
+                "sequence_complete": true,
+                "setup_name": "BROOKS_MAJOR_TREND_REVERSAL_V1",
+                "start_candle_id": "WINV26|M1|2026-09-11T10:44:00",
+                "structural_change_candle_id": "WINV26|M1|2026-09-11T10:45:00"
+              },
+              {
+                "alert_influence_allowed": false,
+                "candle_id": "WINV26|M1|2026-09-11T10:45:00",
+                "context_valid": true,
+                "decision_influence_allowed": false,
+                "direction": "BUY",
+                "invalidated": false,
+                "matched": true,
+                "observational_only": true,
+                "order_execution_allowed": false,
+                "predictive_claim_allowed": false,
+                "prior_trend": "SELL",
+                "reasons": [
+                  "MAJOR_TREND_REVERSAL_SEQUENCE_OBSERVED"
+                ],
+                "research_only": true,
+                "response_candle_id": "WINV26|M1|2026-09-11T10:47:00",
+                "risk_influence_allowed": false,
+                "score_influence_allowed": false,
+                "sequence_complete": true,
+                "setup_name": "BROOKS_MAJOR_TREND_REVERSAL_V1",
+                "start_candle_id": "WINV26|M1|2026-09-11T10:45:00",
+                "structural_change_candle_id": "WINV26|M1|2026-09-11T10:46:00"
+              },
+              {
+                "direction": "SELL",
+                "invalidated": true,
+                "matched": false,
+                "prior_trend": "BUY",
+                "reason": "STRUCTURAL_INVALIDATION_BEFORE_CHANGE",
+                "start_candle_id": "WINV26|M1|2026-09-11T10:53:00"
+              },
+              {
+                "direction": "SELL",
+                "invalidated": true,
+                "matched": false,
+                "prior_trend": "BUY",
+                "reason": "STRUCTURAL_INVALIDATION_BEFORE_CHANGE",
+                "start_candle_id": "WINV26|M1|2026-09-11T10:59:00"
+              },
+              {
+                "alert_influence_allowed": false,
+                "candle_id": "WINV26|M1|2026-09-11T11:03:00",
+                "context_valid": true,
+                "decision_influence_allowed": false,
+                "direction": "SELL",
+                "invalidated": true,
+                "matched": false,
+                "observational_only": true,
+                "order_execution_allowed": false,
+                "predictive_claim_allowed": false,
+                "prior_trend": "BUY",
+                "reasons": [
+                  "MAJOR_TREND_REVERSAL_INVALIDATED"
+                ],
+                "research_only": true,
+                "response_candle_id": null,
+                "risk_influence_allowed": false,
+                "score_influence_allowed": false,
+                "sequence_complete": false,
+                "setup_name": "BROOKS_MAJOR_TREND_REVERSAL_V1",
+                "start_candle_id": "WINV26|M1|2026-09-11T11:03:00",
+                "structural_change_candle_id": "WINV26|M1|2026-09-11T11:04:00"
+              },
+              {
+                "direction": "SELL",
+                "invalidated": false,
+                "matched": false,
+                "prior_trend": "BUY",
+                "reason": "STRUCTURAL_CHANGE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T11:29:00"
+              },
+              {
+                "direction": "SELL",
+                "invalidated": false,
+                "matched": false,
+                "prior_trend": "BUY",
+                "reason": "STRUCTURAL_CHANGE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T11:31:00"
+              },
+              {
+                "direction": "SELL",
+                "invalidated": false,
+                "matched": false,
+                "prior_trend": "BUY",
+                "reason": "STRUCTURAL_CHANGE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T11:35:00"
+              }
+            ],
+            "status": "AUDIT_COMPLETED",
+            "unique_matched_event_count": 1,
+            "unique_matched_events": [
+              {
+                "direction": "BUY",
+                "event_start_candle_id": "WINV26|M1|2026-09-11T10:39:00",
+                "member_start_candle_ids": [
+                  "WINV26|M1|2026-09-11T10:39:00",
+                  "WINV26|M1|2026-09-11T10:41:00",
+                  "WINV26|M1|2026-09-11T10:43:00",
+                  "WINV26|M1|2026-09-11T10:44:00",
+                  "WINV26|M1|2026-09-11T10:45:00"
+                ],
+                "response_candle_id": "WINV26|M1|2026-09-11T10:47:00",
+                "response_candle_ids": [
+                  "WINV26|M1|2026-09-11T10:45:00",
+                  "WINV26|M1|2026-09-11T10:46:00",
+                  "WINV26|M1|2026-09-11T10:47:00"
+                ],
+                "structural_change_candle_id": "WINV26|M1|2026-09-11T10:44:00",
+                "structural_change_candle_ids": [
+                  "WINV26|M1|2026-09-11T10:44:00",
+                  "WINV26|M1|2026-09-11T10:45:00",
+                  "WINV26|M1|2026-09-11T10:46:00"
+                ]
+              }
+            ]
+          },
+          "session_index": 1
+        },
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "deduplication": "EXACT_CANDLE_LAST_REVISION",
+            "event_deduplication": "OVERLAPPING_MATCHES_SAME_DIRECTION_UNTIL_RESPONSE",
+            "exact_candle_identity_available": true,
+            "hypothesis_freeze_allowed": false,
+            "matched_sequence_count": 4,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequence_count": 17,
+            "sequences": [
+              {
+                "alert_influence_allowed": false,
+                "candle_id": "WINV26|M1|2026-09-11T13:09:00",
+                "context_valid": true,
+                "decision_influence_allowed": false,
+                "direction": "SELL",
+                "invalidated": false,
+                "matched": true,
+                "observational_only": true,
+                "order_execution_allowed": false,
+                "predictive_claim_allowed": false,
+                "prior_trend": "BUY",
+                "reasons": [
+                  "MAJOR_TREND_REVERSAL_SEQUENCE_OBSERVED"
+                ],
+                "research_only": true,
+                "response_candle_id": "WINV26|M1|2026-09-11T13:17:00",
+                "risk_influence_allowed": false,
+                "score_influence_allowed": false,
+                "sequence_complete": true,
+                "setup_name": "BROOKS_MAJOR_TREND_REVERSAL_V1",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:09:00",
+                "structural_change_candle_id": "WINV26|M1|2026-09-11T13:15:00"
+              },
+              {
+                "alert_influence_allowed": false,
+                "candle_id": "WINV26|M1|2026-09-11T13:10:00",
+                "context_valid": true,
+                "decision_influence_allowed": false,
+                "direction": "SELL",
+                "invalidated": false,
+                "matched": true,
+                "observational_only": true,
+                "order_execution_allowed": false,
+                "predictive_claim_allowed": false,
+                "prior_trend": "BUY",
+                "reasons": [
+                  "MAJOR_TREND_REVERSAL_SEQUENCE_OBSERVED"
+                ],
+                "research_only": true,
+                "response_candle_id": "WINV26|M1|2026-09-11T13:17:00",
+                "risk_influence_allowed": false,
+                "score_influence_allowed": false,
+                "sequence_complete": true,
+                "setup_name": "BROOKS_MAJOR_TREND_REVERSAL_V1",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:10:00",
+                "structural_change_candle_id": "WINV26|M1|2026-09-11T13:15:00"
+              },
+              {
+                "alert_influence_allowed": false,
+                "candle_id": "WINV26|M1|2026-09-11T13:11:00",
+                "context_valid": true,
+                "decision_influence_allowed": false,
+                "direction": "SELL",
+                "invalidated": false,
+                "matched": true,
+                "observational_only": true,
+                "order_execution_allowed": false,
+                "predictive_claim_allowed": false,
+                "prior_trend": "BUY",
+                "reasons": [
+                  "MAJOR_TREND_REVERSAL_SEQUENCE_OBSERVED"
+                ],
+                "research_only": true,
+                "response_candle_id": "WINV26|M1|2026-09-11T13:17:00",
+                "risk_influence_allowed": false,
+                "score_influence_allowed": false,
+                "sequence_complete": true,
+                "setup_name": "BROOKS_MAJOR_TREND_REVERSAL_V1",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:11:00",
+                "structural_change_candle_id": "WINV26|M1|2026-09-11T13:15:00"
+              },
+              {
+                "direction": "BUY",
+                "invalidated": true,
+                "matched": false,
+                "prior_trend": "SELL",
+                "reason": "STRUCTURAL_INVALIDATION_BEFORE_CHANGE",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:16:00"
+              },
+              {
+                "direction": "BUY",
+                "invalidated": true,
+                "matched": false,
+                "prior_trend": "SELL",
+                "reason": "STRUCTURAL_INVALIDATION_BEFORE_CHANGE",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:19:00"
+              },
+              {
+                "direction": "BUY",
+                "invalidated": true,
+                "matched": false,
+                "prior_trend": "SELL",
+                "reason": "STRUCTURAL_INVALIDATION_BEFORE_CHANGE",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:22:00"
+              },
+              {
+                "direction": "BUY",
+                "invalidated": true,
+                "matched": false,
+                "prior_trend": "SELL",
+                "reason": "STRUCTURAL_INVALIDATION_BEFORE_CHANGE",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:23:00"
+              },
+              {
+                "direction": "BUY",
+                "invalidated": true,
+                "matched": false,
+                "prior_trend": "SELL",
+                "reason": "STRUCTURAL_INVALIDATION_BEFORE_CHANGE",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:26:00"
+              },
+              {
+                "direction": "BUY",
+                "invalidated": true,
+                "matched": false,
+                "prior_trend": "SELL",
+                "reason": "STRUCTURAL_INVALIDATION_BEFORE_CHANGE",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:43:00"
+              },
+              {
+                "alert_influence_allowed": false,
+                "candle_id": "WINV26|M1|2026-09-11T13:49:00",
+                "context_valid": true,
+                "decision_influence_allowed": false,
+                "direction": "BUY",
+                "invalidated": false,
+                "matched": true,
+                "observational_only": true,
+                "order_execution_allowed": false,
+                "predictive_claim_allowed": false,
+                "prior_trend": "SELL",
+                "reasons": [
+                  "MAJOR_TREND_REVERSAL_SEQUENCE_OBSERVED"
+                ],
+                "research_only": true,
+                "response_candle_id": "WINV26|M1|2026-09-11T14:02:00",
+                "risk_influence_allowed": false,
+                "score_influence_allowed": false,
+                "sequence_complete": true,
+                "setup_name": "BROOKS_MAJOR_TREND_REVERSAL_V1",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:49:00",
+                "structural_change_candle_id": "WINV26|M1|2026-09-11T13:52:00"
+              },
+              {
+                "direction": "BUY",
+                "invalidated": false,
+                "matched": false,
+                "prior_trend": "SELL",
+                "reason": "STRUCTURAL_CHANGE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:53:00"
+              },
+              {
+                "direction": "SELL",
+                "invalidated": false,
+                "matched": false,
+                "prior_trend": "BUY",
+                "reason": "STRUCTURAL_CHANGE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:58:00"
+              },
+              {
+                "direction": "SELL",
+                "invalidated": false,
+                "matched": false,
+                "prior_trend": "BUY",
+                "reason": "STRUCTURAL_CHANGE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T13:59:00"
+              },
+              {
+                "direction": "SELL",
+                "invalidated": false,
+                "matched": false,
+                "prior_trend": "BUY",
+                "reason": "STRUCTURAL_CHANGE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T14:00:00"
+              },
+              {
+                "direction": "SELL",
+                "invalidated": false,
+                "matched": false,
+                "prior_trend": "BUY",
+                "reason": "STRUCTURAL_CHANGE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T14:04:00"
+              },
+              {
+                "direction": "SELL",
+                "invalidated": false,
+                "matched": false,
+                "prior_trend": "BUY",
+                "reason": "STRUCTURAL_CHANGE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T14:05:00"
+              },
+              {
+                "direction": "SELL",
+                "invalidated": false,
+                "matched": false,
+                "prior_trend": "BUY",
+                "reason": "STRUCTURAL_CHANGE_NOT_OBSERVED",
+                "start_candle_id": "WINV26|M1|2026-09-11T14:08:00"
+              }
+            ],
+            "status": "AUDIT_COMPLETED",
+            "unique_matched_event_count": 2,
+            "unique_matched_events": [
+              {
+                "direction": "SELL",
+                "event_start_candle_id": "WINV26|M1|2026-09-11T13:09:00",
+                "member_start_candle_ids": [
+                  "WINV26|M1|2026-09-11T13:09:00",
+                  "WINV26|M1|2026-09-11T13:10:00",
+                  "WINV26|M1|2026-09-11T13:11:00"
+                ],
+                "response_candle_id": "WINV26|M1|2026-09-11T13:17:00",
+                "response_candle_ids": [
+                  "WINV26|M1|2026-09-11T13:17:00"
+                ],
+                "structural_change_candle_id": "WINV26|M1|2026-09-11T13:15:00",
+                "structural_change_candle_ids": [
+                  "WINV26|M1|2026-09-11T13:15:00"
+                ]
+              },
+              {
+                "direction": "BUY",
+                "event_start_candle_id": "WINV26|M1|2026-09-11T13:49:00",
+                "member_start_candle_ids": [
+                  "WINV26|M1|2026-09-11T13:49:00"
+                ],
+                "response_candle_id": "WINV26|M1|2026-09-11T14:02:00",
+                "response_candle_ids": [
+                  "WINV26|M1|2026-09-11T14:02:00"
+                ],
+                "structural_change_candle_id": "WINV26|M1|2026-09-11T13:52:00",
+                "structural_change_candle_ids": [
+                  "WINV26|M1|2026-09-11T13:52:00"
+                ]
+              }
+            ]
+          },
+          "session_index": 2
+        }
+      ],
+      "alert_influence_allowed": false,
+      "decision_influence_allowed": false,
+      "hypothesis_freeze_allowed": false,
+      "matched_sequence_count": 9,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "rejected_session_count": 0,
+      "rejected_sessions": [],
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "status": "MULTI_SESSION_AUDIT_COMPLETED",
+      "unique_matched_event_count": 3
+    },
+    "BROOKS_STOP_TARGET_RULES_V1": {
+      "accepted_session_count": 3,
+      "alert_influence_allowed": false,
+      "capture_inconsistency_count": 91,
+      "decision_influence_allowed": false,
+      "deduplication": "EXACT_CANDLE_LAST_REVISION",
+      "dynamic_management_audited": false,
+      "dynamic_management_reason": "TRAILING_PARTIAL_AND_OUTCOME_FIELDS_NOT_CAPTURED",
+      "eligible_stop_observations": 0,
+      "exact_candles": 191,
+      "hypothesis_freeze_allowed": false,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "reasons": [
+        "STOP_TARGET_CAPTURE_INCONSISTENCY_OBSERVED"
+      ],
+      "rejected_session_count": 0,
+      "rejected_sessions": [],
+      "research_only": true,
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "sessions": [
+        {
+          "alert_influence_allowed": false,
+          "decision_influence_allowed": false,
+          "deduplication": "EXACT_CANDLE_LAST_REVISION",
+          "exact_candles": 4,
+          "hypothesis_freeze_allowed": false,
+          "missing_stop_target_evidence_rows": 4,
+          "observational_only": true,
+          "order_execution_allowed": false,
+          "predictive_claim_allowed": false,
+          "reasons": [
+            "STOP_TARGET_CAPTURE_CONTRACT_REQUIRED"
+          ],
+          "research_only": true,
+          "risk_influence_allowed": false,
+          "score_influence_allowed": false,
+          "session_index": 0,
+          "setup": "BROOKS_STOP_TARGET_RULES_V1",
+          "status": "SESSION_NOT_ELIGIBLE",
+          "stop_target_evidence_rows": 0
+        },
+        {
+          "alert_influence_allowed": false,
+          "decision_influence_allowed": false,
+          "deduplication": "EXACT_CANDLE_LAST_REVISION",
+          "exact_candles": 96,
+          "hypothesis_freeze_allowed": false,
+          "missing_stop_target_evidence_rows": 96,
+          "observational_only": true,
+          "order_execution_allowed": false,
+          "predictive_claim_allowed": false,
+          "reasons": [
+            "STOP_TARGET_CAPTURE_CONTRACT_REQUIRED"
+          ],
+          "research_only": true,
+          "risk_influence_allowed": false,
+          "score_influence_allowed": false,
+          "session_index": 1,
+          "setup": "BROOKS_STOP_TARGET_RULES_V1",
+          "status": "SESSION_NOT_ELIGIBLE",
+          "stop_target_evidence_rows": 0
+        },
+        {
+          "alert_influence_allowed": false,
+          "capture_inconsistency_count": 91,
+          "decision_influence_allowed": false,
+          "deduplication": "EXACT_CANDLE_LAST_REVISION",
+          "dynamic_management_audited": false,
+          "dynamic_management_reason": "TRAILING_PARTIAL_AND_OUTCOME_FIELDS_NOT_CAPTURED",
+          "eligible_stop_observations": 0,
+          "exact_candles": 91,
+          "hypothesis_freeze_allowed": false,
+          "observational_only": true,
+          "observations": [
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:43:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:44:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:45:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:46:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:47:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:48:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:49:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:50:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:51:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:52:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:53:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": false,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:54:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:55:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:56:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:57:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:58:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T12:59:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:00:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:01:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:02:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:03:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:04:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:05:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:06:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:07:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:08:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:09:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:10:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:11:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:12:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:13:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:14:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:15:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:16:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:17:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:18:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:19:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:20:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:21:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:22:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:23:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:24:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:25:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:26:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:27:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:28:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:29:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:30:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:31:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:32:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:33:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:34:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:35:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:36:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:37:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:38:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:39:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:40:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:41:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:42:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:43:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:44:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:45:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:46:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:47:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:48:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:49:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:50:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:51:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:52:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:53:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:54:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:55:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:56:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:57:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:58:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T13:59:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T14:00:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T14:01:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T14:02:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T14:03:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T14:04:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T14:05:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T14:06:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T14:07:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T14:08:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T14:09:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T14:10:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T14:11:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "SELL",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T14:12:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": false,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            },
+            {
+              "candle_id": "WINV26|M1|2026-09-11T14:13:00",
+              "capture_consistent": false,
+              "computed_reward_risk": 0.0,
+              "direction": "BUY",
+              "entry_price": 0.0,
+              "entry_triggered": true,
+              "initial_stop": 0.0,
+              "mismatches": [
+                "CAPTURE_CANDLE_ID_MISMATCH"
+              ],
+              "reasons": [
+                "ENTRY_TRIGGER_CAPTURED"
+              ],
+              "reward_risk": 0.0,
+              "stop_geometry_valid": false,
+              "target_price": 0.0,
+              "target_source": "NONE",
+              "target_valid": false
+            }
+          ],
+          "order_execution_allowed": false,
+          "predictive_claim_allowed": false,
+          "reasons": [
+            "STOP_TARGET_CAPTURE_INCONSISTENCY_OBSERVED"
+          ],
+          "research_only": true,
+          "risk_influence_allowed": false,
+          "score_influence_allowed": false,
+          "session_index": 2,
+          "setup": "BROOKS_STOP_TARGET_RULES_V1",
+          "status": "CAPTURE_INCONSISTENCY_OBSERVED",
+          "stop_target_evidence_rows": 91,
+          "valid_target_observations": 0
+        }
+      ],
+      "setup": "BROOKS_STOP_TARGET_RULES_V1",
+      "status": "CAPTURE_INCONSISTENCY_OBSERVED",
+      "valid_target_observations": 0
+    },
+    "BROOKS_TRADING_RANGE_REVERSAL_V1": {
+      "accepted_session_count": 3,
+      "accepted_sessions": [
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "deduplication": "EXACT_CANDLE_LAST_REVISION",
+            "exact_candle_identity_available": true,
+            "hypothesis_freeze_allowed": false,
+            "matched_sequence_count": 0,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequence_count": 0,
+            "sequences": [],
+            "status": "AUDIT_COMPLETED"
+          },
+          "session_index": 0
+        },
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "deduplication": "EXACT_CANDLE_LAST_REVISION",
+            "exact_candle_identity_available": true,
+            "hypothesis_freeze_allowed": false,
+            "matched_sequence_count": 0,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequence_count": 0,
+            "sequences": [],
+            "status": "AUDIT_COMPLETED"
+          },
+          "session_index": 1
+        },
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "deduplication": "EXACT_CANDLE_LAST_REVISION",
+            "exact_candle_identity_available": true,
+            "hypothesis_freeze_allowed": false,
+            "matched_sequence_count": 0,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequence_count": 0,
+            "sequences": [],
+            "status": "AUDIT_COMPLETED"
+          },
+          "session_index": 2
+        }
+      ],
+      "alert_influence_allowed": false,
+      "decision_influence_allowed": false,
+      "hypothesis_freeze_allowed": false,
+      "matched_sequence_count": 0,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "rejected_session_count": 0,
+      "rejected_sessions": [],
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "status": "MULTI_SESSION_AUDIT_COMPLETED"
+    },
+    "BROOKS_TREND_PULLBACK_V1": {
+      "alert_influence_allowed": false,
+      "complete_sequences": 0,
+      "decision_influence_allowed": false,
+      "direction_contract": "EXPLICIT_COUNTER_OR_LEGACY_TREND_DIRECTION_COMPATIBLE",
+      "eligible_sessions": 3,
+      "hypothesis_freeze_allowed": false,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "reasons": [
+        "NO_COMPLETE_EXPLICIT_TREND_PULLBACK_SEQUENCE"
+      ],
+      "research_only": true,
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "sessions": [
+        {
+          "alert_influence_allowed": false,
+          "complete_sequences": 0,
+          "decision_influence_allowed": false,
+          "direction_contract": "EXPLICIT_COUNTER_OR_LEGACY_TREND_DIRECTION_COMPATIBLE",
+          "exact_candles": 4,
+          "incomplete": [],
+          "incomplete_candidates": 0,
+          "observational_only": true,
+          "order_execution_allowed": false,
+          "predictive_claim_allowed": false,
+          "pullback_evidence_rows": 4,
+          "reasons": [
+            "NO_COMPLETE_EXPLICIT_TREND_PULLBACK_SEQUENCE"
+          ],
+          "research_only": true,
+          "risk_influence_allowed": false,
+          "score_influence_allowed": false,
+          "sequences": [],
+          "session": "profit_rtd_rc54_3_2_WINV26_20260911_095316.json",
+          "status": "INSUFFICIENT_SEQUENCE_EVIDENCE"
+        },
+        {
+          "alert_influence_allowed": false,
+          "complete_sequences": 0,
+          "decision_influence_allowed": false,
+          "direction_contract": "EXPLICIT_COUNTER_OR_LEGACY_TREND_DIRECTION_COMPATIBLE",
+          "exact_candles": 96,
+          "incomplete": [
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:38:00",
+                  "direction": "BUY",
+                  "direction_source": "LEGACY_TREND_DIRECTION_CONTRACT",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "TRADING_RANGE_TRANSITION",
+                  "stage_index": 8
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:50:00",
+                  "source": "PA_BROOKS_SIGNAL_ENTRY_TRIGGERED"
+                }
+              },
+              "invalidated": true,
+              "matched": false,
+              "reasons": [
+                "TRADING_RANGE_TRANSITION"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:39:00",
+                  "direction": "BUY",
+                  "direction_source": "LEGACY_TREND_DIRECTION_CONTRACT",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "TRADING_RANGE_TRANSITION",
+                  "stage_index": 8
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:50:00",
+                  "source": "PA_BROOKS_SIGNAL_ENTRY_TRIGGERED"
+                }
+              },
+              "invalidated": true,
+              "matched": false,
+              "reasons": [
+                "TRADING_RANGE_TRANSITION"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:45:00",
+                  "direction": "UP",
+                  "direction_source": "LEGACY_COUNTER_DIRECTION_VALUE",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "TRADING_RANGE_TRANSITION",
+                  "stage_index": 8
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:50:00",
+                  "source": "PA_BROOKS_SIGNAL_ENTRY_TRIGGERED"
+                }
+              },
+              "invalidated": true,
+              "matched": false,
+              "reasons": [
+                "TRADING_RANGE_TRANSITION"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:46:00",
+                  "direction": "UP",
+                  "direction_source": "LEGACY_COUNTER_DIRECTION_VALUE",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "LONG_TWO_LEG_PULLBACK",
+                  "stage_index": 7
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:50:00",
+                  "source": "PA_BROOKS_SIGNAL_ENTRY_TRIGGERED"
+                }
+              },
+              "invalidated": true,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_MATURITY_REVERSAL_RISK"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:47:00",
+                  "direction": "UP",
+                  "direction_source": "LEGACY_COUNTER_DIRECTION_VALUE",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "MOVING_AVERAGE_GAP",
+                  "stage_index": 5
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:50:00",
+                  "source": "PA_BROOKS_SIGNAL_ENTRY_TRIGGERED"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_STAGE_NOT_EARLY",
+                "CONTINUATION_BIAS_NOT_PRESENT"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:48:00",
+                  "direction": "UP",
+                  "direction_source": "LEGACY_COUNTER_DIRECTION_VALUE",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "MOVING_AVERAGE_GAP",
+                  "stage_index": 5
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:50:00",
+                  "source": "PA_BROOKS_SIGNAL_ENTRY_TRIGGERED"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_STAGE_NOT_EARLY",
+                "CONTINUATION_BIAS_NOT_PRESENT"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:49:00",
+                  "direction": "UP",
+                  "direction_source": "LEGACY_COUNTER_DIRECTION_VALUE",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "MOVING_AVERAGE_GAP",
+                  "stage_index": 5
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:50:00",
+                  "source": "PA_BROOKS_SIGNAL_ENTRY_TRIGGERED"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_STAGE_NOT_EARLY",
+                "CONTINUATION_BIAS_NOT_PRESENT"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "BUY",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:52:00",
+                  "direction": "SELL",
+                  "direction_source": "LEGACY_TREND_DIRECTION_CONTRACT",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "MOVING_AVERAGE_GAP",
+                  "stage_index": 5
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T10:56:00",
+                  "source": "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_STAGE_NOT_EARLY",
+                "CONTINUATION_BIAS_NOT_PRESENT"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "BUY",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T11:02:00",
+                  "direction": "SELL",
+                  "direction_source": "LEGACY_TREND_DIRECTION_CONTRACT",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "MOVING_AVERAGE_GAP",
+                  "stage_index": 5
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T11:14:00",
+                  "source": "PA_BROOKS_SIGNAL_ENTRY_TRIGGERED"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_STAGE_NOT_EARLY",
+                "CONTINUATION_BIAS_NOT_PRESENT"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T11:25:00",
+                  "direction": "UP",
+                  "direction_source": "LEGACY_COUNTER_DIRECTION_VALUE",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "TRADING_RANGE_TRANSITION",
+                  "stage_index": 8
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T11:29:00",
+                  "source": "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+                }
+              },
+              "invalidated": true,
+              "matched": false,
+              "reasons": [
+                "TRADING_RANGE_TRANSITION"
+              ],
+              "sequence_complete": false
+            }
+          ],
+          "incomplete_candidates": 10,
+          "observational_only": true,
+          "order_execution_allowed": false,
+          "predictive_claim_allowed": false,
+          "pullback_evidence_rows": 96,
+          "reasons": [
+            "NO_COMPLETE_EXPLICIT_TREND_PULLBACK_SEQUENCE"
+          ],
+          "research_only": true,
+          "risk_influence_allowed": false,
+          "score_influence_allowed": false,
+          "sequences": [],
+          "session": "profit_rtd_rc54_3_2_WINV26_20260911_113650.json",
+          "status": "INSUFFICIENT_SEQUENCE_EVIDENCE"
+        },
+        {
+          "alert_influence_allowed": false,
+          "complete_sequences": 0,
+          "decision_influence_allowed": false,
+          "direction_contract": "EXPLICIT_COUNTER_OR_LEGACY_TREND_DIRECTION_COMPATIBLE",
+          "exact_candles": 91,
+          "incomplete": [
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:18:00",
+                  "direction": "BUY",
+                  "direction_source": "LEGACY_TREND_DIRECTION_CONTRACT",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "MOVING_AVERAGE_GAP",
+                  "stage_index": 5
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:25:00",
+                  "source": "PA_BROOKS_SIGNAL_ENTRY_TRIGGERED"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_STAGE_NOT_EARLY",
+                "CONTINUATION_BIAS_NOT_PRESENT"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:38:00",
+                  "direction": "BUY",
+                  "direction_source": "LEGACY_TREND_DIRECTION_CONTRACT",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "MOVING_AVERAGE_GAP",
+                  "stage_index": 5
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:41:00",
+                  "source": "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_STAGE_NOT_EARLY",
+                "CONTINUATION_BIAS_NOT_PRESENT"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:39:00",
+                  "direction": "BUY",
+                  "direction_source": "LEGACY_TREND_DIRECTION_CONTRACT",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "MOVING_AVERAGE_GAP",
+                  "stage_index": 5
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:41:00",
+                  "source": "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_STAGE_NOT_EARLY",
+                "CONTINUATION_BIAS_NOT_PRESENT"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:41:00",
+                  "direction": "BUY",
+                  "direction_source": "LEGACY_TREND_DIRECTION_CONTRACT",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "MOVING_AVERAGE_GAP",
+                  "stage_index": 5
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:43:00",
+                  "source": "PA_BROOKS_SIGNAL_ENTRY_TRIGGERED"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_STAGE_NOT_EARLY",
+                "CONTINUATION_BIAS_NOT_PRESENT"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:42:00",
+                  "direction": "BUY",
+                  "direction_source": "LEGACY_TREND_DIRECTION_CONTRACT",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "MOVING_AVERAGE_GAP",
+                  "stage_index": 5
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:43:00",
+                  "source": "PA_BROOKS_SIGNAL_ENTRY_TRIGGERED"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_STAGE_NOT_EARLY",
+                "CONTINUATION_BIAS_NOT_PRESENT"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:43:00",
+                  "direction": "BUY",
+                  "direction_source": "LEGACY_TREND_DIRECTION_CONTRACT",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "MOVING_AVERAGE_GAP",
+                  "stage_index": 5
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:46:00",
+                  "source": "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+                }
+              },
+              "invalidated": false,
+              "matched": false,
+              "reasons": [
+                "PULLBACK_STAGE_NOT_EARLY",
+                "CONTINUATION_BIAS_NOT_PRESENT"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:47:00",
+                  "direction": "BUY",
+                  "direction_source": "LEGACY_TREND_DIRECTION_CONTRACT",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "TRADING_RANGE_TRANSITION",
+                  "stage_index": 8
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:48:00",
+                  "source": "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+                }
+              },
+              "invalidated": true,
+              "matched": false,
+              "reasons": [
+                "TRADING_RANGE_TRANSITION"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:48:00",
+                  "direction": "BUY",
+                  "direction_source": "LEGACY_TREND_DIRECTION_CONTRACT",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "TRADING_RANGE_TRANSITION",
+                  "stage_index": 8
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:54:00",
+                  "source": "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+                }
+              },
+              "invalidated": true,
+              "matched": false,
+              "reasons": [
+                "TRADING_RANGE_TRANSITION"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "SELL",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:49:00",
+                  "direction": "BUY",
+                  "direction_source": "LEGACY_TREND_DIRECTION_CONTRACT",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "TRADING_RANGE_TRANSITION",
+                  "stage_index": 8
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T13:54:00",
+                  "source": "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+                }
+              },
+              "invalidated": true,
+              "matched": false,
+              "reasons": [
+                "TRADING_RANGE_TRANSITION"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "BUY",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T14:01:00",
+                  "direction": "DOWN",
+                  "direction_source": "LEGACY_COUNTER_DIRECTION_VALUE",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "TRADING_RANGE_TRANSITION",
+                  "stage_index": 8
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T14:02:00",
+                  "source": "PA_BROOKS_SIGNAL_FOLLOW_THROUGH"
+                }
+              },
+              "invalidated": true,
+              "matched": false,
+              "reasons": [
+                "TRADING_RANGE_TRANSITION"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "BUY",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T14:07:00",
+                  "direction": "SELL",
+                  "direction_source": "LEGACY_TREND_DIRECTION_CONTRACT",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "TRADING_RANGE_TRANSITION",
+                  "stage_index": 8
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T14:13:00",
+                  "source": "PA_BROOKS_SIGNAL_ENTRY_TRIGGERED"
+                }
+              },
+              "invalidated": true,
+              "matched": false,
+              "reasons": [
+                "TRADING_RANGE_TRANSITION"
+              ],
+              "sequence_complete": false
+            },
+            {
+              "direction": "BUY",
+              "evidence": {
+                "pullback": {
+                  "candle_id": "WINV26|M1|2026-09-11T14:08:00",
+                  "direction": "SELL",
+                  "direction_source": "LEGACY_TREND_DIRECTION_CONTRACT",
+                  "source": "FIRST_PULLBACK_SEQUENCE_DYNAMICS",
+                  "stage": "TRADING_RANGE_TRANSITION",
+                  "stage_index": 8
+                },
+                "resumption": {
+                  "candle_id": "WINV26|M1|2026-09-11T14:13:00",
+                  "source": "PA_BROOKS_SIGNAL_ENTRY_TRIGGERED"
+                }
+              },
+              "invalidated": true,
+              "matched": false,
+              "reasons": [
+                "TRADING_RANGE_TRANSITION"
+              ],
+              "sequence_complete": false
+            }
+          ],
+          "incomplete_candidates": 12,
+          "observational_only": true,
+          "order_execution_allowed": false,
+          "predictive_claim_allowed": false,
+          "pullback_evidence_rows": 91,
+          "reasons": [
+            "NO_COMPLETE_EXPLICIT_TREND_PULLBACK_SEQUENCE"
+          ],
+          "research_only": true,
+          "risk_influence_allowed": false,
+          "score_influence_allowed": false,
+          "sequences": [],
+          "session": "profit_rtd_rc54_3_2_WINV26_20260911_141336.json",
+          "status": "INSUFFICIENT_SEQUENCE_EVIDENCE"
+        }
+      ],
+      "status": "MORE_EVIDENCE_REQUIRED"
+    },
+    "BROOKS_WEDGE_THREE_PUSHES_V1": {
+      "accepted_session_count": 3,
+      "accepted_sessions": [
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "deduplication": "EXACT_CANDLE_LAST_REVISION",
+            "exact_candle_identity_available": true,
+            "hypothesis_freeze_allowed": false,
+            "matched_sequence_count": 0,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequence_count": 0,
+            "sequences": [],
+            "status": "AUDIT_COMPLETED"
+          },
+          "session_index": 0
+        },
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "deduplication": "EXACT_CANDLE_LAST_REVISION",
+            "exact_candle_identity_available": true,
+            "hypothesis_freeze_allowed": false,
+            "matched_sequence_count": 0,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequence_count": 0,
+            "sequences": [],
+            "status": "AUDIT_COMPLETED"
+          },
+          "session_index": 1
+        },
+        {
+          "audit": {
+            "alert_influence_allowed": false,
+            "decision_influence_allowed": false,
+            "deduplication": "EXACT_CANDLE_LAST_REVISION",
+            "exact_candle_identity_available": true,
+            "hypothesis_freeze_allowed": false,
+            "matched_sequence_count": 0,
+            "observational_only": true,
+            "order_execution_allowed": false,
+            "predictive_claim_allowed": false,
+            "risk_influence_allowed": false,
+            "score_influence_allowed": false,
+            "sequence_count": 0,
+            "sequences": [],
+            "status": "AUDIT_COMPLETED"
+          },
+          "session_index": 2
+        }
+      ],
+      "alert_influence_allowed": false,
+      "decision_influence_allowed": false,
+      "hypothesis_freeze_allowed": false,
+      "matched_sequence_count": 0,
+      "observational_only": true,
+      "order_execution_allowed": false,
+      "predictive_claim_allowed": false,
+      "rejected_session_count": 0,
+      "rejected_sessions": [],
+      "risk_influence_allowed": false,
+      "score_influence_allowed": false,
+      "status": "MULTI_SESSION_AUDIT_COMPLETED"
+    }
+  },
+  "suite": "BROOKS_RESEARCH_EVIDENCE_SUITE_V1"
+}

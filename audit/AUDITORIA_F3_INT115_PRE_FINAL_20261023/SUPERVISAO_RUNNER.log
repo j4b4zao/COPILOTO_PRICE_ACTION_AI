@@ -1,0 +1,5 @@
+RUNNING ESPECIFICOS
+{"command": ["C:\\Users\\jb\\AppData\\Local\\Programs\\Python\\Python313\\python.exe", "-B", "-m", "unittest", "discover", "-s", "tests", "-p", "test_f3_int115_*.py", "-v"], "timed_out": false, "exception": null, "exit_code": 0, "cleanup": {"active_processes": 0, "live_io_threads": [], "direct_exit_code": 0}, "seconds": 97.732, "label": "ESPECIFICOS", "total": 28, "passed": 28, "failures": 0, "errors": 0, "skipped": 0, "sources_changed": []}
+RUNNING REGRESSAO_COMPLETA
+{"command": ["C:\\Users\\jb\\AppData\\Local\\Programs\\Python\\Python313\\python.exe", "-B", "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py", "-v"], "timed_out": false, "exception": null, "exit_code": 1, "cleanup": {"active_processes": 0, "live_io_threads": [], "direct_exit_code": 1}, "seconds": 794.403, "label": "REGRESSAO_COMPLETA", "total": 1416, "passed": 1414, "failures": 1, "errors": 0, "skipped": 1, "sources_changed": []}
+RESULT=False OUTPUT=C:\COPILOTO_F3_INT114_FINAL\audit\F3_INT115_REVALIDACAO_FINAL_20261023

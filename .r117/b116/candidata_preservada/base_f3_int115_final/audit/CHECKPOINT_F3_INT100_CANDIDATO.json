@@ -1,0 +1,23 @@
+{
+  "stage": "F3-INT-100",
+  "status": "CANDIDATE_NEW_TESTS_PASSED_FULL_REGRESSION_PENDING",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "new_tests": {
+    "passed": 13,
+    "failed": 0
+  },
+  "last_official": "F3-INT-99",
+  "next_step": "Run independent full regression before finalizing",
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  }
+}

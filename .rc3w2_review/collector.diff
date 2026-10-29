@@ -1,0 +1,96 @@
+--- collector_before.py
++++ collector.py
+@@ -14,6 +14,10 @@
+ from market_data.source_acquisition_diagnostics import (
+     AcquisitionDiagnostics, SampleRecord, SnapshotRecord, TemporalRecord,
+     summarize_acquisition_diagnostics,
++)
++from market_data.source_acquisition_observational_report import (
++    ObservationalReport, TraceProjection, TemporalStatusProjection,
++    build_observational_report,
+ )
+ from market_data.source_reread_capability import (
+     RereadDecision, evaluate_reread_capability,
+@@ -171,6 +175,8 @@
+         self.last_collection_cycle = None
+         self.last_acquisition_diagnostics = None
+         self.last_acquisition_diagnostics_error = None
++        self.last_observational_report = None
++        self.last_observational_report_error = None
+         self._cycle_acquisition_metadata = ()
+         if excel is None:
+             from connectors.excel_connector import ExcelConnector
+@@ -272,6 +278,8 @@
+         return AcquisitionTiming(start, end, duration)
+ 
+     def get_data(self):
++        self.last_observational_report = None
++        self.last_observational_report_error = None
+         self.last_acquisition_diagnostics = None
+         self.last_acquisition_diagnostics_error = None
+         self.collection_cycle_id += 1
+@@ -309,6 +317,7 @@
+             self._publish_cycle_trace(cycle_id, enabled, timing, reason,
+                                       reread_decision, reread_block_reason)
+             self._publish_acquisition_diagnostics(cycle_id)
++            self._publish_observational_report(cycle_id)
+ 
+     def _publish_acquisition_diagnostics(self, cycle_id):
+         """Publish one scalar summary of captured records; never access sources.
+@@ -349,6 +358,56 @@
+         except Exception:
+             self.last_acquisition_diagnostics = None
+             self.last_acquisition_diagnostics_error = "ACQUISITION_DIAGNOSTICS_PUBLICATION_FAILED"
++
++    def _publish_observational_report(self, cycle_id):
++        """Adapt already published records without reads, serialization or I/O.
++
++        Pass the original consolidated object, including its SnapshotSummary.
++        Only the temporal status is projected from the captured observation;
++        its original IDs/position remain unchanged, even after a failed read.
++        This slot is observational and cannot replace a market return/error.
++        """
++        self.last_observational_report = None
++        self.last_observational_report_error = None
++        try:
++            trace = self.last_collection_cycle
++            if (type(cycle_id) is not int or cycle_id <= 0
++                    or type(trace) is not CollectionCycleTrace
++                    or type(trace.cycle_id) is not int or trace.cycle_id != cycle_id):
++                self.last_observational_report_error = "OBSERVATIONAL_REPORT_TRACE_UNAVAILABLE"
++                return
++            diagnostic = self.last_acquisition_diagnostics
++            error = self.last_acquisition_diagnostics_error
++            if diagnostic is not None:
++                if (type(diagnostic) is not AcquisitionDiagnostics
++                        or type(diagnostic.cycle_id) is not int or diagnostic.cycle_id != cycle_id):
++                    self.last_observational_report_error = "OBSERVATIONAL_REPORT_DIAGNOSTICS_UNASSOCIATED"
++                    return
++            elif error is None:
++                self.last_observational_report_error = "OBSERVATIONAL_REPORT_DIAGNOSTICS_UNAVAILABLE"
++                return
++            temporal = self.last_temporal_observation
++            temporal_status = None
++            if temporal is not None:
++                if (type(temporal) is not CollectorTemporalObservation
++                        or (temporal.diagnostic is not None and type(temporal.diagnostic) is not TemporalResult)):
++                    raise TypeError("UNSUPPORTED_TEMPORAL_OBSERVATION")
++                temporal_status = TemporalStatusProjection(
++                    temporal.cycle_id, temporal.sample_position,
++                    None if temporal.diagnostic is None else temporal.diagnostic.status)
++            report = build_observational_report(
++                cycle_id, diagnostics=diagnostic,
++                trace=TraceProjection(trace.cycle_id, trace.reason),
++                temporal_status=temporal_status, consolidation_error=error)
++            if (type(report) is not ObservationalReport
++                    or type(report.cycle_id) is not int or report.cycle_id != cycle_id):
++                raise TypeError("UNSUPPORTED_OBSERVATIONAL_REPORT")
++            # Validate immutable output fields without serializing the report.
++            report.__post_init__()
++            self.last_observational_report = report
++        except Exception:
++            self.last_observational_report = None
++            self.last_observational_report_error = "OBSERVATIONAL_REPORT_PUBLICATION_FAILED"
+ 
+     @staticmethod
+     def _reader_metadata_snapshot(reader):

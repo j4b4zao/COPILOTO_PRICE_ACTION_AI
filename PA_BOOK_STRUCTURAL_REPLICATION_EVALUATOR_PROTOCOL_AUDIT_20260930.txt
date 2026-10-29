@@ -1,0 +1,724 @@
+PA BOOK STRUCTURAL REPLICATION EVALUATOR - AUDITORIA DO PROTOCOLO
+Data: 2026-09-30
+EVALUATOR_PROTOCOL_EXACT = FALSE
+SESSION13_READINESS = BLOCKED_BY_EVALUATOR_PROTOCOL_MISMATCH
+
+1. ESCOPO E IDENTIDADE
+Repositorio: C:\COPILOTO_PRICE_ACTION_AI
+Branch confirmada: brooks-stop-target-exact-audit-20260912
+HEAD confirmado: 8ae9311415cc6b89a36e6c67ab5c47843d77aa54
+Auditoria estatica integral dos sete arquivos indicados. Nenhuma correcao.
+Testes do evaluator lidos integralmente; nao executados nesta auditoria.
+Validador executado com ambiente\Scripts\python.exe -B:
+STATUS = PASS
+FUTURE_COLLECTION_AUTHORIZATION = PROTOCOL_VALIDATED_ONLY
+SHA256 = 53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c
+O PASS do validador autentica o protocolo; nao demonstra conformidade do evaluator.
+Somente este relatorio foi criado. Sem coleta, sessao #13, add, commit ou push.
+
+2. AUTORIDADE CONGELADA - EXTRACAO LITERAL
+O JSON integral esta reproduzido no anexo A, sem alterar seu conteudo.
+Localizacao exata das regras pedidas:
+- future_evaluation: unidade, fontes, campos apenas diagnosticos e outcomes.
+- NOT_EVALUABLE: future_evaluation.not_evaluable_if; nao existe chave separada NOT_EVALUABLE.
+- replication_condition: frozen_hypothesis.replication_condition.
+- cohort_policy: bloco homonimo.
+- interpretation: o nome literal no protocolo e interpretation_policy.
+- research_scope: bloco homonimo.
+Nao se acrescentou requisito de igualdade de timestamps ao texto congelado: a regra
+literal e falha de identidade posicional raw/prospectiva. A checagem concreta de
+timestamps foi auditada separadamente, conforme solicitado.
+
+3. IMPLEMENTACAO DOS RESULTADOS
+Referencia: evaluator, evaluate_payload (linha 256), _evaluate_transition (139).
+Antes de qualquer outcome, _load_protocol verifica arquivo, SHA256 exato, versao,
+status congelado e safety scope. Erros propagam; nao ha conversao de excecoes.
+Depois chama persistence._validate_prospective e persistence._build_runs.
+
+Runs: apenas PA e Book BUY/SELL simultaneamente; igualdade = ALIGNED,
+oposicao = OPPOSED. Exige contiguidade de indices e mesmo par exato para
+continuar run. NONE, gap ou mudanca de par quebra run. Transicoes candidatas
+sao pares de runs consecutivos OPPOSED -> ALIGNED, como no Transition Audit.
+
+REPLICATED: existe ao menos uma candidata e TODAS as candidatas satisfazem:
+(a) PA final igual ao PA do fim do run OPPOSED;
+(b) ao menos um sample intermediario;
+(c) todos os PA intermediarios iguais ao PA inicial;
+(d) ao menos um Book intermediario NONE;
+(e) nenhum Book intermediario oposto ao PA inicial.
+NOT_REPLICATED: existe candidata e ao menos uma falha em alguma dessas condicoes.
+NOT_EVALUABLE: unica atribuicao no codigo, quando nao existe candidata, depois
+de todas as validacoes prospectivas e construcao dos runs terem passado.
+Razao: NO_FORMAL_OPPOSED_TO_ALIGNED_TRANSITION.
+Nao ha catch em evaluate_file ou main que converta falhas de dados nesse outcome.
+
+O outcome nominal e agregado por sessao: ALL_OBSERVED_TARGET_TRANSITIONS_REPLICATED
+ou AT_LEAST_ONE_TARGET_TRANSITION_FAILED_PROTOCOL. Cada transicao preserva
+conditions e replicated booleano, mas nao tem outcome nominal proprio.
+O protocolo define a unidade formal_OPPOSED_to_ALIGNED_transition e nao define
+essa regra agregada de unanimidade. O booleano permite recuperar a classificacao
+individual valida; portanto nao ha perda dos resultados individuais validos,
+mas o outcome agregado nao deve ser tratado como unidade contratual equivalente.
+
+4. CASOS SOLICITADOS
+Caso | Comportamento efetivo | Evidencia
+Sem transicao formal, demais campos validos | RETURN NOT_EVALUABLE | evaluator:281-283
+Falta price_action_bias em qualquer sample | RAISE/FAIL (ValueError) | persistence:104-114,174-179
+Falta book_direction em qualquer sample | RAISE/FAIL (ValueError) | persistence:180-184
+Falta conflict_count em qualquer sample | RAISE/FAIL (ValueError) | persistence:119-138,186-189
+captured_samples diverge de len(samples) | RAISE/FAIL (ValueError) | persistence:89-93
+source_analyzable_samples diverge de len(samples) | RAISE/FAIL (ValueError) | persistence:95-99
+sample_count_matches_source is not True | RAISE/FAIL (ValueError) | persistence:83-87
+Direcao invalida | RAISE/FAIL (ValueError) | persistence:104-116
+Identidade posicional raw/prospectiva falha | NAO VALIDADO | evaluator nao le top-level samples
+Timestamps raw/prospectivos nao correspondem | NAO VALIDADO | nenhum timestamp e lido pelo evaluator
+Quantidade raw diverge, metadados prospectivos coerentes | NAO VALIDADO | contagens so internas ao bloco prospectivo
+
+BUY/SELL/NONE sao normalizados com strip e upper; ausente/null/vazio tornam-se
+string vazia e falham. conflito exige int nao-bool >= 0, mesmo em sample NONE.
+A ausencia de transicao nao prevalece sobre erros anteriores: nesses casos ha
+excecao, nao NOT_EVALUABLE.
+Metadados capturados/source ausentes ou com tipo invalido tambem geram ValueError.
+O codigo pode retornar REPLICATED usando apenas o bloco prospective_microstructure,
+sem qualquer fonte raw; os fixtures dos testes positivos fazem exatamente isso.
+conflict_count nao aparece nos source_fields obrigatorios do protocolo. E um
+requisito adicional herdado para contabilizar conflito canonico, embora nao
+participe das cinco condicoes estruturais. Sua ausencia bloqueia a avaliacao
+de uma transicao com direcoes completas; nao redefinimos conflito nem propomos
+um novo criterio de admissao.
+
+5. DURATION AUDIT RC1 E IDENTIDADE POSICIONAL
+Funcoes: _audit_session -> persistence._validate_prospective ->
+_validate_raw_samples; depois _enrich_runs_with_duration.
+_validate_raw_samples:
+- exige payload.samples (top-level raw) como lista de objetos;
+- exige len(raw_samples) == len(prospective_samples);
+- para cada posicao raw exige timestamp string nao vazia, parseavel por
+  datetime.fromisoformat, e cycle inteiro nao-bool;
+- compara timestamp raw atual com timestamp raw anterior, rejeitando regressao;
+- compara cycle raw atual com cycle raw anterior, rejeitando regressao.
+Empates sao aceitos. Nao exige incremento estrito ou ciclos consecutivos.
+_enrich_runs_with_duration:
+- exige indices de run inteiros nao-bool e 0 <= start <= end < len(raw);
+- usa raw[start_index] e raw[end_index], timestamps/ciclos desses extremos;
+- calcula ultimo timestamp menos primeiro, rejeitando duracao negativa.
+Campos comparados ENTRE raw e prospectivo: apenas comprimento das listas.
+NAO compara raw[i].timestamp com prospective[i].timestamp; nao compara cycle,
+direcoes ou identificador compartilhado entre as duas listas.
+Exige timestamp em cada posicao RAW, mas NAO igualdade de timestamp entre fontes.
+A declaracao VALIDATED_BY_EXACT_COUNT_AND_INDEX representa juncao por indice
+sob contagens iguais, nao prova independente de correspondencia semantica.
+Falhas detectadas abortam com excecao (normalmente ValueError); nao ha outcome
+NOT_EVALUABLE nesse audit. Mistura de timestamps com/sem timezone tambem pode
+propagar TypeError durante comparacao, continuando fail-closed.
+build_report exige dez paths distintos e compara hashes antes/depois da leitura.
+Transition Audit acrescenta manifesto congelado, paths/ordem, hashes e baseline;
+usa Duration Audit antes de construir transicoes, e verifica hashes novamente.
+Structural Evaluator importa somente Persistence: nao chama Duration, nao faz
+checagem raw, timestamp, cycle ou igualdade de contagens raw/prospectivas.
+Logo nem as garantias limitadas do Duration estao presentes no novo evaluator.
+Nao se deve atribuir ao Duration uma igualdade de timestamps que ele nao testa.
+
+6. MATRIZ DO CONTRATO E COBERTURA EXPLICITA
+PROTOCOL REQUIREMENT | EVALUATOR IMPLEMENTATION | TEST COVERAGE | MATCH
+1. no formal transition -> NOT_EVALUABLE | ramo not candidates, apos validacao | SIM: test_not_evaluable_without_target_transition (159) | SIM para entrada valida
+2. missing required fields -> NOT_EVALUABLE | PA/Book ausentes geram ValueError | NAO: nao ha teste de PA/Book ausentes; test_missing_conflict_count_fails_closed (189) exige excecao para outro campo | NAO
+3. positional identity failure -> NOT_EVALUABLE | raw ignorado; nenhum gate posicional | NAO | NAO
+4. capture integrity failure -> NOT_EVALUABLE | contagens/flag validadas, mas ValueError propagado | testes (203,218,233) existem, mas exigem excecao, nao outcome contratual | NAO
+5. valid transition satisfying hypothesis -> REPLICATED | cinco condicoes em _evaluate_transition; outcome agregado all | SIM: test_replicated_buy_path (36), test_replicated_sell_path_is_symmetric (67); fixtures sem raw | SIM no nucleo estrutural; integridade de entrada incompleta
+6. valid transition violating hypothesis -> NOT_REPLICATED | qualquer condicao falsa; agregado se alguma candidata falha | SIM parcial: PA no gap (89), PA final (113), gap zero (136) | SIM no nucleo; cobertura negativa incompleta
+7. raw delta/acceleration/imbalance/spread diagnostic only | nenhum desses valores entra na decisao; candle_evidence tambem ignorado | NAO ha teste variando diagnosticos para provar invariancia | SIM por inspecao, sem teste explicito
+8. no thresholds introduced | sem thresholds de mercado, tempo, gap maximo ou volume; >=1 e a condicao literal congelada | PARCIAL: test_safety_flags_are_fixed (264) verifica threshold_changed=False, nao invariancia de comportamento | SIM por inspecao
+9. no operational promotion | modulo descritivo, sem chamadas de operacao; safety e DESCRIPTIVE_ONLY | PARCIAL: test_safety_flags_are_fixed verifica flags de operacao e predicao | SIM no fluxo auditado
+10. frozen checkpoint remains immutable | evaluate_payload/evaluate_file nao agregam nem escrevem checkpoint; safety checkpoint_extended=False | PARCIAL: test_input_is_not_mutated (248) e flag (264); nao ha teste do checkpoint em disco ou das sessoes 11/12 | SIM na avaliacao normal; protecao de destino CLI ausente
+
+A CLI main aceita --output arbitrario e usa write_text (linha 375), sem criar
+exclusivamente e sem impedir coincidencia com input/checkpoint/protocolo. Nao foi
+executada com --output. A flag checkpoint_extended=False nao protege arquivos
+contra um destino de saida coincidente. Trata-se de lacuna de garantia de
+imutabilidade da CLI, nao evidencia de que o checkpoint foi alterado.
+
+7. INVENTARIO DOS 13 TESTES LIDOS
+36 test_replicated_buy_path
+67 test_replicated_sell_path_is_symmetric
+89 test_not_replicated_when_pa_changes_in_gap
+113 test_not_replicated_when_pa_direction_changes_at_end
+136 test_not_replicated_without_intermediate_sample
+159 test_not_evaluable_without_target_transition
+178 test_invalid_direction_fails_closed
+189 test_missing_conflict_count_fails_closed
+203 test_captured_count_mismatch_fails_closed
+218 test_source_count_mismatch_fails_closed
+233 test_sample_count_matches_source_must_be_true
+248 test_input_is_not_mutated
+264 test_safety_flags_are_fixed
+
+Nao ha testes explicitos de:
+- PA ausente ou Book ausente retornando NOT_EVALUABLE;
+- raw ausente, contagem raw divergente, identidade posicional ou timestamps;
+- falhas de captura convertidas em NOT_EVALUABLE (os testes exigem raise);
+- Book NONE ausente em gap nao vazio como condicao negativa isolada;
+- Book oposto no gap, com PA NONE, como condicao negativa especifica;
+- varias transicoes na mesma sessao, incluindo mistura de resultados;
+- invariancia a raw delta/acceleration/imbalance/spread/candle_evidence;
+- imutabilidade do checkpoint em disco, separacao de 11/12 ou destino CLI.
+Teste de flags nao equivale a teste de todas as garantias comportamentais.
+
+8. LACUNAS EXATAS E CONCLUSAO
+L1. Campos direcionais obrigatorios ausentes nao produzem NOT_EVALUABLE:
+    produzem ValueError nao tratado.
+L2. Falhas detectadas de integridade de captura nao produzem NOT_EVALUABLE:
+    contagens divergentes ou flag diferente de True abortam.
+L3. Identidade posicional raw/prospectiva nao e validada de modo algum;
+    fonte raw ausente/incompativel nao impede REPLICATED/NOT_REPLICATED.
+L4. conflict_count e requisito adicional bloqueante, fora dos dois source_fields
+    direcionais definidos no contrato; ausencia gera falha mesmo com direcoes
+    suficientes para a hipotese.
+L5. O outcome nominal e por sessao com unanimidade/qualquer falha, enquanto a
+    unidade congelada e transicao formal. Os resultados individuais booleanos
+    existem, mas nao se deve equiparar a agregacao ao outcome contratual.
+L6. A imutabilidade nao e protegida contra --output coincidente com artefatos
+    existentes; nao ha guarda de destino na CLI.
+L7. Cobertura nao fecha os gates L1-L3 e nao comprova diagnosticos invariantes,
+    unidade com multiplas transicoes nem imutabilidade em disco; detalhes acima.
+
+L1-L3 bastam independentemente para reprovar a correspondencia exata.
+As cinco condicoes estruturais estao fielmente codificadas; nao foi encontrado
+threshold numerico novo de mercado, alteracao operacional ou extensao de coorte
+no fluxo normal de avaliacao. Isso nao compensa os gates faltantes.
+As limitacoes adicionais L4-L7 estao separadas para nao confundir ausencia de
+teste com prova de falha da logica estrutural.
+Nao corrigido. Nenhuma reinterpretacao ou otimizacao do protocolo realizada.
+EVALUATOR_PROTOCOL_EXACT = FALSE
+SESSION13_READINESS = BLOCKED_BY_EVALUATOR_PROTOCOL_MISMATCH
+
+ANEXO A - JSON CONGELADO INTEGRAL (LITERAL)
+{
+  "version": "RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-PROTOCOL",
+  "status": "FROZEN_BEFORE_FUTURE_COLLECTION",
+  "created_from": {
+    "checkpoint": "prospective_microstructure_conflict_10session_checkpoint_20260926.json",
+    "checkpoint_session_count": 10,
+    "observed_opposed_to_aligned_transition_count": 2
+  },
+  "research_scope": {
+    "research_only": true,
+    "descriptive_only": true,
+    "operational_logic_changed": false,
+    "score_changed": false,
+    "risk_changed": false,
+    "decision_changed": false,
+    "alert_changed": false,
+    "execution_changed": false,
+    "rc17_changed": false,
+    "threshold_changed": false,
+    "canonical_conflict_redefined": false,
+    "checkpoint_extended": false,
+    "predictive_claim_allowed": false
+  },
+  "frozen_hypothesis": {
+    "name": "PA_PERSISTENT_BOOK_OPPOSED_NONE_ALIGNED",
+    "description": "For a formal OPPOSED to ALIGNED PA x Book transition, test whether PA keeps the same directional bias while Book moves from the opposite direction through one or more NONE samples before becoming aligned with PA.",
+    "required_start_state": {
+      "pa_directional": true,
+      "book_directional": true,
+      "relation": "OPPOSED"
+    },
+    "required_end_state": {
+      "pa_directional": true,
+      "book_directional": true,
+      "relation": "ALIGNED"
+    },
+    "replication_condition": {
+      "same_pa_direction_from_opposed_end_to_aligned_start": true,
+      "at_least_one_intermediate_sample": true,
+      "all_intermediate_pa_directions_equal_start_pa_direction": true,
+      "at_least_one_intermediate_book_none": true,
+      "no_intermediate_book_direction_opposite_to_start_pa_direction_after_opposed_run_end": true
+    }
+  },
+  "explicit_non_requirements": {
+    "recent_delta_threshold": null,
+    "acceleration_threshold": null,
+    "imbalance_threshold": null,
+    "spread_threshold": null,
+    "minimum_gap_samples": null,
+    "maximum_gap_samples": null,
+    "minimum_gap_seconds": null,
+    "maximum_gap_seconds": null,
+    "candle_range_threshold": null,
+    "candle_body_threshold": null,
+    "volume_threshold": null
+  },
+  "future_evaluation": {
+    "unit": "formal_OPPOSED_to_ALIGNED_transition",
+    "source_fields": [
+      "prospective_microstructure.samples[].price_action_bias",
+      "prospective_microstructure.samples[].book_direction"
+    ],
+    "raw_fields_diagnostic_only": [
+      "recent_delta",
+      "acceleration",
+      "imbalance",
+      "spread",
+      "candle_evidence"
+    ],
+    "outcomes": [
+      "REPLICATED",
+      "NOT_REPLICATED",
+      "NOT_EVALUABLE"
+    ],
+    "not_evaluable_if": [
+      "no formal OPPOSED to ALIGNED transition occurs",
+      "required prospective direction fields are missing",
+      "raw and prospective sample positional identity fails",
+      "capture integrity fails"
+    ]
+  },
+  "cohort_policy": {
+    "frozen_10_session_checkpoint_remains_immutable": true,
+    "sessions_11_and_12_remain_independent": true,
+    "future_sessions_are_not_appended_to_frozen_checkpoint": true,
+    "future_sessions_are_evaluated_as_independent_prospective_replication": true,
+    "no_retroactive_reclassification": true
+  },
+  "interpretation_policy": {
+    "single_future_replication_is_not_predictive_validation": true,
+    "single_future_failure_is_not_refutation": true,
+    "no_operational_promotion_from_this_protocol": true,
+    "no_threshold_optimization_after_observation": true,
+    "no_post_hoc_admission_gate": true
+  }
+}
+
+
+ANEXO B - git status --short FINAL
+ M Profit.xlsx
+ M connectors/excel_connector.py
+ M livroOfertas.xlsx
+ M saida.txt
+ M times&trades.xlsx
+?? .tmp_independent_comparison_rc1/
+?? CODEX_FILES_RECOVERY_20260929.txt
+?? CODEX_RECOVERY_20260929.txt
+?? PA_BOOK_CODEX_RESULTS_20260929.txt
+?? PA_BOOK_DIRECTION_IDENTITY_GATE_V1_20260929.txt
+?? PA_BOOK_EVALUATOR_FUNCTION_CONTRACT_20260929.txt
+?? PA_BOOK_FORMAL_SOURCE_TRACE_20260929.txt
+?? PA_BOOK_FULL_CHAIN_VERIFY_20260929.txt
+?? PA_BOOK_FULL_CHAIN_VERIFY_20260929_FIX1.txt
+?? PA_BOOK_HETEROGENEITY_RECHECK_20260929.json
+?? PA_BOOK_OPPOSED_TO_ALIGNED_TRANSITION_REPLICATION_PROBE_V1_20260929.txt
+?? PA_BOOK_PROSPECTIVE_REPLICATION_PROTOCOL_VALIDATION_RC1_20260929.txt
+?? PA_BOOK_SESSION02_TEMPORAL_CONTEXT_PROBE_V1_20260929.txt
+?? PA_BOOK_SESSION02_TRANSITION_CENTERED_CONTEXT_PROBE_V1_20260929.txt
+?? PA_BOOK_SESSION_CONTEXT_REGIME_PROBE_V1_20260929.txt
+?? PA_BOOK_SESSION_CONTEXT_SCHEMA_PROBE_20260929.txt
+?? PA_BOOK_STRUCTURAL_REPLICATION_EVALUATOR_PROTOCOL_AUDIT_20260930.txt
+?? PA_BOOK_WITHIN_SESSION_CONTEXT_PROBE_V1_20260929.txt
+?? PA_BOOK_WITHIN_SESSION_DIRECTION_SCHEMA_PROBE_20260929.txt
+?? auditoria_codex_work.txt
+?? auditoria_management_exact_core.txt
+?? auditoria_management_lifecycle_core.txt
+?? auditoria_protective_trailing_core.txt
+?? auditoria_trailing_12sessoes.txt
+?? auditoria_trailing_capture_core.txt
+?? auditoria_trailing_diagnostics_core.txt
+?? auditoria_trailing_tests_core.txt
+?? auditoria_work_codex_20260917.txt
+?? base_conflict_episode_rc1.txt
+?? book_bridge_parity_rc1.txt
+?? book_direction_parity_rc1.txt
+?? book_direction_pipeline_exact.txt
+?? book_directional_context_probe.txt
+?? book_directional_transitions_probe.txt
+?? book_directionality_diagnostics_current.txt
+?? book_directionality_diagnostics_real_rc1.json
+?? book_directionality_diagnostics_tests_current.txt
+?? book_imbalance_boundary_probe.txt
+?? book_observability_rc1_source_snapshot.txt
+?? book_pressure_exhaustive_probe.txt
+?? book_pressure_exhaustive_session11_probe.txt
+?? book_raw_alignment_probe.txt
+?? book_raw_structure_probe.txt
+?? book_threshold_source_search.txt
+?? brooks_delta_telemetry_hook_audit.txt
+?? brooks_evidencia_10sessoes.json
+?? brooks_evidencia_stop_target_final.json
+?? brooks_lifecycle_16sessoes_20260918.json
+?? brooks_lifecycle_17sessoes_20260918.json
+?? brooks_lifecycle_18sessoes_20260918.json
+?? brooks_lifecycle_19sessoes_20260918.json
+?? brooks_lifecycle_20sessoes_20260918.json
+?? brooks_lifecycle_21sessoes_20260918.json
+?? brooks_lifecycle_exact_16sessoes_20260918.json
+?? brooks_lifecycle_exact_17sessoes_20260918.json
+?? brooks_lifecycle_exact_18sessoes_20260918.json
+?? brooks_lifecycle_exact_19sessoes_20260918.json
+?? brooks_lifecycle_exact_20sessoes_20260918.json
+?? brooks_lifecycle_exact_21sessoes_20260918.json
+?? brooks_stage3_3_16sessoes_20260918.json
+?? brooks_stage3_3_17sessoes_20260918.json
+?? brooks_stage3_3_18sessoes_20260918.json
+?? brooks_stage3_3_19sessoes_20260918.json
+?? brooks_stage3_3_20sessoes_20260918.json
+?? brooks_stage3_3_21sessoes_20260918.json
+?? brooks_stage3_4_16sessoes_20260918.json
+?? brooks_stage3_4_17sessoes_20260918.json
+?? brooks_stage3_4_18sessoes_20260918.json
+?? brooks_stage3_4_19sessoes_20260918.json
+?? brooks_stage3_4_20sessoes_20260918.json
+?? brooks_stage3_4_21sessoes_20260918.json
+?? brooks_stage3_5_16sessoes_20260918.json
+?? brooks_stage3_5_17sessoes_20260918.json
+?? brooks_stage3_5_18sessoes_20260918.json
+?? brooks_stage3_5_19sessoes_20260918.json
+?? brooks_stage3_5_20sessoes_20260918.json
+?? brooks_stage3_5_21sessoes_20260918.json
+?? brooks_stage3_6_16sessoes_20260918.json
+?? brooks_stage3_6_17sessoes_20260918.json
+?? brooks_stage3_6_18sessoes_20260918.json
+?? brooks_stage3_6_19sessoes_20260918.json
+?? brooks_stage3_6_20sessoes_20260918.json
+?? brooks_stage3_6_21sessoes_20260918.json
+?? brooks_trailing_active_accumulation_16_17_20260918.json
+?? brooks_trailing_active_accumulation_16_18_20260918.json
+?? brooks_trailing_active_accumulation_16_19_20260918.json
+?? brooks_trailing_active_accumulation_16_20_20260918.json
+?? brooks_trailing_active_accumulation_16_21_20260918.json
+?? brooks_trailing_active_survival_16sessoes_20260918.json
+?? brooks_trailing_active_survival_17sessoes_20260918.json
+?? brooks_trailing_active_survival_18sessoes_20260918.json
+?? brooks_trailing_active_survival_19sessoes_20260918.json
+?? brooks_trailing_active_survival_20sessoes_20260918.json
+?? brooks_trailing_active_survival_21sessoes_20260918.json
+?? brooks_trailing_v3_sessao19_20260918.json
+?? brooks_trailing_v3_sessao20_20260918.json
+?? brooks_trailing_v3_sessao21_20260918.json
+?? brooks_ultima_selecao.json
+?? brooks_warmed_session_atual.txt
+?? busca_book_conversion_exact.txt
+?? busca_book_direction.txt
+?? busca_coverage_generator_exact.txt
+?? busca_historical_bridge_exact.txt
+?? busca_prospective_book_rule.txt
+?? data/order_flow_historical_shadow_rc35/
+?? data/order_flow_historical_shadow_rc35_python/
+?? data/post_session_audit_rc1_regression/
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260914_102126.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260914_130304.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260914_143238.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260914_165659.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_105703.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_114902.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_123423.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_130450.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_161123.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_164939.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_172701.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260916_102907.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260916_124306.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260917_113532.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260917_125655.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260917_171917.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_100511.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_104649.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_120654.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_124258.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_155129.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_170840.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260914_102126.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260914_130304.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260914_143239.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260914_165659.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_105703.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_114902.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_123424.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_130450.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_161124.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_164940.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_172701.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260916_102908.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260916_124307.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260917_113533.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260917_125657.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260917_171918.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_100511.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_104649.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_120654.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_124258.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_155130.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_170841.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260908_130030.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260908_164519.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260908_170045.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260909_114536.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260909_123422.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260909_125729.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_110116.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_115251.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_122602.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_130942.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_163046.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260922_104741.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260922_114330.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260922_122256.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260922_130220.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260923_103430.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260923_123103.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260923_131852.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260923_151347.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260924_164534.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260924_172159.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260925_110721.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260925_124732.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260925_133534.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260928_113219.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260928_125331.json
+?? data/prospective_microstructure_session11_audit_20260928/
+?? data/prospective_microstructure_session12_audit_20260928/
+?? delta_adapter_audit.txt
+?? delta_continuity_audit.txt
+?? delta_cycle3543_audit.txt
+?? delta_recovery_code_review.txt
+?? delta_recovery_final_audit.txt
+?? delta_recovery_search.txt
+?? delta_reset_core_audit.txt
+?? delta_reset_runtime_log.txt
+?? delta_reset_search.txt
+?? delta_rtd_reset_path.txt
+?? delta_telemetry_capture_audit.txt
+?? delta_telemetry_collector_hook_audit.txt
+?? delta_telemetry_context_bridge_audit.txt
+?? delta_telemetry_diff.txt
+?? delta_telemetry_integration_audit.txt
+?? delta_telemetry_warm_bridge_final_audit.txt
+?? diagnostico_build_sources.txt
+?? diagnostico_fluxo_collector_pipeline.txt
+?? diagnostico_market_structure_20260924.txt
+?? diagnostico_price_action_bias.txt
+?? diagnostico_rc17_1200.txt
+?? diagnostico_rc17_ao_vivo.txt
+?? diagnostico_rc17_d1.txt
+?? diagnostico_rc17_d2.txt
+?? diagnostico_rc17_d3.txt
+?? diagnostico_rc17_regras.txt
+?? diagnostico_schema_conflict_episode.txt
+?? estado_work_codex_20260917.txt
+?? estrutura_final_rc17_20260924.txt
+?? frozen10_canonical_sample_schema_20260929.txt
+?? frozen10_pa_book_opportunity_probe_20260929.txt
+?? frozen10_pa_book_opportunity_snapshot.txt
+?? historical_bridge_full_logic.txt
+?? historical_microstructure_confluence_report_LOCAL_BACKUP.py
+?? independent_episode_audit_full_20260918.txt
+?? independent_episode_tests_full_20260918.txt
+?? inspect_book_schema_rc1.py
+?? inspect_prospective_book_exact_rc1.py
+?? management_lifecycle_full_20260918.txt
+?? pa_book_frozen_heterogeneity_probe_20260929.json
+?? pa_book_opportunity_audit_rc1_real.json
+?? pa_book_opportunity_rc1_source_snapshot.txt
+?? pa_book_raw_sample_time_schema_probe_20260929.txt
+?? pa_book_session_exposure_probe_20260929.json
+?? pa_book_session_heterogeneity_audit_rc1_real_20260929.json
+?? pa_book_session_position_probe_20260929.txt
+?? pa_book_temporal_duration_probe_10sessions_20260929.txt
+?? pa_book_temporal_duration_schema_probe_20260929.txt
+?? pa_book_temporal_persistence_audit_rc1_real.json
+?? pa_book_temporal_persistence_rc1_source_snapshot.txt
+?? pa_book_temporal_runs_probe_20260929.txt
+?? pa_book_temporal_transition_audit_rc1_real_20260929.json
+?? pa_book_temporal_transitions_probe_20260929.txt
+?? post_session_pipeline_exact.txt
+?? probe_book_directional.py
+?? probe_book_imbalance_boundary.py
+?? probe_book_pressure_exhaustive.py
+?? probe_book_pressure_exhaustive_session11.py
+?? probe_book_raw_alignment.py
+?? probe_book_raw_structure.py
+?? probe_book_transitions.py
+?? probe_pa_book_frozen_heterogeneity_20260929.py
+?? probe_pa_book_raw_sample_time_schema.py
+?? probe_pa_book_session_exposure_20260929.py
+?? probe_pa_book_session_position.py
+?? probe_pa_book_temporal_duration_10sessions.py
+?? probe_pa_book_temporal_duration_schema.py
+?? probe_pa_book_temporal_runs.py
+?? probe_pa_book_temporal_transitions.py
+?? profit_rtd_pipeline_audit.txt
+?? prospective_book_call_chain_search.txt
+?? prospective_book_exact_rc1.txt
+?? prospective_book_runtime_chain_exact.txt
+?? prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+?? prospective_microstructure_book_directionality_diagnostics_metadata_rc2.json
+?? prospective_microstructure_book_directionality_metadata_validation.json
+?? prospective_microstructure_book_observability_audit_rc1.json
+?? prospective_microstructure_conflict_10session_checkpoint_verify_20260926.json
+?? prospective_session_exact.txt
+?? protective_trailing_stop_dynamics_full_20260917.txt
+?? rc54_8_oos_divergent.txt
+?? rc54_8_oos_divergent_3sessoes.txt
+?? rc54_8_oos_divergent_4sessoes.txt
+?? rc54_8_oos_micro_neutral.txt
+?? rc54_8_oos_micro_neutral_3sessoes.txt
+?? rc54_8_oos_micro_neutral_4sessoes.txt
+?? rc54_nova_oos.txt
+?? rc54_nova_oos_2.txt
+?? rc54_nova_oos_2_error.txt
+?? rc54_nova_oos_3.txt
+?? rc54_nova_oos_3_error.txt
+?? rc54_nova_oos_4.txt
+?? rc54_nova_oos_4_error.txt
+?? rc54_nova_oos_5.txt
+?? rc54_nova_oos_5_error.txt
+?? rc54_nova_oos_6.txt
+?? rc54_nova_oos_7.txt
+?? research_open_branches_snapshot_20260929.txt
+?? saida_book_observability_audit_rc1.txt
+?? saida_book_rc1.txt
+?? saida_book_rc1_final.txt
+?? saida_conflict_episode_3formal.txt
+?? saida_conflict_episode_4sessions_20260923.json
+?? saida_conflict_episodes_10sessions_20260925.json
+?? saida_conflict_episodes_6sessions_20260923.json
+?? saida_conflict_episodes_7sessions_20260923.json
+?? saida_conflict_episodes_8sessions_20260924.json
+?? saida_conflict_episodes_9sessions_20260925.json
+?? saida_conflict_price_followthrough_10sessions_20260925.json
+?? saida_conflict_price_followthrough_4sessions_20260923.json
+?? saida_conflict_price_followthrough_5sessions_20260923.json
+?? saida_conflict_price_followthrough_6sessions_20260923.json
+?? saida_conflict_price_followthrough_7sessions_20260923.json
+?? saida_conflict_price_followthrough_8sessions_20260924.json
+?? saida_conflict_price_followthrough_8sessions_20260924_utf8.json
+?? saida_conflict_price_followthrough_9sessions_20260925.json
+?? saida_conflict_session_stability_rc3_10sessions_20260925.json
+?? saida_conflict_session_stability_rc3_5sessions_20260923.json
+?? saida_conflict_session_stability_rc3_6sessions_20260923.json
+?? saida_conflict_session_stability_rc3_7sessions_20260923.json
+?? saida_conflict_session_stability_rc3_8sessions_20260924.json
+?? saida_conflict_session_stability_rc3_9sessions_20260925.json
+?? saida_conflict_stratification_10sessions_20260925.json
+?? saida_conflict_stratification_rc2_20260923.json
+?? saida_conflict_stratification_rc2_5sessions_20260923.json
+?? saida_conflict_stratification_rc2_6sessions_20260923.json
+?? saida_conflict_stratification_rc2_7sessions_20260923.json
+?? saida_conflict_stratification_rc2_8sessions_20260924.json
+?? saida_conflict_stratification_rc2_9sessions_20260925.json
+?? saida_erro_coverage_9sessions_20260925.txt
+?? saida_independent_evidence_comparison.txt
+?? saida_microstructure_3session_audit.txt
+?? saida_microstructure_coverage_10sessions_20260925.json
+?? saida_microstructure_coverage_20260923.json
+?? saida_microstructure_coverage_3formal.txt
+?? saida_microstructure_coverage_4formal_20260923.json
+?? saida_microstructure_coverage_5sessions_20260923.json
+?? saida_microstructure_coverage_6sessions_20260923.json
+?? saida_microstructure_coverage_7sessions_20260923.json
+?? saida_microstructure_coverage_8sessions_20260924.json
+?? saida_microstructure_coverage_9sessions_20260925.json
+?? saida_microstructure_orchestrated_3.txt
+?? saida_microstructure_prospectiva.txt
+?? saida_microstructure_prospectiva_3.txt
+?? saida_nova_tentativa_sessao8.txt
+?? saida_pa_book_opportunity_audit_rc1.txt
+?? saida_pa_book_temporal_persistence_audit_rc1.txt
+?? saida_reproducao_conflict_episode_10sessions_20260926.json
+?? saida_reproducao_conflict_followthrough_10sessions_20260926.json
+?? saida_reproducao_conflict_session_stability_10sessions_20260926.json
+?? saida_reproducao_conflict_stratification_10sessions_20260926.json
+?? saida_reproducao_coverage_10sessions_20260926.json
+?? saida_sessao8.txt
+?? saida_sessao8_20260924.txt
+?? saida_sessao9_20260925.txt
+?? saida_sessao9_tentativa2_20260925.txt
+?? saida_sessao9_tentativa3_20260925.txt
+?? saida_sessao9_tentativa4_20260925.txt
+?? saida_sessao9_tentativa5_20260925.txt
+?? saida_session11.txt
+?? saida_session11_12_schemas.txt
+?? saida_session11_comparison.txt
+?? saida_session11_post_audit.txt
+?? saida_session11_quantitativo.txt
+?? saida_session11_tentativa2.txt
+?? saida_session11_tentativa3.txt
+?? saida_session11_tentativa4.txt
+?? saida_session12.txt
+?? saida_session12_comparison.txt
+?? saida_session12_post_audit.txt
+?? saida_session12_readiness.txt
+?? saida_temporal_duration_rc1.txt
+?? schema_book_session11.txt
+?? schema_book_session12.txt
+?? schema_book_unique_values.txt
+?? schema_book_values.txt
+?? stash_conteudo.txt
+?? structural_advance_gate_v2_1_full_20260917.txt
+?? temporal_duration_rc1_source_snapshot_20260929.txt
+?? temporal_persistence_source_d70caea.py
+?? temporal_persistence_tests_source_d70caea.py
+?? test_historical_microstructure_confluence_report_rc1_LOCAL_BACKUP.py
+?? test_prospective_microstructure_book_directionality_diagnostics_rc1_current.py
+?? tests/book_diag_tests_metadata_rc2.py
+?? tools/profit_rtd_brooks_research_evidence_suite_updated.py
+?? tools/profit_rtd_brooks_structural_advance_gate_diagnostics.py
+?? tools/profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py
+?? tools/profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py
+?? tools/profit_rtd_rc17_isolated_parity_diagnostic.py
+?? tools/profit_rtd_rc17_parity_diagnostic.py
+?? tools/profit_rtd_rc17_swing_diagnostic.py
+?? tools/profit_rtd_rc54_3_2_brooks_warmed_session_complete.py
+?? tools/profit_rtd_rc54_3_2_brooks_warmed_session_fixed.py
+?? trailing_active_survival_source_20260918.txt
+?? trailing_active_survival_tests_20260918.txt
+?? trailing_advance_diagnostico_20260917.txt
+?? trailing_advance_logic_audit_20260917.txt
+?? trailing_v3_session16_20260918.json
+?? trailing_v3_session17_20260918.json
+?? trailing_v3_session18_20260918.json
+?? verify_book_bridge_parity_rc1.py
+?? verify_book_direction_parity_rc1.py
+?? warm_history_location_audit.txt
+
+STDERR
+warning: could not open directory '.pytest_brooks_accumulation_full/': Permission denied
+warning: could not open directory '.pytest_brooks_delta_telemetry_full/': Permission denied
+warning: could not open directory '.pytest_brooks_full_20260918/': Permission denied
+warning: could not open directory '.pytest_delta_hook/': Permission denied
+warning: could not open directory '.pytest_order_flow_historical/': Permission denied
+warning: could not open directory '.pytest_temp_rc1/': Permission denied
+warning: could not open directory '.pytest_tmp/': Permission denied
+warning: could not open directory '.pytest_tmp_book_directionality_rc1/': Permission denied
+warning: could not open directory '.pytest_tmp_book_directionality_rc1_v3/': Permission denied
+warning: could not open directory '.pytest_tmp_bridge_full/': Permission denied
+warning: could not open directory '.pytest_tmp_independent_comparison_final/': Permission denied
+warning: could not open directory '.pytest_tmp_independent_comparison_rc1/': Permission denied
+warning: could not open directory '.pytest_tmp_independent_comparison_rc1_v2/': Permission denied
+warning: could not open directory '.pytest_tmp_independent_comparison_regression/': Permission denied
+warning: could not open directory '.pytest_tmp_independent_evidence_integrated/': Permission denied
+warning: could not open directory '.pytest_tmp_independent_evidence_rc1/': Permission denied
+warning: could not open directory '.pytest_tmp_manifest/': Permission denied
+warning: could not open directory '.pytest_tmp_post_session_rc1/': Permission denied
+warning: could not open directory '.pytest_tmp_post_session_regression/': Permission denied
+warning: could not open directory '.pytest_tmp_regression/': Permission denied
+warning: could not open directory '.pytest_tmp_session11_readiness_final/': Permission denied
+warning: could not open directory '.pytest_tmp_session11_readiness_rc1/': Permission denied
+warning: could not open directory '.pytest_tmp_session11_readiness_rc1_v2/': Permission denied
+warning: could not open directory '.pytest_tmp_session11_readiness_verify_rc1/': Permission denied
+warning: could not open directory '.pytest_tmp_session12_readiness_final/': Permission denied
+warning: could not open directory '.pytest_tmp_session12_readiness_rc1/': Permission denied
+warning: could not open directory '.pytest_trailing_accumulation/': Permission denied
+warning: could not open directory 'pytest_temp/': Permission denied
+warning: could not open directory 'tmp_pytest/': Permission denied
+warning: could not open directory 'tmp_pytest_book_metadata/': Permission denied
+warning: could not open directory 'tmp_pytest_book_observability_rc1/': Permission denied
+warning: could not open directory 'tmp_pytest_conflict_episode_fix/': Permission denied
+warning: could not open directory 'tmp_pytest_conflict_episode_integrated/': Permission denied
+warning: could not open directory 'tmp_pytest_conflict_episode_resume/': Permission denied
+warning: could not open directory 'tmp_pytest_duration_rc1/': Permission denied
+warning: could not open directory 'tmp_pytest_orchestrated/': Permission denied
+warning: could not open directory 'tmp_pytest_pa_book_opportunity_rc1/': Permission denied
+warning: could not open directory 'tmp_pytest_pa_book_temporal_persistence_rc1/': Permission denied
+warning: could not open directory 'tmp_pytest_rc1/': Permission denied
+warning: could not open directory 'tmp_pytest_sync_a92/': Permission denied

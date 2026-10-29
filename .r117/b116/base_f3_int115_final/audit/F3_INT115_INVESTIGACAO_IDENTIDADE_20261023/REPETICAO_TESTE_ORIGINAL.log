@@ -1,0 +1,722 @@
+ITERATION 0
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.496s
+
+OK
+ITERATION 1
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.364s
+
+OK
+ITERATION 2
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.275s
+
+OK
+ITERATION 3
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.321s
+
+OK
+ITERATION 4
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.294s
+
+OK
+ITERATION 5
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.266s
+
+OK
+ITERATION 6
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.284s
+
+OK
+ITERATION 7
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.354s
+
+OK
+ITERATION 8
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.277s
+
+OK
+ITERATION 9
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.388s
+
+OK
+ITERATION 10
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.406s
+
+OK
+ITERATION 11
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.314s
+
+OK
+ITERATION 12
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.288s
+
+OK
+ITERATION 13
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.408s
+
+OK
+ITERATION 14
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.299s
+
+OK
+ITERATION 15
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.278s
+
+FAILED (failures=1)
+ITERATION 16
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.285s
+
+FAILED (failures=1)
+ITERATION 17
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.268s
+
+OK
+ITERATION 18
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.207s
+
+FAILED (failures=1)
+ITERATION 19
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.229s
+
+OK
+ITERATION 20
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.286s
+
+OK
+ITERATION 21
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.250s
+
+OK
+ITERATION 22
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ERROR
+
+======================================================================
+ERROR: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 625, in _rmtree_unsafe
+    os.unlink(fullname)
+    ~~~~~~~~~^^^^^^^^^^
+PermissionError: [WinError 32] O arquivo já está sendo usado por outro processo: 'C:\\Users\\jb\\AppData\\Local\\Temp\\tmp2mjif66_\\root_exit.log'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 954, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 934, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 629, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 909, in onexc
+    _os.unlink(path)
+    ~~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] O arquivo já está sendo usado por outro processo: 'C:\\Users\\jb\\AppData\\Local\\Temp\\tmp2mjif66_\\root_exit.log'
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.416s
+
+FAILED (failures=1, errors=1)
+ITERATION 23
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ERROR
+
+======================================================================
+ERROR: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 625, in _rmtree_unsafe
+    os.unlink(fullname)
+    ~~~~~~~~~^^^^^^^^^^
+PermissionError: [WinError 32] O arquivo já está sendo usado por outro processo: 'C:\\Users\\jb\\AppData\\Local\\Temp\\tmpj2szcpvg\\root_exit.log'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 954, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 934, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 629, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 909, in onexc
+    _os.unlink(path)
+    ~~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] O arquivo já está sendo usado por outro processo: 'C:\\Users\\jb\\AppData\\Local\\Temp\\tmpj2szcpvg\\root_exit.log'
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.589s
+
+FAILED (failures=1, errors=1)
+ITERATION 24
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ERROR
+
+======================================================================
+ERROR: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 625, in _rmtree_unsafe
+    os.unlink(fullname)
+    ~~~~~~~~~^^^^^^^^^^
+PermissionError: [WinError 32] O arquivo já está sendo usado por outro processo: 'C:\\Users\\jb\\AppData\\Local\\Temp\\tmpzl4510n5\\root_exit.log'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 954, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 934, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 629, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 909, in onexc
+    _os.unlink(path)
+    ~~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] O arquivo já está sendo usado por outro processo: 'C:\\Users\\jb\\AppData\\Local\\Temp\\tmpzl4510n5\\root_exit.log'
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.276s
+
+FAILED (failures=1, errors=1)
+ITERATION 25
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ERROR
+
+======================================================================
+ERROR: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 625, in _rmtree_unsafe
+    os.unlink(fullname)
+    ~~~~~~~~~^^^^^^^^^^
+PermissionError: [WinError 32] O arquivo já está sendo usado por outro processo: 'C:\\Users\\jb\\AppData\\Local\\Temp\\tmp_3qlr7n_\\root_exit.log'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 954, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 934, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 629, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 909, in onexc
+    _os.unlink(path)
+    ~~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] O arquivo já está sendo usado por outro processo: 'C:\\Users\\jb\\AppData\\Local\\Temp\\tmp_3qlr7n_\\root_exit.log'
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.307s
+
+FAILED (failures=1, errors=1)
+ITERATION 26
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.329s
+
+FAILED (failures=1)
+ITERATION 27
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.533s
+
+OK
+ITERATION 28
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.423s
+
+OK
+ITERATION 29
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.278s
+
+FAILED (failures=1)
+ITERATION 30
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.323s
+
+FAILED (failures=1)
+ITERATION 31
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.645s
+
+FAILED (failures=1)
+ITERATION 32
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.780s
+
+FAILED (failures=1)
+ITERATION 33
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.563s
+
+FAILED (failures=1)
+ITERATION 34
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.331s
+
+FAILED (failures=1)
+ITERATION 35
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.419s
+
+OK
+ITERATION 36
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.346s
+
+OK
+ITERATION 37
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.386s
+
+OK
+ITERATION 38
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.307s
+
+FAILED (failures=1)
+ITERATION 39
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.348s
+
+OK
+ITERATION 40
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ERROR
+
+======================================================================
+ERROR: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 625, in _rmtree_unsafe
+    os.unlink(fullname)
+    ~~~~~~~~~^^^^^^^^^^
+PermissionError: [WinError 32] O arquivo já está sendo usado por outro processo: 'C:\\Users\\jb\\AppData\\Local\\Temp\\tmpwsu_y7fr\\root_exit.log'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 954, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 934, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 629, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 909, in onexc
+    _os.unlink(path)
+    ~~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] O arquivo já está sendo usado por outro processo: 'C:\\Users\\jb\\AppData\\Local\\Temp\\tmpwsu_y7fr\\root_exit.log'
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.377s
+
+FAILED (failures=1, errors=1)
+ITERATION 41
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.334s
+
+FAILED (failures=1)
+ITERATION 42
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.312s
+
+OK
+ITERATION 43
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.338s
+
+OK
+ITERATION 44
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.312s
+
+FAILED (failures=1)
+ITERATION 45
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ERROR
+
+======================================================================
+ERROR: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 625, in _rmtree_unsafe
+    os.unlink(fullname)
+    ~~~~~~~~~^^^^^^^^^^
+PermissionError: [WinError 32] O arquivo já está sendo usado por outro processo: 'C:\\Users\\jb\\AppData\\Local\\Temp\\tmpbzpncf9v\\root_exit.log'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 954, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 934, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\shutil.py", line 629, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\tempfile.py", line 909, in onexc
+    _os.unlink(path)
+    ~~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] O arquivo já está sendo usado por outro processo: 'C:\\Users\\jb\\AppData\\Local\\Temp\\tmpbzpncf9v\\root_exit.log'
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.329s
+
+FAILED (failures=1, errors=1)
+ITERATION 46
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.318s
+
+FAILED (failures=1)
+ITERATION 47
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.343s
+
+FAILED (failures=1)
+ITERATION 48
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL
+
+======================================================================
+FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\COPILOTO_F3_INT114_FINAL\audit\tests\test_f3_int115_process_control.py", line 120, in test_root_exit_still_cleans_living_descendant
+    self.assertFalse(process_running(int(marker.read_text())))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.305s
+
+FAILED (failures=1)
+ITERATION 49
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.370s
+
+OK

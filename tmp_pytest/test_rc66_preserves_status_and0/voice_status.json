@@ -1,0 +1,22 @@
+{
+  "affects_decision": false,
+  "generated_at": "2026-08-23T12:00:00Z",
+  "payload": {
+    "affects_decision": false,
+    "dashboard_projection": {
+      "status": "READY"
+    },
+    "dashboard_widget": {
+      "status": "READY"
+    },
+    "health_report": {
+      "status": "READY"
+    },
+    "readonly": true,
+    "version": "RC62-VOICE-STATUS-BUNDLE"
+  },
+  "readonly": true,
+  "schema": "copiloto.voice.status.v1",
+  "status": "READY",
+  "version": "RC64-VOICE-STATUS-EXPORT-CONTRACT"
+}

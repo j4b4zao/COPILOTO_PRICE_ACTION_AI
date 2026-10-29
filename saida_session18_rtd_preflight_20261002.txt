@@ -1,0 +1,85 @@
+﻿STATUS = UNAVAILABLE
+BRANCH = brooks-stop-target-exact-audit-20260912
+HEAD_BEFORE = 42f4178f958673d40dfb73fc809ad7aa9e9e825c
+HEAD_AFTER = 42f4178f958673d40dfb73fc809ad7aa9e9e825c
+PROFIT_SYMBOL = UNAVAILABLE
+TIMES_TRADES_SYMBOL = UNAVAILABLE
+BOOK_SYMBOL = UNAVAILABLE
+SYMBOL_IDENTITY = UNAVAILABLE
+DATA_READY = UNAVAILABLE
+TRADE_CONTEXT = UNAVAILABLE
+TIMES_TRADES_STATUS = UNAVAILABLE
+BOOK_STATUS = UNAVAILABLE
+PROFIT_ACCESS = UNAVAILABLE
+DATA_READY_REASON = Readiness oficial requer preco e delta_status; sem coleta ou processamento de estado.
+TRADE_CONTEXT_REASON = Historico/contexto de analise nao avaliado: collector e warmup nao executados.
+
+DIAGNOSTIC_PATH = xlwings.apps -> existing workbook matched by normalized full path -> ExcelConnector.book; ProfitReader / ExcelRangeGateway / ProfitRTDTimesTradesReader / ProfitRTDBookDepthReader.
+ATTACH_POLICY = Existing workbooks only; ExcelConnector.conectar not called because its fallback can create Excel.
+LIVE_VALUES_RETURNED = none; no symbol inferred from workbook disk contents.
+SYMBOL_IDENTITY_REQUIRES_TRADE_CONTEXT = false
+MISMATCH_VALUEERROR_OBSERVED = false
+DIAGNOSTIC_ONLY = true
+OFFICIAL_PROSPECTIVE_EVIDENCE_PRODUCED = false
+
+EXCEPTION_SOURCE = PROFIT
+EXCEPTION_TYPE = RuntimeError
+EXCEPTION_MESSAGE = Workbook RTD aberto unico indisponivel: C:\COPILOTO_PRICE_ACTION_AI\Profit.xlsx; matches=0. Fail closed: nenhuma instancia/workbook aberto.
+
+EXCEPTION_SOURCE = TIMES_TRADES
+EXCEPTION_TYPE = RuntimeError
+EXCEPTION_MESSAGE = Workbook RTD aberto unico indisponivel: C:\COPILOTO_PRICE_ACTION_AI\times&trades.xlsx; matches=0. Fail closed: nenhuma instancia/workbook aberto.
+
+EXCEPTION_SOURCE = BOOK
+EXCEPTION_TYPE = RuntimeError
+EXCEPTION_MESSAGE = Workbook RTD aberto unico indisponivel: C:\COPILOTO_PRICE_ACTION_AI\livroOfertas.xlsx; matches=0. Fail closed: nenhuma instancia/workbook aberto.
+
+COLLECTION_EXECUTED = false
+SESSION18_EXECUTED = false
+CODE_CHANGED = false
+PROTOCOL_CHANGED = false
+THRESHOLD_CHANGED = false
+RC17_CHANGED = false
+WARMUP_EXECUTED = false
+STAGE_COMMIT_PUSH_EXECUTED = false
+EXCEL_INSTANCE_CREATED = false
+WORKBOOK_OPENED = false
+GIT_DIFF_UNCHANGED = true
+PROTECTED_FILES_PRESERVED = true
+
+HASH_ALGORITHM = SHA256
+FILE = Profit.xlsx
+HASH_BEFORE = 0e653213a1d237c3a5c18ec19299cfb0462d0c15110c0848d1055470dc8023ce
+HASH_AFTER = 0e653213a1d237c3a5c18ec19299cfb0462d0c15110c0848d1055470dc8023ce
+PRESENT_BEFORE = true
+PRESENT_AFTER = true
+HASH_MATCH = true
+
+FILE = connectors/excel_connector.py
+HASH_BEFORE = f234edd86d16ab637732438c0093fa84fd457a922044b49e6bd270074920d567
+HASH_AFTER = f234edd86d16ab637732438c0093fa84fd457a922044b49e6bd270074920d567
+PRESENT_BEFORE = true
+PRESENT_AFTER = true
+HASH_MATCH = true
+
+FILE = livroOfertas.xlsx
+HASH_BEFORE = af0b59cbefed50d0452c370ee0ce7a5e1d546a39ecd916b83cbe5361070a6ee9
+HASH_AFTER = af0b59cbefed50d0452c370ee0ce7a5e1d546a39ecd916b83cbe5361070a6ee9
+PRESENT_BEFORE = true
+PRESENT_AFTER = true
+HASH_MATCH = true
+
+FILE = saida.txt
+HASH_BEFORE = 4ca480d6793a9667050758792193405334a88f476e3b80e062eae11342eaa983
+HASH_AFTER = 4ca480d6793a9667050758792193405334a88f476e3b80e062eae11342eaa983
+PRESENT_BEFORE = true
+PRESENT_AFTER = true
+HASH_MATCH = true
+
+FILE = times&trades.xlsx
+HASH_BEFORE = 1594949b6173b4b8a57bb7c8b04652068e984a43030a6eb5dd3d6589fa48ebc8
+HASH_AFTER = 1594949b6173b4b8a57bb7c8b04652068e984a43030a6eb5dd3d6589fa48ebc8
+PRESENT_BEFORE = true
+PRESENT_AFTER = true
+HASH_MATCH = true
+

@@ -1,0 +1,34 @@
+{
+  "rates": {
+    "conflict_rate": 0.0,
+    "correlation_rate": 0.0,
+    "not_eligible_rate": 0.0,
+    "observable_rate": 0.0,
+    "promising_rate": 1.0,
+    "strong_candidate_rate": 0.0
+  },
+  "summary": {
+    "average_confidence": 0.7,
+    "by_independent_evidence": {
+      "2": 1
+    },
+    "by_quality": {
+      "MEDIUM": 1
+    },
+    "by_reason": {
+      "TEST": 1
+    },
+    "by_state": {
+      "PROMISING": 1
+    },
+    "conflict_samples": 0,
+    "correlated_samples": 0,
+    "not_eligible_samples": 0,
+    "observable_samples": 0,
+    "passive_only": true,
+    "promising_samples": 1,
+    "samples": 1,
+    "strong_candidate_samples": 0,
+    "version": "RC2-MICROSTRUCTURE-ELIGIBILITY-REPLAY-PERSISTENCE"
+  }
+}

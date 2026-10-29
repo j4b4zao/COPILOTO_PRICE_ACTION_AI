@@ -1,0 +1,264 @@
+SESSION #18 - NO RAW DIAGNOSIS RC1
+Data: 2026-10-01
+Escopo: somente diagnostico estatico e inventario de arquivos; nenhuma coleta executada.
+Branch: brooks-stop-target-exact-audit-20260912
+HEAD inicial: a741be9c905009906c93130af648983377f8a3a3
+HEAD final: a741be9c905009906c93130af648983377f8a3a3
+Verificacao final: 46 raws WINV26; unica entrada nova no git status =
+?? saida_session18_no_raw_diagnosis_rc1.txt; nenhuma entrada anterior removida.
+Hashes finais de connectors/excel_connector.py e saida.txt iguais aos iniciais.
+
+CONCLUSAO
+Causa exata da tentativa: NAO IDENTIFICAVEL com as evidencias persistidas encontradas.
+Existe um caminho normal e explicito que explica termino sem raw:
+warm_history retorna ready=False -> run_warmed_session retorna
+ABORTED_CONTEXT_NOT_READY antes de criar diretorio/JSON -> wrapper nao recebe
+output_path, nao grava JSON -> main termina com SystemExit(2).
+Esse caminho e possivel com require_trade_context_at_start=False.
+Nao ha stdout/stderr/exit code da tentativa disponivel nos arquivos encontrados
+para afirmar que esse foi o caminho efetivamente percorrido.
+
+INVENTARIO
+Confirmados 46 raws com nome profit_rtd_rc54_3_2_WINV26_YYYYMMDD_HHMMSS.json
+em C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_rc54_3_2.
+O diretorio tem 51 arquivos *.json: os outros cinco sao inventarios,
+freeze/recomposicao antigos; nao sao cinco novas sessoes.
+Mais recente: profit_rtd_rc54_3_2_WINV26_20260930_171544.json,
+LastWriteTime 2026-09-30 17:15:44.
+Nenhum raw de hoje localizado na parte acessivel do repositorio.
+Nenhuma Session #18 foi criada ou classificada por este diagnostico.
+O coletor nao recebe numero de sessao; a identidade #18 e atribuida pelo
+processo de pesquisa, nao por um contador persistente nesse runner.
+
+CADEIA INSPECIONADA
+tools/profit_rtd_microstructure_prospective_session.py:
+  run_session -> base.run_warmed_session.
+tools/profit_rtd_rc54_3_2_warmed_session.py:
+  run_warmed_session -> warm_history.
+tools/profit_rtd_rc54_3_2_warm_history_gate.py:
+  warm_history -> _build_sources + AnalysisPipeline -> collector.get_data.
+tools/profit_rtd_order_flow_combined_session.py:37-58:
+  _build_sources -> Collector + conexoes Excel T&T e Book.
+market_data/collector.py; connectors/profit_reader.py;
+connectors/excel_connector.py (somente leitura);
+analysis/market_structure.py; core/multi_timeframe_state.py;
+analysis/replay/microstructure_confluence_session_report.py.
+
+REQUISITO DE CONTEXTO
+require_trade_context_at_start=False: CONFIRMADO.
+- wrapper: default na linha 44.
+- CLI: --require-trade-context-at-start usa action="store_true", linha 113.
+  O comando informado omite essa flag; argparse produz False.
+- wrapper encaminha o valor a base, linhas 62-71.
+- base: default False, linha 75; encaminha require_trade_context ao warmup,
+  linha 82.
+- warm_history: default False, linha 30.
+Nao e preciso acrescentar uma flag com texto "False"; isso seria argumento
+invalido para a opcao store_true.
+
+WARMUP, HISTORY_READY E TRADE_CONTEXT_READY
+warm_history_gate.py:24-27:
+  history_ready = structure.valid verdadeiro E trend diferente de ""/UNKNOWN.
+warm_history_gate.py:15-21:
+  trade_context_ready acrescenta PA bias diferente de ""/NONE/UNKNOWN.
+warm_history_gate.py:69:
+  if ready and (not require_trade_context or trade_ready): return ready=True.
+Logo False dispensa PA direcional pronto, mas NAO dispensa history_ready.
+Estrutura SIDEWAYS valida satisfaz history_ready, pois nao e UNKNOWN.
+
+Com o comando informado, sao no maximo 4800 iteracoes de warmup.
+Os sleeps, se todas forem percorridas, somam 4799 * 0.25 = 1199.75 segundos.
+Nao e timeout rigido de 20 minutos: leituras COM, pipeline e impressao acrescentam
+tempo, e chamadas bloqueadas podem prolongar a execucao.
+Ao esgotar as iteracoes sem retorno de sucesso:
+- linhas 92-114 retornam ready=False;
+- com require_trade_context=False o status e WARM_HISTORY_NOT_READY;
+- WARM_TRADE_CONTEXT_NOT_READY depende de require_trade_context=True e
+  last_history_ready=True, portanto nao e o status normal deste comando.
+Nao existe persistencia/restauracao de warmup nesse fluxo: nova invocacao cria
+Collector/pipeline e historicos em memoria novamente.
+
+Cenarios que podem impedir history_ready ou a chegada ao teste de sucesso:
+- nenhum contexto retornado por get_data;
+- snapshot duplicado/sem mudanca;
+- volume indisponivel sem baseline valido, ativo vazio, preco invalido;
+- falhas de leitura/layout Excel e excecoes recorrentes no pipeline;
+- historico/estrutura insuficiente, estrutura invalida ou trend UNKNOWN.
+MarketStructure RC17 usa candles fechados e swings; acumular iteracoes nao
+garante que uma estrutura valida com trend conhecido apareca.
+Mesmo com False, context_ready(context) e calculado antes do if (linha 61);
+um objeto PA/structure malformado pode levantar excecao e impedir a passagem.
+Isso e possibilidade de excecao, nao evidencia de que ocorreu hoje.
+
+EARLY RETURN QUE EVITA O RAW
+tools/profit_rtd_rc54_3_2_warmed_session.py:84-97:
+  if not warm['ready']:
+      return {'status': 'ABORTED_CONTEXT_NOT_READY', ...}
+Esse retorno nao inclui output_path e acontece antes da janela principal,
+antes de mkdir e antes de write_text. Nao ha arquivo parcial intencional para
+warmup abortado nem arquivo temporario de recuperacao nesse runner.
+O wrapper ainda monta evidencia vazia em memoria, mas so persiste se houver
+output_path.
+
+PONTO EXATO DE GRAVACAO
+tools/profit_rtd_rc54_3_2_warmed_session.py:184-190:
+  target = Path(output_dir or r'C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_rc54_3_2')
+  target.mkdir(parents=True, exist_ok=True)
+  stamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+  path = target / f'profit_rtd_rc54_3_2_{symbol}_{stamp}.json'
+  path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding='utf-8')
+  payload['output_path'] = str(path)
+A primeira gravacao e a linha 188. Apos warmup aprovado e termino do loop,
+ela e INCONDICIONAL em relacao a data_ready, quantidade de samples,
+trade_context_ready e status COMPLETED_WITH_WARNINGS.
+output_path e acrescentado ao retorno depois de escrever o payload base;
+nao e um campo necessario no JSON inicial.
+
+tools/profit_rtd_microstructure_prospective_session.py:91-100:
+  output_path = result.get("output_path")
+  if output_path:
+      le o JSON da base, acrescenta prospective_microstructure/safety
+      e regrava o mesmo arquivo (write_text, linha 97).
+Nao cria um caminho alternativo se output_path estiver ausente.
+
+DATA_READY, ZERO SAMPLES E ERROS NA JANELA PRINCIPAL
+base:56-57: data_ready individual exige last_price nao None e delta_status
+em READY/VALID/LOW_ACTIVITY.
+base:60-72 e 151-181: session_data_ready deriva das technical_reasons:
+contagem inconsistente, erros, preco ausente, nenhum sample ou falha de delta.
+Esses motivos mudam o status para COMPLETED_WITH_WARNINGS; NAO bloqueiam JSON.
+Zero samples apos warmup bem-sucedido gera NO_ANALYZABLE_SAMPLES e ainda
+chega a gravacao, desde que nao haja excecao fatal/encerramento.
+trade_context_ready=False durante a janela tambem nao bloqueia gravacao.
+O reporter de microestrutura aceita recorder vazio e retorna relatorio NO_DATA;
+nao ha quantidade minima de samples usada como gate para gravar o raw.
+Erros Exception dentro dos loops sao contados/impressos; no warmup podem
+esgotar o limite sem prontidao, na janela principal normalmente geram warnings.
+Portanto "data_ready=False" ou exit code 2, isoladamente, nao provam ausencia
+de arquivo: COMPLETED_WITH_WARNINGS tambem sai com 2 e pode ter JSON valido.
+
+DEMAIS CAMINHOS DE TERMINO SEM ARQUIVO NOVO
+1. Falha antes de iniciar o modulo: interpretador/ambiente, modulo/dependencia
+   ausente, import/sintaxe/configuracao, ou argparse rejeitando argumentos.
+   O comando informado tem argumentos validos; nao ha evidencia de erro de CLI.
+   No preflight anterior o alias python deste ambiente estava inacessivel,
+   mas um Python313 explicito funcionou. Isso NAO prova falha no terminal
+   em que o usuario executou a tentativa.
+2. Validacao inicial de simbolo/cycles/interval/max_warmup_cycles falha e
+   levanta ValueError antes do warmup. Os valores informados atendem ao contrato.
+3. Bootstrap fora do try de cada ciclo: Collector/AnalysisPipeline/conexoes.
+   Collector levanta RuntimeError se nao conectar Profit.xlsx;
+   _build_sources levanta RuntimeError se nao conectar T&T ou Book.
+   ExcelConnector pode retornar False por erro COM/abertura ou arquivo aberto
+   em mais de uma instancia. Sao possibilidades, nao causas confirmadas.
+   A funcao chamada e _build_sources; os gates --execute e MAX_CYCLES do
+   outro runner combinado NAO se aplicam a esta invocacao.
+4. Excecao nao capturada antes da primeira gravacao: inicializacao dos
+   validadores, processamento final do warmup, recorder.clear no wrapper,
+   sleeper fora dos try, montagem do payload, serializacao json.dumps,
+   ou erro ao imprimir o proprio erro em stdout fechado/invalido.
+   O finally do wrapper apenas restaura base.warm_history; nao persiste backup.
+5. KeyboardInterrupt, SystemExit de dependencia ou encerramento do processo/
+   terminal/sistema antes da gravacao. except Exception nao captura
+   KeyboardInterrupt/SystemExit. Nao existe handler de salvamento ao encerrar.
+6. Falha em mkdir ou abertura de arquivo (permissao, caminho indisponivel/
+   invalido, conflito com arquivo, disco etc.). Falha na escrita pode deixar
+   JSON vazio/parcial; nao e equivalente a ausencia absoluta de arquivo.
+   json.dumps e avaliado antes de abrir o arquivo: erro de serializacao
+   pode deixar nenhum JSON novo.
+7. Output relativo: ".\data\profit_rtd_rc54_3_2" e resolvido pelo diretorio
+   corrente do processo, nao pela localizacao do modulo. Se executado de
+   outro cwd com modulo importavel, pode gravar em outro lugar.
+   Nao houve busca irrestrita em todo o disco.
+8. Nome usa timestamp local com resolucao de um segundo e write_text sobrescreve.
+   Colisao de nome (mesmo simbolo/segundo ou relogio alterado) pode nao aumentar
+   contagem de arquivos. Nao e explicacao comprovada; nenhum raw recente foi
+   encontrado. Ausencia de aumento na contagem sozinha nao prova ausencia de
+   escrita, mas aqui o ultimo raw e os mtimes tambem continuam antigos.
+
+EXCECOES DEPOIS DA PRIMEIRA GRAVACAO
+Erros no reporter/sample.to_dict, leitura json.loads ou regravacao do wrapper
+podem deixar raw base sem prospective_microstructure, ou arquivo parcial
+se a segunda escrita falhar. Normalmente NAO explicam nenhum arquivo novo,
+pois o JSON base ja foi escrito. Nao ha delete no fluxo inspecionado.
+Erro no print final tambem pode terminar o processo mesmo com raw ja criado.
+
+SYSTEMEXIT
+wrapper:138-142: main retorna 0 somente para COMPLETED; retorna 2 nos demais
+status; raise SystemExit(main()) transmite esse codigo ao shell.
+Esse SystemExit e posterior ao retorno de run_session, nao e por si um gate
+de gravacao. argparse tambem pode sair antes da coleta (erro: 2; help: 0).
+O main da base/warm_history nao e executado quando as funcoes sao importadas.
+
+EVIDENCIAS LOCAIS DE HOJE
+Busca por arquivos modificados em 2026-10-01 na arvore acessivel do repositorio,
+excluindo .git e __pycache__:
+- saida.txt, 2146 bytes, 12:33:03: somente inventario dos ultimos raws,
+  contagem 46 e HEAD. Nao contem WARMUP, status final, traceback ou exit code.
+- saida_session18_preflight_rc1.txt, 11:09:02: relatorio anterior.
+- ~$Profit.xlsx, 11:30:02; ~$times&trades.xlsx, 11:30:05;
+  ~$livroOfertas.xlsx, 11:30:08: arquivos de bloqueio do Excel (165 bytes).
+  Nao contem diagnostico da coleta; nao demonstram RTD saudavel.
+Nenhum stdout/stderr, transcript, log ou raw da tentativa identificado.
+logs/ tem arquivos antigos; nenhum log de hoje encontrado.
+Busca de nomes relacionados a session18/profit/warm/microstructure/python/
+stdout/stderr no nivel superior de TEMP de hoje: nenhum candidato encontrado.
+Limitacoes: diretorios temporarios pytest com acesso negado; nao foi recuperado
+scrollback de terminal nem inspecionado todo o disco/TEMP recursivamente.
+O comando informado nao redireciona stdout/stderr; esses runners usam print
+e nao configuram automaticamente um log persistente da tentativa.
+Em aborto, main do wrapper imprime ABORTED_CONTEXT_NOT_READY, data_ready e
+captured_samples, mas nao imprime o warmup.status/reasons detalhado da base.
+Para distinguir causas, e necessario o stdout/stderr da execucao real.
+
+REPETICAO DA SESSION #18
+No escopo da identidade de pesquisa, pode repetir a tentativa #18: nao foi
+encontrado raw novo e o usuario confirma que a tentativa terminou.
+Isso nao assegura prontidao do mercado/Excel nem sucesso do proximo warmup.
+Antes de iniciar manualmente, confirmar que nao existe outra coleta em
+andamento e que nenhum raw apareceu desde este inventario. Se surgir arquivo,
+preserva-lo e identificar a tentativa antes de repetir.
+#18 continua a ultima sessao do bloco; nao criar #19 automaticamente.
+Nao reclassificar #14-#17, nao tratar NOT_EVALUABLE como NOT_REPLICATED.
+
+COMANDO RECOMENDADO PARA EXECUCAO MANUAL FUTURA - NAO EXECUTADO
+PowerShell, mantendo todos os parametros funcionais e registrando stdout,
+stderr e exit code em um arquivo novo de nome unico (nao usa saida.txt):
+
+Set-Location -LiteralPath 'C:\COPILOTO_PRICE_ACTION_AI'
+$session18Log = Join-Path (Get-Location) ('saida_session18_retry_' + (Get-Date -Format 'yyyyMMdd_HHmmss') + '_' + [guid]::NewGuid().ToString('N') + '.log')
+python -u -m tools.profit_rtd_microstructure_prospective_session WINV26 --cycles 600 --interval 0.25 --max-warmup-cycles 4800 --output-dir "C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_rc54_3_2" 2>&1 | Tee-Object -FilePath $session18Log
+$session18ExitCode = $LASTEXITCODE
+"PROCESS_EXIT_CODE=$session18ExitCode" | Tee-Object -FilePath $session18Log -Append
+
+-u altera apenas buffering de stdout/stderr; output absoluto evita ambiguidade
+de cwd; cycles/interval/max-warmup e require_trade_context permanecem iguais.
+Usar o Python do ambiente local com as dependencias do projeto; se o comando
+python falhar no launcher, registrar o erro e nao concluir que houve warmup.
+Uma falha de launcher pode nao produzir LASTEXITCODE confiavel; ler o log.
+Nao adicionar --require-trade-context-at-start.
+
+CORRECAO DE CODIGO
+Nenhuma correcao funcional foi demonstrada como necessaria.
+O aborto sem raw por history_ready=False e comportamento explicito do contrato.
+False nao significa ignorar prontidao estrutural.
+Ha limitacao de observabilidade: aborto nao persiste payload e o wrapper omite
+reasons no resumo final. Capturar stdout/stderr na proxima tentativa permite
+diagnosticar sem mudar codigo. Eventual melhoria de log exige tarefa separada.
+Nao ha fundamento para remover gates, aumentar limites, alterar thresholds,
+RC17, protocolos ou hipotese congelada com a evidencia disponivel.
+
+PRESERVACAO
+Unica escrita autorizada nesta tarefa: este relatorio.
+Nenhuma coleta, importacao do collector em runtime, teste com Excel,
+alteracao de codigo/protocolo/threshold/RC17, stage, commit, restore,
+delete, move, git clean ou reset.
+Profit.xlsx, livroOfertas.xlsx e times&trades.xlsx estavam bloqueados por outro
+processo na tentativa de Get-FileHash; hashes nao puderam ser comparados.
+Nenhuma tentativa de desbloqueio/fechamento ou gravacao foi realizada.
+Nao e possivel garantir que o processo externo nao alterou essas planilhas;
+a tarefa nao as alterou.
+Hashes iniciais disponiveis:
+connectors/excel_connector.py = F234EDD86D16AB637732438C0093FA84FD457A922044B49E6BD270074920D567
+saida.txt = C65F29EEEA5792E3CE9F91C42E0962EE2275E8BE9723738BC26E633A6CB14879
+

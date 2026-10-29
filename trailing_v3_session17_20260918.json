@@ -1,0 +1,79 @@
+{
+  "status": "COMPLETED",
+  "stage": "BROOKS_STRUCTURAL_TRAILING_DIAGNOSTICS_V3",
+  "structural_reference_stage": "BROOKS_STRUCTURAL_ADVANCE_GATE_DIAGNOSTICS_V2_1",
+  "deduplication": "EXACT_CANDLE_LAST_REVISION",
+  "tick_size": 1.0,
+  "accepted_session_count": 1,
+  "raw_samples": 285,
+  "exact_candles": 8,
+  "eligible_entry_episodes": 6,
+  "observation_count": 22,
+  "counts": {
+    "buy_history_ready": 6,
+    "buy_observations": 12,
+    "history_ready": 11,
+    "observations": 22,
+    "sell_history_ready": 5,
+    "sell_observations": 10
+  },
+  "engine_state_counts": {
+    "NO_STOP_CONTEXT": 11,
+    "PROTECTIVE_STOP_HOLD": 11
+  },
+  "blocked_reason_counts": {
+    "INSUFFICIENT_HISTORY": 11,
+    "NO_CONFIRMED_PIVOT": 11
+  },
+  "mismatch_counts": {},
+  "structural_case_count": 0,
+  "advance_case_count": 0,
+  "structural_cases": [],
+  "advance_cases": [],
+  "sessions": [
+    {
+      "raw_samples": 285,
+      "exact_candles": 8,
+      "eligible_entry_episodes": 6,
+      "observation_count": 22,
+      "counts": {
+        "buy_history_ready": 6,
+        "buy_observations": 12,
+        "history_ready": 11,
+        "observations": 22,
+        "sell_history_ready": 5,
+        "sell_observations": 10
+      },
+      "engine_state_counts": {
+        "NO_STOP_CONTEXT": 11,
+        "PROTECTIVE_STOP_HOLD": 11
+      },
+      "blocked_reason_counts": {
+        "INSUFFICIENT_HISTORY": 11,
+        "NO_CONFIRMED_PIVOT": 11
+      },
+      "mismatch_counts": {},
+      "structural_case_count": 0,
+      "advance_case_count": 0,
+      "structural_cases": [],
+      "advance_cases": [],
+      "session_index": 0,
+      "source": "data\\profit_rtd_brooks_selection\\profit_rtd_rc54_3_2_WINV26_20260918_104649.json"
+    }
+  ],
+  "research_only": true,
+  "diagnostic_only": true,
+  "observational_only": true,
+  "source_session_validity_changed": false,
+  "selection_eligibility_changed": false,
+  "oos_eligibility_changed": false,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "performance_validated": false,
+  "promotion_allowed": false,
+  "hypothesis_freeze_allowed": false
+}

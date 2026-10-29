@@ -1,0 +1,61 @@
+{
+    "status":  "COMPLETED",
+    "symbol":  "WINV26",
+    "source_file":  "profit_rtd_rc54_3_2_WINV26_20260828_111206.json",
+    "source_stage":  "RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE",
+    "completed_cycles":  2,
+    "delta_threshold":  0.35,
+    "book_threshold":  0.1,
+    "direction_logic_version":  "RC35_SIGNED_DELTA",
+    "shadow_counts":  {
+                          "BULLISH_ALIGNED":  2,
+                          "BEARISH_ALIGNED":  0,
+                          "DIVERGENT":  0,
+                          "NEUTRAL":  0
+                      },
+    "changed_count":  0,
+    "observational_only":  true,
+    "score_influence_allowed":  false,
+    "decision_influence_allowed":  false,
+    "order_execution_allowed":  false,
+    "historical_reprocessing":  true,
+    "oos":  false,
+    "samples":  [
+                    {
+                        "cycle":  599,
+                        "timestamp":  "2026-08-28T11:12:04.565",
+                        "status":  "READY",
+                        "official_alignment":  "BULLISH_ALIGNED",
+                        "shadow_alignment":  "BULLISH_ALIGNED",
+                        "changed":  false,
+                        "recent_delta":  399,
+                        "dominance":  1,
+                        "imbalance":  0.106421,
+                        "delta_threshold":  0.35,
+                        "book_threshold":  0.1,
+                        "direction_logic_version":  "RC35_SIGNED_DELTA",
+                        "observational_only":  true,
+                        "score_influence_allowed":  false,
+                        "decision_influence_allowed":  false,
+                        "order_execution_allowed":  false
+                    },
+                    {
+                        "cycle":  600,
+                        "timestamp":  "2026-08-28T11:12:06.780",
+                        "status":  "READY",
+                        "official_alignment":  "BULLISH_ALIGNED",
+                        "shadow_alignment":  "BULLISH_ALIGNED",
+                        "changed":  false,
+                        "recent_delta":  399,
+                        "dominance":  1,
+                        "imbalance":  0.112878,
+                        "delta_threshold":  0.35,
+                        "book_threshold":  0.1,
+                        "direction_logic_version":  "RC35_SIGNED_DELTA",
+                        "observational_only":  true,
+                        "score_influence_allowed":  false,
+                        "decision_influence_allowed":  false,
+                        "order_execution_allowed":  false
+                    }
+                ]
+}

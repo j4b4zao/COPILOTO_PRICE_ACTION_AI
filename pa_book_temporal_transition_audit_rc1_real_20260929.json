@@ -1,0 +1,2448 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-PA-BOOK-TEMPORAL-TRANSITION-AUDIT",
+  "status": "PA_BOOK_TEMPORAL_TRANSITION_AUDIT_COMPLETED",
+  "mode": "FROZEN_10_SESSION_RETROSPECTIVE_RESEARCH_AUDIT",
+  "session_count": 10,
+  "sessions": [
+    {
+      "label": "FROZEN_SESSION_01",
+      "raw_session": {
+        "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260921_130942.json",
+        "sha256": "a85544271ff2ac693535ae6ed1e6effb033846f7f1ff63d24208d69159337427"
+      },
+      "samples": 292,
+      "raw_samples": 292,
+      "raw_prospective_positional_mapping": "VALIDATED_BY_EXACT_COUNT_AND_INDEX",
+      "simultaneous_directional_samples": 49,
+      "aligned_samples": 41,
+      "opposed_samples": 8,
+      "total_runs": 12,
+      "aligned_runs": 8,
+      "opposed_runs": 4,
+      "pair_run_counts": {
+        "BUY_BUY": 8,
+        "SELL_SELL": 0,
+        "BUY_SELL": 4,
+        "SELL_BUY": 0
+      },
+      "aligned_run_lengths": [
+        1,
+        2,
+        4,
+        1,
+        5,
+        2,
+        16,
+        10
+      ],
+      "opposed_run_lengths": [
+        5,
+        1,
+        1,
+        1
+      ],
+      "aligned_longest_run": 16,
+      "opposed_longest_run": 5,
+      "aligned_mean_run_length": 5.125,
+      "opposed_mean_run_length": 2.0,
+      "aligned_conflict_bearing_runs": 3,
+      "opposed_conflict_bearing_runs": 4,
+      "aligned_canonical_conflict_samples": 3,
+      "opposed_canonical_conflict_samples": 8,
+      "aligned_run_durations_seconds": [
+        0.0,
+        0.734,
+        3.883,
+        0.0,
+        6.629,
+        0.812,
+        23.928,
+        11.319
+      ],
+      "aligned_min_duration_seconds": 0.0,
+      "aligned_median_duration_seconds": 2.3475,
+      "aligned_mean_duration_seconds": 5.913125,
+      "aligned_max_duration_seconds": 23.928,
+      "aligned_total_observed_duration_seconds": 47.305,
+      "opposed_run_durations_seconds": [
+        4.386,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "opposed_min_duration_seconds": 0.0,
+      "opposed_median_duration_seconds": 0.0,
+      "opposed_mean_duration_seconds": 1.0965,
+      "opposed_max_duration_seconds": 4.386,
+      "opposed_total_observed_duration_seconds": 4.386,
+      "runs": [
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 17,
+          "end_index": 21,
+          "length": 5,
+          "canonical_conflict_samples": 5,
+          "start_timestamp": "2026-09-21T13:02:30.521",
+          "end_timestamp": "2026-09-21T13:02:34.907",
+          "start_cycle": 41,
+          "end_cycle": 47,
+          "observed_duration_seconds": 4.386
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 115,
+          "end_index": 115,
+          "length": 1,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T13:05:02.793",
+          "end_timestamp": "2026-09-21T13:05:02.793",
+          "start_cycle": 248,
+          "end_cycle": 248,
+          "observed_duration_seconds": 0.0
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 121,
+          "end_index": 122,
+          "length": 2,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-21T13:05:14.549",
+          "end_timestamp": "2026-09-21T13:05:15.283",
+          "start_cycle": 264,
+          "end_cycle": 265,
+          "observed_duration_seconds": 0.734
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 124,
+          "end_index": 127,
+          "length": 4,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-21T13:05:18.979",
+          "end_timestamp": "2026-09-21T13:05:22.862",
+          "start_cycle": 270,
+          "end_cycle": 275,
+          "observed_duration_seconds": 3.883
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 148,
+          "end_index": 148,
+          "length": 1,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-21T13:05:59.086",
+          "end_timestamp": "2026-09-21T13:05:59.086",
+          "start_cycle": 324,
+          "end_cycle": 324,
+          "observed_duration_seconds": 0.0
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 157,
+          "end_index": 161,
+          "length": 5,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-21T13:06:12.864",
+          "end_timestamp": "2026-09-21T13:06:19.493",
+          "start_cycle": 343,
+          "end_cycle": 352,
+          "observed_duration_seconds": 6.629
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 178,
+          "end_index": 179,
+          "length": 2,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-21T13:06:46.644",
+          "end_timestamp": "2026-09-21T13:06:47.456",
+          "start_cycle": 389,
+          "end_cycle": 390,
+          "observed_duration_seconds": 0.812
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 182,
+          "end_index": 197,
+          "length": 16,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T13:06:53.181",
+          "end_timestamp": "2026-09-21T13:07:17.109",
+          "start_cycle": 398,
+          "end_cycle": 429,
+          "observed_duration_seconds": 23.928
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 207,
+          "end_index": 216,
+          "length": 10,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T13:07:32.746",
+          "end_timestamp": "2026-09-21T13:07:44.065",
+          "start_cycle": 449,
+          "end_cycle": 462,
+          "observed_duration_seconds": 11.319
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 217,
+          "end_index": 217,
+          "length": 1,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T13:07:46.265",
+          "end_timestamp": "2026-09-21T13:07:46.265",
+          "start_cycle": 463,
+          "end_cycle": 463,
+          "observed_duration_seconds": 0.0
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 246,
+          "end_index": 246,
+          "length": 1,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T13:08:31.145",
+          "end_timestamp": "2026-09-21T13:08:31.145",
+          "start_cycle": 517,
+          "end_cycle": 517,
+          "observed_duration_seconds": 0.0
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 261,
+          "end_index": 261,
+          "length": 1,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T13:08:57.083",
+          "end_timestamp": "2026-09-21T13:08:57.083",
+          "start_cycle": 547,
+          "end_cycle": 547,
+          "observed_duration_seconds": 0.0
+        }
+      ],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      },
+      "duration_definition": {
+        "unit": "SECONDS",
+        "source": "TOP_LEVEL_RAW_SAMPLE_TIMESTAMP_BY_EXACT_POSITIONAL_INDEX",
+        "formula": "LAST_RAW_TIMESTAMP_MINUS_FIRST_RAW_TIMESTAMP",
+        "single_sample_run_duration_seconds": 0.0,
+        "single_sample_zero_means_no_observed_between_sample_interval": true
+      },
+      "transitions": [
+        {
+          "session": "FROZEN_SESSION_01",
+          "previous_run": 1,
+          "next_run": 2,
+          "gap_samples": 93,
+          "gap_seconds": 147.886,
+          "previous_relation": "OPPOSED",
+          "previous_pair": "BUY_SELL",
+          "previous_canonical_conflict_samples": 5,
+          "next_relation": "ALIGNED",
+          "next_pair": "BUY_BUY",
+          "next_canonical_conflict_samples": 1,
+          "previous_end_index": 21,
+          "next_start_index": 115,
+          "previous_end_timestamp": "2026-09-21T13:02:34.907",
+          "next_start_timestamp": "2026-09-21T13:05:02.793"
+        },
+        {
+          "session": "FROZEN_SESSION_01",
+          "previous_run": 2,
+          "next_run": 3,
+          "gap_samples": 5,
+          "gap_seconds": 11.756,
+          "previous_relation": "ALIGNED",
+          "previous_pair": "BUY_BUY",
+          "previous_canonical_conflict_samples": 1,
+          "next_relation": "ALIGNED",
+          "next_pair": "BUY_BUY",
+          "next_canonical_conflict_samples": 0,
+          "previous_end_index": 115,
+          "next_start_index": 121,
+          "previous_end_timestamp": "2026-09-21T13:05:02.793",
+          "next_start_timestamp": "2026-09-21T13:05:14.549"
+        },
+        {
+          "session": "FROZEN_SESSION_01",
+          "previous_run": 3,
+          "next_run": 4,
+          "gap_samples": 1,
+          "gap_seconds": 3.696,
+          "previous_relation": "ALIGNED",
+          "previous_pair": "BUY_BUY",
+          "previous_canonical_conflict_samples": 0,
+          "next_relation": "ALIGNED",
+          "next_pair": "BUY_BUY",
+          "next_canonical_conflict_samples": 0,
+          "previous_end_index": 122,
+          "next_start_index": 124,
+          "previous_end_timestamp": "2026-09-21T13:05:15.283",
+          "next_start_timestamp": "2026-09-21T13:05:18.979"
+        },
+        {
+          "session": "FROZEN_SESSION_01",
+          "previous_run": 4,
+          "next_run": 5,
+          "gap_samples": 20,
+          "gap_seconds": 36.224,
+          "previous_relation": "ALIGNED",
+          "previous_pair": "BUY_BUY",
+          "previous_canonical_conflict_samples": 0,
+          "next_relation": "ALIGNED",
+          "next_pair": "BUY_BUY",
+          "next_canonical_conflict_samples": 0,
+          "previous_end_index": 127,
+          "next_start_index": 148,
+          "previous_end_timestamp": "2026-09-21T13:05:22.862",
+          "next_start_timestamp": "2026-09-21T13:05:59.086"
+        },
+        {
+          "session": "FROZEN_SESSION_01",
+          "previous_run": 5,
+          "next_run": 6,
+          "gap_samples": 8,
+          "gap_seconds": 13.778,
+          "previous_relation": "ALIGNED",
+          "previous_pair": "BUY_BUY",
+          "previous_canonical_conflict_samples": 0,
+          "next_relation": "ALIGNED",
+          "next_pair": "BUY_BUY",
+          "next_canonical_conflict_samples": 0,
+          "previous_end_index": 148,
+          "next_start_index": 157,
+          "previous_end_timestamp": "2026-09-21T13:05:59.086",
+          "next_start_timestamp": "2026-09-21T13:06:12.864"
+        },
+        {
+          "session": "FROZEN_SESSION_01",
+          "previous_run": 6,
+          "next_run": 7,
+          "gap_samples": 16,
+          "gap_seconds": 27.151,
+          "previous_relation": "ALIGNED",
+          "previous_pair": "BUY_BUY",
+          "previous_canonical_conflict_samples": 0,
+          "next_relation": "ALIGNED",
+          "next_pair": "BUY_BUY",
+          "next_canonical_conflict_samples": 0,
+          "previous_end_index": 161,
+          "next_start_index": 178,
+          "previous_end_timestamp": "2026-09-21T13:06:19.493",
+          "next_start_timestamp": "2026-09-21T13:06:46.644"
+        },
+        {
+          "session": "FROZEN_SESSION_01",
+          "previous_run": 7,
+          "next_run": 8,
+          "gap_samples": 2,
+          "gap_seconds": 5.725,
+          "previous_relation": "ALIGNED",
+          "previous_pair": "BUY_BUY",
+          "previous_canonical_conflict_samples": 0,
+          "next_relation": "ALIGNED",
+          "next_pair": "BUY_BUY",
+          "next_canonical_conflict_samples": 1,
+          "previous_end_index": 179,
+          "next_start_index": 182,
+          "previous_end_timestamp": "2026-09-21T13:06:47.456",
+          "next_start_timestamp": "2026-09-21T13:06:53.181"
+        },
+        {
+          "session": "FROZEN_SESSION_01",
+          "previous_run": 8,
+          "next_run": 9,
+          "gap_samples": 9,
+          "gap_seconds": 15.637,
+          "previous_relation": "ALIGNED",
+          "previous_pair": "BUY_BUY",
+          "previous_canonical_conflict_samples": 1,
+          "next_relation": "ALIGNED",
+          "next_pair": "BUY_BUY",
+          "next_canonical_conflict_samples": 1,
+          "previous_end_index": 197,
+          "next_start_index": 207,
+          "previous_end_timestamp": "2026-09-21T13:07:17.109",
+          "next_start_timestamp": "2026-09-21T13:07:32.746"
+        },
+        {
+          "session": "FROZEN_SESSION_01",
+          "previous_run": 9,
+          "next_run": 10,
+          "gap_samples": 0,
+          "gap_seconds": 2.2,
+          "previous_relation": "ALIGNED",
+          "previous_pair": "BUY_BUY",
+          "previous_canonical_conflict_samples": 1,
+          "next_relation": "OPPOSED",
+          "next_pair": "BUY_SELL",
+          "next_canonical_conflict_samples": 1,
+          "previous_end_index": 216,
+          "next_start_index": 217,
+          "previous_end_timestamp": "2026-09-21T13:07:44.065",
+          "next_start_timestamp": "2026-09-21T13:07:46.265"
+        },
+        {
+          "session": "FROZEN_SESSION_01",
+          "previous_run": 10,
+          "next_run": 11,
+          "gap_samples": 28,
+          "gap_seconds": 44.88,
+          "previous_relation": "OPPOSED",
+          "previous_pair": "BUY_SELL",
+          "previous_canonical_conflict_samples": 1,
+          "next_relation": "OPPOSED",
+          "next_pair": "BUY_SELL",
+          "next_canonical_conflict_samples": 1,
+          "previous_end_index": 217,
+          "next_start_index": 246,
+          "previous_end_timestamp": "2026-09-21T13:07:46.265",
+          "next_start_timestamp": "2026-09-21T13:08:31.145"
+        },
+        {
+          "session": "FROZEN_SESSION_01",
+          "previous_run": 11,
+          "next_run": 12,
+          "gap_samples": 14,
+          "gap_seconds": 25.938,
+          "previous_relation": "OPPOSED",
+          "previous_pair": "BUY_SELL",
+          "previous_canonical_conflict_samples": 1,
+          "next_relation": "OPPOSED",
+          "next_pair": "BUY_SELL",
+          "next_canonical_conflict_samples": 1,
+          "previous_end_index": 246,
+          "next_start_index": 261,
+          "previous_end_timestamp": "2026-09-21T13:08:31.145",
+          "next_start_timestamp": "2026-09-21T13:08:57.083"
+        }
+      ]
+    },
+    {
+      "label": "FROZEN_SESSION_02",
+      "raw_session": {
+        "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260921_163046.json",
+        "sha256": "a3b74ad03c9338d28e0d81cf261e0c6d70d49ff4d20ca14e623695562ab90aa4"
+      },
+      "samples": 343,
+      "raw_samples": 343,
+      "raw_prospective_positional_mapping": "VALIDATED_BY_EXACT_COUNT_AND_INDEX",
+      "simultaneous_directional_samples": 150,
+      "aligned_samples": 64,
+      "opposed_samples": 86,
+      "total_runs": 10,
+      "aligned_runs": 2,
+      "opposed_runs": 8,
+      "pair_run_counts": {
+        "BUY_BUY": 2,
+        "SELL_SELL": 0,
+        "BUY_SELL": 8,
+        "SELL_BUY": 0
+      },
+      "aligned_run_lengths": [
+        51,
+        13
+      ],
+      "opposed_run_lengths": [
+        11,
+        22,
+        1,
+        1,
+        20,
+        1,
+        19,
+        11
+      ],
+      "aligned_longest_run": 51,
+      "opposed_longest_run": 22,
+      "aligned_mean_run_length": 32.0,
+      "opposed_mean_run_length": 10.75,
+      "aligned_conflict_bearing_runs": 2,
+      "opposed_conflict_bearing_runs": 8,
+      "aligned_canonical_conflict_samples": 4,
+      "opposed_canonical_conflict_samples": 86,
+      "aligned_run_durations_seconds": [
+        78.254,
+        17.953
+      ],
+      "aligned_min_duration_seconds": 17.953,
+      "aligned_median_duration_seconds": 48.103500000000004,
+      "aligned_mean_duration_seconds": 48.103500000000004,
+      "aligned_max_duration_seconds": 78.254,
+      "aligned_total_observed_duration_seconds": 96.207,
+      "opposed_run_durations_seconds": [
+        12.719,
+        33.327,
+        0.0,
+        0.0,
+        25.828,
+        0.0,
+        28.505,
+        12.673
+      ],
+      "opposed_min_duration_seconds": 0.0,
+      "opposed_median_duration_seconds": 12.696,
+      "opposed_mean_duration_seconds": 14.131499999999999,
+      "opposed_max_duration_seconds": 33.327,
+      "opposed_total_observed_duration_seconds": 113.052,
+      "runs": [
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 17,
+          "end_index": 27,
+          "length": 11,
+          "canonical_conflict_samples": 11,
+          "start_timestamp": "2026-09-21T16:22:30.870",
+          "end_timestamp": "2026-09-21T16:22:43.589",
+          "start_cycle": 37,
+          "end_cycle": 51,
+          "observed_duration_seconds": 12.719
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 33,
+          "end_index": 54,
+          "length": 22,
+          "canonical_conflict_samples": 22,
+          "start_timestamp": "2026-09-21T16:22:55.646",
+          "end_timestamp": "2026-09-21T16:23:28.973",
+          "start_cycle": 63,
+          "end_cycle": 98,
+          "observed_duration_seconds": 33.327
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 94,
+          "end_index": 94,
+          "length": 1,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T16:24:29.431",
+          "end_timestamp": "2026-09-21T16:24:29.431",
+          "start_cycle": 161,
+          "end_cycle": 161,
+          "observed_duration_seconds": 0.0
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 123,
+          "end_index": 123,
+          "length": 1,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T16:25:17.342",
+          "end_timestamp": "2026-09-21T16:25:17.342",
+          "start_cycle": 218,
+          "end_cycle": 218,
+          "observed_duration_seconds": 0.0
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 154,
+          "end_index": 173,
+          "length": 20,
+          "canonical_conflict_samples": 20,
+          "start_timestamp": "2026-09-21T16:26:01.197",
+          "end_timestamp": "2026-09-21T16:26:27.025",
+          "start_cycle": 266,
+          "end_cycle": 298,
+          "observed_duration_seconds": 25.828
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 193,
+          "end_index": 193,
+          "length": 1,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T16:26:55.113",
+          "end_timestamp": "2026-09-21T16:26:55.113",
+          "start_cycle": 331,
+          "end_cycle": 331,
+          "observed_duration_seconds": 0.0
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 198,
+          "end_index": 216,
+          "length": 19,
+          "canonical_conflict_samples": 19,
+          "start_timestamp": "2026-09-21T16:27:02.908",
+          "end_timestamp": "2026-09-21T16:27:31.413",
+          "start_cycle": 340,
+          "end_cycle": 372,
+          "observed_duration_seconds": 28.505
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 235,
+          "end_index": 245,
+          "length": 11,
+          "canonical_conflict_samples": 11,
+          "start_timestamp": "2026-09-21T16:27:56.818",
+          "end_timestamp": "2026-09-21T16:28:09.491",
+          "start_cycle": 398,
+          "end_cycle": 413,
+          "observed_duration_seconds": 12.673
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 272,
+          "end_index": 322,
+          "length": 51,
+          "canonical_conflict_samples": 3,
+          "start_timestamp": "2026-09-21T16:28:58.653",
+          "end_timestamp": "2026-09-21T16:30:16.907",
+          "start_cycle": 471,
+          "end_cycle": 562,
+          "observed_duration_seconds": 78.254
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 330,
+          "end_index": 342,
+          "length": 13,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T16:30:28.775",
+          "end_timestamp": "2026-09-21T16:30:46.728",
+          "start_cycle": 577,
+          "end_cycle": 600,
+          "observed_duration_seconds": 17.953
+        }
+      ],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      },
+      "duration_definition": {
+        "unit": "SECONDS",
+        "source": "TOP_LEVEL_RAW_SAMPLE_TIMESTAMP_BY_EXACT_POSITIONAL_INDEX",
+        "formula": "LAST_RAW_TIMESTAMP_MINUS_FIRST_RAW_TIMESTAMP",
+        "single_sample_run_duration_seconds": 0.0,
+        "single_sample_zero_means_no_observed_between_sample_interval": true
+      },
+      "transitions": [
+        {
+          "session": "FROZEN_SESSION_02",
+          "previous_run": 1,
+          "next_run": 2,
+          "gap_samples": 5,
+          "gap_seconds": 12.057,
+          "previous_relation": "OPPOSED",
+          "previous_pair": "BUY_SELL",
+          "previous_canonical_conflict_samples": 11,
+          "next_relation": "OPPOSED",
+          "next_pair": "BUY_SELL",
+          "next_canonical_conflict_samples": 22,
+          "previous_end_index": 27,
+          "next_start_index": 33,
+          "previous_end_timestamp": "2026-09-21T16:22:43.589",
+          "next_start_timestamp": "2026-09-21T16:22:55.646"
+        },
+        {
+          "session": "FROZEN_SESSION_02",
+          "previous_run": 2,
+          "next_run": 3,
+          "gap_samples": 39,
+          "gap_seconds": 60.458,
+          "previous_relation": "OPPOSED",
+          "previous_pair": "BUY_SELL",
+          "previous_canonical_conflict_samples": 22,
+          "next_relation": "OPPOSED",
+          "next_pair": "BUY_SELL",
+          "next_canonical_conflict_samples": 1,
+          "previous_end_index": 54,
+          "next_start_index": 94,
+          "previous_end_timestamp": "2026-09-21T16:23:28.973",
+          "next_start_timestamp": "2026-09-21T16:24:29.431"
+        },
+        {
+          "session": "FROZEN_SESSION_02",
+          "previous_run": 3,
+          "next_run": 4,
+          "gap_samples": 28,
+          "gap_seconds": 47.911,
+          "previous_relation": "OPPOSED",
+          "previous_pair": "BUY_SELL",
+          "previous_canonical_conflict_samples": 1,
+          "next_relation": "OPPOSED",
+          "next_pair": "BUY_SELL",
+          "next_canonical_conflict_samples": 1,
+          "previous_end_index": 94,
+          "next_start_index": 123,
+          "previous_end_timestamp": "2026-09-21T16:24:29.431",
+          "next_start_timestamp": "2026-09-21T16:25:17.342"
+        },
+        {
+          "session": "FROZEN_SESSION_02",
+          "previous_run": 4,
+          "next_run": 5,
+          "gap_samples": 30,
+          "gap_seconds": 43.855,
+          "previous_relation": "OPPOSED",
+          "previous_pair": "BUY_SELL",
+          "previous_canonical_conflict_samples": 1,
+          "next_relation": "OPPOSED",
+          "next_pair": "BUY_SELL",
+          "next_canonical_conflict_samples": 20,
+          "previous_end_index": 123,
+          "next_start_index": 154,
+          "previous_end_timestamp": "2026-09-21T16:25:17.342",
+          "next_start_timestamp": "2026-09-21T16:26:01.197"
+        },
+        {
+          "session": "FROZEN_SESSION_02",
+          "previous_run": 5,
+          "next_run": 6,
+          "gap_samples": 19,
+          "gap_seconds": 28.088,
+          "previous_relation": "OPPOSED",
+          "previous_pair": "BUY_SELL",
+          "previous_canonical_conflict_samples": 20,
+          "next_relation": "OPPOSED",
+          "next_pair": "BUY_SELL",
+          "next_canonical_conflict_samples": 1,
+          "previous_end_index": 173,
+          "next_start_index": 193,
+          "previous_end_timestamp": "2026-09-21T16:26:27.025",
+          "next_start_timestamp": "2026-09-21T16:26:55.113"
+        },
+        {
+          "session": "FROZEN_SESSION_02",
+          "previous_run": 6,
+          "next_run": 7,
+          "gap_samples": 4,
+          "gap_seconds": 7.795,
+          "previous_relation": "OPPOSED",
+          "previous_pair": "BUY_SELL",
+          "previous_canonical_conflict_samples": 1,
+          "next_relation": "OPPOSED",
+          "next_pair": "BUY_SELL",
+          "next_canonical_conflict_samples": 19,
+          "previous_end_index": 193,
+          "next_start_index": 198,
+          "previous_end_timestamp": "2026-09-21T16:26:55.113",
+          "next_start_timestamp": "2026-09-21T16:27:02.908"
+        },
+        {
+          "session": "FROZEN_SESSION_02",
+          "previous_run": 7,
+          "next_run": 8,
+          "gap_samples": 18,
+          "gap_seconds": 25.405,
+          "previous_relation": "OPPOSED",
+          "previous_pair": "BUY_SELL",
+          "previous_canonical_conflict_samples": 19,
+          "next_relation": "OPPOSED",
+          "next_pair": "BUY_SELL",
+          "next_canonical_conflict_samples": 11,
+          "previous_end_index": 216,
+          "next_start_index": 235,
+          "previous_end_timestamp": "2026-09-21T16:27:31.413",
+          "next_start_timestamp": "2026-09-21T16:27:56.818"
+        },
+        {
+          "session": "FROZEN_SESSION_02",
+          "previous_run": 8,
+          "next_run": 9,
+          "gap_samples": 26,
+          "gap_seconds": 49.162,
+          "previous_relation": "OPPOSED",
+          "previous_pair": "BUY_SELL",
+          "previous_canonical_conflict_samples": 11,
+          "next_relation": "ALIGNED",
+          "next_pair": "BUY_BUY",
+          "next_canonical_conflict_samples": 3,
+          "previous_end_index": 245,
+          "next_start_index": 272,
+          "previous_end_timestamp": "2026-09-21T16:28:09.491",
+          "next_start_timestamp": "2026-09-21T16:28:58.653"
+        },
+        {
+          "session": "FROZEN_SESSION_02",
+          "previous_run": 9,
+          "next_run": 10,
+          "gap_samples": 7,
+          "gap_seconds": 11.868,
+          "previous_relation": "ALIGNED",
+          "previous_pair": "BUY_BUY",
+          "previous_canonical_conflict_samples": 3,
+          "next_relation": "ALIGNED",
+          "next_pair": "BUY_BUY",
+          "next_canonical_conflict_samples": 1,
+          "previous_end_index": 322,
+          "next_start_index": 330,
+          "previous_end_timestamp": "2026-09-21T16:30:16.907",
+          "next_start_timestamp": "2026-09-21T16:30:28.775"
+        }
+      ]
+    },
+    {
+      "label": "FROZEN_SESSION_03",
+      "raw_session": {
+        "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260922_130220.json",
+        "sha256": "7c98319547891f0d53575fe8956e872b9b9681626b31b48ed26b25b62e6d56cd"
+      },
+      "samples": 268,
+      "raw_samples": 268,
+      "raw_prospective_positional_mapping": "VALIDATED_BY_EXACT_COUNT_AND_INDEX",
+      "simultaneous_directional_samples": 1,
+      "aligned_samples": 1,
+      "opposed_samples": 0,
+      "total_runs": 1,
+      "aligned_runs": 1,
+      "opposed_runs": 0,
+      "pair_run_counts": {
+        "BUY_BUY": 1,
+        "SELL_SELL": 0,
+        "BUY_SELL": 0,
+        "SELL_BUY": 0
+      },
+      "aligned_run_lengths": [
+        1
+      ],
+      "opposed_run_lengths": [],
+      "aligned_longest_run": 1,
+      "opposed_longest_run": 0,
+      "aligned_mean_run_length": 1.0,
+      "opposed_mean_run_length": null,
+      "aligned_conflict_bearing_runs": 0,
+      "opposed_conflict_bearing_runs": 0,
+      "aligned_canonical_conflict_samples": 0,
+      "opposed_canonical_conflict_samples": 0,
+      "aligned_run_durations_seconds": [
+        0.0
+      ],
+      "aligned_min_duration_seconds": 0.0,
+      "aligned_median_duration_seconds": 0.0,
+      "aligned_mean_duration_seconds": 0.0,
+      "aligned_max_duration_seconds": 0.0,
+      "aligned_total_observed_duration_seconds": 0.0,
+      "opposed_run_durations_seconds": [],
+      "opposed_min_duration_seconds": null,
+      "opposed_median_duration_seconds": null,
+      "opposed_mean_duration_seconds": null,
+      "opposed_max_duration_seconds": null,
+      "opposed_total_observed_duration_seconds": 0.0,
+      "runs": [
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 147,
+          "end_index": 147,
+          "length": 1,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-22T12:59:01.791",
+          "end_timestamp": "2026-09-22T12:59:01.791",
+          "start_cycle": 321,
+          "end_cycle": 321,
+          "observed_duration_seconds": 0.0
+        }
+      ],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      },
+      "duration_definition": {
+        "unit": "SECONDS",
+        "source": "TOP_LEVEL_RAW_SAMPLE_TIMESTAMP_BY_EXACT_POSITIONAL_INDEX",
+        "formula": "LAST_RAW_TIMESTAMP_MINUS_FIRST_RAW_TIMESTAMP",
+        "single_sample_run_duration_seconds": 0.0,
+        "single_sample_zero_means_no_observed_between_sample_interval": true
+      },
+      "transitions": []
+    },
+    {
+      "label": "FROZEN_SESSION_04",
+      "raw_session": {
+        "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_103430.json",
+        "sha256": "137a74aeaa3d167e49c82203d738fbbac0d1a0c25797630b750dfcb9804b735b"
+      },
+      "samples": 279,
+      "raw_samples": 279,
+      "raw_prospective_positional_mapping": "VALIDATED_BY_EXACT_COUNT_AND_INDEX",
+      "simultaneous_directional_samples": 48,
+      "aligned_samples": 0,
+      "opposed_samples": 48,
+      "total_runs": 5,
+      "aligned_runs": 0,
+      "opposed_runs": 5,
+      "pair_run_counts": {
+        "BUY_BUY": 0,
+        "SELL_SELL": 0,
+        "BUY_SELL": 0,
+        "SELL_BUY": 5
+      },
+      "aligned_run_lengths": [],
+      "opposed_run_lengths": [
+        15,
+        18,
+        2,
+        11,
+        2
+      ],
+      "aligned_longest_run": 0,
+      "opposed_longest_run": 18,
+      "aligned_mean_run_length": null,
+      "opposed_mean_run_length": 9.6,
+      "aligned_conflict_bearing_runs": 0,
+      "opposed_conflict_bearing_runs": 5,
+      "aligned_canonical_conflict_samples": 0,
+      "opposed_canonical_conflict_samples": 48,
+      "aligned_run_durations_seconds": [],
+      "aligned_min_duration_seconds": null,
+      "aligned_median_duration_seconds": null,
+      "aligned_mean_duration_seconds": null,
+      "aligned_max_duration_seconds": null,
+      "aligned_total_observed_duration_seconds": 0.0,
+      "opposed_run_durations_seconds": [
+        19.736,
+        29.715,
+        1.397,
+        14.014,
+        1.018
+      ],
+      "opposed_min_duration_seconds": 1.018,
+      "opposed_median_duration_seconds": 14.014,
+      "opposed_mean_duration_seconds": 13.176,
+      "opposed_max_duration_seconds": 29.715,
+      "opposed_total_observed_duration_seconds": 65.88,
+      "runs": [
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 15,
+          "end_index": 29,
+          "length": 15,
+          "canonical_conflict_samples": 15,
+          "start_timestamp": "2026-09-23T10:27:25.221",
+          "end_timestamp": "2026-09-23T10:27:44.957",
+          "start_cycle": 36,
+          "end_cycle": 61,
+          "observed_duration_seconds": 19.736
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 227,
+          "end_index": 244,
+          "length": 18,
+          "canonical_conflict_samples": 18,
+          "start_timestamp": "2026-09-23T10:33:03.173",
+          "end_timestamp": "2026-09-23T10:33:32.888",
+          "start_cycle": 485,
+          "end_cycle": 524,
+          "observed_duration_seconds": 29.715
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 251,
+          "end_index": 252,
+          "length": 2,
+          "canonical_conflict_samples": 2,
+          "start_timestamp": "2026-09-23T10:33:45.450",
+          "end_timestamp": "2026-09-23T10:33:46.847",
+          "start_cycle": 540,
+          "end_cycle": 542,
+          "observed_duration_seconds": 1.397
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 258,
+          "end_index": 268,
+          "length": 11,
+          "canonical_conflict_samples": 11,
+          "start_timestamp": "2026-09-23T10:33:59.405",
+          "end_timestamp": "2026-09-23T10:34:13.419",
+          "start_cycle": 560,
+          "end_cycle": 578,
+          "observed_duration_seconds": 14.014
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 272,
+          "end_index": 273,
+          "length": 2,
+          "canonical_conflict_samples": 2,
+          "start_timestamp": "2026-09-23T10:34:20.737",
+          "end_timestamp": "2026-09-23T10:34:21.755",
+          "start_cycle": 588,
+          "end_cycle": 589,
+          "observed_duration_seconds": 1.018
+        }
+      ],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      },
+      "duration_definition": {
+        "unit": "SECONDS",
+        "source": "TOP_LEVEL_RAW_SAMPLE_TIMESTAMP_BY_EXACT_POSITIONAL_INDEX",
+        "formula": "LAST_RAW_TIMESTAMP_MINUS_FIRST_RAW_TIMESTAMP",
+        "single_sample_run_duration_seconds": 0.0,
+        "single_sample_zero_means_no_observed_between_sample_interval": true
+      },
+      "transitions": [
+        {
+          "session": "FROZEN_SESSION_04",
+          "previous_run": 1,
+          "next_run": 2,
+          "gap_samples": 197,
+          "gap_seconds": 318.216,
+          "previous_relation": "OPPOSED",
+          "previous_pair": "SELL_BUY",
+          "previous_canonical_conflict_samples": 15,
+          "next_relation": "OPPOSED",
+          "next_pair": "SELL_BUY",
+          "next_canonical_conflict_samples": 18,
+          "previous_end_index": 29,
+          "next_start_index": 227,
+          "previous_end_timestamp": "2026-09-23T10:27:44.957",
+          "next_start_timestamp": "2026-09-23T10:33:03.173"
+        },
+        {
+          "session": "FROZEN_SESSION_04",
+          "previous_run": 2,
+          "next_run": 3,
+          "gap_samples": 6,
+          "gap_seconds": 12.562,
+          "previous_relation": "OPPOSED",
+          "previous_pair": "SELL_BUY",
+          "previous_canonical_conflict_samples": 18,
+          "next_relation": "OPPOSED",
+          "next_pair": "SELL_BUY",
+          "next_canonical_conflict_samples": 2,
+          "previous_end_index": 244,
+          "next_start_index": 251,
+          "previous_end_timestamp": "2026-09-23T10:33:32.888",
+          "next_start_timestamp": "2026-09-23T10:33:45.450"
+        },
+        {
+          "session": "FROZEN_SESSION_04",
+          "previous_run": 3,
+          "next_run": 4,
+          "gap_samples": 5,
+          "gap_seconds": 12.558,
+          "previous_relation": "OPPOSED",
+          "previous_pair": "SELL_BUY",
+          "previous_canonical_conflict_samples": 2,
+          "next_relation": "OPPOSED",
+          "next_pair": "SELL_BUY",
+          "next_canonical_conflict_samples": 11,
+          "previous_end_index": 252,
+          "next_start_index": 258,
+          "previous_end_timestamp": "2026-09-23T10:33:46.847",
+          "next_start_timestamp": "2026-09-23T10:33:59.405"
+        },
+        {
+          "session": "FROZEN_SESSION_04",
+          "previous_run": 4,
+          "next_run": 5,
+          "gap_samples": 3,
+          "gap_seconds": 7.318,
+          "previous_relation": "OPPOSED",
+          "previous_pair": "SELL_BUY",
+          "previous_canonical_conflict_samples": 11,
+          "next_relation": "OPPOSED",
+          "next_pair": "SELL_BUY",
+          "next_canonical_conflict_samples": 2,
+          "previous_end_index": 268,
+          "next_start_index": 272,
+          "previous_end_timestamp": "2026-09-23T10:34:13.419",
+          "next_start_timestamp": "2026-09-23T10:34:20.737"
+        }
+      ]
+    },
+    {
+      "label": "FROZEN_SESSION_05",
+      "raw_session": {
+        "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_123103.json",
+        "sha256": "e670e7f2a7ef4c1472b0cb9ac23c9ce9cd9a85e3b46801a00d4ed2205388d1ef"
+      },
+      "samples": 266,
+      "raw_samples": 266,
+      "raw_prospective_positional_mapping": "VALIDATED_BY_EXACT_COUNT_AND_INDEX",
+      "simultaneous_directional_samples": 14,
+      "aligned_samples": 14,
+      "opposed_samples": 0,
+      "total_runs": 3,
+      "aligned_runs": 3,
+      "opposed_runs": 0,
+      "pair_run_counts": {
+        "BUY_BUY": 3,
+        "SELL_SELL": 0,
+        "BUY_SELL": 0,
+        "SELL_BUY": 0
+      },
+      "aligned_run_lengths": [
+        2,
+        7,
+        5
+      ],
+      "opposed_run_lengths": [],
+      "aligned_longest_run": 7,
+      "opposed_longest_run": 0,
+      "aligned_mean_run_length": 4.666666666666667,
+      "opposed_mean_run_length": null,
+      "aligned_conflict_bearing_runs": 0,
+      "opposed_conflict_bearing_runs": 0,
+      "aligned_canonical_conflict_samples": 0,
+      "opposed_canonical_conflict_samples": 0,
+      "aligned_run_durations_seconds": [
+        2.865,
+        9.979,
+        4.745
+      ],
+      "aligned_min_duration_seconds": 2.865,
+      "aligned_median_duration_seconds": 4.745,
+      "aligned_mean_duration_seconds": 5.8629999999999995,
+      "aligned_max_duration_seconds": 9.979,
+      "aligned_total_observed_duration_seconds": 17.589,
+      "opposed_run_durations_seconds": [],
+      "opposed_min_duration_seconds": null,
+      "opposed_median_duration_seconds": null,
+      "opposed_mean_duration_seconds": null,
+      "opposed_max_duration_seconds": null,
+      "opposed_total_observed_duration_seconds": 0.0,
+      "runs": [
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 17,
+          "end_index": 18,
+          "length": 2,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-23T12:24:28.310",
+          "end_timestamp": "2026-09-23T12:24:31.175",
+          "start_cycle": 36,
+          "end_cycle": 39,
+          "observed_duration_seconds": 2.865
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 63,
+          "end_index": 69,
+          "length": 7,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-23T12:25:36.553",
+          "end_timestamp": "2026-09-23T12:25:46.532",
+          "start_cycle": 128,
+          "end_cycle": 141,
+          "observed_duration_seconds": 9.979
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 81,
+          "end_index": 85,
+          "length": 5,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-23T12:26:08.279",
+          "end_timestamp": "2026-09-23T12:26:13.024",
+          "start_cycle": 171,
+          "end_cycle": 176,
+          "observed_duration_seconds": 4.745
+        }
+      ],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      },
+      "duration_definition": {
+        "unit": "SECONDS",
+        "source": "TOP_LEVEL_RAW_SAMPLE_TIMESTAMP_BY_EXACT_POSITIONAL_INDEX",
+        "formula": "LAST_RAW_TIMESTAMP_MINUS_FIRST_RAW_TIMESTAMP",
+        "single_sample_run_duration_seconds": 0.0,
+        "single_sample_zero_means_no_observed_between_sample_interval": true
+      },
+      "transitions": [
+        {
+          "session": "FROZEN_SESSION_05",
+          "previous_run": 1,
+          "next_run": 2,
+          "gap_samples": 44,
+          "gap_seconds": 65.378,
+          "previous_relation": "ALIGNED",
+          "previous_pair": "BUY_BUY",
+          "previous_canonical_conflict_samples": 0,
+          "next_relation": "ALIGNED",
+          "next_pair": "BUY_BUY",
+          "next_canonical_conflict_samples": 0,
+          "previous_end_index": 18,
+          "next_start_index": 63,
+          "previous_end_timestamp": "2026-09-23T12:24:31.175",
+          "next_start_timestamp": "2026-09-23T12:25:36.553"
+        },
+        {
+          "session": "FROZEN_SESSION_05",
+          "previous_run": 2,
+          "next_run": 3,
+          "gap_samples": 11,
+          "gap_seconds": 21.747,
+          "previous_relation": "ALIGNED",
+          "previous_pair": "BUY_BUY",
+          "previous_canonical_conflict_samples": 0,
+          "next_relation": "ALIGNED",
+          "next_pair": "BUY_BUY",
+          "next_canonical_conflict_samples": 0,
+          "previous_end_index": 69,
+          "next_start_index": 81,
+          "previous_end_timestamp": "2026-09-23T12:25:46.532",
+          "next_start_timestamp": "2026-09-23T12:26:08.279"
+        }
+      ]
+    },
+    {
+      "label": "FROZEN_SESSION_06",
+      "raw_session": {
+        "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_131852.json",
+        "sha256": "df5c37773747d4ae1131c15d12cea99ab9e4f07438b39b4e7d7b52cc018b827c"
+      },
+      "samples": 268,
+      "raw_samples": 268,
+      "raw_prospective_positional_mapping": "VALIDATED_BY_EXACT_COUNT_AND_INDEX",
+      "simultaneous_directional_samples": 90,
+      "aligned_samples": 90,
+      "opposed_samples": 0,
+      "total_runs": 3,
+      "aligned_runs": 3,
+      "opposed_runs": 0,
+      "pair_run_counts": {
+        "BUY_BUY": 3,
+        "SELL_SELL": 0,
+        "BUY_SELL": 0,
+        "SELL_BUY": 0
+      },
+      "aligned_run_lengths": [
+        32,
+        7,
+        51
+      ],
+      "opposed_run_lengths": [],
+      "aligned_longest_run": 51,
+      "opposed_longest_run": 0,
+      "aligned_mean_run_length": 30.0,
+      "opposed_mean_run_length": null,
+      "aligned_conflict_bearing_runs": 2,
+      "opposed_conflict_bearing_runs": 0,
+      "aligned_canonical_conflict_samples": 4,
+      "opposed_canonical_conflict_samples": 0,
+      "aligned_run_durations_seconds": [
+        53.923,
+        11.834,
+        74.783
+      ],
+      "aligned_min_duration_seconds": 11.834,
+      "aligned_median_duration_seconds": 53.923,
+      "aligned_mean_duration_seconds": 46.846666666666664,
+      "aligned_max_duration_seconds": 74.783,
+      "aligned_total_observed_duration_seconds": 140.54,
+      "opposed_run_durations_seconds": [],
+      "opposed_min_duration_seconds": null,
+      "opposed_median_duration_seconds": null,
+      "opposed_mean_duration_seconds": null,
+      "opposed_max_duration_seconds": null,
+      "opposed_total_observed_duration_seconds": 0.0,
+      "runs": [
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 0,
+          "end_index": 31,
+          "length": 32,
+          "canonical_conflict_samples": 2,
+          "start_timestamp": "2026-09-23T13:12:02.648",
+          "end_timestamp": "2026-09-23T13:12:56.571",
+          "start_cycle": 3,
+          "end_cycle": 76,
+          "observed_duration_seconds": 53.923
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 43,
+          "end_index": 49,
+          "length": 7,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-23T13:13:20.700",
+          "end_timestamp": "2026-09-23T13:13:32.534",
+          "start_cycle": 112,
+          "end_cycle": 130,
+          "observed_duration_seconds": 11.834
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 52,
+          "end_index": 102,
+          "length": 51,
+          "canonical_conflict_samples": 2,
+          "start_timestamp": "2026-09-23T13:13:38.406",
+          "end_timestamp": "2026-09-23T13:14:53.189",
+          "start_cycle": 139,
+          "end_cycle": 242,
+          "observed_duration_seconds": 74.783
+        }
+      ],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      },
+      "duration_definition": {
+        "unit": "SECONDS",
+        "source": "TOP_LEVEL_RAW_SAMPLE_TIMESTAMP_BY_EXACT_POSITIONAL_INDEX",
+        "formula": "LAST_RAW_TIMESTAMP_MINUS_FIRST_RAW_TIMESTAMP",
+        "single_sample_run_duration_seconds": 0.0,
+        "single_sample_zero_means_no_observed_between_sample_interval": true
+      },
+      "transitions": [
+        {
+          "session": "FROZEN_SESSION_06",
+          "previous_run": 1,
+          "next_run": 2,
+          "gap_samples": 11,
+          "gap_seconds": 24.129,
+          "previous_relation": "ALIGNED",
+          "previous_pair": "BUY_BUY",
+          "previous_canonical_conflict_samples": 2,
+          "next_relation": "ALIGNED",
+          "next_pair": "BUY_BUY",
+          "next_canonical_conflict_samples": 0,
+          "previous_end_index": 31,
+          "next_start_index": 43,
+          "previous_end_timestamp": "2026-09-23T13:12:56.571",
+          "next_start_timestamp": "2026-09-23T13:13:20.700"
+        },
+        {
+          "session": "FROZEN_SESSION_06",
+          "previous_run": 2,
+          "next_run": 3,
+          "gap_samples": 2,
+          "gap_seconds": 5.872,
+          "previous_relation": "ALIGNED",
+          "previous_pair": "BUY_BUY",
+          "previous_canonical_conflict_samples": 0,
+          "next_relation": "ALIGNED",
+          "next_pair": "BUY_BUY",
+          "next_canonical_conflict_samples": 2,
+          "previous_end_index": 49,
+          "next_start_index": 52,
+          "previous_end_timestamp": "2026-09-23T13:13:32.534",
+          "next_start_timestamp": "2026-09-23T13:13:38.406"
+        }
+      ]
+    },
+    {
+      "label": "FROZEN_SESSION_07",
+      "raw_session": {
+        "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_151347.json",
+        "sha256": "079038c684e952a0412d0f32c699e93b6d015359eb368ca0f5345360a98d8200"
+      },
+      "samples": 257,
+      "raw_samples": 257,
+      "raw_prospective_positional_mapping": "VALIDATED_BY_EXACT_COUNT_AND_INDEX",
+      "simultaneous_directional_samples": 4,
+      "aligned_samples": 0,
+      "opposed_samples": 4,
+      "total_runs": 1,
+      "aligned_runs": 0,
+      "opposed_runs": 1,
+      "pair_run_counts": {
+        "BUY_BUY": 0,
+        "SELL_SELL": 0,
+        "BUY_SELL": 0,
+        "SELL_BUY": 1
+      },
+      "aligned_run_lengths": [],
+      "opposed_run_lengths": [
+        4
+      ],
+      "aligned_longest_run": 0,
+      "opposed_longest_run": 4,
+      "aligned_mean_run_length": null,
+      "opposed_mean_run_length": 4.0,
+      "aligned_conflict_bearing_runs": 0,
+      "opposed_conflict_bearing_runs": 1,
+      "aligned_canonical_conflict_samples": 0,
+      "opposed_canonical_conflict_samples": 4,
+      "aligned_run_durations_seconds": [],
+      "aligned_min_duration_seconds": null,
+      "aligned_median_duration_seconds": null,
+      "aligned_mean_duration_seconds": null,
+      "aligned_max_duration_seconds": null,
+      "aligned_total_observed_duration_seconds": 0.0,
+      "opposed_run_durations_seconds": [
+        4.306
+      ],
+      "opposed_min_duration_seconds": 4.306,
+      "opposed_median_duration_seconds": 4.306,
+      "opposed_mean_duration_seconds": 4.306,
+      "opposed_max_duration_seconds": 4.306,
+      "opposed_total_observed_duration_seconds": 4.306,
+      "runs": [
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 135,
+          "end_index": 138,
+          "length": 4,
+          "canonical_conflict_samples": 4,
+          "start_timestamp": "2026-09-23T15:10:34.407",
+          "end_timestamp": "2026-09-23T15:10:38.713",
+          "start_cycle": 315,
+          "end_cycle": 321,
+          "observed_duration_seconds": 4.306
+        }
+      ],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      },
+      "duration_definition": {
+        "unit": "SECONDS",
+        "source": "TOP_LEVEL_RAW_SAMPLE_TIMESTAMP_BY_EXACT_POSITIONAL_INDEX",
+        "formula": "LAST_RAW_TIMESTAMP_MINUS_FIRST_RAW_TIMESTAMP",
+        "single_sample_run_duration_seconds": 0.0,
+        "single_sample_zero_means_no_observed_between_sample_interval": true
+      },
+      "transitions": []
+    },
+    {
+      "label": "FROZEN_SESSION_08",
+      "raw_session": {
+        "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260924_164534.json",
+        "sha256": "403fc536ce8659708c2abdef09bc07dd895e32ce15a8d6b33e1b5a237657eeb8"
+      },
+      "samples": 241,
+      "raw_samples": 241,
+      "raw_prospective_positional_mapping": "VALIDATED_BY_EXACT_COUNT_AND_INDEX",
+      "simultaneous_directional_samples": 0,
+      "aligned_samples": 0,
+      "opposed_samples": 0,
+      "total_runs": 0,
+      "aligned_runs": 0,
+      "opposed_runs": 0,
+      "pair_run_counts": {
+        "BUY_BUY": 0,
+        "SELL_SELL": 0,
+        "BUY_SELL": 0,
+        "SELL_BUY": 0
+      },
+      "aligned_run_lengths": [],
+      "opposed_run_lengths": [],
+      "aligned_longest_run": 0,
+      "opposed_longest_run": 0,
+      "aligned_mean_run_length": null,
+      "opposed_mean_run_length": null,
+      "aligned_conflict_bearing_runs": 0,
+      "opposed_conflict_bearing_runs": 0,
+      "aligned_canonical_conflict_samples": 0,
+      "opposed_canonical_conflict_samples": 0,
+      "aligned_run_durations_seconds": [],
+      "aligned_min_duration_seconds": null,
+      "aligned_median_duration_seconds": null,
+      "aligned_mean_duration_seconds": null,
+      "aligned_max_duration_seconds": null,
+      "aligned_total_observed_duration_seconds": 0.0,
+      "opposed_run_durations_seconds": [],
+      "opposed_min_duration_seconds": null,
+      "opposed_median_duration_seconds": null,
+      "opposed_mean_duration_seconds": null,
+      "opposed_max_duration_seconds": null,
+      "opposed_total_observed_duration_seconds": 0.0,
+      "runs": [],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      },
+      "duration_definition": {
+        "unit": "SECONDS",
+        "source": "TOP_LEVEL_RAW_SAMPLE_TIMESTAMP_BY_EXACT_POSITIONAL_INDEX",
+        "formula": "LAST_RAW_TIMESTAMP_MINUS_FIRST_RAW_TIMESTAMP",
+        "single_sample_run_duration_seconds": 0.0,
+        "single_sample_zero_means_no_observed_between_sample_interval": true
+      },
+      "transitions": []
+    },
+    {
+      "label": "FROZEN_SESSION_09",
+      "raw_session": {
+        "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260925_124732.json",
+        "sha256": "ede8e44c46e31185efe325690db5fcce6110bdae0cf9a78fdd0936ac78b4132f"
+      },
+      "samples": 289,
+      "raw_samples": 289,
+      "raw_prospective_positional_mapping": "VALIDATED_BY_EXACT_COUNT_AND_INDEX",
+      "simultaneous_directional_samples": 0,
+      "aligned_samples": 0,
+      "opposed_samples": 0,
+      "total_runs": 0,
+      "aligned_runs": 0,
+      "opposed_runs": 0,
+      "pair_run_counts": {
+        "BUY_BUY": 0,
+        "SELL_SELL": 0,
+        "BUY_SELL": 0,
+        "SELL_BUY": 0
+      },
+      "aligned_run_lengths": [],
+      "opposed_run_lengths": [],
+      "aligned_longest_run": 0,
+      "opposed_longest_run": 0,
+      "aligned_mean_run_length": null,
+      "opposed_mean_run_length": null,
+      "aligned_conflict_bearing_runs": 0,
+      "opposed_conflict_bearing_runs": 0,
+      "aligned_canonical_conflict_samples": 0,
+      "opposed_canonical_conflict_samples": 0,
+      "aligned_run_durations_seconds": [],
+      "aligned_min_duration_seconds": null,
+      "aligned_median_duration_seconds": null,
+      "aligned_mean_duration_seconds": null,
+      "aligned_max_duration_seconds": null,
+      "aligned_total_observed_duration_seconds": 0.0,
+      "opposed_run_durations_seconds": [],
+      "opposed_min_duration_seconds": null,
+      "opposed_median_duration_seconds": null,
+      "opposed_mean_duration_seconds": null,
+      "opposed_max_duration_seconds": null,
+      "opposed_total_observed_duration_seconds": 0.0,
+      "runs": [],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      },
+      "duration_definition": {
+        "unit": "SECONDS",
+        "source": "TOP_LEVEL_RAW_SAMPLE_TIMESTAMP_BY_EXACT_POSITIONAL_INDEX",
+        "formula": "LAST_RAW_TIMESTAMP_MINUS_FIRST_RAW_TIMESTAMP",
+        "single_sample_run_duration_seconds": 0.0,
+        "single_sample_zero_means_no_observed_between_sample_interval": true
+      },
+      "transitions": []
+    },
+    {
+      "label": "FROZEN_SESSION_10",
+      "raw_session": {
+        "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260925_133534.json",
+        "sha256": "1034540eb18f5389d105360619913afbcab2ce705472dcb2d68e4b569def91c3"
+      },
+      "samples": 243,
+      "raw_samples": 243,
+      "raw_prospective_positional_mapping": "VALIDATED_BY_EXACT_COUNT_AND_INDEX",
+      "simultaneous_directional_samples": 0,
+      "aligned_samples": 0,
+      "opposed_samples": 0,
+      "total_runs": 0,
+      "aligned_runs": 0,
+      "opposed_runs": 0,
+      "pair_run_counts": {
+        "BUY_BUY": 0,
+        "SELL_SELL": 0,
+        "BUY_SELL": 0,
+        "SELL_BUY": 0
+      },
+      "aligned_run_lengths": [],
+      "opposed_run_lengths": [],
+      "aligned_longest_run": 0,
+      "opposed_longest_run": 0,
+      "aligned_mean_run_length": null,
+      "opposed_mean_run_length": null,
+      "aligned_conflict_bearing_runs": 0,
+      "opposed_conflict_bearing_runs": 0,
+      "aligned_canonical_conflict_samples": 0,
+      "opposed_canonical_conflict_samples": 0,
+      "aligned_run_durations_seconds": [],
+      "aligned_min_duration_seconds": null,
+      "aligned_median_duration_seconds": null,
+      "aligned_mean_duration_seconds": null,
+      "aligned_max_duration_seconds": null,
+      "aligned_total_observed_duration_seconds": 0.0,
+      "opposed_run_durations_seconds": [],
+      "opposed_min_duration_seconds": null,
+      "opposed_median_duration_seconds": null,
+      "opposed_mean_duration_seconds": null,
+      "opposed_max_duration_seconds": null,
+      "opposed_total_observed_duration_seconds": 0.0,
+      "runs": [],
+      "run_definition": {
+        "unit": "RUN",
+        "requires_simultaneous_directionality": true,
+        "requires_immediate_index_contiguity": true,
+        "requires_same_exact_pa_book_pair": true,
+        "none_breaks_run": true,
+        "gap_breaks_run": true,
+        "pair_change_breaks_run": true,
+        "canonical_conflict_does_not_define_run": true
+      },
+      "duration_definition": {
+        "unit": "SECONDS",
+        "source": "TOP_LEVEL_RAW_SAMPLE_TIMESTAMP_BY_EXACT_POSITIONAL_INDEX",
+        "formula": "LAST_RAW_TIMESTAMP_MINUS_FIRST_RAW_TIMESTAMP",
+        "single_sample_run_duration_seconds": 0.0,
+        "single_sample_zero_means_no_observed_between_sample_interval": true
+      },
+      "transitions": []
+    }
+  ],
+  "aggregate": {
+    "samples": 2746,
+    "simultaneous_directional_samples": 356,
+    "aligned_samples": 210,
+    "opposed_samples": 146,
+    "total_runs": 35,
+    "aligned_runs": 17,
+    "opposed_runs": 18,
+    "pair_run_counts": {
+      "BUY_BUY": 17,
+      "SELL_SELL": 0,
+      "BUY_SELL": 12,
+      "SELL_BUY": 6
+    },
+    "aligned_run_lengths": [
+      1,
+      2,
+      4,
+      1,
+      5,
+      2,
+      16,
+      10,
+      51,
+      13,
+      1,
+      2,
+      7,
+      5,
+      32,
+      7,
+      51
+    ],
+    "opposed_run_lengths": [
+      5,
+      1,
+      1,
+      1,
+      11,
+      22,
+      1,
+      1,
+      20,
+      1,
+      19,
+      11,
+      15,
+      18,
+      2,
+      11,
+      2,
+      4
+    ],
+    "aligned_longest_run": 51,
+    "opposed_longest_run": 22,
+    "aligned_mean_run_length": 12.352941176470589,
+    "opposed_mean_run_length": 8.11111111111111,
+    "aligned_conflict_bearing_runs": 7,
+    "opposed_conflict_bearing_runs": 18,
+    "aligned_canonical_conflict_samples": 11,
+    "opposed_canonical_conflict_samples": 146,
+    "aligned_run_durations_seconds": [
+      0.0,
+      0.734,
+      3.883,
+      0.0,
+      6.629,
+      0.812,
+      23.928,
+      11.319,
+      78.254,
+      17.953,
+      0.0,
+      2.865,
+      9.979,
+      4.745,
+      53.923,
+      11.834,
+      74.783
+    ],
+    "aligned_min_duration_seconds": 0.0,
+    "aligned_median_duration_seconds": 6.629,
+    "aligned_mean_duration_seconds": 17.74358823529412,
+    "aligned_max_duration_seconds": 78.254,
+    "aligned_total_observed_duration_seconds": 301.641,
+    "opposed_run_durations_seconds": [
+      4.386,
+      0.0,
+      0.0,
+      0.0,
+      12.719,
+      33.327,
+      0.0,
+      0.0,
+      25.828,
+      0.0,
+      28.505,
+      12.673,
+      19.736,
+      29.715,
+      1.397,
+      14.014,
+      1.018,
+      4.306
+    ],
+    "opposed_min_duration_seconds": 0.0,
+    "opposed_median_duration_seconds": 4.346,
+    "opposed_mean_duration_seconds": 10.423555555555556,
+    "opposed_max_duration_seconds": 33.327,
+    "opposed_total_observed_duration_seconds": 187.624,
+    "total_transitions": 28,
+    "gap_samples": {
+      "count": 28,
+      "min": 0,
+      "median": 11.0,
+      "mean": 23.25,
+      "max": 197
+    },
+    "gap_sample_distribution": {
+      "0": 1,
+      "1": 1,
+      "2": 2,
+      "3": 1,
+      "4": 1,
+      "5": 3,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "11": 2,
+      "14": 1,
+      "16": 1,
+      "18": 1,
+      "19": 1,
+      "20": 1,
+      "26": 1,
+      "28": 2,
+      "30": 1,
+      "39": 1,
+      "44": 1,
+      "93": 1,
+      "197": 1
+    },
+    "gap_seconds": {
+      "count": 28,
+      "min": 2.2,
+      "median": 22.938000000000002,
+      "mean": 38.901785714285715,
+      "max": 318.216
+    },
+    "relation_transitions": {
+      "ALIGNED->ALIGNED": {
+        "total_transitions": 12,
+        "gap_samples": {
+          "count": 12,
+          "min": 1,
+          "median": 8.5,
+          "mean": 11.333333333333334,
+          "max": 44
+        },
+        "gap_sample_distribution": {
+          "1": 1,
+          "2": 2,
+          "5": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "11": 2,
+          "16": 1,
+          "20": 1,
+          "44": 1
+        },
+        "gap_seconds": {
+          "count": 12,
+          "min": 3.696,
+          "median": 14.7075,
+          "mean": 20.24675,
+          "max": 65.378
+        },
+        "session_counts": {
+          "FROZEN_SESSION_01": 7,
+          "FROZEN_SESSION_02": 1,
+          "FROZEN_SESSION_05": 2,
+          "FROZEN_SESSION_06": 2
+        },
+        "sessions_present": 4,
+        "largest_session_share": 0.5833333333333334,
+        "largest_sessions": [
+          "FROZEN_SESSION_01"
+        ]
+      },
+      "ALIGNED->OPPOSED": {
+        "total_transitions": 1,
+        "gap_samples": {
+          "count": 1,
+          "min": 0,
+          "median": 0,
+          "mean": 0,
+          "max": 0
+        },
+        "gap_sample_distribution": {
+          "0": 1
+        },
+        "gap_seconds": {
+          "count": 1,
+          "min": 2.2,
+          "median": 2.2,
+          "mean": 2.2,
+          "max": 2.2
+        },
+        "session_counts": {
+          "FROZEN_SESSION_01": 1
+        },
+        "sessions_present": 1,
+        "largest_session_share": 1.0,
+        "largest_sessions": [
+          "FROZEN_SESSION_01"
+        ]
+      },
+      "OPPOSED->ALIGNED": {
+        "total_transitions": 2,
+        "gap_samples": {
+          "count": 2,
+          "min": 26,
+          "median": 59.5,
+          "mean": 59.5,
+          "max": 93
+        },
+        "gap_sample_distribution": {
+          "26": 1,
+          "93": 1
+        },
+        "gap_seconds": {
+          "count": 2,
+          "min": 49.162,
+          "median": 98.524,
+          "mean": 98.524,
+          "max": 147.886
+        },
+        "session_counts": {
+          "FROZEN_SESSION_01": 1,
+          "FROZEN_SESSION_02": 1
+        },
+        "sessions_present": 2,
+        "largest_session_share": 0.5,
+        "largest_sessions": [
+          "FROZEN_SESSION_01",
+          "FROZEN_SESSION_02"
+        ]
+      },
+      "OPPOSED->OPPOSED": {
+        "total_transitions": 13,
+        "gap_samples": {
+          "count": 13,
+          "min": 3,
+          "median": 18,
+          "mean": 30.46153846153846,
+          "max": 197
+        },
+        "gap_sample_distribution": {
+          "3": 1,
+          "4": 1,
+          "5": 2,
+          "6": 1,
+          "14": 1,
+          "18": 1,
+          "19": 1,
+          "28": 2,
+          "30": 1,
+          "39": 1,
+          "197": 1
+        },
+        "gap_seconds": {
+          "count": 13,
+          "min": 7.318,
+          "median": 25.938,
+          "mean": 49.77238461538462,
+          "max": 318.216
+        },
+        "session_counts": {
+          "FROZEN_SESSION_01": 2,
+          "FROZEN_SESSION_02": 7,
+          "FROZEN_SESSION_04": 4
+        },
+        "sessions_present": 3,
+        "largest_session_share": 0.5384615384615384,
+        "largest_sessions": [
+          "FROZEN_SESSION_02"
+        ]
+      }
+    },
+    "pair_transitions": {
+      "BUY_BUY->BUY_BUY": {
+        "total_transitions": 12,
+        "gap_samples": {
+          "count": 12,
+          "min": 1,
+          "median": 8.5,
+          "mean": 11.333333333333334,
+          "max": 44
+        },
+        "gap_sample_distribution": {
+          "1": 1,
+          "2": 2,
+          "5": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "11": 2,
+          "16": 1,
+          "20": 1,
+          "44": 1
+        },
+        "gap_seconds": {
+          "count": 12,
+          "min": 3.696,
+          "median": 14.7075,
+          "mean": 20.24675,
+          "max": 65.378
+        },
+        "session_counts": {
+          "FROZEN_SESSION_01": 7,
+          "FROZEN_SESSION_02": 1,
+          "FROZEN_SESSION_05": 2,
+          "FROZEN_SESSION_06": 2
+        },
+        "sessions_present": 4,
+        "largest_session_share": 0.5833333333333334,
+        "largest_sessions": [
+          "FROZEN_SESSION_01"
+        ]
+      },
+      "BUY_BUY->SELL_SELL": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "session_counts": {},
+        "sessions_present": 0,
+        "largest_session_share": null,
+        "largest_sessions": []
+      },
+      "BUY_BUY->BUY_SELL": {
+        "total_transitions": 1,
+        "gap_samples": {
+          "count": 1,
+          "min": 0,
+          "median": 0,
+          "mean": 0,
+          "max": 0
+        },
+        "gap_sample_distribution": {
+          "0": 1
+        },
+        "gap_seconds": {
+          "count": 1,
+          "min": 2.2,
+          "median": 2.2,
+          "mean": 2.2,
+          "max": 2.2
+        },
+        "session_counts": {
+          "FROZEN_SESSION_01": 1
+        },
+        "sessions_present": 1,
+        "largest_session_share": 1.0,
+        "largest_sessions": [
+          "FROZEN_SESSION_01"
+        ]
+      },
+      "BUY_BUY->SELL_BUY": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "session_counts": {},
+        "sessions_present": 0,
+        "largest_session_share": null,
+        "largest_sessions": []
+      },
+      "SELL_SELL->BUY_BUY": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "session_counts": {},
+        "sessions_present": 0,
+        "largest_session_share": null,
+        "largest_sessions": []
+      },
+      "SELL_SELL->SELL_SELL": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "session_counts": {},
+        "sessions_present": 0,
+        "largest_session_share": null,
+        "largest_sessions": []
+      },
+      "SELL_SELL->BUY_SELL": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "session_counts": {},
+        "sessions_present": 0,
+        "largest_session_share": null,
+        "largest_sessions": []
+      },
+      "SELL_SELL->SELL_BUY": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "session_counts": {},
+        "sessions_present": 0,
+        "largest_session_share": null,
+        "largest_sessions": []
+      },
+      "BUY_SELL->BUY_BUY": {
+        "total_transitions": 2,
+        "gap_samples": {
+          "count": 2,
+          "min": 26,
+          "median": 59.5,
+          "mean": 59.5,
+          "max": 93
+        },
+        "gap_sample_distribution": {
+          "26": 1,
+          "93": 1
+        },
+        "gap_seconds": {
+          "count": 2,
+          "min": 49.162,
+          "median": 98.524,
+          "mean": 98.524,
+          "max": 147.886
+        },
+        "session_counts": {
+          "FROZEN_SESSION_01": 1,
+          "FROZEN_SESSION_02": 1
+        },
+        "sessions_present": 2,
+        "largest_session_share": 0.5,
+        "largest_sessions": [
+          "FROZEN_SESSION_01",
+          "FROZEN_SESSION_02"
+        ]
+      },
+      "BUY_SELL->SELL_SELL": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "session_counts": {},
+        "sessions_present": 0,
+        "largest_session_share": null,
+        "largest_sessions": []
+      },
+      "BUY_SELL->BUY_SELL": {
+        "total_transitions": 9,
+        "gap_samples": {
+          "count": 9,
+          "min": 4,
+          "median": 19,
+          "mean": 20.555555555555557,
+          "max": 39
+        },
+        "gap_sample_distribution": {
+          "4": 1,
+          "5": 1,
+          "14": 1,
+          "18": 1,
+          "19": 1,
+          "28": 2,
+          "30": 1,
+          "39": 1
+        },
+        "gap_seconds": {
+          "count": 9,
+          "min": 7.795,
+          "median": 28.088,
+          "mean": 32.93188888888889,
+          "max": 60.458
+        },
+        "session_counts": {
+          "FROZEN_SESSION_01": 2,
+          "FROZEN_SESSION_02": 7
+        },
+        "sessions_present": 2,
+        "largest_session_share": 0.7777777777777778,
+        "largest_sessions": [
+          "FROZEN_SESSION_02"
+        ]
+      },
+      "BUY_SELL->SELL_BUY": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "session_counts": {},
+        "sessions_present": 0,
+        "largest_session_share": null,
+        "largest_sessions": []
+      },
+      "SELL_BUY->BUY_BUY": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "session_counts": {},
+        "sessions_present": 0,
+        "largest_session_share": null,
+        "largest_sessions": []
+      },
+      "SELL_BUY->SELL_SELL": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "session_counts": {},
+        "sessions_present": 0,
+        "largest_session_share": null,
+        "largest_sessions": []
+      },
+      "SELL_BUY->BUY_SELL": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "session_counts": {},
+        "sessions_present": 0,
+        "largest_session_share": null,
+        "largest_sessions": []
+      },
+      "SELL_BUY->SELL_BUY": {
+        "total_transitions": 4,
+        "gap_samples": {
+          "count": 4,
+          "min": 3,
+          "median": 5.5,
+          "mean": 52.75,
+          "max": 197
+        },
+        "gap_sample_distribution": {
+          "3": 1,
+          "5": 1,
+          "6": 1,
+          "197": 1
+        },
+        "gap_seconds": {
+          "count": 4,
+          "min": 7.318,
+          "median": 12.559999999999999,
+          "mean": 87.6635,
+          "max": 318.216
+        },
+        "session_counts": {
+          "FROZEN_SESSION_04": 4
+        },
+        "sessions_present": 1,
+        "largest_session_share": 1.0,
+        "largest_sessions": [
+          "FROZEN_SESSION_04"
+        ]
+      }
+    }
+  },
+  "frozen_checkpoint_session_count": 10,
+  "checkpoint_extended": false,
+  "independent_sessions_appended": false,
+  "combined_session_count": null,
+  "combined_checkpoint_created": false,
+  "cohort_redefinition": false,
+  "unit_separation": {
+    "sample_unit": "SAMPLE",
+    "temporal_unit": "RUN",
+    "duration_unit": "SECONDS",
+    "frozen_opposed_episode_count": 17,
+    "run_is_episode_claim_allowed": false,
+    "sample_is_run_claim_allowed": false,
+    "sample_is_episode_claim_allowed": false,
+    "run_is_canonical_conflict_claim_allowed": false,
+    "duration_is_episode_claim_allowed": false,
+    "transition_unit": "TRANSITION",
+    "transition_is_run_claim_allowed": false,
+    "transition_is_sample_claim_allowed": false,
+    "transition_is_episode_claim_allowed": false
+  },
+  "interpretation": "DESCRIPTIVE_ONLY",
+  "interpretation_limits": [
+    "DESCRIPTIVE_ONLY",
+    "OBSERVED_DURATION_IS_LAST_SAMPLE_TIMESTAMP_MINUS_FIRST_SAMPLE_TIMESTAMP",
+    "SINGLE_SAMPLE_ZERO_DOES_NOT_CLAIM_TRUE_STATE_DURATION_WAS_ZERO",
+    "RAW_AND_PROSPECTIVE_SAMPLES_ARE_JOINED_ONLY_BY_EXACT_POSITIONAL_INDEX",
+    "RUNS_ARE_NOT_CANONICAL_CONFLICT_EPISODES",
+    "18_OPPOSED_RUNS_MUST_NOT_BE_EQUATED_WITH_17_OPPOSED_EPISODES",
+    "SAMPLE_RUN_DURATION_AND_EPISODE_UNITS_REMAIN_DISTINCT",
+    "CANONICAL_CONFLICT_COMES_ONLY_FROM_CONFLICT_COUNT",
+    "NO_PREDICTIVE_CLAIM",
+    "NO_THRESHOLD_CHANGE_ALLOWED",
+    "NO_RC17_CHANGE_ALLOWED",
+    "NO_OPERATIONAL_INFERENCE_ALLOWED",
+    "FROZEN_10_SESSION_CHECKPOINT_IS_NOT_EXTENDED",
+    "INDEPENDENT_SESSIONS_11_AND_12_ARE_NOT_APPENDED",
+    "TRANSITION_RUN_SAMPLE_AND_EPISODE_ARE_DISTINCT",
+    "NO_CROSS_SESSION_TRANSITIONS",
+    "GAPS_DESCRIBE_OBSERVED_ENDPOINT_SEPARATION_ONLY",
+    "COUNTS_ARE_NOT_TRANSITION_PROBABILITY_ESTIMATES",
+    "SESSION_CONCENTRATION_LIMITS_POOLED_DESCRIPTIONS"
+  ],
+  "research_only": true,
+  "observational_only": true,
+  "descriptive_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false,
+  "threshold_change_allowed": false,
+  "rc17_change_allowed": false,
+  "order_flow_score_change_allowed": false,
+  "threshold_changed": false,
+  "rc17_changed": false,
+  "operational_logic_changed": false,
+  "canonical_conflict_redefinition": false,
+  "source_duration_version": "RC1-PROSPECTIVE-MICROSTRUCTURE-PA-BOOK-TEMPORAL-DURATION-AUDIT",
+  "transition_definition": {
+    "same_session_only": true,
+    "consecutive_observed_runs_only": true,
+    "run_numbering": "ONE_BASED_WITHIN_SESSION",
+    "sample_indexing": "ZERO_BASED",
+    "gap_samples": "NEXT_START_INDEX_MINUS_PREVIOUS_END_INDEX_MINUS_ONE",
+    "gap_seconds": "NEXT_START_TIMESTAMP_MINUS_PREVIOUS_END_TIMESTAMP",
+    "gap_is_continuous_state_duration_claim_allowed": false,
+    "canonical_conflict_is_attribute_only": true
+  },
+  "frozen_manifest": {
+    "path": "C:\\COPILOTO_PRICE_ACTION_AI\\prospective_microstructure_conflict_10session_checkpoint_20260926.json",
+    "semantic_sha256": "066e2e7ad5b1c3cf43a8ae99c08b24b32bd40e8dbfd0f89e1b1765505651af54"
+  },
+  "input_hashes_verified_before_and_after": true,
+  "frozen_identity_exact": true
+}

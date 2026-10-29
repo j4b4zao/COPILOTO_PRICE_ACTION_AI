@@ -1,0 +1,67 @@
+{
+  "summary": {
+    "version": "RC3-ORDER-FLOW-STRUCTURE-SCORE-AB-PERSISTENCE",
+    "samples": 1,
+    "positive_adjustments": 1,
+    "negative_adjustments": 0,
+    "neutral_adjustments": 0,
+    "grade_changes": 0,
+    "validity_changes": 0,
+    "average_delta": 1.2,
+    "average_confidence": 0.8,
+    "weight": 1.5
+  },
+  "scenarios": {
+    "version": "RC3-ORDER-FLOW-STRUCTURE-SCORE-AB-PERSISTENCE",
+    "samples": 1,
+    "weight": 1.5,
+    "by_alignment": {
+      "ALIGNED": {
+        "samples": 1,
+        "positive_adjustments": 1,
+        "negative_adjustments": 0,
+        "neutral_adjustments": 0,
+        "grade_changes": 0,
+        "validity_changes": 0,
+        "average_delta": 1.2,
+        "average_confidence": 0.8
+      }
+    },
+    "by_pattern_direction": {
+      "BUY": {
+        "samples": 1,
+        "positive_adjustments": 1,
+        "negative_adjustments": 0,
+        "neutral_adjustments": 0,
+        "grade_changes": 0,
+        "validity_changes": 0,
+        "average_delta": 1.2,
+        "average_confidence": 0.8
+      }
+    },
+    "by_bias": {
+      "BUY": {
+        "samples": 1,
+        "positive_adjustments": 1,
+        "negative_adjustments": 0,
+        "neutral_adjustments": 0,
+        "grade_changes": 0,
+        "validity_changes": 0,
+        "average_delta": 1.2,
+        "average_confidence": 0.8
+      }
+    },
+    "by_confidence": {
+      "HIGH": {
+        "samples": 1,
+        "positive_adjustments": 1,
+        "negative_adjustments": 0,
+        "neutral_adjustments": 0,
+        "grade_changes": 0,
+        "validity_changes": 0,
+        "average_delta": 1.2,
+        "average_confidence": 0.8
+      }
+    }
+  }
+}

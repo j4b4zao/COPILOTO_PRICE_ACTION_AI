@@ -1,0 +1,38 @@
+{
+  "samples": [
+    {
+      "timestamp": "2026-09-29T10:00:00.000",
+      "cycle": 1
+    },
+    {
+      "timestamp": "2026-09-29T10:00:05.000",
+      "cycle": 2
+    },
+    {
+      "timestamp": "2026-09-29T10:00:10.000",
+      "cycle": 3
+    }
+  ],
+  "prospective_microstructure": {
+    "captured_samples": 3,
+    "source_analyzable_samples": 3,
+    "sample_count_matches_source": true,
+    "samples": [
+      {
+        "price_action_bias": "BUY",
+        "book_direction": "SELL",
+        "conflict_count": 0
+      },
+      {
+        "price_action_bias": "BUY",
+        "book_direction": "NONE",
+        "conflict_count": 0
+      },
+      {
+        "price_action_bias": "BUY",
+        "book_direction": "SELL",
+        "conflict_count": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "average_delta": 0.0,
+  "dominant_effect": "MIXED",
+  "grade_changes": 0,
+  "negative_adjustments": 0,
+  "neutral_adjustments": 0,
+  "passive_only": true,
+  "positive_adjustments": 0,
+  "recommendation": "NO_DATA",
+  "samples": 0,
+  "strongest_negative_scenario": "NONE",
+  "strongest_positive_scenario": "NONE",
+  "validity_changes": 0,
+  "version": "RC5-REGIME-MTF-SCORE-AB-SESSION-REPORT-EXPORT",
+  "weight": 3.0
+}

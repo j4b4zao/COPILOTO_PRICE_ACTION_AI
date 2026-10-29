@@ -1,0 +1,16 @@
+test_byte_policy_change_stales_proposal (test_f3_int86_policy_bound_import.PolicyImportTests.test_byte_policy_change_stales_proposal) ... ok
+test_default_agrees_with_original_import (test_f3_int86_policy_bound_import.PolicyImportTests.test_default_agrees_with_original_import) ... ok
+test_duplicate_commit (test_f3_int86_policy_bound_import.PolicyImportTests.test_duplicate_commit) ... ok
+test_flags (test_f3_int86_policy_bound_import.PolicyImportTests.test_flags) ... ok
+test_forged_candidate (test_f3_int86_policy_bound_import.PolicyImportTests.test_forged_candidate) ... ok
+test_invalid_policies (test_f3_int86_policy_bound_import.PolicyImportTests.test_invalid_policies) ... ok
+test_invalid_proposal (test_f3_int86_policy_bound_import.PolicyImportTests.test_invalid_proposal) ... ok
+test_large_package_requires_explicit_policy (test_f3_int86_policy_bound_import.PolicyImportTests.test_large_package_requires_explicit_policy) ... ok
+test_policy_change_stales_proposal (test_f3_int86_policy_bound_import.PolicyImportTests.test_policy_change_stales_proposal) ... ok
+test_policy_reset_limit (test_f3_int86_policy_bound_import.PolicyImportTests.test_policy_reset_limit) ... ok
+test_version_exhaustion (test_f3_int86_policy_bound_import.PolicyImportTests.test_version_exhaustion) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 1.782s
+
+OK

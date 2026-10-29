@@ -1,0 +1,110 @@
+STATUS=PASS
+BRANCH=brooks-stop-target-exact-audit-20260912
+HEAD=d020b2cb0d7ec9044441e7f8c023cd9890eb3771
+PARENT=82a90b805a83a0181b8ec970b52a2b509ef975d0
+COMMIT_SCOPE_VALID=true
+COMMIT_FILES=dashboard/external_per_asset_readonly_dashboard.py;tests/test_external_per_asset_readonly_dashboard_rc1.py
+EXT_RO_001_REPRODUCED=false
+EXT_RO_002_REPRODUCED=false
+EXT_RO_003_REPRODUCED=false
+SOURCE_TZINFO_MUTATED=false
+AUTHORIZATION_LOOKING_LINE_INJECTED=false
+TERMINAL_CONTROL_ACTIVE=false
+INT_DIGIT_GLOBAL_SETTING_CHANGED=false
+PUBLIC_CONSTRUCTOR_BYPASS_FOUND=false
+MUTABLE_REFERENCE_LEAK_FOUND=false
+UNSUPPORTED_RAW_BYPASS_FOUND=false
+VIEW_CHANGED_AFTER_SOURCE_MUTATION=false
+INFLUENCE_FLAG_BYPASS_FOUND=false
+DASHBOARD_RC1_CHANGED=false
+RC51_CHANGED=false
+ORDER_FLOW_CHANGED=false
+MTF_CHANGED=false
+EXTERNAL_BRIDGE_CHANGED=false
+EXTERNAL_SNAPSHOT_CHANGED=false
+RC17_CHANGED=false
+PRICE_ACTION_CHANGED=false
+STRATEGY_CHANGED=false
+SCORE_CHANGED=false
+RISK_CHANGED=false
+DECISION_CHANGED=false
+ALERT_CHANGED=false
+BOT_CHANGED=false
+ANALYSIS_CONTEXT_CHANGED=false
+PIPELINE_CHANGED=false
+SOURCE_AUDIT_MUTATED=false
+COMMIT_EXECUTED=false
+PUSH_EXECUTED=false
+GIT_ADD_EXECUTED=false
+LIVE_COLLECTION_EXECUTED=false
+CUSTOM_TZINFO_REJECTED=true
+STANDARD_DATETIME_SUPPORT_VALID=true
+HOSTILE_TEXT_ESCAPED=true
+ESCAPING_DETERMINISTIC=true
+EXTREME_INT_RENDER_PASS=true
+LARGE_INT_REPRESENTATION_DETERMINISTIC=true
+AVAILABLE_DISTINCT_FROM_VERIFIED=true
+IDENTITY_TRISTATE_PRESERVED=true
+DATA_READY_DISTINCT_FROM_TRADE_READY=true
+PROTECTED_FILES_PRESERVED=true
+TZINFO_CALLBACK_COUNT=0
+CLOCK_CALL_COUNT=0
+NETWORK_CALL_COUNT=0
+PROVIDER_CALL_COUNT=0
+COLLECTOR_CALL_COUNT=0
+SERVICE_CALL_COUNT=0
+BRIDGE_CALL_COUNT=0
+OBSERVER_CALL_COUNT=0
+ENGINE_CALL_COUNT=0
+FILE_WRITE_COUNT=0
+STDOUT_PRINT_CALL_COUNT=0
+STRATEGY_ENGINE_CALL_COUNT=0
+SCORE_ENGINE_CALL_COUNT=0
+RISK_ENGINE_CALL_COUNT=0
+DECISION_ENGINE_CALL_COUNT=0
+ALERT_MANAGER_CALL_COUNT=0
+CONTEXT_ENGINE_CALL_COUNT=0
+PIPELINE_CALL_COUNT=0
+NEW_TESTS_FAILED=0
+NEW_TESTS_ERRORS=0
+REGRESSION_TESTS_FAILED=0
+REGRESSION_TESTS_ERRORS=0
+NEW_REGRESSION_FAILURES=0
+NEW_TESTS_PASSED=289
+REGRESSION_TESTS_PASSED=472
+REGRESSION_BREAKDOWN=Dashboard 17;OrderFlow 36 including RC51 10;Safety 419
+STAGED_FILES_FINAL=NONE
+AUDIT_FINDINGS=NONE
+LOCAL_AUDIT_RESULT=PASS
+NEXT_STEP=EXTERNAL_PER_ASSET_READONLY_RC1_CLOSEOUT_AND_INTEGRATION_DECISION
+CONCLUSION=PASS. Three original findings independently retested and not reproduced; no new bypass found within tested contracts. Independent probes, all side-effect guards and required suites pass. No code edits, staging, commit, push, live collection or runtime integration. Only this report created in the repository; next step not executed.
+INDEPENDENT_PROBE_PATH=C:\Users\jb\AppData\Local\Temp\external_postfix_fdtrl0s2\probe.py
+INDEPENDENT_PROBE_SHA256=e28a28171a79fd853bf0a83af8d51efbfb7625bb82ccf7981dc40e09e6425314
+INDEPENDENT_CHECKS_PASSED=4104
+INDEPENDENT_CHECKS_SCOPE=Assertion count including repeated deterministic renders; not 4104 distinct pytest test cases.
+INT_DIGIT_LIMIT_BEFORE=4300
+INT_DIGIT_LIMIT_AFTER=4300
+SOURCE_FILES_CHANGED=0
+TEST_FILES_CHANGED=0
+NEXT_STEP_EXECUTED=false
+
+AUDIT_METHOD
+Full parent-to-HEAD diff read and reviewed directly. Commit changes only safe timestamp validation, text output escaping, local integer representation and related tests within the two authorized files. Independent temporary probe outside repository imports production contracts, not remediation test helpers. It constructs its own fixed offline upstream quote fixture before guards; expected timestamp/text content checked using standard JSON decoding, and rendered integer tokens decoded with int(token, radix). No renderer escape helper used as expected-output oracle. Initial probe assertion count correction (readiness status starts a line, leaving seven preceding-pipe row status fields) concerned only temporary probe instrumentation; project code unchanged.
+
+EXT_RO_001_EVIDENCE
+Exact builtin datetime containing independent CallbackZone with utcoffset/dst/tzname/fromutc instrumentation tested as price, change, original timestamp, normalized timestamp, readiness reference and nested dict/list/tuple raw evidence. Each callback would append to its source counter and attempt guarded time.time. Projector and direct row/readiness constructors reject TypeError before all callbacks. Full-view construction through an invalid child constructor fails before publishing a view. Every source timezone counter remains empty. No clock attempt occurs. Valid naive raw datetime, UTC, positive/negative builtin fixed offsets, DST-like supplied offsets and microseconds retained. Original timestamp tokens decode to exact ISO evidence; normalized UTC and aware readiness values remain exact.
+
+EXT_RO_002_EVIDENCE
+Independent hostile text matrix covers provider symbol/name/source, declared canonical evidence, timezone information, provider status, status, reasons, original timestamp strings, price/change strings, nested strings and mapping keys; readiness status also exercised. Newline, CR, tab, ESC/ANSI, fake section and field separators, backslash escape-like text, Unicode Portuguese/CJK, bidi controls, Unicode line/paragraph separators and other controls tested. Immutable view retains supplied text. Rendering remains exactly thirteen structural lines for a complete audit, one readiness section and seven asset rows, with no standalone injected authorization line or active terminal controls. Structured fields cannot be forged through delimiter payloads. Rendered string tokens independently decoded as JSON recover original evidence. Evidence containing BUY/SELL remains permitted as escaped data, never an independent authorization. Twenty-five renders per hostile field/payload have identical UTF-8 bytes. Nested dictionary insertion order equivalence yields identical view and text.
+
+EXT_RO_003_EVIDENCE
+Integers 0, ordinary market value, 10**300, 10**4299, 10**5000, -(10**5000) and 10**10000 accepted and rendered. Tokens independently parsed from the price field: decimal or explicit signed 0x representation. Reconstructed integer equals original exactly; sign correct. Twenty-five repeated renders per magnitude identical. Python decimal digit limit remains 4300 before and after; no set_int_max_str_digits invocation. Policy is representational: decimal at <=2000 bits; exact hexadecimal above; no analytic/trading threshold introduced.
+
+ADVERSARIAL_CONSTRUCTORS_AND_IMMUTABILITY
+Datetime/int/float/str/dict/list subclasses, UserDict, custom Mapping with trapping accessors and custom str/repr/iterator objects rejected without callbacks. Builtin bool and timezone cannot be subclassed in this Python runtime; attempted subclass definitions raise TypeError. Cyclic list/dict rejected. Nested accepted mutable inputs and public full-view/readiness row-list inputs mutated after construction; rendered output unchanged. Frozen mutation attempts rejected for all three public view dataclasses. Unknown/lowercase/whitespace/provider-alias canonicals, missing/duplicate rows and wrong row/readiness types rejected. Identity None/False/True independently crossed with identity_valid False/True under AVAILABLE and rendered UNKNOWN/REJECTED/VERIFIED. All five influence flags tested with True and truthy/invalid alternatives; observational_only not exactly True rejected at audit/readiness/view paths. DATA_READY remains observational and no trade-ready state produced. None audit explicit unavailable.
+
+SIDE_EFFECT_SCOPE
+Thirty mocked APIs guarded only during projection/render/probes, after imports and fixture preparation: four service methods; external and main collectors; HTTP provider; bridge audit; observer readiness/correlation; Strategy, Score, Risk, Decision, Alert, Context and pipeline execution; four network entry points; five file APIs; stdout print; time.time/monotonic/perf_counter. All zero. C-call profile additionally blocks datetime.now/utcnow on actual builtin datetime; zero attempts without replacing timestamp classes. Temporary probe creation/execution output, pytest infrastructure and authorized final report writing are outside presentation counter scope. Standard source audit serialized before/after with stdlib JSON plus datetime ISO evidence is unchanged. No real clock, provider or live collector executed.
+
+PRESERVATION
+All existing tracked file SHA256 values captured before audit and matched after probes/suites. Final check repeated after report creation. Five preexisting protected modifications remain exactly as before: Profit.xlsx, connectors/excel_connector.py, livroOfertas.xlsx, saida.txt, times&trades.xlsx. Index empty; HEAD unchanged. No source/test or closed module edits, no Bot/AnalysisContext wiring, no fetch/push/commit. Only report added in project; temporary probe/hash/test artifacts remain outside repository.

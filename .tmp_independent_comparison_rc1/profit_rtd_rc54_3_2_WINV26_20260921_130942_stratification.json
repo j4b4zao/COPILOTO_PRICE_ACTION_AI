@@ -1,0 +1,290 @@
+{
+  "version": "RC2-PROSPECTIVE-MICROSTRUCTURE-CONFLICT-STRATIFICATION",
+  "status": "DESCRIPTIVE_ONLY",
+  "source": {
+    "path": "C:\\COPILOTO_PRICE_ACTION_AI\\.tmp_independent_comparison_rc1\\profit_rtd_rc54_3_2_WINV26_20260921_130942_followthrough.json",
+    "sha256": "19df0b6c9c80e068248eb722ae1d749f9e0f16af2c5a6505cf48b895521b6f9f",
+    "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-CONFLICT-PRICE-FOLLOWTHROUGH"
+  },
+  "eligible_sessions": 1,
+  "rejected_sessions": 0,
+  "horizons_in_samples": [
+    1,
+    5,
+    10,
+    20
+  ],
+  "opposed_direction_episode_count_with_available_followthrough": 4,
+  "stratification": {
+    "PA_BUY_BOOK_SELL": {
+      "episode_count_with_available_followthrough": 4,
+      "SINGLE": {
+        "episode_count_with_available_followthrough": 3,
+        "by_horizon": {
+          "1": {
+            "available_episode_count": 3,
+            "observed_side_counts": {
+              "FLAT": 1,
+              "PRICE_ACTION": 2
+            },
+            "price_action_follow_count": 2,
+            "book_follow_count": 0,
+            "flat_count": 1,
+            "unresolved_count": 0,
+            "decisive_episode_count": 2,
+            "price_action_share_of_decisive": 1.0,
+            "mean_raw_displacement": 6.666667,
+            "mean_price_action_signed_displacement": 6.666667,
+            "mean_book_signed_displacement": -6.666667
+          },
+          "5": {
+            "available_episode_count": 3,
+            "observed_side_counts": {
+              "BOOK": 1,
+              "PRICE_ACTION": 2
+            },
+            "price_action_follow_count": 2,
+            "book_follow_count": 1,
+            "flat_count": 0,
+            "unresolved_count": 0,
+            "decisive_episode_count": 3,
+            "price_action_share_of_decisive": 0.666667,
+            "mean_raw_displacement": 6.666667,
+            "mean_price_action_signed_displacement": 6.666667,
+            "mean_book_signed_displacement": -6.666667
+          },
+          "10": {
+            "available_episode_count": 3,
+            "observed_side_counts": {
+              "BOOK": 1,
+              "PRICE_ACTION": 2
+            },
+            "price_action_follow_count": 2,
+            "book_follow_count": 1,
+            "flat_count": 0,
+            "unresolved_count": 0,
+            "decisive_episode_count": 3,
+            "price_action_share_of_decisive": 0.666667,
+            "mean_raw_displacement": 23.333333,
+            "mean_price_action_signed_displacement": 23.333333,
+            "mean_book_signed_displacement": -23.333333
+          },
+          "20": {
+            "available_episode_count": 3,
+            "observed_side_counts": {
+              "PRICE_ACTION": 3
+            },
+            "price_action_follow_count": 3,
+            "book_follow_count": 0,
+            "flat_count": 0,
+            "unresolved_count": 0,
+            "decisive_episode_count": 3,
+            "price_action_share_of_decisive": 1.0,
+            "mean_raw_displacement": 36.666667,
+            "mean_price_action_signed_displacement": 36.666667,
+            "mean_book_signed_displacement": -36.666667
+          }
+        }
+      },
+      "PERSISTENT": {
+        "episode_count_with_available_followthrough": 1,
+        "by_horizon": {
+          "1": {
+            "available_episode_count": 1,
+            "observed_side_counts": {
+              "PRICE_ACTION": 1
+            },
+            "price_action_follow_count": 1,
+            "book_follow_count": 0,
+            "flat_count": 0,
+            "unresolved_count": 0,
+            "decisive_episode_count": 1,
+            "price_action_share_of_decisive": 1.0,
+            "mean_raw_displacement": 15.0,
+            "mean_price_action_signed_displacement": 15.0,
+            "mean_book_signed_displacement": -15.0
+          },
+          "5": {
+            "available_episode_count": 1,
+            "observed_side_counts": {
+              "FLAT": 1
+            },
+            "price_action_follow_count": 0,
+            "book_follow_count": 0,
+            "flat_count": 1,
+            "unresolved_count": 0,
+            "decisive_episode_count": 0,
+            "price_action_share_of_decisive": null,
+            "mean_raw_displacement": 0.0,
+            "mean_price_action_signed_displacement": 0.0,
+            "mean_book_signed_displacement": 0.0
+          },
+          "10": {
+            "available_episode_count": 1,
+            "observed_side_counts": {
+              "PRICE_ACTION": 1
+            },
+            "price_action_follow_count": 1,
+            "book_follow_count": 0,
+            "flat_count": 0,
+            "unresolved_count": 0,
+            "decisive_episode_count": 1,
+            "price_action_share_of_decisive": 1.0,
+            "mean_raw_displacement": 25.0,
+            "mean_price_action_signed_displacement": 25.0,
+            "mean_book_signed_displacement": -25.0
+          },
+          "20": {
+            "available_episode_count": 1,
+            "observed_side_counts": {
+              "PRICE_ACTION": 1
+            },
+            "price_action_follow_count": 1,
+            "book_follow_count": 0,
+            "flat_count": 0,
+            "unresolved_count": 0,
+            "decisive_episode_count": 1,
+            "price_action_share_of_decisive": 1.0,
+            "mean_raw_displacement": 5.0,
+            "mean_price_action_signed_displacement": 5.0,
+            "mean_book_signed_displacement": -5.0
+          }
+        }
+      }
+    },
+    "PA_SELL_BOOK_BUY": {
+      "episode_count_with_available_followthrough": 0,
+      "SINGLE": {
+        "episode_count_with_available_followthrough": 0,
+        "by_horizon": {
+          "1": {
+            "available_episode_count": 0,
+            "observed_side_counts": {},
+            "price_action_follow_count": 0,
+            "book_follow_count": 0,
+            "flat_count": 0,
+            "unresolved_count": 0,
+            "decisive_episode_count": 0,
+            "price_action_share_of_decisive": null,
+            "mean_raw_displacement": null,
+            "mean_price_action_signed_displacement": null,
+            "mean_book_signed_displacement": null
+          },
+          "5": {
+            "available_episode_count": 0,
+            "observed_side_counts": {},
+            "price_action_follow_count": 0,
+            "book_follow_count": 0,
+            "flat_count": 0,
+            "unresolved_count": 0,
+            "decisive_episode_count": 0,
+            "price_action_share_of_decisive": null,
+            "mean_raw_displacement": null,
+            "mean_price_action_signed_displacement": null,
+            "mean_book_signed_displacement": null
+          },
+          "10": {
+            "available_episode_count": 0,
+            "observed_side_counts": {},
+            "price_action_follow_count": 0,
+            "book_follow_count": 0,
+            "flat_count": 0,
+            "unresolved_count": 0,
+            "decisive_episode_count": 0,
+            "price_action_share_of_decisive": null,
+            "mean_raw_displacement": null,
+            "mean_price_action_signed_displacement": null,
+            "mean_book_signed_displacement": null
+          },
+          "20": {
+            "available_episode_count": 0,
+            "observed_side_counts": {},
+            "price_action_follow_count": 0,
+            "book_follow_count": 0,
+            "flat_count": 0,
+            "unresolved_count": 0,
+            "decisive_episode_count": 0,
+            "price_action_share_of_decisive": null,
+            "mean_raw_displacement": null,
+            "mean_price_action_signed_displacement": null,
+            "mean_book_signed_displacement": null
+          }
+        }
+      },
+      "PERSISTENT": {
+        "episode_count_with_available_followthrough": 0,
+        "by_horizon": {
+          "1": {
+            "available_episode_count": 0,
+            "observed_side_counts": {},
+            "price_action_follow_count": 0,
+            "book_follow_count": 0,
+            "flat_count": 0,
+            "unresolved_count": 0,
+            "decisive_episode_count": 0,
+            "price_action_share_of_decisive": null,
+            "mean_raw_displacement": null,
+            "mean_price_action_signed_displacement": null,
+            "mean_book_signed_displacement": null
+          },
+          "5": {
+            "available_episode_count": 0,
+            "observed_side_counts": {},
+            "price_action_follow_count": 0,
+            "book_follow_count": 0,
+            "flat_count": 0,
+            "unresolved_count": 0,
+            "decisive_episode_count": 0,
+            "price_action_share_of_decisive": null,
+            "mean_raw_displacement": null,
+            "mean_price_action_signed_displacement": null,
+            "mean_book_signed_displacement": null
+          },
+          "10": {
+            "available_episode_count": 0,
+            "observed_side_counts": {},
+            "price_action_follow_count": 0,
+            "book_follow_count": 0,
+            "flat_count": 0,
+            "unresolved_count": 0,
+            "decisive_episode_count": 0,
+            "price_action_share_of_decisive": null,
+            "mean_raw_displacement": null,
+            "mean_price_action_signed_displacement": null,
+            "mean_book_signed_displacement": null
+          },
+          "20": {
+            "available_episode_count": 0,
+            "observed_side_counts": {},
+            "price_action_follow_count": 0,
+            "book_follow_count": 0,
+            "flat_count": 0,
+            "unresolved_count": 0,
+            "decisive_episode_count": 0,
+            "price_action_share_of_decisive": null,
+            "mean_raw_displacement": null,
+            "mean_price_action_signed_displacement": null,
+            "mean_book_signed_displacement": null
+          }
+        }
+      }
+    }
+  },
+  "audit_stability": "INSUFFICIENT_DATA",
+  "audit_recommendation": "COLLECT_MORE_DATA",
+  "interpretation_guardrails": {
+    "sample_horizons_are_not_minutes": true,
+    "descriptive_counts_are_not_predictive_accuracy": true,
+    "no_threshold_or_weight_change_allowed": true,
+    "new_sessions_should_increase_group_sample_sizes_before_promotion": true
+  },
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}

@@ -1,0 +1,179 @@
+﻿===== PIPELINE DEFINITION =====
+C:\COPILOTO_PRICE_ACTION_AI\external_context\providers\provider_symbol_map.py:122: def process(
+C:\COPILOTO_PRICE_ACTION_AI\market_data\collector.py:27: profit_rtd_order_flow_pipeline=None, profit_rtd_validation_recorder=None):
+C:\COPILOTO_PRICE_ACTION_AI\market_data\collector.py:94: self.profit_rtd_order_flow_pipeline = profit_rtd_order_flow_pipeline
+C:\COPILOTO_PRICE_ACTION_AI\market_data\collector.py:101: self.profit_rtd_order_flow_pipeline = self._build_profit_rtd_order_flow_pipeline()
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_pipeline.py:19: class ProfitRTDOrderFlowPipelineReceipt:
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_pipeline.py:35: class ProfitRTDOrderFlowPipeline:
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_pipeline.py:50: def process(self, symbol: str, *, price: float) -> ProfitRTDOrderFlowPipelineReceipt:
+C:\COPILOTO_PRICE_ACTION_AI\psychology\trader_psychology_runtime.py:68: def process(self, state):
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc8.py:30: def process(self, symbol, *, price):
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc8.py:68: profit_rtd_order_flow_pipeline=pipeline,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc8.py:88: profit_rtd_order_flow_pipeline=pipeline,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc8.py:109: profit_rtd_order_flow_pipeline=pipeline,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_trader_psychology_rc7.py:80: def process(self, state):
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_order_flow_combined_session.py:49: collector.profit_rtd_order_flow_pipeline = ProfitRTDOrderFlowPipeline(tt_reader, collector.order_flow)
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_validation_session.py:73: collector.profit_rtd_order_flow_pipeline = ProfitRTDOrderFlowPipeline(
+
+===== ORDER FLOW STATE CLEAR CONTEXT =====
+ 151:         if travelled <= 0:
+ 152:             return 0.0
+ 153:         return min(1.0, abs(recent_prices[-1] - recent_prices[0]) / travelled)
+ 154: 
+ 155:     @property
+ 156:     def aggression_activity_ratio(self) -> float:
+ 157:         if not self.pattern_ready:
+ 158:             return 0.0
+ 159:         totals = tuple(self.aggression_history)
+ 160:         recent = totals[-self.PATTERN_WINDOW:]
+ 161:         previous = totals[-(self.PATTERN_WINDOW * 2):-self.PATTERN_WINDOW]
+ 162:         previous_average = sum(previous) / len(previous)
+ 163:         if previous_average <= 0:
+ 164:             return 0.0
+ 165:         return (sum(recent) / len(recent)) / previous_average
+ 166: 
+ 167:     def mark_unavailable(self) -> None:
+ 168:         self.available = False
+ 169:         self.waiting_for_sample = False
+ 170:         self._clear_interval()
+ 171: 
+ 172:     def mark_waiting(self, sampling_mode: str) -> None:
+ 173:         self.available = True
+ 174:         self.sampling_mode = sampling_mode
+ 175:         self.source_units = 0
+ 176:         self.waiting_for_sample = True
+ 177:         self._clear_interval()
+ 178: 
+ 179:     def clear(self) -> None:
+ 180:         self.cumulative_buy = None
+ 181:         self.cumulative_sell = None
+ 182:         self.available = False
+ 183:         self.waiting_for_sample = False
+ 184:         self.sampling_mode = "TICK"
+ 185:         self.source_units = 0
+ 186:         self._clear_history()
+ 187:         self._clear_interval()
+ 188: 
+ 189:     def _clear_history(self) -> None:
+ 190:         self.history.clear()
+ 191:         self.aggression_history.clear()
+ 192:         self.price_history.clear()
+ 193:         self.cumulative_delta = 0.0
+ 194: 
+ 195:     def _clear_interval(self) -> None:
+ 196:         self.buy_aggression = 0.0
+ 197:         self.sell_aggression = 0.0
+ 198:         self.delta = 0.0
+ 199:         self.total_aggression = 0.0
+ 200:         self.ready = False
+ 201: 
+ 202:     @staticmethod
+ 203:     def _validate(value) -> float | None:
+ 204:         try:
+ 205:             converted = float(value)
+ 206:         except (TypeError, ValueError):
+ 207:             return None
+ 208:         if not math.isfinite(converted) or converted < 0:
+ 209:             return None
+ 210:         return converted
+
+===== COLLECTOR INITIALIZATION =====
+   2: 
+   3: import math
+   4: 
+   5: from connectors.profit_reader import ProfitReader
+   6: from core.analysis_context import AnalysisContext
+   7: from core.market_clock import MarketClock
+   8: from core.multi_timeframe_state import MultiTimeframeState
+   9: from core.order_flow_state import OrderFlowState
+  10: from core.renko_state import RenkoState
+  11: from enums.chart_mode import ChartMode
+  12: from market_data.profit_delta_quality_validator import ProfitDeltaQualityValidator
+  13: from market_data.profit_delta_session_recorder import ProfitDeltaSessionRecorder
+  14: from market_data.profit_delta_source_diagnostics import ProfitDeltaSourceDiagnostics
+  15: from market_data.profit_source_integrity import ProfitSourceIntegrityGuard
+  16: from market_data.profit_rtd_validation_recorder import ProfitRTDValidationRecorder
+  17: 
+  18: 
+  19: class Collector:
+  20:     NAME = "Collector"
+  21:     VERSION = "RC25-PROFIT-RTD-VOLUME-HOLD"
+  22: 
+  23:     def __init__(self, excel=None, reader=None, multi_timeframe=None, renko_state=None,
+  24:                  order_flow_state=None, chart_mode=None, renko_brick_size=None, clock=None,
+  25:                  source_guard=None, source_diagnostics=None, delta_quality_validator=None,
+  26:                  delta_session_recorder=None, enable_profit_rtd_order_flow=None,
+  27:                  profit_rtd_order_flow_pipeline=None, profit_rtd_validation_recorder=None):
+  28:         if excel is None:
+  29:             from connectors.excel_connector import ExcelConnector
+  30:             excel = ExcelConnector()
+  31:         self.excel = excel
+  32:         self.reader = reader if reader is not None else ProfitReader(self.excel)
+  33: 
+  34:         from config.settings import (
+  35:             CHART_MODE,
+  36:             ENABLE_PROFIT_RTD_ORDER_FLOW,
+  37:             EXCEL_PATH,
+  38:             RENKO_BRICK_SIZE,
+  39:         )
+  40: 
+  41:         self.chart_mode = ChartMode.normalize(
+  42:             chart_mode if chart_mode is not None else CHART_MODE
+  43:         )
+  44:         brick_size = renko_brick_size if renko_brick_size is not None else RENKO_BRICK_SIZE
+  45:         self.multi_timeframe = (
+  46:             multi_timeframe if multi_timeframe is not None else MultiTimeframeState()
+  47:         )
+  48:         self.renko = (
+  49:             renko_state if renko_state is not None else RenkoState(brick_size=brick_size)
+  50:         )
+  51:         self.order_flow = (
+  52:             order_flow_state if order_flow_state is not None else OrderFlowState()
+  53:         )
+  54:         self.source_guard = (
+  55:             source_guard if source_guard is not None else ProfitSourceIntegrityGuard()
+  56:         )
+  57:         self.source_diagnostics = (
+  58:             source_diagnostics
+  59:             if source_diagnostics is not None
+  60:             else ProfitDeltaSourceDiagnostics()
+  61:         )
+  62:         self.delta_quality_validator = (
+  63:             delta_quality_validator
+  64:             if delta_quality_validator is not None
+  65:             else ProfitDeltaQualityValidator()
+  66:         )
+  67:         self.delta_session_recorder = (
+  68:             delta_session_recorder
+  69:             if delta_session_recorder is not None
+  70:             else ProfitDeltaSessionRecorder()
+  71:         )
+  72:         self.profit_rtd_validation_recorder = (
+  73:             profit_rtd_validation_recorder
+  74:             if profit_rtd_validation_recorder is not None
+  75:             else ProfitRTDValidationRecorder()
+  76:         )
+  77:         self.last_delta_quality = self.delta_quality_validator.evaluate(
+  78:             self.order_flow,
+  79:             self.source_diagnostics.snapshot,
+  80:         )
+  81:         self.market = self._primary_market()
+  82:         self.last_new_candles = {
+  83:             timeframe: False for timeframe in self.multi_timeframe.TIMEFRAMES
+  84:         }
+  85:         self.last_closed_renko_bricks = 0
+  86:         self.clock = clock if clock is not None else MarketClock
+  87:         self.last_valid_volume = None
+  88: 
+  89:         self.enable_profit_rtd_order_flow = bool(
+  90:             ENABLE_PROFIT_RTD_ORDER_FLOW
+  91:             if enable_profit_rtd_order_flow is None
+  92:             else enable_profit_rtd_order_flow
+  93:         )
+  94:         self.profit_rtd_order_flow_pipeline = profit_rtd_order_flow_pipeline
+  95:         self.last_profit_rtd_receipt = None
+  96: 
+  97:         if not self.excel.conectar(EXCEL_PATH):
+  98:             raise RuntimeError("NÃ£o foi possÃ­vel conectar ao Excel.")
+  99: 
+ 100:         if self.enable_profit_rtd_order_flow and self.profit_rtd_order_flow_pipeline is None:

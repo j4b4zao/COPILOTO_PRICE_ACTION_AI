@@ -1,0 +1,251 @@
+SESSION #18 SYMBOL OBSERVABILITY PATCH RC1
+STATUS = PASS
+BRANCH = brooks-stop-target-exact-audit-20260912
+HEAD_BEFORE = a741be9c905009906c93130af648983377f8a3a3
+HEAD_AFTER = a741be9c905009906c93130af648983377f8a3a3
+
+CHANGED_FILES (somente esta tarefa)
+market_data/profit_rtd_workbook_reader.py
+tests/test_profit_rtd_rc1.py
+saida_session18_symbol_observability_patch_rc1.txt (este relatorio novo, untracked)
+
+OLD_EXCEPTION_MESSAGE
+ValueError("Ativo solicitado difere do workbook RTD.")
+
+NEW_EXCEPTION_MESSAGE
+ValueError(
+    "Ativo solicitado difere do workbook RTD. "
+    f"requested={requested!r} workbook={workbook_symbol!r}"
+)
+Exemplo com dados sinteticos de teste:
+Ativo solicitado difere do workbook RTD. requested='WINZ26' workbook='WINV26'
+WINZ26 aqui e somente fixture de teste, nao simbolo observado ou recomendado.
+
+BEHAVIOR_CHANGE = OBSERVABILITY_ONLY
+SYMBOL_COMPARISON_CHANGED = false
+NORMALIZATION_CHANGED = false
+THRESHOLD_CHANGED = false
+RC17_CHANGED = false
+OPERATIONAL_LOGIC_CHANGED = false
+
+A condicao if requested and workbook_symbol != requested permanece igual.
+requested e workbook_symbol sao exatamente as variaveis ja normalizadas
+pela logica existente. Nao houve nova leitura, normalizacao ou conversao.
+ValueError continua sendo levantado no mesmo ponto. O prefixo anterior foi
+preservado, com os dois valores representados por repr para desambiguacao.
+Nenhuma equivalencia de contrato, alias, vencimento ou retry foi introduzida.
+Nenhuma alteracao em Score, Risk, Decision, Alert, execution, protocolos,
+coletores, warmup, require_trade_context_at_start, ExcelConnector,
+workbooks ou slots RTD.
+Comparacao AST contra HEAD, substituindo somente o novo argumento da excecao
+pelo texto antigo: arvores identicas. ONLY_EXCEPTION_MESSAGE_AST_CHANGE = true.
+
+TESTS_FOCUSED = PASS (17 testes; exit code 0)
+Primeira tentativa:
+python -B -m pytest -q -p no:cacheprovider tests/test_profit_rtd_rc1.py
+Resultado: nao executou testes; exit code 1, No module named pytest.
+Nenhuma dependencia foi instalada.
+Executado entao o runner standalone ja existente no teste:
+& 'C:\Users\jb\AppData\Local\Programs\Python\Python313\python.exe' -B -X utf8 -m tests.test_profit_rtd_rc1
+✅ teste_book_le_intervalo_em_bloco
+✅ teste_book_mapeia_precos_quantidades_e_agentes
+✅ teste_book_converte_numero_brasileiro
+✅ teste_book_integra_provider_level2_existente
+✅ teste_times_trades_mapeia_negocios
+✅ teste_times_trades_normaliza_milisegundos
+✅ teste_times_trades_aceita_rlp_como_classificacao_propria
+✅ teste_leitores_rejeitam_ativo_divergente
+✅ teste_symbol_preserva_igualdade_normalizacao_e_solicitado_vazio
+✅ teste_symbol_mismatch_informa_normalizados_sem_equivalencia
+✅ teste_symbol_workbook_vazio_preserva_erro_anterior
+✅ teste_leitores_rejeitam_workbooks_trocados
+✅ teste_intervalo_incompleto_e_rejeitado
+✅ teste_linhas_totalmente_vazias_sao_ignoradas
+✅ teste_linha_parcial_ou_preco_invalido_e_rejeitado
+✅ teste_agressor_desconhecido_e_rejeitado
+✅ teste_todos_os_payloads_permanecem_observacionais
+🏆 PROFIT RTD RC1 APROVADO
+
+
+Cobertura A-F:
+A) testes existentes de Book/T&T aceitam WINV26 e preservam payloads.
+B) mismatch continua ValueError, nos dois readers.
+C) mensagem completa verifica requested e workbook.
+D) entradas com espacos, tabs, newline e caixa baixa sao normalizadas como antes.
+E) workbook vazio/whitespace/None continua "Ativo RTD indisponivel.";
+   requested vazio/whitespace/None continua aceitando workbook nao vazio.
+F) WINZ26, WIN, WIN$N, WINV26_F_0 e WIN V26 continuam divergentes de WINV26.
+Os testes usam matrizes/gateways falsos, sem conexao com Excel.
+Mudanca no helper raises do teste apenas retorna a excecao para inspecionar
+a mensagem; os testes antigos continuam chamando o mesmo helper.
+
+TESTS_REGRESSION = PASS (66 testes; exit code 0)
+Executados depois dos focados, com Python313 -B -X utf8 via stdin.
+Runner importou cada modulo abaixo, selecionou funcoes locais cujo nome
+comeca por test (inclui teste_) e chamou cada uma. Nenhuma fixture externa
+foi necessaria. Nenhum comando de coleta/Excel foi executado.
+tests.test_profit_rtd_rc2: 12 PASS
+tests.test_profit_rtd_rc3: 13 PASS
+tests.test_profit_rtd_rc4: 7 PASS
+tests.test_profit_rtd_rc5: 9 PASS
+tests.test_profit_rtd_rc6: 7 PASS
+tests.test_profit_rtd_rc7: 6 PASS
+tests.test_profit_rtd_rc21: 5 PASS
+tests.test_profit_rtd_rc22: 2 PASS
+tests.test_profit_rtd_rc23: 2 PASS
+tests.test_profit_rtd_rc24: 3 PASS
+TESTS_REGRESSION: 66 PASS
+
+Modulos: RC2 leitor de cotacao; RC3 snapshot RTD; RC4 deduplicacao;
+RC5 agressao incremental; RC6 adapter OrderFlowState; RC7 pipeline/gateway;
+RC21-23 casos de reader T&T; RC24 retry do gateway.
+
+GIT STATUS ANTES (tracked)
+ M Profit.xlsx
+ M connectors/excel_connector.py
+ M livroOfertas.xlsx
+ M saida.txt
+ M times&trades.xlsx
+Untracked preexistentes: 455 entradas.
+O estado inicial ja continha modificacoes nos cinco arquivos protegidos.
+Nenhuma delas pertence a este patch. Nenhum untracked foi removido.
+
+GIT STATUS APOS PATCH, ANTES DE CRIAR ESTE RELATORIO (tracked)
+ M Profit.xlsx
+ M connectors/excel_connector.py
+ M livroOfertas.xlsx
+ M market_data/profit_rtd_workbook_reader.py
+ M saida.txt
+ M tests/test_profit_rtd_rc1.py
+ M times&trades.xlsx
+
+HASHES SHA256 DOS CINCO ARQUIVOS PROTEGIDOS
+Profit.xlsx
+BEFORE = FC87564123AF6775AECDFE1F0AB924DDA5F633F4E2A94F63295275DDCE569245
+AFTER  = FC87564123AF6775AECDFE1F0AB924DDA5F633F4E2A94F63295275DDCE569245
+UNCHANGED = true
+
+connectors/excel_connector.py
+BEFORE = F234EDD86D16AB637732438C0093FA84FD457A922044B49E6BD270074920D567
+AFTER  = F234EDD86D16AB637732438C0093FA84FD457A922044B49E6BD270074920D567
+UNCHANGED = true
+
+livroOfertas.xlsx
+BEFORE = 4B7BB97B38EE5D4BAE1C50308B31E938EF69384F016B122D22C2F4389FFCC274
+AFTER  = 4B7BB97B38EE5D4BAE1C50308B31E938EF69384F016B122D22C2F4389FFCC274
+UNCHANGED = true
+
+saida.txt
+BEFORE = C65F29EEEA5792E3CE9F91C42E0962EE2275E8BE9723738BC26E633A6CB14879
+AFTER  = C65F29EEEA5792E3CE9F91C42E0962EE2275E8BE9723738BC26E633A6CB14879
+UNCHANGED = true
+
+times&trades.xlsx
+BEFORE = 581A91EC9CFCB752F0F3E0B0659B17622F50BF38E54A4C308472B1E69E571547
+AFTER  = 581A91EC9CFCB752F0F3E0B0659B17622F50BF38E54A4C308472B1E69E571547
+UNCHANGED = true
+
+git diff --check
+EXIT_CODE = 0
+STDOUT = (vazio; nenhuma falha de whitespace)
+STDERR = warning: in the working copy of 'connectors/excel_connector.py', LF will be replaced by CRLF the next time Git touches it
+
+O aviso LF/CRLF refere-se ao ExcelConnector ja modificado antes da tarefa.
+O comando nao o alterou; hash inicial/final identico.
+
+git diff --stat (global, inclui alteracoes operacionais preexistentes)
+ Profit.xlsx                               | Bin 10330 -> 10193 bytes
+ connectors/excel_connector.py             |  76 +++++++++++++++---------------
+ livroOfertas.xlsx                         | Bin 17881 -> 18029 bytes
+ market_data/profit_rtd_workbook_reader.py |   5 +-
+ saida.txt                                 | Bin 1290 -> 2146 bytes
+ tests/test_profit_rtd_rc1.py              |  37 ++++++++++++++-
+ times&trades.xlsx                         | Bin 16689 -> 15552 bytes
+ 7 files changed, 76 insertions(+), 42 deletions(-)
+
+git diff --stat -- market_data/profit_rtd_workbook_reader.py tests/test_profit_rtd_rc1.py
+ market_data/profit_rtd_workbook_reader.py |  5 ++++-
+ tests/test_profit_rtd_rc1.py              | 37 +++++++++++++++++++++++++++++--
+ 2 files changed, 39 insertions(+), 3 deletions(-)
+
+O relatorio untracked nao aparece no diff/stat do Git.
+
+git diff -- market_data/profit_rtd_workbook_reader.py tests/test_profit_rtd_rc1.py
+diff --git a/market_data/profit_rtd_workbook_reader.py b/market_data/profit_rtd_workbook_reader.py
+index e4456dd..ea525b5 100644
+--- a/market_data/profit_rtd_workbook_reader.py
++++ b/market_data/profit_rtd_workbook_reader.py
+@@ -67,7 +67,10 @@ class ProfitRTDWorkbookReader:
+         if not workbook_symbol:
+             raise ValueError("Ativo RTD indisponível.")
+         if requested and workbook_symbol != requested:
+-            raise ValueError("Ativo solicitado difere do workbook RTD.")
++            raise ValueError(
++                "Ativo solicitado difere do workbook RTD. "
++                f"requested={requested!r} workbook={workbook_symbol!r}"
++            )
+         return workbook_symbol
+ 
+ 
+diff --git a/tests/test_profit_rtd_rc1.py b/tests/test_profit_rtd_rc1.py
+index 6ab72e1..8a54d80 100644
+--- a/tests/test_profit_rtd_rc1.py
++++ b/tests/test_profit_rtd_rc1.py
+@@ -86,8 +86,8 @@ def trades_matrix():
+ def raises(expected, callback):
+     try:
+         callback()
+-    except expected:
+-        return
++    except expected as exc:
++        return exc
+     raise AssertionError(f"Esperava {expected.__name__}.")
+ 
+ 
+@@ -197,6 +197,39 @@ def teste_leitores_rejeitam_ativo_divergente():
+     )
+ 
+ 
++def teste_symbol_preserva_igualdade_normalizacao_e_solicitado_vazio():
++    for reader_type in (ProfitRTDBookDepthReader, ProfitRTDTimesTradesReader):
++        for requested in ("WINV26", " \twinv26\n", "", " \t", None):
++            assert reader_type._symbol([[" \twinv26\n"]], requested) == "WINV26"
++
++
++def teste_symbol_mismatch_informa_normalizados_sem_equivalencia():
++    for reader_type, matrix_factory, method in (
++        (ProfitRTDBookDepthReader, book_matrix, "read_book_depth"),
++        (ProfitRTDTimesTradesReader, trades_matrix, "read_times_trades"),
++    ):
++        for requested in (" winz26 ", "WIN", "WIN$N", "WINV26_F_0", "WIN V26"):
++            matrix = matrix_factory()
++            matrix[0][0] = " \twinv26\n"
++            read = getattr(reader_type(Gateway(matrix)), method)
++            exc = raises(ValueError, lambda: read(requested))
++            assert str(exc) == (
++                "Ativo solicitado difere do workbook RTD. "
++                f"requested={requested.strip().upper()!r} workbook='WINV26'"
++            )
++
++
++def teste_symbol_workbook_vazio_preserva_erro_anterior():
++    for reader_type in (ProfitRTDBookDepthReader, ProfitRTDTimesTradesReader):
++        for workbook_symbol in ("", " \t\n", None):
++            for requested in ("WINV26", "", None):
++                exc = raises(
++                    ValueError,
++                    lambda: reader_type._symbol([[workbook_symbol]], requested),
++                )
++                assert str(exc) == "Ativo RTD indisponível."
++
++
+ def teste_leitores_rejeitam_workbooks_trocados():
+     raises(
+         ValueError,
+
+
+Nenhuma Session #18 executada. Nenhuma coleta ou leitura viva Excel.
+Nenhum git add, stage, commit, push, restore, reset ou clean.
+Somente os dois arquivos autorizados de codigo/teste e este relatorio foram
+alterados/criados pela tarefa. HEAD permaneceu igual.
+

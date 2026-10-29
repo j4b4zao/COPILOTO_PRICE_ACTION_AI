@@ -1,0 +1,3577 @@
+{
+  "version": "H.10 RC3.11",
+  "status": "FUNCTIONAL_TESTS_PREPARED_NOT_EXECUTED",
+  "decision": "WAIT",
+  "orders_allowed": false,
+  "live_certified": false,
+  "flow_complete": false,
+  "generated_at": "2026-10-13T16:30:47.170226-03:00",
+  "source_files_verified": 146,
+  "prior_artifacts_verified": 5,
+  "prior_manifest_verified": true,
+  "total_integrity_files": 152,
+  "hash_differences": [],
+  "previous_hashes_updated": false,
+  "contracts": {
+    "market_structure": {
+      "source": "analysis/market_structure.py",
+      "constructor": {
+        "signature": "() inherited object initialization through EngineBase",
+        "line": null,
+        "calls": [],
+        "imports": []
+      },
+      "public_methods": [
+        {
+          "name": "executar",
+          "line": 29,
+          "signature": "(self, context)",
+          "returns_annotation": null
+        }
+      ],
+      "input_output": {
+        "context_references_static": [
+          "context.market",
+          "context.market.candles",
+          "context.market.candles.all",
+          "context.market.ready",
+          "context.structure",
+          "context.structure.add_reason",
+          "context.structure.bos_down",
+          "context.structure.bos_up",
+          "context.structure.choch",
+          "context.structure.clear",
+          "context.structure.confidence",
+          "context.structure.hh",
+          "context.structure.hl",
+          "context.structure.lh",
+          "context.structure.ll",
+          "context.structure.trend"
+        ],
+        "context_writes_static": [
+          {
+            "field": "context.structure.valid",
+            "line": 509
+          },
+          {
+            "field": "context.structure.trend",
+            "line": 234
+          },
+          {
+            "field": "context.structure.confidence",
+            "line": 236
+          },
+          {
+            "field": "context.structure.valid",
+            "line": 238
+          },
+          {
+            "field": "context.structure.swing_high",
+            "line": 252
+          },
+          {
+            "field": "context.structure.last_high",
+            "line": 254
+          },
+          {
+            "field": "context.structure.swing_low",
+            "line": 258
+          },
+          {
+            "field": "context.structure.last_low",
+            "line": 260
+          },
+          {
+            "field": "context.structure.trend",
+            "line": 348
+          },
+          {
+            "field": "context.structure.confidence",
+            "line": 350
+          },
+          {
+            "field": "context.structure.bos_up",
+            "line": 398
+          },
+          {
+            "field": "context.structure.confidence",
+            "line": 400
+          },
+          {
+            "field": "context.structure.bos_down",
+            "line": 420
+          },
+          {
+            "field": "context.structure.confidence",
+            "line": 422
+          },
+          {
+            "field": "context.structure.choch",
+            "line": 443
+          },
+          {
+            "field": "context.structure.confidence",
+            "line": 445
+          },
+          {
+            "field": "context.structure.choch",
+            "line": 466
+          },
+          {
+            "field": "context.structure.confidence",
+            "line": 468
+          },
+          {
+            "field": "context.structure.hh",
+            "line": 280
+          },
+          {
+            "field": "context.structure.hl",
+            "line": 296
+          },
+          {
+            "field": "context.structure.lh",
+            "line": 320
+          },
+          {
+            "field": "context.structure.ll",
+            "line": 336
+          },
+          {
+            "field": "context.structure.trend",
+            "line": 358
+          },
+          {
+            "field": "context.structure.confidence",
+            "line": 360
+          },
+          {
+            "field": "context.structure.trend",
+            "line": 368
+          },
+          {
+            "field": "context.structure.confidence",
+            "line": 370
+          },
+          {
+            "field": "context.structure.trend",
+            "line": 378
+          },
+          {
+            "field": "context.structure.confidence",
+            "line": 380
+          }
+        ],
+        "alias_map": {
+          "context": "context",
+          "market": "context.market",
+          "result": "context.structure"
+        },
+        "limitations": "Alias approximation; getattr/setattr and helper effects require method review. Not a complete runtime contract.",
+        "return_contract": "Same AnalysisContext object with mutated result; Strategy may replace context.strategy",
+        "result_slot": "structure"
+      },
+      "demonstrated_contract": "ready e >=6 candles; exclui último. Swings estritos ±2. UP=HH+HL; DOWN=LH+LL; caso restante com swing SIDEWAYS. Sem swing valid=False. BOS pelo último close fechado; CHOCH cruza swing anterior. Early return não limpa resultado antigo.",
+      "conditions_ast": [
+        {
+          "line": 37,
+          "condition": "not market.ready"
+        },
+        {
+          "line": 48,
+          "condition": "len(candles) < 6"
+        },
+        {
+          "line": 53,
+          "condition": "len(closed_candles) < 5"
+        },
+        {
+          "line": 225,
+          "condition": "not swing_highs and (not swing_lows)"
+        },
+        {
+          "line": 250,
+          "condition": "swing_highs"
+        },
+        {
+          "line": 256,
+          "condition": "swing_lows"
+        },
+        {
+          "line": 270,
+          "condition": "len(swing_highs) >= 2"
+        },
+        {
+          "line": 286,
+          "condition": "len(swing_lows) >= 2"
+        },
+        {
+          "line": 310,
+          "condition": "len(swing_highs) >= 2"
+        },
+        {
+          "line": 326,
+          "condition": "len(swing_lows) >= 2"
+        },
+        {
+          "line": 346,
+          "condition": "higher_high and higher_low"
+        },
+        {
+          "line": 392,
+          "condition": "len(swing_highs) >= 1 and last_closed_candle.close > swing_highs[-1]"
+        },
+        {
+          "line": 414,
+          "condition": "len(swing_lows) >= 1 and last_closed_candle.close < swing_lows[-1]"
+        },
+        {
+          "line": 436,
+          "condition": "len(swing_lows) >= 2 and higher_high and (last_closed_candle.close < swing_lows[-2])"
+        },
+        {
+          "line": 459,
+          "condition": "len(swing_highs) >= 2 and lower_low and (last_closed_candle.close > swing_highs[-2])"
+        },
+        {
+          "line": 145,
+          "condition": "is_swing_high"
+        },
+        {
+          "line": 171,
+          "condition": "is_swing_low"
+        },
+        {
+          "line": 276,
+          "condition": "current_high > previous_high"
+        },
+        {
+          "line": 292,
+          "condition": "current_low > previous_low"
+        },
+        {
+          "line": 316,
+          "condition": "current_high < previous_high"
+        },
+        {
+          "line": 332,
+          "condition": "current_low < previous_low"
+        },
+        {
+          "line": 356,
+          "condition": "lower_high and lower_low"
+        },
+        {
+          "line": 366,
+          "condition": "swing_highs or swing_lows"
+        }
+      ],
+      "output_assignments_ast": [
+        {
+          "line": 509,
+          "target": "result.valid",
+          "value": "True"
+        },
+        {
+          "line": 234,
+          "target": "result.trend",
+          "value": "Trend.UNKNOWN"
+        },
+        {
+          "line": 236,
+          "target": "result.confidence",
+          "value": "0.0"
+        },
+        {
+          "line": 238,
+          "target": "result.valid",
+          "value": "False"
+        },
+        {
+          "line": 252,
+          "target": "result.swing_high",
+          "value": "swing_highs[-1]"
+        },
+        {
+          "line": 254,
+          "target": "result.last_high",
+          "value": "swing_highs[-1]"
+        },
+        {
+          "line": 258,
+          "target": "result.swing_low",
+          "value": "swing_lows[-1]"
+        },
+        {
+          "line": 260,
+          "target": "result.last_low",
+          "value": "swing_lows[-1]"
+        },
+        {
+          "line": 348,
+          "target": "result.trend",
+          "value": "Trend.UP"
+        },
+        {
+          "line": 350,
+          "target": "result.confidence",
+          "value": "0.8"
+        },
+        {
+          "line": 398,
+          "target": "result.bos_up",
+          "value": "True"
+        },
+        {
+          "line": 400,
+          "target": "result.confidence",
+          "value": "min(result.confidence + 0.1, 1.0)"
+        },
+        {
+          "line": 420,
+          "target": "result.bos_down",
+          "value": "True"
+        },
+        {
+          "line": 422,
+          "target": "result.confidence",
+          "value": "min(result.confidence + 0.1, 1.0)"
+        },
+        {
+          "line": 443,
+          "target": "result.choch",
+          "value": "True"
+        },
+        {
+          "line": 445,
+          "target": "result.confidence",
+          "value": "min(result.confidence + 0.1, 1.0)"
+        },
+        {
+          "line": 466,
+          "target": "result.choch",
+          "value": "True"
+        },
+        {
+          "line": 468,
+          "target": "result.confidence",
+          "value": "min(result.confidence + 0.1, 1.0)"
+        },
+        {
+          "line": 280,
+          "target": "result.hh",
+          "value": "True"
+        },
+        {
+          "line": 296,
+          "target": "result.hl",
+          "value": "True"
+        },
+        {
+          "line": 320,
+          "target": "result.lh",
+          "value": "True"
+        },
+        {
+          "line": 336,
+          "target": "result.ll",
+          "value": "True"
+        },
+        {
+          "line": 358,
+          "target": "result.trend",
+          "value": "Trend.DOWN"
+        },
+        {
+          "line": 360,
+          "target": "result.confidence",
+          "value": "0.8"
+        },
+        {
+          "line": 368,
+          "target": "result.trend",
+          "value": "Trend.SIDEWAYS"
+        },
+        {
+          "line": 370,
+          "target": "result.confidence",
+          "value": "0.4"
+        },
+        {
+          "line": 378,
+          "target": "result.trend",
+          "value": "Trend.UNKNOWN"
+        },
+        {
+          "line": 380,
+          "target": "result.confidence",
+          "value": "0.0"
+        }
+      ]
+    },
+    "price_action": {
+      "source": "analysis/price_action/price_action.py",
+      "constructor": {
+        "signature": "() inherited object initialization through EngineBase",
+        "line": null,
+        "calls": [],
+        "imports": []
+      },
+      "public_methods": [
+        {
+          "name": "executar",
+          "line": 121,
+          "signature": "(self, context)",
+          "returns_annotation": null
+        }
+      ],
+      "input_output": {
+        "context_references_static": [
+          "context.evidence",
+          "context.evidence.add",
+          "context.market",
+          "context.market.candles",
+          "context.market.candles.all",
+          "context.market.last_candle",
+          "context.market.previous_candle",
+          "context.market.ready",
+          "context.price_action",
+          "context.price_action.bearish_engulfing",
+          "context.price_action.bias",
+          "context.price_action.bos",
+          "context.price_action.breakout",
+          "context.price_action.bullish_engulfing",
+          "context.price_action.choch",
+          "context.price_action.clear",
+          "context.price_action.continuation",
+          "context.price_action.doji",
+          "context.price_action.hammer",
+          "context.price_action.inside_bar",
+          "context.price_action.outside_bar",
+          "context.price_action.pullback",
+          "context.price_action.rejection",
+          "context.price_action.score",
+          "context.price_action.shooting_star",
+          "context.price_action.trend",
+          "context.structure",
+          "context.structure.bos_down",
+          "context.structure.bos_up",
+          "context.structure.choch",
+          "context.structure.last_high",
+          "context.structure.last_low",
+          "context.structure.trend"
+        ],
+        "context_writes_static": [
+          {
+            "field": "context.price_action.trend",
+            "line": 189
+          },
+          {
+            "field": "context.price_action.last_high",
+            "line": 191
+          },
+          {
+            "field": "context.price_action.last_low",
+            "line": 193
+          },
+          {
+            "field": "context.price_action.bos",
+            "line": 195
+          },
+          {
+            "field": "context.price_action.choch",
+            "line": 201
+          },
+          {
+            "field": "context.price_action.hammer",
+            "line": 453
+          },
+          {
+            "field": "context.price_action.shooting_star",
+            "line": 459
+          },
+          {
+            "field": "context.price_action.doji",
+            "line": 465
+          },
+          {
+            "field": "context.price_action.bullish_engulfing",
+            "line": 471
+          },
+          {
+            "field": "context.price_action.bearish_engulfing",
+            "line": 478
+          },
+          {
+            "field": "context.price_action.inside_bar",
+            "line": 485
+          },
+          {
+            "field": "context.price_action.outside_bar",
+            "line": 492
+          },
+          {
+            "field": "context.price_action.breakout",
+            "line": 509
+          },
+          {
+            "field": "context.price_action.pullback",
+            "line": 515
+          },
+          {
+            "field": "context.price_action.rejection",
+            "line": 523
+          },
+          {
+            "field": "context.price_action.continuation",
+            "line": 529
+          },
+          {
+            "field": "context.price_action.score",
+            "line": 683
+          },
+          {
+            "field": "context.price_action.confidence",
+            "line": 696
+          },
+          {
+            "field": "context.price_action.valid",
+            "line": 706
+          },
+          {
+            "field": "context.price_action.bias",
+            "line": 551
+          },
+          {
+            "field": "context.price_action.bias",
+            "line": 563
+          },
+          {
+            "field": "context.price_action.bias",
+            "line": 575
+          }
+        ],
+        "alias_map": {
+          "context": "context",
+          "market": "context.market",
+          "result": "context.price_action",
+          "structure": "context.structure",
+          "evidence": "context.evidence"
+        },
+        "limitations": "Alias approximation; getattr/setattr and helper effects require method review. Not a complete runtime contract.",
+        "return_contract": "Same AnalysisContext object with mutated result; Strategy may replace context.strategy",
+        "result_slot": "price_action"
+      },
+      "demonstrated_contract": "ready; clear/cópia structure.trend. UP->BUY, DOWN->SELL, demais NONE; valid=bias BUY/SELL e score>=30. Padrões somam pontos sem veto geral de conflito; _detect_patterns usa market.last_candle (pode estar em formação), enquanto helpers usam candles fechados.",
+      "conditions_ast": [
+        {
+          "line": 125,
+          "condition": "not market.ready"
+        },
+        {
+          "line": 447,
+          "condition": "current is None or previous is None"
+        },
+        {
+          "line": 549,
+          "condition": "result.trend == Trend.UP"
+        },
+        {
+          "line": 596,
+          "condition": "result.trend in (Trend.UP, Trend.DOWN)"
+        },
+        {
+          "line": 607,
+          "condition": "result.bos"
+        },
+        {
+          "line": 619,
+          "condition": "result.choch"
+        },
+        {
+          "line": 631,
+          "condition": "result.hammer"
+        },
+        {
+          "line": 635,
+          "condition": "result.shooting_star"
+        },
+        {
+          "line": 639,
+          "condition": "result.doji"
+        },
+        {
+          "line": 643,
+          "condition": "result.bullish_engulfing"
+        },
+        {
+          "line": 647,
+          "condition": "result.bearish_engulfing"
+        },
+        {
+          "line": 651,
+          "condition": "result.inside_bar"
+        },
+        {
+          "line": 655,
+          "condition": "result.outside_bar"
+        },
+        {
+          "line": 663,
+          "condition": "result.breakout"
+        },
+        {
+          "line": 667,
+          "condition": "result.pullback"
+        },
+        {
+          "line": 671,
+          "condition": "result.continuation"
+        },
+        {
+          "line": 675,
+          "condition": "result.rejection"
+        },
+        {
+          "line": 561,
+          "condition": "result.trend == Trend.DOWN"
+        }
+      ],
+      "output_assignments_ast": [
+        {
+          "line": 189,
+          "target": "result.trend",
+          "value": "structure.trend"
+        },
+        {
+          "line": 191,
+          "target": "result.last_high",
+          "value": "structure.last_high"
+        },
+        {
+          "line": 193,
+          "target": "result.last_low",
+          "value": "structure.last_low"
+        },
+        {
+          "line": 195,
+          "target": "result.bos",
+          "value": "structure.bos_up or structure.bos_down"
+        },
+        {
+          "line": 201,
+          "target": "result.choch",
+          "value": "structure.choch"
+        },
+        {
+          "line": 453,
+          "target": "result.hammer",
+          "value": "CandlestickPatterns.is_hammer(current)"
+        },
+        {
+          "line": 459,
+          "target": "result.shooting_star",
+          "value": "CandlestickPatterns.is_shooting_star(current)"
+        },
+        {
+          "line": 465,
+          "target": "result.doji",
+          "value": "CandlestickPatterns.is_doji(current)"
+        },
+        {
+          "line": 471,
+          "target": "result.bullish_engulfing",
+          "value": "CandlestickPatterns.is_bullish_engulfing(previous, current)"
+        },
+        {
+          "line": 478,
+          "target": "result.bearish_engulfing",
+          "value": "CandlestickPatterns.is_bearish_engulfing(previous, current)"
+        },
+        {
+          "line": 485,
+          "target": "result.inside_bar",
+          "value": "CandlestickPatterns.is_inside_bar(previous, current)"
+        },
+        {
+          "line": 492,
+          "target": "result.outside_bar",
+          "value": "CandlestickPatterns.is_outside_bar(previous, current)"
+        },
+        {
+          "line": 509,
+          "target": "result.breakout",
+          "value": "structure.bos_up or structure.bos_down"
+        },
+        {
+          "line": 515,
+          "target": "result.pullback",
+          "value": "result.hammer or result.bullish_engulfing or result.bearish_engulfing"
+        },
+        {
+          "line": 523,
+          "target": "result.rejection",
+          "value": "result.hammer or result.shooting_star"
+        },
+        {
+          "line": 529,
+          "target": "result.continuation",
+          "value": "result.breakout and (not result.pullback)"
+        },
+        {
+          "line": 683,
+          "target": "result.score",
+          "value": "min(score, 100)"
+        },
+        {
+          "line": 696,
+          "target": "result.confidence",
+          "value": "result.score / 100"
+        },
+        {
+          "line": 706,
+          "target": "result.valid",
+          "value": "result.bias in ('BUY', 'SELL') and result.score >= self.MIN_VALID_SCORE"
+        },
+        {
+          "line": 551,
+          "target": "result.bias",
+          "value": "'BUY'"
+        },
+        {
+          "line": 563,
+          "target": "result.bias",
+          "value": "'SELL'"
+        },
+        {
+          "line": 575,
+          "target": "result.bias",
+          "value": "'NONE'"
+        }
+      ]
+    },
+    "strategy": {
+      "source": "strategies/strategy_engine.py",
+      "constructor": {
+        "signature": "(self)",
+        "line": 26,
+        "calls": [
+          "SetupRegistry.load"
+        ],
+        "imports": []
+      },
+      "public_methods": [
+        {
+          "name": "executar",
+          "line": 34,
+          "signature": "(self, context)",
+          "returns_annotation": null
+        }
+      ],
+      "input_output": {
+        "context_references_static": [
+          "context.strategy",
+          "context.strategy.clear"
+        ],
+        "context_writes_static": [
+          {
+            "field": "context.strategy",
+            "line": 64
+          }
+        ],
+        "alias_map": {
+          "context": "context",
+          "strategy": "context.strategy"
+        },
+        "limitations": "Alias approximation; getattr/setattr and helper effects require method review. Not a complete runtime contract.",
+        "return_contract": "Same AnalysisContext object with mutated result; Strategy may replace context.strategy",
+        "result_slot": "strategy"
+      },
+      "demonstrated_contract": "Construtor carrega 3 setups reais. executar limpa strategy, ignora setups desabilitados/inválidos e seleciona maior score; empate mantém primeiro. Pode substituir context.strategy. Breakout BUY/SELL exige context.valid/bias, Trend/BOS/OB/FVG/breakout e filtros volume/liquidez; não exige todos os flags valid auxiliares.",
+      "conditions_ast": [
+        {
+          "line": 62,
+          "condition": "best_result"
+        },
+        {
+          "line": 44,
+          "condition": "not setup.ENABLED"
+        },
+        {
+          "line": 49,
+          "condition": "not result.valid"
+        },
+        {
+          "line": 52,
+          "condition": "best_result is None"
+        },
+        {
+          "line": 58,
+          "condition": "result.score > best_result.score"
+        }
+      ],
+      "output_assignments_ast": [
+        {
+          "line": 28,
+          "target": "self.setups",
+          "value": "SetupRegistry.load()"
+        },
+        {
+          "line": 64,
+          "target": "context.strategy",
+          "value": "best_result"
+        }
+      ]
+    },
+    "score": {
+      "source": "ai/score_engine.py",
+      "constructor": {
+        "signature": "(self, enable_order_flow=None, order_flow_weight=None)",
+        "line": 72,
+        "calls": [
+          "bool",
+          "float",
+          "ValueError",
+          "ValueError",
+          "math.isfinite"
+        ],
+        "imports": [
+          {
+            "module": "config.settings",
+            "symbol": "ENABLE_ORDER_FLOW_SCORE",
+            "line": 77,
+            "scope": "module.__init__",
+            "level": 0
+          },
+          {
+            "module": "config.settings",
+            "symbol": "ORDER_FLOW_SCORE_WEIGHT",
+            "line": 77,
+            "scope": "module.__init__",
+            "level": 0
+          }
+        ]
+      },
+      "public_methods": [
+        {
+          "name": "executar",
+          "line": 113,
+          "signature": "(self, context)",
+          "returns_annotation": null
+        }
+      ],
+      "input_output": {
+        "context_references_static": [
+          "context.context",
+          "context.context.valid",
+          "context.fair_value_gap",
+          "context.fair_value_gap.valid",
+          "context.liquidity",
+          "context.liquidity.valid",
+          "context.order_block",
+          "context.order_block.valid",
+          "context.order_flow",
+          "context.order_flow.absorption",
+          "context.order_flow.divergence",
+          "context.order_flow.exhaustion",
+          "context.order_flow.pattern_confidence",
+          "context.order_flow.pattern_confirmed",
+          "context.order_flow.valid",
+          "context.price_action",
+          "context.price_action.valid",
+          "context.score",
+          "context.score.add_score",
+          "context.score.bias",
+          "context.score.calculate_total",
+          "context.score.classify",
+          "context.score.clear",
+          "context.score.total",
+          "context.strategy",
+          "context.strategy.valid",
+          "context.structure",
+          "context.structure.valid",
+          "context.volume",
+          "context.volume.valid"
+        ],
+        "context_writes_static": [
+          {
+            "field": "context.score.order_flow_experiment_enabled",
+            "line": 119
+          },
+          {
+            "field": "context.score.total",
+            "line": 186
+          },
+          {
+            "field": "context.score.confidence",
+            "line": 204
+          },
+          {
+            "field": "context.score.valid",
+            "line": 212
+          },
+          {
+            "field": "context.score.order_flow_direction",
+            "line": 862
+          },
+          {
+            "field": "context.score.order_flow_applied",
+            "line": 881
+          },
+          {
+            "field": "context.score.order_flow_contribution",
+            "line": 882
+          },
+          {
+            "field": "context.score.bias",
+            "line": 246
+          },
+          {
+            "field": "context.score.bias",
+            "line": 250
+          }
+        ],
+        "alias_map": {
+          "context": "context",
+          "score": "context.score",
+          "strategy": "context.strategy",
+          "structure": "context.structure",
+          "price": "context.price_action",
+          "liquidity": "context.liquidity",
+          "volume": "context.volume",
+          "order_block": "context.order_block",
+          "fvg": "context.fair_value_gap",
+          "ctx": "context.context",
+          "order_flow": "context.order_flow"
+        },
+        "limitations": "Alias approximation; getattr/setattr and helper effects require method review. Not a complete runtime contract.",
+        "return_contract": "Same AnalysisContext object with mutated result; Strategy may replace context.strategy",
+        "result_slot": "score"
+      },
+      "demonstrated_contract": "Construtor(enable_order_flow=None,order_flow_weight=None), import tardio settings mesmo com parâmetros; peso finito 0..10. Pesos 20/20/15/10/10/10/5/10, total 0..100; valid=strategy.valid e total>=70; bias=strategy.signal. Confiança=total/100; sem veto geral direcional. OF explicitamente desabilitado/peso0.",
+      "conditions_ast": [
+        {
+          "line": 101,
+          "condition": "not math.isfinite(self.order_flow_weight) or not 0.0 <= self.order_flow_weight <= self.MAX_ORDER_FLOW_WEIGHT"
+        },
+        {
+          "line": 241,
+          "condition": "signal in ('BUY', 'SELL')"
+        },
+        {
+          "line": 315,
+          "condition": "not structure.valid"
+        },
+        {
+          "line": 333,
+          "condition": "trend not in ('TREND.UNKNOWN', 'UNKNOWN', 'NONE', '')"
+        },
+        {
+          "line": 346,
+          "condition": "getattr(structure, 'bos_up', False) or getattr(structure, 'bos_down', False)"
+        },
+        {
+          "line": 362,
+          "condition": "getattr(structure, 'hh', False) or getattr(structure, 'hl', False) or getattr(structure, 'lh', False) or getattr(structure, 'll', False)"
+        },
+        {
+          "line": 391,
+          "condition": "getattr(structure, 'choch', False)"
+        },
+        {
+          "line": 409,
+          "condition": "confidence <= 1.0"
+        },
+        {
+          "line": 440,
+          "condition": "not price.valid"
+        },
+        {
+          "line": 459,
+          "condition": "value <= 0"
+        },
+        {
+          "line": 552,
+          "condition": "not liquidity.valid"
+        },
+        {
+          "line": 562,
+          "condition": "confidence > 0"
+        },
+        {
+          "line": 622,
+          "condition": "not volume.valid"
+        },
+        {
+          "line": 632,
+          "condition": "strength <= 1.0"
+        },
+        {
+          "line": 636,
+          "condition": "strength <= 0"
+        },
+        {
+          "line": 682,
+          "condition": "not order_block.valid"
+        },
+        {
+          "line": 692,
+          "condition": "value <= 0"
+        },
+        {
+          "line": 706,
+          "condition": "getattr(order_block, 'mitigated', False)"
+        },
+        {
+          "line": 734,
+          "condition": "not fvg.valid"
+        },
+        {
+          "line": 744,
+          "condition": "value <= 0"
+        },
+        {
+          "line": 758,
+          "condition": "getattr(fvg, 'filled', False)"
+        },
+        {
+          "line": 786,
+          "condition": "not ctx.valid"
+        },
+        {
+          "line": 796,
+          "condition": "value <= 0"
+        },
+        {
+          "line": 830,
+          "condition": "not strategy.valid"
+        },
+        {
+          "line": 853,
+          "condition": "not self.enable_order_flow or self.order_flow_weight <= 0"
+        },
+        {
+          "line": 858,
+          "condition": "not order_flow.valid or not order_flow.pattern_confirmed"
+        },
+        {
+          "line": 864,
+          "condition": "direction == 'NONE' or direction != score.bias"
+        },
+        {
+          "line": 877,
+          "condition": "contribution <= 0"
+        },
+        {
+          "line": 888,
+          "condition": "order_flow.divergence == 'PRICE_UP_DELTA_DOWN'"
+        },
+        {
+          "line": 893,
+          "condition": "order_flow.absorption == 'BUY_ABSORPTION'"
+        },
+        {
+          "line": 898,
+          "condition": "order_flow.exhaustion == 'BUY_EXHAUSTION'"
+        },
+        {
+          "line": 903,
+          "condition": "len(directions) != 1"
+        },
+        {
+          "line": 463,
+          "condition": "getattr(price, 'bos', False)"
+        },
+        {
+          "line": 471,
+          "condition": "getattr(price, 'choch', False)"
+        },
+        {
+          "line": 479,
+          "condition": "getattr(price, 'breakout', False)"
+        },
+        {
+          "line": 487,
+          "condition": "getattr(price, 'pullback', False)"
+        },
+        {
+          "line": 495,
+          "condition": "getattr(price, 'hammer', False)"
+        },
+        {
+          "line": 503,
+          "condition": "getattr(price, 'shooting_star', False)"
+        },
+        {
+          "line": 511,
+          "condition": "getattr(price, 'bullish_engulfing', False)"
+        },
+        {
+          "line": 519,
+          "condition": "getattr(price, 'bearish_engulfing', False)"
+        },
+        {
+          "line": 570,
+          "condition": "getattr(liquidity, 'buy_side', False)"
+        },
+        {
+          "line": 578,
+          "condition": "getattr(liquidity, 'sell_side', False)"
+        },
+        {
+          "line": 586,
+          "condition": "getattr(liquidity, 'sweep_up', False)"
+        },
+        {
+          "line": 594,
+          "condition": "getattr(liquidity, 'sweep_down', False)"
+        },
+        {
+          "line": 638,
+          "condition": "getattr(volume, 'high', False)"
+        },
+        {
+          "line": 700,
+          "condition": "strength <= 1.0"
+        },
+        {
+          "line": 752,
+          "condition": "strength <= 1.0"
+        },
+        {
+          "line": 890,
+          "condition": "order_flow.divergence == 'PRICE_DOWN_DELTA_UP'"
+        },
+        {
+          "line": 895,
+          "condition": "order_flow.absorption == 'SELL_ABSORPTION'"
+        },
+        {
+          "line": 900,
+          "condition": "order_flow.exhaustion == 'SELL_EXHAUSTION'"
+        },
+        {
+          "line": 646,
+          "condition": "getattr(volume, 'medium', False)"
+        },
+        {
+          "line": 654,
+          "condition": "getattr(volume, 'low', False)"
+        }
+      ],
+      "output_assignments_ast": [
+        {
+          "line": 82,
+          "target": "self.enable_order_flow",
+          "value": "bool(ENABLE_ORDER_FLOW_SCORE if enable_order_flow is None else enable_order_flow)"
+        },
+        {
+          "line": 119,
+          "target": "score.order_flow_experiment_enabled",
+          "value": "self.enable_order_flow"
+        },
+        {
+          "line": 186,
+          "target": "score.total",
+          "value": "min(max(float(score.total), 0.0), self.MAX_SCORE)"
+        },
+        {
+          "line": 204,
+          "target": "score.confidence",
+          "value": "score.total / self.MAX_SCORE"
+        },
+        {
+          "line": 212,
+          "target": "score.valid",
+          "value": "context.strategy.valid and score.total >= self.MIN_SCORE"
+        },
+        {
+          "line": 862,
+          "target": "score.order_flow_direction",
+          "value": "direction"
+        },
+        {
+          "line": 881,
+          "target": "score.order_flow_applied",
+          "value": "True"
+        },
+        {
+          "line": 882,
+          "target": "score.order_flow_contribution",
+          "value": "contribution"
+        },
+        {
+          "line": 95,
+          "target": "self.order_flow_weight",
+          "value": "float(weight)"
+        },
+        {
+          "line": 246,
+          "target": "score.bias",
+          "value": "signal"
+        },
+        {
+          "line": 250,
+          "target": "score.bias",
+          "value": "'NONE'"
+        }
+      ]
+    },
+    "risk": {
+      "source": "risk/risk_manager.py",
+      "constructor": {
+        "signature": "() inherited object initialization through EngineBase",
+        "line": null,
+        "calls": [],
+        "imports": []
+      },
+      "public_methods": [
+        {
+          "name": "executar",
+          "line": 62,
+          "signature": "(self, context)",
+          "returns_annotation": null
+        }
+      ],
+      "input_output": {
+        "context_references_static": [
+          "context.fair_value_gap",
+          "context.fair_value_gap.bearish",
+          "context.fair_value_gap.bullish",
+          "context.fair_value_gap.filled",
+          "context.fair_value_gap.valid",
+          "context.liquidity",
+          "context.liquidity.buy_side",
+          "context.liquidity.sell_side",
+          "context.liquidity.sweep_down",
+          "context.liquidity.sweep_up",
+          "context.market",
+          "context.order_block",
+          "context.order_block.bearish",
+          "context.order_block.bullish",
+          "context.order_block.mitigated",
+          "context.order_block.valid",
+          "context.risk",
+          "context.risk.add_reason",
+          "context.risk.approved",
+          "context.risk.clear",
+          "context.risk.confluences",
+          "context.risk.entry_price",
+          "context.risk.risk_reward",
+          "context.risk.risk_score",
+          "context.risk.stop_loss",
+          "context.risk.take_profit",
+          "context.strategy",
+          "context.strategy.score",
+          "context.strategy.signal",
+          "context.strategy.valid",
+          "context.structure",
+          "context.structure.bos_down",
+          "context.structure.bos_up",
+          "context.structure.hh",
+          "context.structure.hl",
+          "context.structure.lh",
+          "context.structure.ll",
+          "context.structure.trend",
+          "context.structure.trend.name",
+          "context.volume",
+          "context.volume.high",
+          "context.volume.medium"
+        ],
+        "context_writes_static": [
+          {
+            "field": "context.risk.entry_price",
+            "line": 128
+          },
+          {
+            "field": "context.risk.stop_loss",
+            "line": 168
+          },
+          {
+            "field": "context.risk.risk_score",
+            "line": 431
+          },
+          {
+            "field": "context.risk.approved",
+            "line": 458
+          },
+          {
+            "field": "context.risk.valid",
+            "line": 470
+          },
+          {
+            "field": "context.risk.confidence",
+            "line": 472
+          },
+          {
+            "field": "context.risk.confluences",
+            "line": 480
+          },
+          {
+            "field": "context.risk.take_profit",
+            "line": 295
+          },
+          {
+            "field": "context.risk.risk_reward",
+            "line": 297
+          },
+          {
+            "field": "context.risk.take_profit",
+            "line": 365
+          },
+          {
+            "field": "context.risk.risk_reward",
+            "line": 371
+          },
+          {
+            "field": "context.risk.risk_level",
+            "line": 410
+          },
+          {
+            "field": "context.risk.approved",
+            "line": 412
+          },
+          {
+            "field": "context.risk.valid",
+            "line": 414
+          },
+          {
+            "field": "context.risk.risk_score",
+            "line": 416
+          },
+          {
+            "field": "context.risk.confidence",
+            "line": 418
+          },
+          {
+            "field": "context.risk.risk_level",
+            "line": 444
+          },
+          {
+            "field": "context.risk.risk_level",
+            "line": 232
+          },
+          {
+            "field": "context.risk.approved",
+            "line": 234
+          },
+          {
+            "field": "context.risk.valid",
+            "line": 236
+          },
+          {
+            "field": "context.risk.confidence",
+            "line": 238
+          },
+          {
+            "field": "context.risk.risk_level",
+            "line": 309
+          },
+          {
+            "field": "context.risk.approved",
+            "line": 311
+          },
+          {
+            "field": "context.risk.valid",
+            "line": 313
+          },
+          {
+            "field": "context.risk.risk_score",
+            "line": 315
+          },
+          {
+            "field": "context.risk.confidence",
+            "line": 317
+          },
+          {
+            "field": "context.risk.risk_level",
+            "line": 448
+          },
+          {
+            "field": "context.risk.risk_level",
+            "line": 452
+          },
+          {
+            "field": "context.risk.risk_level",
+            "line": 254
+          },
+          {
+            "field": "context.risk.approved",
+            "line": 256
+          },
+          {
+            "field": "context.risk.valid",
+            "line": 258
+          },
+          {
+            "field": "context.risk.confidence",
+            "line": 260
+          },
+          {
+            "field": "context.risk.risk_level",
+            "line": 272
+          },
+          {
+            "field": "context.risk.approved",
+            "line": 274
+          },
+          {
+            "field": "context.risk.valid",
+            "line": 276
+          },
+          {
+            "field": "context.risk.confidence",
+            "line": 278
+          }
+        ],
+        "alias_map": {
+          "context": "context",
+          "risk": "context.risk",
+          "strategy": "context.strategy",
+          "market": "context.market",
+          "structure": "context.structure",
+          "liquidity": "context.liquidity",
+          "order_block": "context.order_block",
+          "fair_value_gap": "context.fair_value_gap",
+          "volume": "context.volume"
+        },
+        "limitations": "Alias approximation; getattr/setattr and helper effects require method review. Not a complete runtime contract.",
+        "return_contract": "Same AnalysisContext object with mutated result; Strategy may replace context.strategy",
+        "result_slot": "risk"
+      },
+      "demonstrated_contract": "Entrada positiva; strategy.valid/signal BUY ou SELL; stop protetor no lado correto, distância<=500; RR>=1.5; risk_score>=70 aprova e valid=approved. Alvo estrutural RR insuficiente rejeita sem fallback; somente ausência de candidato permite 2R. Não oferece validação geral de NaN/freshness.",
+      "conditions_ast": [
+        {
+          "line": 84,
+          "condition": "not strategy.valid"
+        },
+        {
+          "line": 100,
+          "condition": "direction not in ('BUY', 'SELL')"
+        },
+        {
+          "line": 120,
+          "condition": "entry <= 0"
+        },
+        {
+          "line": 134,
+          "condition": "direction == 'BUY'"
+        },
+        {
+          "line": 179,
+          "condition": "risk_distance <= 0"
+        },
+        {
+          "line": 187,
+          "condition": "risk_distance > self.MAX_STOP_DISTANCE"
+        },
+        {
+          "line": 223,
+          "condition": "structural_found"
+        },
+        {
+          "line": 380,
+          "condition": "direction == 'BUY'"
+        },
+        {
+          "line": 404,
+          "condition": "risk.risk_reward < self.MIN_RISK_REWARD"
+        },
+        {
+          "line": 442,
+          "condition": "risk.risk_score >= 85"
+        },
+        {
+          "line": 526,
+          "condition": "risk.approved"
+        },
+        {
+          "line": 559,
+          "condition": "price > 0"
+        },
+        {
+          "line": 586,
+          "condition": "getattr(order_block, 'valid', False) and getattr(order_block, 'bullish', False)"
+        },
+        {
+          "line": 615,
+          "condition": "getattr(fair_value_gap, 'valid', False) and getattr(fair_value_gap, 'bullish', False)"
+        },
+        {
+          "line": 644,
+          "condition": "getattr(liquidity, 'sweep_down', False)"
+        },
+        {
+          "line": 665,
+          "condition": "not candidates"
+        },
+        {
+          "line": 675,
+          "condition": "not valid"
+        },
+        {
+          "line": 706,
+          "condition": "getattr(order_block, 'valid', False) and getattr(order_block, 'bearish', False)"
+        },
+        {
+          "line": 735,
+          "condition": "getattr(fair_value_gap, 'valid', False) and getattr(fair_value_gap, 'bearish', False)"
+        },
+        {
+          "line": 764,
+          "condition": "getattr(liquidity, 'sweep_up', False)"
+        },
+        {
+          "line": 785,
+          "condition": "not candidates"
+        },
+        {
+          "line": 795,
+          "condition": "not valid"
+        },
+        {
+          "line": 835,
+          "condition": "direction == 'BUY'"
+        },
+        {
+          "line": 973,
+          "condition": "liquidity_price > 0 and liquidity_price < entry"
+        },
+        {
+          "line": 990,
+          "condition": "not candidates"
+        },
+        {
+          "line": 1012,
+          "condition": "valid"
+        },
+        {
+          "line": 1063,
+          "condition": "direction == 'BUY'"
+        },
+        {
+          "line": 1103,
+          "condition": "strategy.score >= 95"
+        },
+        {
+          "line": 1127,
+          "condition": "direction == 'BUY'"
+        },
+        {
+          "line": 1151,
+          "condition": "order_block.valid and (direction == 'BUY' and order_block.bullish or (direction == 'SELL' and order_block.bearish)) and (not order_block.mitigated)"
+        },
+        {
+          "line": 1175,
+          "condition": "fair_value_gap.valid and (direction == 'BUY' and fair_value_gap.bullish or (direction == 'SELL' and fair_value_gap.bearish)) and (not fair_value_gap.filled)"
+        },
+        {
+          "line": 1199,
+          "condition": "volume.high"
+        },
+        {
+          "line": 1211,
+          "condition": "direction == 'BUY'"
+        },
+        {
+          "line": 1271,
+          "condition": "strategy.valid"
+        },
+        {
+          "line": 1279,
+          "condition": "direction == 'BUY'"
+        },
+        {
+          "line": 1303,
+          "condition": "direction == 'BUY'"
+        },
+        {
+          "line": 1325,
+          "condition": "order_block.valid and (direction == 'BUY' and order_block.bullish or (direction == 'SELL' and order_block.bearish))"
+        },
+        {
+          "line": 1347,
+          "condition": "fair_value_gap.valid and (direction == 'BUY' and fair_value_gap.bullish or (direction == 'SELL' and fair_value_gap.bearish))"
+        },
+        {
+          "line": 1369,
+          "condition": "volume.high"
+        },
+        {
+          "line": 143,
+          "condition": "stop <= 0 or stop >= entry"
+        },
+        {
+          "line": 160,
+          "condition": "stop <= entry"
+        },
+        {
+          "line": 225,
+          "condition": "target <= 0"
+        },
+        {
+          "line": 246,
+          "condition": "direction == 'BUY'"
+        },
+        {
+          "line": 303,
+          "condition": "structural_rr < self.MIN_RISK_REWARD"
+        },
+        {
+          "line": 382,
+          "condition": "risk.take_profit <= entry"
+        },
+        {
+          "line": 392,
+          "condition": "risk.take_profit >= entry"
+        },
+        {
+          "line": 446,
+          "condition": "risk.risk_score >= 70"
+        },
+        {
+          "line": 609,
+          "condition": "low > 0"
+        },
+        {
+          "line": 638,
+          "condition": "low > 0"
+        },
+        {
+          "line": 659,
+          "condition": "price > 0"
+        },
+        {
+          "line": 729,
+          "condition": "high > 0"
+        },
+        {
+          "line": 758,
+          "condition": "high > 0"
+        },
+        {
+          "line": 779,
+          "condition": "price > 0"
+        },
+        {
+          "line": 869,
+          "condition": "liquidity_price > entry"
+        },
+        {
+          "line": 882,
+          "condition": "not candidates"
+        },
+        {
+          "line": 904,
+          "condition": "valid"
+        },
+        {
+          "line": 955,
+          "condition": "0.0 < value < entry"
+        },
+        {
+          "line": 1107,
+          "condition": "strategy.score >= 90"
+        },
+        {
+          "line": 1129,
+          "condition": "structure.bos_up"
+        },
+        {
+          "line": 1139,
+          "condition": "structure.bos_down"
+        },
+        {
+          "line": 1203,
+          "condition": "volume.medium"
+        },
+        {
+          "line": 1213,
+          "condition": "liquidity.buy_side"
+        },
+        {
+          "line": 1217,
+          "condition": "liquidity.sell_side"
+        },
+        {
+          "line": 1223,
+          "condition": "liquidity.sell_side"
+        },
+        {
+          "line": 1227,
+          "condition": "liquidity.buy_side"
+        },
+        {
+          "line": 1281,
+          "condition": "structure.hh or structure.hl or structure.bos_up"
+        },
+        {
+          "line": 1291,
+          "condition": "structure.lh or structure.ll or structure.bos_down"
+        },
+        {
+          "line": 1305,
+          "condition": "liquidity.buy_side or liquidity.sweep_down"
+        },
+        {
+          "line": 1314,
+          "condition": "liquidity.sell_side or liquidity.sweep_up"
+        },
+        {
+          "line": 1373,
+          "condition": "volume.medium"
+        },
+        {
+          "line": 248,
+          "condition": "target <= entry"
+        },
+        {
+          "line": 266,
+          "condition": "target >= entry"
+        },
+        {
+          "line": 851,
+          "condition": "value > entry"
+        },
+        {
+          "line": 1111,
+          "condition": "strategy.score >= 80"
+        },
+        {
+          "line": 1133,
+          "condition": "structure.trend.name == 'UP'"
+        },
+        {
+          "line": 1143,
+          "condition": "structure.trend.name == 'DOWN'"
+        },
+        {
+          "line": 1115,
+          "condition": "strategy.score >= 70"
+        }
+      ],
+      "output_assignments_ast": [
+        {
+          "line": 128,
+          "target": "risk.entry_price",
+          "value": "entry"
+        },
+        {
+          "line": 168,
+          "target": "risk.stop_loss",
+          "value": "stop"
+        },
+        {
+          "line": 431,
+          "target": "risk.risk_score",
+          "value": "self._calculate_risk_score(context, direction)"
+        },
+        {
+          "line": 458,
+          "target": "risk.approved",
+          "value": "risk.risk_score >= 70 and risk.risk_reward >= self.MIN_RISK_REWARD"
+        },
+        {
+          "line": 470,
+          "target": "risk.valid",
+          "value": "risk.approved"
+        },
+        {
+          "line": 472,
+          "target": "risk.confidence",
+          "value": "risk.risk_score / 100.0"
+        },
+        {
+          "line": 480,
+          "target": "risk.confluences",
+          "value": "self._count_confluences(context, direction)"
+        },
+        {
+          "line": 295,
+          "target": "risk.take_profit",
+          "value": "target"
+        },
+        {
+          "line": 297,
+          "target": "risk.risk_reward",
+          "value": "structural_rr"
+        },
+        {
+          "line": 365,
+          "target": "risk.take_profit",
+          "value": "target"
+        },
+        {
+          "line": 371,
+          "target": "risk.risk_reward",
+          "value": "reward_distance / risk_distance"
+        },
+        {
+          "line": 410,
+          "target": "risk.risk_level",
+          "value": "'HIGH'"
+        },
+        {
+          "line": 412,
+          "target": "risk.approved",
+          "value": "False"
+        },
+        {
+          "line": 414,
+          "target": "risk.valid",
+          "value": "False"
+        },
+        {
+          "line": 416,
+          "target": "risk.risk_score",
+          "value": "0.0"
+        },
+        {
+          "line": 418,
+          "target": "risk.confidence",
+          "value": "0.0"
+        },
+        {
+          "line": 444,
+          "target": "risk.risk_level",
+          "value": "'LOW'"
+        },
+        {
+          "line": 232,
+          "target": "risk.risk_level",
+          "value": "'HIGH'"
+        },
+        {
+          "line": 234,
+          "target": "risk.approved",
+          "value": "False"
+        },
+        {
+          "line": 236,
+          "target": "risk.valid",
+          "value": "False"
+        },
+        {
+          "line": 238,
+          "target": "risk.confidence",
+          "value": "0.0"
+        },
+        {
+          "line": 309,
+          "target": "risk.risk_level",
+          "value": "'HIGH'"
+        },
+        {
+          "line": 311,
+          "target": "risk.approved",
+          "value": "False"
+        },
+        {
+          "line": 313,
+          "target": "risk.valid",
+          "value": "False"
+        },
+        {
+          "line": 315,
+          "target": "risk.risk_score",
+          "value": "0.0"
+        },
+        {
+          "line": 317,
+          "target": "risk.confidence",
+          "value": "0.0"
+        },
+        {
+          "line": 448,
+          "target": "risk.risk_level",
+          "value": "'MEDIUM'"
+        },
+        {
+          "line": 452,
+          "target": "risk.risk_level",
+          "value": "'HIGH'"
+        },
+        {
+          "line": 254,
+          "target": "risk.risk_level",
+          "value": "'HIGH'"
+        },
+        {
+          "line": 256,
+          "target": "risk.approved",
+          "value": "False"
+        },
+        {
+          "line": 258,
+          "target": "risk.valid",
+          "value": "False"
+        },
+        {
+          "line": 260,
+          "target": "risk.confidence",
+          "value": "0.0"
+        },
+        {
+          "line": 272,
+          "target": "risk.risk_level",
+          "value": "'HIGH'"
+        },
+        {
+          "line": 274,
+          "target": "risk.approved",
+          "value": "False"
+        },
+        {
+          "line": 276,
+          "target": "risk.valid",
+          "value": "False"
+        },
+        {
+          "line": 278,
+          "target": "risk.confidence",
+          "value": "0.0"
+        }
+      ]
+    },
+    "decision": {
+      "source": "decision/decision_engine.py",
+      "constructor": {
+        "signature": "() inherited object initialization through EngineBase",
+        "line": null,
+        "calls": [],
+        "imports": []
+      },
+      "public_methods": [
+        {
+          "name": "executar",
+          "line": 26,
+          "signature": "(self, context)",
+          "returns_annotation": null
+        }
+      ],
+      "input_output": {
+        "context_references_static": [
+          "context.decision",
+          "context.decision.add_reason",
+          "context.decision.clear",
+          "context.multi_timeframe_analysis",
+          "context.multi_timeframe_analysis.alignment",
+          "context.multi_timeframe_analysis.conflict",
+          "context.multi_timeframe_analysis.valid",
+          "context.risk",
+          "context.risk.approved",
+          "context.risk.entry_price",
+          "context.risk.risk_reward",
+          "context.risk.stop_loss",
+          "context.risk.take_profit",
+          "context.score",
+          "context.score.confidence",
+          "context.score.total",
+          "context.score.valid",
+          "context.strategy",
+          "context.strategy.name",
+          "context.strategy.valid"
+        ],
+        "context_writes_static": [
+          {
+            "field": "context.decision.action",
+            "line": 141
+          },
+          {
+            "field": "context.decision.direction",
+            "line": 143
+          },
+          {
+            "field": "context.decision.signal",
+            "line": 145
+          },
+          {
+            "field": "context.decision.setup",
+            "line": 147
+          },
+          {
+            "field": "context.decision.score",
+            "line": 149
+          },
+          {
+            "field": "context.decision.risk_reward",
+            "line": 151
+          },
+          {
+            "field": "context.decision.entry",
+            "line": 155
+          },
+          {
+            "field": "context.decision.stop",
+            "line": 159
+          },
+          {
+            "field": "context.decision.target",
+            "line": 163
+          },
+          {
+            "field": "context.decision.valid",
+            "line": 167
+          },
+          {
+            "field": "context.decision.confidence",
+            "line": 169
+          },
+          {
+            "field": "context.decision.action",
+            "line": 44
+          },
+          {
+            "field": "context.decision.action",
+            "line": 58
+          },
+          {
+            "field": "context.decision.action",
+            "line": 72
+          },
+          {
+            "field": "context.decision.action",
+            "line": 97
+          },
+          {
+            "field": "context.decision.action",
+            "line": 129
+          }
+        ],
+        "alias_map": {
+          "context": "context",
+          "decision": "context.decision",
+          "strategy": "context.strategy",
+          "risk": "context.risk",
+          "score": "context.score",
+          "multi_timeframe": "context.multi_timeframe_analysis"
+        },
+        "limitations": "Alias approximation; getattr/setattr and helper effects require method review. Not a complete runtime contract.",
+        "return_contract": "Same AnalysisContext object with mutated result; Strategy may replace context.strategy",
+        "result_slot": "decision"
+      },
+      "demonstrated_contract": "Clear; WAIT se setup inválido, risco não aprovado, score inválido, direção inválida ou conflito/oposição MTF válido. Demais caminhos copiam níveis/score e geram BUY/SELL valid=True. Não recalcula risco, evidence, candles ou freshness.",
+      "conditions_ast": [
+        {
+          "line": 42,
+          "condition": "not strategy.valid"
+        },
+        {
+          "line": 56,
+          "condition": "not risk.approved"
+        },
+        {
+          "line": 70,
+          "condition": "not score.valid"
+        },
+        {
+          "line": 92,
+          "condition": "direction not in ('BUY', 'SELL')"
+        },
+        {
+          "line": 127,
+          "condition": "block_reason"
+        },
+        {
+          "line": 181,
+          "condition": "multi_timeframe.valid and multi_timeframe.alignment == direction"
+        },
+        {
+          "line": 230,
+          "condition": "not multi_timeframe.valid"
+        },
+        {
+          "line": 235,
+          "condition": "multi_timeframe.conflict"
+        },
+        {
+          "line": 241,
+          "condition": "multi_timeframe.alignment == 'CONFLICT'"
+        },
+        {
+          "line": 248,
+          "condition": "multi_timeframe.alignment in ('BUY', 'SELL') and multi_timeframe.alignment != direction"
+        }
+      ],
+      "output_assignments_ast": [
+        {
+          "line": 141,
+          "target": "decision.action",
+          "value": "direction"
+        },
+        {
+          "line": 143,
+          "target": "decision.direction",
+          "value": "direction"
+        },
+        {
+          "line": 145,
+          "target": "decision.signal",
+          "value": "direction"
+        },
+        {
+          "line": 147,
+          "target": "decision.setup",
+          "value": "strategy.name"
+        },
+        {
+          "line": 149,
+          "target": "decision.score",
+          "value": "score.total"
+        },
+        {
+          "line": 151,
+          "target": "decision.risk_reward",
+          "value": "risk.risk_reward"
+        },
+        {
+          "line": 155,
+          "target": "decision.entry",
+          "value": "risk.entry_price"
+        },
+        {
+          "line": 159,
+          "target": "decision.stop",
+          "value": "risk.stop_loss"
+        },
+        {
+          "line": 163,
+          "target": "decision.target",
+          "value": "risk.take_profit"
+        },
+        {
+          "line": 167,
+          "target": "decision.valid",
+          "value": "True"
+        },
+        {
+          "line": 169,
+          "target": "decision.confidence",
+          "value": "score.confidence"
+        },
+        {
+          "line": 44,
+          "target": "decision.action",
+          "value": "'WAIT'"
+        },
+        {
+          "line": 58,
+          "target": "decision.action",
+          "value": "'WAIT'"
+        },
+        {
+          "line": 72,
+          "target": "decision.action",
+          "value": "'WAIT'"
+        },
+        {
+          "line": 97,
+          "target": "decision.action",
+          "value": "'WAIT'"
+        },
+        {
+          "line": 129,
+          "target": "decision.action",
+          "value": "'WAIT'"
+        }
+      ]
+    },
+    "alert": {
+      "source": "alerts/alert_manager.py",
+      "constructor": {
+        "signature": "() inherited object initialization through EngineBase",
+        "line": null,
+        "calls": [],
+        "imports": []
+      },
+      "public_methods": [
+        {
+          "name": "executar",
+          "line": 28,
+          "signature": "(self, context)",
+          "returns_annotation": null
+        }
+      ],
+      "input_output": {
+        "context_references_static": [
+          "context.alert",
+          "context.alert.action",
+          "context.alert.add_reason",
+          "context.alert.clear",
+          "context.alert.confidence",
+          "context.alert.direction",
+          "context.alert.order_flow_applied",
+          "context.alert.order_flow_contribution",
+          "context.alert.order_flow_direction",
+          "context.alert.order_flow_sampling_mode",
+          "context.alert.score",
+          "context.alert.setup",
+          "context.alert.timestamp",
+          "context.decision",
+          "context.decision.action",
+          "context.decision.approved",
+          "context.decision.confidence",
+          "context.decision.direction",
+          "context.decision.score",
+          "context.decision.setup",
+          "context.decision.signal",
+          "context.order_flow",
+          "context.order_flow.sampling_mode",
+          "context.score",
+          "context.score.order_flow_applied",
+          "context.score.order_flow_contribution",
+          "context.score.order_flow_direction"
+        ],
+        "context_writes_static": [
+          {
+            "field": "context.alert.timestamp",
+            "line": 48
+          },
+          {
+            "field": "context.alert.action",
+            "line": 52
+          },
+          {
+            "field": "context.alert.direction",
+            "line": 54
+          },
+          {
+            "field": "context.alert.signal",
+            "line": 56
+          },
+          {
+            "field": "context.alert.setup",
+            "line": 58
+          },
+          {
+            "field": "context.alert.score",
+            "line": 60
+          },
+          {
+            "field": "context.alert.confidence",
+            "line": 62
+          },
+          {
+            "field": "context.alert.valid",
+            "line": 86
+          },
+          {
+            "field": "context.alert.order_flow_applied",
+            "line": 68
+          },
+          {
+            "field": "context.alert.order_flow_direction",
+            "line": 70
+          },
+          {
+            "field": "context.alert.order_flow_sampling_mode",
+            "line": 74
+          },
+          {
+            "field": "context.alert.order_flow_contribution",
+            "line": 78
+          }
+        ],
+        "alias_map": {
+          "context": "context",
+          "alert": "context.alert",
+          "decision": "context.decision",
+          "score": "context.score"
+        },
+        "limitations": "Alias approximation; getattr/setattr and helper effects require method review. Not a complete runtime contract.",
+        "return_contract": "Same AnalysisContext object with mutated result; Strategy may replace context.strategy",
+        "result_slot": "alert"
+      },
+      "demonstrated_contract": "Clear; retorna se decision.approved=False. approved é action BUY/SELL; não depende de decision.valid. Copia ação/direção/sinal/setup/score/confiança, datetime.now sem timezone, valid=True e print. Não há validação de coerência; relógio futuro será fixado localmente.",
+      "conditions_ast": [
+        {
+          "line": 40,
+          "condition": "not decision.approved"
+        },
+        {
+          "line": 66,
+          "condition": "score.order_flow_applied"
+        },
+        {
+          "line": 122,
+          "condition": "alert.order_flow_applied"
+        }
+      ],
+      "output_assignments_ast": [
+        {
+          "line": 48,
+          "target": "alert.timestamp",
+          "value": "datetime.now().strftime('%d/%m/%Y %H:%M:%S')"
+        },
+        {
+          "line": 52,
+          "target": "alert.action",
+          "value": "decision.action"
+        },
+        {
+          "line": 54,
+          "target": "alert.direction",
+          "value": "decision.direction"
+        },
+        {
+          "line": 56,
+          "target": "alert.signal",
+          "value": "decision.signal"
+        },
+        {
+          "line": 58,
+          "target": "alert.setup",
+          "value": "decision.setup"
+        },
+        {
+          "line": 60,
+          "target": "alert.score",
+          "value": "decision.score"
+        },
+        {
+          "line": 62,
+          "target": "alert.confidence",
+          "value": "decision.confidence"
+        },
+        {
+          "line": 86,
+          "target": "alert.valid",
+          "value": "True"
+        },
+        {
+          "line": 68,
+          "target": "alert.order_flow_applied",
+          "value": "True"
+        },
+        {
+          "line": 70,
+          "target": "alert.order_flow_direction",
+          "value": "score.order_flow_direction"
+        },
+        {
+          "line": 74,
+          "target": "alert.order_flow_sampling_mode",
+          "value": "context.order_flow.sampling_mode"
+        },
+        {
+          "line": 78,
+          "target": "alert.order_flow_contribution",
+          "value": "score.order_flow_contribution"
+        }
+      ]
+    }
+  },
+  "scenarios": [
+    {
+      "id": "ms_up",
+      "engine": "market_structure",
+      "scenario": "Tendência de alta",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.trend": "$Trend.UP",
+        "structure.valid": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "up"
+    },
+    {
+      "id": "ms_down",
+      "engine": "market_structure",
+      "scenario": "Tendência de baixa",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.trend": "$Trend.DOWN",
+        "structure.valid": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "down"
+    },
+    {
+      "id": "ms_sideways",
+      "engine": "market_structure",
+      "scenario": "Mercado lateral",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.trend": "$Trend.SIDEWAYS",
+        "structure.valid": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "sideways"
+    },
+    {
+      "id": "ms_hh_hl",
+      "engine": "market_structure",
+      "scenario": "HH e HL",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.hh": true,
+        "structure.hl": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "up"
+    },
+    {
+      "id": "ms_lh_ll",
+      "engine": "market_structure",
+      "scenario": "LH e LL",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.lh": true,
+        "structure.ll": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "down"
+    },
+    {
+      "id": "ms_bos_up",
+      "engine": "market_structure",
+      "scenario": "BOS de alta",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.bos_up": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "bos_up"
+    },
+    {
+      "id": "ms_bos_down",
+      "engine": "market_structure",
+      "scenario": "BOS de baixa",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.bos_down": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "bos_down"
+    },
+    {
+      "id": "ms_choch",
+      "engine": "market_structure",
+      "scenario": "CHOCH após HH/HL",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.choch": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "choch"
+    },
+    {
+      "id": "ms_forming",
+      "engine": "market_structure",
+      "scenario": "Candle em formação ignorado",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.trend": "$Trend.UP",
+        "structure.swing_high": 25,
+        "structure.swing_low": 7
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "forming"
+    },
+    {
+      "id": "ms_insufficient",
+      "engine": "market_structure",
+      "scenario": "Histórico insuficiente",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "structure.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "insufficient"
+    },
+    {
+      "id": "pa_buy",
+      "engine": "price_action",
+      "scenario": "Sinal buy",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "structure.trend": "$Trend.UP"
+      },
+      "expected": {
+        "price_action.bias": "BUY",
+        "price_action.valid": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "pa",
+      "bounds": {
+        "price_action.score": [
+          30,
+          100
+        ]
+      }
+    },
+    {
+      "id": "pa_sell",
+      "engine": "price_action",
+      "scenario": "Sinal sell",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "structure.trend": "$Trend.DOWN"
+      },
+      "expected": {
+        "price_action.bias": "SELL",
+        "price_action.valid": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "pa",
+      "bounds": {
+        "price_action.score": [
+          30,
+          100
+        ]
+      }
+    },
+    {
+      "id": "pa_none",
+      "engine": "price_action",
+      "scenario": "Ausência de sinal",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "structure.trend": "$Trend.SIDEWAYS"
+      },
+      "expected": {
+        "price_action.bias": "NONE",
+        "price_action.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "pa"
+    },
+    {
+      "id": "pa_insufficient",
+      "engine": "price_action",
+      "scenario": "Histórico insuficiente",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "price_action.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "candles": "insufficient"
+    },
+    {
+      "id": "pa_conflict",
+      "engine": "price_action",
+      "scenario": "Bloqueio por padrões conflitantes",
+      "status": "BLOCKED_BY_CONTRACT",
+      "input": {},
+      "expected": {},
+      "reason": "Bias deriva da tendência; padrões somam score. Não há veto geral por conflito de padrões."
+    },
+    {
+      "id": "strategy_buy",
+      "engine": "strategy",
+      "scenario": "Setup comprador válido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "context.valid": true,
+        "context.bias": "BUY",
+        "structure.trend": "$Trend.UP",
+        "structure.valid": true,
+        "structure.bos_up": true,
+        "order_block.bullish": true,
+        "fair_value_gap.bullish": true,
+        "price_action.breakout": true,
+        "volume.high": true
+      },
+      "expected": {
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.name": "Trend Breakout"
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "strategy_sell",
+      "engine": "strategy",
+      "scenario": "Setup vendedor válido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "context.valid": true,
+        "context.bias": "SELL",
+        "structure.trend": "$Trend.DOWN",
+        "structure.valid": true,
+        "structure.bos_down": true,
+        "order_block.bearish": true,
+        "fair_value_gap.bearish": true,
+        "price_action.breakout": true,
+        "volume.high": true
+      },
+      "expected": {
+        "strategy.valid": true,
+        "strategy.signal": "SELL",
+        "strategy.name": "Trend Breakout"
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "strategy_invalid",
+      "engine": "strategy",
+      "scenario": "Setup inválido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "strategy.valid": false,
+        "strategy.signal": "NONE"
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "strategy_no_confluence",
+      "engine": "strategy",
+      "scenario": "Ausência de confluências",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "context.valid": true,
+        "context.bias": "BUY"
+      },
+      "expected": {
+        "strategy.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "strategy_conflict",
+      "engine": "strategy",
+      "scenario": "Veto de setups opostos",
+      "status": "BLOCKED_BY_CONTRACT",
+      "input": {},
+      "expected": {},
+      "reason": "Seleciona maior score; empate mantém primeiro pela prioridade. Não existe veto direcional geral."
+    },
+    {
+      "id": "strategy_tie_observed",
+      "engine": "strategy",
+      "scenario": "Seleção observável no empate oposto",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "context.valid": true,
+        "context.bias": "BUY",
+        "structure.trend": "$Trend.UP",
+        "structure.valid": true,
+        "structure.bos_up": true,
+        "order_block.bullish": true,
+        "fair_value_gap.bullish": true,
+        "price_action.breakout": false,
+        "volume.high": true,
+        "price_action.pullback": true,
+        "price_action.hammer": true,
+        "price_action.shooting_star": true,
+        "liquidity.valid": true,
+        "liquidity.sell_side": true,
+        "volume.valid": true,
+        "order_block.valid": true,
+        "order_block.bearish": true,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.bearish": true
+      },
+      "expected": {
+        "strategy.signal": "BUY",
+        "strategy.name": "Trend Pullback",
+        "strategy.score": 100
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "score_minimum",
+      "engine": "score",
+      "scenario": "Pontuação mínima zero",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "score.total": 0,
+        "score.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "score_threshold",
+      "engine": "score",
+      "scenario": "Limiar funcional 70",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "price_action.valid": true,
+        "price_action.score": 100,
+        "liquidity.valid": true,
+        "liquidity.confidence": 100,
+        "order_block.valid": true,
+        "order_block.strength": 1,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.strength": 1,
+        "context.valid": true,
+        "context.score": 100,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100
+      },
+      "expected": {
+        "score.total": 70,
+        "score.valid": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "score_intermediate",
+      "engine": "score",
+      "scenario": "Pontuação intermediária 30",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "strategy.valid": true,
+        "strategy.score": 100,
+        "price_action.valid": true,
+        "price_action.score": 100
+      },
+      "expected": {
+        "score.total": 30,
+        "score.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "score_high",
+      "engine": "score",
+      "scenario": "Pontuação elevada",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "structure.valid": true,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.hh": true,
+        "structure.choch": true,
+        "structure.confidence": 1,
+        "price_action.valid": true,
+        "price_action.score": 100,
+        "liquidity.valid": true,
+        "liquidity.confidence": 100,
+        "volume.valid": true,
+        "volume.strength": 1,
+        "order_block.valid": true,
+        "order_block.strength": 1,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.strength": 1,
+        "context.valid": true,
+        "context.score": 100,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100
+      },
+      "expected": {
+        "score.total": 100,
+        "score.valid": true,
+        "score.order_flow_applied": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "bounds": {
+        "score.total": [
+          0,
+          100
+        ]
+      }
+    },
+    {
+      "id": "score_favorable",
+      "engine": "score",
+      "scenario": "Confluências favoráveis",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "structure.valid": true,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.hh": true,
+        "structure.choch": true,
+        "structure.confidence": 1,
+        "price_action.valid": true,
+        "price_action.score": 100,
+        "liquidity.valid": true,
+        "liquidity.confidence": 100,
+        "volume.valid": true,
+        "volume.strength": 1,
+        "order_block.valid": true,
+        "order_block.strength": 1,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.strength": 1,
+        "context.valid": true,
+        "context.score": 100,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100
+      },
+      "expected": {
+        "score.total": 100,
+        "score.valid": true,
+        "score.order_flow_applied": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "bounds": {
+        "score.total": [
+          0,
+          100
+        ]
+      }
+    },
+    {
+      "id": "score_of_disabled",
+      "engine": "score",
+      "scenario": "Order Flow desabilitado",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "structure.valid": true,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.hh": true,
+        "structure.choch": true,
+        "structure.confidence": 1,
+        "price_action.valid": true,
+        "price_action.score": 100,
+        "liquidity.valid": true,
+        "liquidity.confidence": 100,
+        "volume.valid": true,
+        "volume.strength": 1,
+        "order_block.valid": true,
+        "order_block.strength": 1,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.strength": 1,
+        "context.valid": true,
+        "context.score": 100,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100
+      },
+      "expected": {
+        "score.total": 100,
+        "score.valid": true,
+        "score.order_flow_applied": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "bounds": {
+        "score.total": [
+          0,
+          100
+        ]
+      }
+    },
+    {
+      "id": "score_conflicting",
+      "engine": "score",
+      "scenario": "Confluências conflitantes sem veto presumido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "structure.valid": true,
+        "structure.trend": "$Trend.DOWN",
+        "structure.bos_up": true,
+        "structure.hh": true,
+        "structure.choch": true,
+        "structure.confidence": 1,
+        "price_action.valid": true,
+        "price_action.score": 100,
+        "liquidity.valid": true,
+        "liquidity.confidence": 100,
+        "volume.valid": true,
+        "volume.strength": 1,
+        "order_block.valid": true,
+        "order_block.strength": 1,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.strength": 1,
+        "context.valid": true,
+        "context.score": 100,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100
+      },
+      "expected": {
+        "score.total": 100,
+        "score.bias": "BUY"
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "score_bounded",
+      "engine": "score",
+      "scenario": "Score limitado 0..100",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "structure.valid": true,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.hh": true,
+        "structure.choch": true,
+        "structure.confidence": 1,
+        "price_action.valid": true,
+        "price_action.score": 1000,
+        "liquidity.valid": true,
+        "liquidity.confidence": 100,
+        "volume.valid": true,
+        "volume.strength": 1,
+        "order_block.valid": true,
+        "order_block.strength": 1,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.strength": 1,
+        "context.valid": true,
+        "context.score": 100,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 1000
+      },
+      "expected": {
+        "score.total": 100
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada.",
+      "bounds": {
+        "score.total": [
+          0,
+          100
+        ]
+      }
+    },
+    {
+      "id": "risk_valid_stop",
+      "engine": "risk",
+      "scenario": "Stop válido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "market.last_price": 1000,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.swing_high": 1200,
+        "structure.last_high": 1200,
+        "order_block.valid": true,
+        "order_block.bullish": true,
+        "order_block.low": 900,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.bullish": true,
+        "fair_value_gap.low": 900,
+        "volume.high": true,
+        "liquidity.buy_side": true
+      },
+      "expected": {
+        "risk.stop_loss": 900,
+        "risk.approved": true,
+        "risk.valid": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "risk_invalid_stop",
+      "engine": "risk",
+      "scenario": "Stop inválido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "market.last_price": 1000,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.swing_high": 1200,
+        "structure.last_high": 1200,
+        "order_block.valid": true,
+        "order_block.bullish": true,
+        "order_block.low": 1100,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.bullish": true,
+        "fair_value_gap.low": 1100,
+        "volume.high": true,
+        "liquidity.buy_side": true
+      },
+      "expected": {
+        "risk.approved": false,
+        "risk.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "risk_valid_target",
+      "engine": "risk",
+      "scenario": "Alvo válido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "market.last_price": 1000,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.swing_high": 1200,
+        "structure.last_high": 1200,
+        "order_block.valid": true,
+        "order_block.bullish": true,
+        "order_block.low": 900,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.bullish": true,
+        "fair_value_gap.low": 900,
+        "volume.high": true,
+        "liquidity.buy_side": true
+      },
+      "expected": {
+        "risk.take_profit": 1200,
+        "risk.risk_reward": 2,
+        "risk.approved": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "risk_rr_below",
+      "engine": "risk",
+      "scenario": "RR abaixo de 1.5",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "market.last_price": 1000,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.swing_high": 1100,
+        "structure.last_high": 1100,
+        "order_block.valid": true,
+        "order_block.bullish": true,
+        "order_block.low": 900,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.bullish": true,
+        "fair_value_gap.low": 900,
+        "volume.high": true,
+        "liquidity.buy_side": true
+      },
+      "expected": {
+        "risk.take_profit": 1100,
+        "risk.risk_reward": 1,
+        "risk.approved": false,
+        "risk.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "risk_no_bad_fallback",
+      "engine": "risk",
+      "scenario": "Rejeição sem fallback indevido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "market.last_price": 1000,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.swing_high": 1100,
+        "structure.last_high": 1100,
+        "order_block.valid": true,
+        "order_block.bullish": true,
+        "order_block.low": 900,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.bullish": true,
+        "fair_value_gap.low": 900,
+        "volume.high": true,
+        "liquidity.buy_side": true
+      },
+      "expected": {
+        "risk.take_profit": 1100,
+        "risk.risk_reward": 1,
+        "risk.approved": false,
+        "risk.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "risk_rr_above",
+      "engine": "risk",
+      "scenario": "RR acima do mínimo",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "market.last_price": 1000,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.swing_high": 1200,
+        "structure.last_high": 1200,
+        "order_block.valid": true,
+        "order_block.bullish": true,
+        "order_block.low": 900,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.bullish": true,
+        "fair_value_gap.low": 900,
+        "volume.high": true,
+        "liquidity.buy_side": true
+      },
+      "expected": {
+        "risk.risk_reward": 2,
+        "risk.approved": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "risk_invalid_target",
+      "engine": "risk",
+      "scenario": "Rejeição obrigatória de nível de alvo inválido",
+      "status": "BLOCKED_BY_CONTRACT",
+      "input": {},
+      "expected": {},
+      "reason": "Candidatos fora do lado/zerados são filtrados; ausência de estrutura válida permite fallback 2R. Não existe veto geral por nível inválido."
+    },
+    {
+      "id": "risk_fallback_absent",
+      "engine": "risk",
+      "scenario": "Fallback permitido somente sem candidato estrutural",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "market.last_price": 1000,
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.score": 100,
+        "structure.trend": "$Trend.UP",
+        "structure.bos_up": true,
+        "structure.swing_high": 0,
+        "structure.last_high": 0,
+        "order_block.valid": true,
+        "order_block.bullish": true,
+        "order_block.low": 900,
+        "fair_value_gap.valid": true,
+        "fair_value_gap.bullish": true,
+        "fair_value_gap.low": 900,
+        "volume.high": true,
+        "liquidity.buy_side": true
+      },
+      "expected": {
+        "risk.take_profit": 1200,
+        "risk.risk_reward": 2,
+        "risk.approved": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "decision_buy",
+      "engine": "decision",
+      "scenario": "BUY aprovado em memória",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.name": "SYNTHETIC",
+        "risk.approved": true,
+        "risk.valid": true,
+        "risk.entry_price": 1000,
+        "risk.stop_loss": 900,
+        "risk.take_profit": 1200,
+        "risk.risk_reward": 2,
+        "score.valid": true,
+        "score.total": 80,
+        "score.confidence": 0.8
+      },
+      "expected": {
+        "decision.action": "BUY",
+        "decision.valid": true,
+        "decision.entry": 1000
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "decision_sell",
+      "engine": "decision",
+      "scenario": "SELL aprovado em memória",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "strategy.valid": true,
+        "strategy.signal": "SELL",
+        "strategy.name": "SYNTHETIC",
+        "risk.approved": true,
+        "risk.valid": true,
+        "risk.entry_price": 1000,
+        "risk.stop_loss": 1100,
+        "risk.take_profit": 800,
+        "risk.risk_reward": 2,
+        "score.valid": true,
+        "score.total": 80,
+        "score.confidence": 0.8
+      },
+      "expected": {
+        "decision.action": "SELL",
+        "decision.valid": true
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "decision_wait_evidence",
+      "engine": "decision",
+      "scenario": "WAIT por setup ausente",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "decision.action": "WAIT",
+        "decision.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "decision_wait_risk",
+      "engine": "decision",
+      "scenario": "WAIT por risco rejeitado",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.name": "SYNTHETIC",
+        "risk.approved": false,
+        "risk.valid": true,
+        "risk.entry_price": 1000,
+        "risk.stop_loss": 900,
+        "risk.take_profit": 1200,
+        "risk.risk_reward": 2,
+        "score.valid": true,
+        "score.total": 80,
+        "score.confidence": 0.8
+      },
+      "expected": {
+        "decision.action": "WAIT",
+        "decision.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "decision_wait_conflict",
+      "engine": "decision",
+      "scenario": "WAIT por conflito MTF",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.name": "SYNTHETIC",
+        "risk.approved": true,
+        "risk.valid": true,
+        "risk.entry_price": 1000,
+        "risk.stop_loss": 900,
+        "risk.take_profit": 1200,
+        "risk.risk_reward": 2,
+        "score.valid": true,
+        "score.total": 80,
+        "score.confidence": 0.8,
+        "multi_timeframe_analysis.valid": true,
+        "multi_timeframe_analysis.conflict": true,
+        "multi_timeframe_analysis.alignment": "BUY"
+      },
+      "expected": {
+        "decision.action": "WAIT",
+        "decision.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "decision_wait_invalid",
+      "engine": "decision",
+      "scenario": "WAIT por flag score inválido",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "strategy.valid": true,
+        "strategy.signal": "BUY",
+        "strategy.name": "SYNTHETIC",
+        "risk.approved": true,
+        "risk.valid": true,
+        "risk.entry_price": 1000,
+        "risk.stop_loss": 900,
+        "risk.take_profit": 1200,
+        "risk.risk_reward": 2,
+        "score.valid": false,
+        "score.total": 80,
+        "score.confidence": 0.8
+      },
+      "expected": {
+        "decision.action": "WAIT",
+        "decision.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "decision_invalid_raw",
+      "engine": "decision",
+      "scenario": "WAIT por dados brutos inválidos com flags aprovadas",
+      "status": "BLOCKED_BY_CONTRACT",
+      "input": {},
+      "expected": {},
+      "reason": "Não valida candles, freshness, NaN ou preços diretamente. Só gates strategy/risk/score/direction/MTF."
+    },
+    {
+      "id": "alert_buy",
+      "engine": "alert",
+      "scenario": "Alerta BUY coerente",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "decision.action": "BUY",
+        "decision.direction": "BUY",
+        "decision.signal": "BUY",
+        "decision.setup": "SYNTHETIC",
+        "decision.score": 80,
+        "decision.confidence": 0.8
+      },
+      "expected": {
+        "alert.valid": true,
+        "alert.action": "BUY",
+        "alert.direction": "BUY",
+        "alert.signal": "BUY",
+        "alert.timestamp": "01/01/2026 10:00:00"
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "alert_sell",
+      "engine": "alert",
+      "scenario": "Alerta SELL coerente",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "decision.action": "SELL",
+        "decision.direction": "SELL",
+        "decision.signal": "SELL",
+        "decision.setup": "SYNTHETIC",
+        "decision.score": 80,
+        "decision.confidence": 0.8
+      },
+      "expected": {
+        "alert.valid": true,
+        "alert.action": "SELL",
+        "alert.direction": "SELL",
+        "alert.signal": "SELL",
+        "alert.timestamp": "01/01/2026 10:00:00"
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "alert_wait",
+      "engine": "alert",
+      "scenario": "Nenhum alerta em WAIT",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {},
+      "expected": {
+        "alert.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "alert_unapproved",
+      "engine": "alert",
+      "scenario": "Decisão não aprovada",
+      "status": "PREPARED_NOT_EXECUTED",
+      "input": {
+        "decision.action": "NONE"
+      },
+      "expected": {
+        "alert.valid": false
+      },
+      "reason": "Expectativa derivada estaticamente; ainda não executada."
+    },
+    {
+      "id": "alert_inconsistent",
+      "engine": "alert",
+      "scenario": "Bloqueio de alerta inconsistente",
+      "status": "BLOCKED_BY_CONTRACT",
+      "input": {},
+      "expected": {},
+      "reason": "DecisionResult.approved depende apenas de action BUY/SELL; AlertManager não verifica valid/coerência de direction/signal/preços."
+    }
+  ],
+  "scenario_count": 49,
+  "executable_scenarios_prepared": 44,
+  "blocked_scenarios": 5,
+  "source_sha256": {
+    "ai/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ai/engine_base.py": "359efb1739844b6317a1c90c795aaa4b76a28d39b47b31256a78c839bc812e52",
+    "ai/score_engine.py": "97e6b87feb05084951c474fb7f95d0c3f20a1792120520e3fc1e492940da2d6c",
+    "alerts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "alerts/alert_manager.py": "2000225bb513a44b9c70ff5117decdd6aa51b3091d6b9c7750081fd27d69a657",
+    "analysis/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "analysis/market_structure.py": "8efa39ba96c30ee129162dd3dda9bf23fe6cfc132d112658b438cf65581db0ef",
+    "analysis/price_action/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "analysis/price_action/bar_dynamics.py": "3be904c2b1f4cbe1a694389d37ef47611c19d90a8fd3f066cd9f6eba45f024eb",
+    "analysis/price_action/breakout_dynamics.py": "97d2aed5c4180abd1af7a23759a81d4d99592e274962ae7218d82fc57b6a441d",
+    "analysis/price_action/channel_behavior_dynamics.py": "77ebf335f422156da77de7468f42a64985cc71adf2d784f429d3328829bccb52",
+    "analysis/price_action/channel_line_dynamics.py": "b6fcb3ca24d26246d39483b6e0abc90db7e4263ebb9e0ef28dff68207274c653",
+    "analysis/price_action/chart_perspective_dynamics.py": "8a0f8ff900038f516ba34d8720ec14f1161a2994a7c7d2847c6e3b837bd9bbc3",
+    "analysis/price_action/close_quality_dynamics.py": "f730c971afacae9cabc0627add9cc6b1f86d0ce3a6589e2a3423389f85696f0a",
+    "analysis/price_action/composite_signal_dynamics.py": "c8c4c669d81ad79f3b6890a8323114cfd35a778e9ab5da5b59d325adc8e44364",
+    "analysis/price_action/horizontal_swing_dynamics.py": "6c82da6abe6617ee29569455ecc90486a63b12dc5b62a087aa4725b6e1e2a56b",
+    "analysis/price_action/late_entry_dynamics.py": "50d5aba4a9e0b2406ddff70b0d55d802554bf68f1cb798af49aef504efef8bc6",
+    "analysis/price_action/microchannel_dynamics.py": "d7885707996e00948663a1e70a699740ecfa8829e8f946934bf59b6d6ead70be",
+    "analysis/price_action/outside_bar_dynamics.py": "7b144e62e93a21595b3cdffdf392ec897c4d547abf39aa5b9898fc3908f3dcda",
+    "analysis/price_action/pattern_evolution_dynamics.py": "906c8cb9d0180eac4df3d33450c55feda5553e269ed7d40176003a6bb978d429",
+    "analysis/price_action/patterns/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "analysis/price_action/patterns/candlestick_patterns.py": "72a6c6a8e5dea2356f1b6718ac7f65b61b40b41c07307c20cf7249dc8a7f5b65",
+    "analysis/price_action/price_action.py": "f07479827f3e4d9d33a34851dbcde4252ed3f011e1d9483697080ed964aeee08",
+    "analysis/price_action/reversal_bar_dynamics.py": "328dd02753ce75f798a7663b161fbd87180582fce612b46d8639094e7a6cdc1a",
+    "analysis/price_action/second_entry_dynamics.py": "3546d777dda2a32e777d24ad516d1e8997332111cda8780e646b0d583f1e0c2f",
+    "analysis/price_action/signal_entry_dynamics.py": "9a2c6682f1368d622ed901990589fad3cceaa99d006facbaa3e7c13302b92ec0",
+    "analysis/price_action/trend_line_dynamics.py": "3f13592c8f26aad20a3a6033173569972274f1f49f2714d653376aed1a4a49be",
+    "analysis/replay/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "analysis/replay/book_diagnostics_tts_backend.py": "5bfb55eb079a173c53f3702e95c300aaaedc8a567c121e763e6b9e2ecfc8989c",
+    "analysis/replay/book_diagnostics_voice_output.py": "00ae8ddd1b0adab599a316e275ce124b773deacd59c6de0dab7028c57c3102f9",
+    "analysis/replay/book_diagnostics_windows_sapi_backend.py": "daab4607297fbdbb392a75bff25aec45f771d5b7e6b570ac2bd8f2f74d938400",
+    "analysis/replay/book_diagnostics_windows_voice_discovery.py": "61cfe7e57a87152425fe7737c23c5492d560fa4def50c8e35fc8ea6e3dee6634",
+    "config/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "config/settings.py": "b85f7edff9396f7608fe32b5b064b6d6888b5751741f2df5addbd17415d1cff9",
+    "core/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "core/analysis_context.py": "634e1ea8c56fb2ada2407551a89273440014c71ea224f46e3521043d9a8df4df",
+    "core/candle_builder.py": "dac1fc5e6da7f0670c553f47b39bfc11c8d0e41198fee7809691bf87c9cb6b0c",
+    "core/event.py": "f293cb3a6719da3004a13a30ab14f8533b03862094d31c8ce3833b1e59d62a75",
+    "core/event_types.py": "cdc21c2093269fa9e61ff5a42c0b06662a05c32c80413b0db3e03ccf913ec64f",
+    "core/market_state.py": "1749414a6c3e32ac595b5c4314618a9d16a96f59ba1dbfde0f21a8e8d8b28d63",
+    "core/multi_timeframe_state.py": "c2db0cad085dc4b94932ef837a7152600cab466831b69fdddeda1e2f8079ce66",
+    "core/order_flow_state.py": "3b3b315711462656968e89f1d7fccccc7e7a42a384d8c2a54f1f701d7970d378",
+    "decision/decision_engine.py": "033b05fe48c2e4bf83e012347c87db6b4654c4c92c505f6ba960ec037f05f10d",
+    "economic_context/__init__.py": "774971b071586b7e01fcc2356ea23673b97f20792b142b9ab6e7fa40f92872f9",
+    "economic_context/economic_calendar_controlled_capture.py": "e2b3c81476c929563c3ae7bc51f90091d0faaaf62a15c980279af2bcfeac7341",
+    "economic_context/economic_calendar_engine.py": "fde60977e6cf6e00b8a3bf200ebb97eab9d5d729a784524c50ce83fdace9e01b",
+    "economic_context/economic_calendar_http_adapter.py": "74d3ac36e4d9c76f9da66bebf55f728d2a7fa5eb7b7804f77f95bb545beb1278",
+    "economic_context/economic_calendar_multisession_report.py": "264760b84e1693b23aac94b6b3f0b3714172cf873dbaab14ffe66dd23cf7b1f3",
+    "economic_context/economic_calendar_normalization_result.py": "42c3738ebbdb23fbd3ce22b6f64fda9608eea3001bdb29bad696a78d9fd6c3ce",
+    "economic_context/economic_calendar_payload_normalizer.py": "6ee842d1a06fd1be8fa149db1e6165cec13101c91418138399b4f9496aa00aa8",
+    "economic_context/economic_calendar_provider.py": "40bf47c0b058f78124a2a56207e9ae33ad12a3a78b2a099b635c40d3591b1e84",
+    "economic_context/economic_calendar_provider_result.py": "db05c184c3c635dcefddd54239546dcdab62a0f56a6cbba6defb3b868394124b",
+    "economic_context/economic_calendar_replay_package_store.py": "09d2e1c63d4c97d83cf961ad1577982800dd7ff140741d302e97c39ecc041123",
+    "economic_context/economic_calendar_replay_trial_runner.py": "b0b9d70ca6ee799e8d81f5a748aa4e5b960bd861d7d137c64d5dc018b65d77c2",
+    "economic_context/economic_calendar_runtime.py": "92e81f9dd54433a56d54aa0d49d1014ecb8efb9a8ae487e1b6f0d1afec967f77",
+    "economic_context/economic_calendar_service.py": "4da31d41be1e586865ad9f07ddc28783cd1b72dc7931cff6885491bc4da4dc65",
+    "economic_context/economic_calendar_session_recorder.py": "966b3ea2ac4561e9a3f76bd0faa678d34cf82543e9aa3db4c6e2ed439a6d5637",
+    "economic_context/economic_calendar_session_report.py": "50c8d2ba83988f9438d7a161fdd6a3286594206867dab2bd037512a46378078d",
+    "economic_context/economic_calendar_session_store.py": "c993702dff3a01c55ce3d364a3141b7c4c6098082dee2233da14ea6b44a58bae",
+    "economic_context/economic_calendar_state.py": "8a7b7e9949178f374b69785cbbe1eb249af540826c48716323eb4568c9349df6",
+    "economic_context/economic_calendar_trial_gate.py": "f0d1854d925a7a6b2a7871b18151cd4b9ccabf63c0303f0a21b65fbe6c216c48",
+    "economic_context/economic_event.py": "72d882560c69898690e92b35248cc44ed637139543bf3fa6d1bfe987c07dac9c",
+    "economic_context/economic_event_relevance.py": "38eb8f878f2141885cddf6219ed0492f350522fbd75709d725d3a1f6ca77a045",
+    "economic_context/fail_safe_economic_calendar_provider.py": "29208ffd71767b46335d7252f20c663366cf6aa1d199e4560cda1dce2372589f",
+    "economic_context/normalizing_economic_calendar_fetcher.py": "6c01924a0ba1538d3707a853f671b3131c03b99fc0f94399a54471bffafda31b",
+    "economic_context/trading_economics_calendar_fetcher.py": "d5f66e98ab20f7bbfbf373037b6dca4c0622e394f48fceece05993b250155165",
+    "economic_context/trading_economics_calendar_mapper.py": "7accc4e41a4a750284bc6d78119fa43abf72314a739fdf1dbafc562067aafa9f",
+    "economic_context/trading_economics_capture_preflight.py": "6d8d946ce0a3c269f4d53eac4aed8feb5cd0036e94c0376dd3797b004f12bb2c",
+    "economic_context/trading_economics_config.py": "7d77c4d93d8125ec5bda36483f5fe266c4fa2589b3053fa67bbf32fb991061d9",
+    "economic_context/trading_economics_controlled_pipeline.py": "26f955b663294eacece8323a642f7709c546494241502e809b0f5fe93c3bfab8",
+    "economic_context/trading_economics_session_coordinator.py": "04d5103073dfd9f4837f3e70c44c5940af72f65bbb13af44d0fa4c1f168f79ac",
+    "economic_context/trading_economics_trial_coordinator.py": "96d9f98ef68a85ebb915691aacbdd4621530e3e26b20235be22a86aa1538972d",
+    "economic_context/trading_economics_trial_evaluator.py": "d71a79150bed7c3e146a66fd05a4a9e95022da70de25db66f2a2676479d56b31",
+    "economic_context/trading_economics_trial_manifest.py": "64966fe1fec5cb116954b02e4f47b48518303bd7f25319f2ce64a828ccb5d42a",
+    "economic_context/trading_economics_trial_session_planner.py": "ca882197179e145f8ab6a4c06d9dd1e824aed85a3065d96fd2dbb35d94c048de",
+    "enums/trend.py": "34f2c0093e3c5756adec7a15dbb799c52160860f7f0fbac39011725a99adecfc",
+    "enums/volume_level.py": "e38e3bcedf55ba496175e8e753a77d6805eeaa1faa599a714afad2efea0e7616",
+    "external_context/__init__.py": "f079a5c2bfb31b5794ba2268976c5abbee2dcc5e924e1c73097d39d1a055b79d",
+    "external_context/external_market_state.py": "aead941a562cafb30292f0f78cd6a4c553f5cb806cde17feab3111943d236c79",
+    "models/alert_result.py": "af46aeafe90aa08830d473060ecf3136adb93deef5a8d288eddd64d95fc06e97",
+    "models/book_depth.py": "a4bdecb427e8b9e0833f1d83cb83685671fdeb8891a9936965489a90a27f4872",
+    "models/book_depth_analysis_result.py": "67d7b537c8627b0f75895d9742c76433501dc4efdf1d2d7a84c13c413de3840f",
+    "models/book_diagnostics_result.py": "68d13efbb7c717f09cabaecdbcdf557ddfc79098dad6bd508d1f17870bfded2a",
+    "models/candle.py": "1395d671e79571be79c70585c68125164e38a66169be0bd3940908476e7d1cf6",
+    "models/candle_history.py": "5b31edc5ebbac9643e6f0023761a803ef5af1dce570bbf6370869435abe1eea1",
+    "models/context_result.py": "3e421f701ac9c83349f119cd119f275412c5fa7c2c618707a4f2c26fb6306b2f",
+    "models/decision_result.py": "5559250170f45b4050a676d5e1ee01bfff96f089bce97d8b46b94ef7c0094637",
+    "models/enums.py": "4fb26fc596963451d4f6c0d7dee5a8178caf56e6f77872a3e04a45bcb2181a8c",
+    "models/evidence_result.py": "b685171560c9952a29d650c1caa4b5df70a5b92678f3546c45ddf33497d97ee3",
+    "models/fair_value_gap_result.py": "e26b4064ddc390371fa462b92e4dbc81acd45b3e9713a177ec28f9ec516128f6",
+    "models/imbalance_result.py": "1bd40934222f2790a03f91602e31d8a3d288701363497df2a9397ebc8771100c",
+    "models/liquidity_pool_result.py": "7330f6ab57b201ff75712db4e97ed5cb1d3cbc748d4844a5e611c129ea80b67c",
+    "models/liquidity_result.py": "3159e77f3a333b0987ac2f839d2844613cf0e851f66176f585eb8b18583a4454",
+    "models/market_narrative.py": "e69fb5e9e4413a2b509c960032b1af6ad8656bbd81806b2a28a65f480f4f9113",
+    "models/multi_timeframe_result.py": "04afc8e878c616d7098be03cb4526c6fbb7ef5b50eff7dbde799ad1dffb7b9c2",
+    "models/order_block_result.py": "8af02734b5131a5f38762c48c9539f102e76c920cc816e62a81d6c9326fc11e3",
+    "models/order_flow_result.py": "8cfa3e2bd4e6a9fd26fd4b88e37c1ee015d357ee011672c281593d0782f2e278",
+    "models/price_action_result.py": "17ea695aacda6bd4d12ecc22bb269392e1910372ba9a7bd2e4333bb4c8af8ce5",
+    "models/regime_result.py": "f1f501c055f4c67f6979aff4f7ab378cc29cb1008f940744069812272d6539e4",
+    "models/result_base.py": "ed4ac4aa5cf3b1b638e7a6c084c79cf945c7b509cfb72eebb6afa9ad900d5c14",
+    "models/risk_result.py": "159e6257a8f2ea458a4a9882d43ec299206e4081602b44cc94b9dc1d6ee0b893",
+    "models/score_result.py": "0764cbfaa0bd3c3d09a236834c82063bd0de594859315e73309cbb14f3b9e19a",
+    "models/strategy_result.py": "addfa7a80dbd47005f6877f7531d0d919b8f2fed702d1a59790f5f7cb4e0b63d",
+    "models/structure_result.py": "bd091962dc997c57833654eaf6b22dbde3aa9dfe24d8746f4bbb2db738d50062",
+    "models/swing.py": "a929a80505f4d3c55c2f2cc5ce6b679caff2c1e6fe7f14e3d3e7951502062e25",
+    "models/trade_checklist.py": "cd1f18dd88a5ccdba440eccdd6a08818ff19361e5866715d9a4cb9d66ada2ee9",
+    "models/volume_result.py": "7ab2eb7bb9c64e108f68dac6b03789b09716f7cbd96f26240696d50e6543a188",
+    "psychology/__init__.py": "5768abef06defbfcc27be23c83aaa6874d69225dedbc7c60a6b3e563c37f2719",
+    "psychology/coaching_engine.py": "36b3ab4d15f25272ada010348a77c002cbe9614cb9f702852ddc6a78b5deb1b6",
+    "psychology/psychology_tts_sink.py": "eee5be4a35144d43565fe6136579b0fb034a7418af643b2f7bf5632268242825",
+    "psychology/psychology_voice_controlled_test.py": "ebcc956bc5d4f4dfdd909e992c6f32f850f0d89f5668e579042ddd8ccc127647",
+    "psychology/psychology_voice_readiness.py": "adcee676bcb6c7a9af5f5d19b4b18aaf969fa76db8d7ac8ea0ffbdfd2981f583",
+    "psychology/trader_psychology_confirmation_audit.py": "1e0f7dff7b013f64b2175bf5d694eef765f9ccb3ef839c3c3b0cd929a5e137b7",
+    "psychology/trader_psychology_context_bridge.py": "88fcffce6b1c1ccc31e31e01f4245b556a852c2459365e1618a927d1ce02f9e7",
+    "psychology/trader_psychology_dashboard_export.py": "3ac701f820759eb64aa8edaadd72375357706aae6a7e261576b3a19f9477c868",
+    "psychology/trader_psychology_dashboard_file_export.py": "3ba5c7dc23db33dfcbd0ea0b060d2fcdef014f3a24ed22c38f30fd920f03beca",
+    "psychology/trader_psychology_dashboard_projection.py": "4caec31ef25c892c4ab994418e73b12fcc7bd2ec7ad36773ebf9b848be04c736",
+    "psychology/trader_psychology_engine.py": "398e5bd19fefa500f92b38b40ecab7715b203995dd05cef600f29584471de125",
+    "psychology/trader_psychology_evidence_correlator.py": "78e4f110b83b771d5808073c98506b241ab1d61efe86f45187a3b5c2020208e0",
+    "psychology/trader_psychology_evidence_presenter.py": "a5e80aee72093e20127c99d5671f2a6560c1481c45487697a985acfb8fed1586",
+    "psychology/trader_psychology_execution_confirmation_adapter.py": "23b9b6d3d663b3caf44771dd547dd75ff53ed60dc88a976609f591002257580e",
+    "psychology/trader_psychology_runtime.py": "b163edd89916ed4f2e0bfed61836035acead2a52cc67749f00694166ee405ea4",
+    "psychology/trader_psychology_session_catalog.py": "fb1df0fafda02c8236de98fe960d7c55406d21d5bcb209d15330023208c627a8",
+    "psychology/trader_psychology_session_catalog_export.py": "194e3c9d1426f374d2bee717a268d16c97151e38ee82859500387b1f97cb71fb",
+    "psychology/trader_psychology_session_catalog_file_export.py": "38b271f71f8caca35551703b8737d54b0f7f989507221ad36ec93ca4a5e60f7f",
+    "psychology/trader_psychology_session_catalog_file_reader.py": "44d194b87a1fd08dba6b783cd871b9d907f5bfc2c9cc8ecbf84ddc4a4bf54b10",
+    "psychology/trader_psychology_session_catalog_integrity_facade.py": "16387b92ae2e8edf61fcfa97f013e80fe1fad9e4b6d64fdfbacea885dc9ac0b5",
+    "psychology/trader_psychology_session_journal.py": "a233c7904acd171d7ea75a9fe940f94fff9ae16a6a6adbe3dbe47ecad0039b61",
+    "psychology/trader_psychology_session_provider.py": "9cffd51254b80991311b5b980df6dbaf19c798834eb1d06df9ca96292b8dffa6",
+    "psychology/trader_psychology_session_review.py": "53bee99bbbc41631c2c6833ca5fabf6a1f62174c9ffe14250cdadb23c7f132b0",
+    "psychology/trader_psychology_session_summary.py": "5e7129d0642a18b171ab08a8b2c3dcb2d9577499baee1b5ed52e18ac05b0b4cc",
+    "psychology/trader_psychology_session_time.py": "4e805a6adea63f3dc1e3a284e80b5e80b8032603141967472290817c03d9f500",
+    "psychology/trader_psychology_state.py": "1a498b00ad7e4dce79d6de4cc5d314c10d5e757b73caa551a615bd13af3143c3",
+    "psychology/trader_psychology_trade_event_bridge.py": "242c6a37220423049012f6c883fc701417ed8f25c6e2bd801235a4cdf73106cf",
+    "psychology/trader_psychology_trade_event_publisher.py": "c22318e5d495ee151d409abfe63b25242ad3ebfbd8e1cbff333ff0b18b70260a",
+    "psychology/voice_assistant.py": "a0f38b9baaa096caf7dbbe00dec4bbfa75e740ab76bfe1196962d5a5a88781f8",
+    "risk/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "risk/risk_manager.py": "f6896f2d9cf0ba420b4911aed0965e08fe1e94069e07df43a9ec0e1564640d36",
+    "strategies/setup_registry.py": "cd756ce7fda9c5de1ffa64cc65ffad96ffdb941b65f67de35219eb80734de328",
+    "strategies/setup_scoring.py": "91e4014ed55e9e7512855b157f444c1281024f28fceeeb0e5cf4b9293a87ed1b",
+    "strategies/setups/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "strategies/setups/liquidity_sweep.py": "1a194f8678f18e4aa1453618b4af5aeacf2136500ba9ed02d49cf1603f777fb3",
+    "strategies/setups/setup_base.py": "99db106a8e038fa9c9ce88bdc83413530acca2ea10e9591ee94416e4f6d87098",
+    "strategies/setups/trend_breakout.py": "826d40b583ecf56733373f2191bc307f5b4a2093473802b6b31df2102a4412f4",
+    "strategies/setups/trend_pullback.py": "629bf8a35832645d7310c6691ff576d6dd95508103f8ba08a8e811dba992cc6d",
+    "strategies/strategy_engine.py": "6da8bf49df49ffd61e14c339397db3cd7502d6a124f105d56e4714327c7a202b"
+  },
+  "rc3_9_manifest_sha256": "54e688a7b39160ffd087d8ee202a3d60b5651c87c85e25d1e732bba14832a013",
+  "files_created": [
+    "h10_rc3_11_prepare_static.py",
+    "h10_rc3_11_future_suite.py",
+    "h10_rc3_11_synthetic_fixtures.json",
+    "h10_rc3_11_preparation_report.json",
+    "h10_rc3_11_preparation_report.txt",
+    "h10_rc3_11_hashes.json"
+  ],
+  "original_files_modified": [],
+  "engines_imported": false,
+  "engines_instantiated": false,
+  "engines_executed": false,
+  "functional_tests_executed": false,
+  "suite_imported_or_collected": false,
+  "static_only": true,
+  "excel_profit_dde_rtd_accessed": false,
+  "runtime_dependencies_between_engines": [
+    "Structure -> PriceAction",
+    "Structure/PA/Liquidity/Volume/Context/OB/FVG -> Strategy",
+    "Synthetic precomputed components -> Score",
+    "Synthetic Strategy/Structure/Liquidity/Volume/OB/FVG -> Risk",
+    "Strategy/Risk/Score/MTF -> Decision",
+    "Decision/Score/OrderFlow -> Alert"
+  ],
+  "dependency_notes": [
+    "146 source files include package initializer imports; HTTP/filesystem/SAPI modules are dormant but present",
+    "Models and default factories are real on future execution; slots verified statically for fixture inputs",
+    "No third-party unresolved import in RC3.9 map; availability not probed by importing project code"
+  ],
+  "artifact_sha256": {
+    "h10_rc3_11_prepare_static.py": "7f22815cfc5772ba8d57ac9ef28d37d0dcd38f9c9b34dc6e4f4cce8125f1fe82",
+    "h10_rc3_11_future_suite.py": "8cd5ec9807e90fee8b0d1695e42b23ec9d41a7ec693f1e8e055db4efedc4405c",
+    "h10_rc3_11_synthetic_fixtures.json": "a49eb21f65e3362b6148252e60ee529de254b68a82687cb61898060b0bbcc8e2"
+  },
+  "limitations": [
+    "Draft expectations derived from source, not validated by running; no case claimed passed",
+    "I/O traps do not sandbox native code, cached aliases, alternate import paths or arbitrary callbacks",
+    "No hard process timeout in this prepared suite; future single-case run requires external duration control",
+    "Synthetic BUY/SELL is in-memory only; operational envelope stays WAIT, no order adapter or runtime pipeline",
+    "Blocked desired behavior must not be forced by changing engines or asserting undocumented gates",
+    "RC3.10 8/8 is user-provided context, not a new test result of RC3.11"
+  ],
+  "next_action": "User review and explicit authorization for decision_wait_conflict; one case only, no pipeline."
+}

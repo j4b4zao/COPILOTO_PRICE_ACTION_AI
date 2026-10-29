@@ -1,0 +1,17 @@
+test_flags (test_f3_int63_snapshot_reset.ResetProbeTests.test_flags) ... ok
+test_held_snapshot_detects_replay (test_f3_int63_snapshot_reset.ResetProbeTests.test_held_snapshot_detects_replay) ... ok
+test_invalid_fixture (test_f3_int63_snapshot_reset.ResetProbeTests.test_invalid_fixture) ... ok
+test_invalid_modes (test_f3_int63_snapshot_reset.ResetProbeTests.test_invalid_modes) ... ok
+test_only_state_reset_rejected (test_f3_int63_snapshot_reset.ResetProbeTests.test_only_state_reset_rejected) ... ok
+test_only_version_reset_rejected (test_f3_int63_snapshot_reset.ResetProbeTests.test_only_version_reset_rejected) ... ok
+test_order_independent_outcomes (test_f3_int63_snapshot_reset.ResetProbeTests.test_order_independent_outcomes) ... ok
+test_original_not_mutated (test_f3_int63_snapshot_reset.ResetProbeTests.test_original_not_mutated) ... ok
+test_partial_probe_not_proof (test_f3_int63_snapshot_reset.ResetProbeTests.test_partial_probe_not_proof) ... ok
+test_rejected_recovery (test_f3_int63_snapshot_reset.ResetProbeTests.test_rejected_recovery) ... ok
+test_seeded_extension_reset (test_f3_int63_snapshot_reset.ResetProbeTests.test_seeded_extension_reset) ... ok
+test_whole_reset_replay_demonstrated (test_f3_int63_snapshot_reset.ResetProbeTests.test_whole_reset_replay_demonstrated) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.023s
+
+OK

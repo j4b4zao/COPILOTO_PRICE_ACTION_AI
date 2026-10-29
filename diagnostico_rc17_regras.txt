@@ -1,0 +1,188 @@
+﻿
+  analysis\market_structure.py:32:
+  analysis\market_structure.py:33:        # ======================================================
+  analysis\market_structure.py:34:        # MERCADO
+  analysis\market_structure.py:35:        # ======================================================
+  analysis\market_structure.py:36:
+  analysis\market_structure.py:37:        if not market.ready:
+  analysis\market_structure.py:38:            return context
+  analysis\market_structure.py:39:
+> analysis\market_structure.py:40:        candles = market.candles.all()
+  analysis\market_structure.py:41:
+  analysis\market_structure.py:42:        # ======================================================
+  analysis\market_structure.py:43:        # O ÚLTIMO CANDLE ESTÁ EM FORMAÇÃO
+  analysis\market_structure.py:44:        #
+  analysis\market_structure.py:45:        # Portanto ele não participa da confirmação estrutural.
+  analysis\market_structure.py:46:        # ======================================================
+  analysis\market_structure.py:47:
+  analysis\market_structure.py:48:        if len(candles) < 6:
+  analysis\market_structure.py:49:            return context
+  analysis\market_structure.py:50:
+  analysis\market_structure.py:51:        closed_candles = candles[:-1]
+  analysis\market_structure.py:52:
+  analysis\market_structure.py:226:
+  analysis\market_structure.py:227:            print(
+  analysis\market_structure.py:228:                "RESULTADO: Nenhum swing confirmado."
+  analysis\market_structure.py:229:            )
+  analysis\market_structure.py:230:
+  analysis\market_structure.py:231:            print("------------------------------------------------------------")
+  analysis\market_structure.py:232:            print()
+  analysis\market_structure.py:233:
+> analysis\market_structure.py:234:            result.trend = Trend.UNKNOWN
+  analysis\market_structure.py:235:
+  analysis\market_structure.py:236:            result.confidence = 0.0
+  analysis\market_structure.py:237:
+  analysis\market_structure.py:238:            result.valid = False
+  analysis\market_structure.py:239:
+  analysis\market_structure.py:240:            result.add_reason(
+  analysis\market_structure.py:241:                "Nenhum swing confirmado."
+  analysis\market_structure.py:242:            )
+  analysis\market_structure.py:243:
+  analysis\market_structure.py:244:            return context
+  analysis\market_structure.py:245:
+  analysis\market_structure.py:246:        # ======================================================
+  analysis\market_structure.py:272:            previous_high = swing_highs[-2]
+  analysis\market_structure.py:273:
+  analysis\market_structure.py:274:            current_high = swing_highs[-1]
+  analysis\market_structure.py:275:
+  analysis\market_structure.py:276:            if current_high > previous_high:
+  analysis\market_structure.py:277:
+  analysis\market_structure.py:278:                higher_high = True
+  analysis\market_structure.py:279:
+> analysis\market_structure.py:280:                result.hh = True
+  analysis\market_structure.py:281:
+  analysis\market_structure.py:282:                result.add_reason(
+  analysis\market_structure.py:283:                    "Higher High confirmado."
+  analysis\market_structure.py:284:                )
+  analysis\market_structure.py:285:
+  analysis\market_structure.py:286:        if len(swing_lows) >= 2:
+  analysis\market_structure.py:287:
+  analysis\market_structure.py:288:            previous_low = swing_lows[-2]
+  analysis\market_structure.py:289:
+  analysis\market_structure.py:290:            current_low = swing_lows[-1]
+  analysis\market_structure.py:291:
+  analysis\market_structure.py:292:            if current_low > previous_low:
+  analysis\market_structure.py:293:
+  analysis\market_structure.py:294:                higher_low = True
+  analysis\market_structure.py:295:
+> analysis\market_structure.py:296:                result.hl = True
+  analysis\market_structure.py:297:
+  analysis\market_structure.py:298:                result.add_reason(
+  analysis\market_structure.py:299:                    "Higher Low confirmado."
+  analysis\market_structure.py:300:                )
+  analysis\market_structure.py:301:
+  analysis\market_structure.py:302:        # ======================================================
+  analysis\market_structure.py:303:        # ESTRUTURA DE BAIXA
+  analysis\market_structure.py:304:        # ======================================================
+  analysis\market_structure.py:305:
+  analysis\market_structure.py:306:        lower_high = False
+  analysis\market_structure.py:307:
+  analysis\market_structure.py:308:        lower_low = False
+  analysis\market_structure.py:312:            previous_high = swing_highs[-2]
+  analysis\market_structure.py:313:
+  analysis\market_structure.py:314:            current_high = swing_highs[-1]
+  analysis\market_structure.py:315:
+  analysis\market_structure.py:316:            if current_high < previous_high:
+  analysis\market_structure.py:317:
+  analysis\market_structure.py:318:                lower_high = True
+  analysis\market_structure.py:319:
+> analysis\market_structure.py:320:                result.lh = True
+  analysis\market_structure.py:321:
+  analysis\market_structure.py:322:                result.add_reason(
+  analysis\market_structure.py:323:                    "Lower High confirmado."
+  analysis\market_structure.py:324:                )
+  analysis\market_structure.py:325:
+  analysis\market_structure.py:326:        if len(swing_lows) >= 2:
+  analysis\market_structure.py:327:
+  analysis\market_structure.py:328:            previous_low = swing_lows[-2]
+  analysis\market_structure.py:329:
+  analysis\market_structure.py:330:            current_low = swing_lows[-1]
+  analysis\market_structure.py:331:
+  analysis\market_structure.py:332:            if current_low < previous_low:
+  analysis\market_structure.py:333:
+  analysis\market_structure.py:334:                lower_low = True
+  analysis\market_structure.py:335:
+> analysis\market_structure.py:336:                result.ll = True
+  analysis\market_structure.py:337:
+  analysis\market_structure.py:338:                result.add_reason(
+  analysis\market_structure.py:339:                    "Lower Low confirmado."
+  analysis\market_structure.py:340:                )
+  analysis\market_structure.py:341:
+  analysis\market_structure.py:342:        # ======================================================
+  analysis\market_structure.py:343:        # TENDÊNCIA
+  analysis\market_structure.py:344:        # ======================================================
+  analysis\market_structure.py:345:
+  analysis\market_structure.py:346:        if higher_high and higher_low:
+  analysis\market_structure.py:347:
+> analysis\market_structure.py:348:            result.trend = Trend.UP
+  analysis\market_structure.py:349:
+  analysis\market_structure.py:350:            result.confidence = 0.80
+  analysis\market_structure.py:351:
+  analysis\market_structure.py:352:            result.add_reason(
+  analysis\market_structure.py:353:                "Estrutura de alta confirmada."
+  analysis\market_structure.py:354:            )
+  analysis\market_structure.py:355:
+  analysis\market_structure.py:356:        elif lower_high and lower_low:
+  analysis\market_structure.py:357:
+> analysis\market_structure.py:358:            result.trend = Trend.DOWN
+  analysis\market_structure.py:359:
+  analysis\market_structure.py:360:            result.confidence = 0.80
+  analysis\market_structure.py:361:
+  analysis\market_structure.py:362:            result.add_reason(
+  analysis\market_structure.py:363:                "Estrutura de baixa confirmada."
+  analysis\market_structure.py:364:            )
+  analysis\market_structure.py:365:
+  analysis\market_structure.py:366:        elif swing_highs or swing_lows:
+  analysis\market_structure.py:367:
+> analysis\market_structure.py:368:            result.trend = Trend.SIDEWAYS
+  analysis\market_structure.py:369:
+  analysis\market_structure.py:370:            result.confidence = 0.40
+  analysis\market_structure.py:371:
+  analysis\market_structure.py:372:            result.add_reason(
+  analysis\market_structure.py:373:                "Estrutura sem tendência definida."
+  analysis\market_structure.py:374:            )
+  analysis\market_structure.py:375:
+  analysis\market_structure.py:376:        else:
+  analysis\market_structure.py:377:
+> analysis\market_structure.py:378:            result.trend = Trend.UNKNOWN
+  analysis\market_structure.py:379:
+  analysis\market_structure.py:380:            result.confidence = 0.0
+  analysis\market_structure.py:381:
+  analysis\market_structure.py:382:        # ======================================================
+  analysis\market_structure.py:383:        # ÚLTIMO CANDLE FECHADO
+  analysis\market_structure.py:384:        # ======================================================
+  analysis\market_structure.py:385:
+  analysis\market_structure.py:386:        last_closed_candle = closed_candles[-1]
+  analysis\market_structure.py:387:
+  analysis\market_structure.py:388:        # ======================================================
+  analysis\market_structure.py:389:        # BOS DE ALTA
+  analysis\market_structure.py:390:        # ======================================================
+  analysis\market_structure.py:478:        # ======================================================
+  analysis\market_structure.py:479:        # DIAGNÓSTICO FINAL
+  analysis\market_structure.py:480:        # ======================================================
+  analysis\market_structure.py:481:
+  analysis\market_structure.py:482:        print()
+  analysis\market_structure.py:483:
+  analysis\market_structure.py:484:        print("ESTRUTURA DETECTADA:")
+  analysis\market_structure.py:485:
+> analysis\market_structure.py:486:        print(f"  HH       : {result.hh}")
+  analysis\market_structure.py:487:
+> analysis\market_structure.py:488:        print(f"  HL       : {result.hl}")
+  analysis\market_structure.py:489:
+> analysis\market_structure.py:490:        print(f"  LH       : {result.lh}")
+  analysis\market_structure.py:491:
+> analysis\market_structure.py:492:        print(f"  LL       : {result.ll}")
+  analysis\market_structure.py:493:
+  analysis\market_structure.py:494:        print(f"  Trend    : {result.trend}")
+  analysis\market_structure.py:495:
+  analysis\market_structure.py:496:        print(f"  BOS UP   : {result.bos_up}")
+  analysis\market_structure.py:497:
+  analysis\market_structure.py:498:        print(f"  BOS DOWN : {result.bos_down}")
+  analysis\market_structure.py:499:
+  analysis\market_structure.py:500:        print(f"  CHOCH    : {result.choch}")
+  analysis\market_structure.py:501:
+  analysis\market_structure.py:502:        print("------------------------------------------------------------")
+  analysis\market_structure.py:503:        print()
+  analysis\market_structure.py:504:
+
+

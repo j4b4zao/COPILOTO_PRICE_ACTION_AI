@@ -1,0 +1,1990 @@
+﻿===== MANAGEMENT EXACT =====
+"""Auditor EXACT_CANDLE research-only para Brooks Management / Trailing Stop."""
+from __future__ import annotations
+
+import json
+from collections import Counter
+from pathlib import Path
+
+SETUP = "BROOKS_MANAGEMENT_RESEARCH_V1"
+COMPONENT = "TRAILING_STOP_V1"
+READY_STATUS = "CANDLE_EVIDENCE_READY"
+DEDUPLICATION = "EXACT_CANDLE_LAST_REVISION"
+
+
+def _safety():
+    return {
+        "research_only": True,
+        "observational_only": True,
+        "predictive_claim_allowed": False,
+        "score_influence_allowed": False,
+        "risk_influence_allowed": False,
+        "decision_influence_allowed": False,
+        "alert_influence_allowed": False,
+        "order_execution_allowed": False,
+    }
+
+
+def _pa(sample):
+    value = sample.get("price_action") if isinstance(sample, dict) else None
+    return value if isinstance(value, dict) else {}
+
+
+def _evidence(sample):
+    value = sample.get("candle_evidence") if isinstance(sample, dict) else None
+    return value if isinstance(value, dict) else {}
+
+
+def _float(value, default=0.0):
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return float(default)
+
+
+def _ready_candle(sample):
+    ev = _evidence(sample)
+    return (
+        ev.get("status") == READY_STATUS
+        and bool(ev.get("identity_ready", True))
+        and bool(ev.get("candle_id"))
+    )
+
+
+def _dedupe_exact_candles(samples):
+    order = []
+    latest = {}
+    for sample in samples:
+        if not _ready_candle(sample):
+            continue
+        cid = _evidence(sample).get("candle_id")
+        if cid not in latest:
+            order.append(cid)
+        latest[cid] = sample
+    return [latest[cid] for cid in order]
+
+
+def _management_contract_present(pa):
+    return (
+        pa.get("brooks_management_component") == COMPONENT
+        and "brooks_management_capture_status" in pa
+    )
+
+
+def _check_observation(sample):
+    pa = _pa(sample)
+    ev = _evidence(sample)
+    cid = ev.get("candle_id")
+
+    direction = str(pa.get("brooks_management_direction") or "NONE").upper()
+    capture_status = str(pa.get("brooks_management_capture_status") or "UNKNOWN")
+    state = str(pa.get("brooks_management_state") or "UNKNOWN")
+
+    entry = _float(pa.get("brooks_management_entry_price"))
+    initial = _float(pa.get("brooks_management_initial_stop"))
+    current = _float(pa.get("brooks_management_current_stop"))
+    proposed = _float(pa.get("brooks_management_proposed_stop"))
+
+    improved = bool(pa.get("brooks_management_stop_improved"))
+    loosened_flag = bool(pa.get("brooks_management_stop_loosened"))
+    structural = bool(pa.get("brooks_management_structural_advance_confirmed"))
+
+    mismatches = []
+
+    if pa.get("brooks_management_component") != COMPONENT:
+        mismatches.append("MANAGEMENT_COMPONENT_MISMATCH")
+
+    if pa.get("brooks_management_research_only") is not True:
+        mismatches.append("MANAGEMENT_RESEARCH_ONLY_REQUIRED")
+    if pa.get("brooks_management_observational_only") is not True:
+        mismatches.append("MANAGEMENT_OBSERVATIONAL_ONLY_REQUIRED")
+
+    for field in (
+        "brooks_management_predictive_claim_allowed",
+        "brooks_management_score_influence_allowed",
+        "brooks_management_risk_influence_allowed",
+        "brooks_management_decision_influence_allowed",
+        "brooks_management_alert_influence_allowed",
+        "brooks_management_order_execution_allowed",
+    ):
+        if pa.get(field) is not False:
+            mismatches.append(field.upper() + "_MUST_BE_FALSE")
+
+    st_cid = pa.get("brooks_stop_target_candle_id")
+    if st_cid and st_cid != cid:
+        mismatches.append("STOP_TARGET_CANDLE_ID_MISMATCH")
+
+    st_direction = str(pa.get("brooks_stop_target_direction") or "NONE").upper()
+    if st_direction in {"BUY", "SELL"} and direction != st_direction:
+        mismatches.append("MANAGEMENT_DIRECTION_MISMATCH")
+
+    if bool(pa.get("brooks_stop_target_entry_triggered")) != bool(
+        pa.get("brooks_management_entry_triggered")
+    ):
+        mismatches.append("ENTRY_TRIGGER_MISMATCH")
+
+    st_entry = _float(pa.get("brooks_stop_target_entry_price"))
+    st_initial = _float(pa.get("brooks_stop_target_initial_stop"))
+    if st_entry and entry and st_entry != entry:
+        mismatches.append("ENTRY_PRICE_MISMATCH")
+    if st_initial and initial and st_initial != initial:
+        mismatches.append("INITIAL_STOP_MISMATCH")
+
+    geometry_loosened = False
+    geometry_improved = False
+    if direction == "BUY" and current and proposed:
+        geometry_loosened = proposed < current
+        geometry_improved = proposed > current
+    elif direction == "SELL" and current and proposed:
+        geometry_loosened = proposed > current
+        geometry_improved = proposed < current
+
+    if loosened_flag:
+        mismatches.append("STOP_LOOSENED_FLAG_TRUE")
+    if geometry_loosened:
+        mismatches.append("STOP_GEOMETRY_LOOSENED")
+    if improved != geometry_improved:
+        mismatches.append("STOP_IMPROVEMENT_FLAG_MISMATCH")
+
+    if capture_status == "CAPTURED":
+        if direction not in {"BUY", "SELL"}:
+            mismatches.append("CAPTURED_DIRECTION_REQUIRED")
+        if not initial or not current or not proposed:
+            mismatches.append("CAPTURED_STOP_VALUES_REQUIRED")
+
+    reasons = []
+    if not mismatches:
+        reasons.append("EXACT_CANDLE_MANAGEMENT_CAPTURE_CONSISTENT")
+    if capture_status == "CAPTURED":
+        reasons.append("MANAGEMENT_CAPTURED")
+    if improved:
+        reasons.append("STOP_IMPROVEMENT_OBSERVED")
+    if structural:
+        reasons.append("STRUCTURAL_ADVANCE_OBSERVED")
+    if not loosened_flag and not geometry_loosened:
+        reasons.append("NO_STOP_LOOSENING")
+
+    return {
+        "candle_id": cid,
+        "capture_status": capture_status,
+        "state": state,
+        "direction": direction,
+        "entry_triggered": bool(pa.get("brooks_management_entry_triggered")),
+        "entry_price": entry,
+        "initial_stop": initial,
+        "current_stop": current,
+        "proposed_stop": proposed,
+        "trailing_active": bool(pa.get("brooks_management_trailing_active")),
+        "stop_improved": improved,
+        "stop_loosened": loosened_flag,
+        "structural_advance_confirmed": structural,
+        "latest_swing_index": pa.get("brooks_management_latest_swing_index"),
+        "latest_swing_price": _float(pa.get("brooks_management_latest_swing_price")),
+        "protected_r": _float(pa.get("brooks_management_protected_r")),
+        "capture_consistent": not mismatches,
+        "mismatches": mismatches,
+        "reasons": reasons,
+    }
+
+
+def audit_payload(payload):
+    samples = payload.get("samples") if isinstance(payload, dict) else None
+    samples = samples if isinstance(samples, list) else []
+
+    exact = _dedupe_exact_candles(samples)
+    rows = [s for s in exact if _management_contract_present(_pa(s))]
+
+    if not bool(payload.get("data_ready")):
+        return {
+            "setup": SETUP,
+            "status": "SESSION_NOT_ELIGIBLE",
+            "reasons": ["DATA_NOT_READY"],
+            "exact_candles": len(exact),
+            "management_evidence_rows": len(rows),
+            "hypothesis_freeze_allowed": False,
+            **_safety(),
+        }
+
+    if not exact:
+        return {
+            "setup": SETUP,
+            "status": "SESSION_NOT_ELIGIBLE",
+            "reasons": ["EXACT_CANDLE_EVIDENCE_REQUIRED"],
+            "exact_candles": 0,
+            "management_evidence_rows": 0,
+            "hypothesis_freeze_allowed": False,
+            **_safety(),
+        }
+
+    if not rows:
+        return {
+            "setup": SETUP,
+            "status": "SESSION_NOT_ELIGIBLE",
+            "reasons": ["MANAGEMENT_CAPTURE_CONTRACT_REQUIRED"],
+            "exact_candles": len(exact),
+            "management_evidence_rows": 0,
+            "hypothesis_freeze_allowed": False,
+            **_safety(),
+        }
+
+    observations = [_check_observation(s) for s in rows]
+    status_counts = Counter(o["capture_status"] for o in observations)
+    state_counts = Counter(o["state"] for o in observations)
+
+    return {
+        "setup": SETUP,
+        "status": "EXACT_MANAGEMENT_AUDIT_COMPLETED",
+        "deduplication": DEDUPLICATION,
+        "exact_candles": len(exact),
+        "management_evidence_rows": len(observations),
+        "captured_observations": status_counts.get("CAPTURED", 0),
+        "not_eligible_observations": status_counts.get("NOT_ELIGIBLE", 0),
+        "capture_status_counts": dict(sorted(status_counts.items())),
+        "state_counts": dict(sorted(state_counts.items())),
+        "stop_improvement_count": sum(o["stop_improved"] for o in observations),
+        "stop_loosened_count": sum(o["stop_loosened"] for o in observations),
+        "structural_advance_count": sum(
+            o["structural_advance_confirmed"] for o in observations
+        ),
+        "trailing_active_count": sum(o["trailing_active"] for o in observations),
+        "capture_inconsistency_count": sum(
+            not o["capture_consistent"] for o in observations
+        ),
+        "observations": observations,
+        "hypothesis_freeze_allowed": False,
+        **_safety(),
+    }
+
+
+def audit_sessions(payloads):
+    sessions = []
+    accepted = rejected = 0
+    exact_candles = management_rows = captured = 0
+    improvements = loosened = structural = inconsistencies = 0
+    state_counts = Counter()
+    capture_status_counts = Counter()
+
+    for index, payload in enumerate(payloads):
+        report = audit_payload(payload)
+        sessions.append({"session_index": index, **report})
+
+        if report.get("status") == "EXACT_MANAGEMENT_AUDIT_COMPLETED":
+            accepted += 1
+            exact_candles += int(report.get("exact_candles", 0))
+            management_rows += int(report.get("management_evidence_rows", 0))
+            captured += int(report.get("captured_observations", 0))
+            improvements += int(report.get("stop_improvement_count", 0))
+            loosened += int(report.get("stop_loosened_count", 0))
+            structural += int(report.get("structural_advance_count", 0))
+            inconsistencies += int(report.get("capture_inconsistency_count", 0))
+            state_counts.update(report.get("state_counts") or {})
+            capture_status_counts.update(report.get("capture_status_counts") or {})
+        else:
+            rejected += 1
+
+    return {
+        "setup": SETUP,
+        "status": "MULTI_SESSION_EXACT_MANAGEMENT_AUDIT_COMPLETED",
+        "deduplication": DEDUPLICATION,
+        "accepted_session_count": accepted,
+        "rejected_session_count": rejected,
+        "exact_candles": exact_candles,
+        "management_evidence_rows": management_rows,
+        "captured_observations": captured,
+        "stop_improvement_count": improvements,
+        "stop_loosened_count": loosened,
+        "structural_advance_count": structural,
+        "capture_inconsistency_count": inconsistencies,
+        "capture_status_counts": dict(sorted(capture_status_counts.items())),
+        "state_counts": dict(sorted(state_counts.items())),
+        "performance_validated": False,
+        "promotion_allowed": False,
+        "hypothesis_freeze_allowed": False,
+        "sessions": sessions,
+        **_safety(),
+    }
+
+
+def audit(paths):
+    payloads = [
+        json.loads(Path(path).read_text(encoding="utf-8"))
+        for path in paths
+    ]
+    return audit_sessions(payloads)
+
+
+def main(argv=None):
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("paths", nargs="+")
+    parser.add_argument("--output")
+    args = parser.parse_args(argv)
+
+    report = audit(args.paths)
+    text = json.dumps(report, indent=2, sort_keys=True, ensure_ascii=False)
+
+    if args.output:
+        output = Path(args.output)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(text, encoding="utf-8")
+
+    print(text)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
+===== MANAGEMENT LIFECYCLE =====
+"""
+tools/profit_rtd_brooks_management_lifecycle.py
+
+Stage 2 â€” Brooks Dynamic Management / Trade Lifecycle Research.
+
+Research-only e observacional.
+
+Este modulo:
+- trabalha somente sobre sessoes Brooks ja persistidas;
+- deduplica por candle_id usando EXACT_CANDLE_LAST_REVISION;
+- cria um episodio para cada entrada Brooks elegivel;
+- acompanha a mesma entrada atraves dos candles exatos seguintes;
+- persiste um current_stop hipotetico por episodio;
+- usa ProtectiveTrailingStopDynamics sem alterar seu algoritmo;
+- nao calcula performance, PnL, partials ou outcomes;
+- nao influencia Score, Risk, Decision, Alert ou execucao.
+
+Importante:
+A engine Ch.29 ignora o ultimo candle recebido por considerar que ele pode estar
+em formacao. Como este reprocessamento trabalha com candles exatos/fechados,
+cada avaliacao adiciona um "sentinel" sintetico no fim do historico. A engine
+descarta somente esse sentinel e passa a enxergar todos os candles fechados
+ate o candle de observacao.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+from copy import deepcopy
+from dataclasses import asdict, is_dataclass
+from pathlib import Path
+from types import SimpleNamespace
+
+from analysis.price_action.protective_trailing_stop_dynamics import (
+    ProtectiveTrailingStopDynamics,
+)
+
+
+SETUP_NAME = "BROOKS_MANAGEMENT_LIFECYCLE_V1"
+DEDUPLICATION = "EXACT_CANDLE_LAST_REVISION"
+_ENGINE = ProtectiveTrailingStopDynamics()
+
+
+def _safety():
+    return {
+        "research_only": True,
+        "observational_only": True,
+        "predictive_claim_allowed": False,
+        "score_influence_allowed": False,
+        "risk_influence_allowed": False,
+        "decision_influence_allowed": False,
+        "alert_influence_allowed": False,
+        "order_execution_allowed": False,
+        "performance_claim_allowed": False,
+        "hypothesis_freeze_allowed": False,
+    }
+
+
+def _price_action(sample):
+    value = sample.get("price_action")
+    return value if isinstance(value, dict) else {}
+
+
+def _evidence(sample):
+    value = sample.get("candle_evidence")
+    return value if isinstance(value, dict) else {}
+
+
+def _candle_id(sample):
+    return str(_evidence(sample).get("candle_id") or "")
+
+
+def _deduplicate(samples):
+    latest = {}
+    order = []
+
+    for sample in samples:
+        if not isinstance(sample, dict):
+            continue
+
+        candle_id = _candle_id(sample)
+        if not candle_id:
+            continue
+
+        if candle_id not in latest:
+            order.append(candle_id)
+
+        latest[candle_id] = sample
+
+    return [latest[candle_id] for candle_id in order]
+
+
+def _float(value, default=0.0):
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return float(default)
+
+
+def _normalize_direction(value):
+    direction = str(value or "").upper().strip()
+
+    if direction == "UP":
+        return "BUY"
+    if direction == "DOWN":
+        return "SELL"
+    if direction in {"BUY", "SELL"}:
+        return direction
+
+    return "NONE"
+
+
+def _to_candle(sample):
+    evidence = _evidence(sample)
+
+    return SimpleNamespace(
+        open=_float(evidence.get("open")),
+        high=_float(evidence.get("high")),
+        low=_float(evidence.get("low")),
+        close=_float(evidence.get("close")),
+        candle_id=str(evidence.get("candle_id") or ""),
+    )
+
+
+def _synthetic_sentinel(last_candle):
+    return SimpleNamespace(
+        open=last_candle.close,
+        high=last_candle.close,
+        low=last_candle.close,
+        close=last_candle.close,
+        candle_id=f"{last_candle.candle_id}|SENTINEL",
+    )
+
+
+def _result_dict(result):
+    if is_dataclass(result):
+        return asdict(result)
+
+    if hasattr(result, "__dict__"):
+        return dict(vars(result))
+
+    raise TypeError(
+        "ProtectiveTrailingStopDynamics result is not serializable"
+    )
+
+
+def _entry_from_sample(sample, exact_index):
+    pa = _price_action(sample)
+
+    triggered = bool(
+        pa.get(
+            "brooks_stop_target_entry_triggered",
+            pa.get("brooks_entry_triggered", False),
+        )
+    )
+
+    direction = _normalize_direction(
+        pa.get(
+            "brooks_stop_target_direction",
+            pa.get("brooks_signal_direction"),
+        )
+    )
+
+    entry_price = _float(
+        pa.get("brooks_stop_target_entry_price")
+    )
+    initial_stop = _float(
+        pa.get("brooks_stop_target_initial_stop")
+    )
+
+    stop_geometry_valid = bool(
+        pa.get("brooks_stop_target_stop_geometry_valid")
+    )
+
+    candle_id = _candle_id(sample)
+
+    if not triggered:
+        return None
+
+    if direction not in {"BUY", "SELL"}:
+        return None
+
+    if not stop_geometry_valid:
+        return None
+
+    if entry_price <= 0 or initial_stop <= 0:
+        return None
+
+    if direction == "BUY" and initial_stop >= entry_price:
+        return None
+
+    if direction == "SELL" and initial_stop <= entry_price:
+        return None
+
+    return {
+        "episode_id": f"{candle_id}|{direction}",
+        "entry_event_candle_id": candle_id,
+        "entry_exact_index": int(exact_index),
+        "direction": direction,
+        "entry_price": entry_price,
+        "initial_stop": initial_stop,
+        "current_stop": initial_stop,
+        "stop_revision_count": 0,
+        "observations": [],
+    }
+
+
+def _apply_observation(
+    episode,
+    closed_history,
+    observation_sample,
+    observation_index,
+):
+    current = _to_candle(observation_sample)
+
+    engine_history = list(closed_history)
+    engine_history.append(_synthetic_sentinel(current))
+
+    before = float(episode["current_stop"])
+
+    result = _ENGINE.analyze(
+        engine_history,
+        direction=episode["direction"],
+        entry_price=episode["entry_price"],
+        initial_stop=episode["initial_stop"],
+        current_stop=before,
+        tick_size=1.0,
+    )
+    data = _result_dict(result)
+
+    proposed = _float(data.get("proposed_stop"), before)
+    state = str(data.get("state") or "")
+
+    after = before
+    revision_applied = False
+
+    if state == "TRAILING_STOP_ADVANCE":
+        if episode["direction"] == "BUY" and proposed > before:
+            after = proposed
+            revision_applied = True
+        elif episode["direction"] == "SELL" and proposed < before:
+            after = proposed
+            revision_applied = True
+
+    if revision_applied:
+        episode["stop_revision_count"] += 1
+        episode["current_stop"] = after
+
+    observation = {
+        "observation_candle_id": _candle_id(observation_sample),
+        "observation_exact_index": int(observation_index),
+        "state": state,
+        "reason": str(data.get("reason") or ""),
+        "previous_stop": before,
+        "proposed_stop": proposed,
+        "current_stop_after": after,
+        "revision_applied": revision_applied,
+        "trailing_active": bool(data.get("trailing_active")),
+        "stop_improved": bool(data.get("stop_improved")),
+        "stop_loosened": bool(data.get("stop_loosened")),
+        "structural_advance_confirmed": bool(
+            data.get("structural_advance_confirmed")
+        ),
+        "latest_swing_index": data.get("latest_swing_index"),
+        "latest_swing_price": _float(
+            data.get("latest_swing_price")
+        ),
+        "protected_r": _float(data.get("protected_r")),
+    }
+
+    episode["observations"].append(observation)
+
+
+def build_lifecycles(payload):
+    if not isinstance(payload, dict):
+        raise TypeError("payload must be dict")
+
+    raw_samples = payload.get("samples") or []
+    exact_samples = _deduplicate(raw_samples)
+    exact_candles = [_to_candle(sample) for sample in exact_samples]
+
+    episodes = []
+
+    for entry_index, sample in enumerate(exact_samples):
+        episode = _entry_from_sample(sample, entry_index)
+        if episode is None:
+            continue
+
+        # O proprio candle de entrada nao e usado para mover o stop.
+        # A primeira observacao ocorre no candle exato seguinte.
+        for observation_index in range(
+            entry_index + 1,
+            len(exact_samples),
+        ):
+            # Todos os candles fechados ate e incluindo o candle
+            # de observacao sao fornecidos a engine; um sentinel extra
+            # e descartado internamente pela engine.
+            closed_history = exact_candles[: observation_index + 1]
+
+            _apply_observation(
+                episode,
+                closed_history,
+                exact_samples[observation_index],
+                observation_index,
+            )
+
+        episodes.append(episode)
+
+    advance_observations = sum(
+        1
+        for episode in episodes
+        for observation in episode["observations"]
+        if observation["revision_applied"]
+    )
+
+    episodes_with_advance = sum(
+        1
+        for episode in episodes
+        if episode["stop_revision_count"] > 0
+    )
+
+    report = {
+        "setup": SETUP_NAME,
+        "status": (
+            "LIFECYCLE_RESEARCH_COMPLETED"
+            if episodes
+            else "MORE_EVIDENCE_REQUIRED"
+        ),
+        "deduplication": DEDUPLICATION,
+        "raw_samples": len(raw_samples),
+        "exact_candles": len(exact_samples),
+        "eligible_entry_episodes": len(episodes),
+        "episodes_with_stop_advance": episodes_with_advance,
+        "stop_advance_observations": advance_observations,
+        "dynamic_management_validated": False,
+        "validation_reason": (
+            "RESEARCH_ONLY_LIFECYCLE_NO_PERFORMANCE_CLAIM"
+        ),
+        "episodes": episodes,
+        **_safety(),
+    }
+
+    return report
+
+
+def build_many(paths):
+    sessions = []
+
+    for path in paths:
+        payload = json.loads(
+            Path(path).read_text(encoding="utf-8")
+        )
+        report = build_lifecycles(payload)
+        report["source"] = str(path)
+        sessions.append(report)
+
+    total_exact = sum(x["exact_candles"] for x in sessions)
+    total_episodes = sum(
+        x["eligible_entry_episodes"] for x in sessions
+    )
+    total_with_advance = sum(
+        x["episodes_with_stop_advance"] for x in sessions
+    )
+    total_advances = sum(
+        x["stop_advance_observations"] for x in sessions
+    )
+
+    return {
+        "setup": SETUP_NAME,
+        "status": (
+            "MULTI_SESSION_LIFECYCLE_RESEARCH_COMPLETED"
+            if total_episodes
+            else "MORE_EVIDENCE_REQUIRED"
+        ),
+        "accepted_session_count": len(sessions),
+        "exact_candles": total_exact,
+        "eligible_entry_episodes": total_episodes,
+        "episodes_with_stop_advance": total_with_advance,
+        "stop_advance_observations": total_advances,
+        "dynamic_management_validated": False,
+        "validation_reason": (
+            "RESEARCH_ONLY_LIFECYCLE_NO_PERFORMANCE_CLAIM"
+        ),
+        "sessions": sessions,
+        **_safety(),
+    }
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(
+        description="Brooks management lifecycle research."
+    )
+    parser.add_argument("paths", nargs="+")
+    parser.add_argument("--output")
+    args = parser.parse_args(argv)
+
+    report = build_many(args.paths)
+
+    if args.output:
+        Path(args.output).write_text(
+            json.dumps(report, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+
+    print("status=", report["status"])
+    print(
+        "accepted_session_count=",
+        report["accepted_session_count"],
+    )
+    print("exact_candles=", report["exact_candles"])
+    print(
+        "eligible_entry_episodes=",
+        report["eligible_entry_episodes"],
+    )
+    print(
+        "episodes_with_stop_advance=",
+        report["episodes_with_stop_advance"],
+    )
+    print(
+        "stop_advance_observations=",
+        report["stop_advance_observations"],
+    )
+    print(
+        "dynamic_management_validated=",
+        report["dynamic_management_validated"],
+    )
+
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
+===== PROTECTIVE TRAILING =====
+"""
+analysis/price_action/protective_trailing_stop_dynamics.py
+
+Brooks Trading Ranges - Chapter 29:
+Protective and Trailing Stops.
+
+Diagnostic-only layer. It does not send orders and does not mutate
+Score/Risk/Decision.
+"""
+
+from dataclasses import dataclass, asdict
+
+
+@dataclass(slots=True)
+class ProtectiveTrailingStopResult:
+    valid: bool = False
+    direction: str = "NONE"
+    state: str = "NO_STOP_CONTEXT"
+    entry_price: float = 0.0
+    initial_stop: float = 0.0
+    current_stop: float = 0.0
+    proposed_stop: float = 0.0
+    stop_distance: float = 0.0
+    trailing_active: bool = False
+    stop_improved: bool = False
+    stop_loosened: bool = False
+    structural_advance_confirmed: bool = False
+    latest_swing_index: int = -1
+    latest_swing_price: float = 0.0
+    protected_r: float = 0.0
+    reason: str = ""
+    reasons: tuple[str, ...] = ()
+
+    def to_dict(self):
+        return asdict(self)
+
+
+class ProtectiveTrailingStopDynamics:
+    """Evaluate initial protective stop and structural trailing stop logic."""
+
+    MIN_HISTORY = 7
+    SWING_LEFT = 2
+    SWING_RIGHT = 2
+
+    def analyze(
+        self,
+        candles,
+        direction,
+        entry_price,
+        initial_stop,
+        current_stop=None,
+        tick_size=1.0,
+    ):
+        direction = str(direction or "").upper()
+        if direction not in ("BUY", "SELL"):
+            return ProtectiveTrailingStopResult(
+                reason="INVALID_DIRECTION",
+                reasons=("INVALID_DIRECTION",),
+            )
+
+        closed = list(candles[:-1]) if candles else []
+        if len(closed) < self.MIN_HISTORY:
+            return ProtectiveTrailingStopResult(
+                direction=direction,
+                reason="INSUFFICIENT_HISTORY",
+                reasons=("INSUFFICIENT_HISTORY",),
+            )
+
+        entry = float(entry_price)
+        initial = float(initial_stop)
+        tick = max(float(tick_size), 0.0)
+        current = initial if current_stop is None else float(current_stop)
+
+        if not self._valid_geometry(direction, entry, initial):
+            return ProtectiveTrailingStopResult(
+                direction=direction,
+                entry_price=entry,
+                initial_stop=initial,
+                current_stop=current,
+                state="INVALID_PROTECTIVE_STOP",
+                reason="INVALID_PROTECTIVE_STOP_GEOMETRY",
+                reasons=("INVALID_PROTECTIVE_STOP_GEOMETRY",),
+            )
+
+        reasons = ["PROTECTIVE_STOP_VALID"]
+        stop_loosened = self._is_looser(direction, current, initial)
+        if stop_loosened:
+            reasons.append("CURRENT_STOP_LOOSER_THAN_INITIAL")
+
+        pivots = self._confirmed_pivots(closed)
+        proposed = current
+        latest_index = -1
+        latest_price = 0.0
+        advance_confirmed = False
+
+        if direction == "BUY":
+            swing_lows = [(i, p) for kind, i, p in pivots if kind == "LOW"]
+            swing_highs = [(i, p) for kind, i, p in pivots if kind == "HIGH"]
+            if swing_lows and swing_highs:
+                latest_index, latest_price = swing_lows[-1]
+                later_highs = [p for i, p in swing_highs if i > latest_index]
+                prior_highs = [p for i, p in swing_highs if i < latest_index]
+                if later_highs and prior_highs and max(later_highs) > max(prior_highs):
+                    advance_confirmed = True
+                    candidate = latest_price - tick
+                    proposed = max(current, initial, candidate)
+                    reasons.append("NEW_SWING_HIGH_AFTER_HIGHER_LOW")
+        else:
+            swing_highs = [(i, p) for kind, i, p in pivots if kind == "HIGH"]
+            swing_lows = [(i, p) for kind, i, p in pivots if kind == "LOW"]
+            if swing_highs and swing_lows:
+                latest_index, latest_price = swing_highs[-1]
+                later_lows = [p for i, p in swing_lows if i > latest_index]
+                prior_lows = [p for i, p in swing_lows if i < latest_index]
+                if later_lows and prior_lows and min(later_lows) < min(prior_lows):
+                    advance_confirmed = True
+                    candidate = latest_price + tick
+                    proposed = min(current, initial, candidate)
+                    reasons.append("NEW_SWING_LOW_AFTER_LOWER_HIGH")
+
+        improved = self._is_tighter(direction, proposed, current)
+        trailing_active = advance_confirmed and latest_index >= 0
+
+        if stop_loosened:
+            state = "STOP_LOOSENING_REJECTED"
+            proposed = initial if current_stop is not None else current
+            improved = self._is_tighter(direction, proposed, current)
+            reasons.append("NEVER_LOOSEN_STOP")
+        elif improved:
+            state = "TRAILING_STOP_ADVANCE"
+            reasons.append("TRAILING_STOP_TIGHTENED")
+        elif trailing_active:
+            state = "TRAILING_STOP_HOLD"
+            reasons.append("STRUCTURAL_ADVANCE_BUT_NO_TIGHTER_STOP")
+        else:
+            state = "PROTECTIVE_STOP_HOLD"
+            reasons.append("NO_CONFIRMED_STRUCTURAL_ADVANCE")
+
+        initial_risk = abs(entry - initial)
+        if initial_risk > 0:
+            if direction == "BUY":
+                protected_r = (proposed - initial) / initial_risk
+            else:
+                protected_r = (initial - proposed) / initial_risk
+        else:
+            protected_r = 0.0
+
+        return ProtectiveTrailingStopResult(
+            valid=True,
+            direction=direction,
+            state=state,
+            entry_price=round(entry, 6),
+            initial_stop=round(initial, 6),
+            current_stop=round(current, 6),
+            proposed_stop=round(proposed, 6),
+            stop_distance=round(abs(entry - proposed), 6),
+            trailing_active=trailing_active,
+            stop_improved=improved,
+            stop_loosened=stop_loosened,
+            structural_advance_confirmed=advance_confirmed,
+            latest_swing_index=latest_index,
+            latest_swing_price=round(latest_price, 6),
+            protected_r=round(protected_r, 3),
+            reason=reasons[-1],
+            reasons=tuple(reasons),
+        )
+
+    @classmethod
+    def _confirmed_pivots(cls, candles):
+        pivots = []
+        left = cls.SWING_LEFT
+        right = cls.SWING_RIGHT
+        for i in range(left, len(candles) - right):
+            c = candles[i]
+            high = float(c.high)
+            low = float(c.low)
+            left_slice = candles[i - left:i]
+            right_slice = candles[i + 1:i + 1 + right]
+
+            if all(high > float(x.high) for x in left_slice + right_slice):
+                pivots.append(("HIGH", i, high))
+            if all(low < float(x.low) for x in left_slice + right_slice):
+                pivots.append(("LOW", i, low))
+        return pivots
+
+    @staticmethod
+    def _valid_geometry(direction, entry, stop):
+        return stop < entry if direction == "BUY" else stop > entry
+
+    @staticmethod
+    def _is_tighter(direction, candidate, current):
+        return candidate > current if direction == "BUY" else candidate < current
+
+    @staticmethod
+    def _is_looser(direction, current, initial):
+        return current < initial if direction == "BUY" else current > initial
+
+===== TRAILING 12 SESSOES =====
+
+Path                                                                                                    LineNumber Line                                                                            
+----                                                                                                    ---------- ----                                                                            
+C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\protective_trailing_stop_dynamics.py                          27     structural_advance_confirmed: bool = False                                  
+C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\protective_trailing_stop_dynamics.py                         130             state = "TRAILING_STOP_ADVANCE"                                     
+C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\protective_trailing_stop_dynamics.py                         134             reasons.append("STRUCTURAL_ADVANCE_BUT_NO_TIGHTER_STOP")            
+C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\protective_trailing_stop_dynamics.py                         136             state = "PROTECTIVE_STOP_HOLD"                                      
+C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\protective_trailing_stop_dynamics.py                         137             reasons.append("NO_CONFIRMED_STRUCTURAL_ADVANCE")                   
+C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\protective_trailing_stop_dynamics.py                         160             structural_advance_confirmed=advance_confirmed,                     
+C:\COPILOTO_PRICE_ACTION_AI\research\price_action\brooks\stop_target_rules.py                                   28     structural_advance_confirmed: bool = False                                  
+C:\COPILOTO_PRICE_ACTION_AI\research\price_action\brooks\stop_target_rules.py                                  129             and obs.structural_advance_confirmed                                
+C:\COPILOTO_PRICE_ACTION_AI\research\price_action\brooks\stop_target_rules.py                                  134         elif obs.stop_improved and not obs.structural_advance_confirmed:        
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_management_lifecycle.py                     69                     state="TRAILING_STOP_ADVANCE",                              
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_management_lifecycle.py                     75                     structural_advance_confirmed=True,                          
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_management_lifecycle.py                     88                 structural_advance_confirmed=False,                             
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_management_lifecycle.py                    110     assert report["episodes_with_stop_advance"] == 1                            
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_management_lifecycle.py                    111     assert report["stop_advance_observations"] == 1                             
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_management_lifecycle.py                    132                 structural_advance_confirmed=False,                             
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py         23                     "state": "TRAILING_STOP_ADVANCE",                           
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py         44     assert report["episodes_with_stop_advance"] == 1                            
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py         45     assert report["stop_advance_observations"] == 1                             
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py         53                     "state": "TRAILING_STOP_ADVANCE",                           
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py        105                 "state": "TRAILING_STOP_ADVANCE",                               
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py        121 def test_sell_lifecycle_requires_downward_stop_improvement():                   
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_management_lifecycle_exact_audit.py        126                 "state": "TRAILING_STOP_ADVANCE",                               
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_registry.py                                 80         structural_advance_confirmed=True,                                      
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_registry.py                                135         structural_advance_confirmed=True,                                      
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_stop_target_rules.py                        16         structural_advance_confirmed=True,                                      
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_stop_target_rules.py                        89 def test_trailing_requires_structural_advance():                                
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_stop_target_rules.py                        90     result = evaluate(structural_advance_confirmed=False, stop_improved=True)   
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_stop_target_rules.py                        95 def test_no_stop_improvement_means_no_trailing_advance():                       
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trailing_stop_capture.py                    72     assert pa["brooks_management_state"] == "TRAILING_STOP_ADVANCE"             
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trailing_stop_capture.py                    77     assert pa["brooks_management_structural_advance_confirmed"] is True         
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trailing_stop_diagnostics.py                13             "brooks_management_structural_advance_confirmed": structural,       
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trailing_stop_diagnostics.py                15                 state == "TRAILING_STOP_ADVANCE"                                
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trailing_stop_diagnostics.py                18                 state == "TRAILING_STOP_ADVANCE"                                
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trailing_stop_diagnostics.py                32                 "TRAILING_STOP_ADVANCE",                                        
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trailing_stop_diagnostics.py                37                 "PROTECTIVE_STOP_HOLD",                                         
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trailing_stop_diagnostics.py                60             _sample("WIN|M1|10:00", "PROTECTIVE_STOP_HOLD"),                    
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trailing_stop_exact_audit.py                12         "brooks_management_state": "PROTECTIVE_STOP_HOLD",                      
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trailing_stop_exact_audit.py                20         "brooks_management_structural_advance_confirmed": False,                
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trailing_stop_exact_audit.py                40                 brooks_management_state="TRAILING_STOP_ADVANCE",                
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trailing_stop_exact_audit.py                44                 brooks_management_structural_advance_confirmed=True,            
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trailing_stop_exact_audit.py                62                 brooks_management_state="TRAILING_STOP_ADVANCE",                
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trailing_stop_exact_audit.py                66                 brooks_management_structural_advance_confirmed=True,            
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trailing_stop_exact_audit.py               127                 brooks_management_state="TRAILING_STOP_ADVANCE",                
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_trailing_stop_exact_audit.py               131                 brooks_management_structural_advance_confirmed=True,            
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_brooks_ranges_ch29_protective_trailing_stops.py                          54 def test_buy_trailing_stop_advances_after_new_swing_high():                     
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_brooks_ranges_ch29_protective_trailing_stops.py                          64     assert result.state == "TRAILING_STOP_ADVANCE"                              
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_brooks_ranges_ch29_protective_trailing_stops.py                          65     assert result.structural_advance_confirmed is True                          
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_brooks_ranges_ch29_protective_trailing_stops.py                          70 def test_sell_trailing_stop_advances_after_new_swing_low():                     
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_brooks_ranges_ch29_protective_trailing_stops.py                          80     assert result.state == "TRAILING_STOP_ADVANCE"                              
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_brooks_ranges_ch29_protective_trailing_stops.py                          81     assert result.structural_advance_confirmed is True                          
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_brooks_ranges_ch29_protective_trailing_stops.py                         114     assert result.structural_advance_confirmed is False                         
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_brooks_ranges_ch29_protective_trailing_stops.py                         115     assert result.state == "PROTECTIVE_STOP_HOLD"                               
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_exact_audit.py                                   89     structural = bool(pa.get("brooks_management_structural_advance_confirmed")) 
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_exact_audit.py                                  146         mismatches.append("STOP_IMPROVEMENT_FLAG_MISMATCH")                     
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_exact_audit.py                                  160         reasons.append("STOP_IMPROVEMENT_OBSERVED")                             
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_exact_audit.py                                  162         reasons.append("STRUCTURAL_ADVANCE_OBSERVED")                           
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_exact_audit.py                                  179         "structural_advance_confirmed": structural,                             
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_exact_audit.py                                  243         "stop_improvement_count": sum(o["stop_improved"] for o in observations),
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_exact_audit.py                                  245         "structural_advance_count": sum(                                        
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_exact_audit.py                                  246             o["structural_advance_confirmed"] for o in observations             
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_exact_audit.py                                  275             improvements += int(report.get("stop_improvement_count", 0))        
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_exact_audit.py                                  277             structural += int(report.get("structural_advance_count", 0))        
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_exact_audit.py                                  293         "stop_improvement_count": improvements,                                 
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_exact_audit.py                                  295         "structural_advance_count": structural,                                 
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle.py                                    238     if state == "TRAILING_STOP_ADVANCE":                                        
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle.py                                    262         "structural_advance_confirmed": bool(                                   
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle.py                                    263             data.get("structural_advance_confirmed")                            
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle.py                                    334         "episodes_with_stop_advance": episodes_with_advance,                    
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle.py                                    335         "stop_advance_observations": advance_observations,                      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle.py                                    363         x["episodes_with_stop_advance"] for x in sessions                       
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle.py                                    366         x["stop_advance_observations"] for x in sessions                        
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle.py                                    379         "episodes_with_stop_advance": total_with_advance,                       
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle.py                                    380         "stop_advance_observations": total_advances,                            
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle.py                                    417         "episodes_with_stop_advance=",                                          
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle.py                                    418         report["episodes_with_stop_advance"],                                   
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle.py                                    421         "stop_advance_observations=",                                           
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle.py                                    422         report["stop_advance_observations"],                                    
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle_exact_audit.py                        105             if state != "TRAILING_STOP_ADVANCE":                                
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle_exact_audit.py                        230         "episodes_with_stop_advance": episodes_with_advance,                    
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle_exact_audit.py                        231         "stop_advance_observations": advance_observations,                      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle_exact_audit.py                        268     print("episodes_with_stop_advance=", report["episodes_with_stop_advance"])  
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management_lifecycle_exact_audit.py                        269     print("stop_advance_observations=", report["stop_advance_observations"])    
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_capture.py                                   105     pa["brooks_management_structural_advance_confirmed"] = False                
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_capture.py                                   155         "brooks_management_structural_advance_confirmed": (                     
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_capture.py                                   156             result.structural_advance_confirmed                                 
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_diagnostics.py                                11 descobrir se TRAILING_STOP_ADVANCE ocorreu intrabar e desapareceu no fechamento,
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_diagnostics.py                                96         if state == "TRAILING_STOP_ADVANCE":                                    
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_diagnostics.py                               100         if state in {"TRAILING_STOP_HOLD", "PROTECTIVE_STOP_HOLD"}:             
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_diagnostics.py                               104             pa.get("brooks_management_structural_advance_confirmed")            
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_diagnostics.py                               108             if state != "TRAILING_STOP_ADVANCE":                                
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_diagnostics.py                               129         "structural_advance_true": structural_true,                             
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_diagnostics.py                               173         "structural_advance_true",                                              
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_diagnostics.py                               258         "raw_structural_advance_true=",                                         
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_diagnostics.py                               259         raw.get("structural_advance_true", 0),                                  
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_diagnostics.py                               269         "exact_structural_advance_true=",                                       
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_diagnostics.py                               270         exact.get("structural_advance_true", 0),                                
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_exact_audit.py                                26 ADVANCE_STATES = {"TRAILING_STOP_ADVANCE"}                                      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_exact_audit.py                                29     "PROTECTIVE_STOP_HOLD",                                                     
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_exact_audit.py                               104         pa.get("brooks_management_structural_advance_confirmed")                
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_exact_audit.py                               128                 inconsistencies.append("ADVANCE_WITHOUT_STOP_IMPROVEMENT")      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_exact_audit.py                               137                 inconsistencies.append("HOLD_WITH_STOP_IMPROVEMENT")            
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_exact_audit.py                               161         "structural_advance_confirmed": structural,                             
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_stop_exact_audit.py                               184         if row["state"] == "TRAILING_STOP_ADVANCE"                              
+
+
+
+===== TRAILING CAPTURE =====
+"""
+tools/profit_rtd_brooks_trailing_stop_capture.py
+
+Captura observacional de gerenciamento Brooks - trailing stop estrutural.
+
+Este modulo e research-only. Ele:
+- reutiliza a geometria inicial de stop ja capturada pelo Brooks Stop/Target;
+- usa somente o historico de candles do MarketState;
+- calcula um proposed_stop diagnostico;
+- nao altera RiskManager, Score, Decision, Alert ou execucao;
+- nao move stop real;
+- nao cria parcial;
+- nao calcula outcome.
+
+Nesta primeira etapa, current_stop e igual ao initial_stop. A persistencia de um
+stop hipotetico entre candles sera tratada somente em uma etapa posterior e
+com auditoria dedicada.
+"""
+
+from __future__ import annotations
+
+from analysis.price_action.protective_trailing_stop_dynamics import (
+    ProtectiveTrailingStopDynamics,
+)
+
+
+_ENGINE = ProtectiveTrailingStopDynamics()
+
+
+def _safety_fields():
+    return {
+        "brooks_management_research_only": True,
+        "brooks_management_observational_only": True,
+        "brooks_management_predictive_claim_allowed": False,
+        "brooks_management_score_influence_allowed": False,
+        "brooks_management_risk_influence_allowed": False,
+        "brooks_management_decision_influence_allowed": False,
+        "brooks_management_alert_influence_allowed": False,
+        "brooks_management_order_execution_allowed": False,
+    }
+
+
+def enrich_price_action_snapshot(item, context=None):
+    if not isinstance(item, dict):
+        raise TypeError("item must be dict")
+
+    pa = item.setdefault("price_action", {})
+    if not isinstance(pa, dict):
+        raise TypeError("item['price_action'] must be dict")
+
+    direction = str(
+        pa.get("brooks_stop_target_direction")
+        or pa.get("brooks_signal_direction")
+        or "NONE"
+    ).strip().upper()
+
+    if direction == "UP":
+        direction = "BUY"
+    elif direction == "DOWN":
+        direction = "SELL"
+
+    entry_triggered = bool(
+        pa.get("brooks_stop_target_entry_triggered")
+        or pa.get("brooks_entry_triggered")
+    )
+
+    entry_price = float(
+        pa.get("brooks_stop_target_entry_price") or 0.0
+    )
+    initial_stop = float(
+        pa.get("brooks_stop_target_initial_stop") or 0.0
+    )
+    stop_geometry_valid = bool(
+        pa.get("brooks_stop_target_stop_geometry_valid")
+    )
+
+    market = getattr(context, "market", None) if context is not None else None
+    candle_history = getattr(market, "candles", None) if market is not None else None
+    candles = list(candle_history) if candle_history is not None else []
+
+    eligible = (
+        entry_triggered
+        and stop_geometry_valid
+        and direction in {"BUY", "SELL"}
+        and entry_price > 0.0
+        and initial_stop > 0.0
+        and len(candles) >= ProtectiveTrailingStopDynamics.MIN_HISTORY + 1
+    )
+
+    pa.update(_safety_fields())
+    pa["brooks_management_component"] = "TRAILING_STOP_V1"
+    pa["brooks_management_capture_status"] = (
+        "ELIGIBLE" if eligible else "NOT_ELIGIBLE"
+    )
+    pa["brooks_management_direction"] = direction
+    pa["brooks_management_entry_triggered"] = entry_triggered
+    pa["brooks_management_entry_price"] = entry_price
+    pa["brooks_management_initial_stop"] = initial_stop
+    pa["brooks_management_current_stop"] = initial_stop
+    pa["brooks_management_proposed_stop"] = initial_stop
+    pa["brooks_management_state"] = "NO_STOP_CONTEXT"
+    pa["brooks_management_trailing_active"] = False
+    pa["brooks_management_stop_improved"] = False
+    pa["brooks_management_stop_loosened"] = False
+    pa["brooks_management_structural_advance_confirmed"] = False
+    pa["brooks_management_latest_swing_index"] = -1
+    pa["brooks_management_latest_swing_price"] = 0.0
+    pa["brooks_management_protected_r"] = 0.0
+    pa["brooks_management_reason"] = "NOT_ELIGIBLE"
+    pa["brooks_management_reasons"] = ["NOT_ELIGIBLE"]
+
+    if not eligible:
+        reasons = []
+        if not entry_triggered:
+            reasons.append("ENTRY_NOT_TRIGGERED")
+        if direction not in {"BUY", "SELL"}:
+            reasons.append("INVALID_DIRECTION")
+        if not stop_geometry_valid:
+            reasons.append("INITIAL_STOP_GEOMETRY_NOT_VALIDATED")
+        if entry_price <= 0.0:
+            reasons.append("INVALID_ENTRY_PRICE")
+        if initial_stop <= 0.0:
+            reasons.append("INVALID_INITIAL_STOP")
+        if len(candles) < ProtectiveTrailingStopDynamics.MIN_HISTORY + 1:
+            reasons.append("INSUFFICIENT_HISTORY")
+
+        pa["brooks_management_reason"] = (
+            reasons[-1] if reasons else "NOT_ELIGIBLE"
+        )
+        pa["brooks_management_reasons"] = reasons or ["NOT_ELIGIBLE"]
+        return item
+
+    result = _ENGINE.analyze(
+        candles,
+        direction=direction,
+        entry_price=entry_price,
+        initial_stop=initial_stop,
+        current_stop=initial_stop,
+        tick_size=1.0,
+    )
+
+    pa.update({
+        "brooks_management_capture_status": (
+            "CAPTURED" if result.valid else "REJECTED"
+        ),
+        "brooks_management_direction": result.direction,
+        "brooks_management_entry_price": result.entry_price,
+        "brooks_management_initial_stop": result.initial_stop,
+        "brooks_management_current_stop": result.current_stop,
+        "brooks_management_proposed_stop": result.proposed_stop,
+        "brooks_management_state": result.state,
+        "brooks_management_trailing_active": result.trailing_active,
+        "brooks_management_stop_improved": result.stop_improved,
+        "brooks_management_stop_loosened": result.stop_loosened,
+        "brooks_management_structural_advance_confirmed": (
+            result.structural_advance_confirmed
+        ),
+        "brooks_management_latest_swing_index": result.latest_swing_index,
+        "brooks_management_latest_swing_price": result.latest_swing_price,
+        "brooks_management_protected_r": result.protected_r,
+        "brooks_management_reason": result.reason,
+        "brooks_management_reasons": list(result.reasons),
+    })
+
+    return item
+
+===== TRAILING DIAGNOSTICS =====
+"""
+tools/profit_rtd_brooks_trailing_stop_diagnostics.py
+
+Diagnostico research-only da captura Brooks de trailing stop.
+
+Compara:
+- todas as revisoes intrabar persistidas;
+- ultima revisao de cada candle_id (EXACT_CANDLE_LAST_REVISION).
+
+Objetivo:
+descobrir se TRAILING_STOP_ADVANCE ocorreu intrabar e desapareceu no fechamento,
+ou se o motor nunca encontrou confirmacao estrutural nas sessoes observadas.
+
+Nao altera arquivos e nao influencia Score/Risk/Decision/Alert/execucao.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+from collections import Counter, defaultdict
+from pathlib import Path
+
+
+def _load(path):
+    return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def _pa(sample):
+    value = sample.get("price_action")
+    return value if isinstance(value, dict) else {}
+
+
+def _candle_id(sample):
+    evidence = sample.get("candle_evidence")
+    if not isinstance(evidence, dict):
+        return ""
+    return str(evidence.get("candle_id") or "")
+
+
+def _last_revision(samples):
+    by_id = {}
+    order = []
+
+    for sample in samples:
+        if not isinstance(sample, dict):
+            continue
+
+        cid = _candle_id(sample)
+        if not cid:
+            continue
+
+        if cid not in by_id:
+            order.append(cid)
+
+        by_id[cid] = sample
+
+    return [by_id[cid] for cid in order]
+
+
+def _analyze(samples):
+    states = Counter()
+    statuses = Counter()
+    reasons = Counter()
+
+    eligible = 0
+    advances = 0
+    holds = 0
+    structural_true = 0
+    trailing_active = 0
+    stop_improved = 0
+    latest_swing_present = 0
+
+    advance_candles = []
+    structural_without_advance = []
+
+    for sample in samples:
+        if not isinstance(sample, dict):
+            continue
+
+        pa = _pa(sample)
+        status = str(pa.get("brooks_management_capture_status") or "")
+        state = str(pa.get("brooks_management_state") or "")
+        cid = _candle_id(sample)
+
+        statuses[status] += 1
+        states[state] += 1
+
+        reason = str(pa.get("brooks_management_reason") or "")
+        if reason:
+            reasons[reason] += 1
+
+        if status in {"CAPTURED", "REJECTED"}:
+            eligible += 1
+
+        if state == "TRAILING_STOP_ADVANCE":
+            advances += 1
+            advance_candles.append(cid)
+
+        if state in {"TRAILING_STOP_HOLD", "PROTECTIVE_STOP_HOLD"}:
+            holds += 1
+
+        structural = bool(
+            pa.get("brooks_management_structural_advance_confirmed")
+        )
+        if structural:
+            structural_true += 1
+            if state != "TRAILING_STOP_ADVANCE":
+                structural_without_advance.append(cid)
+
+        if bool(pa.get("brooks_management_trailing_active")):
+            trailing_active += 1
+
+        if bool(pa.get("brooks_management_stop_improved")):
+            stop_improved += 1
+
+        swing_price = pa.get("brooks_management_latest_swing_price")
+        try:
+            if float(swing_price) > 0:
+                latest_swing_present += 1
+        except (TypeError, ValueError):
+            pass
+
+    return {
+        "samples": len(samples),
+        "eligible": eligible,
+        "advances": advances,
+        "holds": holds,
+        "structural_advance_true": structural_true,
+        "trailing_active": trailing_active,
+        "stop_improved": stop_improved,
+        "latest_swing_present": latest_swing_present,
+        "states": dict(states),
+        "capture_statuses": dict(statuses),
+        "reasons": dict(reasons),
+        "advance_candles": advance_candles,
+        "structural_without_advance": structural_without_advance,
+    }
+
+
+def diagnose_file(path):
+    payload = _load(path)
+    raw = [
+        x for x in (payload.get("samples") or [])
+        if isinstance(x, dict)
+    ]
+    exact = _last_revision(raw)
+
+    return {
+        "file": str(path),
+        "raw": _analyze(raw),
+        "exact_last_revision": _analyze(exact),
+    }
+
+
+def diagnose_many(paths):
+    reports = [diagnose_file(path) for path in paths]
+
+    raw_totals = defaultdict(int)
+    exact_totals = defaultdict(int)
+    raw_states = Counter()
+    exact_states = Counter()
+    raw_reasons = Counter()
+    exact_reasons = Counter()
+    raw_advance_ids = []
+    exact_advance_ids = []
+
+    numeric_keys = (
+        "samples",
+        "eligible",
+        "advances",
+        "holds",
+        "structural_advance_true",
+        "trailing_active",
+        "stop_improved",
+        "latest_swing_present",
+    )
+
+    for report in reports:
+        for key in numeric_keys:
+            raw_totals[key] += int(report["raw"].get(key, 0))
+            exact_totals[key] += int(
+                report["exact_last_revision"].get(key, 0)
+            )
+
+        raw_states.update(report["raw"].get("states") or {})
+        exact_states.update(
+            report["exact_last_revision"].get("states") or {}
+        )
+        raw_reasons.update(report["raw"].get("reasons") or {})
+        exact_reasons.update(
+            report["exact_last_revision"].get("reasons") or {}
+        )
+
+        raw_advance_ids.extend(
+            report["raw"].get("advance_candles") or []
+        )
+        exact_advance_ids.extend(
+            report["exact_last_revision"].get("advance_candles") or []
+        )
+
+    if raw_totals["advances"] > 0 and exact_totals["advances"] == 0:
+        diagnosis = "INTRABAR_ADVANCES_DISAPPEAR_ON_LAST_REVISION"
+    elif raw_totals["advances"] == 0:
+        diagnosis = "NO_ADVANCE_IN_RAW_OR_EXACT_CAPTURE"
+    else:
+        diagnosis = "ADVANCE_PRESENT_IN_EXACT_CAPTURE"
+
+    return {
+        "status": "COMPLETED",
+        "diagnosis": diagnosis,
+        "deduplication": "EXACT_CANDLE_LAST_REVISION",
+        "files": reports,
+        "raw_totals": dict(raw_totals),
+        "exact_totals": dict(exact_totals),
+        "raw_state_counts": dict(raw_states),
+        "exact_state_counts": dict(exact_states),
+        "raw_reason_counts": dict(raw_reasons),
+        "exact_reason_counts": dict(exact_reasons),
+        "raw_advance_candle_ids": raw_advance_ids,
+        "exact_advance_candle_ids": exact_advance_ids,
+        "research_only": True,
+        "observational_only": True,
+        "predictive_claim_allowed": False,
+        "score_influence_allowed": False,
+        "risk_influence_allowed": False,
+        "decision_influence_allowed": False,
+        "alert_influence_allowed": False,
+        "order_execution_allowed": False,
+    }
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(
+        description="Diagnostico exato/intrabar Brooks trailing stop."
+    )
+    parser.add_argument("paths", nargs="+")
+    parser.add_argument("--output")
+    args = parser.parse_args(argv)
+
+    report = diagnose_many(args.paths)
+
+    if args.output:
+        Path(args.output).write_text(
+            json.dumps(report, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+
+    raw = report["raw_totals"]
+    exact = report["exact_totals"]
+
+    print("status=", report["status"])
+    print("diagnosis=", report["diagnosis"])
+    print("raw_samples=", raw.get("samples", 0))
+    print("raw_eligible=", raw.get("eligible", 0))
+    print("raw_advances=", raw.get("advances", 0))
+    print(
+        "raw_structural_advance_true=",
+        raw.get("structural_advance_true", 0),
+    )
+    print(
+        "raw_latest_swing_present=",
+        raw.get("latest_swing_present", 0),
+    )
+    print("exact_candles=", exact.get("samples", 0))
+    print("exact_eligible=", exact.get("eligible", 0))
+    print("exact_advances=", exact.get("advances", 0))
+    print(
+        "exact_structural_advance_true=",
+        exact.get("structural_advance_true", 0),
+    )
+    print(
+        "exact_latest_swing_present=",
+        exact.get("latest_swing_present", 0),
+    )
+    print(
+        "exact_state_counts=",
+        json.dumps(
+            report["exact_state_counts"],
+            ensure_ascii=False,
+            sort_keys=True,
+        ),
+    )
+    print(
+        "exact_reason_counts=",
+        json.dumps(
+            report["exact_reason_counts"],
+            ensure_ascii=False,
+            sort_keys=True,
+        ),
+    )
+
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
+===== TRAILING TESTS =====
+"""Tests for Brooks Trading Ranges chapter 29 diagnostics."""
+
+from dataclasses import dataclass
+
+from analysis.price_action.protective_trailing_stop_dynamics import (
+    ProtectiveTrailingStopDynamics,
+)
+
+
+@dataclass
+class Candle:
+    open: float
+    high: float
+    low: float
+    close: float
+
+
+def c(o, h, l, cl):
+    return Candle(o, h, l, cl)
+
+
+def buy_sequence():
+    closed = [
+        c(100, 104, 99, 103),
+        c(103, 106, 101, 105),
+        c(105, 110, 104, 108),
+        c(108, 107, 102, 104),
+        c(104, 106, 100, 105),
+        c(105, 108, 102, 107),
+        c(107, 111, 105, 110),
+        c(110, 115, 108, 113),
+        c(113, 112, 106, 109),
+        c(109, 111, 105, 108),
+    ]
+    return closed + [c(108, 120, 107, 119)]
+
+
+def sell_sequence():
+    closed = [
+        c(120, 121, 116, 117),
+        c(117, 119, 114, 115),
+        c(115, 116, 110, 112),
+        c(112, 118, 111, 116),
+        c(116, 120, 114, 115),
+        c(115, 118, 112, 113),
+        c(113, 115, 108, 109),
+        c(109, 112, 104, 106),
+        c(106, 111, 105, 108),
+        c(108, 112, 106, 109),
+    ]
+    return closed + [c(109, 110, 90, 92)]
+
+
+def test_buy_trailing_stop_advances_after_new_swing_high():
+    result = ProtectiveTrailingStopDynamics().analyze(
+        buy_sequence(),
+        direction="BUY",
+        entry_price=105,
+        initial_stop=95,
+        current_stop=95,
+        tick_size=1,
+    )
+    assert result.valid is True
+    assert result.state == "TRAILING_STOP_ADVANCE"
+    assert result.structural_advance_confirmed is True
+    assert result.proposed_stop == 99
+    assert result.stop_improved is True
+
+
+def test_sell_trailing_stop_advances_after_new_swing_low():
+    result = ProtectiveTrailingStopDynamics().analyze(
+        sell_sequence(),
+        direction="SELL",
+        entry_price=115,
+        initial_stop=125,
+        current_stop=125,
+        tick_size=1,
+    )
+    assert result.valid is True
+    assert result.state == "TRAILING_STOP_ADVANCE"
+    assert result.structural_advance_confirmed is True
+    assert result.proposed_stop == 121
+    assert result.stop_improved is True
+
+
+def test_stop_is_never_loosened():
+    result = ProtectiveTrailingStopDynamics().analyze(
+        buy_sequence(),
+        direction="BUY",
+        entry_price=105,
+        initial_stop=95,
+        current_stop=90,
+        tick_size=1,
+    )
+    assert result.valid is True
+    assert result.state == "STOP_LOOSENING_REJECTED"
+    assert result.stop_loosened is True
+    assert result.proposed_stop == 95
+
+
+def test_current_candle_cannot_create_trailing_confirmation():
+    candles = buy_sequence()
+    candles = candles[:7] + [candles[-1]]
+
+    result = ProtectiveTrailingStopDynamics().analyze(
+        candles,
+        direction="BUY",
+        entry_price=105,
+        initial_stop=95,
+        current_stop=95,
+        tick_size=1,
+    )
+    assert result.valid is True
+    assert result.structural_advance_confirmed is False
+    assert result.state == "PROTECTIVE_STOP_HOLD"
+
+
+def test_invalid_protective_stop_geometry_is_rejected():
+    result = ProtectiveTrailingStopDynamics().analyze(
+        buy_sequence(),
+        direction="BUY",
+        entry_price=105,
+        initial_stop=110,
+    )
+    assert result.valid is False
+    assert result.state == "INVALID_PROTECTIVE_STOP"
+
+
+def test_insufficient_history():
+    result = ProtectiveTrailingStopDynamics().analyze(
+        [c(100, 101, 99, 100)] * 5,
+        direction="BUY",
+        entry_price=100,
+        initial_stop=95,
+    )
+    assert result.valid is False
+    assert result.reason == "INSUFFICIENT_HISTORY"
+
+===== DELTA RECOVERY SEARCH =====
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\adodbapi\adodbapi.py:341: # per M.Hammond: "I expect the benefits of uninitializing are probably fairly small,
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\adodbapi\adodbapi.py:342: #    so never uninitializing will probably not cause any problems."
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\matlib.py:26: """Return a new matrix of given shape and type, without initializing entries.
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\f2py\rules.py:1187: CFUNCSMESS(\"#name#: Initializing #varname#=#init#\\n\");
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\lib\tests\test_loadtxt.py:638: def test_warn_on_no_data(data, ndmin, usecols):
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\ma\core.py:2862: The recommended practice for initializing ``mask`` with a scalar
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\_core\printoptions.py:5: so we can import it from C while initializing the multiarray
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\_core\_add_newdocs.py:1343: Return a new array of given shape and type, without initializing entries.
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\_core\_add_newdocs.py:4575: The data produced by this method can be recovered using the function
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\packaging\ranges.py:70: #: the recovery returns ``None`` rather than emit the unbounded chain a range
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\packaging\ranges.py:327: # ``to_specifier_set`` recovery: encode a range's interval list back into
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\packaging\ranges.py:331: # synthetic ``.dev0``, so the recovered range has an empty opt-in region),
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\packaging\ranges.py:1851: recovered = SpecifierSet(spec_str, prereleases=configured)
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\packaging\ranges.py:1857: key = (len(recovered), len(str(recovered)))
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\packaging\ranges.py:1863: candidate = recovered.to_range()
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\packaging\ranges.py:1868: best, best_key = recovered, key
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\core\series.py:437: "initializing a Series from a MultiIndex is not supported"
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\core\indexes\base.py:887: # We need to keep M8/m8 dtype when initializing the Engine,
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\io\pytables.py:3963: "data_columns when initializing the table."
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\io\excel\_openpyxl.py:121: Convert a style_dict to a set of kwargs suitable for initializing
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\io\excel\_openpyxl.py:235: suitable for initializing the ``GradientFill`` ``stop`` parameter.
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\extension\base\constructors.py:38: def test_series_constructor_no_data_with_index(self, dtype, na_value):
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\extension\json\test_json.py:95: def test_series_constructor_no_data_with_index(self, dtype, na_value):
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\extension\json\test_json.py:101: super().test_series_constructor_no_data_with_index(dtype, na_value)
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\indexes\multi\test_names.py:99: # initializing with bad names (should always be equivalent)
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\io\parser\test_index_col.py:263: def test_index_col_multiindex_columns_no_data(all_parsers):
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\io\parser\test_index_col.py:280: def test_index_col_header_no_data(all_parsers):
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\io\parser\test_index_col.py:293: def test_multiindex_columns_no_data(all_parsers):
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\io\pytables\test_complex.py:168: "values to data_columns when initializing the table."
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\io\pytables\test_complex.py:184: "values to data_columns when initializing the table."
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\io\pytables\test_retain_attributes.py:94: recovered_dataframe = read_hdf(temp_h5_path, key="Annotations")
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\io\pytables\test_retain_attributes.py:95: tm.assert_frame_equal(dataframe, recovered_dataframe)
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\series\test_constructors.py:199: msg = "initializing a Series from a MultiIndex is not supported"
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\series\test_constructors.py:265: def test_constructor_no_data_index_order(self):
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\series\test_constructors.py:269: def test_constructor_no_data_string_type(self):
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\series\methods\test_map.py:239: reason="Initializing a Series from a MultiIndex is not supported"
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pandas\tests\tslibs\test_resolution.py:20: def test_get_resolution_non_nano_data():
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_internal\exceptions.py:459: recovery (lower being harder), so the user doesn't bother fretting
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_internal\cli\progress_bars.py:77: bar = Progress(*columns, refresh_per_second=6, console=console, transient=True)
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_internal\network\session.py:358: # is typically considered a transient error so we'll go ahead and
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_internal\network\session.py:360: # A 500 may indicate transient error in Amazon S3
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_internal\network\session.py:361: # A 502 may be a transient error from a CDN like CloudFlare or CloudFront
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_internal\network\session.py:362: # A 520 or 527 - may indicate transient error in CloudFlare
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_internal\resolution\resolvelib\factory.py:561: # taking into account any non-transient constraints on the associated base. This
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\live.py:44: transient (bool, optional): Clear the renderable on exit (has no effect when screen=True). Defaults to False.
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\live.py:59: transient: bool = False,
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\live.py:80: self.transient = True if screen else transient
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\live.py:160: if self.transient and not self._alt_screen:
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\live.py:162: if self.ipy_widget is not None and self.transient:
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\live.py:244: not self._started and not self.transient
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\live.py:264: not self._started and not self.transient
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\progress.py:115: transient: bool = False,
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\progress.py:134: transient: (bool, optional): Clear the progress on exit. Defaults to False.
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\progress.py:168: transient=transient,
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\progress.py:315: transient: bool = False,
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\progress.py:331: transient: (bool, optional): Clear the progress on exit. Defaults to False.
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\progress.py:363: transient=transient,
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\progress.py:386: transient: bool = False,
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\progress.py:411: transient: bool = False,
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\progress.py:435: transient: bool = False,
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\progress.py:456: transient: (bool, optional): Clear the progress on exit. Defaults to False.
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\progress.py:490: transient=transient,
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\progress.py:1071: transient: (bool, optional): Clear the progress on exit. Defaults to False.
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\progress.py:1086: transient: bool = False,
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\progress.py:1106: transient=transient,
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\progress.py:1704: transient=False,
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\rich\status.py:41: transient=True,
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\truststore\_macos.py:209: raise ImportError(f"Error initializing ctypes: {e}") from None
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\truststore\_macos.py:220: raise ImportError(f"Error initializing ctypes: {e}") from None
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pip\_vendor\urllib3\contrib\_securetransport\bindings.py:420: raise ImportError("Error initializing ctypes")
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\dalvik.py:62: r'transient)', Keyword),
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\dotnet.py:389: 'static', 'struct', 'transient', 'virtual',
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\dsls.py:175: 'then', 'this', 'throw', 'transient', 'try', 'undef',
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\ecl.py:76: 'ONWARNING', 'PERSIST', 'PRIORITY', 'RECOVERY', 'STORED', 'SUCCESS',
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\int_fiction.py:1020: (r'(modify|replace|switch|throw|transient)\b', Keyword.Reserved,
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\int_fiction.py:1219: (r'transient\b', Keyword.Reserved),
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\javascript.py:98: r'public|short|synchronized|throws|transient|volatile)\b', Keyword.Reserved),
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\jvm.py:60: r'super|synchronized|throws|to|transient|transitive|uses|volatile|with|yield)\b', Keyword.Declaration),
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\jvm.py:206: 'final', 'lazy', 'sealed', 'implicit', 'override', '@transient',
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\jvm.py:478: r'public|abstract|override|final|static|extends|transient|'
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\jvm.py:586: r'transient|volatile)\b', Keyword.Declaration),
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\jvm.py:1282: r'transient|volatile|val|var)\b', Keyword.Declaration),
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\jvm.py:1535: rf'synchronized|synthetic|transient|varargs|volatile){_break}',
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\jvm.py:1786: r'public|static|strictfp|synchronized|transient|val|var|volatile)\b',
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\macaulay2.py:240: "SelfInitializingType",
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\php.py:72: r'transient|volatile|readonly)\b', Keyword.Reserved),
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\supercollider.py:71: 'transient', 'volatile'), suffix=r'\b'),
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\webmisc.py:867: r'transient|volatile)\b', Keyword.Reserved),
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\x10.py:50: 'throws', 'transient'
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pygments\lexers\_mql_builtins.py:955: 'STAT_RECOVERY_FACTOR',
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pythonwin\pywin\mfc\afxres.py:311: AFX_IDP_SQL_NO_DATA_FOUND = 0xF290
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\pythonwin\pywin\mfc\docview.py:65: "A transient base class used as a CreateContext"
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\win32cryptcon.py:782: szOID_KP_KEY_RECOVERY_AGENT = "1.3.6.1.4.1.311.21.6"
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\win32cryptcon.py:815: szOID_EFS_RECOVERY = "1.3.6.1.4.1.311.10.3.4.1"
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\win32cryptcon.py:822: szOID_KP_KEY_RECOVERY = "1.3.6.1.4.1.311.10.3.11"
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\win32cryptcon.py:1769: CRYPTPROTECT_NO_RECOVERY = 0x20
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:395: ERROR_NO_DATA = 232
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:760: ERROR_REGISTRY_HIVE_RECOVERED = 685
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:779: ERROR_FT_READ_RECOVERY_FROM_BACKUP = 704
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:780: ERROR_FT_WRITE_RECOVERY = 705
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:914: ERROR_REGISTRY_RECOVERED = 1014
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:954: ERROR_NO_RECOVERY_PROGRAM = 1082
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:961: ERROR_NO_DATA_DETECTED = 1104
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:1102: ERROR_RECOVERY_FAILURE = 1279
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:1975: ERROR_NO_RECOVERY_POLICY = 6003
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:1984: ERROR_BAD_RECOVERY_POLICY = 6012
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:2068: ERROR_TRANSACTIONMANAGER_RECOVERY_NAME_COLLISION = 6720
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:2099: ERROR_RECOVERY_NOT_NEEDED = 6821
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:2885: WSANO_RECOVERY = 11003
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:2886: WSANO_DATA = 11004
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:3143: ERROR_SXS_PROTECTION_RECOVERY_FAILED = 14074
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:3321: ERROR_RECOVERY_FILE_CORRUPT = 15619
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:3757: TPC_S_NO_DATA_TO_PROCESS = 0x00040254
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:3809: XACT_E_RECOVERYINPROGRESS = -2147168126
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:5559: FVE_E_RECOVERY_KEY_REQUIRED = -2144272350
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:5579: FVE_E_FIPS_PREVENTS_RECOVERY_PASSWORD = -2144272329
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:5611: FVE_E_TRANSIENT_STATE = -2144272297
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:5616: FVE_E_POLICY_RECOVERY_PASSWORD_NOT_ALLOWED = -2144272292
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:5617: FVE_E_POLICY_RECOVERY_PASSWORD_REQUIRED = -2144272291
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:5618: FVE_E_POLICY_RECOVERY_KEY_NOT_ALLOWED = -2144272290
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:5619: FVE_E_POLICY_RECOVERY_KEY_REQUIRED = -2144272289
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:5648: FVE_E_RECOVERY_PARTITION = -2144272254
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:5654: FVE_E_CONV_RECOVERY_FAILED = -2144272248
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:5696: FVE_E_POLICY_REQUIRES_RECOVERY_PASSWORD_ON_TOUCH_DEVICE = -2144272200
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:5930: ERROR_HV_NO_DATA = -1070268389
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:6504: STATEREPOSITORY_E_BUSY_RECOVERY_RETRY = -2140733432
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:6509: STATEREPOSITORY_E_BUSY_RECOVERY_TIMEOUT_EXCEEDED = -2140733427
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:7191: SQLITE_E_BUSY_RECOVERY = -2018574075
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winerror.py:7198: SQLITE_E_READONLY_RECOVERY = -2018574072
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winioctlcon.py:86: RECOVERED_WRITES_VALID = 0x00000001
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winioctlcon.py:87: UNRECOVERED_WRITES_VALID = 0x00000002
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winioctlcon.py:88: RECOVERED_READS_VALID = 0x00000004
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winioctlcon.py:89: UNRECOVERED_READS_VALID = 0x00000008
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\lib\winnt.py:1338: EnlistmentRecoveryInformation = 1
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\test\test_win32file.py:811: "Assuming ERROR_CONNECTION_REFUSED is transient"
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32\test\test_win32file.py:846: "Assuming ERROR_CONNECTION_REFUSED is transient"
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32comext\bits\test\test_bits.py:66: # Need to catch TRANSIENT_ERROR here, as JobError doesn't get
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32comext\bits\test\test_bits.py:67: # called (apparently) when the error is transient.
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32comext\bits\test\test_bits.py:68: if state == bits.BG_JOB_STATE_TRANSIENT_ERROR:
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32comext\bits\test\test_bits.py:90: # TRANSIENT_ERROR instead of ERROR, and the JobError notification will
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32comext\ifilter\demos\filterDemo.py:122: # any other type of error really can't be recovered from
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32comext\mapi\emsabtags.py:748: PR_EMS_AB_RTS_RECOVERY_TIMEOUT = PROP_TAG(PT_LONG, 33064)
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\win32comext\shell\demos\servers\column_provider.py:45: print("ColumnProvider initializing for file", name)
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\xlwings\mac_dict.py:3114: ("no_data_label", b"\x03\x86\x00\xc8"),
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\xlwings\mac_dict.py:3205: ("no_data_table", b"\x03\x86\x01\xf4"),
+C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\xlwings\pro\object_handles.py:251: # Recovery is a full recalculation, which regenerates the object handles. We point at
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_depth_ab_multi_session.py:24: no_data_sessions: int = 0
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_depth_ab_multi_session.py:103: no_data_sessions=effects.count("NO_DATA"),
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_depth_ab_multi_session.py:116: meaningful = [effect for effect in effects if effect != "NO_DATA"]
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_depth_ab_session_report.py:20: dominant_effect: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_depth_ab_session_report.py:21: independent_effect: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_depth_ab_session_report.py:22: correlated_effect: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\book_depth_ab_session_report.py:109: return "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\external_context_ab_multi_session_comparator.py:33: no_data_sessions: int = 0
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\external_context_ab_multi_session_comparator.py:78: no_data = effects.count("NO_DATA")
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\external_context_ab_multi_session_comparator.py:84: item.recommendation for item in reports if item.dominant_effect != "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\external_context_ab_multi_session_comparator.py:96: no_data=no_data,
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\external_context_ab_multi_session_comparator.py:120: no_data_sessions=no_data,
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\external_context_ab_multi_session_comparator.py:140: no_data,
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\external_context_ab_multi_session_comparator.py:153: effective_sessions = sessions - no_data
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\external_context_ab_session_report.py:26: dominant_effect: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\external_context_ab_session_report.py:93: return "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_multi_session.py:24: no_data_sessions: int = 0
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_multi_session.py:89: no_data_sessions=qualities.count("NO_DATA"),
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_multi_session.py:109: meaningful = [q for q in qualities if q != "NO_DATA"]
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_session_report.py:24: session_quality: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_eligibility_multi_session_comparator.py:34: no_data_sessions: int = 0
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_eligibility_multi_session_comparator.py:86: "NO_DATA": len(reports) - len(valid),
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_eligibility_multi_session_comparator.py:132: no_data_sessions=state_counts["NO_DATA"],
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_eligibility_session_report.py:18: session_state: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\order_flow_ab_multi_session.py:20: no_data_sessions: int = 0
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\order_flow_ab_multi_session.py:82: no_data_sessions=effects.count("NO_DATA"),
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\order_flow_ab_multi_session.py:95: meaningful = [e for e in effects if e != "NO_DATA"]
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\order_flow_ab_session_report.py:24: dominant_effect: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\order_flow_ab_session_report.py:90: return "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\order_flow_structure_ab_multi_session.py:21: no_data_sessions: int = 0
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\order_flow_structure_ab_multi_session.py:90: no_data_sessions=effects.count("NO_DATA"),
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\order_flow_structure_ab_multi_session.py:104: meaningful = [effect for effect in effects if effect != "NO_DATA"]
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\order_flow_structure_ab_session_report.py:18: dominant_effect: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\order_flow_structure_ab_session_report.py:81: return "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\score_microstructure_eligibility_ab_session_report.py:9: classification: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\score_regime_mtf_ab_multi_session.py:73: recommendation="NO_DATA",
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\score_regime_mtf_ab_multi_session.py:179: return "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\score_regime_mtf_ab_session_report.py:158: return "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\economic_context\economic_calendar_multisession_report.py:39: return self._report("NO_DATA", 0, 0, 0.0, 0.0, "OBSERVE", ("NO_SESSIONS",))
+C:\COPILOTO_PRICE_ACTION_AI\economic_context\economic_calendar_session_report.py:41: classification, action, reasons = "NO_DATA", "OBSERVE", ("NO_SESSION_SAMPLES",)
+C:\COPILOTO_PRICE_ACTION_AI\market_data\book_depth_quality_validator.py:10: status: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\book_depth_quality_validator.py:22: source_status: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\book_depth_quality_validator.py:37: source_status = str(getattr(source_snapshot, "status", "NO_DATA") or "NO_DATA")
+C:\COPILOTO_PRICE_ACTION_AI\market_data\book_depth_quality_validator.py:45: status="NO_DATA" if source_status == "NO_DATA" else "UNAVAILABLE",
+C:\COPILOTO_PRICE_ACTION_AI\market_data\book_depth_quality_validator.py:88: elif source_status in {"NO_DATA", "INITIALIZING"}:
+C:\COPILOTO_PRICE_ACTION_AI\market_data\book_depth_quality_validator.py:89: status = "INITIALIZING"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\book_depth_session_recorder.py:49: source_status=str(getattr(source_report, "status", "NO_DATA") or "NO_DATA"),
+C:\COPILOTO_PRICE_ACTION_AI\market_data\book_depth_session_recorder.py:50: quality_status=str(getattr(quality_report, "status", "NO_DATA") or "NO_DATA"),
+C:\COPILOTO_PRICE_ACTION_AI\market_data\book_depth_session_report.py:8: status: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\book_depth_source_diagnostics.py:10: status: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\book_depth_source_diagnostics.py:121: return "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\book_depth_source_diagnostics.py:131: return "INITIALIZING"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\order_flow_observational_context.py:11: status: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\order_flow_observational_context.py:12: delta_status: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\order_flow_observational_context.py:13: book_status: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\order_flow_observational_context.py:44: delta_status = str(getattr(delta_report, "status", "NO_DATA") or "NO_DATA")
+C:\COPILOTO_PRICE_ACTION_AI\market_data\order_flow_observational_context.py:45: book_status = str(getattr(book_report, "status", "NO_DATA") or "NO_DATA")
+C:\COPILOTO_PRICE_ACTION_AI\market_data\order_flow_observational_context.py:92: elif delta_status == "NO_DATA" and book_status == "NO_DATA":
+C:\COPILOTO_PRICE_ACTION_AI\market_data\order_flow_observational_context.py:93: status = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\order_flow_shadow_calibration.py:45: status = str(getattr(context, "status", "NO_DATA") or "NO_DATA")
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_quality_validator.py:11: status: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_quality_validator.py:23: source_status: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_quality_validator.py:44: source_status = str(getattr(source_snapshot, "status", "NO_DATA") or "NO_DATA")
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_quality_validator.py:53: status="NO_DATA",
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_quality_validator.py:85: status = "INITIALIZING"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_session_recorder.py:69: source_status=str(getattr(source_snapshot, "status", "NO_DATA") or "NO_DATA"),
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_session_recorder.py:70: quality_status=str(getattr(quality_report, "status", "NO_DATA") or "NO_DATA"),
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_session_report.py:10: status: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_source_diagnostics.py:10: status: str = "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_source_diagnostics.py:132: return "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_delta_source_diagnostics.py:138: return "INITIALIZING"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_ab_session_report_rc1.py:31: def test_empty_session_returns_no_data():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_ab_session_report_rc1.py:33: assert report.dominant_effect == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_quality_validator_rc11.py:18: def test_no_data():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_quality_validator_rc11.py:19: r = BookDepthQualityValidator().evaluate(None, source("NO_DATA", 0, 0))
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_quality_validator_rc11.py:20: assert r.status == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_runtime_session_rc12.py:28: assert m.last_source_report.status == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_session_persistence_report_rc13.py:26: def test_no_data_report():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_session_persistence_report_rc13.py:27: assert BookDepthSessionReporter().build(BookDepthSessionRecorder()).status=='NO_DATA'
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_source_diagnostics_rc10.py:11: def test_no_data_status():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_source_diagnostics_rc10.py:13: assert d.report.status == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_source_diagnostics_rc10.py:22: def test_initializing_before_three_fresh_snapshots():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_source_diagnostics_rc10.py:25: assert d.report.status == "INITIALIZING"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_book_depth_source_diagnostics_rc10.py:68: assert d.report.status == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_economic_calendar_rc6.py:76: assert report.classification == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_economic_calendar_rc7.py:125: assert result.classification == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_external_context_ab_session_report_rc1.py:26: def test_empty_session_returns_no_data():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_external_context_ab_session_report_rc1.py:29: assert report.dominant_effect == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_session_report_rc1.py:34: def test_empty_session_is_no_data():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_confluence_session_report_rc1.py:36: assert report.session_quality == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_eligibility_persistence_session_rc9.py:59: def test_empty_session_is_no_data():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_microstructure_eligibility_persistence_session_rc9.py:61: assert report.session_state == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_ab_session_report_rc1.py:20: def test_empty_session_returns_no_data():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_ab_session_report_rc1.py:23: assert report.dominant_effect == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_structure_ab_session_report_rc1.py:33: assert report.dominant_effect == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profitdll_bookdepth_runtime_rc5.py:55: assert r.last_quality_report.status in {"INITIALIZING", "VALID"}
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_quality_runtime_rc20.py:24: def test_initial_quality_is_no_data():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_quality_runtime_rc20.py:26: assert c.last_delta_quality.status == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_quality_runtime_rc20.py:31: assert c.last_delta_quality.status in {"NO_DATA", "INITIALIZING"}
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_quality_runtime_rc20.py:74: assert c.last_delta_quality.status in {"NO_DATA", "INITIALIZING"}
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_quality_validator_rc19.py:19: def test_no_data():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_quality_validator_rc19.py:21: assert report.status == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_quality_validator_rc19.py:24: def test_initializing_with_few_samples():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_quality_validator_rc19.py:26: assert report.status == "INITIALIZING"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_session_persistence_report_rc22.py:59: def test_no_data_report():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_session_persistence_report_rc22.py:61: assert report.status == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_source_diagnostics_rc18.py:15: def test_no_data_status():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_source_diagnostics_rc18.py:17: assert diagnostics.snapshot.status == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_source_diagnostics_rc18.py:31: def test_initializing_before_enough_fresh_samples():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_delta_source_diagnostics_rc18.py:38: assert diagnostics.snapshot.status == "INITIALIZING"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc25.py:22: def test_recovery_updates_baseline_without_zero_reset():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc25.py:26: recovered_value, recovered_held = collector._resolve_cumulative_volume(1125.0)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc25.py:29: assert recovered_value == 1125.0
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc25.py:30: assert recovered_held is False
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc25.py:31: assert recovered_value - held_value == 125.0
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc28.py:54: recovered = snapshot(7)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc28.py:55: report = diagnostics.observe(recovered)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc28.py:56: quality = validator.evaluate(recovered, report)
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc53_8_3.py:16: def test_recovers_transient_missing_price_same_cycle():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc53_8_3.py:51: test_recovers_transient_missing_price_same_cycle()
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_3_2.py:112: delta_failure_samples=0,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_3_2.py:123: delta_failure_samples=1,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_3_2.py:129: samples=[{'last_price': 178585.0, 'delta_status': 'INITIALIZING'}],
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_3_2.py:130: delta_failure_samples=0,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_freeze_readiness_report.py:25: "delta_failure_samples": 0,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_freeze_review_packet.py:42: "delta_failure_samples": 0,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_offline_recomposer.py:29: 'delta_failure_samples': 0,
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_microstructure_eligibility_ab_persistence_report_rc15.py:56: def test_empty_report_has_no_data():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_microstructure_eligibility_ab_persistence_report_rc15.py:58: assert report.classification == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_regime_mtf_ab_multi_session_rc6.py:36: def test_empty_reports_return_no_data():
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_regime_mtf_ab_multi_session_rc6.py:39: assert report.recommendation == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_regime_mtf_ab_session_report_rc4.py:25: assert report.recommendation == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_score_regime_mtf_ab_session_report_rc5.py:57: assert loaded.recommendation == "NO_DATA"
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_extended_synchronized_session.py:56: 'source_status': str(getattr(source, 'status', 'NO_DATA') or 'NO_DATA'),
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_extended_synchronized_session.py:57: 'quality_status': str(getattr(quality, 'status', 'NO_DATA') or 'NO_DATA'),
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_extended_synchronized_session.py:99: recovered_price_reads = 0
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_extended_synchronized_session.py:110: recovered_price_reads += 1
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_extended_synchronized_session.py:140: 'recovered_price_reads': recovered_price_reads,
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_extended_synchronized_session.py:172: for key in ('symbol','requested_cycles','completed_cycles','price_attempts','recovered_price_reads','missing_price_count','collection_errors','price_capture','observational_only','predictive_claim_allowed','score_influence_allowed','decision_influence_allowed','order_execution_allowed'):
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_order_flow_confluence_shadow_session.py:76: recovered_price_reads = 0
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_order_flow_confluence_shadow_session.py:89: recovered_price_reads += 1
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_order_flow_confluence_shadow_session.py:145: 'recovered_price_reads': recovered_price_reads,
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_order_flow_confluence_shadow_session.py:175: for key in ('symbol','requested_cycles','completed_cycles','missing_price_count','recovered_price_reads','collection_errors','price_capture','observational_only','predictive_claim_allowed','score_influence_allowed','decision_influence_allowed','order_execution_allowed'):
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py:60: def technical_reasons(*, complete, collection_errors, missing_price_count, samples, delta_failure_samples):
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py:70: if delta_failure_samples:
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py:111: delta_not_ready_samples = 0
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py:112: delta_failure_samples = 0
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py:136: delta_not_ready_samples += 1
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py:137: if delta_status not in {'READY', 'VALID', 'LOW_ACTIVITY', 'INITIALIZING'}:
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py:138: delta_failure_samples += 1
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py:161: delta_failure_samples=delta_failure_samples,
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py:173: 'data_ready': session_data_ready, 'delta_not_ready_samples': delta_not_ready_samples,
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py:174: 'delta_failure_samples': delta_failure_samples,
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py:212: for key in ('data_ready','delta_not_ready_samples','delta_failure_samples','trade_context_ready'):
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_offline_recomposer.py:36: delta_failure_samples = int(payload.get('delta_failure_samples') or 0)
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_offline_recomposer.py:53: if delta_failure_samples:
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_offline_recomposer.py:83: 'delta_failure_samples': delta_failure_samples,

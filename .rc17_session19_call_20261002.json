@@ -1,0 +1,20 @@
+{
+  "status": "ABORTED_FEED_STOPPED_BEFORE_FORMAL_WINDOW",
+  "requested_cycles": 600,
+  "analyzable_samples": 0,
+  "skipped_cycles": 0,
+  "collection_errors": 0,
+  "capture_call_count": 1,
+  "formal_window_started": false,
+  "raw_generated": false,
+  "user_confirmed_feed_stopped": true,
+  "warmup": {
+    "status": "INTERRUPTED_FEED_STOPPED",
+    "ready": false,
+    "warmup_cycles": 380,
+    "analyzable_samples": 1,
+    "skipped_cycles": 379,
+    "errors": 0,
+    "trade_context_required": false
+  }
+}

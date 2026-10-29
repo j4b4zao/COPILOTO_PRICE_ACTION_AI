@@ -1,0 +1,27 @@
+{
+  "stage": "F3-INT-110",
+  "checkpoint_type": "CANDIDATO",
+  "previous_definitive": "F3-INT-109",
+  "last_completed": "F3-INT-109",
+  "f3_status": "OPEN",
+  "new_tests_linux": 11,
+  "full_regression_windows": "PENDING",
+  "files_added": [
+    "audit/tools/f3_int110_offline_reconciliation.py",
+    "audit/tests/test_f3_int110_offline_reconciliation.py"
+  ],
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "limitations": [
+    "joint rollback of database and pins is not detectable",
+    "no distributed commit or real fencing",
+    "no hardware durability or origin authentication"
+  ]
+}

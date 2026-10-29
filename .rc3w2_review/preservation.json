@@ -1,0 +1,30 @@
+{
+  "baseline_files": 1981,
+  "changed": [
+    "market_data/collector.py"
+  ],
+  "missing": [],
+  "added": [
+    "tests/test_h10_rc3_18_3_3w2_observational_integration.py"
+  ],
+  "existing_git_status_preserved": true,
+  "unrelated_collector_ast_preserved": true,
+  "sha256_before": {
+    "market_data/collector.py": "2cdba9c345eeb5f3c76c2db3587fee94bd620664f53be6433d6e1337727b71c6",
+    "tests/test_h10_rc3_18_3_3w2_observational_integration.py": null,
+    "market_data/source_acquisition_observational_report.py": "29547e3c025e0ae23602c5eb80ea14c343a33a7d5af3de6b3a9c5ef63674eea2",
+    "market_data/source_acquisition_diagnostics.py": "6d9b06f3b1ac6e36f928789032661a343e4f71d7d64acfbf0c551690bdd6f61a",
+    "connectors/profit_reader.py": "884e234ea7c39c6fc40dbba39b66e7346a54c59914449c2c9eb8b74fa52fc41a",
+    "market_data/source_temporal_validator.py": "93b522ab23bf0e8a34abdbf8548d3b921f8950a784cc46a3d07a3e07d5be0172",
+    "market_data/source_snapshot_consistency.py": "44a272f7f65ccf5b3a7e06fcf70540e527b53844bb0c6f13ec002e3b115d09a4"
+  },
+  "sha256_after": {
+    "market_data/collector.py": "9caad0e13c52b6ed5226ad8e84af5dc678ee169883b2d529fee7132d01c27d76",
+    "tests/test_h10_rc3_18_3_3w2_observational_integration.py": "8a241bdec99e9e4773f3e5cf9ce653734fb852b78b13d8562ccd674d9b6709fd",
+    "market_data/source_acquisition_observational_report.py": "29547e3c025e0ae23602c5eb80ea14c343a33a7d5af3de6b3a9c5ef63674eea2",
+    "market_data/source_acquisition_diagnostics.py": "6d9b06f3b1ac6e36f928789032661a343e4f71d7d64acfbf0c551690bdd6f61a",
+    "connectors/profit_reader.py": "884e234ea7c39c6fc40dbba39b66e7346a54c59914449c2c9eb8b74fa52fc41a",
+    "market_data/source_temporal_validator.py": "93b522ab23bf0e8a34abdbf8548d3b921f8950a784cc46a3d07a3e07d5be0172",
+    "market_data/source_snapshot_consistency.py": "44a272f7f65ccf5b3a7e06fcf70540e527b53844bb0c6f13ec002e3b115d09a4"
+  }
+}

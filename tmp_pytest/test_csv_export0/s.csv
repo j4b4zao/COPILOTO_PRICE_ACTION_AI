@@ -1,0 +1,2 @@
+﻿source_status,quality_status,bid_levels,ask_levels,spread,spread_ratio,imbalance,top_bid_concentration,top_ask_concentration,concentration_edge,duplicate_rate,availability_rate,anomaly_count,symbol,passive_only
+READY,VALID,5,5,5.0,3e-05,0.2,0.6,0.5,0.1,0.0,1.0,0,WINV26,True

@@ -1,0 +1,9 @@
+{
+  "notice": "Fixtures sinteticas offline. Contagens dos pacotes de exemplo nao sao checkpoints reais da auditoria. Sem autenticacao ou certificacao.",
+  "receipt": {
+    "reference_id": "2f3f0fa704c323889f29800ea3db2c0da1c30b898494b2318355633f8b9003a7",
+    "observable_id": "3f0d9543c9b4d8ab889f879ae849be9631852e9611f0f771a861fdaed7766a1a",
+    "classification": "ORDER_ONLY"
+  },
+  "scope": "Identidade das referencias e das observacoes finitas, nao equivalencia geral de sistemas."
+}

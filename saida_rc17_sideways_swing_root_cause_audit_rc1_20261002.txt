@@ -1,0 +1,108 @@
+STATUS = PASS
+HEAD_BEFORE = 326c8459776ee825841279768ec81d0f4f19630f
+HEAD_AFTER = 326c8459776ee825841279768ec81d0f4f19630f
+RC17_FILE = analysis/market_structure.py
+RC17_VERSION = RC17-CLOSED-CANDLE
+SWING_HIGH_RULE = MarketStructure.executar: closed_candles[i].high strictly greater than highs at i-2,i-1,i+1,i+2. Equality fails. Candidate indices range(2,len(closed_candles)-2); two closed neighbors on each side. Diagnostic index i+1 is 1-based.
+SWING_LOW_RULE = closed_candles[i].low strictly less than lows at i-2,i-1,i+1,i+2; equality fails; same 2-left/2-right window.
+CLOSED_CANDLES_RULE = market.candles.all() copied as list; require market.ready, >=6 total and >=5 closed; closed_candles=candles[:-1]. Current/forming candle excluded. Candidates exclude first two and final two CLOSED candles, since confirmation requires two right neighbors.
+HH_RULE = >=2 confirmed swing highs and latest > previous; else false.
+HL_RULE = >=2 confirmed swing lows and latest > previous; else false.
+LH_RULE = >=2 confirmed swing highs and latest < previous; else false.
+LL_RULE = >=2 confirmed swing lows and latest < previous; else false.
+UP_RULE = higher_high and higher_low (HH and HL).
+DOWN_RULE = lower_high and lower_low (LH and LL), after UP branch.
+SIDEWAYS_RULE = at least one swing high OR one swing low, and neither UP nor DOWN pair. Both swing types are NOT required. No minimum two-swings requirement for validity.
+UNKNOWN_RULE = neither swing list has any element -> trend UNKNOWN, confidence 0, valid false, early return. Early market/history guards return context without computing; in AnalysisPipeline context.clear_results previously sets UNKNOWN/valid=false.
+VALID_RULE = after guards, result.clear and no-swings early return, RC17 ends with result.valid=True. Thus all nonempty-swing cases reaching end, including SIDEWAYS and only one swing type, are valid. No requirement for BOS, CHOCH or directional trend.
+LAST_HIGH_RULE = after clear, iff swing_highs nonempty: swing_high=last_high=swing_highs[-1]. Otherwise swing_high remains None and last_high=0.0.
+LAST_LOW_RULE = after clear, iff swing_lows nonempty: swing_low=last_low=swing_lows[-1]. Otherwise swing_low remains None and last_low=0.0.
+LAST_HIGH_ZERO_MEANING = reset/default sentinel when not overwritten; snapshot float(structure.last_high or 0.0) collapses missing/falsy to zero. Zero does not certify absence by itself because Candle/RC17 do not enforce positive swing prices.
+LAST_LOW_ZERO_MEANING = reset/default when no low assigned; snapshot float(structure.last_low or 0.0) also collapses None/falsy. RC17 never compares against last_low or uses zero as a swing/threshold: it compares actual swing_lows entries guarded by list length. A genuinely zero confirmed low would also serialize zero (RC17 has no positivity guard); raw histories are absent, so this edge cannot be excluded absolutely from persisted summary alone.
+EXACT_HISTORICAL_RECONSTRUCTION_AVAILABLE = false
+APPROXIMATE_RECONSTRUCTION_PERFORMED = false
+
+DIRECT_MODELS_AND_HELPERS
+analysis/market_structure.py imports only EngineBase and Trend. EngineBase.executar is abstract; no hidden structure calculation. enums/trend.py declares UP/DOWN/SIDEWAYS/UNKNOWN.
+core/analysis_context.py supplies context.market (MarketState) and context.structure (StructureResult). models/structure_result.py:clear resets swing_high/low=None; last_high/low=0.0; flags false; trend UNKNOWN, calls ResultBase.clear. models/result_base.py clears valid=false, confidence=0, reasons and lifecycle status. RC17 sets valid directly; it does not call ResultBase.validate.
+core/market_state.py:ready means CandleHistory.size>=5; RC17 separately needs >=6 total. models/candle_history.py:all returns list(self._candles) in deque order, default capacity 500; there is no sorting/filtering in all. models/candle.py exposes high/low/close as dataclass values; no hidden swing helper or positivity validation.
+BOS uses final closed close versus latest actual swing high/low only if that list exists. CHOCH requires >=2 opposite swing entries and a directional flag. These adjust confidence and flags, not trend/valid requirements. last_high/low are outputs, not the input arrays of these comparisons.
+
+SESSION | TREND | VALID | LAST_HIGH | LAST_LOW | HH | HL | LH | LL | CONFIRMED_HIGH_EVIDENCE | CONFIRMED_LOW_EVIDENCE | ROOT_CAUSE_CLASSIFICATION
+13 | {"\"DOWN\"": 255} | {"true": 255} | {"186695.0": 255} | {"186025.0": 255} | {"false": 255} | {"false": 255} | {"true": 255} | {"true": 255} | >=2 highs required by LH=true under RC17 | >=2 lows required by LL=true under RC17 | DOWN with LH+LL
+15 | {"\"SIDEWAYS\"": 270} | {"true": 270} | {"0.0": 157, "187700.0": 113} | {"187325.0": 215, "187605.0": 55} | {"false": 270} | {"false": 215, "true": 55} | {"false": 270} | {"false": 270} | positive latest high in 113 samples; zero in 157; count unavailable | positive latest low throughout; >=2 lows where HL=true (55) | intentional SIDEWAYS branch; directional swing pair absent
+16 | {"\"SIDEWAYS\"": 279} | {"true": 279} | {"188175.0": 279} | {"0.0": 279} | {"false": 279} | {"false": 279} | {"false": 279} | {"false": 279} | nonzero latest confirmed-high output; >=1 high under RC17; exact count unavailable | zero latest-low output; consistent with no assigned low; actual swing_low/list absent | intentional SIDEWAYS branch; directional swing pair absent
+17 | {"\"SIDEWAYS\"": 286} | {"true": 286} | {"187955.0": 286} | {"0.0": 286} | {"false": 286} | {"false": 286} | {"false": 286} | {"false": 286} | nonzero latest confirmed-high output; >=1 high under RC17; exact count unavailable | zero latest-low output; consistent with no assigned low; actual swing_low/list absent | intentional SIDEWAYS branch; directional swing pair absent
+18 | {"\"SIDEWAYS\"": 258} | {"true": 258} | {"189715.0": 258} | {"0.0": 258} | {"false": 258} | {"false": 258} | {"false": 258} | {"false": 258} | nonzero latest confirmed-high output; >=1 high under RC17; exact count unavailable | zero latest-low output; consistent with no assigned low; actual swing_low/list absent | intentional SIDEWAYS branch; directional swing pair absent
+
+CODE_PROVEN
+At least one confirmed high with no confirmed low deterministically gives last_high assigned, last_low default 0, HL/LL=false, SIDEWAYS and valid=true unless another directional pair exists (it cannot exist without lows). HH/LH may be false with one high OR with >=2 equal most-recent highs. Hence the observed all-false flags do not determine exact high count.
+This is an explicit branch and reset policy, not an accidental fallback. Describing it as intentional means specified by implementation, not proof of trading usefulness.
+No-swings case is UNKNOWN/valid=false, so valid SIDEWAYS is not the RC17 no-swings outcome.
+
+DATA_PROVEN
+#13: DOWN/valid=true, LH=LL=true, last_high=186695, last_low=186025 in 255/255. #15: SIDEWAYS/valid=true in 270/270; last_high=0 in 157 then 187700 in 113; last_low=187325 in 215 then 187605 in 55; HL=true in 55. #16,#17,#18: SIDEWAYS/valid=true and all HH/HL/LH/LL=false throughout, nonzero latest high and zero latest low throughout.
+All five persist only summarized structure, price_action and current candle_evidence per sample; structure.swing_high/low, swing arrays, indexes, counts and complete closed CandleHistory are absent. Warmup contains readiness/trend summaries, not warmup OHLC history.
+
+INFERENCE
+Assuming these persisted outputs came through the inspected RC17 and nonzero valid-market prices, #16-#18 indicate a nonempty high list and an empty low list: latest high assigned, low default not overwritten. This is strongly consistent with intentional one-type-swing SIDEWAYS. It is not direct persistence of swing_low=None and does not prove exactly ONE high.
+Under the same implementation provenance, #13 LH=true and LL=true necessarily require at least two highs and two lows, whose latest pairs decrease. Exact lists/prices of penultimate swings are not available. #15 HL=true supports >=2 increasing lows in those 55 samples; zero high output alone does not directly persist high-list emptiness.
+Constant latest levels can persist while waiting for 2-right CLOSED confirmations or while high/low list conditions remain unchanged; staleness is not established.
+
+UNRESOLVED
+The exact ordered closed-candle inputs at each cycle, including pre-window/warmup candles retained by CandleHistory, are unavailable. Snapshots of the current/forming candle across the main window cannot substitute for this complete history, including intermediate price extrema, confirmations, deque eviction/reset provenance and candles preceding recording. No approximate replay/reconstruction was performed.
+Cannot independently recalculate each local-extremum confirmation, prove actual historical swing counts or validate every swing price/index. Zero ambiguity between default/absent and actual zero confirmed low is not resolvable from the summary alone. No evidence of a RC17 bug is demonstrated.
+
+FUTURE_OBSERVABILITY_NEEDED (recommendation of evidence fields only; no change implemented)
+Per analysis cycle: symbol, timeframe, cycle/timestamp, engine version, market.ready, total candle count, closed count, executed/skipped guard reason; exact immutable ordered closed-candle OHLCV/timestamps consumed (with history snapshot ID/hash), and identity of excluded forming candle.
+Persist swing_highs/swing_lows arrays with prices, candidate history indexes, candle timestamps, confirmation timestamp/cycle and 2-left/2-right neighbor values; explicit high/low counts; nullable swing_high/swing_low without coercion to zero; last and penultimate confirmed prices; HH/HL/LH/LL plus trend/valid/confidence/reasons. To verify no-swings, persist complete tested history or all candidates and failed predicates, not just confirmed swings.
+Persist history capacity, reset/eviction and source tick timing/provenance if freshness/build integrity also needs auditing. These are diagnostic records and must not alter RC17 decisions, thresholds or operational rules.
+
+SIDEWAYS_BEHAVIOR_MATCHES_RC17 = true
+BUG_EVIDENCE_FOUND = false
+OBSERVABILITY_GAP_FOUND = true
+CONCLUSION_SCOPE = observed outputs match RC17 branch semantics; exact historical confirmation correctness remains unverified.
+TESTS = Existing tests.test_full_pipeline_sideways executed successfully (synthetic candles; no collector). Demonstrates equal latest high/low pairs yield all flags false, SIDEWAYS, valid=true. No new tests/code created.
+RESEARCH_ONLY = true
+DIAGNOSTIC_ONLY = true
+CODE_CHANGED = false
+RC17_CHANGED = false
+PRICE_ACTION_CHANGED = false
+COLLECTOR_CHANGED = false
+THRESHOLDS_CHANGED = false
+OPERATIONAL_LOGIC_CHANGED = false
+SESSION19_EXECUTED = false
+COLLECTOR_EXECUTED = false
+STAGE_COMMIT_PUSH_EXECUTED = false
+
+SESSION = 13
+RAW_FILE = data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260930_093955.json
+RAW_SHA256 = 3A73D4B0A8C7F4ADF0917BB9CE5DC927323578C5729C455BC0A78D3C5BDB7A00
+RAW_SAMPLE_COUNT = 255
+WARMUP = {"analyzable_samples": 466, "errors": 0, "pa_bias": "SELL", "ready": true, "skipped_cycles": 615, "status": "WARM_HISTORY_READY", "structure_trend": "DOWN", "trade_context_ready": true, "trade_context_required": true, "warmup_cycles": 1081}
+RAW_KEYS = ["alignment", "confidence", "delta_status", "book_status", "recent_delta", "dominance", "persistence", "acceleration", "imbalance", "spread", "last_price", "structure", "price_action", "candle_evidence", "data_ready", "trade_context_ready", "context_ready", "cycle", "timestamp"]
+SESSION = 15
+RAW_FILE = data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260930_161432.json
+RAW_SHA256 = C2DE4C96917D7E7F14E5AD1B168A7121388F7525FF5A4B0EEB9FC67B2D029CC2
+RAW_SAMPLE_COUNT = 270
+WARMUP = {"analyzable_samples": 187, "errors": 0, "pa_bias": "NONE", "ready": true, "skipped_cycles": 285, "status": "WARM_HISTORY_READY", "structure_trend": "SIDEWAYS", "trade_context_ready": false, "trade_context_required": false, "warmup_cycles": 472}
+RAW_KEYS = ["alignment", "confidence", "delta_status", "book_status", "recent_delta", "dominance", "persistence", "acceleration", "imbalance", "spread", "last_price", "structure", "price_action", "candle_evidence", "data_ready", "trade_context_ready", "context_ready", "cycle", "timestamp"]
+SESSION = 16
+RAW_FILE = data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260930_164805.json
+RAW_SHA256 = DA29A70F46EEC8E2AF1E6426BAF6324CD7733981EF1AFD7628075F4DE75C01AA
+RAW_SAMPLE_COUNT = 279
+WARMUP = {"analyzable_samples": 303, "errors": 0, "pa_bias": "NONE", "ready": true, "skipped_cycles": 447, "status": "WARM_HISTORY_READY", "structure_trend": "SIDEWAYS", "trade_context_ready": false, "trade_context_required": false, "warmup_cycles": 750}
+RAW_KEYS = ["alignment", "confidence", "delta_status", "book_status", "recent_delta", "dominance", "persistence", "acceleration", "imbalance", "spread", "last_price", "structure", "price_action", "candle_evidence", "data_ready", "trade_context_ready", "context_ready", "cycle", "timestamp"]
+SESSION = 17
+RAW_FILE = data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260930_171544.json
+RAW_SHA256 = E7934AC0606EB6BADB2A0B456038B26658CF1396F93CB89E06823F7206768221
+RAW_SAMPLE_COUNT = 286
+WARMUP = {"analyzable_samples": 168, "errors": 0, "pa_bias": "NONE", "ready": true, "skipped_cycles": 190, "status": "WARM_HISTORY_READY", "structure_trend": "SIDEWAYS", "trade_context_ready": false, "trade_context_required": false, "warmup_cycles": 358}
+RAW_KEYS = ["alignment", "confidence", "delta_status", "book_status", "recent_delta", "dominance", "persistence", "acceleration", "imbalance", "spread", "last_price", "structure", "price_action", "candle_evidence", "data_ready", "trade_context_ready", "context_ready", "cycle", "timestamp"]
+SESSION = 18
+RAW_FILE = data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20261002_093840.json
+RAW_SHA256 = 983317089A735A7FD52FDD7EF89B527FF5815953D28F22958A3826BFCD3EB0CA
+RAW_SAMPLE_COUNT = 258
+WARMUP = {"analyzable_samples": 342, "errors": 0, "pa_bias": "NONE", "ready": true, "skipped_cycles": 427, "status": "WARM_HISTORY_READY", "structure_trend": "SIDEWAYS", "trade_context_ready": false, "trade_context_required": false, "warmup_cycles": 769}
+RAW_KEYS = ["alignment", "confidence", "delta_status", "book_status", "recent_delta", "dominance", "persistence", "acceleration", "imbalance", "spread", "last_price", "structure", "price_action", "candle_evidence", "data_ready", "trade_context_ready", "context_ready", "cycle", "timestamp"]
+AUDITED_SOURCE_AND_RAW_HASHES_UNCHANGED = true

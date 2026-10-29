@@ -1,0 +1,18 @@
+test_bool_policy (test_f3_int97_policy_witness_codec.PolicyCodecTests.test_bool_policy) ... ok
+test_canonical_roundtrip (test_f3_int97_policy_witness_codec.PolicyCodecTests.test_canonical_roundtrip) ... ok
+test_catalog_duplicate (test_f3_int97_policy_witness_codec.PolicyCodecTests.test_catalog_duplicate) ... ok
+test_catalog_missing (test_f3_int97_policy_witness_codec.PolicyCodecTests.test_catalog_missing) ... ok
+test_duplicate_json_key (test_f3_int97_policy_witness_codec.PolicyCodecTests.test_duplicate_json_key) ... ok
+test_excessive_policy (test_f3_int97_policy_witness_codec.PolicyCodecTests.test_excessive_policy) ... ok
+test_flags (test_f3_int97_policy_witness_codec.PolicyCodecTests.test_flags) ... ok
+test_large_policy_roundtrip (test_f3_int97_policy_witness_codec.PolicyCodecTests.test_large_policy_roundtrip) ... ok
+test_old_codec_rejects_new_schema (test_f3_int97_policy_witness_codec.PolicyCodecTests.test_old_codec_rejects_new_schema) ... ok
+test_policy_downgrade_tampering (test_f3_int97_policy_witness_codec.PolicyCodecTests.test_policy_downgrade_tampering) ... ok
+test_trace_digest_tampering (test_f3_int97_policy_witness_codec.PolicyCodecTests.test_trace_digest_tampering) ... ok
+test_unknown_policy_field (test_f3_int97_policy_witness_codec.PolicyCodecTests.test_unknown_policy_field) ... ok
+test_wrong_schema (test_f3_int97_policy_witness_codec.PolicyCodecTests.test_wrong_schema) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 8.851s
+
+OK

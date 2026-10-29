@@ -1,0 +1,36 @@
+{
+  "last_completed": "F3-INT-86",
+  "next_step": "F3-INT-87: monitor independente de invariantes necessarias nas transicoes de importacao",
+  "f3": "OPEN",
+  "simulation_only": true,
+  "offline": true,
+  "certification": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "new_tests": {
+    "tests": 11,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 1.943,
+    "log": "LOG_F3_INT86_NOVOS.txt"
+  },
+  "regression": {
+    "tests": 1007,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 134.902,
+    "log": "LOG_F3_INT86_REGRESSAO.txt"
+  },
+  "pending": [
+    "Autenticidade, consenso, persistencia e fencing reais nao verificados."
+  ]
+}

@@ -1,0 +1,77 @@
+﻿{
+  "result": "BLOCKED_WITH_REASONS",
+  "reasons": [
+    "WORKBOOK_UNCONFIRMED:profit.xlsx",
+    "WORKBOOK_UNCONFIRMED:livroofertas.xlsx",
+    "WORKBOOK_UNCONFIRMED:times&trades.xlsx",
+    "ATTACHMENT_UNAVAILABLE"
+  ],
+  "attachments": [],
+  "errors": [
+    {
+      "method": "GetActiveObject",
+      "error": "(-2147221021, 'Opera��o n�o dispon�vel', None, None)",
+      "hresult": "0x800401e3"
+    }
+  ],
+  "timestamp": "2026-10-13T10:57:53.427903-03:00",
+  "processes_before": [
+    {
+      "pid": 10152,
+      "session": 1,
+      "owner": "DESKTOP-158793C\\jb",
+      "elevated": 0,
+      "integrity": 8192,
+      "machine": "0x8664",
+      "architecture": "x64",
+      "Id": 10152,
+      "SessionId": 1,
+      "Path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+      "MainWindowHandle": 0,
+      "MainWindowTitle": ""
+    }
+  ],
+  "processes_after": [
+    {
+      "pid": 10152,
+      "session": 1,
+      "owner": "DESKTOP-158793C\\jb",
+      "elevated": 0,
+      "integrity": 8192,
+      "machine": "0x8664",
+      "architecture": "x64",
+      "Id": 10152,
+      "SessionId": 1,
+      "Path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+      "MainWindowHandle": 0,
+      "MainWindowTitle": ""
+    }
+  ],
+  "context": {
+    "pid": 2628,
+    "session": 1,
+    "owner": "DESKTOP-158793C\\CodexSandboxOffline",
+    "elevated": 0,
+    "integrity": 8192,
+    "machine": "0x8664",
+    "architecture": "x64",
+    "executable": "C:\\Users\\jb\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+    "python_bits": 64,
+    "parent_pid": 15492,
+    "parent": {
+      "pid": 15492,
+      "session": 1,
+      "owner": "DESKTOP-158793C\\CodexSandboxOffline",
+      "elevated": 0,
+      "integrity": 8192,
+      "machine": "0x8664",
+      "architecture": "x64"
+    },
+    "cwd": "C:\\COPILOTO_PRICE_ACTION_AI"
+  },
+  "rot_monikers": [],
+  "windows": [],
+  "cleanup": "REFERENCES_RELEASED_NO_QUIT_CLOSE_SAVE",
+  "contract": "WINV26",
+  "live_certified": false
+}

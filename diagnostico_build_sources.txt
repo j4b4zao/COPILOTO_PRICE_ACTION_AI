@@ -1,0 +1,103 @@
+﻿
+  tools\profit_rtd_order_flow_combined_session.py:30:    p.add_argument("--output-dir", 
+default=r"C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_order_flow_combined")
+  tools\profit_rtd_order_flow_combined_session.py:31:    p.add_argument("--execute", action="store_true")
+  tools\profit_rtd_order_flow_combined_session.py:32:    return p
+  tools\profit_rtd_order_flow_combined_session.py:33:
+  tools\profit_rtd_order_flow_combined_session.py:34:
+> tools\profit_rtd_order_flow_combined_session.py:35:def _build_sources():
+  tools\profit_rtd_order_flow_combined_session.py:36:    from connectors.excel_connector import ExcelConnector
+  tools\profit_rtd_order_flow_combined_session.py:37:    from market_data.book_depth_level2_provider import 
+NormalizedLevel2BookDepthProvider
+> tools\profit_rtd_order_flow_combined_session.py:38:    from market_data.collector import Collector
+  tools\profit_rtd_order_flow_combined_session.py:39:    from market_data.excel_range_gateway import ExcelRangeGateway
+  tools\profit_rtd_order_flow_combined_session.py:40:    from market_data.profit_rtd_order_flow_pipeline import 
+ProfitRTDOrderFlowPipeline
+  tools\profit_rtd_order_flow_combined_session.py:41:    from market_data.profit_rtd_workbook_reader import 
+ProfitRTDBookDepthReader, ProfitRTDTimesTradesReader
+  tools\profit_rtd_order_flow_combined_session.py:42:
+> tools\profit_rtd_order_flow_combined_session.py:43:    collector = Collector(enable_profit_rtd_order_flow=False)
+  tools\profit_rtd_order_flow_combined_session.py:44:
+  tools\profit_rtd_order_flow_combined_session.py:45:    tt_excel = ExcelConnector()
+  tools\profit_rtd_order_flow_combined_session.py:46:    if not tt_excel.conectar(PROFIT_RTD_TIMES_TRADES_PATH):
+  tools\profit_rtd_order_flow_combined_session.py:47:        raise RuntimeError("Nao foi possivel conectar ao Times & 
+Trades RTD.")
+  tools\profit_rtd_order_flow_combined_session.py:48:    tt_reader = 
+ProfitRTDTimesTradesReader(ExcelRangeGateway(tt_excel))
+> tools\profit_rtd_order_flow_combined_session.py:49:    collector.profit_rtd_order_flow_pipeline = 
+ProfitRTDOrderFlowPipeline(tt_reader, collector.order_flow)
+> tools\profit_rtd_order_flow_combined_session.py:50:    collector.enable_profit_rtd_order_flow = True
+> tools\profit_rtd_order_flow_combined_session.py:51:    collector.profit_rtd_times_trades_excel = tt_excel
+  tools\profit_rtd_order_flow_combined_session.py:52:
+  tools\profit_rtd_order_flow_combined_session.py:53:    book_excel = ExcelConnector()
+  tools\profit_rtd_order_flow_combined_session.py:54:    if not book_excel.conectar(PROFIT_RTD_ORDER_BOOK_PATH):
+  tools\profit_rtd_order_flow_combined_session.py:55:        raise RuntimeError("Nao foi possivel conectar ao Livro 
+de Ofertas RTD.")
+  tools\profit_rtd_order_flow_combined_session.py:56:    book_reader = 
+ProfitRTDBookDepthReader(ExcelRangeGateway(book_excel))
+  tools\profit_rtd_order_flow_combined_session.py:57:    book_provider = 
+NormalizedLevel2BookDepthProvider(book_reader, source="PROFIT_RTD", max_levels=50)
+> tools\profit_rtd_order_flow_combined_session.py:58:    return collector, book_provider
+  tools\profit_rtd_order_flow_combined_session.py:59:
+  tools\profit_rtd_order_flow_combined_session.py:60:
+  tools\profit_rtd_order_flow_combined_session.py:61:def run(symbol, *, cycles, interval, output_dir, execute=False, 
+sleeper=time.sleep):
+  tools\profit_rtd_order_flow_combined_session.py:62:    if not execute:
+  tools\profit_rtd_order_flow_combined_session.py:63:        print("PROFIT_RTD_ORDER_FLOW_COMBINED=NOT_STARTED")
+  tools\profit_rtd_order_flow_combined_session.py:64:        print("reason=EXECUTE_FLAG_REQUIRED")
+  tools\profit_rtd_order_flow_combined_session.py:65:        return 2
+  tools\profit_rtd_order_flow_combined_session.py:66:    if ENABLE_ORDER_FLOW_SCORE:
+  tools\profit_rtd_order_flow_combined_session.py:67:        print("PROFIT_RTD_ORDER_FLOW_COMBINED=NOT_STARTED")
+  tools\profit_rtd_order_flow_combined_session.py:68:        print("reason=ORDER_FLOW_SCORE_MUST_REMAIN_DISABLED")
+  tools\profit_rtd_order_flow_combined_session.py:69:        return 2
+  tools\profit_rtd_order_flow_combined_session.py:70:    if not (1 <= int(cycles) <= MAX_CYCLES) or float(interval) < 
+0:
+  tools\profit_rtd_order_flow_combined_session.py:75:    symbol = str(symbol or "").strip().upper()
+  tools\profit_rtd_order_flow_combined_session.py:76:    target = Path(output_dir).expanduser().resolve()
+  tools\profit_rtd_order_flow_combined_session.py:77:    target.mkdir(parents=True, exist_ok=True)
+  tools\profit_rtd_order_flow_combined_session.py:78:
+  tools\profit_rtd_order_flow_combined_session.py:79:    try:
+> tools\profit_rtd_order_flow_combined_session.py:80:        collector, book_provider = _build_sources()
+  tools\profit_rtd_order_flow_combined_session.py:81:    except Exception as exc:
+  tools\profit_rtd_order_flow_combined_session.py:82:        print("PROFIT_RTD_ORDER_FLOW_COMBINED=ERROR")
+  tools\profit_rtd_order_flow_combined_session.py:83:        
+print(f"reason=BOOTSTRAP_ERROR:{type(exc).__name__}:{exc}")
+  tools\profit_rtd_order_flow_combined_session.py:84:        return 1
+  tools\profit_rtd_order_flow_combined_session.py:85:
+  tools\profit_rtd_order_flow_combined_session.py:86:    delta_validator = ProfitDeltaQualityValidator()
+  tools\profit_rtd_order_flow_combined_session.py:87:    book_diag = BookDepthSourceDiagnostics()
+  tools\profit_rtd_order_flow_combined_session.py:88:    book_validator = BookDepthQualityValidator()
+  tools\profit_rtd_order_flow_combined_session.py:89:    builder = OrderFlowObservationalContextBuilder()
+  tools\profit_rtd_order_flow_combined_session.py:90:
+  tools\profit_rtd_order_flow_combined_session.py:91:    samples = []
+  tools\profit_rtd_order_flow_combined_session.py:92:    align_counts = {"BULLISH_ALIGNED": 0, "BEARISH_ALIGNED": 0, 
+"DIVERGENT": 0, "NEUTRAL": 0}
+  tools\profit_rtd_order_flow_combined_session.py:94:    collection_errors = 0
+  tools\profit_rtd_order_flow_combined_session.py:95:    last_alignment = None
+  tools\profit_rtd_order_flow_combined_session.py:96:
+  tools\profit_rtd_order_flow_combined_session.py:97:    for cycle in range(1, int(cycles) + 1):
+  tools\profit_rtd_order_flow_combined_session.py:98:        try:
+> tools\profit_rtd_order_flow_combined_session.py:99:            collector.get_data()
+  tools\profit_rtd_order_flow_combined_session.py:100:            book = book_provider.snapshot(symbol)
+  tools\profit_rtd_order_flow_combined_session.py:101:            source_report = book_diag.observe(book)
+  tools\profit_rtd_order_flow_combined_session.py:102:            book_report = book_validator.evaluate(book, 
+source_report)
+> tools\profit_rtd_order_flow_combined_session.py:103:            delta_report = 
+delta_validator.evaluate(collector.order_flow)
+  tools\profit_rtd_order_flow_combined_session.py:104:            context = builder.build(delta_report=delta_report, 
+book_report=book_report, symbol=symbol)
+  tools\profit_rtd_order_flow_combined_session.py:105:        except Exception as exc:
+  tools\profit_rtd_order_flow_combined_session.py:106:            collection_errors += 1
+  tools\profit_rtd_order_flow_combined_session.py:107:            print(f"[ORDER FLOW COMBINED] 
+cycle={cycle}/{cycles} error={type(exc).__name__}:{exc}")
+  tools\profit_rtd_order_flow_combined_session.py:108:            if cycle < int(cycles) and float(interval) > 0:
+  tools\profit_rtd_order_flow_combined_session.py:109:                sleeper(float(interval))
+  tools\profit_rtd_order_flow_combined_session.py:110:            continue
+  tools\profit_rtd_order_flow_combined_session.py:111:
+  tools\profit_rtd_order_flow_combined_session.py:112:        alignment = context.directional_alignment
+  tools\profit_rtd_order_flow_combined_session.py:113:        align_counts.setdefault(alignment, 0)
+  tools\profit_rtd_order_flow_combined_session.py:114:        align_counts[alignment] += 1
+  tools\profit_rtd_order_flow_combined_session.py:115:        if last_alignment is not None and alignment != 
+last_alignment:
+
+

@@ -1,0 +1,17 @@
+﻿
+  saida.txt:101: 101:             aggression_available_snapshots=self.aggression_available_snapshots,
+  saida.txt:102: 102:             aggression_unavailable_snapshots=self.aggression_unavailable_snapshots,
+  saida.txt:103: 103:             symbol_changes=self.symbol_changes,
+> saida.txt:104: 104:             accumulator_resets=self.accumulator_resets,
+  saida.txt:105: 105:             order_flow_samples=self.order_flow_samples,
+  saida.txt:106: 106:             duplicate_rate=round(duplicate_rate, 4),
+  saida.txt:107: 107:             aggression_availability_rate=round(availability_rate, 4),
+  saida.txt:120: 120:             f"duplicates={state.duplicate_snapshots} "
+  saida.txt:121: 121:             f"aggression={state.aggression_availability_rate:.0%} "
+  saida.txt:122: 122:             f"samples={state.order_flow_samples} "
+> saida.txt:123: 123:             f"resets={state.accumulator_resets} "
+  saida.txt:124: 124:             f"symbol_changes={state.symbol_changes}"
+  saida.txt:125: 125:         )
+  saida.txt:126: 126: 
+
+

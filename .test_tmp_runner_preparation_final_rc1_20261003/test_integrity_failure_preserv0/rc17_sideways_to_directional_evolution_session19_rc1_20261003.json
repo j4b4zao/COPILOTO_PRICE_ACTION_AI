@@ -1,0 +1,9 @@
+{
+  "session_classification": "CAPTURE_INTEGRITY_FAILURE",
+  "integrity": {
+    "valid": false,
+    "failures": [
+      "observability absent"
+    ]
+  }
+}

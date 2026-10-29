@@ -1,0 +1,106 @@
+{
+    "stage":  "F3-INT-117",
+    "checkpoint_type":  "FINAL",
+    "date":  "2026-10-26",
+    "last_completed":  "F3-INT-117",
+    "previous_definitive":  "F3-INT-116 FINAL",
+    "status":  "OFFLINE_R2_CAPACITY_CORRECTION_AUDITED",
+    "f3":  "OPEN",
+    "locks":  {
+                  "orders_allowed":  false,
+                  "live_certified":  false,
+                  "flow_complete":  false,
+                  "f3_resolved":  false,
+                  "native_prototype_authorized":  false,
+                  "strict_deadline_guaranteed":  false,
+                  "authenticated_witness_verified":  false
+              },
+    "offline":  true,
+    "simulation_only":  true,
+    "certification":  false,
+    "real_operations_authorized":  false,
+    "promotion_authorized":  true,
+    "authorization":  "Autorizacao explicita do usuario para promover F3-INT-117 R2",
+    "approved_candidate_zip":  "F3_INT117_CANDIDATA_CORRIGIDA_COMPLETA_20261024_R2.zip",
+    "approved_candidate_zip_sha256":  "64923f01655c1cc8f468537913cc717640ed8e3b0bd2c5eb8e9f79c6d1f68136",
+    "project_relative_path":  "f3_int117_corrigida",
+    "evidence_paths_relative_to":  "FINAL project directory",
+    "evidence_sha256":  {
+                            "audit/EVIDENCIAS_F3_INT116_CORRECAO/ANTES.json":  "5aa2211ef79f3399289e2bc73912101c9e5682af3c4b87cc94e67ddf3ab0c9f7",
+                            "audit/EVIDENCIAS_F3_INT116_CORRECAO/ESPECIFICOS.log":  "bf81b8f16978ecf135b8dc9a32e57e01826017ffc2e0dc1c50f2c108118f33ce",
+                            "audit/EVIDENCIAS_F3_INT116_CORRECAO/ESPECIFICOS.log.execution.json":  "1f5548461dab735314c0adf58dc8672f5b0383cb2a391f7356eef994a6986b8e",
+                            "audit/EVIDENCIAS_F3_INT116_CORRECAO/REGRESSAO_COMPLETA.log":  "66df91739e4310fd892c6e0e54e282436edfdda314bd73b988dbc43481ccc894",
+                            "audit/EVIDENCIAS_F3_INT116_CORRECAO/REGRESSAO_COMPLETA.log.execution.json":  "d153c31fa8ae57aa24b9909fffbbe34ee89d186f5d8cb8137f9e97b0aa0d3f23",
+                            "audit/EVIDENCIAS_F3_INT116_CORRECAO/RESULTADO.json":  "76b228e97004a4e41fcb9e4d43b878e338996bb5b95f904927ce3206e63e2681"
+                        },
+    "windows_specific_tests":  {
+                                   "label":  "ESPECIFICOS",
+                                   "command":  [
+                                                   "C:\\Users\\jb\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+                                                   "-B",
+                                                   "-m",
+                                                   "unittest",
+                                                   "discover",
+                                                   "-s",
+                                                   "tests",
+                                                   "-p",
+                                                   "test_f3_int116_*.py",
+                                                   "-v"
+                                               ],
+                                   "timed_out":  false,
+                                   "exception":  null,
+                                   "exit_code":  0,
+                                   "seconds":  19.674,
+                                   "total":  17,
+                                   "passed":  17,
+                                   "failures":  0,
+                                   "errors":  0,
+                                   "skipped":  0
+                               },
+    "windows_full_regression":  {
+                                    "label":  "REGRESSAO_COMPLETA",
+                                    "command":  [
+                                                    "C:\\Users\\jb\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+                                                    "-B",
+                                                    "-m",
+                                                    "unittest",
+                                                    "discover",
+                                                    "-s",
+                                                    "tests",
+                                                    "-p",
+                                                    "test_*.py",
+                                                    "-v"
+                                                ],
+                                    "timed_out":  false,
+                                    "exception":  null,
+                                    "exit_code":  0,
+                                    "seconds":  540.219,
+                                    "total":  1438,
+                                    "passed":  1437,
+                                    "failures":  0,
+                                    "errors":  0,
+                                    "skipped":  1
+                                },
+    "process_cleanup":  {
+                            "confirmed":  true,
+                            "active_processes":  0,
+                            "live_io_threads":  [
+
+                                                ]
+                        },
+    "previous_ultimate_preserved":  {
+                                        "path":  "audit/HISTORICO_ULTIMO_MARCO_F3_INT115_FINAL_20261024.json",
+                                        "sha256":  "a6ffd6aab28611f5af0a9e316080131d8b00d175e5063ad1344ff0c2e6574091"
+                                    },
+    "final_manifest":  "audit/MANIFESTO_F3_INT116_FINAL.json",
+    "next_step":  "F3-INT-117: scope proposal and review only",
+    "next_stage_implementation_authorized":  false,
+    "limitations":  [
+                        "Local evidence does not authenticate custody or provenance",
+                        "No proven power-loss resistance or physical durability",
+                        "One Windows symlink test skipped for lack of permission",
+                        "No exactly-once or cross-host guarantee",
+                        "Commit faults are controlled; no induced death demonstrated inside SQLite commit",
+                        "Historical source checks before/after cannot detect transient restored changes"
+                    ]
+}

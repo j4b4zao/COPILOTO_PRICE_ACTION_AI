@@ -1,0 +1,9 @@
+test_bounded_permutations_never_close_with_negative_j_or_l (test_f3_int28_sequence_minimizer.SequenceAndMinimizer.test_bounded_permutations_never_close_with_negative_j_or_l) ... ok
+test_minimizer_rejects_non_reproducer (test_f3_int28_sequence_minimizer.SequenceAndMinimizer.test_minimizer_rejects_non_reproducer) ... ok
+test_minimizer_removes_irrelevant_actions (test_f3_int28_sequence_minimizer.SequenceAndMinimizer.test_minimizer_removes_irrelevant_actions) ... ok
+test_stale_ticket_under_late_mutation (test_f3_int28_sequence_minimizer.SequenceAndMinimizer.test_stale_ticket_under_late_mutation) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.027s
+
+OK

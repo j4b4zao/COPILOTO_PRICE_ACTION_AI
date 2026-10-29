@@ -1,0 +1,57 @@
+{
+  "command": [
+    "C:\\Users\\jb\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_f3_int116_commit_recovery.py",
+    "-v"
+  ],
+  "timed_out": false,
+  "exception": null,
+  "exit_code": 0,
+  "cleanup": {
+    "confirmed": true,
+    "active_processes": 0,
+    "live_io_threads": [],
+    "direct_exit_code": 0,
+    "processes": [
+      {
+        "identity": {
+          "pid": 17236,
+          "ppid": 2872,
+          "creation_100ns": 134372649470954843
+        },
+        "proof": "PINNED_HANDLE_SIGNALLED",
+        "signalled_before_wait": true,
+        "exit_confirmed": true,
+        "confirmation_ns": 9000
+      }
+    ],
+    "job_events": [
+      {
+        "message": 6,
+        "pid": 17236,
+        "monotonic_ns": 33925370709900
+      },
+      {
+        "message": 7,
+        "pid": 17236,
+        "monotonic_ns": 33939190598100
+      },
+      {
+        "message": 4,
+        "pid": 0,
+        "monotonic_ns": 33939193482000
+      }
+    ],
+    "tracker_error": null,
+    "error": null,
+    "elapsed_ns": 432900
+  },
+  "seconds": 13.851
+}

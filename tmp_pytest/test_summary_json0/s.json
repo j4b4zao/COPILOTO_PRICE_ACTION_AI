@@ -1,0 +1,23 @@
+{
+  "version": "RC2-BOOK-DEPTH-SESSION-PERSISTENCE",
+  "samples": 1,
+  "quality_distribution": {
+    "VALID": 1
+  },
+  "source_distribution": {
+    "READY": 1
+  },
+  "valid_rate": 1.0,
+  "degraded_rate": 0.0,
+  "shallow_rate": 0.0,
+  "average_bid_levels": 5.0,
+  "average_ask_levels": 5.0,
+  "average_spread": 5.0,
+  "average_spread_ratio": 3e-05,
+  "average_abs_imbalance": 0.2,
+  "average_concentration_edge": 0.1,
+  "average_duplicate_rate": 0.0,
+  "average_availability_rate": 1.0,
+  "total_anomalies": 0,
+  "passive_only": true
+}

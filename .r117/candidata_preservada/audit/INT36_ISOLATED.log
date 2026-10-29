@@ -1,0 +1,13 @@
+test_corrupted_record_rejected (tests.test_f3_int36_anchor_rollback.AnchorRollbackTests.test_corrupted_record_rejected) ... ok
+test_exact_anchor_is_not_authority (tests.test_f3_int36_anchor_rollback.AnchorRollbackTests.test_exact_anchor_is_not_authority) ... ok
+test_forged_anchor_conflict (tests.test_f3_int36_anchor_rollback.AnchorRollbackTests.test_forged_anchor_conflict) ... ok
+test_invalid_anchor_and_genesis (tests.test_f3_int36_anchor_rollback.AnchorRollbackTests.test_invalid_anchor_and_genesis) ... ok
+test_pair_divergent_suffix (tests.test_f3_int36_anchor_rollback.AnchorRollbackTests.test_pair_divergent_suffix) ... ok
+test_pair_prefix_cannot_elect (tests.test_f3_int36_anchor_rollback.AnchorRollbackTests.test_pair_prefix_cannot_elect) ... ok
+test_rollback_or_missing_suffix (tests.test_f3_int36_anchor_rollback.AnchorRollbackTests.test_rollback_or_missing_suffix) ... ok
+test_unverified_suffix_is_not_authority (tests.test_f3_int36_anchor_rollback.AnchorRollbackTests.test_unverified_suffix_is_not_authority) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK

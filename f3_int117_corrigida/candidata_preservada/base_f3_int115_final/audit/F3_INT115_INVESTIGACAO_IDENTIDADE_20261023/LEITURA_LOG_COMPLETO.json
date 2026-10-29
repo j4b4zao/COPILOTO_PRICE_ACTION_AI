@@ -1,0 +1,34 @@
+{
+  "bytes": 211176,
+  "lines": 1533,
+  "sha256": "c423baa1e2cd194ded76a41cdf3d2c447e6b5b86c85aee950f8aeea2c710bff3",
+  "lines_examined": 1533,
+  "failure_lines": [
+    {
+      "line": 403,
+      "text": "test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... FAIL"
+    },
+    {
+      "line": 424,
+      "text": "F3_INT15_REPORT={\"attempted\": 4692, \"decision_codes\": [\"AUDIT_RECORDED\", \"CLOCK_OBSERVED\", \"CONSERVATIVE_STOP_REQUIRED\", \"CONTAINED_SUSPENDED_OBSERVED\", \"CONTINUE_RELEASES_REQUIRED\", \"CREATE_REQUEST_RECORDED\", \"LATE_CREATION_RECOVERY_ONLY\", \"LATE_RESUME_EFFECT_STOP_REQUIRED\", \"PARTIAL_EMPTY_OBSERVATION_ONLY\", \"RECOVERY_ONLY\", \"RECOVERY_UNCONFIRMED\", \"REJECTED_NATIVE_CLAIM\", \"REJECTED_SESSION_IDENTITY\", \"REJECTED_TRANSITION\", \"RESUME_COMMIT_RECORDED\", \"RESUME_EFFECT_OBSERVED\", \"STOP_REQUIRED\", \"TERMINAL_NO_EFFECT\", \"TIMEOUT_DECIDED\", \"TRANSITION_ACCEPTED\", \"VERIFY_CONTAINMENT_REQUIRED\"], \"event_kinds\": [\"ACCEPT\", \"ASSOCIATION_FAILED\", \"AUXILIARY_EXIT\", \"CANCEL\", \"CLEANUP_FAILED\", \"CLEANUP_SUCCEEDED\", \"CLOSE\", \"CONTAINMENT_CONFIRMED\", \"CREATE_FAILED\", \"CREATE_RETURNED\", \"CREATION_UNCERTAIN\", \"FUNCTIONAL_COMPLETE\", \"JOB_EMPTY\", \"LAUNCH_BEGIN\", \"PREPARE_QUALIFIED\", \"RESUME_COMMIT\", \"RESUME_CONFIRMED\", \"RESUME_NOT_APPLIED\", \"RESUME_UNCERTAIN\", \"SUPERVISOR_DIED\", \"TARGET_EXIT\", \"TICK\", \"WITNESS_FAILED\"], \"failure_count\": 0, \"failures\": [], \"independent_timeouts\": 1288, \"phase_kind_pairs\": 207, \"phases\": [\"ARMED\", \"CLOSED_CONFIRMED\", \"CONTAINED_SUSPENDED\", \"EVIDENCE_INCOMPLETE\", \"EXIT_OBSERVED\", \"LAUNCH_PENDING\", \"PREPARING\", \"RUNNING\", \"STOP_REQUESTED\"], \"rejected\": 3067, \"scope\": \"reachable canonical prefix states; four event variants; deadline boundaries; NOT exhaustive\", \"theoretical_phase_kind_pairs\": 207}"
+    },
+    {
+      "line": 1522,
+      "text": "FAIL: test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant)"
+    },
+    {
+      "line": 1528,
+      "text": "AssertionError: True is not false"
+    },
+    {
+      "line": 1533,
+      "text": "FAILED (failures=1, skipped=1)"
+    }
+  ],
+  "ignored_lines": [
+    {
+      "line": 249,
+      "text": "test_symlink_rejected (test_f3_int112_snapshot_inventory.InventoryTests.test_symlink_rejected) ... skipped 'Symlink not permitted'"
+    }
+  ]
+}

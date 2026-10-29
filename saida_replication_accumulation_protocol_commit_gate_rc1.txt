@@ -1,0 +1,30 @@
+﻿=== REPLICATION ACCUMULATION PROTOCOL COMMIT GATE ===
+=== PROTOCOL VALIDATION ===
+validator_version = RC1-PA-BOOK-INDEPENDENT-REPLICATION-ACCUMULATION-PROTOCOL-VALIDATOR
+protocol_path = pa_book_replication_accumulation_protocol_rc1_20260930.json
+expected_sha256 = df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0
+actual_sha256 = df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0
+protocol_sha256_exact = True
+protocol_version_exact = True
+prior_evidence_exact = True
+frozen_hypothesis_exact = True
+future_block_exact = True
+outcome_policy_exact = True
+accumulation_policy_exact = True
+interpretation_policy_exact = True
+cohort_policy_exact = True
+safety_policy_exact = True
+future_collection_block = ['14', '15', '16', '17', '18']
+status = PASS
+future_collection_authorization = ACCUMULATION_PROTOCOL_VALIDATED_ONLY
+VALIDATOR_EXIT_CODE=0
+=== PROTOCOL SHA ===
+PROTOCOL_SHA256=DF868857D61205D9D95FF43E9259F7F8528E8FEB66F0561869F20B4BE78479B0
+EXPECTED_SHA_EXACT=True
+=== TARGET DIFF CHECK ===
+DIFF_CHECK_EXIT_CODE=0
+=== TARGET STATUS ===
+?? pa_book_replication_accumulation_protocol_rc1_20260930.json
+?? validate_pa_book_replication_accumulation_protocol_rc1.py
+=== CURRENT HEAD ===
+24f9c616abb4e0cf1c47be96a9faaf12e0c0519e

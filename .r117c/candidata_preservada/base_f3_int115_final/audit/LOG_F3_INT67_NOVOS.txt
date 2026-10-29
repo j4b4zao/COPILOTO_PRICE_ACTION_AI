@@ -1,0 +1,14 @@
+test_252_two_actor_orders (test_f3_int67_crash_exploration.CrashExplorationTests.test_252_two_actor_orders) ... ok
+test_exact_bound_complete (test_f3_int67_crash_exploration.CrashExplorationTests.test_exact_bound_complete) ... ok
+test_flags (test_f3_int67_crash_exploration.CrashExplorationTests.test_flags) ... ok
+test_invalid_actor_counts (test_f3_int67_crash_exploration.CrashExplorationTests.test_invalid_actor_counts) ... ok
+test_invalid_budget (test_f3_int67_crash_exploration.CrashExplorationTests.test_invalid_budget) ... ok
+test_invalid_input (test_f3_int67_crash_exploration.CrashExplorationTests.test_invalid_input) ... ok
+test_one_below_bound_incomplete (test_f3_int67_crash_exploration.CrashExplorationTests.test_one_below_bound_incomplete) ... ok
+test_single_actor (test_f3_int67_crash_exploration.CrashExplorationTests.test_single_actor) ... ok
+test_three_actor_budget (test_f3_int67_crash_exploration.CrashExplorationTests.test_three_actor_budget) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 2.054s
+
+OK

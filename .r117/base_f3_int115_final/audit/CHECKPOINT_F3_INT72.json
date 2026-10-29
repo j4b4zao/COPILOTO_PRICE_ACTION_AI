@@ -1,0 +1,36 @@
+{
+  "last_completed": "F3-INT-72",
+  "next_step": "F3-INT-73: verificacao de linhagem de pacotes e preservacao de fontes anteriores",
+  "f3": "OPEN",
+  "simulation_only": true,
+  "offline": true,
+  "certification": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "new_tests": {
+    "tests": 14,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 1.521,
+    "log": "LOG_F3_INT72_NOVOS.txt"
+  },
+  "regression": {
+    "tests": 836,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 82.212,
+    "log": "LOG_F3_INT72_REGRESSAO.txt"
+  },
+  "pending": [
+    "Autenticidade, consenso, persistencia e fencing reais nao verificados."
+  ]
+}

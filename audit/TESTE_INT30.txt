@@ -1,0 +1,9 @@
+test_causal_reordering_disables_injected_fault (test_f3_int30_causal_fault_injection.CausalFaultInjection.test_causal_reordering_disables_injected_fault) ... ok
+test_injected_stale_ticket_reduces_to_causal_triple (test_f3_int30_causal_fault_injection.CausalFaultInjection.test_injected_stale_ticket_reduces_to_causal_triple) ... ok
+test_real_simulated_model_rejects_injected_causal_triples (test_f3_int30_causal_fault_injection.CausalFaultInjection.test_real_simulated_model_rejects_injected_causal_triples) ... ok
+test_reducer_deterministic_and_rejects_nonreproducer (test_f3_int30_causal_fault_injection.CausalFaultInjection.test_reducer_deterministic_and_rejects_nonreproducer) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.076s
+
+OK

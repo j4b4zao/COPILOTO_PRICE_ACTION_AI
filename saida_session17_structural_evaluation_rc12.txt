@@ -1,0 +1,172 @@
+﻿=== SESSION 17 STRUCTURAL EVALUATION RC1.2 ===
+=== HEAD BEFORE ===
+a741be9c905009906c93130af648983377f8a3a3
+=== RAW SHA BEFORE ===
+EXPECTED_SHA256=E7934AC0606EB6BADB2A0B456038B26658CF1396F93CB89E06823F7206768221
+RAW_SHA256_BEFORE=E7934AC0606EB6BADB2A0B456038B26658CF1396F93CB89E06823F7206768221
+RAW_SHA_BEFORE_EXACT=True
+=== ACCUMULATION PROTOCOL GATE ===
+validator_version = RC1-PA-BOOK-INDEPENDENT-REPLICATION-ACCUMULATION-PROTOCOL-VALIDATOR
+protocol_path = pa_book_replication_accumulation_protocol_rc1_20260930.json
+expected_sha256 = df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0
+actual_sha256 = df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0
+protocol_sha256_exact = True
+protocol_version_exact = True
+prior_evidence_exact = True
+frozen_hypothesis_exact = True
+future_block_exact = True
+outcome_policy_exact = True
+accumulation_policy_exact = True
+interpretation_policy_exact = True
+cohort_policy_exact = True
+safety_policy_exact = True
+future_collection_block = ['14', '15', '16', '17', '18']
+status = PASS
+future_collection_authorization = ACCUMULATION_PROTOCOL_VALIDATED_ONLY
+ACCUMULATION_PROTOCOL_EXIT_CODE=0
+=== STRUCTURAL PROTOCOL GATE ===
+validator_version = RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-PROTOCOL-VALIDATOR
+fail_closed = True
+research_only = True
+
+protocol_path = pa_book_opposed_to_aligned_prospective_replication_protocol_rc1_20260929.json
+expected_sha256 = 53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c
+actual_sha256   = 53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c
+
+PROTOCOL_SHA256_EXACT = True
+PROTOCOL_VERSION_EXACT = True
+FROZEN_CHECKPOINT_IDENTITY_EXACT = True
+SAFETY_POLICY_EXACT = True
+REPLICATION_CONDITION_EXACT = True
+NO_THRESHOLDS_EXACT = True
+COHORT_POLICY_EXACT = True
+INTERPRETATION_POLICY_EXACT = True
+
+STATUS = PASS
+FUTURE_COLLECTION_AUTHORIZATION = PROTOCOL_VALIDATED_ONLY
+STRUCTURAL_PROTOCOL_EXIT_CODE=0
+=== EVALUATOR RC1.2 ===
+{
+  "cohort_policy": {
+    "frozen_10_session_checkpoint_remains_immutable": true,
+    "future_sessions_are_evaluated_as_independent_prospective_replication": true,
+    "future_sessions_are_not_appended_to_frozen_checkpoint": true,
+    "no_retroactive_reclassification": true,
+    "sessions_11_and_12_remain_independent": true
+  },
+  "detail": null,
+  "evaluation_outcome": "NOT_EVALUABLE",
+  "evaluation_unit": "formal_OPPOSED_to_ALIGNED_transition",
+  "identity": {
+    "aligned_samples": 0,
+    "formal_run_count": 0,
+    "opposed_samples": 0,
+    "opposed_to_aligned_transition_count": 0,
+    "prospective_sample_count": 286,
+    "raw_prospective_positional_identity": "VALIDATED",
+    "raw_sample_count": 286,
+    "simultaneous_directional_samples": 0
+  },
+  "interpretation": "DESCRIPTIVE_ONLY",
+  "interpretation_policy": {
+    "no_operational_promotion_from_this_protocol": true,
+    "no_post_hoc_admission_gate": true,
+    "no_threshold_optimization_after_observation": true,
+    "single_future_failure_is_not_refutation": true,
+    "single_future_replication_is_not_predictive_validation": true
+  },
+  "outcome": "NOT_EVALUABLE",
+  "outcome_scope": "SESSION_SUMMARY",
+  "protocol": {
+    "path": "pa_book_opposed_to_aligned_prospective_replication_protocol_rc1_20260929.json",
+    "sha256": "53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c",
+    "version": "RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-PROTOCOL"
+  },
+  "reason": "NO_FORMAL_OPPOSED_TO_ALIGNED_TRANSITION",
+  "safety": {
+    "alert_changed": false,
+    "canonical_conflict_redefined": false,
+    "checkpoint_extended": false,
+    "decision_changed": false,
+    "descriptive_only": true,
+    "execution_changed": false,
+    "operational_logic_changed": false,
+    "post_hoc_gate_added": false,
+    "predictive_claim_allowed": false,
+    "rc17_changed": false,
+    "research_only": true,
+    "risk_changed": false,
+    "score_changed": false,
+    "threshold_changed": false
+  },
+  "status": "COMPLETED",
+  "transitions": [],
+  "version": "RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-EVALUATOR"
+}
+EVALUATOR_EXIT_CODE=0
+=== RESULT FILE ===
+RESULT_EXISTS=True
+RESULT_PATH=.\pa_book_structural_replication_session17_rc12_20260930.json
+RESULT_SHA256=02CFF1807C5D7A5BDBD506DDA1B212ED4FDF13F685C0A09BEE4EDE5082C991F3
+{
+  "cohort_policy": {
+    "frozen_10_session_checkpoint_remains_immutable": true,
+    "future_sessions_are_evaluated_as_independent_prospective_replication": true,
+    "future_sessions_are_not_appended_to_frozen_checkpoint": true,
+    "no_retroactive_reclassification": true,
+    "sessions_11_and_12_remain_independent": true
+  },
+  "detail": null,
+  "evaluation_outcome": "NOT_EVALUABLE",
+  "evaluation_unit": "formal_OPPOSED_to_ALIGNED_transition",
+  "identity": {
+    "aligned_samples": 0,
+    "formal_run_count": 0,
+    "opposed_samples": 0,
+    "opposed_to_aligned_transition_count": 0,
+    "prospective_sample_count": 286,
+    "raw_prospective_positional_identity": "VALIDATED",
+    "raw_sample_count": 286,
+    "simultaneous_directional_samples": 0
+  },
+  "interpretation": "DESCRIPTIVE_ONLY",
+  "interpretation_policy": {
+    "no_operational_promotion_from_this_protocol": true,
+    "no_post_hoc_admission_gate": true,
+    "no_threshold_optimization_after_observation": true,
+    "single_future_failure_is_not_refutation": true,
+    "single_future_replication_is_not_predictive_validation": true
+  },
+  "outcome": "NOT_EVALUABLE",
+  "outcome_scope": "SESSION_SUMMARY",
+  "protocol": {
+    "path": "pa_book_opposed_to_aligned_prospective_replication_protocol_rc1_20260929.json",
+    "sha256": "53efb327f613934c483f6bec36ffe04bd98743b2973815f3b54ec2b84e91f01c",
+    "version": "RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-PROTOCOL"
+  },
+  "reason": "NO_FORMAL_OPPOSED_TO_ALIGNED_TRANSITION",
+  "safety": {
+    "alert_changed": false,
+    "canonical_conflict_redefined": false,
+    "checkpoint_extended": false,
+    "decision_changed": false,
+    "descriptive_only": true,
+    "execution_changed": false,
+    "operational_logic_changed": false,
+    "post_hoc_gate_added": false,
+    "predictive_claim_allowed": false,
+    "rc17_changed": false,
+    "research_only": true,
+    "risk_changed": false,
+    "score_changed": false,
+    "threshold_changed": false
+  },
+  "status": "COMPLETED",
+  "transitions": [],
+  "version": "RC1-PA-BOOK-OPPOSED-TO-ALIGNED-PROSPECTIVE-REPLICATION-EVALUATOR"
+}
+=== RAW SHA AFTER ===
+RAW_SHA256_AFTER=E7934AC0606EB6BADB2A0B456038B26658CF1396F93CB89E06823F7206768221
+RAW_UNCHANGED=True
+=== HEAD AFTER ===
+a741be9c905009906c93130af648983377f8a3a3

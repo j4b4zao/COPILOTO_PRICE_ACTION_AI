@@ -1,0 +1,304 @@
+﻿===== SELECTION RUNNER =====
+"""Orquestrador research-only para coletas Brooks em modo SELECTION.
+
+Executa uma ou mais sessoes pelo runner Brooks enriquecido, coleta os JSONs
+produzidos e gera um manifesto de selecao. Nao promove hipoteses, nao executa
+OOS e nao altera Score, Risk, Decision, Alert ou ordens.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+import tools.profit_rtd_rc54_3_2_brooks_warmed_session as warmed
+from tools.profit_rtd_brooks_selection_manifest import build_manifest
+
+
+def _safety():
+    return {
+        "research_only": True,
+        "observational_only": True,
+        "predictive_claim_allowed": False,
+        "score_influence_allowed": False,
+        "risk_influence_allowed": False,
+        "decision_influence_allowed": False,
+        "alert_influence_allowed": False,
+        "order_execution_allowed": False,
+        "hypothesis_freeze_allowed": False,
+        "promotion_allowed": False,
+        "oos_execution_allowed": False,
+    }
+
+
+def run_selection(
+    symbol,
+    *,
+    sessions=1,
+    cycles=600,
+    interval=0.25,
+    max_warmup_cycles=4800,
+    output_dir="data/profit_rtd_brooks_selection",
+    sleeper=None,
+):
+    count = int(sessions)
+    if count < 1:
+        raise ValueError("sessions must be >= 1")
+
+    root = Path(output_dir)
+    root.mkdir(parents=True, exist_ok=True)
+    runs = []
+    produced_paths = []
+
+    for index in range(count):
+        result = warmed.run_warmed_session(
+            symbol,
+            cycles=cycles,
+            interval=interval,
+            max_warmup_cycles=max_warmup_cycles,
+            output_dir=str(root),
+            sleeper=sleeper,
+        )
+        output_path = result.get("output_path")
+        run = {
+            "index": index,
+            "status": result.get("status"),
+            "data_ready": result.get("data_ready"),
+            "analyzable_samples": result.get("analyzable_samples"),
+            "collection_errors": result.get("collection_errors"),
+            "output_path": str(output_path) if output_path else None,
+            "reasons": list(result.get("reasons") or []),
+        }
+        runs.append(run)
+        if output_path:
+            produced_paths.append(str(output_path))
+
+    manifest = build_manifest(produced_paths) if produced_paths else {
+        "manifest": "BROOKS_SELECTION_SESSION_MANIFEST_V1",
+        "mode": "SELECTION",
+        "input_sessions": 0,
+        "eligible_sessions": 0,
+        "rejected_sessions": 0,
+        "sessions": [],
+        "rejected": [],
+        "selection_cutoff": None,
+        **_safety(),
+    }
+
+    return {
+        "runner": "BROOKS_SELECTION_RUNNER_V1",
+        "mode": "SELECTION",
+        "symbol": symbol,
+        "requested_sessions": count,
+        "completed_runs": sum(run["status"] == "COMPLETED" for run in runs),
+        "produced_session_files": len(produced_paths),
+        "runs": runs,
+        "manifest": manifest,
+        **_safety(),
+    }
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="Executa coletas Brooks research-only em modo SELECTION.")
+    parser.add_argument("symbol")
+    parser.add_argument("--sessions", type=int, default=1)
+    parser.add_argument("--cycles", type=int, default=600)
+    parser.add_argument("--interval", type=float, default=0.25)
+    parser.add_argument("--max-warmup-cycles", type=int, default=4800)
+    parser.add_argument("--output-dir", default="data/profit_rtd_brooks_selection")
+    parser.add_argument("--report")
+    args = parser.parse_args(argv)
+
+    result = run_selection(
+        args.symbol,
+        sessions=args.sessions,
+        cycles=args.cycles,
+        interval=args.interval,
+        max_warmup_cycles=args.max_warmup_cycles,
+        output_dir=args.output_dir,
+    )
+    text = json.dumps(result, indent=2, sort_keys=True, ensure_ascii=False)
+    if args.report:
+        target = Path(args.report)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(text, encoding="utf-8")
+    print(text)
+    return 0 if result["produced_session_files"] == result["requested_sessions"] else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
+===== SELECTION LAUNCHER =====
+"""Launcher operacional de um comando para coletas Brooks em SELECTION.
+
+Foi desenhado para uso manual em mercado aberto. Encapsula o Selection Runner,
+define caminhos de saida previsiveis, classifica o outcome da tentativa e grava
+um relatorio JSON da execucao.
+
+Nao executa OOS e nao permite qualquer influencia operacional.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+from datetime import datetime
+from pathlib import Path
+
+from tools.profit_rtd_brooks_selection_outcome import classify_report
+from tools.profit_rtd_brooks_selection_runner import run_selection
+
+DEFAULT_OUTPUT_DIR = "data/profit_rtd_brooks_selection"
+DEFAULT_REPORT_DIR = "data/profit_rtd_brooks_selection_reports"
+
+
+def _stamp(now=None):
+    current = now or datetime.now()
+    return current.strftime("%Y%m%d_%H%M%S")
+
+
+def build_report_path(symbol, *, report_dir=DEFAULT_REPORT_DIR, now=None):
+    safe_symbol = "".join(ch for ch in str(symbol).upper() if ch.isalnum() or ch in {"-", "_"}) or "UNKNOWN"
+    return Path(report_dir) / f"brooks_selection_{safe_symbol}_{_stamp(now)}.json"
+
+
+def launch_selection(
+    symbol,
+    *,
+    sessions=1,
+    cycles=600,
+    interval=0.25,
+    max_warmup_cycles=4800,
+    output_dir=DEFAULT_OUTPUT_DIR,
+    report_dir=DEFAULT_REPORT_DIR,
+    sleeper=None,
+    now=None,
+):
+    result = run_selection(
+        symbol,
+        sessions=sessions,
+        cycles=cycles,
+        interval=interval,
+        max_warmup_cycles=max_warmup_cycles,
+        output_dir=output_dir,
+        sleeper=sleeper,
+    )
+
+    report_path = build_report_path(symbol, report_dir=report_dir, now=now)
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+
+    base_report = {
+        **result,
+        "launcher": "BROOKS_SELECTION_LAUNCHER_V1",
+        "report_path": str(report_path),
+    }
+    selection_outcome = classify_report(base_report)
+    result = {
+        **base_report,
+        "selection_outcome": selection_outcome,
+    }
+
+    report_path.write_text(
+        json.dumps(result, indent=2, sort_keys=True, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    return result
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(
+        description="Launcher de um comando para coleta Brooks research-only em modo SELECTION."
+    )
+    parser.add_argument("symbol")
+    parser.add_argument("--sessions", type=int, default=1)
+    parser.add_argument("--cycles", type=int, default=600)
+    parser.add_argument("--interval", type=float, default=0.25)
+    parser.add_argument("--max-warmup-cycles", type=int, default=4800)
+    parser.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR)
+    parser.add_argument("--report-dir", default=DEFAULT_REPORT_DIR)
+    args = parser.parse_args(argv)
+
+    result = launch_selection(
+        args.symbol,
+        sessions=args.sessions,
+        cycles=args.cycles,
+        interval=args.interval,
+        max_warmup_cycles=args.max_warmup_cycles,
+        output_dir=args.output_dir,
+        report_dir=args.report_dir,
+    )
+
+    manifest = result.get("manifest") or {}
+    outcome = result.get("selection_outcome") or {}
+    print("BROOKS_SELECTION_LAUNCHER=" + str(result.get("launcher")))
+    print("mode=" + str(result.get("mode")))
+    print("symbol=" + str(result.get("symbol")))
+    print("requested_sessions=" + str(result.get("requested_sessions")))
+    print("produced_session_files=" + str(result.get("produced_session_files")))
+    print("eligible_sessions=" + str(manifest.get("eligible_sessions")))
+    print("rejected_sessions=" + str(manifest.get("rejected_sessions")))
+    print("selection_cutoff=" + str(manifest.get("selection_cutoff")))
+    print("selection_outcome=" + str(outcome.get("status")))
+    print("counts_as_selection_evidence=" + str(outcome.get("counts_as_selection_evidence")))
+    print("retry_when_real_source_active=" + str(outcome.get("retry_when_real_source_active")))
+    print("report_path=" + str(result.get("report_path")))
+
+    status = outcome.get("status")
+    return 0 if status in {"VALID_SELECTION", "NO_VALID_SOURCE"} else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
+===== WARMED SESSION CALLERS =====
+
+Path                                                                                                  LineNumber Line   
+----                                                                                                  ---------- ----   
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_30min_selection.py                                        16 from...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_30min_selection.py                                        52     ...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_selection_runner.py                                       53     ...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_brooks_warmed_session.py                                22 impo...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_brooks_warmed_session.py                               231 def ...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_brooks_warmed_session.py                               256     ...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_brooks_warmed_session.py                               294     ...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_brooks_warmed_session_complete.py                       22 impo...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_brooks_warmed_session_complete.py                      231 def ...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_brooks_warmed_session_complete.py                      256     ...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_brooks_warmed_session_complete.py                      294     ...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_brooks_warmed_session_fixed.py                          18 impo...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_brooks_warmed_session_fixed.py                          96 def ...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_brooks_warmed_session_fixed.py                         119     ...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_brooks_warmed_session_fixed.py                         151     ...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py                                       75 def ...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py                                      201     ...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_2_warmed_session.py                                      202     ...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_4_orchestrated_session_runner.py                          13 from...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_5_4_orchestrated_session_runner.py                         159     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_3_2.py                                                  4 from...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_3_2.py                                                  6 from...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_3_2.py                                                160     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_5_4.py                                                 27     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_5_4.py                                                 38     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_5_4.py                                                 82     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_5_4.py                                                112     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_5_4.py                                                134     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc54_candle_evidence_capture.py                              4 from...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_brooks_30min_selection.py                 15     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_brooks_30min_selection.py                 34     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_rc54_3_2_brooks_warmed_session.py        162     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_rc54_3_2_brooks_warmed_session.py        164     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_rc54_3_2_brooks_warmed_session.py        187     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_rc54_3_2_brooks_warmed_session.py        190     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_selection_runner.py                       49     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_selection_runner.py                       72     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_selection_runner.py                       83     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_selection_runner.py                       90     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks\test_selection_runner.py                      111     ...
+
+===== LAST RTD RECEIPT USAGE =====
+C:\COPILOTO_PRICE_ACTION_AI\market_data\collector.py                                                          95     ...
+C:\COPILOTO_PRICE_ACTION_AI\market_data\collector.py                                                         141     ...
+C:\COPILOTO_PRICE_ACTION_AI\market_data\collector.py                                                         145     ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc8.py                                                      96     ...
+
+

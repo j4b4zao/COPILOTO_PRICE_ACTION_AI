@@ -1,0 +1,79 @@
+{
+  "affects_decision": false,
+  "generated_at": "2026-09-28T20:26:32.523688Z",
+  "payload": {
+    "affects_decision": false,
+    "dashboard_projection": {
+      "affects_decision": false,
+      "directory": "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_rc86_over_limit_returns_t0\\voice",
+      "directory_exists": true,
+      "excess_count": 1,
+      "existing_count": 3,
+      "keep": 2,
+      "label": "Retencao acima do limite",
+      "prefix": "voice_status",
+      "readonly": true,
+      "retained_count": 2,
+      "status": "OVER_LIMIT",
+      "summary": "Retention exceeds the configured limit by 1 snapshot(s).",
+      "version": "RC76-VOICE-STATUS-RETENTION-DASHBOARD-PROJECTION"
+    },
+    "dashboard_widget": {
+      "affects_decision": false,
+      "detail": "Retention exceeds the configured limit by 1 snapshot(s).",
+      "directory": "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_rc86_over_limit_returns_t0\\voice",
+      "directory_exists": true,
+      "excess_count": 1,
+      "existing_count": 3,
+      "keep": 2,
+      "label": "Retencao acima do limite",
+      "prefix": "voice_status",
+      "readonly": true,
+      "retained_count": 2,
+      "status": "OVER_LIMIT",
+      "title": "Voice Status Retention",
+      "version": "RC78-VOICE-STATUS-RETENTION-DASHBOARD-WIDGET-CONTRACT"
+    },
+    "health": {
+      "affects_decision": false,
+      "directory": "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_rc86_over_limit_returns_t0\\voice",
+      "directory_exists": true,
+      "existing_count": 3,
+      "keep": 2,
+      "prefix": "voice_status",
+      "readonly": true,
+      "retained_count": 2,
+      "status": "OVER_LIMIT",
+      "summary": "Retention exceeds the configured limit by 1 snapshot(s).",
+      "version": "RC73-VOICE-STATUS-RETENTION-HEALTH",
+      "would_remove_count": 1
+    },
+    "inspection": {
+      "affects_decision": false,
+      "directory": "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_rc86_over_limit_returns_t0\\voice",
+      "directory_exists": true,
+      "existing_files": [
+        "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_rc86_over_limit_returns_t0\\voice\\voice_status_2.json",
+        "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_rc86_over_limit_returns_t0\\voice\\voice_status_1.json",
+        "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_rc86_over_limit_returns_t0\\voice\\voice_status_0.json"
+      ],
+      "keep": 2,
+      "prefix": "voice_status",
+      "readonly": true,
+      "retained_files": [
+        "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_rc86_over_limit_returns_t0\\voice\\voice_status_2.json",
+        "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_rc86_over_limit_returns_t0\\voice\\voice_status_1.json"
+      ],
+      "version": "RC70-VOICE-STATUS-RETENTION-INSPECTION",
+      "would_remove_files": [
+        "C:\\COPILOTO_PRICE_ACTION_AI\\tmp_pytest\\test_rc86_over_limit_returns_t0\\voice\\voice_status_0.json"
+      ]
+    },
+    "readonly": true,
+    "version": "RC80-VOICE-STATUS-RETENTION-BUNDLE"
+  },
+  "readonly": true,
+  "schema": "copiloto.voice.status.retention.v1",
+  "status": "OVER_LIMIT",
+  "version": "RC83-VOICE-STATUS-RETENTION-EXPORT-CONTRACT"
+}

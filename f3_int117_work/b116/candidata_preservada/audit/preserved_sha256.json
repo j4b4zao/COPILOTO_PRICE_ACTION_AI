@@ -1,0 +1,10 @@
+{
+  "tools/f3_int105_typed_identity_envelope.py": "67192f1906a7153cb34d44c7c5e4af81386bd2944d99ec91707b7b4b6176dd2f",
+  "tools/f3_int106_typed_batch_manifest.py": "00ae28dea1880557fdefdd77e87f93bb4740ef32928dc2d862dc2b2dfc25b748",
+  "tools/f3_int107_typed_batch_chain.py": "a5dc83acc593254d9516f4eb921eeac09627dd6e91b1f6d18bcc66f07f8a4ade",
+  "tests/test_f3_int105_typed_identity_envelope.py": "7737c28687144dc67d336be7db042023e1b4f087219e317e663278bd296f5931",
+  "tests/test_f3_int106_typed_batch_manifest.py": "19c82415fd441069fe454e3b410c722d588b7119ddd681831ab0532881cf29e5",
+  "tests/test_f3_int107_typed_batch_chain.py": "9219dc5231d375f2fbacd293f28027399b3eb24fbee4b1b9c62d1c85114c1298",
+  "ULTIMO_MARCO.json": "e81028fec95a9cc8dd42de2bd41d2d5c33e4aecbdbb309dbe9794f5d8d2c08e9",
+  "CHECKPOINT_F3_INT107_FINAL.json": "e81028fec95a9cc8dd42de2bd41d2d5c33e4aecbdbb309dbe9794f5d8d2c08e9"
+}

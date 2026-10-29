@@ -1,0 +1,102 @@
+{
+  "session_id": 19,
+  "block": "RC17_SIDEWAYS_TO_DIRECTIONAL_EVOLUTION_19_23",
+  "prospective": true,
+  "independent_session": true,
+  "capture_completed": false,
+  "formal_window_started": false,
+  "capture_call_count": 1,
+  "protocol_version": "RC1-RC17-SIDEWAYS-TO-DIRECTIONAL-EVOLUTION-PROTOCOL",
+  "protocol_sha256": "2A278E7C4C438098D9CE167A778F7386A09B341A555A73E322598215150EBDB3",
+  "raw_file": null,
+  "raw_sha256": null,
+  "raw_size": null,
+  "integrity": {
+    "capture_integrity_valid": false,
+    "counts": {
+      "OBSERVABILITY_SAMPLE_COUNT": null,
+      "DIAGNOSTIC_AVAILABLE_COUNT": null,
+      "DIAGNOSTIC_UNAVAILABLE_COUNT": null,
+      "HISTORY_UNCHANGED_TRUE_COUNT": null,
+      "HISTORY_UNCHANGED_FALSE_COUNT": null,
+      "CLOSED_COUNT_MISMATCH_COUNT": null,
+      "HISTORY_HASH_MISSING_COUNT": null,
+      "HISTORY_HASH_MISMATCH_COUNT": null,
+      "FORMING_CANDLE_IN_CLOSED_HISTORY_COUNT": null,
+      "INDEX_ORDER_VIOLATION_COUNT": null,
+      "SERIALIZATION_VIOLATION_COUNT": null,
+      "SWING_HIGH_COUNT_MISMATCH": null,
+      "SWING_LOW_COUNT_MISMATCH": null,
+      "NULLABLE_SWING_MISMATCH_COUNT": null,
+      "TREND_RESULT_MISMATCH_COUNT": null,
+      "FLAG_RESULT_MISMATCH_COUNT": null,
+      "RC17_CONSISTENCY_VIOLATION_COUNT": null,
+      "CANDIDATE_SWING_MISMATCH_COUNT": null,
+      "REQUIRED_FIELD_MISSING_COUNT": null,
+      "CHRONOLOGY_VIOLATION_COUNT": null,
+      "PA_BIAS_RESULT_MISMATCH_COUNT": null
+    },
+    "issues": [
+      {
+        "reason": "NO_RAW_NO_FORMAL_WINDOW",
+        "detail": "Feed stopped, normal warmup interrupted before formal window. Integrity/state/transition measurements unavailable, not measured zero."
+      }
+    ],
+    "capture_status": "ABORTED_FEED_STOPPED_BEFORE_FORMAL_WINDOW",
+    "code_or_prior_evidence_changed": []
+  },
+  "state_counts": {
+    "trend_counts": {
+      "UP": null,
+      "DOWN": null,
+      "SIDEWAYS": null,
+      "UNKNOWN": null
+    },
+    "pa_bias_counts": {
+      "BUY": null,
+      "SELL": null,
+      "NONE": null
+    },
+    "total_analyzed_samples": 0
+  },
+  "swing_state_counts": {
+    "SAMPLES_WITH_HIGH_ONLY": null,
+    "SAMPLES_WITH_LOW_ONLY": null,
+    "SAMPLES_WITH_BOTH_SWING_TYPES": null,
+    "SAMPLES_WITH_NO_SWINGS": null
+  },
+  "transition_counts": {
+    "SIDEWAYS_TO_SIDEWAYS": null,
+    "SIDEWAYS_TO_UP": null,
+    "SIDEWAYS_TO_DOWN": null,
+    "UP_TO_UP": null,
+    "UP_TO_SIDEWAYS": null,
+    "UP_TO_DOWN": null,
+    "DOWN_TO_DOWN": null,
+    "DOWN_TO_SIDEWAYS": null,
+    "DOWN_TO_UP": null
+  },
+  "unknown_pairs": {},
+  "primary_events": [],
+  "session_classification": "CAPTURE_INTEGRITY_FAILURE",
+  "research_only": true,
+  "descriptive_only": true,
+  "predictive_validation": false,
+  "causal_validation": false,
+  "operational_promotion": false,
+  "collection": {
+    "requested_cycles": 600,
+    "analyzable_samples": 0,
+    "skipped_cycles": 0,
+    "collection_errors": 0,
+    "warmup": {
+      "status": "INTERRUPTED_FEED_STOPPED",
+      "ready": false,
+      "warmup_cycles": 380,
+      "analyzable_samples": 1,
+      "skipped_cycles": 379,
+      "errors": 0,
+      "trade_context_required": false
+    }
+  }
+}

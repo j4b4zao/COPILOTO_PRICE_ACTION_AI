@@ -1,0 +1,23 @@
+test_budget_exhaustion (test_f3_int57_retry_interleaving.RetryTests.test_budget_exhaustion) ... ok
+test_deep_request_rejected (test_f3_int57_retry_interleaving.RetryTests.test_deep_request_rejected) ... ok
+test_deterministic (test_f3_int57_retry_interleaving.RetryTests.test_deterministic) ... ok
+test_epoch_rollback_blocks_retry (test_f3_int57_retry_interleaving.RetryTests.test_epoch_rollback_blocks_retry) ... ok
+test_flags (test_f3_int57_retry_interleaving.RetryTests.test_flags) ... ok
+test_initial_unchanged (test_f3_int57_retry_interleaving.RetryTests.test_initial_unchanged) ... ok
+test_invalid_bounds (test_f3_int57_retry_interleaving.RetryTests.test_invalid_bounds) ... ok
+test_invalid_initial (test_f3_int57_retry_interleaving.RetryTests.test_invalid_initial) ... ok
+test_invalid_request (test_f3_int57_retry_interleaving.RetryTests.test_invalid_request) ... ok
+test_mutable_contenders (test_f3_int57_retry_interleaving.RetryTests.test_mutable_contenders) ... ok
+test_no_contender (test_f3_int57_retry_interleaving.RetryTests.test_no_contender) ... ok
+test_rebase_after_competing_commit (test_f3_int57_retry_interleaving.RetryTests.test_rebase_after_competing_commit) ... ok
+test_rejected_contender (test_f3_int57_retry_interleaving.RetryTests.test_rejected_contender) ... ok
+test_replay_evidence_blocks_retry (test_f3_int57_retry_interleaving.RetryTests.test_replay_evidence_blocks_retry) ... ok
+test_same_round_blocks_retry (test_f3_int57_retry_interleaving.RetryTests.test_same_round_blocks_retry) ... ok
+test_stale_trace_keeps_competing_snapshot (test_f3_int57_retry_interleaving.RetryTests.test_stale_trace_keeps_competing_snapshot) ... ok
+test_two_stale_attempts_then_success (test_f3_int57_retry_interleaving.RetryTests.test_two_stale_attempts_then_success) ... ok
+test_unused_contenders_rejected (test_f3_int57_retry_interleaving.RetryTests.test_unused_contenders_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.028s
+
+OK

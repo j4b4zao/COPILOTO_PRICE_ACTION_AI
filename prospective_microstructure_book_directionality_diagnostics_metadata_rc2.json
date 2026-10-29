@@ -1,0 +1,139 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-BOOK-DIRECTIONALITY-DIAGNOSTICS",
+  "status": "BOOK_DIRECTIONALITY_DIAGNOSTICS_COMPLETED",
+  "mode": "INDEPENDENT_SESSION_DIAGNOSTICS",
+  "sessions": [
+    {
+      "label": "INDEPENDENT_SESSION_11",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_113219.json",
+        "sha256": "429862d7201dd6db119ec67c67a4e0a1464ba34ac47de4dedbe83416a3da6932"
+      },
+      "samples": 265,
+      "book": {
+        "directional": 0,
+        "buy": 0,
+        "sell": 0,
+        "none": 265,
+        "directional_rate": 0.0,
+        "none_rate": 1.0,
+        "buy_rate": 0.0,
+        "sell_rate": 0.0
+      },
+      "price_action": {
+        "directional": 253,
+        "directional_rate": 0.954717
+      },
+      "flow": {
+        "directional": 47,
+        "directional_rate": 0.177358
+      },
+      "conflict_context": {
+        "conflict_samples": 27,
+        "book_directional_during_conflict": 0,
+        "book_none_during_conflict": 27,
+        "book_directional_during_conflict_rate": 0.0
+      },
+      "pairwise_book_context": {
+        "pa_book_aligned_samples": 0,
+        "pa_book_opposed_samples": 0,
+        "flow_book_aligned_samples": 0,
+        "flow_book_opposed_samples": 0
+      },
+      "book_continuity": {
+        "longest_directional_run": 0,
+        "longest_none_run": 265,
+        "transitions": {
+          "NONE_TO_DIRECTIONAL": 0,
+          "DIRECTIONAL_TO_NONE": 0,
+          "BUY_TO_SELL": 0,
+          "SELL_TO_BUY": 0,
+          "BUY_TO_BUY": 0,
+          "SELL_TO_SELL": 0,
+          "NONE_TO_NONE": 264
+        }
+      }
+    },
+    {
+      "label": "INDEPENDENT_SESSION_12",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+        "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e"
+      },
+      "samples": 238,
+      "book": {
+        "directional": 76,
+        "buy": 76,
+        "sell": 0,
+        "none": 162,
+        "directional_rate": 0.319328,
+        "none_rate": 0.680672,
+        "buy_rate": 0.319328,
+        "sell_rate": 0.0
+      },
+      "price_action": {
+        "directional": 112,
+        "directional_rate": 0.470588
+      },
+      "flow": {
+        "directional": 24,
+        "directional_rate": 0.10084
+      },
+      "conflict_context": {
+        "conflict_samples": 9,
+        "book_directional_during_conflict": 5,
+        "book_none_during_conflict": 4,
+        "book_directional_during_conflict_rate": 0.555556
+      },
+      "pairwise_book_context": {
+        "pa_book_aligned_samples": 0,
+        "pa_book_opposed_samples": 0,
+        "flow_book_aligned_samples": 9,
+        "flow_book_opposed_samples": 5
+      },
+      "book_continuity": {
+        "longest_directional_run": 75,
+        "longest_none_run": 150,
+        "transitions": {
+          "NONE_TO_DIRECTIONAL": 2,
+          "DIRECTIONAL_TO_NONE": 2,
+          "BUY_TO_SELL": 0,
+          "SELL_TO_BUY": 0,
+          "BUY_TO_BUY": 74,
+          "SELL_TO_SELL": 0,
+          "NONE_TO_NONE": 159
+        }
+      }
+    }
+  ],
+  "combined_session_count": null,
+  "combined_checkpoint_created": false,
+  "cohort_redefinition": false,
+  "diagnostic": {
+    "session11_book_directional_rate": 0.0,
+    "session12_book_directional_rate": 0.319328,
+    "session11_book_directional_during_conflict": 0,
+    "session12_book_directional_during_conflict": 5,
+    "interpretation_limits": [
+      "DESCRIPTIVE_ONLY",
+      "INDEPENDENT_SESSIONS_ARE_NOT_A_COMBINED_COHORT",
+      "BOOK_NONE_DOES_NOT_ESTABLISH_ABSENCE_OF_BOOK_INFORMATION",
+      "ZERO_OPPOSITION_DOES_NOT_ESTABLISH_ABSENCE",
+      "NO_THRESHOLD_CHANGE_ALLOWED",
+      "NO_OPERATIONAL_INFERENCE_ALLOWED"
+    ]
+  },
+  "research_only": true,
+  "observational_only": true,
+  "descriptive_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false,
+  "threshold_change_allowed": false,
+  "rc17_change_allowed": false,
+  "order_flow_score_change_allowed": false
+}

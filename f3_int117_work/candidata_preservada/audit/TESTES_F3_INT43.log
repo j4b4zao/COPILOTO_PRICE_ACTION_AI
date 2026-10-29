@@ -1,0 +1,19 @@
+test_agreement_not_authentication (tests.test_f3_int43_partition_reconciliation.PartitionReconciliationTests.test_agreement_not_authentication) ... ok
+test_duplicate_identity (tests.test_f3_int43_partition_reconciliation.PartitionReconciliationTests.test_duplicate_identity) ... ok
+test_forged_agreement_not_authentication (tests.test_f3_int43_partition_reconciliation.PartitionReconciliationTests.test_forged_agreement_not_authentication) ... ok
+test_fork_with_common_witnesses (tests.test_f3_int43_partition_reconciliation.PartitionReconciliationTests.test_fork_with_common_witnesses) ... ok
+test_future_witness_unavailable (tests.test_f3_int43_partition_reconciliation.PartitionReconciliationTests.test_future_witness_unavailable) ... ok
+test_invalid_input (tests.test_f3_int43_partition_reconciliation.PartitionReconciliationTests.test_invalid_input) ... ok
+test_invalid_local_history (tests.test_f3_int43_partition_reconciliation.PartitionReconciliationTests.test_invalid_local_history) ... ok
+test_invalid_witness (tests.test_f3_int43_partition_reconciliation.PartitionReconciliationTests.test_invalid_witness) ... ok
+test_no_witness (tests.test_f3_int43_partition_reconciliation.PartitionReconciliationTests.test_no_witness) ... ok
+test_prefix_uncertain (tests.test_f3_int43_partition_reconciliation.PartitionReconciliationTests.test_prefix_uncertain) ... ok
+test_unasserted_independence (tests.test_f3_int43_partition_reconciliation.PartitionReconciliationTests.test_unasserted_independence) ... ok
+test_witness_for_left_fork_conflicts (tests.test_f3_int43_partition_reconciliation.PartitionReconciliationTests.test_witness_for_left_fork_conflicts) ... ok
+test_witness_for_right_fork_conflicts (tests.test_f3_int43_partition_reconciliation.PartitionReconciliationTests.test_witness_for_right_fork_conflicts) ... ok
+test_witness_same_event_not_proof_of_independence (tests.test_f3_int43_partition_reconciliation.PartitionReconciliationTests.test_witness_same_event_not_proof_of_independence) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.001s
+
+OK

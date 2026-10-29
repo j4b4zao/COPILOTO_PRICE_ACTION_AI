@@ -1,0 +1,46 @@
+﻿=== SESSION 14 INTEGRITY FREEZE ===
+=== RAW IDENTITY ===
+SESSION14_RAW=.\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260930_125429.json
+SESSION14_SHA256=D49879440B4DBAFA76B012162E3F9EAF2A8BD8F6555C269517EB91B0E2CE3F15
+EXPECTED_SHA256=D49879440B4DBAFA76B012162E3F9EAF2A8BD8F6555C269517EB91B0E2CE3F15
+SHA256_EXACT=True
+=== FILE METADATA ===
+
+
+FullName      : C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260930_125429.json
+Length        : 2707365
+CreationTime  : 30/09/2026 12:54:29
+LastWriteTime : 30/09/2026 12:54:30
+
+
+
+
+=== JSON INTEGRITY ===
+JSON_VALID=True
+TOP_LEVEL_TYPE=dict
+SAMPLES_COUNT=279
+PROSPECTIVE_COUNT=0
+STATUS=COMPLETED
+SYMBOL=WINV26
+JSON_CHECK_EXIT_CODE=0
+=== PROTOCOL REVALIDATION ===
+validator_version = RC1-PA-BOOK-INDEPENDENT-REPLICATION-ACCUMULATION-PROTOCOL-VALIDATOR
+protocol_path = pa_book_replication_accumulation_protocol_rc1_20260930.json
+expected_sha256 = df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0
+actual_sha256 = df868857d61205d9d95ff43e9259f7f8528e8feb66f0561869f20b4be78479b0
+protocol_sha256_exact = True
+protocol_version_exact = True
+prior_evidence_exact = True
+frozen_hypothesis_exact = True
+future_block_exact = True
+outcome_policy_exact = True
+accumulation_policy_exact = True
+interpretation_policy_exact = True
+cohort_policy_exact = True
+safety_policy_exact = True
+future_collection_block = ['14', '15', '16', '17', '18']
+status = PASS
+future_collection_authorization = ACCUMULATION_PROTOCOL_VALIDATED_ONLY
+ACCUMULATION_PROTOCOL_EXIT_CODE=0
+=== HEAD ===
+a741be9c905009906c93130af648983377f8a3a3

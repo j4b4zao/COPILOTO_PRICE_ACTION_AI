@@ -1,0 +1,24 @@
+test_committed_snapshot_survives_actor_crash (test_f3_int66_crash_schedule.CrashScheduleTests.test_committed_snapshot_survives_actor_crash) ... ok
+test_competing_commit_stales_old_proposal (test_f3_int66_crash_schedule.CrashScheduleTests.test_competing_commit_stales_old_proposal) ... ok
+test_crash_drops_pending (test_f3_int66_crash_schedule.CrashScheduleTests.test_crash_drops_pending) ... ok
+test_deterministic (test_f3_int66_crash_schedule.CrashScheduleTests.test_deterministic) ... ok
+test_duplicate_commit_no_pending (test_f3_int66_crash_schedule.CrashScheduleTests.test_duplicate_commit_no_pending) ... ok
+test_event_limit (test_f3_int66_crash_schedule.CrashScheduleTests.test_event_limit) ... ok
+test_flags (test_f3_int66_crash_schedule.CrashScheduleTests.test_flags) ... ok
+test_future_generation_rejected (test_f3_int66_crash_schedule.CrashScheduleTests.test_future_generation_rejected) ... ok
+test_invalid_bound (test_f3_int66_crash_schedule.CrashScheduleTests.test_invalid_bound) ... ok
+test_invalid_event_bool_actor (test_f3_int66_crash_schedule.CrashScheduleTests.test_invalid_event_bool_actor) ... ok
+test_invalid_event_bool_generation (test_f3_int66_crash_schedule.CrashScheduleTests.test_invalid_event_bool_generation) ... ok
+test_malformed_tail_atomic (test_f3_int66_crash_schedule.CrashScheduleTests.test_malformed_tail_atomic) ... ok
+test_normal_commit (test_f3_int66_crash_schedule.CrashScheduleTests.test_normal_commit) ... ok
+test_old_generation_rejected (test_f3_int66_crash_schedule.CrashScheduleTests.test_old_generation_rejected) ... ok
+test_original_unchanged (test_f3_int66_crash_schedule.CrashScheduleTests.test_original_unchanged) ... ok
+test_other_actor_pending_survives_crash (test_f3_int66_crash_schedule.CrashScheduleTests.test_other_actor_pending_survives_crash) ... ok
+test_replay_round_after_crash (test_f3_int66_crash_schedule.CrashScheduleTests.test_replay_round_after_crash) ... ok
+test_restart_after_competing_commit (test_f3_int66_crash_schedule.CrashScheduleTests.test_restart_after_competing_commit) ... ok
+test_restart_reprepare (test_f3_int66_crash_schedule.CrashScheduleTests.test_restart_reprepare) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.053s
+
+OK

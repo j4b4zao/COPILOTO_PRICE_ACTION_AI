@@ -1,0 +1,552 @@
+﻿===== GIT =====
+brooks-stop-target-exact-audit-20260912
+2afe5bdfeba1dbb733675fcf6472f2e9d6cbba0a
+
+===== RESEARCH TOOLS =====
+historical_prospective_microstructure_comparison.py
+profit_rtd_brooks_independent_cohort_comparative_outcome.py
+profit_rtd_brooks_independent_cohort_evidence_accumulation.py
+profit_rtd_brooks_independent_episode_audit.py
+prospective_microstructure_book_directionality_diagnostics.py
+prospective_microstructure_book_observability_audit.py
+prospective_microstructure_checkpoint_manifest.py
+prospective_microstructure_conflict_episode_report.py
+prospective_microstructure_conflict_price_followthrough.py
+prospective_microstructure_conflict_session_stability.py
+prospective_microstructure_conflict_stratification.py
+prospective_microstructure_coverage_report.py
+prospective_microstructure_independent_evidence_comparison.py
+prospective_microstructure_independent_session_comparison.py
+prospective_microstructure_multi_session_audit.py
+prospective_microstructure_post_session_audit.py
+prospective_microstructure_session11_readiness.py
+prospective_microstructure_session12_readiness.py
+
+===== RESEARCH TESTS =====
+test_historical_prospective_microstructure_comparison_rc1.py
+test_prospective_microstructure_book_directionality_diagnostics_rc1.py
+test_prospective_microstructure_book_observability_audit_rc1.py
+test_prospective_microstructure_checkpoint_manifest_rc1.py
+test_prospective_microstructure_conflict_episode_report_rc1.py
+test_prospective_microstructure_conflict_price_followthrough_rc1.py
+test_prospective_microstructure_conflict_session_stability_rc3.py
+test_prospective_microstructure_conflict_stratification_rc2.py
+test_prospective_microstructure_independent_evidence_comparison_rc1.py
+test_prospective_microstructure_independent_session_comparison_rc1.py
+test_prospective_microstructure_multi_session_audit_rc1.py
+test_prospective_microstructure_post_session_audit_rc1.py
+test_prospective_microstructure_session11_readiness_rc1.py
+test_prospective_microstructure_session12_readiness_rc1.py
+
+===== CHECKPOINT MANIFEST =====
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-CHECKPOINT-MANIFEST",
+  "status": "IDENTITY_LOCK_ONLY",
+  "protocol": "PROSPECTIVE_MICROSTRUCTURE_CONFLICT_10_SESSION_CHECKPOINT",
+  "session_count": 10,
+  "sessions": [
+    {
+      "position": 1,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260921_130942.json",
+      "sha256": "a85544271ff2ac693535ae6ed1e6effb033846f7f1ff63d24208d69159337427"
+    },
+    {
+      "position": 2,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260921_163046.json",
+      "sha256": "a3b74ad03c9338d28e0d81cf261e0c6d70d49ff4d20ca14e623695562ab90aa4"
+    },
+    {
+      "position": 3,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260922_130220.json",
+      "sha256": "7c98319547891f0d53575fe8956e872b9b9681626b31b48ed26b25b62e6d56cd"
+    },
+    {
+      "position": 4,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_103430.json",
+      "sha256": "137a74aeaa3d167e49c82203d738fbbac0d1a0c25797630b750dfcb9804b735b"
+    },
+    {
+      "position": 5,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_123103.json",
+      "sha256": "e670e7f2a7ef4c1472b0cb9ac23c9ce9cd9a85e3b46801a00d4ed2205388d1ef"
+    },
+    {
+      "position": 6,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_131852.json",
+      "sha256": "df5c37773747d4ae1131c15d12cea99ab9e4f07438b39b4e7d7b52cc018b827c"
+    },
+    {
+      "position": 7,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260923_151347.json",
+      "sha256": "079038c684e952a0412d0f32c699e93b6d015359eb368ca0f5345360a98d8200"
+    },
+    {
+      "position": 8,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260924_164534.json",
+      "sha256": "403fc536ce8659708c2abdef09bc07dd895e32ce15a8d6b33e1b5a237657eeb8"
+    },
+    {
+      "position": 9,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260925_124732.json",
+      "sha256": "ede8e44c46e31185efe325690db5fcce6110bdae0cf9a78fdd0936ac78b4132f"
+    },
+    {
+      "position": 10,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260925_133534.json",
+      "sha256": "1034540eb18f5389d105360619913afbcab2ce705472dcb2d68e4b569def91c3"
+    }
+  ],
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}
+
+===== INDEPENDENT EVIDENCE COMPARISON =====
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-INDEPENDENT-EVIDENCE-COMPARISON",
+  "status": "INDEPENDENT_EVIDENCE_COMPARISON_COMPLETED",
+  "mode": "FROZEN_BASELINE_WITH_SEPARATE_INDEPENDENT_OBSERVATIONS",
+  "baseline": {
+    "label": "FROZEN_BASELINE_10",
+    "path": "prospective_microstructure_conflict_10session_checkpoint_20260926.json",
+    "sha256": "04495bd0a9082012416f192fa39b000af83d9a42917fef6ab258865b9bf2286d",
+    "session_count": 10,
+    "status": "IDENTITY_LOCK_ONLY",
+    "protocol": "PROSPECTIVE_MICROSTRUCTURE_CONFLICT_10_SESSION_CHECKPOINT"
+  },
+  "independent_observations": [
+    {
+      "summary": {
+        "label": "INDEPENDENT_SESSION_11",
+        "samples": 265,
+        "pa_directional": 253,
+        "flow_directional": 47,
+        "book_available": 265,
+        "book_directional": 0,
+        "insufficient_data": 219,
+        "conflicts": 27,
+        "conflict_runs": 24,
+        "longest_conflict_run": 2,
+        "conflict_episodes": 24,
+        "longest_episode_samples": 2,
+        "pa_book_opposed_episodes": 0,
+        "pa_buy_book_sell_episodes": 0,
+        "pa_sell_book_buy_episodes": 0,
+        "book_none_conflict_episodes": 24,
+        "rates": {
+          "pa_directional_rate": 0.954717,
+          "flow_directional_rate": 0.177358,
+          "book_directional_rate": 0.0,
+          "conflict_sample_rate": 0.101887,
+          "pa_book_opposed_episode_rate": 0.0
+        }
+      },
+      "artifacts": {
+        "coverage": {
+          "path": "data\\prospective_microstructure_session11_audit_20260928\\profit_rtd_rc54_3_2_WINV26_20260928_113219_coverage.json",
+          "sha256": "0daac6b876351e3a83a9289fad3d5df808f566373764dddf45fdf67dd433709e"
+        },
+        "episodes": {
+          "path": "data\\prospective_microstructure_session11_audit_20260928\\profit_rtd_rc54_3_2_WINV26_20260928_113219_episodes.json",
+          "sha256": "9c049ecd89202d6162dfe37f206968fecbff06a22b1e618c1a6a289d2aac1c22"
+        },
+        "followthrough": {
+          "path": "data\\prospective_microstructure_session11_audit_20260928\\profit_rtd_rc54_3_2_WINV26_20260928_113219_followthrough.json",
+          "sha256": "57e8fa61a754e4acece4493930de0f27e25123b5df9786b0e0114e9d9c186297"
+        }
+      }
+    },
+    {
+      "summary": {
+        "label": "INDEPENDENT_SESSION_12",
+        "samples": 238,
+        "pa_directional": 112,
+        "flow_directional": 24,
+        "book_available": 238,
+        "book_directional": 76,
+        "insufficient_data": 233,
+        "conflicts": 4,
+        "conflict_runs": 4,
+        "longest_conflict_run": 1,
+        "conflict_episodes": 4,
+        "longest_episode_samples": 1,
+        "pa_book_opposed_episodes": 0,
+        "pa_buy_book_sell_episodes": 0,
+        "pa_sell_book_buy_episodes": 0,
+        "book_none_conflict_episodes": 4,
+        "rates": {
+          "pa_directional_rate": 0.470588,
+          "flow_directional_rate": 0.10084,
+          "book_directional_rate": 0.319328,
+          "conflict_sample_rate": 0.016807,
+          "pa_book_opposed_episode_rate": 0.0
+        }
+      },
+      "artifacts": {
+        "coverage": {
+          "path": "data\\prospective_microstructure_session12_audit_20260928\\profit_rtd_rc54_3_2_WINV26_20260928_125331_coverage.json",
+          "sha256": "7e16bec895e4e3bbbf7c541f484a6ee38363f4c02685faebb3ed7d4a65abd6a8"
+        },
+        "episodes": {
+          "path": "data\\prospective_microstructure_session12_audit_20260928\\profit_rtd_rc54_3_2_WINV26_20260928_125331_episodes.json",
+          "sha256": "044c9d5972647c8f23222491f892e4260fc2e2b8e66ad8b9cb058db54e37e77e"
+        },
+        "followthrough": {
+          "path": "data\\prospective_microstructure_session12_audit_20260928\\profit_rtd_rc54_3_2_WINV26_20260928_125331_followthrough.json",
+          "sha256": "36818b2f3d7606e4c5123c2b704fb1c2f205afeae3794c4d49ce9d4ef713b32c"
+        }
+      }
+    }
+  ],
+  "comparison": {
+    "baseline_session_count": 10,
+    "independent_observation_count": 2,
+    "independent_session_numbers": [
+      11,
+      12
+    ],
+    "combined_session_count": null,
+    "combined_checkpoint_created": false,
+    "cohort_redefinition": false,
+    "interpretation": "DESCRIPTIVE_ONLY"
+  },
+  "architecture": {
+    "explicit_paths_only": true,
+    "glob_discovery_allowed": false,
+    "baseline_mutated": false,
+    "independent_sessions_appended": false,
+    "independent_observations_combined": false,
+    "post_result_rule_change_allowed": false,
+    "automatic_promotion_allowed": false
+  },
+  "diagnostic": {
+    "session11_pa_book_opposed_episodes": 0,
+    "session12_pa_book_opposed_episodes": 0,
+    "independent_pa_book_replication_observed": false,
+    "interpretation_limit": "NO_CONFIRMATION_OR_REFUTATION_OF_FROZEN_BASELINE_PA_BOOK_PATTERN"
+  },
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}
+
+===== BOOK OBSERVABILITY RC1 =====
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-BOOK-OBSERVABILITY-AUDIT",
+  "status": "BOOK_OBSERVABILITY_AUDIT_COMPLETED",
+  "mode": "INDEPENDENT_SESSION_RESEARCH_AUDIT",
+  "sessions": [
+    {
+      "label": "INDEPENDENT_SESSION_11",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_113219.json",
+        "sha256": "429862d7201dd6db119ec67c67a4e0a1464ba34ac47de4dedbe83416a3da6932"
+      },
+      "samples": 265,
+      "pressure_threshold": 0.15,
+      "imbalance_range": {
+        "min": -0.07519,
+        "max": 0.096048
+      },
+      "canonical_pressure_counts": {
+        "BID_DOMINANT": 0,
+        "ASK_DOMINANT": 0,
+        "BALANCED": 265
+      },
+      "canonical_direction_counts": {
+        "BUY": 0,
+        "SELL": 0,
+        "NONE": 265
+      },
+      "matrix": [
+        {
+          "expected_pressure": "BALANCED",
+          "canonical_pressure": "BALANCED",
+          "expected_direction": "NONE",
+          "canonical_direction": "NONE",
+          "count": 265
+        }
+      ],
+      "pressure_mismatch_count": 0,
+      "direction_not_explained_by_imbalance_count": 0,
+      "all_pressure_explained_by_imbalance": true,
+      "all_direction_explained_by_imbalance": true,
+      "pressure_mismatches": [],
+      "direction_not_explained_by_imbalance": [],
+      "concentration_bias_persisted": false,
+      "interpretation": {
+        "pressure_rule_is_sufficient_for_observed_output": true,
+        "concentration_bias_required_to_explain_observed_output": false,
+        "concentration_bias_was_balanced_claim_allowed": false
+      }
+    },
+    {
+      "label": "INDEPENDENT_SESSION_12",
+      "raw_session": {
+        "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+        "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e"
+      },
+      "samples": 238,
+      "pressure_threshold": 0.15,
+      "imbalance_range": {
+        "min": -0.034599,
+        "max": 0.298955
+      },
+      "canonical_pressure_counts": {
+        "BID_DOMINANT": 76,
+        "ASK_DOMINANT": 0,
+        "BALANCED": 162
+      },
+      "canonical_direction_counts": {
+        "BUY": 76,
+        "SELL": 0,
+        "NONE": 162
+      },
+      "matrix": [
+        {
+          "expected_pressure": "BALANCED",
+          "canonical_pressure": "BALANCED",
+          "expected_direction": "NONE",
+          "canonical_direction": "NONE",
+          "count": 162
+        },
+        {
+          "expected_pressure": "BID_DOMINANT",
+          "canonical_pressure": "BID_DOMINANT",
+          "expected_direction": "BUY",
+          "canonical_direction": "BUY",
+          "count": 76
+        }
+      ],
+      "pressure_mismatch_count": 0,
+      "direction_not_explained_by_imbalance_count": 0,
+      "all_pressure_explained_by_imbalance": true,
+      "all_direction_explained_by_imbalance": true,
+      "pressure_mismatches": [],
+      "direction_not_explained_by_imbalance": [],
+      "concentration_bias_persisted": false,
+      "interpretation": {
+        "pressure_rule_is_sufficient_for_observed_output": true,
+        "concentration_bias_required_to_explain_observed_output": false,
+        "concentration_bias_was_balanced_claim_allowed": false
+      }
+    }
+  ],
+  "combined_session_count": null,
+  "combined_checkpoint_created": false,
+  "cohort_redefinition": false,
+  "formal_pressure_rule": {
+    "source": "BookDepthSnapshot.liquidity_pressure",
+    "bid_dominant_minimum": 0.15,
+    "ask_dominant_maximum": -0.15,
+    "otherwise": "BALANCED"
+  },
+  "interpretation_limits": [
+    "DESCRIPTIVE_ONLY",
+    "INDEPENDENT_SESSIONS_ARE_NOT_A_COMBINED_COHORT",
+    "CONCENTRATION_BIAS_IS_NOT_PERSISTED",
+    "SUFFICIENCY_DOES_NOT_PROVE_CONCENTRATION_BIAS_WAS_BALANCED",
+    "NO_PREDICTIVE_CLAIM",
+    "NO_THRESHOLD_CHANGE_ALLOWED",
+    "NO_RC17_CHANGE_ALLOWED",
+    "NO_OPERATIONAL_INFERENCE_ALLOWED"
+  ],
+  "research_only": true,
+  "observational_only": true,
+  "descriptive_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false,
+  "threshold_change_allowed": false,
+  "rc17_change_allowed": false,
+  "order_flow_score_change_allowed": false
+}
+
+===== CURRENT CONFIG SAFETY FLAGS =====
+
+Path                                                              LineNumber Line                                     
+----                                                              ---------- ----                                     
+C:\COPILOTO_PRICE_ACTION_AI\ai\score_engine.py                            78             ENABLE_ORDER_FLOW_SCORE,     
+C:\COPILOTO_PRICE_ACTION_AI\ai\score_engine.py                            83             ENABLE_ORDER_FLOW_SCORE      
+C:\COPILOTO_PRICE_ACTION_AI\app\economic_calendar_evaluate_cli.py         47                 "automatic_promotion_a...
+C:\COPILOTO_PRICE_ACTION_AI\app\economic_calendar_evaluate_cli.py         74             "automatic_promotion_allow...
+C:\COPILOTO_PRICE_ACTION_AI\config\settings.py                            67 ENABLE_ORDER_FLOW_SCORE = False          
+C:\COPILOTO_PRICE_ACTION_AI\economic_context\trading_economics...         33     automatic_promotion_allowed: bool ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...         34         "promotion_allowed",             
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...        280     assert report["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...         63         "hypothesis_freeze_allowed", "...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...        117     assert report["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...        116     assert result["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...        130     assert report["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...         93     assert result["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...         24         "promotion_allowed",             
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...        184     assert report["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...         22             "promotion_allowed": False,  
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...         34         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...         93     assert result["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...        143         "promotion_allowed",             
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...         83     assert result["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...         67         "promotion_allowed",             
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...         94     assert result["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...         66         "promotion_allowed",             
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...         38     assert safety["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...         55         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...        224     assert report["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\research\price_action\brooks...        223     assert report["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py         51     assert safety["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py         53     assert safety["threshold_change_al...
+C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py        393         report["threshold_change_allow...
+C:\COPILOTO_PRICE_ACTION_AI\tests\book_diag_tests_metadata_rc2.py        506         "NO_THRESHOLD_CHANGE_ALLOWED"    
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_economic_calendar_rc26.py         174         assert not result.automatic_pr...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_economic_calendar_rc27.py         176         assert not payload["automatic_...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_historical_prospective_...        129                      observational_onl...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_historical_prospective_...        137                  "alert_influence_allo...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_score_e2e_rc...        237     original = settings.ENABLE_ORDER_F...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_score_e2e_rc...        240         settings.ENABLE_ORDER_FLOW_SCO...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_score_e2e_rc...        243         settings.ENABLE_ORDER_FLOW_SCO...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_score_e2e_rc...        246         settings.ENABLE_ORDER_FLOW_SCO...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_score_e2e_rc...        259     assert settings.ENABLE_ORDER_FLOW_...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_score_experi...          4 from config.settings import ENABLE_ORD...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_order_flow_score_experi...         36     assert ENABLE_ORDER_FLOW_SCORE is ...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_microstructu...        118     assert evidence["promotion_allowed...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc20.py                 51     assert settings.ENABLE_ORDER_FLOW_...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...         51     assert safety["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...         53     assert safety["threshold_change_al...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        393         report["threshold_change_allow...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        506         "NO_THRESHOLD_CHANGE_ALLOWED"    
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...         89     assert safety["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...         91     assert safety["threshold_change_al...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        615     assert report["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        617     assert report["threshold_change_al...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...         55     assert result["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        216     assert safety["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...         97     assert safety["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        172     assert SAFETY["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        190         "promotion_allowed",             
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        134     assert safety["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        224         "promotion_allowed",             
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...         43         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        277     assert safety["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        331         "promotion_allowed",             
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...         52         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...         86         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        101     assert safety["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        192         "promotion_allowed",             
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        282             "automatic_promotion_allowed"
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        295     assert report["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...         14     "promotion_allowed",                 
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...         37         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...         85     assert safety["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        140         "promotion_allowed",             
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        237     assert report["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\tests\test_prospective_microstruct...        371     assert payload["promotion_allowed"...
+C:\COPILOTO_PRICE_ACTION_AI\tools\historical_prospective_micro...         52     promotion_allowed: bool = field(de...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_adaptive_nor...         66     return {'status':'COMPLETED','wind...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_adaptive_oos...         30     return {'status':status,'window':W...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_directional_...         91         "threshold_change_allowed": Fa...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_directional_...         98         'observational_only':True,'thr...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_directional_...        114     print('threshold_change_allowed=Fa...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_polarity_aud...         14 from config.settings import ENABLE_ORD...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_polarity_aud...         36     if ENABLE_ORDER_FLOW_SCORE:          
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_reconciliati...         18 from config.settings import ENABLE_ORD...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_reconciliati...        164     if ENABLE_ORDER_FLOW_SCORE:          
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_state_persis...         64     return {'status':'SHADOW_STATE_MOD...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_state_tempor...         58         'sequence_model_promotion_allo...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_temporal_seq...         46     return {'status':status,'sessions_...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_book_temporal_seq...         43     return {'status':'RECURRENT_SEQUEN...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_collection...         55         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_delta_reco...        323         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_evidence_g...         23         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_independen...         38         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_independen...         33         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_independen...         38         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_integrity_...         51     "promotion_allowed",                 
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_integrity_...        159         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_management...        300         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_mtr_event_...         31         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_readiness_...         44         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_research_e...        213         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_research_e...        171         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_selection_...         30         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_selection_...         35         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_selection_...         70         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_selection_...         28         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_smoke_repo...        122         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_structural...        520         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_structural...         75         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_structural...         22         promotion_allowed=False, hypot...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_a...         64         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_brooks_trailing_a...         36         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_microstructure_pr...         26         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_microstructure_pr...         34         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_order_flow_combin...         13     ENABLE_ORDER_FLOW_SCORE,             
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_order_flow_combin...         66     if ENABLE_ORDER_FLOW_SCORE:          
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_order_flow_conflu...          9 from config.settings import EXCEL_PATH...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_order_flow_conflu...         55     if ENABLE_ORDER_FLOW_SCORE:          
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_order_flow_shadow...         12 from config.settings import ENABLE_ORD...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_order_flow_shadow...         41     if ENABLE_ORDER_FLOW_SCORE:          
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_preflight.py                  8 from config.settings import ENABLE_ORD...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_preflight.py                 45         order_flow_score_enabled=ENABL...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc17_isolated_par...         43 PROMOTION_ALLOWED = False                
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc17_isolated_par...        311     print("promotion_allowed=False")     
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc17_isolated_par...        692         "promotion_allowed=False"        
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc17_parity_diagn...         54 PROMOTION_ALLOWED = False                
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc17_parity_diagn...        338     print("promotion_allowed=False")     
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc17_parity_diagn...        773         "promotion_allowed=False"        
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc17_swing_diagno...         18     - ENABLE_ORDER_FLOW_SCORE permanec...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc17_swing_diagno...         47 PROMOTION_ALLOWED = False                
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc17_swing_diagno...        273     print("promotion_allowed=False")     
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc17_swing_diagno...        566     print("promotion_allowed=False")     
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_pa_structu...         10 from config.settings import ENABLE_ORD...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_3_pa_structu...        102     if ENABLE_ORDER_FLOW_SCORE:          
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_validation_sessio...          9 from config.settings import ENABLE_ORD...
+C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_validation_sessio...        135         ENABLE_ORDER_FLOW_SCORE          
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_b...         39         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_b...         40         "threshold_change_allowed": Fa...
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_b...        663             "NO_THRESHOLD_CHANGE_ALLOW...
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_b...         40         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_b...         41         "threshold_change_allowed": Fa...
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_b...        411             "NO_THRESHOLD_CHANGE_ALLOW...
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_c...         51     "promotion_allowed",                 
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_c...         29     "promotion_allowed",                 
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_c...         31     "promotion_allowed",                 
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_c...         30     "promotion_allowed": False,          
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_c...         42     "promotion_allowed",                 
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_c...         92         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_i...         24     "promotion_allowed",                 
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_i...        540             "automatic_promotion_allow...
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_i...         29     "promotion_allowed",                 
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_i...        364             "automatic_promotion_allow...
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_m...         34     "promotion_allowed",                 
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_p...         61     "promotion_allowed",                 
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_s...         67     "promotion_allowed": False,          
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_s...         79     "promotion_allowed": False,          
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_s...        534             "automatic_promotion_allow...
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_s...         67     "promotion_allowed": False,          
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_s...         79     "promotion_allowed": False,          
+C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_s...        534             "automatic_promotion_allow...
+C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_di...         39         "promotion_allowed": False,      
+C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_di...         40         "threshold_change_allowed": Fa...
+C:\COPILOTO_PRICE_ACTION_AI\prospective_microstructure_book_di...        618             "NO_THRESHOLD_CHANGE_ALLOW...
+C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_bo...         51     assert safety["promotion_allowed"]...
+C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_bo...         53     assert safety["threshold_change_al...
+C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_bo...        393         report["threshold_change_allow...
+C:\COPILOTO_PRICE_ACTION_AI\test_prospective_microstructure_bo...        506         "NO_THRESHOLD_CHANGE_ALLOWED"    
+
+

@@ -1,0 +1,35 @@
+{
+  "stage": "F3-INT-98",
+  "status": "OFFLINE_REGRESSION_APPROVED",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "source_candidate_sha256": "cd159203d6c89bc6e916179f57dbc64d1b26607a3933d4b62db796c24244f082",
+  "validation_log_sha256": "5f20c7d6d752cd03f572498a24c67e88c24a9a2dffeec9974456a60e60eb027e",
+  "validation_origin": "user Windows machine; log supplied 2026-10-21; not independently rerun in this finalization",
+  "new_tests": {
+    "passed": 16,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "full_regression": {
+    "passed": 1145,
+    "failed": 0,
+    "exit_code": 0,
+    "seconds": 206.579
+  },
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "next_step": "F3-INT-99: scope/design review before implementation",
+  "pending": [
+    "Autenticidade, consenso, persistencia e fencing reais nao verificados."
+  ]
+}

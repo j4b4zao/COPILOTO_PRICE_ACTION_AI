@@ -1,0 +1,14 @@
+{
+  "samples": [
+    {
+      "price_action_direction": "SELL",
+      "flow_direction": "BUY",
+      "book_direction": "BUY"
+    },
+    {
+      "price_action_direction": "SELL",
+      "flow_direction": "SELL",
+      "book_direction": "SELL"
+    }
+  ]
+}

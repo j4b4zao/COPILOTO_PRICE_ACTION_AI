@@ -1,0 +1,115 @@
+{
+  "status": "PACKAGE_LINEAGE_FIXTURE_UNAUTHENTICATED",
+  "checked": 20,
+  "f3": "OPEN",
+  "orders_allowed": false,
+  "live_certified": false,
+  "flow_complete": false,
+  "f3_resolved": false,
+  "native_prototype_authorized": false,
+  "strict_deadline_guaranteed": false,
+  "authenticated_witness_verified": false,
+  "stages": [
+    [
+      53,
+      548,
+      "fe9c8559bdb7fe605e893e077824f682f9ac981f86ca2df0918fd620b166c1a1"
+    ],
+    [
+      54,
+      572,
+      "87cd82032ab58a78a70637fcfaa38208f26cf197569c3f57daf33cda9de51589"
+    ],
+    [
+      55,
+      592,
+      "14bc820f11c6dedad5ce7ce0d3619e5f1f853b8be18f000b8fc94aabe8bdf8d2"
+    ],
+    [
+      56,
+      612,
+      "445ef34ffa016360e3f405adc91a439a6030a9ea77f0408d30f66eacb2ec7b66"
+    ],
+    [
+      57,
+      630,
+      "ce8d168ace55b8ea86d33496e6d89dff3186da1a862eb8b30bdfe4bd8cb560bc"
+    ],
+    [
+      58,
+      648,
+      "2985f8891dac9afc040e641c83c2b5956f229a2937b2188d181bf9874fb592d5"
+    ],
+    [
+      59,
+      657,
+      "f7459492964ecb1d992ed3b9a6927254a015927ee417d0f5ba37c5c1352e364f"
+    ],
+    [
+      60,
+      679,
+      "68c5e10b3c4edf6c9b48bcbe242436eae01bfd13a2f1ded4b5311dd90bb0d93e"
+    ],
+    [
+      61,
+      691,
+      "81fc9d99d579a0902f5e4df9f54d65f470c20ef8f84f6e4cd6d0910b2358300d"
+    ],
+    [
+      62,
+      705,
+      "2acf70693f149b8cbaeefd3b6ee59109ceeb572b53a644b780a884dedc5a36cf"
+    ],
+    [
+      63,
+      717,
+      "957830cd5f53306228eea34888908319115ff46b0fa04154eb6d9ab751da0cec"
+    ],
+    [
+      64,
+      734,
+      "34e46645f3bd932d06b0b791626541c6608819f9a043144e5ffc8ad6985b4066"
+    ],
+    [
+      65,
+      746,
+      "48535f8ac80a096a11d597b44628db136aeee85ccc3c313dd4f3974705409e05"
+    ],
+    [
+      66,
+      765,
+      "0c33c6a04b4b7499f4df1705b107f2857da1fd515234119012f4ab9d725eabc4"
+    ],
+    [
+      67,
+      774,
+      "0473de7306bb9c9b9f0f2e9d6c27e4f3612714f93cca0e709dd00561e0f50c97"
+    ],
+    [
+      68,
+      786,
+      "f79c9bd56839b9286ef1deb5a89fd24bac8b88cd15dda6bd76b0ee0bc83aa1ee"
+    ],
+    [
+      69,
+      798,
+      "6a551750a2c96aad6d4efe50c95feddb43ea961c7d149d4e7178ee32e288890a"
+    ],
+    [
+      70,
+      816,
+      "46b034a0804bcf30bfecf162c105fedc5c65fcb85d44261e36383669e2e1a44c"
+    ],
+    [
+      71,
+      822,
+      "4d79b9755f57c9cbc8b70e0c9a2a036f2a781b0a837ffc51a77a1e7abafaefb5"
+    ],
+    [
+      72,
+      836,
+      "a14df558ae608d52855fcb75af26d516623a0d352b752cf2416a138a8f1383e0"
+    ]
+  ],
+  "final_tests": 836
+}

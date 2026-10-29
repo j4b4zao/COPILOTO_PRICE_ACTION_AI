@@ -1,0 +1,2 @@
+source_status,quality_status,sample_count,recent_delta,dominance,persistence,acceleration,impulse_ratio,average_abs_delta,max_abs_delta,zero_delta_rate,anomaly_count,duplicate_rate,aggression_availability_rate,symbol,passive_only
+READY,VALID,10,20.0,0.7,0.8,5.0,0.3,15.0,40.0,0.1,0,0.1,1.0,WINV26,True

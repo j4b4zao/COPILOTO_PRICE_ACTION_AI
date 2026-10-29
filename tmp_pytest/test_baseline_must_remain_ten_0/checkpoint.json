@@ -1,0 +1,67 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-CHECKPOINT-MANIFEST",
+  "status": "IDENTITY_LOCK_ONLY",
+  "protocol": "PROSPECTIVE_MICROSTRUCTURE_CONFLICT_10_SESSION_CHECKPOINT",
+  "session_count": 11,
+  "sessions": [
+    {
+      "position": 1,
+      "path": "session1.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000001"
+    },
+    {
+      "position": 2,
+      "path": "session2.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000002"
+    },
+    {
+      "position": 3,
+      "path": "session3.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000003"
+    },
+    {
+      "position": 4,
+      "path": "session4.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000004"
+    },
+    {
+      "position": 5,
+      "path": "session5.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000005"
+    },
+    {
+      "position": 6,
+      "path": "session6.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000006"
+    },
+    {
+      "position": 7,
+      "path": "session7.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000007"
+    },
+    {
+      "position": 8,
+      "path": "session8.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000008"
+    },
+    {
+      "position": 9,
+      "path": "session9.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000009"
+    },
+    {
+      "position": 10,
+      "path": "session10.json",
+      "sha256": "000000000000000000000000000000000000000000000000000000000000000a"
+    }
+  ],
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}

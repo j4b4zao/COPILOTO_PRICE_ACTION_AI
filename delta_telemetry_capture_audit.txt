@@ -1,0 +1,1447 @@
+﻿===== PIPELINE RECEIPT =====
+
+  market_data\profit_rtd_order_flow_pipeline.py:14:    ProfitRTDTimesTradesDeduplicator,
+  market_data\profit_rtd_order_flow_pipeline.py:15:)
+  market_data\profit_rtd_order_flow_pipeline.py:16:
+  market_data\profit_rtd_order_flow_pipeline.py:17:
+  market_data\profit_rtd_order_flow_pipeline.py:18:@dataclass(frozen=True, slots=True)
+> market_data\profit_rtd_order_flow_pipeline.py:19:class ProfitRTDOrderFlowPipelineReceipt:
+  market_data\profit_rtd_order_flow_pipeline.py:20:    symbol: str
+  market_data\profit_rtd_order_flow_pipeline.py:21:    timestamp: str
+> market_data\profit_rtd_order_flow_pipeline.py:22:    continuity: str
+> market_data\profit_rtd_order_flow_pipeline.py:23:    new_trade_count: int
+  market_data\profit_rtd_order_flow_pipeline.py:24:    state_updated: bool
+> market_data\profit_rtd_order_flow_pipeline.py:25:    baseline_reset: bool
+> market_data\profit_rtd_order_flow_pipeline.py:26:    source_units: int
+  market_data\profit_rtd_order_flow_pipeline.py:27:    source: str = "PROFIT_RTD"
+  market_data\profit_rtd_order_flow_pipeline.py:28:    semantics: str = "EXPLICIT_TT_RTD_TO_ORDER_FLOW_STATE"
+  market_data\profit_rtd_order_flow_pipeline.py:29:    observational_only: bool = True
+  market_data\profit_rtd_order_flow_pipeline.py:30:    score_influence_allowed: bool = False
+  market_data\profit_rtd_order_flow_pipeline.py:31:    decision_influence_allowed: bool = False
+  market_data\profit_rtd_order_flow_pipeline.py:32:    order_execution_allowed: bool = False
+  market_data\profit_rtd_order_flow_pipeline.py:33:
+  market_data\profit_rtd_order_flow_pipeline.py:34:
+  market_data\profit_rtd_order_flow_pipeline.py:45:        self.reader = times_trades_reader
+  market_data\profit_rtd_order_flow_pipeline.py:46:        self.deduplicator = deduplicator or 
+ProfitRTDTimesTradesDeduplicator()
+  market_data\profit_rtd_order_flow_pipeline.py:47:        self.aggression_builder = aggression_builder or 
+ProfitRTDIncrementalAggressionBuilder
+  market_data\profit_rtd_order_flow_pipeline.py:48:        self.state_adapter = state_adapter or 
+ProfitRTDOrderFlowStateAdapter(order_flow_state)
+  market_data\profit_rtd_order_flow_pipeline.py:49:
+> market_data\profit_rtd_order_flow_pipeline.py:50:    def process(self, symbol: str, *, price: float) -> 
+ProfitRTDOrderFlowPipelineReceipt:
+  market_data\profit_rtd_order_flow_pipeline.py:51:        payload = self.reader.read_times_trades(symbol)
+  market_data\profit_rtd_order_flow_pipeline.py:52:        batch = self.deduplicator.observe(payload)
+  market_data\profit_rtd_order_flow_pipeline.py:53:        snapshot = self.aggression_builder.build(batch)
+> market_data\profit_rtd_order_flow_pipeline.py:54:        state_receipt = self.state_adapter.apply(snapshot, 
+price=price)
+> market_data\profit_rtd_order_flow_pipeline.py:55:        return ProfitRTDOrderFlowPipelineReceipt(
+  market_data\profit_rtd_order_flow_pipeline.py:56:            symbol=snapshot.symbol,
+  market_data\profit_rtd_order_flow_pipeline.py:57:            timestamp=snapshot.timestamp,
+> market_data\profit_rtd_order_flow_pipeline.py:58:            continuity=snapshot.continuity,
+> market_data\profit_rtd_order_flow_pipeline.py:59:            new_trade_count=snapshot.new_trade_count,
+> market_data\profit_rtd_order_flow_pipeline.py:60:            state_updated=state_receipt.state_updated,
+> market_data\profit_rtd_order_flow_pipeline.py:61:            baseline_reset=state_receipt.baseline_reset,
+> market_data\profit_rtd_order_flow_pipeline.py:62:            source_units=state_receipt.source_units,
+  market_data\profit_rtd_order_flow_pipeline.py:63:        )
+  market_data\profit_rtd_order_flow_pipeline.py:64:
+  market_data\profit_rtd_order_flow_pipeline.py:65:    def clear(self) -> None:
+  market_data\profit_rtd_order_flow_pipeline.py:66:        clear_dedup = getattr(self.deduplicator, "clear", None)
+  market_data\profit_rtd_order_flow_pipeline.py:67:        if callable(clear_dedup):
+  market_data\profit_rtd_order_flow_pipeline.py:68:            clear_dedup()
+  market_data\profit_rtd_order_flow_pipeline.py:69:        clear_adapter = getattr(self.state_adapter, "clear", None)
+  market_data\profit_rtd_order_flow_pipeline.py:70:        if callable(clear_adapter):
+
+===== COLLECTOR PIPELINE PROCESS =====
+  market_data\collector.py:126:        ativo = str(dados.get("ativo") or "").strip()
+  market_data\collector.py:127:        if not ativo:
+  market_data\collector.py:128:            print("[DATA WARNING] Ativo inválido recebido. Leitura ignorada.")
+  market_data\collector.py:129:            return None
+  market_data\collector.py:130:
+  market_data\collector.py:131:        close = self.to_float(dados.get("close"))
+  market_data\collector.py:132:        if not math.isfinite(close) or close <= 0:
+  market_data\collector.py:133:            print(f"[DATA WARNING] Preço inválido recebido: {close!r}. Leitura 
+ignorada.")
+  market_data\collector.py:134:            return None
+  market_data\collector.py:135:
+  market_data\collector.py:136:        aggression_buy = self.to_optional_float(dados.get("agressao_compra"))
+  market_data\collector.py:137:        aggression_sell = self.to_optional_float(dados.get("agressao_venda"))
+  market_data\collector.py:138:        integrity = self.source_guard.inspect(dados)
+  market_data\collector.py:139:
+  market_data\collector.py:140:        if self.enable_profit_rtd_order_flow:
+> market_data\collector.py:141:            self.last_profit_rtd_receipt = self.profit_rtd_order_flow_pipeline.process(
+  market_data\collector.py:142:                ativo,
+  market_data\collector.py:143:                price=close,
+  market_data\collector.py:144:            )
+  market_data\collector.py:145:            self.profit_rtd_validation_recorder.record(self.last_profit_rtd_receipt)
+  market_data\collector.py:146:            diagnostic_buy = self.order_flow.cumulative_buy
+  market_data\collector.py:147:            diagnostic_sell = self.order_flow.cumulative_sell
+  market_data\collector.py:148:            validation = self.profit_rtd_validation_recorder.snapshot
+  market_data\collector.py:149:            print(
+  market_data\collector.py:150:                "[PROFIT RTD VALIDATION] "
+  market_data\collector.py:151:                f"cycles={validation.total_cycles} updates={validation.state_updates} "
+  market_data\collector.py:152:                f"new_trades={validation.total_new_trades} 
+resets={validation.baseline_resets} "
+  market_data\collector.py:153:                f"continuity={validation.continuity_rate:.0%} "
+  market_data\collector.py:154:                f"last={validation.last_continuity}"
+  market_data\collector.py:155:            )
+  market_data\collector.py:156:        else:
+  market_data\collector.py:157:            diagnostic_buy = aggression_buy
+  market_data\collector.py:158:            diagnostic_sell = aggression_sell
+  market_data\collector.py:159:            if integrity.symbol_changed:
+  market_data\collector.py:160:                self.order_flow.clear()
+  market_data\collector.py:161:
+  market_data\collector.py:162:        if integrity.duplicate:
+  market_data\collector.py:163:            if not self.enable_profit_rtd_order_flow:
+  market_data\collector.py:164:                if aggression_buy is None or aggression_sell is None:
+  market_data\collector.py:165:                    self.order_flow.mark_unavailable()
+  market_data\collector.py:166:                else:
+  market_data\collector.py:167:                    self.order_flow.mark_waiting("SOURCE_UNCHANGED")
+  market_data\collector.py:168:            self._observe_delta_source(integrity, diagnostic_buy, diagnostic_sell)
+  market_data\collector.py:169:            print("[DATA WAIT] Snapshot do Profit sem mudança; ciclo ignorado.")
+  market_data\collector.py:170:            return None
+  market_data\collector.py:171:
+
+===== WARMED SESSION SAMPLE PERSISTENCE =====
+  tools\profit_rtd_rc54_3_2_warmed_session.py:46:        'closed_candle_claim_allowed': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:47:        'observational_only': True,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:48:        'score_influence_allowed': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:49:        'risk_influence_allowed': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:50:        'decision_influence_allowed': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:51:        'alert_influence_allowed': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:52:        'order_execution_allowed': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:53:    }
+  tools\profit_rtd_rc54_3_2_warmed_session.py:54:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:55:
+> tools\profit_rtd_rc54_3_2_warmed_session.py:56:def data_ready(sample):
+> tools\profit_rtd_rc54_3_2_warmed_session.py:57:    return sample.get('last_price') is not None and 
+str(sample.get('delta_status', '')).upper() in {'READY', 'VALID', 'LOW_ACTIVITY'}
+  tools\profit_rtd_rc54_3_2_warmed_session.py:58:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:59:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:60:def technical_reasons(*, complete, collection_errors, 
+missing_price_count, samples, delta_failure_samples):
+  tools\profit_rtd_rc54_3_2_warmed_session.py:61:    reasons = []
+  tools\profit_rtd_rc54_3_2_warmed_session.py:62:    if not complete:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:63:        reasons.append('CYCLE_ACCOUNTING_MISMATCH')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:64:    if collection_errors:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:65:        reasons.append('COLLECTION_ERRORS_PRESENT')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:66:    if missing_price_count:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:67:        reasons.append('MISSING_SYNCHRONIZED_PRICE')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:68:    if not samples:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:69:        reasons.append('NO_ANALYZABLE_SAMPLES')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:70:    if delta_failure_samples:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:71:        reasons.append('DELTA_NOT_READY_OR_INVALID')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:72:    return reasons
+  tools\profit_rtd_rc54_3_2_warmed_session.py:73:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:74:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:75:def run_warmed_session(symbol, *, cycles=600, interval=0.25, 
+max_warmup_cycles=4800, require_trade_context_at_start=False, output_dir=None, sleeper=time.sleep):
+  tools\profit_rtd_rc54_3_2_warmed_session.py:76:    symbol = str(symbol or '').strip().upper()
+  tools\profit_rtd_rc54_3_2_warmed_session.py:77:    if not symbol:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:78:        raise ValueError('symbol é obrigatório.')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:79:    if int(cycles) < 1 or int(max_warmup_cycles) < 1 or 
+float(interval) < 0:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:80:        raise ValueError('cycles/max_warmup_cycles/interval 
+inválidos.')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:81:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:82:    warm = warm_history(symbol, interval=interval, 
+max_warmup_cycles=max_warmup_cycles, require_trade_context=require_trade_context_at_start, sleeper=sleeper)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:83:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:84:    if not warm['ready']:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:85:        return {
+  tools\profit_rtd_rc54_3_2_warmed_session.py:86:            'status': 'ABORTED_CONTEXT_NOT_READY', 'phase': 
+'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE',
+  tools\profit_rtd_rc54_3_2_warmed_session.py:87:            'symbol': symbol, 'warmup': {k: v for k, v in warm.items() 
+if k not in {'context','collector','pipeline'}},
+  tools\profit_rtd_rc54_3_2_warmed_session.py:88:            'requested_cycles': int(cycles), 'analyzable_samples': 0, 
+'skipped_cycles': 0, 'collection_errors': 0,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:89:            'collection_error_details': [], 'missing_price_count': 0, 
+'price_capture': False,
+> tools\profit_rtd_rc54_3_2_warmed_session.py:90:            'data_ready': False, 'trade_context_ready': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:91:            'trade_context_ready_at_start': False, 
+'context_ready_at_start': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:92:            'samples': [], 'observational_only': True,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:93:            'predictive_claim_allowed': False, 
+'score_influence_allowed': False, 'risk_influence_allowed': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:94:            'decision_influence_allowed': False, 
+'order_execution_allowed': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:95:            'reasons': [str(warm.get('status') or 
+'WARM_HISTORY_NOT_READY')],
+  tools\profit_rtd_rc54_3_2_warmed_session.py:96:        }
+  tools\profit_rtd_rc54_3_2_warmed_session.py:97:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:98:    collector = warm['collector']
+  tools\profit_rtd_rc54_3_2_warmed_session.py:99:    pipeline = warm['pipeline']
+  tools\profit_rtd_rc54_3_2_warmed_session.py:100:    delta_validator = ProfitDeltaQualityValidator()
+  tools\profit_rtd_rc54_3_2_warmed_session.py:101:    book_diag = BookDepthSourceDiagnostics()
+  tools\profit_rtd_rc54_3_2_warmed_session.py:102:    book_validator = BookDepthQualityValidator()
+  tools\profit_rtd_rc54_3_2_warmed_session.py:103:    builder = OrderFlowObservationalContextBuilder()
+  tools\profit_rtd_rc54_3_2_warmed_session.py:104:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:105:    samples = []
+  tools\profit_rtd_rc54_3_2_warmed_session.py:106:    skipped_cycles = 0
+  tools\profit_rtd_rc54_3_2_warmed_session.py:107:    collection_errors = 0
+  tools\profit_rtd_rc54_3_2_warmed_session.py:108:    collection_error_details = []
+  tools\profit_rtd_rc54_3_2_warmed_session.py:109:    missing_price_count = 0
+  tools\profit_rtd_rc54_3_2_warmed_session.py:110:    context_not_ready_samples = 0
+  tools\profit_rtd_rc54_3_2_warmed_session.py:111:    delta_not_ready_samples = 0
+  tools\profit_rtd_rc54_3_2_warmed_session.py:112:    delta_failure_samples = 0
+  tools\profit_rtd_rc54_3_2_warmed_session.py:113:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:114:    for cycle in range(1, int(cycles) + 1):
+  tools\profit_rtd_rc54_3_2_warmed_session.py:115:        try:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:118:                skipped_cycles += 1
+  tools\profit_rtd_rc54_3_2_warmed_session.py:119:                print(f'[RC54.3.2] cycle={cycle}/{cycles} 
+skipped=SOURCE_UNCHANGED_OR_INVALID')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:120:            else:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:121:                context = pipeline.executar(context)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:122:                source_report = book_diag.observe(context.book_depth)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:123:                book_report = 
+book_validator.evaluate(context.book_depth, source_report)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:124:                delta_report = 
+delta_validator.evaluate(collector.order_flow)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:125:                micro = builder.build(delta_report=delta_report, 
+book_report=book_report, symbol=symbol)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:126:                item = snapshot_context(context, micro)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:127:                item['candle_evidence'] = 
+snapshot_candle_evidence(context)
+> tools\profit_rtd_rc54_3_2_warmed_session.py:128:                item['data_ready'] = data_ready(item)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:129:                item['trade_context_ready'] = context_ready(context)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:130:                # Kept for consumers of RC54.3.2 session files.
+  tools\profit_rtd_rc54_3_2_warmed_session.py:131:                item['context_ready'] = item['trade_context_ready']
+  tools\profit_rtd_rc54_3_2_warmed_session.py:132:                if not item['trade_context_ready']:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:133:                    context_not_ready_samples += 1
+> tools\profit_rtd_rc54_3_2_warmed_session.py:134:                delta_status = str(item.get('delta_status', 
+'')).upper()
+> tools\profit_rtd_rc54_3_2_warmed_session.py:135:                if delta_status not in {'READY', 'VALID', 
+'LOW_ACTIVITY'}:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:136:                    delta_not_ready_samples += 1
+> tools\profit_rtd_rc54_3_2_warmed_session.py:137:                if delta_status not in {'READY', 'VALID', 
+'LOW_ACTIVITY', 'INITIALIZING'}:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:138:                    delta_failure_samples += 1
+  tools\profit_rtd_rc54_3_2_warmed_session.py:139:                if item['last_price'] is None:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:140:                    missing_price_count += 1
+  tools\profit_rtd_rc54_3_2_warmed_session.py:141:                item['cycle'] = cycle
+  tools\profit_rtd_rc54_3_2_warmed_session.py:142:                item['timestamp'] = 
+datetime.now().isoformat(timespec='milliseconds')
+> tools\profit_rtd_rc54_3_2_warmed_session.py:143:                samples.append(item)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:144:                print(f"[RC54.3.2] cycle={cycle}/{cycles} 
+alignment={item['alignment']} price={item['last_price']} structure={item['structure']['trend']} 
+pa_bias={item['price_action']['bias']} ready={item['context_ready']}")
+  tools\profit_rtd_rc54_3_2_warmed_session.py:145:        except Exception as exc:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:146:            collection_errors += 1
+  tools\profit_rtd_rc54_3_2_warmed_session.py:147:            detail = {'cycle': cycle, 'type': type(exc).__name__, 
+'message': str(exc)}
+  tools\profit_rtd_rc54_3_2_warmed_session.py:148:            collection_error_details.append(detail)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:149:            print(f"[RC54.3.2] cycle={cycle}/{cycles} 
+error={detail['type']}:{detail['message']}")
+  tools\profit_rtd_rc54_3_2_warmed_session.py:150:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:151:        if cycle < int(cycles) and float(interval) > 0:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:152:            sleeper(float(interval))
+  tools\profit_rtd_rc54_3_2_warmed_session.py:153:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:154:    complete = len(samples) + skipped_cycles + collection_errors == 
+int(cycles)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:155:    # price_capture describes synchronized price availability in 
+captured samples only.
+  tools\profit_rtd_rc54_3_2_warmed_session.py:156:    # A collection exception is reported independently and must not 
+erase valid price evidence.
+  tools\profit_rtd_rc54_3_2_warmed_session.py:157:    price_capture = bool(samples) and missing_price_count == 0
+  tools\profit_rtd_rc54_3_2_warmed_session.py:158:    reasons = technical_reasons(
+  tools\profit_rtd_rc54_3_2_warmed_session.py:159:        complete=complete, collection_errors=collection_errors,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:160:        missing_price_count=missing_price_count, samples=samples,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:161:        delta_failure_samples=delta_failure_samples,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:162:    )
+> tools\profit_rtd_rc54_3_2_warmed_session.py:163:    session_data_ready = not reasons
+  tools\profit_rtd_rc54_3_2_warmed_session.py:164:    trade_context_ready = bool(samples) and 
+bool(samples[-1]['trade_context_ready'])
+  tools\profit_rtd_rc54_3_2_warmed_session.py:165:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:166:    payload = {
+  tools\profit_rtd_rc54_3_2_warmed_session.py:167:        'status': 'COMPLETED' if not reasons else 
+'COMPLETED_WITH_WARNINGS',
+  tools\profit_rtd_rc54_3_2_warmed_session.py:168:        'phase': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE', 
+'symbol': symbol,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:169:        'warmup': {k: v for k, v in warm.items() if k not in 
+{'context','collector','pipeline'}},
+  tools\profit_rtd_rc54_3_2_warmed_session.py:170:        'requested_cycles': int(cycles), 'analyzable_samples': 
+len(samples), 'skipped_cycles': skipped_cycles,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:171:        'collection_errors': collection_errors, 
+'collection_error_details': collection_error_details,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:172:        'missing_price_count': missing_price_count, 'price_capture': 
+price_capture,
+> tools\profit_rtd_rc54_3_2_warmed_session.py:173:        'data_ready': session_data_ready, 'delta_not_ready_samples': 
+delta_not_ready_samples,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:174:        'delta_failure_samples': delta_failure_samples,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:175:        'trade_context_ready': trade_context_ready,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:176:        'trade_context_ready_at_start': 
+bool(warm.get('trade_context_ready', True)),
+  tools\profit_rtd_rc54_3_2_warmed_session.py:177:        'context_ready_at_start': 
+bool(warm.get('trade_context_ready', True)),
+  tools\profit_rtd_rc54_3_2_warmed_session.py:178:        'context_not_ready_samples': context_not_ready_samples,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:179:        'samples': samples, 'observational_only': True, 
+'predictive_claim_allowed': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:180:        'score_influence_allowed': False, 'risk_influence_allowed': 
+False, 'decision_influence_allowed': False, 'order_execution_allowed': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:181:        'reasons': reasons,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:182:    }
+  tools\profit_rtd_rc54_3_2_warmed_session.py:183:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:184:    target = Path(output_dir or 
+r'C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_rc54_3_2')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:185:    target.mkdir(parents=True, exist_ok=True)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:186:    stamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:187:    path = target / f'profit_rtd_rc54_3_2_{symbol}_{stamp}.json'
+  tools\profit_rtd_rc54_3_2_warmed_session.py:188:    path.write_text(json.dumps(payload, ensure_ascii=False, 
+indent=2), encoding='utf-8')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:189:    payload['output_path'] = str(path)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:190:    return payload
+  tools\profit_rtd_rc54_3_2_warmed_session.py:191:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:192:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:193:def main(argv=None):
+  tools\profit_rtd_rc54_3_2_warmed_session.py:194:    p = argparse.ArgumentParser(description='RC54.3.2: warm-up real 
+seguido de 600 ciclos PA/Structure sincronizados.')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:195:    p.add_argument('symbol')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:196:    p.add_argument('--cycles', type=int, default=600)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:197:    p.add_argument('--interval', type=float, default=0.25)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:198:    p.add_argument('--max-warmup-cycles', type=int, default=4800)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:202:    print(f"PROFIT_RTD_RC54_3_2_WARMED_SESSION={r['status']}")
+  tools\profit_rtd_rc54_3_2_warmed_session.py:203:    print(f"symbol={r['symbol']}")
+  tools\profit_rtd_rc54_3_2_warmed_session.py:204:    print('warmup_status=' + r['warmup']['status'])
+  tools\profit_rtd_rc54_3_2_warmed_session.py:205:    print('warmup_cycles=' + str(r['warmup']['warmup_cycles']))
+  tools\profit_rtd_rc54_3_2_warmed_session.py:206:    print('trade_context_ready_at_start=' + 
+str(r['trade_context_ready_at_start']))
+  tools\profit_rtd_rc54_3_2_warmed_session.py:207:    print('context_ready_at_start=' + 
+str(r['context_ready_at_start']))
+  tools\profit_rtd_rc54_3_2_warmed_session.py:208:    for key in 
+('requested_cycles','analyzable_samples','skipped_cycles','collection_errors','missing_price_count','price_capture'):
+  tools\profit_rtd_rc54_3_2_warmed_session.py:209:        print(f'{key}={r[key]}')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:210:    if 'context_not_ready_samples' in r:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:211:        
+print(f"context_not_ready_samples={r['context_not_ready_samples']}")
+> tools\profit_rtd_rc54_3_2_warmed_session.py:212:    for key in 
+('data_ready','delta_not_ready_samples','delta_failure_samples','trade_context_ready'):
+  tools\profit_rtd_rc54_3_2_warmed_session.py:213:        if key in r:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:214:            print(f'{key}={r[key]}')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:215:    if r.get('collection_error_details'):
+  tools\profit_rtd_rc54_3_2_warmed_session.py:216:        print('collection_error_details=' + 
+json.dumps(r['collection_error_details'], ensure_ascii=False, separators=(',', ':')))
+  tools\profit_rtd_rc54_3_2_warmed_session.py:217:    print('observational_only=True')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:218:    print('predictive_claim_allowed=False')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:219:    print('score_influence_allowed=False')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:220:    print('risk_influence_allowed=False')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:221:    print('decision_influence_allowed=False')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:222:    print('order_execution_allowed=False')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:223:    print('reasons=' + ('|'.join(r['reasons']) if r['reasons'] else 
+'OK'))
+  tools\profit_rtd_rc54_3_2_warmed_session.py:224:    if r.get('output_path'):
+  tools\profit_rtd_rc54_3_2_warmed_session.py:225:        print('output_path=' + r['output_path'])
+  tools\profit_rtd_rc54_3_2_warmed_session.py:226:    return 0 if r['status'] == 'COMPLETED' else 2
+  tools\profit_rtd_rc54_3_2_warmed_session.py:227:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:228:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:229:if __name__ == '__main__':
+  tools\profit_rtd_rc54_3_2_warmed_session.py:230:    raise SystemExit(main())
+
+===== EXISTING RECEIPT USAGE =====
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\lib\_function_base_impl.py
+LineNumber : 1770
+Line       :         Maximum discontinuity between values, default is ``period/2``.
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\lib\_function_base_impl.py
+LineNumber : 1793
+Line       :     If the discontinuity in `p` is smaller than ``period/2``,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\lib\_function_base_impl.py
+LineNumber : 1795
+Line       :     the complement would only make the discontinuity larger.
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\lib\tests\test_function_base.py
+LineNumber : 2243
+Line       :         # check that unwrap maintains continuity
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\lib\tests\test_function_base.py
+LineNumber : 2249
+Line       :         # check that unwrap maintains continuity
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\_core\tests\test_umath.py
+LineNumber : 4449
+Line       :         # check branch cuts and continuity on them
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\_core\tests\test_umath.py
+LineNumber : 4464
+Line       :         # check against bogus branch cuts: assert continuity between quadrants
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\_core\tests\test_umath.py
+LineNumber : 4475
+Line       :         # check branch cuts and continuity on them
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\_core\tests\test_umath.py
+LineNumber : 4498
+Line       :         # check against bogus branch cuts: assert continuity between quadrants
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\_core\tests\test_umath.py
+LineNumber : 4635
+Line       :         # Check continuity across switchover points
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\ambiente\Lib\site-packages\numpy\_core\tests\test_umath.py
+LineNumber : 4739
+Line       :         Direction to check continuity in
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\market_suitability_dynamics.py
+LineNumber : 20
+Line       :     continuity_score: float = 0.0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\market_suitability_dynamics.py
+LineNumber : 75
+Line       :         continuity_score = max(0.0, 100.0 - gap_ratio * 140.0)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\market_suitability_dynamics.py
+LineNumber : 81
+Line       :             + continuity_score * 0.20
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\market_suitability_dynamics.py
+LineNumber : 86
+Line       :         irregular = continuity_score < 60.0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\price_action\market_suitability_dynamics.py
+LineNumber : 118
+Line       :             continuity_score=round(continuity_score, 1),
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\collector.py
+LineNumber : 152
+Line       :                 f"new_trades={validation.total_new_trades} resets={validation.baseline_resets} "
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\collector.py
+LineNumber : 153
+Line       :                 f"continuity={validation.continuity_rate:.0%} "
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\collector.py
+LineNumber : 154
+Line       :                 f"last={validation.last_continuity}"
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_incremental_aggression.py
+LineNumber : 12
+Line       :     new_trade_count: int
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_incremental_aggression.py
+LineNumber : 21
+Line       :     continuity: str
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_incremental_aggression.py
+LineNumber : 46
+Line       :         continuity = str(getattr(batch, "continuity", "") or "").strip()
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_incremental_aggression.py
+LineNumber : 48
+Line       :         if not symbol or not timestamp or not continuity:
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_incremental_aggression.py
+LineNumber : 50
+Line       :         if len(trades) != int(getattr(batch, "new_trade_count", -1)):
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_incremental_aggression.py
+LineNumber : 82
+Line       :             new_trade_count=len(trades),
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_incremental_aggression.py
+LineNumber : 91
+Line       :             continuity=continuity,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_pipeline.py
+LineNumber : 22
+Line       :     continuity: str
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_pipeline.py
+LineNumber : 23
+Line       :     new_trade_count: int
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_pipeline.py
+LineNumber : 25
+Line       :     baseline_reset: bool
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_pipeline.py
+LineNumber : 58
+Line       :             continuity=snapshot.continuity,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_pipeline.py
+LineNumber : 59
+Line       :             new_trade_count=snapshot.new_trade_count,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_pipeline.py
+LineNumber : 61
+Line       :             baseline_reset=state_receipt.baseline_reset,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py
+LineNumber : 12
+Line       :     continuity: str
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py
+LineNumber : 14
+Line       :     baseline_reset: bool
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py
+LineNumber : 52
+Line       :         continuity = snapshot.continuity
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py
+LineNumber : 58
+Line       :             or continuity in {"SYMBOL_RESET", "OVERLAP_LOST_REBASE", "BASELINE_ESTABLISHED"}
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py
+LineNumber : 73
+Line       :             return self._receipt(snapshot, state_updated=False, baseline_reset=True, source_units=0)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py
+LineNumber : 75
+Line       :         if snapshot.new_trade_count <= 0:
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py
+LineNumber : 77
+Line       :             return self._receipt(snapshot, state_updated=False, baseline_reset=False, source_units=0)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py
+LineNumber : 87
+Line       :                 source_units=int(snapshot.new_trade_count),
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py
+LineNumber : 93
+Line       :             baseline_reset=False,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py
+LineNumber : 94
+Line       :             source_units=int(snapshot.new_trade_count),
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py
+LineNumber : 110
+Line       :         continuity = str(getattr(snapshot, "continuity", "") or "").strip()
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py
+LineNumber : 111
+Line       :         if not symbol or not continuity:
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py
+LineNumber : 130
+Line       :     def _receipt(self, snapshot, *, state_updated: bool, baseline_reset: bool, source_units: int):
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py
+LineNumber : 134
+Line       :             continuity=snapshot.continuity,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_order_flow_state_adapter.py
+LineNumber : 136
+Line       :             baseline_reset=baseline_reset,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_times_trades_deduplicator.py
+LineNumber : 13
+Line       :     new_trade_count: int
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_times_trades_deduplicator.py
+LineNumber : 17
+Line       :     continuity: str
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_times_trades_deduplicator.py
+LineNumber : 114
+Line       :     def _batch(symbol, timestamp, trades, new_count, overlap_count, baseline_only, continuity):
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_times_trades_deduplicator.py
+LineNumber : 120
+Line       :             new_trade_count=len(new_trades),
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_times_trades_deduplicator.py
+LineNumber : 124
+Line       :             continuity=continuity,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_acceptance.py
+LineNumber : 14
+Line       :     min_continuity_rate: float = 0.98
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_acceptance.py
+LineNumber : 15
+Line       :     max_continuity_loss_rate: float = 0.02
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_acceptance.py
+LineNumber : 23
+Line       :         for name in ("min_continuity_rate", "max_continuity_loss_rate", "min_update_rate"):
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_acceptance.py
+LineNumber : 36
+Line       :     continuity_rate: float
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_acceptance.py
+LineNumber : 37
+Line       :     continuity_loss_rate: float
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_acceptance.py
+LineNumber : 62
+Line       :         continuity_loss_rate = (
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_acceptance.py
+LineNumber : 63
+Line       :             float(snapshot.continuity_loss_cycles) / total if total else 0.0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_acceptance.py
+LineNumber : 67
+Line       :         if total > 0 and continuity_loss_rate > self.policy.max_continuity_loss_rate:
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_acceptance.py
+LineNumber : 68
+Line       :             fail_reasons.append("CONTINUITY_LOSS_RATE_HIGH")
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_acceptance.py
+LineNumber : 79
+Line       :             if snapshot.continuity_rate < self.policy.min_continuity_rate:
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_acceptance.py
+LineNumber : 80
+Line       :                 review_reasons.append("CONTINUITY_RATE_LOW")
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_acceptance.py
+LineNumber : 97
+Line       :             continuity_rate=float(snapshot.continuity_rate),
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_acceptance.py
+LineNumber : 98
+Line       :             continuity_loss_rate=round(continuity_loss_rate, 4),
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 15
+Line       :     continuity_rate: float
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 18
+Line       :     baseline_resets: int
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 19
+Line       :     continuity_loss_cycles: int
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 44
+Line       :         min_continuity_rate: float = 0.95,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 45
+Line       :         max_continuity_loss_cycles: int = 1,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 46
+Line       :         max_baseline_resets: int = 2,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 49
+Line       :         self.min_continuity_rate = float(min_continuity_rate)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 50
+Line       :         self.max_continuity_loss_cycles = int(max_continuity_loss_cycles)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 51
+Line       :         self.max_baseline_resets = int(max_baseline_resets)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 54
+Line       :         if not 0.0 <= self.min_continuity_rate <= 1.0:
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 55
+Line       :             raise ValueError("min_continuity_rate deve estar entre 0 e 1.")
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 56
+Line       :         if self.max_continuity_loss_cycles < 0 or self.max_baseline_resets < 1:
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 90
+Line       :         baseline_resets = self._non_negative_int(validation, "baseline_resets")
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 93
+Line       :         continuity_loss_cycles = self._non_negative_int(validation, "continuity_loss_cycles")
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 95
+Line       :         continuity_rate = self._rate(validation, "continuity_rate")
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 103
+Line       :         if continuity_rate < self.min_continuity_rate:
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 105
+Line       :                 f"LOW_CONTINUITY_RATE:{continuity_rate:.4f}<{self.min_continuity_rate:.4f}"
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 107
+Line       :         if continuity_loss_cycles > self.max_continuity_loss_cycles:
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 109
+Line       :                 f"TOO_MANY_CONTINUITY_LOSSES:{continuity_loss_cycles}>{self.max_continuity_loss_cycles}"
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 111
+Line       :         if baseline_resets > self.max_baseline_resets:
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 112
+Line       :             reasons.append(f"TOO_MANY_BASELINE_RESETS:{baseline_resets}>{self.max_baseline_resets}")
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 128
+Line       :             continuity_rate=continuity_rate,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 131
+Line       :             baseline_resets=baseline_resets,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_evaluator.py
+LineNumber : 132
+Line       :             continuity_loss_cycles=continuity_loss_cycles,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 13
+Line       :     baseline_resets: int = 0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 18
+Line       :     continuity_loss_cycles: int = 0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 21
+Line       :     last_continuity: str = ""
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 22
+Line       :     last_new_trade_count: int = 0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 25
+Line       :     continuity_rate: float = 0.0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 47
+Line       :         self.baseline_resets = 0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 52
+Line       :         self.last_continuity = ""
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 53
+Line       :         self.last_new_trade_count = 0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 58
+Line       :         continuity = str(receipt.continuity)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 59
+Line       :         new_trade_count = int(receipt.new_trade_count)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 64
+Line       :         self.baseline_resets += int(bool(receipt.baseline_reset))
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 65
+Line       :         self.total_new_trades += new_trade_count
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 67
+Line       :         self._continuities[continuity] += 1
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 69
+Line       :         self.last_continuity = continuity
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 70
+Line       :         self.last_new_trade_count = new_trade_count
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 78
+Line       :         continuity_loss = self._continuities["OVERLAP_LOST_REBASE"]
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 82
+Line       :         continuity_rate = contiguous / total if total else 0.0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 86
+Line       :             baseline_resets=self.baseline_resets,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 91
+Line       :             continuity_loss_cycles=continuity_loss,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 94
+Line       :             last_continuity=self.last_continuity,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 95
+Line       :             last_new_trade_count=self.last_new_trade_count,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 98
+Line       :             continuity_rate=round(continuity_rate, 4),
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 114
+Line       :         continuity = str(getattr(receipt, "continuity", "") or "").strip()
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 115
+Line       :         if not symbol or not continuity:
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\market_data\profit_rtd_validation_recorder.py
+LineNumber : 117
+Line       :         for name in ("new_trade_count", "source_units"):
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc10.py
+LineNumber : 16
+Line       :         baseline_resets=1,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc10.py
+LineNumber : 21
+Line       :         continuity_loss_cycles=1,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc10.py
+LineNumber : 24
+Line       :         last_continuity="CONTIGUOUS",
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc10.py
+LineNumber : 25
+Line       :         last_new_trade_count=4,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc10.py
+LineNumber : 28
+Line       :         continuity_rate=0.8,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc11.py
+LineNumber : 15
+Line       :         continuity="CONTIGUOUS",
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc11.py
+LineNumber : 16
+Line       :         new_trade_count=4,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc11.py
+LineNumber : 18
+Line       :         baseline_reset=False,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc11.py
+LineNumber : 34
+Line       :             continuity="BASELINE_ESTABLISHED",
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc11.py
+LineNumber : 35
+Line       :             new_trade_count=0,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc11.py
+LineNumber : 37
+Line       :             baseline_reset=True,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 14
+Line       :         baseline_resets=1,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 19
+Line       :         continuity_loss_cycles=5,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 22
+Line       :         last_continuity="CONTIGUOUS",
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 23
+Line       :         last_new_trade_count=1,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 26
+Line       :         continuity_rate=0.99,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 52
+Line       :             continuity_loss_cycles=0,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 54
+Line       :             continuity_rate=1.0,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 63
+Line       : def test_rc13_fails_excessive_continuity_loss():
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 67
+Line       :             continuity_loss_cycles=20,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 69
+Line       :             continuity_rate=0.96,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 73
+Line       :     assert result.continuity_loss_rate == 0.04
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 74
+Line       :     assert "CONTINUITY_LOSS_RATE_HIGH" in result.reasons
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 89
+Line       :         min_continuity_rate=0.50,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 90
+Line       :         max_continuity_loss_rate=0.50,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 97
+Line       :             continuity_loss_cycles=0,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 100
+Line       :             continuity_rate=1.0,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc13.py
+LineNumber : 116
+Line       :     test_rc13_fails_excessive_continuity_loss()
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc18.py
+LineNumber : 8
+Line       :         "baseline_resets": 1,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc18.py
+LineNumber : 11
+Line       :         "continuity_loss_cycles": 0,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc18.py
+LineNumber : 14
+Line       :         "continuity_rate": 0.9917,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc18.py
+LineNumber : 47
+Line       : def test_low_continuity_is_rejected():
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc18.py
+LineNumber : 49
+Line       :         payload(continuity_rate=0.80, continuity_loss_cycles=5, baseline_resets=6)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc18.py
+LineNumber : 52
+Line       :     assert any(reason.startswith("LOW_CONTINUITY_RATE") for reason in result.reasons)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc18.py
+LineNumber : 53
+Line       :     assert any(reason.startswith("TOO_MANY_CONTINUITY_LOSSES") for reason in result.reasons)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc18.py
+LineNumber : 54
+Line       :     assert any(reason.startswith("TOO_MANY_BASELINE_RESETS") for reason in result.reasons)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc18.py
+LineNumber : 101
+Line       :         payload(continuity_rate=0.95, continuity_loss_cycles=1, baseline_resets=2)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc19.py
+LineNumber : 12
+Line       :     continuity_rate: float = 0.9667
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc19.py
+LineNumber : 15
+Line       :     baseline_resets: int = 1
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc19.py
+LineNumber : 16
+Line       :     continuity_loss_cycles: int = 0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc19.py
+LineNumber : 46
+Line       :         FakeEvaluation("REJECTED", False, reasons=("LOW_CONTINUITY_RATE",))
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc4.py
+LineNumber : 38
+Line       :     assert batch.continuity == "BASELINE_ESTABLISHED"
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc4.py
+LineNumber : 39
+Line       :     assert batch.new_trade_count == 0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc4.py
+LineNumber : 52
+Line       :     assert batch.continuity == "CONTIGUOUS"
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc4.py
+LineNumber : 53
+Line       :     assert batch.new_trade_count == 0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc4.py
+LineNumber : 68
+Line       :     assert batch.new_trade_count == 2
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc4.py
+LineNumber : 85
+Line       :     assert batch.continuity == "OVERLAP_LOST_REBASE"
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc4.py
+LineNumber : 86
+Line       :     assert batch.new_trade_count == 0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc4.py
+LineNumber : 98
+Line       :     assert batch.continuity == "SYMBOL_RESET"
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc4.py
+LineNumber : 100
+Line       :     assert batch.new_trade_count == 0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc4.py
+LineNumber : 112
+Line       :     assert batch.continuity == "BASELINE_ESTABLISHED"
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc5.py
+LineNumber : 10
+Line       : def batch(trades=(), *, baseline_only=False, continuity="CONTIGUOUS"):
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc5.py
+LineNumber : 15
+Line       :         new_trade_count=len(trades),
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc5.py
+LineNumber : 17
+Line       :         continuity=continuity,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc5.py
+LineNumber : 36
+Line       :         batch((), baseline_only=True, continuity="BASELINE_ESTABLISHED")
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc5.py
+LineNumber : 38
+Line       :     assert result.new_trade_count == 0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc5.py
+LineNumber : 99
+Line       :     invalid.new_trade_count = 2
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py
+LineNumber : 13
+Line       :          continuity="CONTIGUOUS", baseline=False):
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py
+LineNumber : 21
+Line       :         new_trade_count=count,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py
+LineNumber : 30
+Line       :         continuity=continuity,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py
+LineNumber : 39
+Line       :         snap(continuity="BASELINE_ESTABLISHED", baseline=True),
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py
+LineNumber : 42
+Line       :     assert receipt.baseline_reset
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py
+LineNumber : 55
+Line       :     adapter.apply(snap(continuity="BASELINE_ESTABLISHED", baseline=True), price=174000)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py
+LineNumber : 71
+Line       :     adapter.apply(snap(continuity="BASELINE_ESTABLISHED", baseline=True), price=174000)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py
+LineNumber : 85
+Line       :     adapter.apply(snap(continuity="BASELINE_ESTABLISHED", baseline=True), price=174000)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py
+LineNumber : 90
+Line       :     assert not receipt.baseline_reset
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py
+LineNumber : 99
+Line       :     adapter.apply(snap(continuity="BASELINE_ESTABLISHED", baseline=True), price=174000)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py
+LineNumber : 103
+Line       :         snap(continuity="OVERLAP_LOST_REBASE", baseline=True),
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py
+LineNumber : 106
+Line       :     assert receipt.baseline_reset
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py
+LineNumber : 115
+Line       :     adapter.apply(snap(continuity="BASELINE_ESTABLISHED", baseline=True), price=174000)
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py
+LineNumber : 118
+Line       :         snap(symbol="WDOU26", continuity="SYMBOL_RESET", baseline=True),
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py
+LineNumber : 121
+Line       :     assert receipt.baseline_reset
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc6.py
+LineNumber : 131
+Line       :         snap(continuity="BASELINE_ESTABLISHED", baseline=True),
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc7.py
+LineNumber : 104
+Line       :     assert receipt.baseline_reset
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc7.py
+LineNumber : 106
+Line       :     assert receipt.new_trade_count == 0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc7.py
+LineNumber : 129
+Line       :     assert first.baseline_reset
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc7.py
+LineNumber : 130
+Line       :     assert second.continuity == "CONTIGUOUS"
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc7.py
+LineNumber : 131
+Line       :     assert second.new_trade_count == 2
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc7.py
+LineNumber : 147
+Line       :     assert receipt.new_trade_count == 0
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc8.py
+LineNumber : 35
+Line       :             continuity="CONTIGUOUS",
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc8.py
+LineNumber : 36
+Line       :             new_trade_count=0,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc8.py
+LineNumber : 38
+Line       :             baseline_reset=False,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 9
+Line       :         continuity="CONTIGUOUS",
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 10
+Line       :         new_trade_count=3,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 12
+Line       :         baseline_reset=False,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 36
+Line       :             continuity="BASELINE_ESTABLISHED",
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 37
+Line       :             new_trade_count=0,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 39
+Line       :             baseline_reset=True,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 46
+Line       :             new_trade_count=0,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 55
+Line       :     assert snapshot.baseline_resets == 1
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 60
+Line       :     assert abs(snapshot.continuity_rate - 0.6667) < 0.0001
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 67
+Line       : def test_rc9_tracks_continuity_loss_and_symbol_reset():
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 71
+Line       :             continuity="OVERLAP_LOST_REBASE",
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 72
+Line       :             new_trade_count=0,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 74
+Line       :             baseline_reset=True,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 81
+Line       :             continuity="SYMBOL_RESET",
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 82
+Line       :             new_trade_count=0,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 84
+Line       :             baseline_reset=True,
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 90
+Line       :     assert snapshot.continuity_loss_cycles == 1
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 92
+Line       :     assert snapshot.baseline_resets == 2
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 94
+Line       :     assert snapshot.last_continuity == "SYMBOL_RESET"
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 124
+Line       :     assert snapshot.last_continuity == ""
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tests\test_profit_rtd_rc9.py
+LineNumber : 129
+Line       :     test_rc9_tracks_continuity_loss_and_symbol_reset()
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_rc54_offline_recomposer.py
+LineNumber : 58
+Line       :         reasons.append('SESSION_CONTINUITY_NOT_VERIFIED')
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_validate.py
+LineNumber : 31
+Line       :     print(f"continuity_rate={result.continuity_rate:.4f}")
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_validate.py
+LineNumber : 34
+Line       :     print(f"baseline_resets={result.baseline_resets}")
+
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_validate.py
+LineNumber : 35
+Line       :     print(f"continuity_loss_cycles={result.continuity_loss_cycles}")
+
+
+

@@ -1,0 +1,9 @@
+test_multiple_mutations_between_two_tickets (test_f3_int31_multi_ticket_generations.MultiTicketGenerations.test_multiple_mutations_between_two_tickets) ... ok
+test_no_cross_ticket_proof_laundering_after_conflict (test_f3_int31_multi_ticket_generations.MultiTicketGenerations.test_no_cross_ticket_proof_laundering_after_conflict) ... ok
+test_three_tickets_with_repeated_generation_changes (test_f3_int31_multi_ticket_generations.MultiTicketGenerations.test_three_tickets_with_repeated_generation_changes) ... ok
+test_two_tickets_cross_generation_with_both_close_orders (test_f3_int31_multi_ticket_generations.MultiTicketGenerations.test_two_tickets_cross_generation_with_both_close_orders) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.465s
+
+OK

@@ -1,0 +1,36 @@
+{
+  "last_completed": "F3-INT-103",
+  "new_tests": {
+    "passed": 14,
+    "failed": 0,
+    "exit_code": 0,
+    "seconds": 22.642,
+    "source": "saida(20261021-200354).txt (user Windows run)"
+  },
+  "regression": {
+    "passed": 1213,
+    "failed": 0,
+    "exit_code": 0,
+    "seconds": 330.895,
+    "source": "saida(20261021-200354).txt (user Windows run)"
+  },
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "next_step": "F3-INT-104: scope and contract review before implementation",
+  "pending": [
+    "Authenticity, consensus, persistence and real fencing remain unverified.",
+    "Model-based explorations are bounded, not exhaustive.",
+    "Digest label and expected digest remain caller-provided and unauthenticated."
+  ]
+}

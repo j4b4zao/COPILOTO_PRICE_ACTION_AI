@@ -1,0 +1,57 @@
+MULTITIMEFRAME LEGACY TEST ALIGNMENT CLEANUP RC1
+STATUS=PASS
+BRANCH=brooks-stop-target-exact-audit-20260912
+HEAD_BEFORE=97d5b139aedeb434f28e1925a3e5a579a20eff6f
+HEAD_AFTER=97d5b139aedeb434f28e1925a3e5a579a20eff6f
+FILES_MODIFIED=tests/test_multi_timeframe_e2e_rc36.py; tests/test_multi_timeframe_analysis_rc32.py
+FILES_CREATED=saida_multitimeframe_legacy_test_alignment_cleanup_rc1_20261003.txt (relatorio solicitado)
+OPERATIONAL_CODE_CHANGED=false
+LEGACY_ALIGNMENT_TESTS_FIXED=3
+  teste_candles_em_conflito_bloqueiam_alerta: CONFLICT -> CONFLICT_M5; conflict=true, Decision WAIT e Alert NONE verificados
+  teste_conflito_direcional: CONFLICT -> CONFLICT_M5; conflict=true preservado
+  teste_resultado_informativo_nao_altera_decisao: CONFLICT -> CONFLICT_REGIME; conflict=true explicitamente verificado e snapshot operacional preservado
+FIXTURE_SEMANTICS_TESTS_FIXED=2
+  teste_wait_preserva_operacao_valida: somente candles sinteticos M1 do caso alvo substituidos; resultado lateral verificado e operacao BUY / Alert BUY preservada
+  teste_aguarda_timeframe_lateral: somente candles sinteticos M1 do caso alvo substituidos; WAIT_TRIGGER, bias BUY e confidence 0.70 conforme contrato atual
+CONFLICT_M5_EXPECTATION_CONFIRMED=true
+CONFLICT_REGIME_EXPECTATION_CONFIRMED=true
+SIDEWAYS_FIXTURE_1_SOURCE=tests/test_multi_timeframe_rc3_3.py::_series(Trend.SIDEWAYS), com candle atual de _context; reutilizados pares e formula de open/close
+SIDEWAYS_FIXTURE_1_OUTPUT=M15 trend=UP; M5 trend=UP; M1 trend=SIDEWAYS; bias=BUY; alignment=WAIT_TRIGGER; conflict=false; valid=true; Decision=BUY; Alert=BUY; Alert.valid=true
+SIDEWAYS_FIXTURE_2_SOURCE=tests/test_multi_timeframe_rc3_3.py::_series(Trend.SIDEWAYS), com candle atual de _context; reutilizados pares e formula de open/close
+SIDEWAYS_FIXTURE_2_OUTPUT=M15 trend=UP; M5 trend=UP; M1 trend=SIDEWAYS; bias=BUY; alignment=WAIT_TRIGGER; conflict=false; valid=true; aligned=false; confidence=0.70
+SIDEWAYS_CLOSED_HIGH_LOW_PAIRS=(110,100),(109,101),(110,100),(109,101),(110,100)
+FORMING_HIGH_LOW_PAIR=(120,80); ignorado pelo producer existente
+FIXTURE_VALIDATION=asserts explicitos de M15/M5/M1 precedem asserts de alignment nos dois casos; candles reais sinteticos classificados pelo producer, sem monkeypatch de alignment
+FIXTURE_SCOPE=historico M1 substituido apenas dentro dos dois testes alvo; helpers compartilhados e fixture antiga mantidos para caracterizacao de obsolescencia no contract audit
+TARGET_TEST_COUNTS=15 passed; 0 failed; 1.53s
+FULL_MTF_AUDITED_TEST_COUNTS=366 passed; 0 failed; 4.47s
+SAFETY_GATE_TEST_COUNTS=34 passed; 0 failed (incluidos na suite completa)
+CONTRACT_CHARACTERIZATION_TEST_COUNTS=286 passed; 0 failed (incluidos na suite completa)
+TEST_COUNT_VARIATION=none
+UNEXPECTED_FAILURES=0
+TEST_EXECUTION=Python313 -m pytest -q --basetemp temporario exclusivo -p no:cacheprovider --tb=short; dependencias locais; PYTHONDONTWRITEBYTECODE=1
+FULL_SUITE_FILES=tests/test_multi_timeframe_e2e_rc36.py; tests/test_multi_timeframe_analysis_rc32.py; tests/test_multi_timeframe_state_rc30.py; tests/test_multi_timeframe_rc3_3.py; tests/test_multi_timeframe_rc3_4_regime_bridge.py; tests/test_multi_timeframe_monitor_rc34.py; tests/test_multi_timeframe_contract_audit_rc1.py; tests/test_multi_timeframe_conflict_safety_gate_rc36.py
+SAFETY_REGRESSION=CONFLICT_M5/M1/REGIME e alignment desconhecido com conflict=true bloqueiam BUY/SELL para WAIT/NONE; valid=false informativo; WAIT_* conflict=false preservados
+DECISION_CHANGED=false
+PRODUCER_CHANGED=false
+ALERT_CHANGED=false
+SCORE_CHANGED=false
+RISK_CHANGED=false
+STRATEGY_CHANGED=false
+COLLECTOR_CHANGED=false
+WAIT_POLICY_CHANGED=false
+THRESHOLD_WEIGHT_FLAG_ALGORITHM_CHANGED=false
+RC17_CHANGED=false
+RC17_PROTOCOL_SHA256=2A278E7C4C438098D9CE167A778F7386A09B341A555A73E322598215150EBDB3
+SESSION19_23_EXECUTED=false
+COLLECTOR_EXECUTED=false
+REAL_MARKET_DATA_USED=false
+STAGE_COMMIT_PUSH_EXECUTED=false
+PROTECTED_FILES_PRESERVED=true
+PROTECTED_VERIFICATION=hash agregado antes/depois identico de todos Python/JSON rastreados exceto os dois testes permitidos, mais Profit.xlsx, livroOfertas.xlsx, times&trades.xlsx e saida.txt; inclui connectors/excel_connector.py e codigo operacional
+PROTECTED_AGGREGATE_SHA256_BEFORE=522F6FE6EC5FF06430B2E74B9305D6D936D59EF7CA02A83FA672B85C5DD7A19F
+PROTECTED_AGGREGATE_SHA256_AFTER=522F6FE6EC5FF06430B2E74B9305D6D936D59EF7CA02A83FA672B85C5DD7A19F
+PREEXISTING_LOCAL_CHANGES=preservadas; nenhuma limpeza, restauracao ou reset
+STAGED_DIFF=empty
+DIFF_CHECK=passed
+FINAL=cinco falhas antigas resolvidas apenas nos dois testes autorizados; zero falhas; encerrar apos relatorio

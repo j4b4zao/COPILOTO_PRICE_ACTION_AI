@@ -1,0 +1,202 @@
+PROJETO: COPILOTO_PRICE_ACTION_AI
+ETAPA: RC7.13.23-H.9.6.1 — DIAGNÓSTICO DA FALHA COM
+DIRETÓRIO: C:\COPILOTO_GIT_SYNC
+Data: 13/10/2026 — America/Sao_Paulo
+CONCLUSÃO: FALHA LOCALIZADA NO ATTACHMENT; MEMBRO EXATO NÃO IDENTIFICÁVEL
+CORREÇÃO NÃO IMPLEMENTADA. Nenhum monitoramento real iniciado nesta etapa.
+orders_allowed=False; live_certified=False
+
+1. EVIDÊNCIA DIRETA
+h9_6_manual_run_001\summary.json:
+stop_reason=READ_OR_ATTACHMENT_FAILURE; samples=0;
+elapsed_seconds=0.6232434999997167;
+ConnectionError:com_error:(-2147352573, 'Membro não encontrado.', None, None).
+events.jsonl contém exclusivamente um fatal_error em 13/10/2026
+11:38:32.984968 -03:00. Não contém attachment nem sample.
+SHA256 do JSONL coincide com events_sha256 declarado no resumo.
+Cleanup registrado: helper_forced_termination=false; Excel Quit/Close/Save=false.
+Não há HRESULT por etapa, stack trace, DISPID, invkind, IID/typeinfo ou contexto
+do helper na evidência dessa falha. PID/Hwnd não chegaram a ser registrados.
+
+2. LOCALIZAÇÃO COMPROVADA
+H.9.6 monitor(), linha 192: client.request('connect', ...).
+O evento attachment somente é emitido após o retorno dessa chamada, linha 193.
+Como há somente fatal_error, o erro ocorreu antes desse retorno bem-sucedido.
+worker_entry(), linha 150, executa provider.connect() para operação connect.
+Linha 152 descarta traceback e localização, enviando só tipo+str(exc) ao pai.
+ComWorker.request(), linha 167, converte a resposta em ConnectionError.
+O prefixo com_error indica exceção capturada no helper; a família de causa é
+ExistingExcel.connect(), H.9.5, linhas 72..107, e funções chamadas por ela.
+Não foi a primeira leitura de células: read_existing() e provider.inventory()
+pré-leitura não foram acionados pelo pai antes do attachment bem-sucedido.
+O tempo de 0,623 s não é prova de qual propriedade falhou.
+
+3. TODAS AS OPERAÇÕES COM ANTERIORES À PRIMEIRA AMOSTRA
+Sequência efetiva de connect (linhas do h9_5_readonly.py):
+81: pythoncom.CoInitialize() no thread que fará attachment e leituras.
+82: pythoncom.GetActiveObject('Excel.Application').
+83: pointer.QueryInterface(pythoncom.IID_IDispatch).
+83: win32com.client.dynamic.Dispatch recebe IDispatch existente, nunca ProgID.
+84: Application.Hwnd; depois API Win32 GetWindowThreadProcessId -> PID.
+85..100: consultas de token, caminho EXCEL.EXE e sessão; são Win32, não getters COM.
+101: self.inventory(), com as chamadas abaixo:
+110: Application.Hwnd novamente, e validação do PID.
+111: Application.Workbooks, depois Workbooks.Count.
+112: para cada índice 1..Count, Application.Workbooks, Workbooks.Item(i),
+Workbook.FullName. Esses acessos estão em uma expressão/comprehension composta.
+106: para cada arquivo esperado, Application.Workbooks e Workbooks.Item(i),
+guardando referência ao workbook existente, sem abrir arquivo.
+107: retorna identidade/caminhos e PID/Hwnd ao helper, serializados como dados.
+Antes do recebimento da primeira amostra, mas apenas depois do attachment:
+H.9.6 linha 125 chama inventory novamente (Hwnd/Workbooks/Count/Item/FullName).
+Linhas 131..137: Workbook.Worksheets; Worksheets.Item('Planilha1');
+Worksheet.Range('A2:N2').Value2; Range('B2:N2').Formula, para Profit;
+Range('A1:H5').Value2 para Livro e Times.
+Na execução que falhou, não existe evidência de chegada a essa segunda fase.
+
+Chamadas implícitas do pywin32 instalado, inspecionado apenas como código:
+dynamic.Dispatch consulta GetTypeInfo e, se disponível, GetTypeComp e mapas.
+GetTypeInfo/GetTypeComp com_error é tratado em partes do wrapper; falha nesses
+dois acessos isoladamente não basta para presumir propagação ao log observado.
+Getters dinâmicos podem resolver nomes/DISPIDs e executar IDispatch.Invoke,
+e objetos filhos podem passar por QueryInterface/wrappers/typeinfo novamente.
+Essas chamadas implícitas precisam de traceback para identificação precisa.
+Não há leitura explícita da propriedade .Application para normalizar o objeto
+retornado: 'Excel.Application' é ProgID de GetActiveObject, não getter .Application.
+
+4. H.9.5 VERSUS H.9.6
+O attachment H.9.6 chama a MESMA classe ExistingExcel da H.9.5, sem versão
+alternativa de connect. Ordem dos getters, ProgID, IID e verificações iguais.
+H.9.5 roda diretamente no processo Python invocado pelo usuário.
+H.9.6 roda connect/leitura no helper Python criado via multiprocessing spawn.
+O helper carrega a dependência por caminho ao lado do monitor. Nenhuma interface
+COM é passada pelo pipe; somente estruturas de dados e mensagens de erro.
+CoInitialize é chamado no próprio thread do helper antes do GetActiveObject;
+o código não mostra ausência de inicialização COM nem compartilhamento de
+ponteiro IDispatch entre threads/processos. Não se recomenda marshaling extra
+com base apenas na existência do helper.
+Diferenças possíveis: processo/apartment/caches recém-criados, momento do
+attachment, disponibilidade do servidor e interface/typeinfo retornada.
+Usuário/contexto/elevado/arquitetura da tentativa que falhou não foram gravados
+antes do erro. O token jb não elevado é validado antes de CoInitialize; um
+bloqueio dessa condição normalmente geraria RuntimeError, não este com_error.
+O helper não cria Excel e não adiciona getters de negócio antes de connect.
+H.9.5.1 só é carregada pela validação posterior de amostras: o validador
+Times & Trades não explica essa falha inicial de attachment.
+
+5. CHAMADA SUSPEITA E HIPÓTESES
+Principal família suspeita: getter/método de Automation durante connect.
+Primeiro ponto a instrumentar: h9_5_readonly.py, ExistingExcel.connect(),
+linha 84: self.app.Hwnd. É o primeiro getter explícito depois do wrapper.
+Segundo ponto: inventory(), linha 110, segunda leitura de Hwnd.
+Demais candidatos não excluídos: Workbooks/Count (111), Item/FullName (112),
+Item na vinculação dos três arquivos (106), e resolução/wrapping interno.
+A prioridade de Hwnd decorre da ordem de execução, NÃO de prova estatística
+de que foi a chamada que falhou. Não há fundamento para excluir FullName/Count
+ou afirmar uma única linha exata a partir desse log.
+HRESULT -2147352573 = 0x80020003, DISP_E_MEMBERNOTFOUND: membro solicitado não
+exposto pela invocação/interface usada. Não equivale ao MK_E_UNAVAILABLE
+0x800401E3 observado no contexto sandbox na H.9.3/H.9.4.
+Hipóteses restantes:
+- objeto/interface/typeinfo ou flags de invocação incompatíveis naquele instante;
+- contexto/processo/apartment/cache do helper influenciando o wrapper;
+- disponibilidade transitória do objeto enquanto Excel mudava de estado.
+Estado ocupado não foi provado: erros típicos de rejeição de chamada são outros
+HRESULTs; não rotulamos este código automaticamente como Excel ocupado.
+GetActiveObject/QueryInterface são menos diretamente compatíveis com erro de
+membro do que getters Invoke, mas traceback é necessário para excluí-los.
+Não há evidência de contrato/fórmula divergente provocando esse attachment.
+
+6. EVIDÊNCIA POSTERIOR JÁ EXISTENTE
+Encontrado h9_6_manual_run_20261013_114056_090\summary.json e events.jsonl.
+Essa execução já estava em disco; NÃO foi iniciada pelo Codex nesta etapa.
+Contém attachment em 11:40:56.862219 -03:00 e 60 samples; DURATION_LIMIT;
+elapsed_seconds=300.0763503000003; PID 10152; Hwnd 133934;
+jb, não elevado; três caminhos esperados e zero read_errors por fonte no resumo.
+SHA256 do JSONL coincide com o resumo; nenhum fatal_error registrado.
+É evidência contra indisponibilidade permanente ou propriedade inexistente
+em todas as execuções. Não identifica retroativamente a chamada que falhou.
+Não se presume que houve correção entre tentativas, nem que as condições eram
+idênticas: os artefatos não contêm hashes dos módulos/executável usados na hora.
+Os módulos atuais correspondem aos hashes entregues nas etapas anteriores.
+Não há certificação live nem auditoria de integralidade dessa sessão posterior.
+
+7. RECOMENDAÇÃO MÍNIMA — SOMENTE PROPOSTA
+Não corrigir Hwnd, adicionar .Application, mudar apartment, trocar IID, usar
+Dispatch com ProgID, retirar validações de PID ou adicionar retries cegos.
+Primeiro preservar no erro do helper: operation, traceback.format_exc(),
+HRESULT decimal/hex, excepinfo/argerror quando disponíveis, pid/thread do helper,
+sys.executable, arquitetura, usuário, sessão, elevação e etapa de attachment.
+Um traceback já localizaria a linha; dividir expressões compostas em etapas
+rotuladas é necessário para distinguir Workbooks de Count, Item de FullName,
+e QueryInterface de dynamic.Dispatch. Registrar begin/success/error e índice
+do workbook, sem leituras extras de células ou propriedades para gerar o log.
+Preferir versão diagnóstica nova e isolada, mantendo os três módulos originais.
+Se a linha 84/110 for confirmada, investigar o IDispatch/typeinfo efetivamente
+retornado e as flags de Invoke antes de propor normalização de Application.
+Somente após localização escolher correção mínima; eventual retry deve ser
+limitado, manter identidade/PID/caminhos e não recriar Excel.
+Nenhuma instrumentação runtime, alteração operacional ou retry foi implementado
+nesta etapa. Uma futura reprodução real precisará de autorização separada.
+
+8. TESTES OFFLINE EXECUTADOS
+14 testes finais aprovados, zero falhas. Novos testes exercitam os métodos
+connect/worker originais com TODOS os módulos COM/Win32 substituídos por falsos.
+Nenhum CoInitialize/GetActiveObject/attachment real foi chamado nos testes.
+Cobertura: connect válido/ordem, Hwnd inicial, Hwnd inventory, Workbooks, Count,
+Item, FullName, QueryInterface, Dispatch, erros indistinguíveis por estágio,
+reempacotamento pelo pai, evidência inicial sem attachment, evidência posterior
+salva e ausência de getter .Application no código original.
+Injeções em diferentes getters retornam exatamente a mesma mensagem no pipe,
+demonstrando perda de localização no logger atual, sem provar causa real.
+Primeira execução da suíte teve nove falhas por assinatura incorreta do falso
+LookupAccountSid (recebe None e SID); corrigido SOMENTE o teste novo.
+Log inicial de falhas preservado; nova execução gerou arquivo _2, sem sobrescrita.
+O teste comprova ambiguidade dos logs e fluxo offline, não integração Excel real.
+Oito módulos/evidências de entrada comparados SHA256 antes/depois: zero mudanças.
+
+9. ARQUIVOS E SHA256
+Entradas utilizadas:
+h9_6_observational_monitor.py
+4f8b4fd8d75b4a25671964eb989cbcfea22b811c21594900239d7e1cc240bedd
+h9_5_readonly.py
+1587f19d8b116638f04a8af11fb40756908e8bd43588e270f78a1cb4f2db1c84
+h9_5_1_readonly.py
+b5ddc002288468df179c218147d879e9f402b9f94f65c76a977c5441378c53c2
+h9_5_real_evidence_03.json
+fc168f197180ebe960b8c181b3dfbbe0b8591610719abefbd0986d48ba52d203
+h9_6_manual_run_001\summary.json
+e5074892cecc29a21b2f50b0c6a91279f0185f5499fc989fb7dfd48ca9b5330a
+h9_6_manual_run_001\events.jsonl
+b09a8fb1db7a81dbcbf6db25460137ce132f0bdbac81eb9add66300a65caeec8
+h9_6_manual_run_20261013_114056_090\summary.json
+2719d2b3467731958c4bebcc1d7cb2e22e1ba84758a0f419983612216fc34b61
+h9_6_manual_run_20261013_114056_090\events.jsonl
+3b8d39701475c99e9d3cda86cca086d78e366df40378487a6622dadc0ec5bfc7
+Arquivos novos de trabalho C:\COPILOTO_PRICE_ACTION_AI e entrega idêntica
+em C:\COPILOTO_GIT_SYNC:
+test_h9_6_1_diagnostico.py
+8012193c2db4d43e6029fb001a9817138c420755b6d60968cc77b978aa2bbc25
+h9_6_1_before.json
+b9d7ce0b429b2978f3ee3be07ec8eb6fdbe343014f201fcb46a077eb135c68bc
+h9_6_1_offline_tests.txt (primeira execução do teste, preservada)
+1fed333c8c7ac4909921aeebdc99b20cef85b6748a7562860c3b73c0fb4fe2af
+h9_6_1_offline_tests_2.txt (14 testes finais aprovados)
+1ad5d915f59a00c752aefe38dff60d3a34870cde7eb383c7c3d4aa58ff73341c
+saida_codex_h9_6_1_diagnostico.txt: hash definitivo informado após gravação.
+
+10. FONTES TÉCNICAS E LIMITES
+Microsoft IDispatch::Invoke, descrição do HRESULT e identificação de membros:
+https://learn.microsoft.com/en-us/windows/win32/api/oaidl/nf-oaidl-idispatch-invoke
+Microsoft CoInitialize, inicialização por thread:
+https://learn.microsoft.com/en-us/windows/win32/api/objbase/nf-objbase-coinitialize
+Código pywin32 local inspecionado por inspect.getsource, sem execução COM:
+C:\Users\jb\AppData\Local\Programs\Python\Python313\Lib\site-packages\win32com\client\dynamic.py
+Versões e typeinfo efetivos da tentativa inicial não constam da evidência.
+Não é possível certificar contexto histórico ou atribuir responsabilidade ao
+helper, Excel ou wrapper somente com essa mensagem. Causa exata permanece hipótese.
+Nenhum módulo certificado, H.9.6, Excel, fórmula, contrato ou histórico alterado.
+Sem Collector/Capture, ordens, outra instância Excel, commit/push ou exclusões.
+
+CONCLUSÃO FINAL: CONNECT_STAGE_LOCALIZED; EXACT_COM_MEMBER_UNCONFIRMED.
+CORREÇÃO NÃO IMPLEMENTADA.

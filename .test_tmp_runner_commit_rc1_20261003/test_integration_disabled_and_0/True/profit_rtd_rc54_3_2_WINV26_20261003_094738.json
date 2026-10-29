@@ -1,0 +1,410 @@
+{
+  "status": "COMPLETED",
+  "phase": "RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE",
+  "symbol": "WINV26",
+  "warmup": {
+    "ready": true,
+    "trade_context_ready": false
+  },
+  "requested_cycles": 1,
+  "analyzable_samples": 1,
+  "skipped_cycles": 0,
+  "collection_errors": 0,
+  "collection_error_details": [],
+  "missing_price_count": 0,
+  "price_capture": true,
+  "data_ready": true,
+  "delta_not_ready_samples": 0,
+  "delta_failure_samples": 0,
+  "trade_context_ready": false,
+  "trade_context_ready_at_start": false,
+  "context_ready_at_start": false,
+  "context_not_ready_samples": 1,
+  "samples": [
+    {
+      "last_price": 1,
+      "delta_status": "READY",
+      "alignment": "NEUTRAL",
+      "structure": {
+        "trend": "SIDEWAYS"
+      },
+      "price_action": {
+        "bias": "NONE"
+      },
+      "candle_evidence": {
+        "status": "CANDLE_EVIDENCE_READY",
+        "candle_id": "WINV26|M1|2026-10-02T09:06:00",
+        "symbol": "WINV26",
+        "timeframe": "M1",
+        "timestamp": "2026-10-02T09:06:00",
+        "open": 5.0,
+        "high": 5.0,
+        "low": 5.0,
+        "close": 5.0,
+        "volume": 10.0,
+        "identity_ready": true,
+        "ohlc_ready": true,
+        "volume_ready": true,
+        "closed_candle_claim_allowed": false,
+        "observational_only": true,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false
+      },
+      "data_ready": true,
+      "trade_context_ready": false,
+      "context_ready": false,
+      "cycle": 1,
+      "timestamp": "2026-10-03T09:47:38.503",
+      "market_structure_observability": {
+        "engine_version": "RC17-CLOSED-CANDLE",
+        "rc17_source_sha256": "4eea98a71699db0f6e81f93386cecc46a9dba5a0435b2e821f5a8cae92420995",
+        "symbol": "WINV26",
+        "timeframe": "M1",
+        "cycle": 1,
+        "timestamp": "2026-10-03T09:47:38.503",
+        "market_ready": true,
+        "total_candle_count": 7,
+        "closed_candle_count": 6,
+        "guard_status": "EXECUTED",
+        "guard_reason": null,
+        "closed_candles": [
+          {
+            "index": 0,
+            "timestamp": "2026-10-02T09:00:00",
+            "open": 3.0,
+            "high": 5,
+            "low": 1,
+            "close": 3.0,
+            "volume": 10
+          },
+          {
+            "index": 1,
+            "timestamp": "2026-10-02T09:01:00",
+            "open": 4.0,
+            "high": 6,
+            "low": 2,
+            "close": 4.0,
+            "volume": 10
+          },
+          {
+            "index": 2,
+            "timestamp": "2026-10-02T09:02:00",
+            "open": 6.0,
+            "high": 9,
+            "low": 3,
+            "close": 6.0,
+            "volume": 10
+          },
+          {
+            "index": 3,
+            "timestamp": "2026-10-02T09:03:00",
+            "open": 5.0,
+            "high": 6,
+            "low": 4,
+            "close": 5.0,
+            "volume": 10
+          },
+          {
+            "index": 4,
+            "timestamp": "2026-10-02T09:04:00",
+            "open": 5.0,
+            "high": 5,
+            "low": 5,
+            "close": 5.0,
+            "volume": 10
+          },
+          {
+            "index": 5,
+            "timestamp": "2026-10-02T09:05:00",
+            "open": 6.0,
+            "high": 6,
+            "low": 6,
+            "close": 6.0,
+            "volume": 10
+          }
+        ],
+        "closed_history_sha256": "eca4133b1cfa3af405ed09024f0d1313a23392af0fcfecb5a5872e1c05975c27",
+        "excluded_forming_candle": {
+          "index": 6,
+          "timestamp": "2026-10-02T09:06:00",
+          "open": 5.0,
+          "high": 5,
+          "low": 5,
+          "close": 5.0,
+          "volume": 10
+        },
+        "candidates": [
+          {
+            "candidate_type": "HIGH",
+            "candidate_index": 2,
+            "candidate_candle": {
+              "timestamp": "2026-10-02T09:02:00",
+              "high": 9,
+              "low": 3
+            },
+            "comparison_values": {
+              "current": 9,
+              "left_2": 5,
+              "left_1": 6,
+              "right_1": 6,
+              "right_2": 5
+            },
+            "neighbors": {
+              "left_2": {
+                "index": 0,
+                "timestamp": "2026-10-02T09:00:00",
+                "high": 5,
+                "low": 1
+              },
+              "left_1": {
+                "index": 1,
+                "timestamp": "2026-10-02T09:01:00",
+                "high": 6,
+                "low": 2
+              },
+              "right_1": {
+                "index": 3,
+                "timestamp": "2026-10-02T09:03:00",
+                "high": 6,
+                "low": 4
+              },
+              "right_2": {
+                "index": 4,
+                "timestamp": "2026-10-02T09:04:00",
+                "high": 5,
+                "low": 5
+              }
+            },
+            "candidate_confirmed": true,
+            "predicates": {
+              "left_1": true,
+              "left_2": true,
+              "right_1": true,
+              "right_2": true
+            },
+            "failed_predicates": []
+          },
+          {
+            "candidate_type": "LOW",
+            "candidate_index": 2,
+            "candidate_candle": {
+              "timestamp": "2026-10-02T09:02:00",
+              "high": 9,
+              "low": 3
+            },
+            "comparison_values": {
+              "current": 3,
+              "left_2": 1,
+              "left_1": 2,
+              "right_1": 4,
+              "right_2": 5
+            },
+            "neighbors": {
+              "left_2": {
+                "index": 0,
+                "timestamp": "2026-10-02T09:00:00",
+                "high": 5,
+                "low": 1
+              },
+              "left_1": {
+                "index": 1,
+                "timestamp": "2026-10-02T09:01:00",
+                "high": 6,
+                "low": 2
+              },
+              "right_1": {
+                "index": 3,
+                "timestamp": "2026-10-02T09:03:00",
+                "high": 6,
+                "low": 4
+              },
+              "right_2": {
+                "index": 4,
+                "timestamp": "2026-10-02T09:04:00",
+                "high": 5,
+                "low": 5
+              }
+            },
+            "candidate_confirmed": false,
+            "predicates": {
+              "left_1": false,
+              "left_2": false,
+              "right_1": true,
+              "right_2": true
+            },
+            "failed_predicates": [
+              "left_1",
+              "left_2"
+            ]
+          },
+          {
+            "candidate_type": "HIGH",
+            "candidate_index": 3,
+            "candidate_candle": {
+              "timestamp": "2026-10-02T09:03:00",
+              "high": 6,
+              "low": 4
+            },
+            "comparison_values": {
+              "current": 6,
+              "left_2": 6,
+              "left_1": 9,
+              "right_1": 5,
+              "right_2": 6
+            },
+            "neighbors": {
+              "left_2": {
+                "index": 1,
+                "timestamp": "2026-10-02T09:01:00",
+                "high": 6,
+                "low": 2
+              },
+              "left_1": {
+                "index": 2,
+                "timestamp": "2026-10-02T09:02:00",
+                "high": 9,
+                "low": 3
+              },
+              "right_1": {
+                "index": 4,
+                "timestamp": "2026-10-02T09:04:00",
+                "high": 5,
+                "low": 5
+              },
+              "right_2": {
+                "index": 5,
+                "timestamp": "2026-10-02T09:05:00",
+                "high": 6,
+                "low": 6
+              }
+            },
+            "candidate_confirmed": false,
+            "predicates": {
+              "left_1": false,
+              "left_2": false,
+              "right_1": true,
+              "right_2": false
+            },
+            "failed_predicates": [
+              "left_1",
+              "left_2",
+              "right_2"
+            ]
+          },
+          {
+            "candidate_type": "LOW",
+            "candidate_index": 3,
+            "candidate_candle": {
+              "timestamp": "2026-10-02T09:03:00",
+              "high": 6,
+              "low": 4
+            },
+            "comparison_values": {
+              "current": 4,
+              "left_2": 2,
+              "left_1": 3,
+              "right_1": 5,
+              "right_2": 6
+            },
+            "neighbors": {
+              "left_2": {
+                "index": 1,
+                "timestamp": "2026-10-02T09:01:00",
+                "high": 6,
+                "low": 2
+              },
+              "left_1": {
+                "index": 2,
+                "timestamp": "2026-10-02T09:02:00",
+                "high": 9,
+                "low": 3
+              },
+              "right_1": {
+                "index": 4,
+                "timestamp": "2026-10-02T09:04:00",
+                "high": 5,
+                "low": 5
+              },
+              "right_2": {
+                "index": 5,
+                "timestamp": "2026-10-02T09:05:00",
+                "high": 6,
+                "low": 6
+              }
+            },
+            "candidate_confirmed": false,
+            "predicates": {
+              "left_1": false,
+              "left_2": false,
+              "right_1": true,
+              "right_2": true
+            },
+            "failed_predicates": [
+              "left_1",
+              "left_2"
+            ]
+          }
+        ],
+        "swing_highs": [
+          {
+            "history_index": 2,
+            "timestamp": "2026-10-02T09:02:00",
+            "price": 9,
+            "confirmation_cycle_or_timestamp": {
+              "cycle": 1,
+              "timestamp": "2026-10-03T09:47:38.503"
+            },
+            "confirmation_semantics": "OBSERVED_THIS_CYCLE_NOT_FIRST_CONFIRMATION"
+          }
+        ],
+        "swing_lows": [],
+        "observational_only": true,
+        "decision_influence_allowed": false,
+        "history_unchanged_during_pipeline": true,
+        "swing_high_count": 1,
+        "latest_swing_high": {
+          "history_index": 2,
+          "timestamp": "2026-10-02T09:02:00",
+          "price": 9,
+          "confirmation_cycle_or_timestamp": {
+            "cycle": 1,
+            "timestamp": "2026-10-03T09:47:38.503"
+          },
+          "confirmation_semantics": "OBSERVED_THIS_CYCLE_NOT_FIRST_CONFIRMATION"
+        },
+        "previous_swing_high": null,
+        "swing_low_count": 0,
+        "latest_swing_low": null,
+        "previous_swing_low": null,
+        "observed_result": {
+          "valid": true,
+          "confidence": 0.4,
+          "bos_up": false,
+          "bos_down": false,
+          "choch": false,
+          "last_high": 9,
+          "last_low": 0.0,
+          "reasons": [
+            "Estrutura sem tendência definida."
+          ],
+          "higher_high": false,
+          "higher_low": false,
+          "lower_high": false,
+          "lower_low": false,
+          "trend": "SIDEWAYS",
+          "status": "NOT_EXECUTED"
+        }
+      }
+    }
+  ],
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "order_execution_allowed": false,
+  "reasons": []
+}

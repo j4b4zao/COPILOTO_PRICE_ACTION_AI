@@ -1,0 +1,18 @@
+test_35_record_chain (test_f3_int79_envelope_lineage.EnvelopeLineageTests.test_35_record_chain) ... ok
+test_agrees_with_segments (test_f3_int79_envelope_lineage.EnvelopeLineageTests.test_agrees_with_segments) ... ok
+test_byte_limit (test_f3_int79_envelope_lineage.EnvelopeLineageTests.test_byte_limit) ... ok
+test_case_collision_precedes_source_inventory (test_f3_int79_envelope_lineage.EnvelopeLineageTests.test_case_collision_precedes_source_inventory) ... ok
+test_declared_replacement (test_f3_int79_envelope_lineage.EnvelopeLineageTests.test_declared_replacement) ... ok
+test_flags (test_f3_int79_envelope_lineage.EnvelopeLineageTests.test_flags) ... ok
+test_gap (test_f3_int79_envelope_lineage.EnvelopeLineageTests.test_gap) ... ok
+test_invalid_policy (test_f3_int79_envelope_lineage.EnvelopeLineageTests.test_invalid_policy) ... ok
+test_invalid_records (test_f3_int79_envelope_lineage.EnvelopeLineageTests.test_invalid_records) ... ok
+test_large_envelopes (test_f3_int79_envelope_lineage.EnvelopeLineageTests.test_large_envelopes) ... ok
+test_source_alias (test_f3_int79_envelope_lineage.EnvelopeLineageTests.test_source_alias) ... ok
+test_unlisted_replacement (test_f3_int79_envelope_lineage.EnvelopeLineageTests.test_unlisted_replacement) ... ok
+test_unused_declaration (test_f3_int79_envelope_lineage.EnvelopeLineageTests.test_unused_declaration) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.460s
+
+OK

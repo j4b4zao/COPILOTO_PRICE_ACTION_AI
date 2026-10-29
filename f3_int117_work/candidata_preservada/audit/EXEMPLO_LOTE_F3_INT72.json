@@ -1,0 +1,36 @@
+{
+  "accepted": {
+    "status": "BATCH_WITNESS_FIXTURE_UNAUTHENTICATED",
+    "checked": 1,
+    "f3": "OPEN",
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false,
+    "registry": {
+      "digests": [
+        "0aaa65e72ebf03eb7a88855a7f706d10228e8aa0930ac071d3b782d5e0b532df"
+      ]
+    }
+  },
+  "replayed": {
+    "status": "REPLAYED_CANONICAL_WITNESS",
+    "checked": 0,
+    "f3": "OPEN",
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false,
+    "registry": {
+      "digests": [
+        "0aaa65e72ebf03eb7a88855a7f706d10228e8aa0930ac071d3b782d5e0b532df"
+      ]
+    }
+  }
+}

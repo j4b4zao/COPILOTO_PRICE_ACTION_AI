@@ -1,0 +1,457 @@
+﻿
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\analysis_pipeline.py
+LineNumber : 26
+Line       : from analysis.book_depth_analysis import BookDepthAnalysis
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\analysis_pipeline.py
+LineNumber : 39
+Line       :     MicrostructureConfluenceReplayRecorder,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\analysis_pipeline.py
+LineNumber : 158
+Line       :         self.microstructure_confluence_replay = MicrostructureConfluenceReplayRecorder()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\analysis_pipeline.py
+LineNumber : 168
+Line       :             BookDepthAnalysis(),
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 6
+Line       : class BookDepthAnalysis(EngineBase):
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 7
+Line       :     NAME = "BookDepthAnalysis"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 39
+Line       :         result.concentration_bias = self._concentration_bias(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 46
+Line       :         book_direction = self._book_direction(result.pressure, result.concentration_bias)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 81
+Line       :     def _concentration_bias(bid, ask):
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 90
+Line       :     def _book_direction(pressure, concentration_bias):
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 91
+Line       :         if pressure == "BID_DOMINANT" or concentration_bias == "BID_DOMINANT":
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\book_depth_analysis.py
+LineNumber : 93
+Line       :         if pressure == "ASK_DOMINANT" or concentration_bias == "ASK_DOMINANT":
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\historical_microstructure_bridge.py
+LineNumber : 9
+Line       : - executar MicrostructureConfluenceAudit + EligibilityPolicy em shadow;
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\historical_microstructure_bridge.py
+LineNumber : 19
+Line       :     MicrostructureConfluenceAudit,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\historical_microstructure_bridge.py
+LineNumber : 57
+Line       :         self._confluence = MicrostructureConfluenceAudit()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\historical_microstructure_bridge.py
+LineNumber : 115
+Line       :                 # Level 2 suficiente para reconstruir BookDepthAnalysis.
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\historical_microstructure_bridge.py
+LineNumber : 118
+Line       :                 concentration_bias="BALANCED",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 15
+Line       : class MicrostructureConfluenceSnapshot:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 42
+Line       : class MicrostructureConfluenceAudit:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 47
+Line       :     def analyze(self, context) -> MicrostructureConfluenceSnapshot:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 76
+Line       :             str(getattr(book, "concentration_bias", "BALANCED") or "BALANCED").upper(),
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 120
+Line       :         return MicrostructureConfluenceSnapshot(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 164
+Line       :     def _book_direction(pressure: str, concentration_bias: str) -> str:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 170
+Line       :         if concentration_bias == "BID_DOMINANT":
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence.py
+LineNumber : 172
+Line       :         elif concentration_bias == "ASK_DOMINANT":
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_multi_session.py
+LineNumber : 9
+Line       : class MicrostructureConfluenceMultiSessionReport:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_multi_session.py
+LineNumber : 33
+Line       : class MicrostructureConfluenceMultiSessionComparator:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_multi_session.py
+LineNumber : 40
+Line       :     def compare(self, reports) -> MicrostructureConfluenceMultiSessionReport:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_multi_session.py
+LineNumber : 74
+Line       :         return MicrostructureConfluenceMultiSessionReport(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 11
+Line       : from analysis.replay.microstructure_confluence import MicrostructureConfluenceAudit
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 15
+Line       : class MicrostructureConfluenceReplaySample:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 42
+Line       :     def from_dict(cls, payload: dict) -> "MicrostructureConfluenceReplaySample":
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 55
+Line       : class MicrostructureConfluenceReplayRecorder:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 60
+Line       :         self._samples: list[MicrostructureConfluenceReplaySample] = []
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 61
+Line       :         self.audit = MicrostructureConfluenceAudit()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 64
+Line       :     def samples(self) -> tuple[MicrostructureConfluenceReplaySample, ...]:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 74
+Line       :     def add_sample(self, sample: MicrostructureConfluenceReplaySample) -> None:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 75
+Line       :         if not isinstance(sample, MicrostructureConfluenceReplaySample):
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 76
+Line       :             raise TypeError("sample deve ser MicrostructureConfluenceReplaySample.")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 79
+Line       :     def record(self, context) -> MicrostructureConfluenceReplaySample:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 81
+Line       :         sample = MicrostructureConfluenceReplaySample(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 203
+Line       :         fieldnames = [field.name for field in fields(MicrostructureConfluenceReplaySample)]
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 236
+Line       :                     sample = MicrostructureConfluenceReplaySample.from_dict(json.loads(line))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_replay_recorder.py
+LineNumber : 249
+Line       :     def _append(self, sample: MicrostructureConfluenceReplaySample) -> None:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_session_report.py
+LineNumber : 9
+Line       : class MicrostructureConfluenceSessionReport:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_session_report.py
+LineNumber : 32
+Line       : class MicrostructureConfluenceSessionReporter:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_session_report.py
+LineNumber : 36
+Line       :     def build(self, recorder) -> MicrostructureConfluenceSessionReport:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_session_report.py
+LineNumber : 40
+Line       :             return MicrostructureConfluenceSessionReport()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_confluence_session_report.py
+LineNumber : 70
+Line       :         return MicrostructureConfluenceSessionReport(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_eligibility_replay_recorder.py
+LineNumber : 11
+Line       : from analysis.replay.microstructure_confluence import MicrostructureConfluenceAudit
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\microstructure_eligibility_replay_recorder.py
+LineNumber : 46
+Line       :         self.audit = MicrostructureConfluenceAudit()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\score_microstructure_eligibility_ab_recorder.py
+LineNumber : 11
+Line       : from analysis.replay.microstructure_confluence import MicrostructureConfluenceAudit
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\analysis\replay\score_microstructure_eligibility_ab_recorder.py
+LineNumber : 67
+Line       :         self.audit = MicrostructureConfluenceAudit()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\brain\context_engine.py
+LineNumber : 429
+Line       :         checklist.book_depth_concentration_bias = str(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\brain\context_engine.py
+LineNumber : 430
+Line       :             book_depth.concentration_bias or "BALANCED"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\models\book_depth_analysis_result.py
+LineNumber : 9
+Line       : class BookDepthAnalysisResult(ResultBase):
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\models\book_depth_analysis_result.py
+LineNumber : 16
+Line       :     concentration_bias: str = "BALANCED"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\models\book_depth_analysis_result.py
+LineNumber : 31
+Line       :         self.concentration_bias = "BALANCED"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\models\trade_checklist.py
+LineNumber : 63
+Line       :     book_depth_concentration_bias: str = "BALANCED"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\models\trade_checklist.py
+LineNumber : 111
+Line       :         self.book_depth_concentration_bias = "BALANCED"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\historical_microstructure_confluence_report.py
+LineNumber : 32
+Line       : class HistoricalMicrostructureConfluenceReport:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\historical_microstructure_confluence_report.py
+LineNumber : 72
+Line       : class HistoricalMicrostructureConfluenceReporter:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\historical_microstructure_confluence_report.py
+LineNumber : 91
+Line       :     ) -> HistoricalMicrostructureConfluenceReport:
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\historical_microstructure_confluence_report.py
+LineNumber : 211
+Line       :         return HistoricalMicrostructureConfluenceReport(
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\historical_prospective_microstructure_comparison.py
+LineNumber : 82
+Line       :         evidence = _get(prospective_report, "prospective_microstructure", prospective_report)
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_microstructure_prospective_orchestrated_session.py
+LineNumber : 118
+Line       :     evidence = session.get("prospective_microstructure") or {}
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_microstructure_prospective_session.py
+LineNumber : 17
+Line       :     MicrostructureConfluenceSessionReporter,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_microstructure_prospective_session.py
+LineNumber : 77
+Line       :     report = MicrostructureConfluenceSessionReporter().build(recorder).to_dict() if recorder is not None 
+             else {}
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_microstructure_prospective_session.py
+LineNumber : 88
+Line       :     result["prospective_microstructure"] = evidence
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_microstructure_prospective_session.py
+LineNumber : 95
+Line       :         payload["prospective_microstructure"] = evidence
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_microstructure_prospective_session.py
+LineNumber : 125
+Line       :     evidence = result["prospective_microstructure"]
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\profit_rtd_microstructure_prospective_session.py
+LineNumber : 126
+Line       :     print("PROSPECTIVE_MICROSTRUCTURE=" + str(result.get("status")))
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 85
+Line       :     canonica e prospective_microstructure.samples. Esses samples foram
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 107
+Line       :     prospective = payload.get("prospective_microstructure")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 114
+Line       :                 "prospective_microstructure exists but samples "
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 120
+Line       :                 "prospective_microstructure.samples contains "
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 131
+Line       :                 "prospective_microstructure.captured_samples "
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 142
+Line       :                 "prospective_microstructure.source_analyzable_samples "
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 151
+Line       :                 "prospective_microstructure.sample_count_matches_source "
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 157
+Line       :                 "prospective_microstructure.captured_samples "
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_book_directionality_diagnostics.py
+LineNumber : 163
+Line       :                 "prospective_microstructure.source_analyzable_samples "
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_checkpoint_manifest.py
+LineNumber : 23
+Line       :     python -m tools.prospective_microstructure_checkpoint_manifest create \
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_checkpoint_manifest.py
+LineNumber : 24
+Line       :         --protocol PROSPECTIVE_MICROSTRUCTURE_CONFLICT_10_SESSION_CHECKPOINT \
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_checkpoint_manifest.py
+LineNumber : 29
+Line       :     python -m tools.prospective_microstructure_checkpoint_manifest verify \
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_episode_report.py
+LineNumber : 16
+Line       : from tools.prospective_microstructure_multi_session_audit import audit_paths
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_episode_report.py
+LineNumber : 17
+Line       : from tools.prospective_microstructure_coverage_report import _coverage
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_episode_report.py
+LineNumber : 267
+Line       :         evidence = payload["prospective_microstructure"]
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 17
+Line       : from tools.prospective_microstructure_multi_session_audit import audit_paths
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 18
+Line       : from tools.prospective_microstructure_conflict_episode_report import _episodes
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 328
+Line       :         evidence = payload.get("prospective_microstructure")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_price_followthrough.py
+LineNumber : 331
+Line       :             raise ValueError("prospective_microstructure evidence is missing")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_conflict_session_stability.py
+LineNumber : 472
+Line       :         help="RC1 prospective_microstructure_conflict_price_followthrough JSON.",
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_coverage_report.py
+LineNumber : 13
+Line       : from tools.prospective_microstructure_multi_session_audit import audit_paths
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_coverage_report.py
+LineNumber : 71
+Line       :         evidence = payload["prospective_microstructure"]
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_independent_session_comparison.py
+LineNumber : 19
+Line       :     "PROSPECTIVE_MICROSTRUCTURE_CONFLICT_10_SESSION_CHECKPOINT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_multi_session_audit.py
+LineNumber : 18
+Line       :     MicrostructureConfluenceMultiSessionComparator,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_multi_session_audit.py
+LineNumber : 21
+Line       :     MicrostructureConfluenceSessionReport,
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_multi_session_audit.py
+LineNumber : 59
+Line       :     evidence = payload.get("prospective_microstructure")
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_multi_session_audit.py
+LineNumber : 101
+Line       :     required = {field.name for field in fields(MicrostructureConfluenceSessionReport)}
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_multi_session_audit.py
+LineNumber : 123
+Line       :     comparator = MicrostructureConfluenceMultiSessionComparator()
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_multi_session_audit.py
+LineNumber : 175
+Line       :         allowed_fields = {field.name for field in fields(MicrostructureConfluenceSessionReport)}
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_multi_session_audit.py
+LineNumber : 177
+Line       :             MicrostructureConfluenceSessionReport(**{key: report[key] for key in allowed_fields})
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_post_session_audit.py
+LineNumber : 34
+Line       : from tools.prospective_microstructure_coverage_report import (
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_post_session_audit.py
+LineNumber : 37
+Line       : from tools.prospective_microstructure_conflict_episode_report import (
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_post_session_audit.py
+LineNumber : 40
+Line       : from tools.prospective_microstructure_conflict_price_followthrough import (
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_post_session_audit.py
+LineNumber : 44
+Line       : from tools.prospective_microstructure_conflict_stratification import (
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_post_session_audit.py
+LineNumber : 47
+Line       : from tools.prospective_microstructure_conflict_session_stability import (
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_session11_readiness.py
+LineNumber : 16
+Line       : PROTOCOL_NAME = "PROSPECTIVE_MICROSTRUCTURE_SESSION_11"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_session11_readiness.py
+LineNumber : 25
+Line       :     "PROSPECTIVE_MICROSTRUCTURE_CONFLICT_10_SESSION_CHECKPOINT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_session11_readiness.py
+LineNumber : 31
+Line       :     "prospective_microstructure_conflict_10session_checkpoint_20260926.json"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_session12_readiness.py
+LineNumber : 16
+Line       : PROTOCOL_NAME = "PROSPECTIVE_MICROSTRUCTURE_SESSION_12"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_session12_readiness.py
+LineNumber : 25
+Line       :     "PROSPECTIVE_MICROSTRUCTURE_CONFLICT_10_SESSION_CHECKPOINT"
+
+Path       : C:\COPILOTO_PRICE_ACTION_AI\tools\prospective_microstructure_session12_readiness.py
+LineNumber : 31
+Line       :     "prospective_microstructure_conflict_10session_checkpoint_20260926.json"
+
+
+

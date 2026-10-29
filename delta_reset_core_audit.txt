@@ -1,0 +1,126 @@
+﻿===== PROFIT SOURCE INTEGRITY =====
+   1: """ProteÃ§Ãµes de integridade para snapshots reais vindos do Profit/Excel."""
+   2: 
+   3: from __future__ import annotations
+   4: 
+   5: from dataclasses import dataclass
+   6: 
+   7: 
+   8: @dataclass(slots=True, frozen=True)
+   9: class SourceIntegrityDecision:
+  10:     symbol: str = ""
+  11:     duplicate: bool = False
+  12:     symbol_changed: bool = False
+  13:     fingerprint: tuple = ()
+  14: 
+  15: 
+  16: class ProfitSourceIntegrityGuard:
+  17:     """Impede que snapshots congelados ou troca de ativo contaminem o fluxo."""
+  18: 
+  19:     VERSION = "RC1-PROFIT-SOURCE-INTEGRITY"
+  20:     FIELDS = (
+  21:         "ativo",
+  22:         "data",
+  23:         "hora",
+  24:         "close",
+  25:         "volume",
+  26:         "agressao_compra",
+  27:         "agressao_venda",
+  28:     )
+  29: 
+  30:     def __init__(self):
+  31:         self._last_fingerprint: tuple | None = None
+  32:         self._last_symbol: str = ""
+  33: 
+  34:     def inspect(self, data: dict) -> SourceIntegrityDecision:
+  35:         if not isinstance(data, dict):
+  36:             raise TypeError("Snapshot do Profit deve ser um dict.")
+  37: 
+  38:         symbol = str(data.get("ativo") or "").strip().upper()
+  39:         fingerprint = tuple(self._normalize(data.get(field)) for field in self.FIELDS)
+  40:         duplicate = fingerprint == self._last_fingerprint
+  41:         symbol_changed = bool(self._last_symbol and symbol and symbol != self._last_symbol)
+  42: 
+  43:         if not duplicate:
+  44:             self._last_fingerprint = fingerprint
+  45:         if symbol:
+  46:             self._last_symbol = symbol
+  47: 
+  48:         return SourceIntegrityDecision(
+  49:             symbol=symbol,
+  50:             duplicate=duplicate,
+  51:             symbol_changed=symbol_changed,
+  52:             fingerprint=fingerprint,
+  53:         )
+  54: 
+  55:     def clear(self) -> None:
+  56:         self._last_fingerprint = None
+  57:         self._last_symbol = ""
+  58: 
+  59:     @staticmethod
+  60:     def _normalize(value):
+  61:         if value is None:
+  62:             return None
+  63:         if isinstance(value, float):
+  64:             return round(value, 10)
+  65:         if isinstance(value, str):
+  66:             return value.strip()
+  67:         return value
+
+===== COLLECTOR - LINHAS 130 A 185 =====
+ 130: 
+ 131:         close = self.to_float(dados.get("close"))
+ 132:         if not math.isfinite(close) or close <= 0:
+ 133:             print(f"[DATA WARNING] PreÃ§o invÃ¡lido recebido: {close!r}. Leitura ignorada.")
+ 134:             return None
+ 135: 
+ 136:         aggression_buy = self.to_optional_float(dados.get("agressao_compra"))
+ 137:         aggression_sell = self.to_optional_float(dados.get("agressao_venda"))
+ 138:         integrity = self.source_guard.inspect(dados)
+ 139: 
+ 140:         if self.enable_profit_rtd_order_flow:
+ 141:             self.last_profit_rtd_receipt = self.profit_rtd_order_flow_pipeline.process(
+ 142:                 ativo,
+ 143:                 price=close,
+ 144:             )
+ 145:             self.profit_rtd_validation_recorder.record(self.last_profit_rtd_receipt)
+ 146:             diagnostic_buy = self.order_flow.cumulative_buy
+ 147:             diagnostic_sell = self.order_flow.cumulative_sell
+ 148:             validation = self.profit_rtd_validation_recorder.snapshot
+ 149:             print(
+ 150:                 "[PROFIT RTD VALIDATION] "
+ 151:                 f"cycles={validation.total_cycles} updates={validation.state_updates} "
+ 152:                 f"new_trades={validation.total_new_trades} resets={validation.baseline_resets} "
+ 153:                 f"continuity={validation.continuity_rate:.0%} "
+ 154:                 f"last={validation.last_continuity}"
+ 155:             )
+ 156:         else:
+ 157:             diagnostic_buy = aggression_buy
+ 158:             diagnostic_sell = aggression_sell
+ 159:             if integrity.symbol_changed:
+ 160:                 self.order_flow.clear()
+ 161: 
+ 162:         if integrity.duplicate:
+ 163:             if not self.enable_profit_rtd_order_flow:
+ 164:                 if aggression_buy is None or aggression_sell is None:
+ 165:                     self.order_flow.mark_unavailable()
+ 166:                 else:
+ 167:                     self.order_flow.mark_waiting("SOURCE_UNCHANGED")
+ 168:             self._observe_delta_source(integrity, diagnostic_buy, diagnostic_sell)
+ 169:             print("[DATA WAIT] Snapshot do Profit sem mudanÃ§a; ciclo ignorado.")
+ 170:             return None
+ 171: 
+ 172:         timestamp = self.clock.now()
+ 173:         self.last_new_candles = self.multi_timeframe.update_tick(
+ 174:             symbol=ativo,
+ 175:             price=close,
+ 176:             cumulative_volume=volume,
+ 177:             timestamp=timestamp,
+ 178:         )
+ 179: 
+ 180:         if self.chart_mode == ChartMode.RENKO:
+ 181:             self.last_closed_renko_bricks = self.renko.update_tick(
+ 182:                 symbol=ativo,
+ 183:                 price=close,
+ 184:                 cumulative_volume=volume,
+ 185:                 timestamp=timestamp,

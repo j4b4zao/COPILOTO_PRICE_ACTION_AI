@@ -1,0 +1,18 @@
+{
+  "samples": [
+    {
+      "imbalance": 0.0
+    }
+  ],
+  "prospective_microstructure": {
+    "captured_samples": 1,
+    "source_analyzable_samples": 1,
+    "sample_count_matches_source": true,
+    "samples": [
+      {
+        "book_pressure": "BALANCED",
+        "book_direction": "INVALID"
+      }
+    ]
+  }
+}

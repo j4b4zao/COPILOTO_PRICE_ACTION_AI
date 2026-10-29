@@ -1,0 +1,2 @@
+baseline_total,adjusted_total,delta,baseline_grade,adjusted_grade,grade_changed,baseline_valid,adjusted_valid,validity_changed,eligibility_state,eligibility_reason,confluence_quality,confidence,confidence_bucket,independent_evidence_count,correlated_evidence_count,conflict_count,correlation_bucket,correlation_factor,raw_adjustment,adjustment,passive_only
+80.0,81.5,1.5,A,A,False,True,True,False,STRONG_CANDIDATE,THREE_INDEPENDENT_HIGH_CONFIDENCE,HIGH,0.85,HIGH,3,0,0,INDEPENDENT,1.0,1.5,1.5,True

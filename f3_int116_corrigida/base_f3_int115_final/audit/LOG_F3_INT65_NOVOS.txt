@@ -1,0 +1,17 @@
+test_bad_trace_shape (test_f3_int65_differential_trace.DifferentialTests.test_bad_trace_shape) ... ok
+test_bad_witness (test_f3_int65_differential_trace.DifferentialTests.test_bad_witness) ... ok
+test_equal_traces (test_f3_int65_differential_trace.DifferentialTests.test_equal_traces) ... ok
+test_flags (test_f3_int65_differential_trace.DifferentialTests.test_flags) ... ok
+test_invariant_preserving_forgery (test_f3_int65_differential_trace.DifferentialTests.test_invariant_preserving_forgery) ... ok
+test_mutable_snapshots (test_f3_int65_differential_trace.DifferentialTests.test_mutable_snapshots) ... ok
+test_oversized_trace (test_f3_int65_differential_trace.DifferentialTests.test_oversized_trace) ... ok
+test_rejection_mutation_detected (test_f3_int65_differential_trace.DifferentialTests.test_rejection_mutation_detected) ... ok
+test_status_only_forgery (test_f3_int65_differential_trace.DifferentialTests.test_status_only_forgery) ... ok
+test_unknown_action (test_f3_int65_differential_trace.DifferentialTests.test_unknown_action) ... ok
+test_valid (test_f3_int65_differential_trace.DifferentialTests.test_valid) ... ok
+test_version_jump_detected (test_f3_int65_differential_trace.DifferentialTests.test_version_jump_detected) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.086s
+
+OK

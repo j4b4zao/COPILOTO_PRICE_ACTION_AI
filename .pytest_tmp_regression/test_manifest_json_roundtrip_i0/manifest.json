@@ -1,0 +1,22 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-CHECKPOINT-MANIFEST",
+  "status": "IDENTITY_LOCK_ONLY",
+  "protocol": "TEST_CHECKPOINT",
+  "session_count": 1,
+  "sessions": [
+    {
+      "position": 1,
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\.pytest_tmp_regression\\test_manifest_json_roundtrip_i0\\session.json",
+      "sha256": "899284b2bc97c777c4802e2076029ab117f35af148f824417801da0ef37db0ea"
+    }
+  ],
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}

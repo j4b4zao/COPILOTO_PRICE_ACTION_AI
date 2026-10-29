@@ -1,0 +1,37 @@
+{
+  "original_candidate_files": 889,
+  "base_final_files": 875,
+  "previous_candidate_unchanged": true,
+  "final_files_unchanged": true,
+  "relocation_hashes_ok": true,
+  "runner_assert_count": 0,
+  "optimized_runner": true,
+  "supervised_cleanup_confirmed": true,
+  "modified": [
+    "audit/tools/f3_int116_run_audit.py",
+    "audit/RELATORIO_F3_INT116_CANDIDATA.md",
+    "audit/MANIFESTO_F3_INT116_CANDIDATA.json",
+    "audit/MANIFESTO_F3_INT116_CANDIDATA.json.sha256"
+  ],
+  "new_tests": 9,
+  "runs": [
+    {
+      "label": "ESPECIFICOS",
+      "total": 17,
+      "passed": 17,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 19.674
+    },
+    {
+      "label": "REGRESSAO_COMPLETA",
+      "total": 1438,
+      "passed": 1437,
+      "skipped": 1,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 540.219
+    }
+  ]
+}

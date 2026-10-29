@@ -1,0 +1,154 @@
+PROJETO: COPILOTO_PRICE_ACTION_AI
+ETAPA: RC7.13.23-H.9.6 — MONITOR OBSERVACIONAL RTD
+DIRETÓRIO DE ENTREGA: C:\COPILOTO_GIT_SYNC
+Data: 13/10/2026 — America/Sao_Paulo
+RESULTADO: H9_6_OFFLINE_TESTS_PASSED
+orders_allowed=False; live_certified=False; flow_complete=False
+NENHUM MONITORAMENTO REAL FOI INICIADO PELO CODEX.
+
+1. ARQUITETURA
+h9_6_observational_monitor.py: monitor isolado, agendamento limitado por relógio
+monotônico, avaliação por fonte, registro JSONL e resumo final.
+Reutiliza ExistingExcel da H.9.5 para attachment GetActiveObject, verificações
+de usuário jb não elevado, sessão interativa, proprietário, EXCEL.EXE, PID/Hwnd,
+FullName e inventário dos três arquivos. Não modifica a dependência original.
+Lê somente Profit Planilha1 A2:N2 Value2 e B2:N2 Formula; Livro e Times A1:H5.
+read_existing adapta apenas a leitura para registrar falhas individuais e
+preservar as demais fontes. Inventário alterado bloqueia a execução global.
+Validação Times reutiliza inspect da H.9.5.1: campos A timestamp, C preço,
+D quantidade obrigatórios; B/E/F opcionais e G/H sem uso podem ficar vazios.
+Erro Excel em qualquer campo preenchido, registro parcial, preço não positivo
+ou não finito, quantidade não inteira/positiva e timestamp inválido são rejeitados.
+Slots totalmente vazios significam NO_TRADES_IN_SAMPLE, não ausência comprovada
+de negócios no mercado. Estado distinto de NO_UPDATE e READ_FAILURE.
+Um helper Python filho executa COM no próprio thread. É iniciado somente pelo
+comando manual --real, com o mesmo contexto de usuário, sem RunAs/elevação.
+O helper não cria Excel: somente GetActiveObject no Excel já existente.
+Timeout encerra a execução; cleanup normal libera referências/CoUninitialize.
+Se COM ficar preso, somente o helper Python próprio pode ser terminado.
+Excel nunca recebe Quit, Close, Save, Calculate, Refresh, Open ou kill.
+Essa proteção real de subprocesso ainda não foi validada com Excel ao vivo;
+teste de cleanup forçado utiliza processo/pipe falsos.
+
+2. REGISTROS E MÉTRICAS
+Diretório de saída obrigatoriamente novo: falha se já existir, sem sobrescrita.
+events.jsonl: attachment, amostras brutas, classificações, transições de contrato,
+erros e interrupções. Cada evento é gravado e flush realizado imediatamente.
+summary.json: motivo de encerramento, contagens por fonte, períodos sem avanço,
+estatísticas e SHA256 do events.jsonl finalizado.
+Horários de aquisição com timezone America/Sao_Paulo e offset; início/fim total
+e por fonte. Timestamp de mercado, contrato, idade, avanço e motivos por fonte.
+Latência da requisição: leitura/IPC/overhead do helper, não latência RTD de rede.
+Latência por fonte: intervalo da leitura COM; min/média/max/p95 nearest-rank.
+Periodização sem atualização: tempo desde início da observação ou último avanço
+detectado; contagens distinguem NO_UPDATE, NO_TRADES_IN_SAMPLE e erros de leitura.
+Erros não são convertidos em negócios ausentes. Máximo período sem avanço
+inclui também intervalos de dados inválidos ou falhas, sem inferir a causa.
+Valores brutos, fórmulas e amostras A1:H5 são preservados no JSONL recebido.
+NaN/infinito são representados explicitamente como invalid_number, evitando
+JSON inválido. Não são aceitos na validação numérica.
+Nenhum tick/negócio individual é encaminhado a Collector, Capture ou estratégia.
+
+3. CRITÉRIOS E ENCERRAMENTO
+Contrato esperado desta versão: WINV26. Futuro conhecido: WINZ26.
+WINV26 -> WINZ26 gera evento contract_transition e encerra por CONTRACT_DIVERGENT.
+Qualquer contrato divergente também encerra; nenhuma célula/fórmula é alterada.
+Fórmulas de Profit devem corresponder aos 13 tópicos WINV26_F_0 da H.9.5.
+Profit: timestamp de Data/Hora deve avançar para indicar atualização.
+Times: maior timestamp deve avançar e registros obrigatórios devem mudar.
+Regressão temporal em Profit/Times é INVALID_DATA, sem confirmar atualização.
+Livro: preços/quantidades válidos, layout esperado e alteração da amostra.
+Data dos timestamps Hora do Livro é inferida da aquisição; rollover anterior
+é inferido apenas quando o horário aparentemente futuro supera 12 horas.
+Idade do timestamp mais recente é registrada para cada fonte; limite padrão
+120 s e tolerância futura 5 s. Times também valida a idade de todos os registros.
+Dados antigos/futuros são OLD_DATA; outros erros de validação são INVALID_DATA.
+Sem atualização não significa RTD inativo; sem negócios na amostra não significa
+sem negócios no mercado. Estados inválidos são auditados e não aceitos como avanço.
+Erros individuais de leitura são registrados e o monitor pode continuar as
+demais fontes. Falha global de attachment/inventário/read ou timeout encerra.
+Duração 1..3600 s; intervalo .5..300 s; timeout 1..60 s; max-age 1..3600 s.
+Não há sessão sem limite; Ctrl+C encerra com cleanup e resumo quando possível.
+A duração inclui início/attachment/agendamento; nenhuma chamada nova é enviada
+depois do deadline. Chamadas em andamento são limitadas por poll no processo pai.
+Cleanup pode acrescentar até duas esperas de 2 s; há overhead de SO/escrita.
+Encerramento abrupto do processo pai/pane pode deixar JSONL parcial sem resumo;
+amostras já gravadas permanecem para auditoria, sem garantia contra perda de energia.
+
+4. TESTES OFFLINE E EVIDÊNCIAS
+64 testes aprovados, zero erros/falhas: 27 H.9.6 + 14 H.9.5 + 23 H.9.5.1.
+Cobertura nova: atualização das três fontes; duração; períodos sem avanço;
+Times vazio/opcionais/incompleto; dados antigos; timestamp/preço/quantidade/erro;
+troca WINV26->WINZ26; contrato divergente inicial; falha individual preservando
+demais fontes; timeout attachment/leitura; brutos preservados; estatísticas;
+números não finitos; parâmetros; saída exclusiva/hash; números Livro;
+fórmula divergente Profit; evidência 05; ausência de avanço temporal;
+regressão temporal; Ctrl+C cleanup; cleanup forçado só helper; hash da evidência 03.
+Replay offline: 3 amostras, relógio sintético, evidência 03; não é sessão real.
+Artefatos do replay têm mode=OFFLINE_HISTORICAL_REPLAY_SYNTHETIC_CLOCK.
+1.507 arquivos preexistentes (módulos Python e referências H.9) comparados por
+SHA256 antes/depois: zero divergências e zero inacessíveis no inventário.
+Os três workbooks não foram abertos/alterados; não se afirma verificação de
+hash de workbook em uso. Preservação decorre de não realizar escrita/attachment real.
+Evidência 03 SHA256:
+fc168f197180ebe960b8c181b3dfbbe0b8591610719abefbd0986d48ba52d203
+Evidência 05 SHA256:
+13ead4817ebd4e41788116fcc2fc536212510a8dfa474242c6d4e1c830dab2fa
+Nenhum arquivo identificável como etapa H.9.5.2 foi encontrado; evidência _02
+é uma leitura H.9.5, não prova da etapa H.9.5.2. Foi solicitada sua referência.
+Não se declara auditoria/reutilização de implementação H.9.5.2 ausente.
+
+5. ARQUIVOS NOVOS E SHA256
+Cópias de trabalho C:\COPILOTO_PRICE_ACTION_AI; entrega de cópias idênticas
+em C:\COPILOTO_GIT_SYNC, incluindo subdiretório de replay offline novo.
+h9_6_observational_monitor.py
+4f8b4fd8d75b4a25671964eb989cbcfea22b811c21594900239d7e1cc240bedd
+test_h9_6_observational_monitor.py
+a0b461875b0b9a20f51ddbe64edc8bb077b5fdb8fbc48720dab263a40df7c00b
+h9_6_offline_validation.py
+34773f2aad4807f62116e5f97e9dc5dec3f938c56e90f229686ca394c84697ff
+h9_6_before.json
+751bd9a43ac112a2f3e8d646cb6937105c39c5af1d9ffad92f16690bb9c7cf7d
+h9_6_offline_tests.txt
+e58979fd90eb2a5e7638d27fd202e269ae9de1736dd3ba7d0e8c08c62b6caa5d
+h9_6_offline_validation.json
+ac84cb09a8c2b8a4b17ea8532a561ca0449bc422a696db81f5419ead5ba6f9b4
+h9_6_offline_audit\events.jsonl
+22782522b666622cd4f795b3a83152d554bb24edfa3e9d6a5e4255120f84f339
+h9_6_offline_audit\summary.json
+41e017d05bc7f427efbef7b2593b1ef29be10a290054f216aa38c71ce43c0273
+saida_codex_h9_6.txt: hash definitivo informado separadamente após gravação.
+
+6. COMANDO PARA EXECUÇÃO MANUAL FUTURA
+Executar somente quando autorizado pelo usuário, em PowerShell normal jb,
+sem administrador, com o Excel existente e os três workbooks já abertos:
+
+cd C:\COPILOTO_GIT_SYNC
+& "C:\Users\jb\AppData\Local\Programs\Python\Python313\python.exe" -B .\h9_6_observational_monitor.py --real --duration 300 --interval 5 --call-timeout 10 --max-age 120 --output-dir .\h9_6_manual_run_001
+
+Diretório deve ser novo. Se existir, escolher outro nome; nunca apagar histórico.
+Sem --real, CLI recusa execução. Importação e testes não iniciam helper/Excel.
+O comando acima NÃO FOI EXECUTADO pelo Codex.
+Dependências preexistentes necessárias ao lado do módulo:
+h9_5_readonly.py e h9_5_1_readonly.py; pywin32 local já usado em H.9.5.
+Testes novos podem ser reexecutados com python.exe -B test_h9_6_observational_monitor.py.
+O runner completo gera artefatos novos exclusivos e recusa reuso dos nomes.
+
+7. LIMITAÇÕES E RECOMENDAÇÃO
+Amostra de três negócios e três níveis por leitura nunca prova integralidade,
+ordenação completa ou ausência de perdas entre leituras. Não há IDs de negócio,
+deduplicação global, sincronização atômica entre fontes ou atestação de origem.
+Read failures globais/timeouts podem perder uma amostra parcial ainda no helper;
+últimas amostras concluídas já recebidas ficam no JSONL.
+Metadados opcionais não bastam para inferências de agressão.
+Data inferida no Livro e horário local da fonte exigem relógio Windows correto.
+Helper COM real, limites de timeout e rotina de leitura adaptada permanecem
+pendentes de validação manual; os testes somente usam fontes/processos falsos.
+Próxima etapa: localizar a referência H.9.5.2 e revisar uma execução manual
+curta autorizada e seus artefatos, sem iniciar estratégias ou ordens.
+Nenhum módulo certificado foi modificado; nenhuma fórmula/célula/contrato
+foi alterado. Sem Collector/Capture, ordens, configurações Windows, commit/push
+ou sobrescrita de evidência histórica. Nenhuma certificação live antecipada.
+
+RESULTADO FINAL: H9_6_OFFLINE_TESTS_PASSED
+NENHUMA ORDEM PERMITIDA.

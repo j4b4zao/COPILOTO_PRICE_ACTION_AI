@@ -1,0 +1,1812 @@
+{
+  "identity": {
+    "samples": 2746,
+    "simultaneous_directional_samples": 356,
+    "aligned_samples": 210,
+    "opposed_samples": 146,
+    "total_runs": 35,
+    "aligned_runs": 17,
+    "opposed_runs": 18
+  },
+  "session_count": 10,
+  "A_transition_gap": {
+    "pooled": {
+      "total_transitions": 28,
+      "gap_samples": {
+        "count": 28,
+        "min": 0,
+        "median": 11.0,
+        "mean": 23.25,
+        "max": 197
+      },
+      "gap_sample_distribution": {
+        "0": 1,
+        "1": 1,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 3,
+        "6": 1,
+        "7": 1,
+        "8": 1,
+        "9": 1,
+        "11": 2,
+        "14": 1,
+        "16": 1,
+        "18": 1,
+        "19": 1,
+        "20": 1,
+        "26": 1,
+        "28": 2,
+        "30": 1,
+        "39": 1,
+        "44": 1,
+        "93": 1,
+        "197": 1
+      },
+      "gap_seconds": {
+        "count": 28,
+        "min": 2.2,
+        "median": 22.938000000000002,
+        "mean": 38.901785714285715,
+        "max": 318.216
+      }
+    },
+    "by_session": {
+      "FROZEN_SESSION_01": {
+        "total_transitions": 11,
+        "gap_samples": {
+          "count": 11,
+          "min": 0,
+          "median": 9,
+          "mean": 17.818181818181817,
+          "max": 93
+        },
+        "gap_sample_distribution": {
+          "0": 1,
+          "1": 1,
+          "2": 1,
+          "5": 1,
+          "8": 1,
+          "9": 1,
+          "14": 1,
+          "16": 1,
+          "20": 1,
+          "28": 1,
+          "93": 1
+        },
+        "gap_seconds": {
+          "count": 11,
+          "min": 2.2,
+          "median": 15.637,
+          "mean": 30.442818181818183,
+          "max": 147.886
+        }
+      },
+      "FROZEN_SESSION_02": {
+        "total_transitions": 9,
+        "gap_samples": {
+          "count": 9,
+          "min": 4,
+          "median": 19,
+          "mean": 19.555555555555557,
+          "max": 39
+        },
+        "gap_sample_distribution": {
+          "4": 1,
+          "5": 1,
+          "7": 1,
+          "18": 1,
+          "19": 1,
+          "26": 1,
+          "28": 1,
+          "30": 1,
+          "39": 1
+        },
+        "gap_seconds": {
+          "count": 9,
+          "min": 7.795,
+          "median": 28.088,
+          "mean": 31.84433333333333,
+          "max": 60.458
+        }
+      },
+      "FROZEN_SESSION_03": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        }
+      },
+      "FROZEN_SESSION_04": {
+        "total_transitions": 4,
+        "gap_samples": {
+          "count": 4,
+          "min": 3,
+          "median": 5.5,
+          "mean": 52.75,
+          "max": 197
+        },
+        "gap_sample_distribution": {
+          "3": 1,
+          "5": 1,
+          "6": 1,
+          "197": 1
+        },
+        "gap_seconds": {
+          "count": 4,
+          "min": 7.318,
+          "median": 12.559999999999999,
+          "mean": 87.6635,
+          "max": 318.216
+        }
+      },
+      "FROZEN_SESSION_05": {
+        "total_transitions": 2,
+        "gap_samples": {
+          "count": 2,
+          "min": 11,
+          "median": 27.5,
+          "mean": 27.5,
+          "max": 44
+        },
+        "gap_sample_distribution": {
+          "11": 1,
+          "44": 1
+        },
+        "gap_seconds": {
+          "count": 2,
+          "min": 21.747,
+          "median": 43.5625,
+          "mean": 43.5625,
+          "max": 65.378
+        }
+      },
+      "FROZEN_SESSION_06": {
+        "total_transitions": 2,
+        "gap_samples": {
+          "count": 2,
+          "min": 2,
+          "median": 6.5,
+          "mean": 6.5,
+          "max": 11
+        },
+        "gap_sample_distribution": {
+          "2": 1,
+          "11": 1
+        },
+        "gap_seconds": {
+          "count": 2,
+          "min": 5.872,
+          "median": 15.0005,
+          "mean": 15.0005,
+          "max": 24.129
+        }
+      },
+      "FROZEN_SESSION_07": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        }
+      },
+      "FROZEN_SESSION_08": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        }
+      },
+      "FROZEN_SESSION_09": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        }
+      },
+      "FROZEN_SESSION_10": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        }
+      }
+    },
+    "omit_one_session_descriptive_sensitivity": {
+      "FROZEN_SESSION_01": {
+        "total_transitions": 17,
+        "gap_samples": {
+          "count": 17,
+          "min": 2,
+          "median": 11,
+          "mean": 26.764705882352942,
+          "max": 197
+        },
+        "gap_sample_distribution": {
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 2,
+          "6": 1,
+          "7": 1,
+          "11": 2,
+          "18": 1,
+          "19": 1,
+          "26": 1,
+          "28": 1,
+          "30": 1,
+          "39": 1,
+          "44": 1,
+          "197": 1
+        },
+        "gap_seconds": {
+          "count": 17,
+          "min": 5.872,
+          "median": 24.129,
+          "mean": 44.375235294117644,
+          "max": 318.216
+        }
+      },
+      "FROZEN_SESSION_02": {
+        "total_transitions": 19,
+        "gap_samples": {
+          "count": 19,
+          "min": 0,
+          "median": 9,
+          "mean": 25,
+          "max": 197
+        },
+        "gap_sample_distribution": {
+          "0": 1,
+          "1": 1,
+          "2": 2,
+          "3": 1,
+          "5": 2,
+          "6": 1,
+          "8": 1,
+          "9": 1,
+          "11": 2,
+          "14": 1,
+          "16": 1,
+          "20": 1,
+          "28": 1,
+          "44": 1,
+          "93": 1,
+          "197": 1
+        },
+        "gap_seconds": {
+          "count": 19,
+          "min": 2.2,
+          "median": 15.637,
+          "mean": 42.24478947368421,
+          "max": 318.216
+        }
+      },
+      "FROZEN_SESSION_03": {
+        "total_transitions": 28,
+        "gap_samples": {
+          "count": 28,
+          "min": 0,
+          "median": 11.0,
+          "mean": 23.25,
+          "max": 197
+        },
+        "gap_sample_distribution": {
+          "0": 1,
+          "1": 1,
+          "2": 2,
+          "3": 1,
+          "4": 1,
+          "5": 3,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "11": 2,
+          "14": 1,
+          "16": 1,
+          "18": 1,
+          "19": 1,
+          "20": 1,
+          "26": 1,
+          "28": 2,
+          "30": 1,
+          "39": 1,
+          "44": 1,
+          "93": 1,
+          "197": 1
+        },
+        "gap_seconds": {
+          "count": 28,
+          "min": 2.2,
+          "median": 22.938000000000002,
+          "mean": 38.901785714285715,
+          "max": 318.216
+        }
+      },
+      "FROZEN_SESSION_04": {
+        "total_transitions": 24,
+        "gap_samples": {
+          "count": 24,
+          "min": 0,
+          "median": 12.5,
+          "mean": 18.333333333333332,
+          "max": 93
+        },
+        "gap_sample_distribution": {
+          "0": 1,
+          "1": 1,
+          "2": 2,
+          "4": 1,
+          "5": 2,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "11": 2,
+          "14": 1,
+          "16": 1,
+          "18": 1,
+          "19": 1,
+          "20": 1,
+          "26": 1,
+          "28": 2,
+          "30": 1,
+          "39": 1,
+          "44": 1,
+          "93": 1
+        },
+        "gap_seconds": {
+          "count": 24,
+          "min": 2.2,
+          "median": 24.767000000000003,
+          "mean": 30.774833333333333,
+          "max": 147.886
+        }
+      },
+      "FROZEN_SESSION_05": {
+        "total_transitions": 26,
+        "gap_samples": {
+          "count": 26,
+          "min": 0,
+          "median": 10.0,
+          "mean": 22.923076923076923,
+          "max": 197
+        },
+        "gap_sample_distribution": {
+          "0": 1,
+          "1": 1,
+          "2": 2,
+          "3": 1,
+          "4": 1,
+          "5": 3,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "11": 1,
+          "14": 1,
+          "16": 1,
+          "18": 1,
+          "19": 1,
+          "20": 1,
+          "26": 1,
+          "28": 2,
+          "30": 1,
+          "39": 1,
+          "93": 1,
+          "197": 1
+        },
+        "gap_seconds": {
+          "count": 26,
+          "min": 2.2,
+          "median": 19.883000000000003,
+          "mean": 38.54326923076923,
+          "max": 318.216
+        }
+      },
+      "FROZEN_SESSION_06": {
+        "total_transitions": 26,
+        "gap_samples": {
+          "count": 26,
+          "min": 0,
+          "median": 12.5,
+          "mean": 24.53846153846154,
+          "max": 197
+        },
+        "gap_sample_distribution": {
+          "0": 1,
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 3,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "11": 1,
+          "14": 1,
+          "16": 1,
+          "18": 1,
+          "19": 1,
+          "20": 1,
+          "26": 1,
+          "28": 2,
+          "30": 1,
+          "39": 1,
+          "44": 1,
+          "93": 1,
+          "197": 1
+        },
+        "gap_seconds": {
+          "count": 26,
+          "min": 2.2,
+          "median": 23.576,
+          "mean": 40.740346153846154,
+          "max": 318.216
+        }
+      },
+      "FROZEN_SESSION_07": {
+        "total_transitions": 28,
+        "gap_samples": {
+          "count": 28,
+          "min": 0,
+          "median": 11.0,
+          "mean": 23.25,
+          "max": 197
+        },
+        "gap_sample_distribution": {
+          "0": 1,
+          "1": 1,
+          "2": 2,
+          "3": 1,
+          "4": 1,
+          "5": 3,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "11": 2,
+          "14": 1,
+          "16": 1,
+          "18": 1,
+          "19": 1,
+          "20": 1,
+          "26": 1,
+          "28": 2,
+          "30": 1,
+          "39": 1,
+          "44": 1,
+          "93": 1,
+          "197": 1
+        },
+        "gap_seconds": {
+          "count": 28,
+          "min": 2.2,
+          "median": 22.938000000000002,
+          "mean": 38.901785714285715,
+          "max": 318.216
+        }
+      },
+      "FROZEN_SESSION_08": {
+        "total_transitions": 28,
+        "gap_samples": {
+          "count": 28,
+          "min": 0,
+          "median": 11.0,
+          "mean": 23.25,
+          "max": 197
+        },
+        "gap_sample_distribution": {
+          "0": 1,
+          "1": 1,
+          "2": 2,
+          "3": 1,
+          "4": 1,
+          "5": 3,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "11": 2,
+          "14": 1,
+          "16": 1,
+          "18": 1,
+          "19": 1,
+          "20": 1,
+          "26": 1,
+          "28": 2,
+          "30": 1,
+          "39": 1,
+          "44": 1,
+          "93": 1,
+          "197": 1
+        },
+        "gap_seconds": {
+          "count": 28,
+          "min": 2.2,
+          "median": 22.938000000000002,
+          "mean": 38.901785714285715,
+          "max": 318.216
+        }
+      },
+      "FROZEN_SESSION_09": {
+        "total_transitions": 28,
+        "gap_samples": {
+          "count": 28,
+          "min": 0,
+          "median": 11.0,
+          "mean": 23.25,
+          "max": 197
+        },
+        "gap_sample_distribution": {
+          "0": 1,
+          "1": 1,
+          "2": 2,
+          "3": 1,
+          "4": 1,
+          "5": 3,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "11": 2,
+          "14": 1,
+          "16": 1,
+          "18": 1,
+          "19": 1,
+          "20": 1,
+          "26": 1,
+          "28": 2,
+          "30": 1,
+          "39": 1,
+          "44": 1,
+          "93": 1,
+          "197": 1
+        },
+        "gap_seconds": {
+          "count": 28,
+          "min": 2.2,
+          "median": 22.938000000000002,
+          "mean": 38.901785714285715,
+          "max": 318.216
+        }
+      },
+      "FROZEN_SESSION_10": {
+        "total_transitions": 28,
+        "gap_samples": {
+          "count": 28,
+          "min": 0,
+          "median": 11.0,
+          "mean": 23.25,
+          "max": 197
+        },
+        "gap_sample_distribution": {
+          "0": 1,
+          "1": 1,
+          "2": 2,
+          "3": 1,
+          "4": 1,
+          "5": 3,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "11": 2,
+          "14": 1,
+          "16": 1,
+          "18": 1,
+          "19": 1,
+          "20": 1,
+          "26": 1,
+          "28": 2,
+          "30": 1,
+          "39": 1,
+          "44": 1,
+          "93": 1,
+          "197": 1
+        },
+        "gap_seconds": {
+          "count": 28,
+          "min": 2.2,
+          "median": 22.938000000000002,
+          "mean": 38.901785714285715,
+          "max": 318.216
+        }
+      }
+    },
+    "largest_gap": {
+      "session": "FROZEN_SESSION_04",
+      "previous_run": 1,
+      "next_run": 2,
+      "gap_samples": 197,
+      "gap_seconds": 318.216,
+      "previous_relation": "OPPOSED",
+      "previous_pair": "SELL_BUY",
+      "previous_canonical_conflict_samples": 15,
+      "next_relation": "OPPOSED",
+      "next_pair": "SELL_BUY",
+      "next_canonical_conflict_samples": 18,
+      "previous_end_index": 29,
+      "next_start_index": 227,
+      "previous_end_timestamp": "2026-09-23T10:27:44.957",
+      "next_start_timestamp": "2026-09-23T10:33:03.173"
+    },
+    "zero_gap_samples_count": 1,
+    "positive_gap_samples_count": 27
+  },
+  "B_session_concentration": {
+    "simultaneous_directional_samples": {
+      "total": 356,
+      "counts": {
+        "FROZEN_SESSION_01": 49,
+        "FROZEN_SESSION_02": 150,
+        "FROZEN_SESSION_03": 1,
+        "FROZEN_SESSION_04": 48,
+        "FROZEN_SESSION_05": 14,
+        "FROZEN_SESSION_06": 90,
+        "FROZEN_SESSION_07": 4,
+        "FROZEN_SESSION_08": 0,
+        "FROZEN_SESSION_09": 0,
+        "FROZEN_SESSION_10": 0
+      },
+      "shares": {
+        "FROZEN_SESSION_01": 0.13764044943820225,
+        "FROZEN_SESSION_02": 0.42134831460674155,
+        "FROZEN_SESSION_03": 0.0028089887640449437,
+        "FROZEN_SESSION_04": 0.1348314606741573,
+        "FROZEN_SESSION_05": 0.03932584269662921,
+        "FROZEN_SESSION_06": 0.25280898876404495,
+        "FROZEN_SESSION_07": 0.011235955056179775,
+        "FROZEN_SESSION_08": 0.0,
+        "FROZEN_SESSION_09": 0.0,
+        "FROZEN_SESSION_10": 0.0
+      },
+      "top_one_share": 0.42134831460674155,
+      "top_two_share": 0.6741573033707865,
+      "sum_squared_shares": 0.28025186213861886
+    },
+    "total_runs": {
+      "total": 35,
+      "counts": {
+        "FROZEN_SESSION_01": 12,
+        "FROZEN_SESSION_02": 10,
+        "FROZEN_SESSION_03": 1,
+        "FROZEN_SESSION_04": 5,
+        "FROZEN_SESSION_05": 3,
+        "FROZEN_SESSION_06": 3,
+        "FROZEN_SESSION_07": 1,
+        "FROZEN_SESSION_08": 0,
+        "FROZEN_SESSION_09": 0,
+        "FROZEN_SESSION_10": 0
+      },
+      "shares": {
+        "FROZEN_SESSION_01": 0.34285714285714286,
+        "FROZEN_SESSION_02": 0.2857142857142857,
+        "FROZEN_SESSION_03": 0.02857142857142857,
+        "FROZEN_SESSION_04": 0.14285714285714285,
+        "FROZEN_SESSION_05": 0.08571428571428572,
+        "FROZEN_SESSION_06": 0.08571428571428572,
+        "FROZEN_SESSION_07": 0.02857142857142857,
+        "FROZEN_SESSION_08": 0.0,
+        "FROZEN_SESSION_09": 0.0,
+        "FROZEN_SESSION_10": 0.0
+      },
+      "top_one_share": 0.34285714285714286,
+      "top_two_share": 0.6285714285714286,
+      "sum_squared_shares": 0.23591836734693877
+    },
+    "aligned_samples": {
+      "total": 210,
+      "counts": {
+        "FROZEN_SESSION_01": 41,
+        "FROZEN_SESSION_02": 64,
+        "FROZEN_SESSION_03": 1,
+        "FROZEN_SESSION_04": 0,
+        "FROZEN_SESSION_05": 14,
+        "FROZEN_SESSION_06": 90,
+        "FROZEN_SESSION_07": 0,
+        "FROZEN_SESSION_08": 0,
+        "FROZEN_SESSION_09": 0,
+        "FROZEN_SESSION_10": 0
+      },
+      "shares": {
+        "FROZEN_SESSION_01": 0.19523809523809524,
+        "FROZEN_SESSION_02": 0.3047619047619048,
+        "FROZEN_SESSION_03": 0.004761904761904762,
+        "FROZEN_SESSION_04": 0.0,
+        "FROZEN_SESSION_05": 0.06666666666666667,
+        "FROZEN_SESSION_06": 0.42857142857142855,
+        "FROZEN_SESSION_07": 0.0,
+        "FROZEN_SESSION_08": 0.0,
+        "FROZEN_SESSION_09": 0.0,
+        "FROZEN_SESSION_10": 0.0
+      },
+      "top_one_share": 0.42857142857142855,
+      "top_two_share": 0.7333333333333333,
+      "sum_squared_shares": 0.3191383219954649
+    },
+    "opposed_samples": {
+      "total": 146,
+      "counts": {
+        "FROZEN_SESSION_01": 8,
+        "FROZEN_SESSION_02": 86,
+        "FROZEN_SESSION_03": 0,
+        "FROZEN_SESSION_04": 48,
+        "FROZEN_SESSION_05": 0,
+        "FROZEN_SESSION_06": 0,
+        "FROZEN_SESSION_07": 4,
+        "FROZEN_SESSION_08": 0,
+        "FROZEN_SESSION_09": 0,
+        "FROZEN_SESSION_10": 0
+      },
+      "shares": {
+        "FROZEN_SESSION_01": 0.0547945205479452,
+        "FROZEN_SESSION_02": 0.589041095890411,
+        "FROZEN_SESSION_03": 0.0,
+        "FROZEN_SESSION_04": 0.3287671232876712,
+        "FROZEN_SESSION_05": 0.0,
+        "FROZEN_SESSION_06": 0.0,
+        "FROZEN_SESSION_07": 0.0273972602739726,
+        "FROZEN_SESSION_08": 0.0,
+        "FROZEN_SESSION_09": 0.0,
+        "FROZEN_SESSION_10": 0.0
+      },
+      "top_one_share": 0.589041095890411,
+      "top_two_share": 0.9178082191780822,
+      "sum_squared_shares": 0.45881028335522617
+    },
+    "aligned_runs": {
+      "total": 17,
+      "counts": {
+        "FROZEN_SESSION_01": 8,
+        "FROZEN_SESSION_02": 2,
+        "FROZEN_SESSION_03": 1,
+        "FROZEN_SESSION_04": 0,
+        "FROZEN_SESSION_05": 3,
+        "FROZEN_SESSION_06": 3,
+        "FROZEN_SESSION_07": 0,
+        "FROZEN_SESSION_08": 0,
+        "FROZEN_SESSION_09": 0,
+        "FROZEN_SESSION_10": 0
+      },
+      "shares": {
+        "FROZEN_SESSION_01": 0.47058823529411764,
+        "FROZEN_SESSION_02": 0.11764705882352941,
+        "FROZEN_SESSION_03": 0.058823529411764705,
+        "FROZEN_SESSION_04": 0.0,
+        "FROZEN_SESSION_05": 0.17647058823529413,
+        "FROZEN_SESSION_06": 0.17647058823529413,
+        "FROZEN_SESSION_07": 0.0,
+        "FROZEN_SESSION_08": 0.0,
+        "FROZEN_SESSION_09": 0.0,
+        "FROZEN_SESSION_10": 0.0
+      },
+      "top_one_share": 0.47058823529411764,
+      "top_two_share": 0.6470588235294118,
+      "sum_squared_shares": 0.30103806228373703
+    },
+    "opposed_runs": {
+      "total": 18,
+      "counts": {
+        "FROZEN_SESSION_01": 4,
+        "FROZEN_SESSION_02": 8,
+        "FROZEN_SESSION_03": 0,
+        "FROZEN_SESSION_04": 5,
+        "FROZEN_SESSION_05": 0,
+        "FROZEN_SESSION_06": 0,
+        "FROZEN_SESSION_07": 1,
+        "FROZEN_SESSION_08": 0,
+        "FROZEN_SESSION_09": 0,
+        "FROZEN_SESSION_10": 0
+      },
+      "shares": {
+        "FROZEN_SESSION_01": 0.2222222222222222,
+        "FROZEN_SESSION_02": 0.4444444444444444,
+        "FROZEN_SESSION_03": 0.0,
+        "FROZEN_SESSION_04": 0.2777777777777778,
+        "FROZEN_SESSION_05": 0.0,
+        "FROZEN_SESSION_06": 0.0,
+        "FROZEN_SESSION_07": 0.05555555555555555,
+        "FROZEN_SESSION_08": 0.0,
+        "FROZEN_SESSION_09": 0.0,
+        "FROZEN_SESSION_10": 0.0
+      },
+      "top_one_share": 0.4444444444444444,
+      "top_two_share": 0.7222222222222222,
+      "sum_squared_shares": 0.3271604938271605
+    }
+  },
+  "C_pair_persistence": {
+    "BUY_BUY": {
+      "samples": 210,
+      "runs": 17,
+      "run_lengths": {
+        "count": 17,
+        "min": 1,
+        "median": 5,
+        "mean": 12.352941176470589,
+        "max": 51
+      },
+      "observed_duration_seconds": {
+        "count": 17,
+        "min": 0.0,
+        "median": 6.629,
+        "mean": 17.74358823529412,
+        "max": 78.254
+      },
+      "total_observed_duration_seconds": 301.641,
+      "sessions": {
+        "FROZEN_SESSION_01": 8,
+        "FROZEN_SESSION_02": 2,
+        "FROZEN_SESSION_03": 1,
+        "FROZEN_SESSION_05": 3,
+        "FROZEN_SESSION_06": 3
+      },
+      "incoming_gap": {
+        "total_transitions": 14,
+        "gap_samples": {
+          "count": 14,
+          "min": 1,
+          "median": 10.0,
+          "mean": 18.214285714285715,
+          "max": 93
+        },
+        "gap_sample_distribution": {
+          "1": 1,
+          "2": 2,
+          "5": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "11": 2,
+          "16": 1,
+          "20": 1,
+          "26": 1,
+          "44": 1,
+          "93": 1
+        },
+        "gap_seconds": {
+          "count": 14,
+          "min": 3.696,
+          "median": 18.692,
+          "mean": 31.429214285714284,
+          "max": 147.886
+        }
+      },
+      "outgoing_gap": {
+        "total_transitions": 13,
+        "gap_samples": {
+          "count": 13,
+          "min": 0,
+          "median": 8,
+          "mean": 10.461538461538462,
+          "max": 44
+        },
+        "gap_sample_distribution": {
+          "0": 1,
+          "1": 1,
+          "2": 2,
+          "5": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "11": 2,
+          "16": 1,
+          "20": 1,
+          "44": 1
+        },
+        "gap_seconds": {
+          "count": 13,
+          "min": 2.2,
+          "median": 13.778,
+          "mean": 18.858538461538462,
+          "max": 65.378
+        }
+      }
+    },
+    "SELL_SELL": {
+      "samples": 0,
+      "runs": 0,
+      "run_lengths": {
+        "count": 0,
+        "min": null,
+        "median": null,
+        "mean": null,
+        "max": null
+      },
+      "observed_duration_seconds": {
+        "count": 0,
+        "min": null,
+        "median": null,
+        "mean": null,
+        "max": null
+      },
+      "total_observed_duration_seconds": 0,
+      "sessions": {},
+      "incoming_gap": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        }
+      },
+      "outgoing_gap": {
+        "total_transitions": 0,
+        "gap_samples": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        },
+        "gap_sample_distribution": {},
+        "gap_seconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "mean": null,
+          "max": null
+        }
+      }
+    },
+    "BUY_SELL": {
+      "samples": 94,
+      "runs": 12,
+      "run_lengths": {
+        "count": 12,
+        "min": 1,
+        "median": 3.0,
+        "mean": 7.833333333333333,
+        "max": 22
+      },
+      "observed_duration_seconds": {
+        "count": 12,
+        "min": 0.0,
+        "median": 2.193,
+        "mean": 9.7865,
+        "max": 33.327
+      },
+      "total_observed_duration_seconds": 117.438,
+      "sessions": {
+        "FROZEN_SESSION_01": 4,
+        "FROZEN_SESSION_02": 8
+      },
+      "incoming_gap": {
+        "total_transitions": 10,
+        "gap_samples": {
+          "count": 10,
+          "min": 0,
+          "median": 18.5,
+          "mean": 18.5,
+          "max": 39
+        },
+        "gap_sample_distribution": {
+          "0": 1,
+          "4": 1,
+          "5": 1,
+          "14": 1,
+          "18": 1,
+          "19": 1,
+          "28": 2,
+          "30": 1,
+          "39": 1
+        },
+        "gap_seconds": {
+          "count": 10,
+          "min": 2.2,
+          "median": 27.012999999999998,
+          "mean": 29.8587,
+          "max": 60.458
+        }
+      },
+      "outgoing_gap": {
+        "total_transitions": 11,
+        "gap_samples": {
+          "count": 11,
+          "min": 4,
+          "median": 26,
+          "mean": 27.636363636363637,
+          "max": 93
+        },
+        "gap_sample_distribution": {
+          "4": 1,
+          "5": 1,
+          "14": 1,
+          "18": 1,
+          "19": 1,
+          "26": 1,
+          "28": 2,
+          "30": 1,
+          "39": 1,
+          "93": 1
+        },
+        "gap_seconds": {
+          "count": 11,
+          "min": 7.795,
+          "median": 43.855,
+          "mean": 44.857727272727274,
+          "max": 147.886
+        }
+      }
+    },
+    "SELL_BUY": {
+      "samples": 52,
+      "runs": 6,
+      "run_lengths": {
+        "count": 6,
+        "min": 2,
+        "median": 7.5,
+        "mean": 8.666666666666666,
+        "max": 18
+      },
+      "observed_duration_seconds": {
+        "count": 6,
+        "min": 1.018,
+        "median": 9.16,
+        "mean": 11.697666666666667,
+        "max": 29.715
+      },
+      "total_observed_duration_seconds": 70.186,
+      "sessions": {
+        "FROZEN_SESSION_04": 5,
+        "FROZEN_SESSION_07": 1
+      },
+      "incoming_gap": {
+        "total_transitions": 4,
+        "gap_samples": {
+          "count": 4,
+          "min": 3,
+          "median": 5.5,
+          "mean": 52.75,
+          "max": 197
+        },
+        "gap_sample_distribution": {
+          "3": 1,
+          "5": 1,
+          "6": 1,
+          "197": 1
+        },
+        "gap_seconds": {
+          "count": 4,
+          "min": 7.318,
+          "median": 12.559999999999999,
+          "mean": 87.6635,
+          "max": 318.216
+        }
+      },
+      "outgoing_gap": {
+        "total_transitions": 4,
+        "gap_samples": {
+          "count": 4,
+          "min": 3,
+          "median": 5.5,
+          "mean": 52.75,
+          "max": 197
+        },
+        "gap_sample_distribution": {
+          "3": 1,
+          "5": 1,
+          "6": 1,
+          "197": 1
+        },
+        "gap_seconds": {
+          "count": 4,
+          "min": 7.318,
+          "median": 12.559999999999999,
+          "mean": 87.6635,
+          "max": 318.216
+        }
+      }
+    }
+  },
+  "D_conflict_overlap": {
+    "ALIGNED": {
+      "run_counts": {
+        "FULL": 1,
+        "NONE": 10,
+        "PARTIAL": 6
+      },
+      "conflict_samples": 11,
+      "samples": 210,
+      "rows": [
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 115,
+          "end_index": 115,
+          "length": 1,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T13:05:02.793",
+          "end_timestamp": "2026-09-21T13:05:02.793",
+          "start_cycle": 248,
+          "end_cycle": 248,
+          "observed_duration_seconds": 0.0,
+          "session": "FROZEN_SESSION_01",
+          "run": 2,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 121,
+          "end_index": 122,
+          "length": 2,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-21T13:05:14.549",
+          "end_timestamp": "2026-09-21T13:05:15.283",
+          "start_cycle": 264,
+          "end_cycle": 265,
+          "observed_duration_seconds": 0.734,
+          "session": "FROZEN_SESSION_01",
+          "run": 3,
+          "conflict_sample_fraction": 0.0,
+          "overlap": "NONE"
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 124,
+          "end_index": 127,
+          "length": 4,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-21T13:05:18.979",
+          "end_timestamp": "2026-09-21T13:05:22.862",
+          "start_cycle": 270,
+          "end_cycle": 275,
+          "observed_duration_seconds": 3.883,
+          "session": "FROZEN_SESSION_01",
+          "run": 4,
+          "conflict_sample_fraction": 0.0,
+          "overlap": "NONE"
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 148,
+          "end_index": 148,
+          "length": 1,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-21T13:05:59.086",
+          "end_timestamp": "2026-09-21T13:05:59.086",
+          "start_cycle": 324,
+          "end_cycle": 324,
+          "observed_duration_seconds": 0.0,
+          "session": "FROZEN_SESSION_01",
+          "run": 5,
+          "conflict_sample_fraction": 0.0,
+          "overlap": "NONE"
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 157,
+          "end_index": 161,
+          "length": 5,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-21T13:06:12.864",
+          "end_timestamp": "2026-09-21T13:06:19.493",
+          "start_cycle": 343,
+          "end_cycle": 352,
+          "observed_duration_seconds": 6.629,
+          "session": "FROZEN_SESSION_01",
+          "run": 6,
+          "conflict_sample_fraction": 0.0,
+          "overlap": "NONE"
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 178,
+          "end_index": 179,
+          "length": 2,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-21T13:06:46.644",
+          "end_timestamp": "2026-09-21T13:06:47.456",
+          "start_cycle": 389,
+          "end_cycle": 390,
+          "observed_duration_seconds": 0.812,
+          "session": "FROZEN_SESSION_01",
+          "run": 7,
+          "conflict_sample_fraction": 0.0,
+          "overlap": "NONE"
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 182,
+          "end_index": 197,
+          "length": 16,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T13:06:53.181",
+          "end_timestamp": "2026-09-21T13:07:17.109",
+          "start_cycle": 398,
+          "end_cycle": 429,
+          "observed_duration_seconds": 23.928,
+          "session": "FROZEN_SESSION_01",
+          "run": 8,
+          "conflict_sample_fraction": 0.0625,
+          "overlap": "PARTIAL"
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 207,
+          "end_index": 216,
+          "length": 10,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T13:07:32.746",
+          "end_timestamp": "2026-09-21T13:07:44.065",
+          "start_cycle": 449,
+          "end_cycle": 462,
+          "observed_duration_seconds": 11.319,
+          "session": "FROZEN_SESSION_01",
+          "run": 9,
+          "conflict_sample_fraction": 0.1,
+          "overlap": "PARTIAL"
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 272,
+          "end_index": 322,
+          "length": 51,
+          "canonical_conflict_samples": 3,
+          "start_timestamp": "2026-09-21T16:28:58.653",
+          "end_timestamp": "2026-09-21T16:30:16.907",
+          "start_cycle": 471,
+          "end_cycle": 562,
+          "observed_duration_seconds": 78.254,
+          "session": "FROZEN_SESSION_02",
+          "run": 9,
+          "conflict_sample_fraction": 0.058823529411764705,
+          "overlap": "PARTIAL"
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 330,
+          "end_index": 342,
+          "length": 13,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T16:30:28.775",
+          "end_timestamp": "2026-09-21T16:30:46.728",
+          "start_cycle": 577,
+          "end_cycle": 600,
+          "observed_duration_seconds": 17.953,
+          "session": "FROZEN_SESSION_02",
+          "run": 10,
+          "conflict_sample_fraction": 0.07692307692307693,
+          "overlap": "PARTIAL"
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 147,
+          "end_index": 147,
+          "length": 1,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-22T12:59:01.791",
+          "end_timestamp": "2026-09-22T12:59:01.791",
+          "start_cycle": 321,
+          "end_cycle": 321,
+          "observed_duration_seconds": 0.0,
+          "session": "FROZEN_SESSION_03",
+          "run": 1,
+          "conflict_sample_fraction": 0.0,
+          "overlap": "NONE"
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 17,
+          "end_index": 18,
+          "length": 2,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-23T12:24:28.310",
+          "end_timestamp": "2026-09-23T12:24:31.175",
+          "start_cycle": 36,
+          "end_cycle": 39,
+          "observed_duration_seconds": 2.865,
+          "session": "FROZEN_SESSION_05",
+          "run": 1,
+          "conflict_sample_fraction": 0.0,
+          "overlap": "NONE"
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 63,
+          "end_index": 69,
+          "length": 7,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-23T12:25:36.553",
+          "end_timestamp": "2026-09-23T12:25:46.532",
+          "start_cycle": 128,
+          "end_cycle": 141,
+          "observed_duration_seconds": 9.979,
+          "session": "FROZEN_SESSION_05",
+          "run": 2,
+          "conflict_sample_fraction": 0.0,
+          "overlap": "NONE"
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 81,
+          "end_index": 85,
+          "length": 5,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-23T12:26:08.279",
+          "end_timestamp": "2026-09-23T12:26:13.024",
+          "start_cycle": 171,
+          "end_cycle": 176,
+          "observed_duration_seconds": 4.745,
+          "session": "FROZEN_SESSION_05",
+          "run": 3,
+          "conflict_sample_fraction": 0.0,
+          "overlap": "NONE"
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 0,
+          "end_index": 31,
+          "length": 32,
+          "canonical_conflict_samples": 2,
+          "start_timestamp": "2026-09-23T13:12:02.648",
+          "end_timestamp": "2026-09-23T13:12:56.571",
+          "start_cycle": 3,
+          "end_cycle": 76,
+          "observed_duration_seconds": 53.923,
+          "session": "FROZEN_SESSION_06",
+          "run": 1,
+          "conflict_sample_fraction": 0.0625,
+          "overlap": "PARTIAL"
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 43,
+          "end_index": 49,
+          "length": 7,
+          "canonical_conflict_samples": 0,
+          "start_timestamp": "2026-09-23T13:13:20.700",
+          "end_timestamp": "2026-09-23T13:13:32.534",
+          "start_cycle": 112,
+          "end_cycle": 130,
+          "observed_duration_seconds": 11.834,
+          "session": "FROZEN_SESSION_06",
+          "run": 2,
+          "conflict_sample_fraction": 0.0,
+          "overlap": "NONE"
+        },
+        {
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 52,
+          "end_index": 102,
+          "length": 51,
+          "canonical_conflict_samples": 2,
+          "start_timestamp": "2026-09-23T13:13:38.406",
+          "end_timestamp": "2026-09-23T13:14:53.189",
+          "start_cycle": 139,
+          "end_cycle": 242,
+          "observed_duration_seconds": 74.783,
+          "session": "FROZEN_SESSION_06",
+          "run": 3,
+          "conflict_sample_fraction": 0.0392156862745098,
+          "overlap": "PARTIAL"
+        }
+      ]
+    },
+    "OPPOSED": {
+      "run_counts": {
+        "FULL": 18
+      },
+      "conflict_samples": 146,
+      "samples": 146,
+      "rows": [
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 17,
+          "end_index": 21,
+          "length": 5,
+          "canonical_conflict_samples": 5,
+          "start_timestamp": "2026-09-21T13:02:30.521",
+          "end_timestamp": "2026-09-21T13:02:34.907",
+          "start_cycle": 41,
+          "end_cycle": 47,
+          "observed_duration_seconds": 4.386,
+          "session": "FROZEN_SESSION_01",
+          "run": 1,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 217,
+          "end_index": 217,
+          "length": 1,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T13:07:46.265",
+          "end_timestamp": "2026-09-21T13:07:46.265",
+          "start_cycle": 463,
+          "end_cycle": 463,
+          "observed_duration_seconds": 0.0,
+          "session": "FROZEN_SESSION_01",
+          "run": 10,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 246,
+          "end_index": 246,
+          "length": 1,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T13:08:31.145",
+          "end_timestamp": "2026-09-21T13:08:31.145",
+          "start_cycle": 517,
+          "end_cycle": 517,
+          "observed_duration_seconds": 0.0,
+          "session": "FROZEN_SESSION_01",
+          "run": 11,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 261,
+          "end_index": 261,
+          "length": 1,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T13:08:57.083",
+          "end_timestamp": "2026-09-21T13:08:57.083",
+          "start_cycle": 547,
+          "end_cycle": 547,
+          "observed_duration_seconds": 0.0,
+          "session": "FROZEN_SESSION_01",
+          "run": 12,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 17,
+          "end_index": 27,
+          "length": 11,
+          "canonical_conflict_samples": 11,
+          "start_timestamp": "2026-09-21T16:22:30.870",
+          "end_timestamp": "2026-09-21T16:22:43.589",
+          "start_cycle": 37,
+          "end_cycle": 51,
+          "observed_duration_seconds": 12.719,
+          "session": "FROZEN_SESSION_02",
+          "run": 1,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 33,
+          "end_index": 54,
+          "length": 22,
+          "canonical_conflict_samples": 22,
+          "start_timestamp": "2026-09-21T16:22:55.646",
+          "end_timestamp": "2026-09-21T16:23:28.973",
+          "start_cycle": 63,
+          "end_cycle": 98,
+          "observed_duration_seconds": 33.327,
+          "session": "FROZEN_SESSION_02",
+          "run": 2,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 94,
+          "end_index": 94,
+          "length": 1,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T16:24:29.431",
+          "end_timestamp": "2026-09-21T16:24:29.431",
+          "start_cycle": 161,
+          "end_cycle": 161,
+          "observed_duration_seconds": 0.0,
+          "session": "FROZEN_SESSION_02",
+          "run": 3,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 123,
+          "end_index": 123,
+          "length": 1,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T16:25:17.342",
+          "end_timestamp": "2026-09-21T16:25:17.342",
+          "start_cycle": 218,
+          "end_cycle": 218,
+          "observed_duration_seconds": 0.0,
+          "session": "FROZEN_SESSION_02",
+          "run": 4,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 154,
+          "end_index": 173,
+          "length": 20,
+          "canonical_conflict_samples": 20,
+          "start_timestamp": "2026-09-21T16:26:01.197",
+          "end_timestamp": "2026-09-21T16:26:27.025",
+          "start_cycle": 266,
+          "end_cycle": 298,
+          "observed_duration_seconds": 25.828,
+          "session": "FROZEN_SESSION_02",
+          "run": 5,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 193,
+          "end_index": 193,
+          "length": 1,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T16:26:55.113",
+          "end_timestamp": "2026-09-21T16:26:55.113",
+          "start_cycle": 331,
+          "end_cycle": 331,
+          "observed_duration_seconds": 0.0,
+          "session": "FROZEN_SESSION_02",
+          "run": 6,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 198,
+          "end_index": 216,
+          "length": 19,
+          "canonical_conflict_samples": 19,
+          "start_timestamp": "2026-09-21T16:27:02.908",
+          "end_timestamp": "2026-09-21T16:27:31.413",
+          "start_cycle": 340,
+          "end_cycle": 372,
+          "observed_duration_seconds": 28.505,
+          "session": "FROZEN_SESSION_02",
+          "run": 7,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "BUY_SELL",
+          "start_index": 235,
+          "end_index": 245,
+          "length": 11,
+          "canonical_conflict_samples": 11,
+          "start_timestamp": "2026-09-21T16:27:56.818",
+          "end_timestamp": "2026-09-21T16:28:09.491",
+          "start_cycle": 398,
+          "end_cycle": 413,
+          "observed_duration_seconds": 12.673,
+          "session": "FROZEN_SESSION_02",
+          "run": 8,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 15,
+          "end_index": 29,
+          "length": 15,
+          "canonical_conflict_samples": 15,
+          "start_timestamp": "2026-09-23T10:27:25.221",
+          "end_timestamp": "2026-09-23T10:27:44.957",
+          "start_cycle": 36,
+          "end_cycle": 61,
+          "observed_duration_seconds": 19.736,
+          "session": "FROZEN_SESSION_04",
+          "run": 1,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 227,
+          "end_index": 244,
+          "length": 18,
+          "canonical_conflict_samples": 18,
+          "start_timestamp": "2026-09-23T10:33:03.173",
+          "end_timestamp": "2026-09-23T10:33:32.888",
+          "start_cycle": 485,
+          "end_cycle": 524,
+          "observed_duration_seconds": 29.715,
+          "session": "FROZEN_SESSION_04",
+          "run": 2,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 251,
+          "end_index": 252,
+          "length": 2,
+          "canonical_conflict_samples": 2,
+          "start_timestamp": "2026-09-23T10:33:45.450",
+          "end_timestamp": "2026-09-23T10:33:46.847",
+          "start_cycle": 540,
+          "end_cycle": 542,
+          "observed_duration_seconds": 1.397,
+          "session": "FROZEN_SESSION_04",
+          "run": 3,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 258,
+          "end_index": 268,
+          "length": 11,
+          "canonical_conflict_samples": 11,
+          "start_timestamp": "2026-09-23T10:33:59.405",
+          "end_timestamp": "2026-09-23T10:34:13.419",
+          "start_cycle": 560,
+          "end_cycle": 578,
+          "observed_duration_seconds": 14.014,
+          "session": "FROZEN_SESSION_04",
+          "run": 4,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 272,
+          "end_index": 273,
+          "length": 2,
+          "canonical_conflict_samples": 2,
+          "start_timestamp": "2026-09-23T10:34:20.737",
+          "end_timestamp": "2026-09-23T10:34:21.755",
+          "start_cycle": 588,
+          "end_cycle": 589,
+          "observed_duration_seconds": 1.018,
+          "session": "FROZEN_SESSION_04",
+          "run": 5,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        },
+        {
+          "relation": "OPPOSED",
+          "pair": "SELL_BUY",
+          "start_index": 135,
+          "end_index": 138,
+          "length": 4,
+          "canonical_conflict_samples": 4,
+          "start_timestamp": "2026-09-23T15:10:34.407",
+          "end_timestamp": "2026-09-23T15:10:38.713",
+          "start_cycle": 315,
+          "end_cycle": 321,
+          "observed_duration_seconds": 4.306,
+          "session": "FROZEN_SESSION_07",
+          "run": 1,
+          "conflict_sample_fraction": 1.0,
+          "overlap": "FULL"
+        }
+      ]
+    }
+  },
+  "interpretation": "DESCRIPTIVE_ONLY",
+  "safety": {
+    "research_only": true,
+    "observational_only": true,
+    "descriptive_only": true,
+    "predictive_claim_allowed": false,
+    "score_influence_allowed": false,
+    "risk_influence_allowed": false,
+    "decision_influence_allowed": false,
+    "alert_influence_allowed": false,
+    "order_execution_allowed": false,
+    "promotion_allowed": false,
+    "threshold_change_allowed": false,
+    "rc17_change_allowed": false,
+    "order_flow_score_change_allowed": false,
+    "threshold_changed": false,
+    "rc17_changed": false,
+    "operational_logic_changed": false,
+    "canonical_conflict_redefinition": false
+  },
+  "limitations": [
+    "UNEQUAL_OBSERVED_SESSION_WINDOWS",
+    "NO_OPERATIONAL_THRESHOLDS",
+    "NO_PREDICTIVE_OR_CAUSAL_CLAIMS",
+    "NO_RUN_EPISODE_EQUIVALENCE"
+  ]
+}

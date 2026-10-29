@@ -1,0 +1,37 @@
+{
+  "last_completed": "F3-INT-105",
+  "status": "OFFLINE_REGRESSION_APPROVED",
+  "new_tests": {
+    "passed": 15,
+    "failed": 0,
+    "exit_code": 0,
+    "seconds": 26.078,
+    "source": "saida(20261021-203355).txt (user Windows run)"
+  },
+  "regression": {
+    "passed": 1244,
+    "failed": 0,
+    "exit_code": 0,
+    "seconds": 338.175,
+    "source": "saida(20261021-203355).txt (user Windows run)"
+  },
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "next_step": "F3-INT-106: review existing typed identity contracts and scope before implementation",
+  "pending": [
+    "Authenticity, consensus, persistence and real fencing remain unverified.",
+    "Model-based explorations are bounded, not exhaustive.",
+    "Digest label and expected digest remain caller-provided and unauthenticated."
+  ]
+}

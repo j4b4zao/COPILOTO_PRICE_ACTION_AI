@@ -1,0 +1,14 @@
+test_excessive_stderr_fails_closed (test_f3_int115_process_control.ProcessControlTests.test_excessive_stderr_fails_closed) ... ok
+test_missing_stdout_has_deadline_and_joins_readers (test_f3_int115_process_control.ProcessControlTests.test_missing_stdout_has_deadline_and_joins_readers) ... ok
+test_process_wait_deadline (test_f3_int115_process_control.ProcessControlTests.test_process_wait_deadline) ... ok
+test_root_exit_still_cleans_living_descendant (test_f3_int115_process_control.ProcessControlTests.test_root_exit_still_cleans_living_descendant) ... ok
+test_source_mutation_deletion_addition_detected (test_f3_int115_process_control.ProcessControlTests.test_source_mutation_deletion_addition_detected) ... ok
+test_stalled_stdin_write_has_deadline_and_joins_writer (test_f3_int115_process_control.ProcessControlTests.test_stalled_stdin_write_has_deadline_and_joins_writer) ... ok
+test_stderr_is_drained_while_worker_is_alive (test_f3_int115_process_control.ProcessControlTests.test_stderr_is_drained_while_worker_is_alive) ... ok
+test_summary_uses_last_unittest_footer (test_f3_int115_process_control.ProcessControlTests.test_summary_uses_last_unittest_footer) ... ok
+test_timeout_kills_descendants_and_retains_partial_log (test_f3_int115_process_control.ProcessControlTests.test_timeout_kills_descendants_and_retains_partial_log) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 11.653s
+
+OK

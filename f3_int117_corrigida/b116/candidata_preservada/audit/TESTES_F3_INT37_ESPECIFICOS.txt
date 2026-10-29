@@ -1,0 +1,13 @@
+test_boolean_generation_rejected (tests.test_f3_int37_coordinated_anchor_attacks.CoordinatedAnchorAttackTests.test_boolean_generation_rejected) ... ok
+test_identical_reference_does_not_establish_authentication (tests.test_f3_int37_coordinated_anchor_attacks.CoordinatedAnchorAttackTests.test_identical_reference_does_not_establish_authentication) ... ok
+test_incomplete_chain_cannot_match_anchor (tests.test_f3_int37_coordinated_anchor_attacks.CoordinatedAnchorAttackTests.test_incomplete_chain_cannot_match_anchor) ... ok
+test_issuer_spoofing_rejected_by_reference (tests.test_f3_int37_coordinated_anchor_attacks.CoordinatedAnchorAttackTests.test_issuer_spoofing_rejected_by_reference) ... ok
+test_replayed_generation_rejected_by_reference (tests.test_f3_int37_coordinated_anchor_attacks.CoordinatedAnchorAttackTests.test_replayed_generation_rejected_by_reference) ... ok
+test_requirements_and_no_promotion (tests.test_f3_int37_coordinated_anchor_attacks.CoordinatedAnchorAttackTests.test_requirements_and_no_promotion) ... ok
+test_self_consistent_coordinated_rewrite_does_not_authenticate (tests.test_f3_int37_coordinated_anchor_attacks.CoordinatedAnchorAttackTests.test_self_consistent_coordinated_rewrite_does_not_authenticate) ... ok
+test_trusted_reference_rejects_coordinated_rewrite (tests.test_f3_int37_coordinated_anchor_attacks.CoordinatedAnchorAttackTests.test_trusted_reference_rejects_coordinated_rewrite) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK

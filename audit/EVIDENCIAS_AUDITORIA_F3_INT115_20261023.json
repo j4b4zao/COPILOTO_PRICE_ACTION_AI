@@ -1,0 +1,120 @@
+{
+  "workspace": "C:\\COPILOTO_F3_INT114_FINAL",
+  "date": "2026-10-23",
+  "python": "3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]",
+  "executable": "C:\\Users\\jb\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "sqlite_version": "3.49.1",
+  "candidate_manifest_sha256": "f5062851495e83a111949a2dae93c66f73f74823154c4df413a1f090856b1688",
+  "manifest_before": {
+    "total": 10,
+    "matched": 10,
+    "missing": [],
+    "changed": []
+  },
+  "historical_before": {
+    "total": 772,
+    "matched": 772,
+    "missing": [],
+    "changed": []
+  },
+  "candidate_manifest": {
+    "CHECKPOINT_F3_INT115_CANDIDATA.json": "41aa42d767edd8d294024ed592aa105babf583c961734ba1f3e420430675d836",
+    "RELATORIO_F3_INT115_CANDIDATA.md": "abf7f0ebabef0ea870e684ae0f280faf6590ed15ce86414780a684c75c32040a",
+    "RESULTADO_F3_INT115_ESPECIFICOS.txt": "ef864db441a9b4bcc0c97856b7a9ad5a4c07e3808af7c7c9f8d11004b4d44473",
+    "RESULTADO_F3_INT115_ESPECIFICOS_CANDIDATA.txt": "21d7ce77695e87787fac624567eae66555397a0043127ad2402ad817649bb852",
+    "RESULTADO_F3_INT115_ESPECIFICOS_VALIDACAO.txt": "469743be46136754085b2cb8303f3d0acfdbde224827f9ae639e94b3ebaf1954",
+    "RESULTADO_F3_INT115_REGRESSAO_WINDOWS.txt": "4741529bb8be6b4cd0faeb37aa6c8fbd7443388cc30a84040a6832b221dce90c",
+    "RESULTADO_F3_INT115_REGRESSAO_WINDOWS_VALIDACAO.txt": "4bb97bb6ad7e86833d72f5a6f71ad8de04b0033b3bf60ba82950f3736afc4b12",
+    "tests/test_f3_int115_multiprocess_recovery.py": "b76bda86e579883607a4d40981f7cb2e9e65b20e19c87e95e6b4d38978e38366",
+    "tools/f3_int115_multiprocess_recovery.py": "ff92b7a3fa53c63e8c50bc5815a8e07880155eac3340b14e699c62a5cb7afd64",
+    "tools/f3_int115_run_candidate.py": "875f66e5a8aea645b8ad7bf6d41067c2d6f6e134ba9ff4c95a2fe4347d61a3bd"
+  },
+  "candidate_plus_history_before": {
+    "total": 783,
+    "matched": 783,
+    "missing": [],
+    "changed": []
+  },
+  "runs": [
+    {
+      "label": "ESPECIFICOS",
+      "command": [
+        "C:\\Users\\jb\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_f3_int115_multiprocess_recovery.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "total": 10,
+      "passed": 10,
+      "seconds": 36.184,
+      "log": "LOG_AUDITORIA_F3_INT115_ESPECIFICOS_20261023.txt",
+      "log_sha256": "308e8895afb6f0bb29622c7132e0720a4b91131cf73b5e77e9863a5901f63ae3",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "label": "SONDAGENS",
+      "command": [
+        "C:\\Users\\jb\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+        "-B",
+        "C:\\COPILOTO_F3_INT114_FINAL\\audit\\tools\\f3_int115_technical_audit_20261023.py",
+        "--probes"
+      ],
+      "exit_code": 0,
+      "total": 3,
+      "passed": 3,
+      "seconds": 27.002,
+      "log": "LOG_AUDITORIA_F3_INT115_SONDAGENS_20261023.txt",
+      "log_sha256": "713776686f90ce898e02fe6a70de8c7471930c419e32149047e534daa7c57507",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "preexisting_files_outside_inventory": [
+    "tools/f3_int115_technical_audit_20261023.py"
+  ],
+  "manifest_after": {
+    "total": 10,
+    "matched": 10,
+    "missing": [],
+    "changed": []
+  },
+  "historical_after": {
+    "total": 772,
+    "matched": 772,
+    "missing": [],
+    "changed": []
+  },
+  "candidate_plus_history_after": {
+    "total": 783,
+    "matched": 783,
+    "missing": [],
+    "changed": []
+  },
+  "definitive": {
+    "stage": "F3-INT-114",
+    "checkpoint_type": "FINAL",
+    "f3": "OPEN",
+    "locks": {
+      "orders_allowed": false,
+      "live_certified": false,
+      "flow_complete": false,
+      "f3_resolved": false,
+      "native_prototype_authorized": false,
+      "strict_deadline_guaranteed": false,
+      "authenticated_witness_verified": false
+    }
+  },
+  "audit_source_sha256": "95ff29c309f88f3ac5fdf6865d38176c62abba9f71e700bdd30f23dfb9434046",
+  "result": "RESSALVAS_TECNICAS_CORRECOES_NECESSARIAS_ANTES_DE_PROMOCAO"
+}

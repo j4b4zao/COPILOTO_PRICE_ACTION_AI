@@ -1,0 +1,24 @@
+{
+  "classification": "LOCAL_TEST_BATTERY_CLOSED",
+  "coverage_counts": {
+    "LOCAL_SIMULATION_ONLY": 5,
+    "PARTIAL_LOCAL_COVERAGE": 5
+  },
+  "external_witness_verified": false,
+  "f3": "OPEN",
+  "formal_criteria_accepted": 0,
+  "formal_criteria_total": 10,
+  "generated_utc": "2026-10-28T19:54:10.995750+00:00",
+  "historical_local_checks_passed_reported": 273,
+  "historical_local_checks_reported": 273,
+  "official_checkpoint": "F3-INT-117 R2 FINAL",
+  "physical_power_loss_verified": false,
+  "promotion_allowed": false,
+  "report_sha256": "42BCF5AA66A864B3D805ECF83DAA8049FC9881387BE3E80B77E0D50031E5BCAA",
+  "source_hashes": {
+    "F3_INT120_T3_MODELO_AMEACAS.json": "CB30069CFB1D59908516F8B11C1FEDEDB845ADD63B1E00F79F4811721C828AE7",
+    "F3_INT120_T4_CRITERIOS_ACEITACAO.json": "897195CDFCF7BAA763B578DB7680235C2D0871516E819EE12191E10121124883",
+    "F3_INT120_U17_MATRIZ_COBERTURA.json": "4F70BCE8475C7A65BE9E4913BD481D983ECD6AAE66836A6D5B79E3921742B73A"
+  },
+  "stage": "F3-INT-120-U23"
+}

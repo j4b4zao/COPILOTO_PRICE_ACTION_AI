@@ -1,0 +1,122 @@
+STATUS=PASS
+BRANCH=brooks-stop-target-exact-audit-20260912
+HEAD=dcdaf8dfb5f664b86099584a1e97786ba6323fe8
+PARENT=d020b2cb0d7ec9044441e7f8c023cd9890eb3771
+COMMIT_SCOPE_VALID=true
+COMMIT_FILES=app/bot.py; tests/test_external_per_asset_readonly_bot_presentation_bridge_rc1.py
+VERSION=RC1-EXTERNAL-PER-ASSET-READONLY-BOT-BRIDGE-POST-IMPLEMENTATION-INDEPENDENT-AUDIT
+BACKWARD_COMPATIBLE=true
+STRICT_OPT_IN=true
+COMPLETED_AUDIT_ONLY=true
+INVALID_EXTERNAL_TYPES_ISOLATED=true
+NO_PERSISTENT_EXTERNAL_STATE=true
+NO_CACHE_REUSE=true
+CORE_OUTPUT_ORDER_VALID=true
+EXTERNAL_SECTION_COUNT_VALID=true
+EXTERNAL_FAILURE_ISOLATED=true
+BASEEXCEPTION_PROPAGATION_VALID=true
+CORE_FAILURE_POLICY_UNCHANGED=true
+SAFE_FAILURE_MARKER=true
+MARKER_PRINT_FAILURE_ISOLATED=true
+HOSTILE_EVIDENCE_REMAINS_ESCAPED=true
+DEFAULT_ENABLED=false
+DEFAULT_EXTERNAL_CALL_COUNT=0
+PROVIDER_FETCH_DELTA=0
+COLLECTOR_CALL_DELTA=0
+SERVICE_CALL_DELTA=0
+NETWORK_CALL_DELTA=0
+CLOCK_CALL_DELTA=0
+STRATEGY_CALL_DELTA=0
+SCORE_CALL_DELTA=0
+RISK_CALL_DELTA=0
+DECISION_CALL_DELTA=0
+ALERT_CALL_DELTA=0
+CONTEXT_ENGINE_CALL_DELTA=0
+PIPELINE_CALL_DELTA=0
+FILE_WRITE_DELTA=0
+LOGGER_CALL_DELTA=0
+ENGINE_CALL_DELTA=0
+BRIDGE_CALL_DELTA=0
+OBSERVER_CALL_DELTA=0
+EXTERNAL_ENGINE_CALL_DELTA=0
+INITIALIZER_CALL_DELTA=0
+PSYCHOLOGY_CALL_DELTA=0
+CONTEXT_MUTATED=false
+AUDIT_MUTATED=false
+DECISION_MUTATED=false
+RISK_MUTATED=false
+ALERT_MUTATED=false
+CHECKLIST_MUTATED=false
+NONE_AUDIT_UNAVAILABLE=true
+REPEATED_CALL_DETERMINISTIC=true
+BOT_INIT_CHANGED=false
+BOT_EXECUTAR_CHANGED=false
+NEW_TESTS_PASSED=40
+NEW_TESTS_FAILED=0
+NEW_TESTS_ERRORS=0
+REGRESSION_TESTS_PASSED=761
+REGRESSION_TESTS_FAILED=0
+REGRESSION_TESTS_ERRORS=0
+EXTERNAL_PRESENTER_TESTS_PASSED=289
+DASHBOARD_TESTS_PASSED=17
+ORDER_FLOW_TESTS_PASSED=36
+RC51_TESTS_PASSED=10
+SAFETY_TESTS_PASSED=419
+NEW_REGRESSION_FAILURES=0
+CLOSED_MODULES_CHANGED=false
+PROTECTED_FILES_PRESERVED=true
+STAGED_FILES_FINAL=NONE
+AUDIT_FINDINGS=NONE
+LOCAL_AUDIT_RESULT=PASS; 528 independent checks; 801 suite tests
+INDEPENDENT_CHECKS_PASSED=528
+TRACKED_SHA256_BEFORE=95799770d865b31307bd37f251f3340f285a493e4e0faa15511da2637c60319d
+TRACKED_SHA256_AFTER=95799770d865b31307bd37f251f3340f285a493e4e0faa15511da2637c60319d
+LIVE_COLLECTION_EXECUTED=false
+SOURCE_TEST_FILES_MODIFIED=NONE
+NEXT_STEP=EXTERNAL_PER_ASSET_BOT_BRIDGE_RC1_CLOSEOUT_AND_PRODUCER_LIFECYCLE_AUDIT
+CONCLUSION=PASS: completed-audit-only presentation; strict opt-in; independent parent compatibility and failure-policy equivalence; no operational side effects, mutations or persistent state. No findings or corrections.
+
+INDEPENDENT EVIDENCE
+Identity and exact two-file commit scope verified from Git, without relying on implementation report.
+Actual Bot, new test suite, both presenters and upstream bridge read; core mostrar body AST unchanged before the seam.
+New imports exactly completed audit contract and external presenter. __init__/executar AST and source unchanged from parent.
+Standalone probe executed through stdin; no audit source/test file created and no implementation test guard reused. Only existing offline fixture preparers reused.
+Five contexts prepared before guards: BUY, SELL, WAIT, actual risk rejection, actual MTF conflict.
+Default, ignored audit, explicit False: stdout UTF-8 bytes and return value identical to parent; zero projector/renderer calls.
+Enable values per context: False, True, 0, 1, empty string, true string, empty list/dict/tuple, arbitrary object, hostile bool object. Only exact True projects/renders.
+Invalid envelopes per context: dict, raw quotes, list, object, hostile duck object, ExternalMarketState, ExternalObservationalSnapshot, ExternalContextService, collector, ExternalBridgeAudit subclass, custom timezone audit. All isolated; zero hostile callbacks.
+Valid A/B/hostile audit and None: Bot output exactly parent prefix plus audited presenter text and one newline. One external section follows the completed core decision/risk/checklist.
+Hostile source/provider/reasons include newline, CR, tab, ANSI ESC, fake section, TRADE READY, BUY APPROVED, ENTRY, STOP, TARGET and field delimiters. No escaping reversal or standalone forged authorization lines.
+Same Bot instance per context: A -> disabled -> None -> B -> disabled -> A. __dict__ retains only preexisting sentinel. No implicit reuse.
+25 repeated calls per context (125 total): identical complete output and no instance counters/state.
+Independent failures per context: projector ValueError/TypeError; renderer ValueError/RuntimeError; projector and renderer KeyboardInterrupt/SystemExit; external print OSError for normal text and fixed marker. Core prefix already emitted; external ordinary failures isolated; no retries; signals propagate.
+Hostile exception text never emitted: fallback exactly EXTERNAL OBSERVATIONAL CONTEXT UNAVAILABLE. Print attempted once and failure suppressed.
+Core projector, renderer and print RuntimeError independently injected into both parent and current implementation: matching error type/text/output prefix; no external projector call after core failure.
+Independent guards covered all of mostrar (stricter than external-only): service snapshot/observational_snapshot/audit_observational_snapshot/interpret; collector collect/get_data; HTTP provider fetch; socket connect/connect_ex/create_connection, urlopen, HTTP request; bridge audit; observer audit_readiness/rolling_correlation; time/time.monotonic/perf_counter/sleep; datetime.now/utcnow/today via C-call profile; Strategy/Score/Risk/Decision/Alert/Context/Pipeline/external engine; initializer; psychology; open/io.open/os.open/Path writes; every public Logger entry point and _log. Every counter remained zero.
+Serialized whole contexts, Decision/Risk/Alert/Checklist separately, and all prepared audit inputs were byte-identical before/after. Hashes below.
+Required suites: new 40 passed; combined external/core/OrderFlow 342 passed (289+17+36); safety 419 passed. RC51 subset 10. Total 801; no failures/errors.
+A preliminary probe runner setup error (empty patch.multiple call) was corrected only in the in-memory audit harness before execution. No product finding or repository correction.
+All tracked file content hashes identical from audit start to finish; existing five protected modifications preserved. Closed modules unchanged in audited commit; no new local tracked modification. Git index empty.
+Only report artifact created in repository. Pytest temporary outputs directed outside repository; bytecode/cache disabled. No stage/commit/push/live/startup operation.
+
+CONTEXT_SHA256
+BUY=11612e89b04bbb816bda37e1ac631bdf777d3ecfb3fbd01d7aef9195d0a6c6ec
+SELL=9fe9affd617ae5a3276255132b70932311adc01dc41d8cbbf5d90f3431f579d6
+WAIT=9b3375f610fe7a6fb4cc62ff00f78ee63adacb3d88ececea0276d8f43febe111
+rejection=d8b82ace35538fc1f81f60718748de753cf66249e25b242f7eb3a59a515889ec
+conflict=20013db321a0cee247f7111363b159acd32392175d1b193e3339428a6bfd5886
+
+AUDIT_SHA256 (A, B, hostile, custom timezone, rejected subclass)
+1=6c3c135574d15fbfcfa53afb3e6796719ee799f63b544adca9e1de4a7d651086
+2=92f557ca218294a2dd8b5fb9808d73b961a5fafaef58fc59d2415f5b87c4a838
+3=2c83117a41f39bfcd7b8346fa23b5afe89b6dfe3970c6b670e3f0ac65ead1b5a
+4=e4aaa697ca38d0ea2ee8c5671945c1f7e4e22c50a86540b08de5993e9fbea5d4
+5=ad8ee65900fe7967935e0576f864dbe6a19188905e62a64c47378c8220defc2a
+
+PROTECTED_SHA256_BEFORE_AND_AFTER
+Profit.xlsx=71788985d0eb09d4169e6b6616407c7423a64947269046bc2eff150341e05ecf
+connectors/excel_connector.py=f234edd86d16ab637732438c0093fa84fd457a922044b49e6bd270074920d567
+livroOfertas.xlsx=54ac9c53da4b729dff7f0c60a929ce44ddd9a45ec198043351a1bc02450733a4
+saida.txt=99d0374af231c064d3fd4c50e299f687d2ab2e0e89cd8c7006b2cd01d06c70fa
+times&trades.xlsx=96cac9d929da6948572afb9614fa367a8390831d153cb63af5171942e0c6c41e
+

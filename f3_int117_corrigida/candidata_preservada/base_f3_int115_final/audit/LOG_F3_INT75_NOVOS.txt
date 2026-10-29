@@ -1,0 +1,16 @@
+test_budget_applied_first (test_f3_int75_source_inventory_guard.SourceInventoryTests.test_budget_applied_first) ... ok
+test_empty_input (test_f3_int75_source_inventory_guard.SourceInventoryTests.test_empty_input) ... ok
+test_extension_case_alias_gap (test_f3_int75_source_inventory_guard.SourceInventoryTests.test_extension_case_alias_gap) ... ok
+test_flags (test_f3_int75_source_inventory_guard.SourceInventoryTests.test_flags) ... ok
+test_long_source_exposes_legacy_gap (test_f3_int75_source_inventory_guard.SourceInventoryTests.test_long_source_exposes_legacy_gap) ... ok
+test_namespace_case_alias_gap (test_f3_int75_source_inventory_guard.SourceInventoryTests.test_namespace_case_alias_gap) ... ok
+test_normal_inventory (test_f3_int75_source_inventory_guard.SourceInventoryTests.test_normal_inventory) ... ok
+test_outside_source_namespace (test_f3_int75_source_inventory_guard.SourceInventoryTests.test_outside_source_namespace) ... ok
+test_tampered_package (test_f3_int75_source_inventory_guard.SourceInventoryTests.test_tampered_package) ... ok
+test_unknown_bound (test_f3_int75_source_inventory_guard.SourceInventoryTests.test_unknown_bound) ... ok
+test_uppercase_source_basename_is_tracked (test_f3_int75_source_inventory_guard.SourceInventoryTests.test_uppercase_source_basename_is_tracked) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.083s
+
+OK

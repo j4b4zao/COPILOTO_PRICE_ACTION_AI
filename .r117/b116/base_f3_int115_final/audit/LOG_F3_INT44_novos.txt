@@ -1,0 +1,21 @@
+test_collusion (tests.test_f3_int44_witness_membership.MembershipTests.test_collusion) ... ok
+test_compromised (tests.test_f3_int44_witness_membership.MembershipTests.test_compromised) ... ok
+test_conflicting_history (tests.test_f3_int44_witness_membership.MembershipTests.test_conflicting_history) ... ok
+test_duplicate_membership (tests.test_f3_int44_witness_membership.MembershipTests.test_duplicate_membership) ... ok
+test_duplicate_votes (tests.test_f3_int44_witness_membership.MembershipTests.test_duplicate_votes) ... ok
+test_forged_colluding_identifiers (tests.test_f3_int44_witness_membership.MembershipTests.test_forged_colluding_identifiers) ... ok
+test_insufficient_votes (tests.test_f3_int44_witness_membership.MembershipTests.test_insufficient_votes) ... ok
+test_invalid_pin (tests.test_f3_int44_witness_membership.MembershipTests.test_invalid_pin) ... ok
+test_invalid_predecessor (tests.test_f3_int44_witness_membership.MembershipTests.test_invalid_predecessor) ... ok
+test_invalid_threshold (tests.test_f3_int44_witness_membership.MembershipTests.test_invalid_threshold) ... ok
+test_invalid_witness_type (tests.test_f3_int44_witness_membership.MembershipTests.test_invalid_witness_type) ... ok
+test_missing_pin (tests.test_f3_int44_witness_membership.MembershipTests.test_missing_pin) ... ok
+test_nonmember (tests.test_f3_int44_witness_membership.MembershipTests.test_nonmember) ... ok
+test_stale_membership (tests.test_f3_int44_witness_membership.MembershipTests.test_stale_membership) ... ok
+test_unasserted_independence (tests.test_f3_int44_witness_membership.MembershipTests.test_unasserted_independence) ... ok
+test_unverified_quorum (tests.test_f3_int44_witness_membership.MembershipTests.test_unverified_quorum) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.001s
+
+OK

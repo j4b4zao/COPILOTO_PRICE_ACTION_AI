@@ -1,0 +1,188 @@
+{
+  "rows": [
+    {
+      "session": "FROZEN_SESSION_01",
+      "samples": 292,
+      "observed_window_seconds": 458.957,
+      "simultaneous_samples": 49,
+      "runs": 12,
+      "simultaneous_fraction_of_session_samples": 0.1678082191780822,
+      "aligned_fraction_of_session_samples": 0.1404109589041096,
+      "opposed_fraction_of_session_samples": 0.0273972602739726,
+      "boundary_touching_runs": []
+    },
+    {
+      "session": "FROZEN_SESSION_02",
+      "samples": 343,
+      "observed_window_seconds": 525.183,
+      "simultaneous_samples": 150,
+      "runs": 10,
+      "simultaneous_fraction_of_session_samples": 0.43731778425655976,
+      "aligned_fraction_of_session_samples": 0.18658892128279883,
+      "opposed_fraction_of_session_samples": 0.25072886297376096,
+      "boundary_touching_runs": [
+        {
+          "run": 10,
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 330,
+          "end_index": 342,
+          "length": 13,
+          "canonical_conflict_samples": 1,
+          "start_timestamp": "2026-09-21T16:30:28.775",
+          "end_timestamp": "2026-09-21T16:30:46.728",
+          "start_cycle": 577,
+          "end_cycle": 600,
+          "observed_duration_seconds": 17.953,
+          "touches_first_sample": false,
+          "touches_last_sample": true
+        }
+      ]
+    },
+    {
+      "session": "FROZEN_SESSION_03",
+      "samples": 268,
+      "observed_window_seconds": 436.541,
+      "simultaneous_samples": 1,
+      "runs": 1,
+      "simultaneous_fraction_of_session_samples": 0.0037313432835820895,
+      "aligned_fraction_of_session_samples": 0.0037313432835820895,
+      "opposed_fraction_of_session_samples": 0.0,
+      "boundary_touching_runs": []
+    },
+    {
+      "session": "FROZEN_SESSION_04",
+      "samples": 279,
+      "observed_window_seconds": 447.069,
+      "simultaneous_samples": 48,
+      "runs": 5,
+      "simultaneous_fraction_of_session_samples": 0.17204301075268819,
+      "aligned_fraction_of_session_samples": 0.0,
+      "opposed_fraction_of_session_samples": 0.17204301075268819,
+      "boundary_touching_runs": []
+    },
+    {
+      "session": "FROZEN_SESSION_05",
+      "samples": 266,
+      "observed_window_seconds": 419.788,
+      "simultaneous_samples": 14,
+      "runs": 3,
+      "simultaneous_fraction_of_session_samples": 0.05263157894736842,
+      "aligned_fraction_of_session_samples": 0.05263157894736842,
+      "opposed_fraction_of_session_samples": 0.0,
+      "boundary_touching_runs": []
+    },
+    {
+      "session": "FROZEN_SESSION_06",
+      "samples": 268,
+      "observed_window_seconds": 409.704,
+      "simultaneous_samples": 90,
+      "runs": 3,
+      "simultaneous_fraction_of_session_samples": 0.3358208955223881,
+      "aligned_fraction_of_session_samples": 0.3358208955223881,
+      "opposed_fraction_of_session_samples": 0.0,
+      "boundary_touching_runs": [
+        {
+          "run": 1,
+          "relation": "ALIGNED",
+          "pair": "BUY_BUY",
+          "start_index": 0,
+          "end_index": 31,
+          "length": 32,
+          "canonical_conflict_samples": 2,
+          "start_timestamp": "2026-09-23T13:12:02.648",
+          "end_timestamp": "2026-09-23T13:12:56.571",
+          "start_cycle": 3,
+          "end_cycle": 76,
+          "observed_duration_seconds": 53.923,
+          "touches_first_sample": true,
+          "touches_last_sample": false
+        }
+      ]
+    },
+    {
+      "session": "FROZEN_SESSION_07",
+      "samples": 257,
+      "observed_window_seconds": 405.879,
+      "simultaneous_samples": 4,
+      "runs": 1,
+      "simultaneous_fraction_of_session_samples": 0.01556420233463035,
+      "aligned_fraction_of_session_samples": 0.0,
+      "opposed_fraction_of_session_samples": 0.01556420233463035,
+      "boundary_touching_runs": []
+    },
+    {
+      "session": "FROZEN_SESSION_08",
+      "samples": 241,
+      "observed_window_seconds": 391.672,
+      "simultaneous_samples": 0,
+      "runs": 0,
+      "simultaneous_fraction_of_session_samples": 0.0,
+      "aligned_fraction_of_session_samples": 0.0,
+      "opposed_fraction_of_session_samples": 0.0,
+      "boundary_touching_runs": []
+    },
+    {
+      "session": "FROZEN_SESSION_09",
+      "samples": 289,
+      "observed_window_seconds": 450.225,
+      "simultaneous_samples": 0,
+      "runs": 0,
+      "simultaneous_fraction_of_session_samples": 0.0,
+      "aligned_fraction_of_session_samples": 0.0,
+      "opposed_fraction_of_session_samples": 0.0,
+      "boundary_touching_runs": []
+    },
+    {
+      "session": "FROZEN_SESSION_10",
+      "samples": 243,
+      "observed_window_seconds": 392.221,
+      "simultaneous_samples": 0,
+      "runs": 0,
+      "simultaneous_fraction_of_session_samples": 0.0,
+      "aligned_fraction_of_session_samples": 0.0,
+      "opposed_fraction_of_session_samples": 0.0,
+      "boundary_touching_runs": []
+    }
+  ],
+  "identity": {
+    "samples": 2746,
+    "simultaneous_directional_samples": 356,
+    "aligned_samples": 210,
+    "opposed_samples": 146,
+    "total_runs": 35,
+    "aligned_runs": 17,
+    "opposed_runs": 18
+  },
+  "total_boundary_touching_runs": 2,
+  "definitions": {
+    "sample_fraction_denominator": "ALL_PROSPECTIVE_SAMPLES_IN_THE_SAME_SESSION",
+    "window_seconds": "LAST_RAW_TIMESTAMP_MINUS_FIRST_RAW_TIMESTAMP",
+    "boundary_flag": "TOUCHES_FIRST_OR_LAST_OBSERVED_SAMPLE_ONLY"
+  },
+  "limits": [
+    "SAMPLE_FRACTION_IS_NOT_TIME_OCCUPANCY",
+    "BOUNDARY_TOUCH_DOES_NOT_PROVE_STATE_START_OR_END",
+    "NO_INFERENCE_ABOUT_UNOBSERVED_PERIODS",
+    "NO_COHORT_REDEFINITION"
+  ],
+  "safety": {
+    "research_only": true,
+    "observational_only": true,
+    "descriptive_only": true,
+    "predictive_claim_allowed": false,
+    "score_influence_allowed": false,
+    "risk_influence_allowed": false,
+    "decision_influence_allowed": false,
+    "alert_influence_allowed": false,
+    "order_execution_allowed": false,
+    "promotion_allowed": false,
+    "threshold_change_allowed": false,
+    "rc17_change_allowed": false,
+    "order_flow_score_change_allowed": false,
+    "threshold_changed": false,
+    "rc17_changed": false,
+    "operational_logic_changed": false,
+    "canonical_conflict_redefinition": false
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "launcher": "BROOKS_SELECTION_LAUNCHER_V1",
+  "manifest": {
+    "eligible_sessions": 0,
+    "rejected_sessions": 0,
+    "selection_cutoff": null
+  },
+  "mode": "SELECTION",
+  "produced_session_files": 0,
+  "report_path": "C:\\COPILOTO_PRICE_ACTION_AI\\.pytest_brooks_full_20260918\\test_launcher_embeds_no_valid_0\\brooks_selection_WINV26_20260918_094043.json",
+  "requested_sessions": 1,
+  "selection_outcome": {
+    "alert_influence_allowed": false,
+    "counts_as_oos_evidence": false,
+    "counts_as_selection_evidence": false,
+    "decision_influence_allowed": false,
+    "eligible_sessions": 0,
+    "hypothesis_freeze_allowed": false,
+    "mode": "SELECTION",
+    "observational_only": true,
+    "order_execution_allowed": false,
+    "outcome": "BROOKS_SELECTION_OUTCOME_V1",
+    "predictive_claim_allowed": false,
+    "produced_session_files": 0,
+    "promotion_allowed": false,
+    "reasons": [
+      "NO_SESSION_PRODUCED"
+    ],
+    "rejected_sessions": 0,
+    "requested_sessions": 1,
+    "research_only": true,
+    "retry_when_real_source_active": true,
+    "risk_influence_allowed": false,
+    "score_influence_allowed": false,
+    "selection_cutoff": null,
+    "status": "NO_VALID_SOURCE"
+  },
+  "symbol": "WINV26"
+}

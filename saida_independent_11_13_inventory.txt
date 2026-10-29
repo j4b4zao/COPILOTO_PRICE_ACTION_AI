@@ -1,0 +1,540 @@
+﻿=== INDEPENDENT SESSIONS 11-13 INVENTORY ===
+=== GIT IDENTITY ===
+brooks-stop-target-exact-audit-20260912
+08038152be8016004c1101c41d666fe731b2032e
+=== RAW SESSION FILES ===
+FILE=.\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260928_113219.json
+EXISTS=True
+
+
+Algorithm : SHA256
+Hash      : 429862D7201DD6DB119EC67C67A4E0A1464BA34AC47DE4DEDBE83416A3DA6932
+Path      : C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260928_113219.json
+
+
+
+FILE=.\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260928_125331.json
+EXISTS=True
+
+
+Algorithm : SHA256
+Hash      : A6FC5E9DF5D00BBB504018B24C9D0EFF044A72A03FCB2282F71C73625BE47B9E
+Path      : C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260928_125331.json
+
+
+
+FILE=.\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260930_093955.json
+EXISTS=True
+
+
+Algorithm : SHA256
+Hash      : 3A73D4B0A8C7F4ADF0917BB9CE5DC927323578C5729C455BC0A78D3C5BDB7A00
+Path      : C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260930_093955.json
+
+
+
+=== STRUCTURAL REPLICATION RESULTS ===
+
+Name                                                                 Length LastWriteTime      
+----                                                                 ------ -------------      
+PA_BOOK_STRUCTURAL_REPLICATION_EVALUATOR_PROTOCOL_AUDIT_20260930.txt  40872 30/09/2026 08:46:48
+pa_book_structural_replication_session13_20260930.json                 1903 30/09/2026 10:19:36
+pa_book_structural_replication_session13_rc12_20260930.json            3028 30/09/2026 11:18:56
+
+
+=== INDEPENDENT COMPARISON ARTIFACTS ===
+
+Name                                      Length LastWriteTime      
+----                                      ------ -------------      
+saida_independent_evidence_comparison.txt  10428 28/09/2026 15:26:40
+saida_session11_comparison.txt              4048 28/09/2026 11:59:52
+saida_session12_comparison.txt              4048 28/09/2026 14:37:28
+
+
+=== RELEVANT TOOLS ===
+
+Name                                                                           
+----                                                                           
+profit_rtd_brooks_independent_cohort_comparative_outcome.py                    
+profit_rtd_brooks_independent_cohort_evidence_accumulation.py                  
+profit_rtd_brooks_independent_episode_audit.py                                 
+prospective_microstructure_independent_evidence_comparison.py                  
+prospective_microstructure_independent_session_comparison.py                   
+prospective_microstructure_pa_book_structural_replication_evaluator.py         
+prospective_microstructure_pa_book_structural_replication_evaluator.py.bak_rc11
+
+
+=== RELEVANT TESTS ===
+
+Name                                                                                    
+----                                                                                    
+test_prospective_microstructure_independent_evidence_comparison_rc1.py                  
+test_prospective_microstructure_independent_session_comparison_rc1.py                   
+test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py         
+test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py.bak_rc11
+
+
+=== PROTOCOL SHA ===
+
+
+Algorithm : SHA256
+Hash      : 53EFB327F613934C483F6BEC36FFE04BD98743B2973815F3B54EC2B84E91F01C
+Path      : C:\COPILOTO_PRICE_ACTION_AI\pa_book_opposed_to_aligned_prospective_replication_protocol_rc1_20260929.json
+
+
+
+=== STATUS ===
+ M Profit.xlsx
+ M connectors/excel_connector.py
+ M livroOfertas.xlsx
+ M saida.txt
+ M times&trades.xlsx
+?? .pytest_brooks_accumulation_full/
+?? .pytest_brooks_delta_telemetry_full/
+?? .pytest_brooks_full_20260918/
+?? .pytest_delta_hook/
+?? .pytest_temp_rc1/
+?? .pytest_temp_rc11/
+?? .pytest_tmp/
+?? .pytest_tmp_book_directionality_rc1/
+?? .pytest_tmp_book_directionality_rc1_v3/
+?? .pytest_tmp_bridge_full/
+?? .pytest_tmp_independent_comparison_final/
+?? .pytest_tmp_independent_comparison_rc1/
+?? .pytest_tmp_independent_comparison_rc1_v2/
+?? .pytest_tmp_independent_comparison_regression/
+?? .pytest_tmp_independent_evidence_integrated/
+?? .pytest_tmp_independent_evidence_rc1/
+?? .pytest_tmp_manifest/
+?? .pytest_tmp_post_session_rc1/
+?? .pytest_tmp_post_session_regression/
+?? .pytest_tmp_regression/
+?? .pytest_tmp_session11_readiness_final/
+?? .pytest_tmp_session11_readiness_rc1/
+?? .pytest_tmp_session11_readiness_rc1_v2/
+?? .pytest_tmp_session11_readiness_verify_rc1/
+?? .pytest_tmp_session12_readiness_final/
+?? .pytest_tmp_session12_readiness_rc1/
+?? .pytest_trailing_accumulation/
+?? .tmp_independent_comparison_rc1/
+?? CODEX_FILES_RECOVERY_20260929.txt
+?? CODEX_RECOVERY_20260929.txt
+?? PA_BOOK_CODEX_RESULTS_20260929.txt
+?? PA_BOOK_DIRECTION_IDENTITY_GATE_V1_20260929.txt
+?? PA_BOOK_EVALUATOR_FUNCTION_CONTRACT_20260929.txt
+?? PA_BOOK_FORMAL_SOURCE_TRACE_20260929.txt
+?? PA_BOOK_FULL_CHAIN_VERIFY_20260929.txt
+?? PA_BOOK_FULL_CHAIN_VERIFY_20260929_FIX1.txt
+?? PA_BOOK_HETEROGENEITY_RECHECK_20260929.json
+?? PA_BOOK_OPPOSED_TO_ALIGNED_TRANSITION_REPLICATION_PROBE_V1_20260929.txt
+?? PA_BOOK_PROSPECTIVE_REPLICATION_PROTOCOL_VALIDATION_RC1_20260929.txt
+?? PA_BOOK_SESSION02_TEMPORAL_CONTEXT_PROBE_V1_20260929.txt
+?? PA_BOOK_SESSION02_TRANSITION_CENTERED_CONTEXT_PROBE_V1_20260929.txt
+?? PA_BOOK_SESSION_CONTEXT_REGIME_PROBE_V1_20260929.txt
+?? PA_BOOK_SESSION_CONTEXT_SCHEMA_PROBE_20260929.txt
+?? PA_BOOK_STRUCTURAL_REPLICATION_EVALUATOR_PROTOCOL_AUDIT_20260930.txt
+?? PA_BOOK_WITHIN_SESSION_CONTEXT_PROBE_V1_20260929.txt
+?? PA_BOOK_WITHIN_SESSION_DIRECTION_SCHEMA_PROBE_20260929.txt
+?? auditoria_codex_work.txt
+?? auditoria_management_exact_core.txt
+?? auditoria_management_lifecycle_core.txt
+?? auditoria_protective_trailing_core.txt
+?? auditoria_trailing_12sessoes.txt
+?? auditoria_trailing_capture_core.txt
+?? auditoria_trailing_diagnostics_core.txt
+?? auditoria_trailing_tests_core.txt
+?? auditoria_work_codex_20260917.txt
+?? base_conflict_episode_rc1.txt
+?? book_bridge_parity_rc1.txt
+?? book_direction_parity_rc1.txt
+?? book_direction_pipeline_exact.txt
+?? book_directional_context_probe.txt
+?? book_directional_transitions_probe.txt
+?? book_directionality_diagnostics_current.txt
+?? book_directionality_diagnostics_real_rc1.json
+?? book_directionality_diagnostics_tests_current.txt
+?? book_imbalance_boundary_probe.txt
+?? book_observability_rc1_source_snapshot.txt
+?? book_pressure_exhaustive_probe.txt
+?? book_pressure_exhaustive_session11_probe.txt
+?? book_raw_alignment_probe.txt
+?? book_raw_structure_probe.txt
+?? book_threshold_source_search.txt
+?? brooks_delta_telemetry_hook_audit.txt
+?? brooks_evidencia_10sessoes.json
+?? brooks_evidencia_stop_target_final.json
+?? brooks_lifecycle_16sessoes_20260918.json
+?? brooks_lifecycle_17sessoes_20260918.json
+?? brooks_lifecycle_18sessoes_20260918.json
+?? brooks_lifecycle_19sessoes_20260918.json
+?? brooks_lifecycle_20sessoes_20260918.json
+?? brooks_lifecycle_21sessoes_20260918.json
+?? brooks_lifecycle_exact_16sessoes_20260918.json
+?? brooks_lifecycle_exact_17sessoes_20260918.json
+?? brooks_lifecycle_exact_18sessoes_20260918.json
+?? brooks_lifecycle_exact_19sessoes_20260918.json
+?? brooks_lifecycle_exact_20sessoes_20260918.json
+?? brooks_lifecycle_exact_21sessoes_20260918.json
+?? brooks_stage3_3_16sessoes_20260918.json
+?? brooks_stage3_3_17sessoes_20260918.json
+?? brooks_stage3_3_18sessoes_20260918.json
+?? brooks_stage3_3_19sessoes_20260918.json
+?? brooks_stage3_3_20sessoes_20260918.json
+?? brooks_stage3_3_21sessoes_20260918.json
+?? brooks_stage3_4_16sessoes_20260918.json
+?? brooks_stage3_4_17sessoes_20260918.json
+?? brooks_stage3_4_18sessoes_20260918.json
+?? brooks_stage3_4_19sessoes_20260918.json
+?? brooks_stage3_4_20sessoes_20260918.json
+?? brooks_stage3_4_21sessoes_20260918.json
+?? brooks_stage3_5_16sessoes_20260918.json
+?? brooks_stage3_5_17sessoes_20260918.json
+?? brooks_stage3_5_18sessoes_20260918.json
+?? brooks_stage3_5_19sessoes_20260918.json
+?? brooks_stage3_5_20sessoes_20260918.json
+?? brooks_stage3_5_21sessoes_20260918.json
+?? brooks_stage3_6_16sessoes_20260918.json
+?? brooks_stage3_6_17sessoes_20260918.json
+?? brooks_stage3_6_18sessoes_20260918.json
+?? brooks_stage3_6_19sessoes_20260918.json
+?? brooks_stage3_6_20sessoes_20260918.json
+?? brooks_stage3_6_21sessoes_20260918.json
+?? brooks_trailing_active_accumulation_16_17_20260918.json
+?? brooks_trailing_active_accumulation_16_18_20260918.json
+?? brooks_trailing_active_accumulation_16_19_20260918.json
+?? brooks_trailing_active_accumulation_16_20_20260918.json
+?? brooks_trailing_active_accumulation_16_21_20260918.json
+?? brooks_trailing_active_survival_16sessoes_20260918.json
+?? brooks_trailing_active_survival_17sessoes_20260918.json
+?? brooks_trailing_active_survival_18sessoes_20260918.json
+?? brooks_trailing_active_survival_19sessoes_20260918.json
+?? brooks_trailing_active_survival_20sessoes_20260918.json
+?? brooks_trailing_active_survival_21sessoes_20260918.json
+?? brooks_trailing_v3_sessao19_20260918.json
+?? brooks_trailing_v3_sessao20_20260918.json
+?? brooks_trailing_v3_sessao21_20260918.json
+?? brooks_ultima_selecao.json
+?? brooks_warmed_session_atual.txt
+?? busca_book_conversion_exact.txt
+?? busca_book_direction.txt
+?? busca_coverage_generator_exact.txt
+?? busca_historical_bridge_exact.txt
+?? busca_prospective_book_rule.txt
+?? data/order_flow_historical_shadow_rc35/
+?? data/order_flow_historical_shadow_rc35_python/
+?? data/post_session_audit_rc1_regression/
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260914_102126.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260914_130304.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260914_143238.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260914_165659.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_105703.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_114902.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_123423.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_130450.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_161123.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_164939.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260915_172701.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260916_102907.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260916_124306.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260917_113532.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260917_125655.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260917_171917.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_100511.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_104649.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_120654.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_124258.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_155129.json
+?? data/profit_rtd_brooks_selection/profit_rtd_rc54_3_2_WINV26_20260918_170840.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260914_102126.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260914_130304.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260914_143239.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260914_165659.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_105703.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_114902.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_123424.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_130450.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_161124.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_164940.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260915_172701.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260916_102908.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260916_124307.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260917_113533.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260917_125657.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260917_171918.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_100511.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_104649.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_120654.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_124258.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_155130.json
+?? data/profit_rtd_brooks_selection_reports/brooks_selection_WINV26_20260918_170841.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260908_130030.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260908_164519.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260908_170045.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260909_114536.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260909_123422.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260909_125729.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_110116.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_115251.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_122602.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_130942.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260921_163046.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260922_104741.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260922_114330.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260922_122256.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260922_130220.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260923_103430.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260923_123103.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260923_131852.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260923_151347.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260924_164534.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260924_172159.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260925_110721.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260925_124732.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260925_133534.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260928_113219.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260928_125331.json
+?? data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260930_093955.json
+?? data/prospective_microstructure_session11_audit_20260928/
+?? data/prospective_microstructure_session12_audit_20260928/
+?? delta_adapter_audit.txt
+?? delta_continuity_audit.txt
+?? delta_cycle3543_audit.txt
+?? delta_recovery_code_review.txt
+?? delta_recovery_final_audit.txt
+?? delta_recovery_search.txt
+?? delta_reset_core_audit.txt
+?? delta_reset_runtime_log.txt
+?? delta_reset_search.txt
+?? delta_rtd_reset_path.txt
+?? delta_telemetry_capture_audit.txt
+?? delta_telemetry_collector_hook_audit.txt
+?? delta_telemetry_context_bridge_audit.txt
+?? delta_telemetry_diff.txt
+?? delta_telemetry_integration_audit.txt
+?? delta_telemetry_warm_bridge_final_audit.txt
+?? diagnostico_build_sources.txt
+?? diagnostico_fluxo_collector_pipeline.txt
+?? diagnostico_market_structure_20260924.txt
+?? diagnostico_price_action_bias.txt
+?? diagnostico_rc17_1200.txt
+?? diagnostico_rc17_ao_vivo.txt
+?? diagnostico_rc17_d1.txt
+?? diagnostico_rc17_d2.txt
+?? diagnostico_rc17_d3.txt
+?? diagnostico_rc17_regras.txt
+?? diagnostico_schema_conflict_episode.txt
+?? estado_work_codex_20260917.txt
+?? estrutura_final_rc17_20260924.txt
+?? frozen10_canonical_sample_schema_20260929.txt
+?? frozen10_pa_book_opportunity_probe_20260929.txt
+?? frozen10_pa_book_opportunity_snapshot.txt
+?? historical_bridge_full_logic.txt
+?? historical_microstructure_confluence_report_LOCAL_BACKUP.py
+?? independent_episode_audit_full_20260918.txt
+?? independent_episode_tests_full_20260918.txt
+?? inspect_book_schema_rc1.py
+?? inspect_prospective_book_exact_rc1.py
+?? management_lifecycle_full_20260918.txt
+?? pa_book_frozen_heterogeneity_probe_20260929.json
+?? pa_book_opportunity_audit_rc1_real.json
+?? pa_book_opportunity_rc1_source_snapshot.txt
+?? pa_book_raw_sample_time_schema_probe_20260929.txt
+?? pa_book_session_exposure_probe_20260929.json
+?? pa_book_session_heterogeneity_audit_rc1_real_20260929.json
+?? pa_book_session_position_probe_20260929.txt
+?? pa_book_structural_replication_session13_20260930.json
+?? pa_book_structural_replication_session13_rc12_20260930.json
+?? pa_book_temporal_duration_probe_10sessions_20260929.txt
+?? pa_book_temporal_duration_schema_probe_20260929.txt
+?? pa_book_temporal_persistence_audit_rc1_real.json
+?? pa_book_temporal_persistence_rc1_source_snapshot.txt
+?? pa_book_temporal_runs_probe_20260929.txt
+?? pa_book_temporal_transition_audit_rc1_real_20260929.json
+?? pa_book_temporal_transitions_probe_20260929.txt
+?? post_session_pipeline_exact.txt
+?? probe_book_directional.py
+?? probe_book_imbalance_boundary.py
+?? probe_book_pressure_exhaustive.py
+?? probe_book_pressure_exhaustive_session11.py
+?? probe_book_raw_alignment.py
+?? probe_book_raw_structure.py
+?? probe_book_transitions.py
+?? probe_pa_book_frozen_heterogeneity_20260929.py
+?? probe_pa_book_raw_sample_time_schema.py
+?? probe_pa_book_session_exposure_20260929.py
+?? probe_pa_book_session_position.py
+?? probe_pa_book_temporal_duration_10sessions.py
+?? probe_pa_book_temporal_duration_schema.py
+?? probe_pa_book_temporal_runs.py
+?? probe_pa_book_temporal_transitions.py
+?? profit_rtd_pipeline_audit.txt
+?? prospective_book_call_chain_search.txt
+?? prospective_book_exact_rc1.txt
+?? prospective_book_runtime_chain_exact.txt
+?? prospective_microstructure_book_directionality_diagnostics_c0dad33.py
+?? prospective_microstructure_book_directionality_diagnostics_metadata_rc2.json
+?? prospective_microstructure_book_directionality_metadata_validation.json
+?? prospective_microstructure_book_observability_audit_rc1.json
+?? prospective_microstructure_conflict_10session_checkpoint_verify_20260926.json
+?? prospective_session_exact.txt
+?? protective_trailing_stop_dynamics_full_20260917.txt
+?? pytest_temp/
+?? rc54_8_oos_divergent.txt
+?? rc54_8_oos_divergent_3sessoes.txt
+?? rc54_8_oos_divergent_4sessoes.txt
+?? rc54_8_oos_micro_neutral.txt
+?? rc54_8_oos_micro_neutral_3sessoes.txt
+?? rc54_8_oos_micro_neutral_4sessoes.txt
+?? rc54_nova_oos.txt
+?? rc54_nova_oos_2.txt
+?? rc54_nova_oos_2_error.txt
+?? rc54_nova_oos_3.txt
+?? rc54_nova_oos_3_error.txt
+?? rc54_nova_oos_4.txt
+?? rc54_nova_oos_4_error.txt
+?? rc54_nova_oos_5.txt
+?? rc54_nova_oos_5_error.txt
+?? rc54_nova_oos_6.txt
+?? rc54_nova_oos_7.txt
+?? research_open_branches_snapshot_20260929.txt
+?? saida_book_observability_audit_rc1.txt
+?? saida_book_rc1.txt
+?? saida_book_rc1_final.txt
+?? saida_codex_limit.txt
+?? saida_compare_session11_12_13_schema.txt
+?? saida_conflict_episode_3formal.txt
+?? saida_conflict_episode_4sessions_20260923.json
+?? saida_conflict_episodes_10sessions_20260925.json
+?? saida_conflict_episodes_6sessions_20260923.json
+?? saida_conflict_episodes_7sessions_20260923.json
+?? saida_conflict_episodes_8sessions_20260924.json
+?? saida_conflict_episodes_9sessions_20260925.json
+?? saida_conflict_price_followthrough_10sessions_20260925.json
+?? saida_conflict_price_followthrough_4sessions_20260923.json
+?? saida_conflict_price_followthrough_5sessions_20260923.json
+?? saida_conflict_price_followthrough_6sessions_20260923.json
+?? saida_conflict_price_followthrough_7sessions_20260923.json
+?? saida_conflict_price_followthrough_8sessions_20260924.json
+?? saida_conflict_price_followthrough_8sessions_20260924_utf8.json
+?? saida_conflict_price_followthrough_9sessions_20260925.json
+?? saida_conflict_session_stability_rc3_10sessions_20260925.json
+?? saida_conflict_session_stability_rc3_5sessions_20260923.json
+?? saida_conflict_session_stability_rc3_6sessions_20260923.json
+?? saida_conflict_session_stability_rc3_7sessions_20260923.json
+?? saida_conflict_session_stability_rc3_8sessions_20260924.json
+?? saida_conflict_session_stability_rc3_9sessions_20260925.json
+?? saida_conflict_stratification_10sessions_20260925.json
+?? saida_conflict_stratification_rc2_20260923.json
+?? saida_conflict_stratification_rc2_5sessions_20260923.json
+?? saida_conflict_stratification_rc2_6sessions_20260923.json
+?? saida_conflict_stratification_rc2_7sessions_20260923.json
+?? saida_conflict_stratification_rc2_8sessions_20260924.json
+?? saida_conflict_stratification_rc2_9sessions_20260925.json
+?? saida_erro_coverage_9sessions_20260925.txt
+?? saida_independent_11_13_inventory.txt
+?? saida_independent_evidence_comparison.txt
+?? saida_microstructure_3session_audit.txt
+?? saida_microstructure_coverage_10sessions_20260925.json
+?? saida_microstructure_coverage_20260923.json
+?? saida_microstructure_coverage_3formal.txt
+?? saida_microstructure_coverage_4formal_20260923.json
+?? saida_microstructure_coverage_5sessions_20260923.json
+?? saida_microstructure_coverage_6sessions_20260923.json
+?? saida_microstructure_coverage_7sessions_20260923.json
+?? saida_microstructure_coverage_8sessions_20260924.json
+?? saida_microstructure_coverage_9sessions_20260925.json
+?? saida_microstructure_orchestrated_3.txt
+?? saida_microstructure_prospectiva.txt
+?? saida_microstructure_prospectiva_3.txt
+?? saida_nova_tentativa_sessao8.txt
+?? saida_pa_book_opportunity_audit_rc1.txt
+?? saida_pa_book_temporal_persistence_audit_rc1.txt
+?? saida_rc11_positional_identity_audit.txt
+?? saida_rc12_full_gate.txt
+?? saida_rc12_gate.txt
+?? saida_rc12_gate_v2.txt
+?? saida_rc12_gate_v3.txt
+?? saida_rc12_tests.txt
+?? saida_rc12_tests_v2.txt
+?? saida_rc12_tests_v3.txt
+?? saida_reproducao_conflict_episode_10sessions_20260926.json
+?? saida_reproducao_conflict_followthrough_10sessions_20260926.json
+?? saida_reproducao_conflict_session_stability_10sessions_20260926.json
+?? saida_reproducao_conflict_stratification_10sessions_20260926.json
+?? saida_reproducao_coverage_10sessions_20260926.json
+?? saida_semantic_gate_rc11.txt
+?? saida_sessao8.txt
+?? saida_sessao8_20260924.txt
+?? saida_sessao9_20260925.txt
+?? saida_sessao9_tentativa2_20260925.txt
+?? saida_sessao9_tentativa3_20260925.txt
+?? saida_sessao9_tentativa4_20260925.txt
+?? saida_sessao9_tentativa5_20260925.txt
+?? saida_session11.txt
+?? saida_session11_12_schemas.txt
+?? saida_session11_comparison.txt
+?? saida_session11_post_audit.txt
+?? saida_session11_quantitativo.txt
+?? saida_session11_tentativa2.txt
+?? saida_session11_tentativa3.txt
+?? saida_session11_tentativa4.txt
+?? saida_session12.txt
+?? saida_session12_comparison.txt
+?? saida_session12_post_audit.txt
+?? saida_session12_readiness.txt
+?? saida_session13.txt
+?? saida_session13_rc12_evaluation.txt
+?? saida_session13_rc12_final.txt
+?? saida_session13_timestamp_schema.txt
+?? saida_temporal_duration_rc1.txt
+?? saida_teste_rc11.txt
+?? schema_book_session11.txt
+?? schema_book_session12.txt
+?? schema_book_unique_values.txt
+?? schema_book_values.txt
+?? stash_conteudo.txt
+?? structural_advance_gate_v2_1_full_20260917.txt
+?? temporal_duration_rc1_source_snapshot_20260929.txt
+?? temporal_persistence_source_d70caea.py
+?? temporal_persistence_tests_source_d70caea.py
+?? test_historical_microstructure_confluence_report_rc1_LOCAL_BACKUP.py
+?? test_prospective_microstructure_book_directionality_diagnostics_rc1_current.py
+?? tests/book_diag_tests_metadata_rc2.py
+?? tests/test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py.bak_rc11
+?? tmp_compare_session11_12_13_schema.py
+?? tmp_fix_rc12_remaining_tests.py
+?? tmp_fix_rc12_test_decorators.py
+?? tmp_patch_structural_evaluator_rc12.py
+?? tmp_pytest/
+?? tmp_pytest_book_metadata/
+?? tmp_pytest_book_observability_rc1/
+?? tmp_pytest_conflict_episode_fix/
+?? tmp_pytest_conflict_episode_integrated/
+?? tmp_pytest_conflict_episode_resume/
+?? tmp_pytest_duration_rc1/
+?? tmp_pytest_orchestrated/
+?? tmp_pytest_pa_book_opportunity_rc1/
+?? tmp_pytest_pa_book_temporal_persistence_rc1/
+?? tmp_pytest_rc1/
+?? tmp_pytest_sync_a92/
+?? tmp_session13_timestamp_schema.py
+?? tools/profit_rtd_brooks_research_evidence_suite_updated.py
+?? tools/profit_rtd_brooks_structural_advance_gate_diagnostics.py
+?? tools/profit_rtd_brooks_structural_advance_gate_diagnostics_v2.py
+?? tools/profit_rtd_brooks_structural_advance_gate_diagnostics_v2_1.py
+?? tools/profit_rtd_rc17_isolated_parity_diagnostic.py
+?? tools/profit_rtd_rc17_parity_diagnostic.py
+?? tools/profit_rtd_rc17_swing_diagnostic.py
+?? tools/profit_rtd_rc54_3_2_brooks_warmed_session_complete.py
+?? tools/profit_rtd_rc54_3_2_brooks_warmed_session_fixed.py
+?? tools/prospective_microstructure_pa_book_structural_replication_evaluator.py.bak_rc11
+?? trailing_active_survival_source_20260918.txt
+?? trailing_active_survival_tests_20260918.txt
+?? trailing_advance_diagnostico_20260917.txt
+?? trailing_advance_logic_audit_20260917.txt
+?? trailing_v3_session16_20260918.json
+?? trailing_v3_session17_20260918.json
+?? trailing_v3_session18_20260918.json
+?? verify_book_bridge_parity_rc1.py
+?? verify_book_direction_parity_rc1.py
+?? warm_history_location_audit.txt

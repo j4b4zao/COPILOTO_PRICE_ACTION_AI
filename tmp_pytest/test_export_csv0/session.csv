@@ -1,0 +1,2 @@
+baseline_total,adjusted_total,delta,baseline_grade,adjusted_grade,grade_changed,baseline_valid,adjusted_valid,validity_changed,bias,status,pressure,confidence,confidence_bucket,duplicate_evidence_risk,correlation_bucket,correlation_factor,effective_strength,adjustment,passive_only
+80.0,80.8,0.8,A,A,False,True,True,False,BUY,ALIGNED,BID_DOMINANT,0.8,HIGH,False,INDEPENDENT,1.0,0.8,0.8,True

@@ -1,0 +1,1 @@
+{"samples": [{"timestamp": "2026-09-29T00:00:00", "cycle": 1}], "prospective_microstructure": {"samples": [{"price_action_bias": "NONE", "book_direction": "NONE", "conflict_count": 0}], "captured_samples": 1, "source_analyzable_samples": 1, "sample_count_matches_source": true}}

@@ -1,0 +1,17 @@
+test_deterministic (test_f3_int69_crash_minimizer.CrashMinimizerTests.test_deterministic) ... ok
+test_flags (test_f3_int69_crash_minimizer.CrashMinimizerTests.test_flags) ... ok
+test_invalid_budget (test_f3_int69_crash_minimizer.CrashMinimizerTests.test_invalid_budget) ... ok
+test_invalid_witness (test_f3_int69_crash_minimizer.CrashMinimizerTests.test_invalid_witness) ... ok
+test_limit_not_minimal (test_f3_int69_crash_minimizer.CrashMinimizerTests.test_limit_not_minimal) ... ok
+test_no_stale_event_not_same_predicate (test_f3_int69_crash_minimizer.CrashMinimizerTests.test_no_stale_event_not_same_predicate) ... ok
+test_one_event_minimal (test_f3_int69_crash_minimizer.CrashMinimizerTests.test_one_event_minimal) ... ok
+test_original_unchanged (test_f3_int69_crash_minimizer.CrashMinimizerTests.test_original_unchanged) ... ok
+test_predicate_retained (test_f3_int69_crash_minimizer.CrashMinimizerTests.test_predicate_retained) ... ok
+test_reduced (test_f3_int69_crash_minimizer.CrashMinimizerTests.test_reduced) ... ok
+test_replay_reduced (test_f3_int69_crash_minimizer.CrashMinimizerTests.test_replay_reduced) ... ok
+test_tampered_input_rejected (test_f3_int69_crash_minimizer.CrashMinimizerTests.test_tampered_input_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.898s
+
+OK

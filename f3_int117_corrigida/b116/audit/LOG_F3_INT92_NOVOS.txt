@@ -1,0 +1,13 @@
+test_content_difference_not_called_equal (test_f3_int92_evidence_observation_relation.ObservationRelationTests.test_content_difference_not_called_equal) ... ok
+test_flags (test_f3_int92_evidence_observation_relation.ObservationRelationTests.test_flags) ... ok
+test_inner_package_transport_change (test_f3_int92_evidence_observation_relation.ObservationRelationTests.test_inner_package_transport_change) ... ok
+test_invalid_tail_not_called_equal (test_f3_int92_evidence_observation_relation.ObservationRelationTests.test_invalid_tail_not_called_equal) ... ok
+test_orientation_change (test_f3_int92_evidence_observation_relation.ObservationRelationTests.test_orientation_change) ... ok
+test_outer_transport_change (test_f3_int92_evidence_observation_relation.ObservationRelationTests.test_outer_transport_change) ... ok
+test_same_reference (test_f3_int92_evidence_observation_relation.ObservationRelationTests.test_same_reference) ... ok
+test_wrong_input_type (test_f3_int92_evidence_observation_relation.ObservationRelationTests.test_wrong_input_type) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 18.016s
+
+OK

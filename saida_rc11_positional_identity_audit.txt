@@ -1,0 +1,414 @@
+﻿=== EVALUATOR ===
+
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:253:        "conditions": conditions,
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:254:        "replicated": replicated,
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:255:    }
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:256:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:257:
+> tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:258:def _validate_positional_identity(
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:259:    payload: dict[str, Any], 
+samples: list[dict[str, Any]],
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:260:) -> None:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:261:    # Duration establishes equal 
+counts, index mapping and raw time/cycle order.
+> tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:262:    # It does not compare 
+prospective timestamps; require that evidence here.
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:263:    raw_samples = 
+duration._validate_raw_samples(payload, samples)
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:264:    for index, (raw, prospective) 
+in enumerate(zip(raw_samples, samples)):
+> tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:265:        raw_time = 
+duration._parse_timestamp(raw.get("timestamp"), index)
+> tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:266:        prospective_time = 
+duration._parse_timestamp(
+> tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:267:            
+prospective.get("timestamp"), index,
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:268:        )
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:269:        if raw_time != 
+prospective_time:
+> tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:270:            raise 
+ValueError(f"raw/prospective timestamp mismatch at index {index}")
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:271:        if "cycle" in prospective:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:272:            cycle = 
+duration._validate_cycle(prospective["cycle"], index)
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:273:            if cycle != 
+raw["cycle"]:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:274:                raise 
+ValueError(f"raw/prospective cycle mismatch at index {index}")
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:275:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:276:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:277:def _build_formal_runs(
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:278:    samples: list[dict[str, Any]],
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:308:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:309:def _evaluate_session(
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:310:    payload: Any, protocol_path: 
+Path, protocol: dict[str, Any],
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:311:) -> dict[str, Any]:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:312:    # Deterministic precedence: 
+structure/counters, missing directions, invalid
+> tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:313:    # directions, positional 
+identity, then formal transition/hypothesis.
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:314:    try:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:315:        samples = 
+persistence._validate_prospective(payload)
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:316:    except ValueError as exc:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:317:        return 
+_report(protocol_path, protocol, "NOT_EVALUABLE",
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:318:                       
+"CAPTURE_INTEGRITY_FAILURE", detail=str(exc))
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:319:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:320:    for index, sample in 
+enumerate(samples):
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:321:        for field in 
+("price_action_bias", "book_direction"):
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:331:    except ValueError as exc:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:332:        return 
+_report(protocol_path, protocol, "NOT_EVALUABLE",
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:333:                       
+"CAPTURE_INTEGRITY_FAILURE", detail=str(exc))
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:334:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:335:    try:
+> tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:336:        
+_validate_positional_identity(payload, samples)
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:337:    except (ValueError, TypeError) 
+as exc:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:338:        return 
+_report(protocol_path, protocol, "NOT_EVALUABLE",
+> tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:339:                       
+"POSITIONAL_IDENTITY_FAILURE", detail=str(exc))
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:340:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:341:    candidates: list[dict[str, 
+Any]] = []
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:342:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:343:    for previous, following in 
+zip(runs, runs[1:]):
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:344:        if (
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:345:            previous["relation"] 
+== "OPPOSED"
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:346:            and 
+following["relation"] == "ALIGNED"
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:347:        ):
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:366:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:367:    else:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:368:        outcome = "NOT_REPLICATED"
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:369:        reason = 
+"AT_LEAST_ONE_TARGET_TRANSITION_FAILED_PROTOCOL"
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:370:
+> tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:371:    identity = {
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:372:        
+"prospective_sample_count": len(samples),
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:373:        "raw_sample_count": 
+len(payload["samples"]),
+> tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:374:        
+"raw_prospective_positional_identity": "VALIDATED",
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:375:        "formal_run_count": 
+len(runs),
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:376:        **counts,
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:377:        
+"opposed_to_aligned_transition_count": len(candidates),
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:378:    }
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:379:    return _report(protocol_path, 
+protocol, outcome, reason,
+> tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:380:                   
+identity=identity, transitions=candidates)
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:381:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:382:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:383:def _report(
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:384:    protocol_path: Path, protocol: 
+dict[str, Any], outcome: str, reason: str,
+> tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:385:    *, identity: dict[str, Any] | 
+None = None,
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:386:    transitions: list[dict[str, 
+Any]] | None = None, detail: str | None = None,
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:387:) -> dict[str, Any]:
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:388:    return {
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:389:        "version": VERSION,
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:390:        "status": "COMPLETED",
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:391:        "evaluation_outcome": 
+outcome,
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:392:        # Retain the RC1 field for 
+existing consumers; individual transition
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:393:        # outcomes remain 
+explicit, separate from this session summary.
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:399:        "protocol": {
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:400:            "path": 
+str(protocol_path),
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:401:            "sha256": 
+EXPECTED_PROTOCOL_SHA256,
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:402:            "version": 
+EXPECTED_PROTOCOL_VERSION,
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:403:        },
+> tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:404:        "identity": identity,
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:405:        "transitions": transitions 
+if transitions is not None else [],
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:406:        "cohort_policy": 
+dict(protocol["cohort_policy"]),
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:407:        "interpretation_policy": 
+dict(protocol["interpretation_policy"]),
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:408:        "safety": {
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:409:            "research_only": True,
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:410:            "descriptive_only": 
+True,
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:411:            
+"operational_logic_changed": False,
+  tools\prospective_microstructure_pa_book_structural_replication_evaluator.py:412:            "score_changed": False,
+
+
+=== TESTS ===
+
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:30:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:31:def _payload(samples: 
+list[dict]) -> dict:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:32:    samples = 
+[copy.deepcopy(sample) for sample in samples]
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:33:    raw = []
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:34:    for index, sample in 
+enumerate(samples):
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:35:        timestamp = 
+(datetime(2026, 9, 30) + timedelta(seconds=index)).isoformat()
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:36:        
+sample.update(timestamp=timestamp, cycle=index)
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:37:        
+raw.append({"timestamp": timestamp, "cycle": index})
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:38:    return {
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:39:        "samples": raw,
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:40:        
+"prospective_microstructure": {
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:41:            "samples": 
+samples,
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:42:            
+"captured_samples": len(samples),
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:43:            
+"source_analyzable_samples": len(samples),
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:44:            
+"sample_count_matches_source": True,
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:45:        }
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:46:    }
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:47:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:60:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:61:    report = 
+evaluator.evaluate_payload(payload)
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:62:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:63:    assert 
+report["outcome"] == "REPLICATED"
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:64:    assert (
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:65:        report["identity"][
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:66:            
+"opposed_to_aligned_transition_count"
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:67:        ]
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:68:        == 1
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:69:    )
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:70:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:71:    transition = 
+report["transitions"][0]
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:72:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:73:    assert 
+transition["previous_pair"] == "BUY_SELL"
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:74:    assert 
+transition["following_pair"] == "BUY_BUY"
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:75:    assert 
+transition["gap_samples"] == 2
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:383:        
+payload["samples"][1] = None
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:384:    elif case == "short":
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:385:        
+payload["samples"].pop()
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:386:    else:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:387:        
+payload["samples"].append(copy.deepcopy(payload["samples"][-1]))
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:388:    
+_assert_not_evaluable(payload, "POSITIONAL_IDENTITY_FAILURE")
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:389:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:390:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:391:@pytest.mark.parametrize("
+index", [0, 1, 2])
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:392:@pytest.mark.parametrize("
+side", ["raw", "prospective"])
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:393:def 
+test_timestamp_mismatch_at_any_position(index, side):
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:394:    payload = 
+_valid_payload()
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:395:    rows = 
+(payload["samples"] if side == "raw"
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:396:            else 
+payload["prospective_microstructure"]["samples"])
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:397:    
+rows[index]["timestamp"] += ".500000"
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:398:    
+_assert_not_evaluable(payload, "POSITIONAL_IDENTITY_FAILURE")
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:399:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:400:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:401:@pytest.mark.parametrize("
+side", ["raw", "prospective"])
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:402:@pytest.mark.parametrize("
+value", [None, "", "invalid", 123])
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:403:def 
+test_missing_or_invalid_timestamp(side, value):
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:404:    payload = 
+_valid_payload()
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:405:    rows = 
+(payload["samples"] if side == "raw"
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:406:            else 
+payload["prospective_microstructure"]["samples"])
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:407:    rows[1]["timestamp"] 
+= value
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:408:    
+_assert_not_evaluable(payload, "POSITIONAL_IDENTITY_FAILURE")
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:409:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:410:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:411:@pytest.mark.parametrize("
+case", ["raw_time_regression", "cycle_regression",
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:412:                          
+       "cycle_bool", "cycle_missing", "cycle_mismatch",
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:413:                          
+       "mixed_timezone", "prospective_reordered"])
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:414:def 
+test_duration_identity_and_order_fail_closed_without_crash(case):
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:415:    payload = 
+_valid_payload()
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:416:    raw = 
+payload["samples"]
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:417:    prospective = 
+payload["prospective_microstructure"]["samples"]
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:418:    if case == 
+"raw_time_regression":
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:419:        
+raw[1]["timestamp"] = "2026-09-29T23:59:59"
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:420:        
+prospective[1]["timestamp"] = raw[1]["timestamp"]
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:421:    elif case == 
+"cycle_regression":
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:422:        raw[1]["cycle"] = 
+-1
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:423:    elif case == 
+"cycle_bool":
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:424:        raw[1]["cycle"] = 
+True
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:425:    elif case == 
+"cycle_missing":
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:426:        del 
+raw[1]["cycle"]
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:427:    elif case == 
+"cycle_mismatch":
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:428:        
+prospective[1]["cycle"] = 100
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:429:    elif case == 
+"mixed_timezone":
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:430:        
+raw[1]["timestamp"] += "+00:00"
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:431:    else:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:432:        
+prospective.reverse()
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:433:    
+_assert_not_evaluable(payload, "POSITIONAL_IDENTITY_FAILURE")
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:434:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:435:
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:436:def 
+test_equivalent_iso_timestamps_and_optional_prospective_cycle():
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:437:    payload = 
+_valid_payload()
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:438:    for sample in 
+payload["prospective_microstructure"]["samples"]:
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:439:        
+sample["timestamp"] += ".000000"
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:440:        del 
+sample["cycle"]
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:441:    assert 
+evaluator.evaluate_payload(payload)["evaluation_outcome"] == "REPLICATED"
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:442:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:443:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:444:def 
+test_gate_precedence_is_deterministic():
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:445:    payload = 
+_valid_payload()
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:446:    del payload["samples"]
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:447:    del 
+payload["prospective_microstructure"]["samples"][1]["book_direction"]
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:448:    
+payload["prospective_microstructure"]["captured_samples"] = 100
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:449:    
+_assert_not_evaluable(payload, "CAPTURE_INTEGRITY_FAILURE")
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:450:    
+payload["prospective_microstructure"]["captured_samples"] = 3
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:451:    
+_assert_not_evaluable(payload, "MISSING_REQUIRED_FORMAL_FIELDS")
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:452:    
+payload["prospective_microstructure"]["samples"][1]["book_direction"] = "NONE"
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:453:    
+_assert_not_evaluable(payload, "POSITIONAL_IDENTITY_FAILURE")
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:454:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:455:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:456:def 
+test_empty_but_consistent_capture_has_no_transition():
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:457:    
+_assert_not_evaluable(_payload([]), "NO_FORMAL_OPPOSED_TO_ALIGNED_TRANSITION")
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:458:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:459:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:460:@pytest.mark.parametrize("
+book,condition", [
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:461:    ("BUY", 
+"at_least_one_intermediate_book_none"),
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:462:    ("SELL", 
+"no_intermediate_book_direction_opposite_to_start_pa_direction_after_opposed_run_end"),
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:463:])
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:511:def 
+test_no_gap_length_or_time_threshold(gap, seconds):
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:512:    payload = 
+_payload([_sample("BUY", "SELL")] + [_sample("BUY", "NONE")] * gap
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:513:                       + 
+[_sample("BUY", "BUY")])
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:514:    for index, (raw, 
+prospective) in enumerate(zip(
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:515:            
+payload["samples"], payload["prospective_microstructure"]["samples"])):
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:516:        timestamp = 
+(datetime(2026, 9, 30) + timedelta(seconds=index * seconds)).isoformat()
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:517:        raw["timestamp"] 
+= prospective["timestamp"] = timestamp
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:518:    assert 
+evaluator.evaluate_payload(payload)["evaluation_outcome"] == "REPLICATED"
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:519:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:520:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:521:@pytest.mark.parametrize("
+case", ["sha", "version", "status", "safety"])
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:522:@pytest.mark.parametrize("
+entry", ["payload", "file"])
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:523:def 
+test_protocol_corruption_is_hard_failure(tmp_path, monkeypatch, case, entry):
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:524:    protocol = 
+json.loads(evaluator.PROTOCOL_PATH.read_text(encoding="utf-8"))
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:525:    if case == "version":
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:526:        
+protocol["version"] = "INVALID"
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:527:    elif case == "status":
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:576:        
+path.write_text(json.dumps(_valid_payload()), encoding="utf-8")
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:577:    before = 
+[p.read_bytes() for p in paths]
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:578:    reports = 
+[evaluator.evaluate_file(p) for p in paths]
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:579:    assert 
+[p.read_bytes() for p in paths] == before
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:580:    assert 
+checkpoint.read_bytes() == frozen_before
+> tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:581:    assert 
+[r["identity"]["opposed_to_aligned_transition_count"] for r in reports] == [1, 1]
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:582:    assert 
+all(r["cohort_policy"]["sessions_11_and_12_remain_independent"] for r in reports)
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:583:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:584:
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:585:@pytest.mark.parametrize("
+target", ["session", "checkpoint", "protocol"])
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:586:def 
+test_cli_refuses_to_overwrite_existing_artifacts(tmp_path, monkeypatch, target):
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:587:    session = tmp_path / 
+"session.json"
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:588:    
+session.write_text(json.dumps(_valid_payload()), encoding="utf-8")
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:589:    # Protected 
+destinations are synthetic files within pytest basetemp.
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:590:    output = session if 
+target == "session" else tmp_path / f"{target}.json"
+  tests\test_prospective_microstructure_pa_book_structural_replication_evaluator_rc1.py:591:    if output != session:
+
+

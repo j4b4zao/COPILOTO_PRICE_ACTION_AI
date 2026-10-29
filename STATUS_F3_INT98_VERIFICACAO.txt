@@ -1,0 +1,8 @@
+F3-INT-98 - status de verificacao independente
+Pacote candidato: PACOTE_AUDITORIA_F3_INT98_CANDIDATO.zip
+ZIP: 621 membros, CRC sem erros (verificado nesta sessao).
+Checkpoint interno: F3-INT-97, F3=OPEN, sete flags operacionais false.
+Testes novos: 16/16 aprovados nesta sessao via unittest discover.
+Regressao completa: NAO CONCLUIDA. Uma tentativa ultrapassou o limite de execucao; nao se pode declarar F3-INT-98 aprovada.
+Proximo passo: executar VALIDAR_F3_INT98.py localmente sem limite de 300 segundos e enviar RESULTADO_VALIDACAO_F3_INT98.txt.
+Nao operar mercado, conectar Profit/RTD/DDE nem alterar flags.

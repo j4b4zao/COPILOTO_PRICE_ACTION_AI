@@ -1,0 +1,237 @@
+﻿===== ANALYSIS CONTEXT =====
+"""
+core/analysis_context.py
+
+Contexto compartilhado entre todas as engines do
+COPILOTO PRICE ACTION AI.
+"""
+
+from dataclasses import dataclass, field
+
+from core.market_state import MarketState
+from core.multi_timeframe_state import MultiTimeframeState
+from core.order_flow_state import OrderFlowState
+
+from external_context.external_market_state import ExternalMarketState
+from economic_context.economic_calendar_state import EconomicCalendarState
+from psychology.trader_psychology_runtime import (
+    TraderPsychologyRuntimeResult,
+)
+
+from models.book_depth import BookDepthSnapshot
+from models.book_depth_analysis_result import BookDepthAnalysisResult
+from models.structure_result import StructureResult
+from models.regime_result import RegimeResult
+from models.multi_timeframe_result import MultiTimeframeResult
+from models.liquidity_result import LiquidityResult
+from models.volume_result import VolumeResult
+from models.order_flow_result import OrderFlowResult
+from models.price_action_result import PriceActionResult
+from models.book_diagnostics_result import BookDiagnosticsResult
+from models.context_result import ContextResult
+from models.evidence_result import EvidenceResult
+from models.imbalance_result import ImbalanceResult
+from models.order_block_result import OrderBlockResult
+from models.fair_value_gap_result import FairValueGapResult
+from models.liquidity_pool_result import LiquidityPoolResult
+from models.strategy_result import StrategyResult
+from models.score_result import ScoreResult
+from models.risk_result import RiskResult
+from models.decision_result import DecisionResult
+from models.alert_result import AlertResult
+from models.trade_checklist import TradeChecklist
+from models.market_narrative import MarketNarrative
+
+
+@dataclass(slots=True)
+class AnalysisContext:
+    """Contexto compartilhado por todas as engines."""
+
+    market: MarketState = field(default_factory=MarketState)
+    multi_timeframe: MultiTimeframeState | None = None
+    multi_timeframe_analysis: MultiTimeframeResult = field(default_factory=MultiTimeframeResult)
+
+    external_market: ExternalMarketState = field(default_factory=ExternalMarketState)
+    economic_calendar: EconomicCalendarState = field(default_factory=EconomicCalendarState.unavailable)
+    book_depth: BookDepthSnapshot = field(default_factory=BookDepthSnapshot.unavailable)
+    book_depth_analysis: BookDepthAnalysisResult = field(default_factory=BookDepthAnalysisResult)
+
+    regime: RegimeResult = field(default_factory=RegimeResult)
+    structure: StructureResult = field(default_factory=StructureResult)
+    liquidity: LiquidityResult = field(default_factory=LiquidityResult)
+    volume: VolumeResult = field(default_factory=VolumeResult)
+    order_flow_state: OrderFlowState | None = None
+    order_flow: OrderFlowResult = field(default_factory=OrderFlowResult)
+    price_action: PriceActionResult = field(default_factory=PriceActionResult)
+
+    book_diagnostics: BookDiagnosticsResult = field(default_factory=BookDiagnosticsResult)
+    evidence: EvidenceResult = field(default_factory=EvidenceResult)
+
+    imbalance: ImbalanceResult = field(default_factory=ImbalanceResult)
+    order_block: OrderBlockResult = field(default_factory=OrderBlockResult)
+    fair_value_gap: FairValueGapResult = field(default_factory=FairValueGapResult)
+    liquidity_pool: LiquidityPoolResult = field(default_factory=LiquidityPoolResult)
+
+    context: ContextResult = field(default_factory=ContextResult)
+    strategy: StrategyResult = field(default_factory=StrategyResult)
+    score: ScoreResult = field(default_factory=ScoreResult)
+    risk: RiskResult = field(default_factory=RiskResult)
+    decision: DecisionResult = field(default_factory=DecisionResult)
+    alert: AlertResult = field(default_factory=AlertResult)
+    checklist: TradeChecklist = field(default_factory=TradeChecklist)
+    narrative: MarketNarrative = field(default_factory=MarketNarrative)
+    trader_psychology: TraderPsychologyRuntimeResult | None = None
+
+    @property
+    def external_valid(self) -> bool:
+        return bool(self.external_market.valid)
+
+    @property
+    def external_risk(self) -> str:
+        return str(self.external_market.risk_on_off or "NEUTRAL")
+
+    @property
+    def external_bias(self) -> str:
+        return str(self.external_market.global_bias or "NEUTRAL")
+
+    @property
+    def external_confidence(self) -> float:
+        if not self.external_market.valid:
+            return 0.0
+        return float(self.external_market.confidence or 0.0)
+
+    @property
+    def book_available(self) -> bool:
+        return bool(self.book_depth.available)
+
+    @property
+    def book_imbalance(self) -> float:
+        return float(self.book_depth.imbalance if self.book_depth.available else 0.0)
+
+    @property
+    def book_liquidity_pressure(self) -> str:
+        if not self.book_depth.available:
+            return "UNAVAILABLE"
+        return self.book_depth.liquidity_pressure
+
+    def clear_results(self) -> None:
+        """Limpa resultados, preservando estados de mercado, externo e Book."""
+        self.regime.clear()
+        self.multi_timeframe_analysis.clear()
+        self.structure.clear()
+        self.liquidity.clear()
+        self.volume.clear()
+        self.order_flow.clear()
+        self.price_action.clear()
+        self.book_depth_analysis.clear()
+        self.book_diagnostics.clear()
+        self.evidence.clear()
+        self.imbalance.clear()
+        self.order_block.clear()
+        self.fair_value_gap.clear()
+        self.liquidity_pool.clear()
+        self.context.clear()
+        self.strategy.clear()
+        self.score.clear()
+        self.risk.clear()
+        self.decision.clear()
+        self.alert.clear()
+        self.checklist.clear()
+        self.trader_psychology = None
+
+    def reset(self) -> None:
+        """Reinicia completamente o contexto."""
+        self.market.clear()
+        if self.multi_timeframe is not None:
+            self.multi_timeframe.clear()
+        if self.order_flow_state is not None:
+            self.order_flow_state.clear()
+        self.external_market.clear()
+        self.economic_calendar = EconomicCalendarState.unavailable()
+        self.book_depth = BookDepthSnapshot.unavailable()
+        self.clear_results()
+
+
+===== WARM HISTORY SOURCE =====
+
+===== WARM HISTORY IMPORT IN BASE =====
+from __future__ import annotations
+
+import argparse
+import json
+import math
+import time
+from datetime import datetime
+from pathlib import Path
+
+from market_data.book_depth_quality_validator import BookDepthQualityValidator
+from market_data.book_depth_source_diagnostics import BookDepthSourceDiagnostics
+from market_data.order_flow_observational_context import OrderFlowObservationalContextBuilder
+from market_data.profit_delta_quality_validator import ProfitDeltaQualityValidator
+from tools.profit_rtd_rc54_3_pa_structure_context_session import snapshot_context
+from tools.profit_rtd_rc54_3_2_warm_history_gate import context_ready, warm_history
+
+
+def snapshot_candle_evidence(context):
+    market = getattr(context, 'market', None)
+    candle = getattr(market, 'last_candle', None)
+    timestamp = getattr(candle, 'timestamp', None)
+    timeframe = str(getattr(market, 'timeframe', '') or '').strip().upper()
+    symbol = str(getattr(market, 'symbol', '') or '').strip().upper()
+    values = {}
+    for name in ('open', 'high', 'low', 'close', 'volume'):
+        raw = getattr(candle, name, None)
+        try:
+            value = float(raw)
+        except (TypeError, ValueError):
+            value = None
+        values[name] = value if value is not None and math.isfinite(value) else None
+    timestamp_text = timestamp.isoformat() if isinstance(timestamp, datetime) else None
+    ohlc_ready = all(values[name] is not None for name in ('open', 'high', 'low', 'close'))
+    volume_ready = values['volume'] is not None and values['volume'] >= 0
+    identity_ready = bool(symbol and timeframe and timestamp_text)
+    return {
+        'status': 'CANDLE_EVIDENCE_READY' if identity_ready and ohlc_ready and volume_ready else 'CANDLE_EVIDENCE_NOT_READY',
+        'candle_id': f'{symbol}|{timeframe}|{timestamp_text}' if identity_ready else None,
+        'symbol': symbol or None,
+        'timeframe': timeframe or None,
+        'timestamp': timestamp_text,
+        **values,
+        'identity_ready': identity_ready,
+        'ohlc_ready': ohlc_ready,
+        'volume_ready': volume_ready,
+        'closed_candle_claim_allowed': False,
+        'observational_only': True,
+        'score_influence_allowed': False,
+        'risk_influence_allowed': False,
+        'decision_influence_allowed': False,
+        'alert_influence_allowed': False,
+        'order_execution_allowed': False,
+    }
+
+
+def data_ready(sample):
+    return sample.get('last_price') is not None and str(sample.get('delta_status', '')).upper() in {'READY', 'VALID', 'LOW_ACTIVITY'}
+
+
+def technical_reasons(*, complete, collection_errors, missing_price_count, samples, delta_failure_samples):
+    reasons = []
+    if not complete:
+        reasons.append('CYCLE_ACCOUNTING_MISMATCH')
+    if collection_errors:
+        reasons.append('COLLECTION_ERRORS_PRESENT')
+    if missing_price_count:
+        reasons.append('MISSING_SYNCHRONIZED_PRICE')
+    if not samples:
+        reasons.append('NO_ANALYZABLE_SAMPLES')
+    if delta_failure_samples:
+        reasons.append('DELTA_NOT_READY_OR_INVALID')
+    return reasons
+
+
+def run_warmed_session(symbol, *, cycles=600, interval=0.25, max_warmup_cycles=4800, require_trade_context_at_start=False, output_dir=None, sleeper=time.sleep):
+    symbol = str(symbol or '').strip().upper()
+    if not symbol:
+        raise ValueError('symbol Ã© obrigatÃ³rio.')
+    if int(cycles) < 1 or int(max_warmup_cycles) < 1 or float(interval) < 0:
+        raise ValueError('cycles/max_warmup_cycles/interval invÃ¡lidos.')

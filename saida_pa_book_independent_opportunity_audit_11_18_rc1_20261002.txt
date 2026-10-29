@@ -1,0 +1,71 @@
+STATUS = PASS
+HEAD_BEFORE = 326c8459776ee825841279768ec81d0f4f19630f
+HEAD_AFTER = 326c8459776ee825841279768ec81d0f4f19630f
+FILES_CREATED =
+tools/prospective_microstructure_pa_book_independent_opportunity_audit.py
+tests/test_prospective_microstructure_pa_book_independent_opportunity_audit_rc1.py
+pa_book_independent_opportunity_audit_sessions11_18_rc1_20261002.json
+saida_pa_book_independent_opportunity_audit_11_18_rc1_20261002.txt
+TEST_COUNTS = 174 passed; 0 failed (focused plus old opportunity audit and structural evaluator regression)
+OUTPUT_FILE = C:\COPILOTO_PRICE_ACTION_AI\pa_book_independent_opportunity_audit_sessions11_18_rc1_20261002.json
+OUTPUT_SHA256 = AF9D37A648A817FF360854E95DBF65506906B1E38BAE064AC611EF77DDDA2872
+
+SESSION TABLE (counts are sample-level availability only):
+SESSION_ID | SESSION_OPPORTUNITY_STATUS | TOTAL_PROSPECTIVE_SAMPLES | PA_BUY | PA_SELL | PA_NONE | BOOK_BUY | BOOK_SELL | BOOK_NONE | BOTH_DIRECTIONAL | PA_DIRECTIONAL_BOOK_NONE | PA_NONE_BOOK_DIRECTIONAL | BOTH_NONE | BUY_BUY | SELL_SELL | BUY_SELL | SELL_BUY | ALIGNED | OPPOSED
+--- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---
+11 | VALID_COUNTS | 265 | 253 | 0 | 12 | 0 | 0 | 265 | 0 | 253 | 0 | 12 | 0 | 0 | 0 | 0 | 0 | 0
+12 | VALID_COUNTS | 238 | 0 | 112 | 126 | 76 | 0 | 162 | 0 | 112 | 76 | 50 | 0 | 0 | 0 | 0 | 0 | 0
+13 | VALID_COUNTS | 255 | 0 | 255 | 0 | 7 | 10 | 238 | 17 | 238 | 0 | 0 | 0 | 10 | 0 | 7 | 10 | 7
+14 | NOT_AVAILABLE_CAPTURE_INTEGRITY_FAILURE | null | null | null | null | null | null | null | null | null | null | null | null | null | null | null | null | null
+15 | VALID_COUNTS | 270 | 0 | 0 | 270 | 16 | 5 | 249 | 0 | 0 | 21 | 249 | 0 | 0 | 0 | 0 | 0 | 0
+16 | VALID_COUNTS | 279 | 0 | 0 | 279 | 0 | 0 | 279 | 0 | 0 | 0 | 279 | 0 | 0 | 0 | 0 | 0 | 0
+17 | VALID_COUNTS | 286 | 0 | 0 | 286 | 64 | 8 | 214 | 0 | 0 | 72 | 214 | 0 | 0 | 0 | 0 | 0 | 0
+18 | VALID_COUNTS | 258 | 0 | 0 | 258 | 15 | 44 | 199 | 0 | 0 | 59 | 199 | 0 | 0 | 0 | 0 | 0 | 0
+
+DESCRIPTIVE AVAILABILITY AGGREGATES (valid sessions only; not a scientific cohort):
+VALID_COUNT_SESSION_COUNT = 7
+TOTAL_VALID_PROSPECTIVE_SAMPLES = 1851
+TOTAL_PA_DIRECTIONAL = 620
+TOTAL_BOOK_DIRECTIONAL = 245
+TOTAL_BOTH_DIRECTIONAL = 17
+TOTAL_PA_DIRECTIONAL_BOOK_NONE = 603
+TOTAL_PA_NONE_BOOK_DIRECTIONAL = 228
+TOTAL_BOTH_NONE = 1003
+TOTAL_BUY_BUY = 0
+TOTAL_SELL_SELL = 10
+TOTAL_BUY_SELL = 0
+TOTAL_SELL_BUY = 7
+TOTAL_ALIGNED = 10
+TOTAL_OPPOSED = 7
+
+SOURCE_FORMAL_FIELDS = prospective_microstructure.samples[*].price_action_bias; prospective_microstructure.samples[*].book_direction
+DIRECTIONS = BUY / SELL / NONE
+BOOK_DIRECTION_RECONSTRUCTED = false
+SESSION14_RECOVERED_OR_REPROCESSED = false
+SESSION14_COUNTS = null
+VALID_SESSION_IDENTITIES = all partition, pair, aligned, opposed, aligned+opposed identities validated
+RAW_AND_OLD_AUDIT_HASHES_UNCHANGED = true
+COHORT_POLICY = {"frozen_10_session_checkpoint_remains_immutable": true, "no_retroactive_reclassification": true, "sessions_11_to_13_not_merged_with_14_to_18": true, "sessions_11_to_13_remain_independent_prior_evidence": true, "sessions_14_to_18_remain_a_separate_fixed_prospective_block": true}
+RESEARCH_ONLY = true
+DESCRIPTIVE_ONLY = true
+DIAGNOSTIC_ONLY = true
+OUTCOMES_RECLASSIFIED = false
+THRESHOLDS_CHANGED = false
+RC17_CHANGED = false
+OPERATIONAL_LOGIC_CHANGED = false
+CHECKPOINT_EXTENDED = false
+RAW_POOLING_FOR_INFERENCE = false
+SESSION19_EXECUTED = false
+COLLECTOR_EXECUTED = false
+WORKBOOKS_CHANGED = false
+STAGE_COMMIT_PUSH_EXECUTED = false
+NEW_PROTOCOL_CREATED = false
+
+RAW_FILE = data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260928_113219.json; SHA256 = 429862D7201DD6DB119EC67C67A4E0A1464BA34AC47DE4DEDBE83416A3DA6932
+RAW_FILE = data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260928_125331.json; SHA256 = A6FC5E9DF5D00BBB504018B24C9D0EFF044A72A03FCB2282F71C73625BE47B9E
+RAW_FILE = data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260930_093955.json; SHA256 = 3A73D4B0A8C7F4ADF0917BB9CE5DC927323578C5729C455BC0A78D3C5BDB7A00
+RAW_FILE = data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260930_125429.json; SHA256 = D49879440B4DBAFA76B012162E3F9EAF2A8BD8F6555C269517EB91B0E2CE3F15
+RAW_FILE = data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260930_161432.json; SHA256 = C2DE4C96917D7E7F14E5AD1B168A7121388F7525FF5A4B0EEB9FC67B2D029CC2
+RAW_FILE = data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260930_164805.json; SHA256 = DA29A70F46EEC8E2AF1E6426BAF6324CD7733981EF1AFD7628075F4DE75C01AA
+RAW_FILE = data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20260930_171544.json; SHA256 = E7934AC0606EB6BADB2A0B456038B26658CF1396F93CB89E06823F7206768221
+RAW_FILE = data/profit_rtd_rc54_3_2/profit_rtd_rc54_3_2_WINV26_20261002_093840.json; SHA256 = 983317089A735A7FD52FDD7EF89B527FF5815953D28F22958A3826BFCD3EB0CA

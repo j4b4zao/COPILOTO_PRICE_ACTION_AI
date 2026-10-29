@@ -1,0 +1,65 @@
+{
+  "accepted_independent_paired_episode_count": 54,
+  "accepted_report_count": 1,
+  "accepted_reports": [
+    {
+      "paired_episode_count": 54,
+      "report_index": 0,
+      "source_identity": "brooks_stage3_4_17sessoes_20260918.json",
+      "source_path": "brooks_stage3_4_17sessoes_20260918.json",
+      "validation_reason": "INDEPENDENT_PAIRED_DESCRIPTIVE_RESEARCH_ONLY_NO_PERFORMANCE_CLAIM"
+    }
+  ],
+  "alert_influence_allowed": false,
+  "baseline_censored_count": 15,
+  "baseline_exited_count": 39,
+  "decision_influence_allowed": false,
+  "differing_exit_r_count": 1,
+  "duplicate_paired_episode_count": 0,
+  "duplicate_paired_episodes": [],
+  "dynamic_management_validated": false,
+  "expected_source_stage": "BROOKS_STAGE_3_5_INDEPENDENT_COHORT_COMPARATIVE_OUTCOME_V1",
+  "hypothesis_freeze_allowed": false,
+  "identical_exit_r_count": 38,
+  "input_report_count": 1,
+  "observational_only": true,
+  "order_execution_allowed": false,
+  "paired_bounded_mae_r_delta_trailing_minus_baseline": {
+    "count": 54,
+    "mean": -0.01712545879212546,
+    "median": 0.0
+  },
+  "paired_confirmed_mfe_r_delta_trailing_minus_baseline": {
+    "count": 54,
+    "mean": -0.037037037037037035,
+    "median": 0.0
+  },
+  "paired_exit_r_delta_trailing_minus_baseline": {
+    "count": 39,
+    "mean": 0.01581196581196581,
+    "median": 0.0
+  },
+  "paired_exit_r_observation_count": 39,
+  "paired_possible_mfe_r_delta_trailing_minus_baseline": {
+    "count": 54,
+    "mean": -0.037037037037037035,
+    "median": 0.0
+  },
+  "performance_claim_allowed": false,
+  "performance_validated": false,
+  "predictive_claim_allowed": false,
+  "promotion_allowed": false,
+  "rejected_report_count": 0,
+  "rejected_reports": [],
+  "research_only": true,
+  "risk_influence_allowed": false,
+  "score_influence_allowed": false,
+  "source_paths": [
+    "brooks_stage3_5_17sessoes_20260918.json"
+  ],
+  "stage": "BROOKS_STAGE_3_6_INDEPENDENT_COHORT_EVIDENCE_ACCUMULATION_V1",
+  "status": "INDEPENDENT_COHORT_EVIDENCE_ACCUMULATED",
+  "trailing_censored_count": 13,
+  "trailing_exited_count": 41,
+  "validation_reason": "ACCUMULATED_INDEPENDENT_PAIRED_DESCRIPTIVE_EVIDENCE_ONLY_NO_PERFORMANCE_CLAIM"
+}

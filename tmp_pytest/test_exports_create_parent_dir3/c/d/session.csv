@@ -1,0 +1,2 @@
+baseline_total,adjusted_total,delta,baseline_grade,adjusted_grade,grade_changed,baseline_valid,adjusted_valid,validity_changed,bias,mtf_alignment,regime_context,regime_compatible,adjustment,passive_only
+75.0,78.0,3.0,B,B,False,True,True,False,BUY,BUY,TREND_UP,True,3.0,True

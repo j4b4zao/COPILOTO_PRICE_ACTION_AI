@@ -1,0 +1,1324 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-CONFLICT-PRICE-FOLLOWTHROUGH",
+  "status": "DESCRIPTIVE_ONLY",
+  "eligible_sessions": 1,
+  "rejected_sessions": 0,
+  "horizons_in_samples": [
+    1,
+    5,
+    10,
+    20
+  ],
+  "sessions": [
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260921_130942.json",
+      "sha256": "a85544271ff2ac693535ae6ed1e6effb033846f7f1ff63d24208d69159337427",
+      "samples": 292,
+      "alignment_validated": true,
+      "alignment_method": "INDEX_AND_PRICE_ACTION_BIAS",
+      "conflict_samples": 27,
+      "conflict_episodes": 22,
+      "horizons_in_samples": [
+        1,
+        5,
+        10,
+        20
+      ],
+      "episodes": [
+        {
+          "episode_index": 1,
+          "start_sample_index": 9,
+          "end_sample_index": 9,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:02:16.922",
+          "end_timestamp": "2026-09-21T13:02:16.922",
+          "start_price": 188155.0,
+          "end_price": 188155.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 10,
+              "target_timestamp": "2026-09-21T13:02:19.035",
+              "target_price": 188150.0,
+              "raw_displacement": -5.0,
+              "price_action_signed_displacement": -5.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 14,
+              "target_timestamp": "2026-09-21T13:02:24.809",
+              "target_price": 188145.0,
+              "raw_displacement": -10.0,
+              "price_action_signed_displacement": -10.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 19,
+              "target_timestamp": "2026-09-21T13:02:32.696",
+              "target_price": 188150.0,
+              "raw_displacement": -5.0,
+              "price_action_signed_displacement": -5.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 29,
+              "target_timestamp": "2026-09-21T13:02:48.861",
+              "target_price": 188145.0,
+              "raw_displacement": -10.0,
+              "price_action_signed_displacement": -10.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            }
+          }
+        },
+        {
+          "episode_index": 2,
+          "start_sample_index": 17,
+          "end_sample_index": 21,
+          "sample_count": 5,
+          "start_timestamp": "2026-09-21T13:02:30.521",
+          "end_timestamp": "2026-09-21T13:02:34.907",
+          "start_price": 188150.0,
+          "end_price": 188150.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "NONE",
+          "predominant_book_direction": "SELL",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 22,
+              "target_timestamp": "2026-09-21T13:02:37.231",
+              "target_price": 188165.0,
+              "raw_displacement": 15.0,
+              "price_action_signed_displacement": 15.0,
+              "book_signed_displacement": -15.0,
+              "observed_side": "PRICE_ACTION"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 26,
+              "target_timestamp": "2026-09-21T13:02:42.999",
+              "target_price": 188150.0,
+              "raw_displacement": 0.0,
+              "price_action_signed_displacement": 0.0,
+              "book_signed_displacement": -0.0,
+              "observed_side": "FLAT"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 31,
+              "target_timestamp": "2026-09-21T13:02:53.237",
+              "target_price": 188175.0,
+              "raw_displacement": 25.0,
+              "price_action_signed_displacement": 25.0,
+              "book_signed_displacement": -25.0,
+              "observed_side": "PRICE_ACTION"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 41,
+              "target_timestamp": "2026-09-21T13:03:09.183",
+              "target_price": 188155.0,
+              "raw_displacement": 5.0,
+              "price_action_signed_displacement": 5.0,
+              "book_signed_displacement": -5.0,
+              "observed_side": "PRICE_ACTION"
+            }
+          }
+        },
+        {
+          "episode_index": 3,
+          "start_sample_index": 23,
+          "end_sample_index": 23,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:02:38.675",
+          "end_timestamp": "2026-09-21T13:02:38.675",
+          "start_price": 188165.0,
+          "end_price": 188165.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 24,
+              "target_timestamp": "2026-09-21T13:02:39.386",
+              "target_price": 188165.0,
+              "raw_displacement": 0.0,
+              "price_action_signed_displacement": 0.0,
+              "book_signed_displacement": null,
+              "observed_side": "FLAT"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 28,
+              "target_timestamp": "2026-09-21T13:02:46.707",
+              "target_price": 188145.0,
+              "raw_displacement": -20.0,
+              "price_action_signed_displacement": -20.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 33,
+              "target_timestamp": "2026-09-21T13:02:55.414",
+              "target_price": 188165.0,
+              "raw_displacement": 0.0,
+              "price_action_signed_displacement": 0.0,
+              "book_signed_displacement": null,
+              "observed_side": "FLAT"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 43,
+              "target_timestamp": "2026-09-21T13:03:11.409",
+              "target_price": 188155.0,
+              "raw_displacement": -10.0,
+              "price_action_signed_displacement": -10.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            }
+          }
+        },
+        {
+          "episode_index": 4,
+          "start_sample_index": 32,
+          "end_sample_index": 32,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:02:54.685",
+          "end_timestamp": "2026-09-21T13:02:54.685",
+          "start_price": 188165.0,
+          "end_price": 188165.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 33,
+              "target_timestamp": "2026-09-21T13:02:55.414",
+              "target_price": 188165.0,
+              "raw_displacement": 0.0,
+              "price_action_signed_displacement": 0.0,
+              "book_signed_displacement": null,
+              "observed_side": "FLAT"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 37,
+              "target_timestamp": "2026-09-21T13:03:01.359",
+              "target_price": 188160.0,
+              "raw_displacement": -5.0,
+              "price_action_signed_displacement": -5.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 42,
+              "target_timestamp": "2026-09-21T13:03:10.622",
+              "target_price": 188155.0,
+              "raw_displacement": -10.0,
+              "price_action_signed_displacement": -10.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 52,
+              "target_timestamp": "2026-09-21T13:03:25.353",
+              "target_price": 188185.0,
+              "raw_displacement": 20.0,
+              "price_action_signed_displacement": 20.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            }
+          }
+        },
+        {
+          "episode_index": 5,
+          "start_sample_index": 73,
+          "end_sample_index": 73,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:03:56.908",
+          "end_timestamp": "2026-09-21T13:03:56.908",
+          "start_price": 188165.0,
+          "end_price": 188165.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 74,
+              "target_timestamp": "2026-09-21T13:03:59.183",
+              "target_price": 188175.0,
+              "raw_displacement": 10.0,
+              "price_action_signed_displacement": 10.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 78,
+              "target_timestamp": "2026-09-21T13:04:04.595",
+              "target_price": 188215.0,
+              "raw_displacement": 50.0,
+              "price_action_signed_displacement": 50.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 83,
+              "target_timestamp": "2026-09-21T13:04:13.246",
+              "target_price": 188210.0,
+              "raw_displacement": 45.0,
+              "price_action_signed_displacement": 45.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 93,
+              "target_timestamp": "2026-09-21T13:04:28.667",
+              "target_price": 188215.0,
+              "raw_displacement": 50.0,
+              "price_action_signed_displacement": 50.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            }
+          }
+        },
+        {
+          "episode_index": 6,
+          "start_sample_index": 80,
+          "end_sample_index": 80,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:04:06.818",
+          "end_timestamp": "2026-09-21T13:04:06.818",
+          "start_price": 188205.0,
+          "end_price": 188205.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 81,
+              "target_timestamp": "2026-09-21T13:04:08.981",
+              "target_price": 188215.0,
+              "raw_displacement": 10.0,
+              "price_action_signed_displacement": 10.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 85,
+              "target_timestamp": "2026-09-21T13:04:15.402",
+              "target_price": 188210.0,
+              "raw_displacement": 5.0,
+              "price_action_signed_displacement": 5.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 90,
+              "target_timestamp": "2026-09-21T13:04:22.782",
+              "target_price": 188220.0,
+              "raw_displacement": 15.0,
+              "price_action_signed_displacement": 15.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 100,
+              "target_timestamp": "2026-09-21T13:04:39.391",
+              "target_price": 188210.0,
+              "raw_displacement": 5.0,
+              "price_action_signed_displacement": 5.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            }
+          }
+        },
+        {
+          "episode_index": 7,
+          "start_sample_index": 111,
+          "end_sample_index": 111,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:04:56.526",
+          "end_timestamp": "2026-09-21T13:04:56.526",
+          "start_price": 188265.0,
+          "end_price": 188265.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 112,
+              "target_timestamp": "2026-09-21T13:04:57.290",
+              "target_price": 188260.0,
+              "raw_displacement": -5.0,
+              "price_action_signed_displacement": -5.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 116,
+              "target_timestamp": "2026-09-21T13:05:04.994",
+              "target_price": 188255.0,
+              "raw_displacement": -10.0,
+              "price_action_signed_displacement": -10.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 121,
+              "target_timestamp": "2026-09-21T13:05:14.549",
+              "target_price": 188230.0,
+              "raw_displacement": -35.0,
+              "price_action_signed_displacement": -35.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 131,
+              "target_timestamp": "2026-09-21T13:05:28.985",
+              "target_price": 188330.0,
+              "raw_displacement": 65.0,
+              "price_action_signed_displacement": 65.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            }
+          }
+        },
+        {
+          "episode_index": 8,
+          "start_sample_index": 115,
+          "end_sample_index": 115,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:05:02.793",
+          "end_timestamp": "2026-09-21T13:05:02.793",
+          "start_price": 188250.0,
+          "end_price": 188250.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "BUY",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 116,
+              "target_timestamp": "2026-09-21T13:05:04.994",
+              "target_price": 188255.0,
+              "raw_displacement": 5.0,
+              "price_action_signed_displacement": 5.0,
+              "book_signed_displacement": 5.0,
+              "observed_side": "SAME_DIRECTION"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 120,
+              "target_timestamp": "2026-09-21T13:05:13.055",
+              "target_price": 188230.0,
+              "raw_displacement": -20.0,
+              "price_action_signed_displacement": -20.0,
+              "book_signed_displacement": -20.0,
+              "observed_side": "SAME_DIRECTION"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 125,
+              "target_timestamp": "2026-09-21T13:05:20.532",
+              "target_price": 188305.0,
+              "raw_displacement": 55.0,
+              "price_action_signed_displacement": 55.0,
+              "book_signed_displacement": 55.0,
+              "observed_side": "SAME_DIRECTION"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 135,
+              "target_timestamp": "2026-09-21T13:05:36.940",
+              "target_price": 188330.0,
+              "raw_displacement": 80.0,
+              "price_action_signed_displacement": 80.0,
+              "book_signed_displacement": 80.0,
+              "observed_side": "SAME_DIRECTION"
+            }
+          }
+        },
+        {
+          "episode_index": 9,
+          "start_sample_index": 119,
+          "end_sample_index": 119,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:05:10.909",
+          "end_timestamp": "2026-09-21T13:05:10.909",
+          "start_price": 188235.0,
+          "end_price": 188235.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 120,
+              "target_timestamp": "2026-09-21T13:05:13.055",
+              "target_price": 188230.0,
+              "raw_displacement": -5.0,
+              "price_action_signed_displacement": -5.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 124,
+              "target_timestamp": "2026-09-21T13:05:18.979",
+              "target_price": 188305.0,
+              "raw_displacement": 70.0,
+              "price_action_signed_displacement": 70.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 129,
+              "target_timestamp": "2026-09-21T13:05:26.697",
+              "target_price": 188320.0,
+              "raw_displacement": 85.0,
+              "price_action_signed_displacement": 85.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 139,
+              "target_timestamp": "2026-09-21T13:05:42.776",
+              "target_price": 188340.0,
+              "raw_displacement": 105.0,
+              "price_action_signed_displacement": 105.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            }
+          }
+        },
+        {
+          "episode_index": 10,
+          "start_sample_index": 123,
+          "end_sample_index": 123,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:05:16.778",
+          "end_timestamp": "2026-09-21T13:05:16.778",
+          "start_price": 188310.0,
+          "end_price": 188310.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 124,
+              "target_timestamp": "2026-09-21T13:05:18.979",
+              "target_price": 188305.0,
+              "raw_displacement": -5.0,
+              "price_action_signed_displacement": -5.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 128,
+              "target_timestamp": "2026-09-21T13:05:25.146",
+              "target_price": 188340.0,
+              "raw_displacement": 30.0,
+              "price_action_signed_displacement": 30.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 133,
+              "target_timestamp": "2026-09-21T13:05:33.355",
+              "target_price": 188325.0,
+              "raw_displacement": 15.0,
+              "price_action_signed_displacement": 15.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 143,
+              "target_timestamp": "2026-09-21T13:05:51.025",
+              "target_price": 188285.0,
+              "raw_displacement": -25.0,
+              "price_action_signed_displacement": -25.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            }
+          }
+        },
+        {
+          "episode_index": 11,
+          "start_sample_index": 129,
+          "end_sample_index": 129,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:05:26.697",
+          "end_timestamp": "2026-09-21T13:05:26.697",
+          "start_price": 188320.0,
+          "end_price": 188320.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 130,
+              "target_timestamp": "2026-09-21T13:05:27.511",
+              "target_price": 188320.0,
+              "raw_displacement": 0.0,
+              "price_action_signed_displacement": 0.0,
+              "book_signed_displacement": null,
+              "observed_side": "FLAT"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 134,
+              "target_timestamp": "2026-09-21T13:05:34.789",
+              "target_price": 188320.0,
+              "raw_displacement": 0.0,
+              "price_action_signed_displacement": 0.0,
+              "book_signed_displacement": null,
+              "observed_side": "FLAT"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 139,
+              "target_timestamp": "2026-09-21T13:05:42.776",
+              "target_price": 188340.0,
+              "raw_displacement": 20.0,
+              "price_action_signed_displacement": 20.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 149,
+              "target_timestamp": "2026-09-21T13:06:00.566",
+              "target_price": 188290.0,
+              "raw_displacement": -30.0,
+              "price_action_signed_displacement": -30.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            }
+          }
+        },
+        {
+          "episode_index": 12,
+          "start_sample_index": 142,
+          "end_sample_index": 142,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:05:48.889",
+          "end_timestamp": "2026-09-21T13:05:48.889",
+          "start_price": 188280.0,
+          "end_price": 188280.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 143,
+              "target_timestamp": "2026-09-21T13:05:51.025",
+              "target_price": 188285.0,
+              "raw_displacement": 5.0,
+              "price_action_signed_displacement": 5.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 147,
+              "target_timestamp": "2026-09-21T13:05:56.862",
+              "target_price": 188290.0,
+              "raw_displacement": 10.0,
+              "price_action_signed_displacement": 10.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 152,
+              "target_timestamp": "2026-09-21T13:06:05.029",
+              "target_price": 188310.0,
+              "raw_displacement": 30.0,
+              "price_action_signed_displacement": 30.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 162,
+              "target_timestamp": "2026-09-21T13:06:21.097",
+              "target_price": 188285.0,
+              "raw_displacement": 5.0,
+              "price_action_signed_displacement": 5.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            }
+          }
+        },
+        {
+          "episode_index": 13,
+          "start_sample_index": 187,
+          "end_sample_index": 187,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:07:00.529",
+          "end_timestamp": "2026-09-21T13:07:00.529",
+          "start_price": 188310.0,
+          "end_price": 188310.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "BUY",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 188,
+              "target_timestamp": "2026-09-21T13:07:01.336",
+              "target_price": 188305.0,
+              "raw_displacement": -5.0,
+              "price_action_signed_displacement": -5.0,
+              "book_signed_displacement": -5.0,
+              "observed_side": "SAME_DIRECTION"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 192,
+              "target_timestamp": "2026-09-21T13:07:09.277",
+              "target_price": 188310.0,
+              "raw_displacement": 0.0,
+              "price_action_signed_displacement": 0.0,
+              "book_signed_displacement": 0.0,
+              "observed_side": "FLAT"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 197,
+              "target_timestamp": "2026-09-21T13:07:17.109",
+              "target_price": 188305.0,
+              "raw_displacement": -5.0,
+              "price_action_signed_displacement": -5.0,
+              "book_signed_displacement": -5.0,
+              "observed_side": "SAME_DIRECTION"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 207,
+              "target_timestamp": "2026-09-21T13:07:32.746",
+              "target_price": 188285.0,
+              "raw_displacement": -25.0,
+              "price_action_signed_displacement": -25.0,
+              "book_signed_displacement": -25.0,
+              "observed_side": "SAME_DIRECTION"
+            }
+          }
+        },
+        {
+          "episode_index": 14,
+          "start_sample_index": 213,
+          "end_sample_index": 213,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:07:40.687",
+          "end_timestamp": "2026-09-21T13:07:40.687",
+          "start_price": 188310.0,
+          "end_price": 188310.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "BUY",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 214,
+              "target_timestamp": "2026-09-21T13:07:41.477",
+              "target_price": 188305.0,
+              "raw_displacement": -5.0,
+              "price_action_signed_displacement": -5.0,
+              "book_signed_displacement": -5.0,
+              "observed_side": "SAME_DIRECTION"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 218,
+              "target_timestamp": "2026-09-21T13:07:47.425",
+              "target_price": 188340.0,
+              "raw_displacement": 30.0,
+              "price_action_signed_displacement": 30.0,
+              "book_signed_displacement": 30.0,
+              "observed_side": "SAME_DIRECTION"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 223,
+              "target_timestamp": "2026-09-21T13:07:55.491",
+              "target_price": 188345.0,
+              "raw_displacement": 35.0,
+              "price_action_signed_displacement": 35.0,
+              "book_signed_displacement": 35.0,
+              "observed_side": "SAME_DIRECTION"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 233,
+              "target_timestamp": "2026-09-21T13:08:10.933",
+              "target_price": 188385.0,
+              "raw_displacement": 75.0,
+              "price_action_signed_displacement": 75.0,
+              "book_signed_displacement": 75.0,
+              "observed_side": "SAME_DIRECTION"
+            }
+          }
+        },
+        {
+          "episode_index": 15,
+          "start_sample_index": 217,
+          "end_sample_index": 217,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:07:46.265",
+          "end_timestamp": "2026-09-21T13:07:46.265",
+          "start_price": 188325.0,
+          "end_price": 188325.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "BUY",
+          "predominant_book_direction": "SELL",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 218,
+              "target_timestamp": "2026-09-21T13:07:47.425",
+              "target_price": 188340.0,
+              "raw_displacement": 15.0,
+              "price_action_signed_displacement": 15.0,
+              "book_signed_displacement": -15.0,
+              "observed_side": "PRICE_ACTION"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 222,
+              "target_timestamp": "2026-09-21T13:07:53.134",
+              "target_price": 188330.0,
+              "raw_displacement": 5.0,
+              "price_action_signed_displacement": 5.0,
+              "book_signed_displacement": -5.0,
+              "observed_side": "PRICE_ACTION"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 227,
+              "target_timestamp": "2026-09-21T13:08:01.073",
+              "target_price": 188370.0,
+              "raw_displacement": 45.0,
+              "price_action_signed_displacement": 45.0,
+              "book_signed_displacement": -45.0,
+              "observed_side": "PRICE_ACTION"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 237,
+              "target_timestamp": "2026-09-21T13:08:17.532",
+              "target_price": 188380.0,
+              "raw_displacement": 55.0,
+              "price_action_signed_displacement": 55.0,
+              "book_signed_displacement": -55.0,
+              "observed_side": "PRICE_ACTION"
+            }
+          }
+        },
+        {
+          "episode_index": 16,
+          "start_sample_index": 219,
+          "end_sample_index": 219,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:07:49.353",
+          "end_timestamp": "2026-09-21T13:07:49.353",
+          "start_price": 188340.0,
+          "end_price": 188340.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 220,
+              "target_timestamp": "2026-09-21T13:07:50.432",
+              "target_price": 188340.0,
+              "raw_displacement": 0.0,
+              "price_action_signed_displacement": 0.0,
+              "book_signed_displacement": null,
+              "observed_side": "FLAT"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 224,
+              "target_timestamp": "2026-09-21T13:07:57.198",
+              "target_price": 188355.0,
+              "raw_displacement": 15.0,
+              "price_action_signed_displacement": 15.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 229,
+              "target_timestamp": "2026-09-21T13:08:03.332",
+              "target_price": 188385.0,
+              "raw_displacement": 45.0,
+              "price_action_signed_displacement": 45.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 239,
+              "target_timestamp": "2026-09-21T13:08:20.556",
+              "target_price": 188370.0,
+              "raw_displacement": 30.0,
+              "price_action_signed_displacement": 30.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            }
+          }
+        },
+        {
+          "episode_index": 17,
+          "start_sample_index": 246,
+          "end_sample_index": 246,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:08:31.145",
+          "end_timestamp": "2026-09-21T13:08:31.145",
+          "start_price": 188350.0,
+          "end_price": 188350.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "NONE",
+          "predominant_book_direction": "SELL",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 247,
+              "target_timestamp": "2026-09-21T13:08:33.390",
+              "target_price": 188355.0,
+              "raw_displacement": 5.0,
+              "price_action_signed_displacement": 5.0,
+              "book_signed_displacement": -5.0,
+              "observed_side": "PRICE_ACTION"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 251,
+              "target_timestamp": "2026-09-21T13:08:41.061",
+              "target_price": 188345.0,
+              "raw_displacement": -5.0,
+              "price_action_signed_displacement": -5.0,
+              "book_signed_displacement": 5.0,
+              "observed_side": "BOOK"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 256,
+              "target_timestamp": "2026-09-21T13:08:48.933",
+              "target_price": 188330.0,
+              "raw_displacement": -20.0,
+              "price_action_signed_displacement": -20.0,
+              "book_signed_displacement": 20.0,
+              "observed_side": "BOOK"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 266,
+              "target_timestamp": "2026-09-21T13:09:04.605",
+              "target_price": 188365.0,
+              "raw_displacement": 15.0,
+              "price_action_signed_displacement": 15.0,
+              "book_signed_displacement": -15.0,
+              "observed_side": "PRICE_ACTION"
+            }
+          }
+        },
+        {
+          "episode_index": 18,
+          "start_sample_index": 250,
+          "end_sample_index": 250,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:08:38.765",
+          "end_timestamp": "2026-09-21T13:08:38.765",
+          "start_price": 188345.0,
+          "end_price": 188345.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 251,
+              "target_timestamp": "2026-09-21T13:08:41.061",
+              "target_price": 188345.0,
+              "raw_displacement": 0.0,
+              "price_action_signed_displacement": 0.0,
+              "book_signed_displacement": null,
+              "observed_side": "FLAT"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 255,
+              "target_timestamp": "2026-09-21T13:08:47.979",
+              "target_price": 188350.0,
+              "raw_displacement": 5.0,
+              "price_action_signed_displacement": 5.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 260,
+              "target_timestamp": "2026-09-21T13:08:54.772",
+              "target_price": 188330.0,
+              "raw_displacement": -15.0,
+              "price_action_signed_displacement": -15.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 270,
+              "target_timestamp": "2026-09-21T13:09:11.319",
+              "target_price": 188370.0,
+              "raw_displacement": 25.0,
+              "price_action_signed_displacement": 25.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            }
+          }
+        },
+        {
+          "episode_index": 19,
+          "start_sample_index": 254,
+          "end_sample_index": 254,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:08:47.046",
+          "end_timestamp": "2026-09-21T13:08:47.046",
+          "start_price": 188345.0,
+          "end_price": 188345.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 255,
+              "target_timestamp": "2026-09-21T13:08:47.979",
+              "target_price": 188350.0,
+              "raw_displacement": 5.0,
+              "price_action_signed_displacement": 5.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 259,
+              "target_timestamp": "2026-09-21T13:08:53.967",
+              "target_price": 188335.0,
+              "raw_displacement": -10.0,
+              "price_action_signed_displacement": -10.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 264,
+              "target_timestamp": "2026-09-21T13:09:01.204",
+              "target_price": 188365.0,
+              "raw_displacement": 20.0,
+              "price_action_signed_displacement": 20.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 274,
+              "target_timestamp": "2026-09-21T13:09:17.402",
+              "target_price": 188375.0,
+              "raw_displacement": 30.0,
+              "price_action_signed_displacement": 30.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            }
+          }
+        },
+        {
+          "episode_index": 20,
+          "start_sample_index": 256,
+          "end_sample_index": 257,
+          "sample_count": 2,
+          "start_timestamp": "2026-09-21T13:08:48.933",
+          "end_timestamp": "2026-09-21T13:08:50.580",
+          "start_price": 188330.0,
+          "end_price": 188330.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 258,
+              "target_timestamp": "2026-09-21T13:08:51.354",
+              "target_price": 188315.0,
+              "raw_displacement": -15.0,
+              "price_action_signed_displacement": -15.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 262,
+              "target_timestamp": "2026-09-21T13:08:58.746",
+              "target_price": 188345.0,
+              "raw_displacement": 15.0,
+              "price_action_signed_displacement": 15.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 267,
+              "target_timestamp": "2026-09-21T13:09:05.423",
+              "target_price": 188365.0,
+              "raw_displacement": 35.0,
+              "price_action_signed_displacement": 35.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 277,
+              "target_timestamp": "2026-09-21T13:09:21.710",
+              "target_price": 188360.0,
+              "raw_displacement": 30.0,
+              "price_action_signed_displacement": 30.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            }
+          }
+        },
+        {
+          "episode_index": 21,
+          "start_sample_index": 261,
+          "end_sample_index": 261,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:08:57.083",
+          "end_timestamp": "2026-09-21T13:08:57.083",
+          "start_price": 188345.0,
+          "end_price": 188345.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "BUY",
+          "predominant_book_direction": "SELL",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 262,
+              "target_timestamp": "2026-09-21T13:08:58.746",
+              "target_price": 188345.0,
+              "raw_displacement": 0.0,
+              "price_action_signed_displacement": 0.0,
+              "book_signed_displacement": -0.0,
+              "observed_side": "FLAT"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 266,
+              "target_timestamp": "2026-09-21T13:09:04.605",
+              "target_price": 188365.0,
+              "raw_displacement": 20.0,
+              "price_action_signed_displacement": 20.0,
+              "book_signed_displacement": -20.0,
+              "observed_side": "PRICE_ACTION"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 271,
+              "target_timestamp": "2026-09-21T13:09:12.968",
+              "target_price": 188390.0,
+              "raw_displacement": 45.0,
+              "price_action_signed_displacement": 45.0,
+              "book_signed_displacement": -45.0,
+              "observed_side": "PRICE_ACTION"
+            },
+            "20": {
+              "available": true,
+              "target_sample_index": 281,
+              "target_timestamp": "2026-09-21T13:09:25.539",
+              "target_price": 188385.0,
+              "raw_displacement": 40.0,
+              "price_action_signed_displacement": 40.0,
+              "book_signed_displacement": -40.0,
+              "observed_side": "PRICE_ACTION"
+            }
+          }
+        },
+        {
+          "episode_index": 22,
+          "start_sample_index": 272,
+          "end_sample_index": 272,
+          "sample_count": 1,
+          "start_timestamp": "2026-09-21T13:09:14.791",
+          "end_timestamp": "2026-09-21T13:09:14.791",
+          "start_price": 188390.0,
+          "end_price": 188390.0,
+          "within_episode_displacement": 0.0,
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "followthrough": {
+            "1": {
+              "available": true,
+              "target_sample_index": 273,
+              "target_timestamp": "2026-09-21T13:09:15.725",
+              "target_price": 188380.0,
+              "raw_displacement": -10.0,
+              "price_action_signed_displacement": -10.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "5": {
+              "available": true,
+              "target_sample_index": 277,
+              "target_timestamp": "2026-09-21T13:09:21.710",
+              "target_price": 188360.0,
+              "raw_displacement": -30.0,
+              "price_action_signed_displacement": -30.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "10": {
+              "available": true,
+              "target_sample_index": 282,
+              "target_timestamp": "2026-09-21T13:09:27.290",
+              "target_price": 188385.0,
+              "raw_displacement": -5.0,
+              "price_action_signed_displacement": -5.0,
+              "book_signed_displacement": null,
+              "observed_side": "UNRESOLVED"
+            },
+            "20": {
+              "available": false,
+              "reason": "SESSION_END",
+              "target_sample_index": 292
+            }
+          }
+        }
+      ],
+      "aggregate_by_horizon": {
+        "1": {
+          "available_episode_count": 22,
+          "unavailable_episode_count": 0,
+          "observed_side_counts": {
+            "UNRESOLVED": 10,
+            "PRICE_ACTION": 3,
+            "FLAT": 6,
+            "SAME_DIRECTION": 3
+          },
+          "mean_raw_displacement": 0.681818,
+          "mean_price_action_signed_displacement": 0.681818,
+          "mean_book_signed_displacement": -5.714286
+        },
+        "5": {
+          "available_episode_count": 22,
+          "unavailable_episode_count": 0,
+          "observed_side_counts": {
+            "UNRESOLVED": 14,
+            "FLAT": 3,
+            "SAME_DIRECTION": 2,
+            "PRICE_ACTION": 2,
+            "BOOK": 1
+          },
+          "mean_raw_displacement": 6.590909,
+          "mean_price_action_signed_displacement": 6.590909,
+          "mean_book_signed_displacement": -1.428571
+        },
+        "10": {
+          "available_episode_count": 22,
+          "unavailable_episode_count": 0,
+          "observed_side_counts": {
+            "UNRESOLVED": 14,
+            "PRICE_ACTION": 3,
+            "FLAT": 1,
+            "SAME_DIRECTION": 3,
+            "BOOK": 1
+          },
+          "mean_raw_displacement": 19.090909,
+          "mean_price_action_signed_displacement": 19.090909,
+          "mean_book_signed_displacement": -1.428571
+        },
+        "20": {
+          "available_episode_count": 21,
+          "unavailable_episode_count": 1,
+          "observed_side_counts": {
+            "UNRESOLVED": 14,
+            "PRICE_ACTION": 4,
+            "SAME_DIRECTION": 3
+          },
+          "mean_raw_displacement": 25.47619,
+          "mean_price_action_signed_displacement": 25.47619,
+          "mean_book_signed_displacement": 2.142857
+        }
+      }
+    }
+  ],
+  "audit_stability": "INSUFFICIENT_DATA",
+  "audit_recommendation": "COLLECT_MORE_DATA",
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}

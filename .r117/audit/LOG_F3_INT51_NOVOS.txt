@@ -1,0 +1,30 @@
+test_advance (test_f3_int51_recovery_memory.MemoryTests.test_advance) ... ok
+test_atomic_memory_capacity (test_f3_int51_recovery_memory.MemoryTests.test_atomic_memory_capacity) ... ok
+test_bad_memory (test_f3_int51_recovery_memory.MemoryTests.test_bad_memory) ... ok
+test_bad_reference (test_f3_int51_recovery_memory.MemoryTests.test_bad_reference) ... ok
+test_bound (test_f3_int51_recovery_memory.MemoryTests.test_bound) ... ok
+test_caller_replacement_is_untrusted (test_f3_int51_recovery_memory.MemoryTests.test_caller_replacement_is_untrusted) ... ok
+test_digest_conflict (test_f3_int51_recovery_memory.MemoryTests.test_digest_conflict) ... ok
+test_duplicate_token (test_f3_int51_recovery_memory.MemoryTests.test_duplicate_token) ... ok
+test_empty_round_id (test_f3_int51_recovery_memory.MemoryTests.test_empty_round_id) ... ok
+test_evidence_reordered_replay (test_f3_int51_recovery_memory.MemoryTests.test_evidence_reordered_replay) ... ok
+test_evidence_replay (test_f3_int51_recovery_memory.MemoryTests.test_evidence_replay) ... ok
+test_failed_attempt_does_not_consume (test_f3_int51_recovery_memory.MemoryTests.test_failed_attempt_does_not_consume) ... ok
+test_future_memory_token (test_f3_int51_recovery_memory.MemoryTests.test_future_memory_token) ... ok
+test_inconsistent_memory_digest (test_f3_int51_recovery_memory.MemoryTests.test_inconsistent_memory_digest) ... ok
+test_infinite_evidence (test_f3_int51_recovery_memory.MemoryTests.test_infinite_evidence) ... ok
+test_initial (test_f3_int51_recovery_memory.MemoryTests.test_initial) ... ok
+test_long_sequence (test_f3_int51_recovery_memory.MemoryTests.test_long_sequence) ... ok
+test_missing_arguments (test_f3_int51_recovery_memory.MemoryTests.test_missing_arguments) ... ok
+test_missing_consumption (test_f3_int51_recovery_memory.MemoryTests.test_missing_consumption) ... ok
+test_noniterable_evidence (test_f3_int51_recovery_memory.MemoryTests.test_noniterable_evidence) ... ok
+test_rejected_equivocation (test_f3_int51_recovery_memory.MemoryTests.test_rejected_equivocation) ... ok
+test_rollback (test_f3_int51_recovery_memory.MemoryTests.test_rollback) ... ok
+test_round_replay (test_f3_int51_recovery_memory.MemoryTests.test_round_replay) ... ok
+test_unhashable_token (test_f3_int51_recovery_memory.MemoryTests.test_unhashable_token) ... ok
+test_unknown_argument (test_f3_int51_recovery_memory.MemoryTests.test_unknown_argument) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.043s
+
+OK

@@ -1,0 +1,223 @@
+{
+  "report": "BROOKS_COLLECTION_READINESS_REPORT_V1",
+  "generated_at": "2026-09-28T17:25:52",
+  "symbol": "WINV26",
+  "status": "READY_FOR_SELECTION_COLLECTION",
+  "offline_infrastructure_ready": true,
+  "market_data_checked": false,
+  "market_open_claimed": false,
+  "selection_collection_allowed": true,
+  "oos_collection_allowed": false,
+  "selection_cutoff_defined": false,
+  "hypothesis_freeze_allowed": false,
+  "promotion_allowed": false,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "registered_family_count": 7,
+  "registered_families": [
+    "BROOKS_BREAKOUT_PULLBACK_V1",
+    "BROOKS_TREND_PULLBACK_V1",
+    "BROOKS_FAILED_BREAKOUT_V1",
+    "BROOKS_MAJOR_TREND_REVERSAL_V1",
+    "BROOKS_WEDGE_THREE_PUSHES_V1",
+    "BROOKS_TRADING_RANGE_REVERSAL_V1",
+    "BROOKS_STOP_TARGET_RULES_V1"
+  ],
+  "integrity_gate": {
+    "gate": "BROOKS_RESEARCH_INTEGRITY_GATE_V1",
+    "status": "PASS",
+    "expected_module_count": 19,
+    "check_count": 33,
+    "failed_check_count": 0,
+    "checks": [
+      {
+        "name": "research.price_action.brooks.breakout_pullback",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "research.price_action.brooks.trend_pullback",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "research.price_action.brooks.failed_breakout",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "research.price_action.brooks.major_trend_reversal",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "research.price_action.brooks.wedge_three_pushes",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "research.price_action.brooks.trading_range_reversal",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "research.price_action.brooks.stop_target_rules",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "research.price_action.brooks.registry",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_breakout_pullback_audit",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_trend_pullback_audit",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_failed_breakout_audit",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_major_trend_reversal_audit",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_wedge_three_pushes_audit",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_trading_range_reversal_audit",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_stop_target_capture",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_research_evidence_suite",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_selection_manifest",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_selection_runner",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_selection_launcher",
+        "passed": true,
+        "detail": "IMPORT_OK"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_breakout_pullback_audit:AUDITOR_CONTRACT",
+        "passed": true,
+        "detail": "single=True;multi=True"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_trend_pullback_audit:AUDITOR_CONTRACT",
+        "passed": true,
+        "detail": "single=True;multi=True"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_failed_breakout_audit:AUDITOR_CONTRACT",
+        "passed": true,
+        "detail": "single=True;multi=True"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_major_trend_reversal_audit:AUDITOR_CONTRACT",
+        "passed": true,
+        "detail": "single=True;multi=True"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_wedge_three_pushes_audit:AUDITOR_CONTRACT",
+        "passed": true,
+        "detail": "single=True;multi=True"
+      },
+      {
+        "name": "tools.profit_rtd_brooks_trading_range_reversal_audit:AUDITOR_CONTRACT",
+        "passed": true,
+        "detail": "single=True;multi=True"
+      },
+      {
+        "name": "BROOKS_RESEARCH_REGISTRY:COUNT",
+        "passed": true,
+        "detail": "expected=7;actual=7"
+      },
+      {
+        "name": "REGISTRY:BROOKS_BREAKOUT_PULLBACK_V1:SAFETY",
+        "passed": true,
+        "detail": "SAFE"
+      },
+      {
+        "name": "REGISTRY:BROOKS_TREND_PULLBACK_V1:SAFETY",
+        "passed": true,
+        "detail": "SAFE"
+      },
+      {
+        "name": "REGISTRY:BROOKS_FAILED_BREAKOUT_V1:SAFETY",
+        "passed": true,
+        "detail": "SAFE"
+      },
+      {
+        "name": "REGISTRY:BROOKS_MAJOR_TREND_REVERSAL_V1:SAFETY",
+        "passed": true,
+        "detail": "SAFE"
+      },
+      {
+        "name": "REGISTRY:BROOKS_WEDGE_THREE_PUSHES_V1:SAFETY",
+        "passed": true,
+        "detail": "SAFE"
+      },
+      {
+        "name": "REGISTRY:BROOKS_TRADING_RANGE_REVERSAL_V1:SAFETY",
+        "passed": true,
+        "detail": "SAFE"
+      },
+      {
+        "name": "REGISTRY:BROOKS_STOP_TARGET_RULES_V1:SAFETY",
+        "passed": true,
+        "detail": "SAFE"
+      }
+    ],
+    "research_only": true,
+    "observational_only": true,
+    "predictive_claim_allowed": false,
+    "score_influence_allowed": false,
+    "risk_influence_allowed": false,
+    "decision_influence_allowed": false,
+    "alert_influence_allowed": false,
+    "order_execution_allowed": false,
+    "promotion_allowed": false,
+    "hypothesis_freeze_allowed": false
+  },
+  "blockers": [],
+  "next_command": "python -m tools.profit_rtd_brooks_selection_launcher WINV26",
+  "next_command_mode": "SELECTION",
+  "notes": [
+    "Readiness significa somente infraestrutura offline pronta.",
+    "O launcher deve ser executado apenas quando a fonte real estiver ativa.",
+    "As primeiras sessoes novas permanecem SELECTION, nunca OOS automaticamente.",
+    "Nenhuma validacao desta camada constitui evidencia de desempenho preditivo."
+  ]
+}

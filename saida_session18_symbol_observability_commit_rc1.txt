@@ -1,0 +1,33 @@
+﻿STATUS = SUCCESS
+BRANCH = brooks-stop-target-exact-audit-20260912
+PRE_COMMIT_HEAD = a741be9c905009906c93130af648983377f8a3a3
+COMMIT_SHA = 42f4178f958673d40dfb73fc809ad7aa9e9e825c
+LOCAL_HEAD = 42f4178f958673d40dfb73fc809ad7aa9e9e825c
+ORIGIN_HEAD = 42f4178f958673d40dfb73fc809ad7aa9e9e825c
+COMMITTED_FILES =
+market_data/profit_rtd_workbook_reader.py
+tests/test_profit_rtd_rc1.py
+
+OBSERVABILITY_ONLY = true
+SYMBOL_COMPARISON_CHANGED = false
+NORMALIZATION_CHANGED = false
+THRESHOLD_CHANGED = false
+RC17_CHANGED = false
+OPERATIONAL_LOGIC_CHANGED = false
+SESSION18_EXECUTED = false
+
+PROTECTED_FILES =
+Profit.xlsx: PRESENT = true; IN_COMMIT = false
+connectors/excel_connector.py: PRESENT = true; IN_COMMIT = false
+livroOfertas.xlsx: PRESENT = true; IN_COMMIT = false
+saida.txt: PRESENT = true; IN_COMMIT = false
+times&trades.xlsx: PRESENT = true; IN_COMMIT = false
+
+CACHED_CHECK = PASS
+COMMITTED_FILES_EXACT_MATCH = true
+LOCAL_ORIGIN_HEAD_MATCH = true
+PUSH = SUCCESS
+FETCH_ORIGIN = SUCCESS
+PROTECTED_FILES_PRESERVED = true
+COLLECTOR_EXECUTED = false
+NEW_CODE_CHANGES_MADE = false

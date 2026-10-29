@@ -1,0 +1,17 @@
+test_catalog_payload_tampering (test_f3_int90_import_witness_bundle.ImportBundleTests.test_catalog_payload_tampering) ... ok
+test_external_digest_tampering (test_f3_int90_import_witness_bundle.ImportBundleTests.test_external_digest_tampering) ... ok
+test_extra_entry (test_f3_int90_import_witness_bundle.ImportBundleTests.test_extra_entry) ... ok
+test_fixed_metadata_deterministic (test_f3_int90_import_witness_bundle.ImportBundleTests.test_fixed_metadata_deterministic) ... ok
+test_flags (test_f3_int90_import_witness_bundle.ImportBundleTests.test_flags) ... ok
+test_invalid_bytes (test_f3_int90_import_witness_bundle.ImportBundleTests.test_invalid_bytes) ... ok
+test_manifest_bool_stage (test_f3_int90_import_witness_bundle.ImportBundleTests.test_manifest_bool_stage) ... ok
+test_manifest_duplicate_json_keys (test_f3_int90_import_witness_bundle.ImportBundleTests.test_manifest_duplicate_json_keys) ... ok
+test_manifest_path_escape (test_f3_int90_import_witness_bundle.ImportBundleTests.test_manifest_path_escape) ... ok
+test_missing_witness (test_f3_int90_import_witness_bundle.ImportBundleTests.test_missing_witness) ... ok
+test_roundtrip (test_f3_int90_import_witness_bundle.ImportBundleTests.test_roundtrip) ... ok
+test_witness_payload_tampering (test_f3_int90_import_witness_bundle.ImportBundleTests.test_witness_payload_tampering) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 5.133s
+
+OK

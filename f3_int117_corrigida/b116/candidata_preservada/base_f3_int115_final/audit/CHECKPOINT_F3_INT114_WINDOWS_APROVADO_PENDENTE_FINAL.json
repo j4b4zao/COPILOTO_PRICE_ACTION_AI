@@ -1,0 +1,37 @@
+{
+  "stage": "F3-INT-114",
+  "checkpoint_type": "CANDIDATE_WINDOWS_REGRESSION_APPROVED_PENDING_FINALIZATION",
+  "date": "2026-10-22",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "last_definitive": "F3-INT-113",
+  "windows_regression": {
+    "total": 1388,
+    "passed": 1387,
+    "skipped": 1,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 572.49,
+    "source_sha256": "bb7340152f33a30045b9af64b5a4fc77ede5e81571d5a568e397e95f41425466"
+  },
+  "specific_f3_int114": {
+    "total": 18,
+    "passed": 18
+  },
+  "known_skip": "F3-INT-112 test_symlink_rejected: Symlink not permitted on Windows",
+  "limitations": [
+    "Regressao nao autentica identidade do executavel nem custodia independente",
+    "Concorrencia SQLite multiprocesso real e durabilidade fisica nao demonstradas",
+    "EXIT_CODE nao capturado no arquivo; unittest reportou OK"
+  ],
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  }
+}

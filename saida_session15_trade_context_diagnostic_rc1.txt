@@ -1,0 +1,347 @@
+﻿=== SESSION 15 TRADE CONTEXT DIAGNOSTIC ===
+=== HEAD ===
+a741be9c905009906c93130af648983377f8a3a3
+=== PROSPECTIVE SESSION TRADE CONTEXT REFERENCES ===
+
+  tools\profit_rtd_microstructure_prospective_session.py:38:def run_session(
+  tools\profit_rtd_microstructure_prospective_session.py:39:    symbol,
+  tools\profit_rtd_microstructure_prospective_session.py:40:    *,
+  tools\profit_rtd_microstructure_prospective_session.py:41:    cycles=600,
+  tools\profit_rtd_microstructure_prospective_session.py:42:    interval=0.25,
+> tools\profit_rtd_microstructure_prospective_session.py:43:    max_warmup_cycles=4800,
+> tools\profit_rtd_microstructure_prospective_session.py:44:    require_trade_context_at_start=False,
+  tools\profit_rtd_microstructure_prospective_session.py:45:    output_dir=None,
+  tools\profit_rtd_microstructure_prospective_session.py:46:    sleeper=None,
+  tools\profit_rtd_microstructure_prospective_session.py:47:):
+  tools\profit_rtd_microstructure_prospective_session.py:48:    previous_warm_history = base.warm_history
+  tools\profit_rtd_microstructure_prospective_session.py:49:    active_pipeline = None
+  tools\profit_rtd_microstructure_prospective_session.py:60:    base.warm_history = warm_history_without_replay_leak
+  tools\profit_rtd_microstructure_prospective_session.py:61:    try:
+  tools\profit_rtd_microstructure_prospective_session.py:62:        kwargs = {
+  tools\profit_rtd_microstructure_prospective_session.py:63:            "cycles": cycles,
+  tools\profit_rtd_microstructure_prospective_session.py:64:            "interval": interval,
+> tools\profit_rtd_microstructure_prospective_session.py:65:            "max_warmup_cycles": max_warmup_cycles,
+> tools\profit_rtd_microstructure_prospective_session.py:66:            "require_trade_context_at_start": 
+require_trade_context_at_start,
+  tools\profit_rtd_microstructure_prospective_session.py:67:            "output_dir": output_dir,
+  tools\profit_rtd_microstructure_prospective_session.py:68:        }
+  tools\profit_rtd_microstructure_prospective_session.py:69:        if sleeper is not None:
+  tools\profit_rtd_microstructure_prospective_session.py:70:            kwargs["sleeper"] = sleeper
+  tools\profit_rtd_microstructure_prospective_session.py:71:        result = base.run_warmed_session(symbol, **kwargs)
+  tools\profit_rtd_microstructure_prospective_session.py:107:        description="Coleta prospectiva passiva PA x 
+Order Flow x Book."
+  tools\profit_rtd_microstructure_prospective_session.py:108:    )
+  tools\profit_rtd_microstructure_prospective_session.py:109:    parser.add_argument("symbol")
+  tools\profit_rtd_microstructure_prospective_session.py:110:    parser.add_argument("--cycles", type=int, 
+default=600)
+  tools\profit_rtd_microstructure_prospective_session.py:111:    parser.add_argument("--interval", type=float, 
+default=0.25)
+> tools\profit_rtd_microstructure_prospective_session.py:112:    parser.add_argument("--max-warmup-cycles", type=int, 
+default=4800)
+  tools\profit_rtd_microstructure_prospective_session.py:113:    
+parser.add_argument("--require-trade-context-at-start", action="store_true")
+  tools\profit_rtd_microstructure_prospective_session.py:114:    parser.add_argument("--output-dir")
+  tools\profit_rtd_microstructure_prospective_session.py:115:    args = parser.parse_args(argv)
+  tools\profit_rtd_microstructure_prospective_session.py:116:
+  tools\profit_rtd_microstructure_prospective_session.py:117:    result = run_session(
+  tools\profit_rtd_microstructure_prospective_session.py:118:        args.symbol,
+  tools\profit_rtd_microstructure_prospective_session.py:119:        cycles=args.cycles,
+  tools\profit_rtd_microstructure_prospective_session.py:120:        interval=args.interval,
+> tools\profit_rtd_microstructure_prospective_session.py:121:        max_warmup_cycles=args.max_warmup_cycles,
+> tools\profit_rtd_microstructure_prospective_session.py:122:        
+require_trade_context_at_start=args.require_trade_context_at_start,
+  tools\profit_rtd_microstructure_prospective_session.py:123:        output_dir=args.output_dir,
+  tools\profit_rtd_microstructure_prospective_session.py:124:    )
+  tools\profit_rtd_microstructure_prospective_session.py:125:    evidence = result["prospective_microstructure"]
+  tools\profit_rtd_microstructure_prospective_session.py:126:    print("PROSPECTIVE_MICROSTRUCTURE=" + 
+str(result.get("status")))
+  tools\profit_rtd_microstructure_prospective_session.py:127:    print("data_ready=" + str(result.get("data_ready")))
+
+
+
+=== BASE SESSION TRADE CONTEXT REFERENCES ===
+
+  tools\profit_rtd_rc54_3_2_warmed_session.py:10:from market_data.book_depth_quality_validator import 
+BookDepthQualityValidator
+  tools\profit_rtd_rc54_3_2_warmed_session.py:11:from market_data.book_depth_source_diagnostics import 
+BookDepthSourceDiagnostics
+  tools\profit_rtd_rc54_3_2_warmed_session.py:12:from market_data.order_flow_observational_context import 
+OrderFlowObservationalContextBuilder
+  tools\profit_rtd_rc54_3_2_warmed_session.py:13:from market_data.profit_delta_quality_validator import 
+ProfitDeltaQualityValidator
+  tools\profit_rtd_rc54_3_2_warmed_session.py:14:from tools.profit_rtd_rc54_3_pa_structure_context_session import 
+snapshot_context
+> tools\profit_rtd_rc54_3_2_warmed_session.py:15:from tools.profit_rtd_rc54_3_2_warm_history_gate import 
+context_ready, warm_history
+  tools\profit_rtd_rc54_3_2_warmed_session.py:16:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:17:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:18:def snapshot_candle_evidence(context):
+  tools\profit_rtd_rc54_3_2_warmed_session.py:19:    market = getattr(context, 'market', None)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:20:    candle = getattr(market, 'last_candle', None)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:70:    if delta_failure_samples:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:71:        reasons.append('DELTA_NOT_READY_OR_INVALID')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:72:    return reasons
+  tools\profit_rtd_rc54_3_2_warmed_session.py:73:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:74:
+> tools\profit_rtd_rc54_3_2_warmed_session.py:75:def run_warmed_session(symbol, *, cycles=600, interval=0.25, 
+max_warmup_cycles=4800, require_trade_context_at_start=False, output_dir=None, sleeper=time.sleep):
+  tools\profit_rtd_rc54_3_2_warmed_session.py:76:    symbol = str(symbol or '').strip().upper()
+  tools\profit_rtd_rc54_3_2_warmed_session.py:77:    if not symbol:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:78:        raise ValueError('symbol é obrigatório.')
+> tools\profit_rtd_rc54_3_2_warmed_session.py:79:    if int(cycles) < 1 or int(max_warmup_cycles) < 1 or 
+float(interval) < 0:
+> tools\profit_rtd_rc54_3_2_warmed_session.py:80:        raise ValueError('cycles/max_warmup_cycles/interval 
+inválidos.')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:81:
+> tools\profit_rtd_rc54_3_2_warmed_session.py:82:    warm = warm_history(symbol, interval=interval, 
+max_warmup_cycles=max_warmup_cycles, require_trade_context=require_trade_context_at_start, sleeper=sleeper)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:83:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:84:    if not warm['ready']:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:85:        return {
+> tools\profit_rtd_rc54_3_2_warmed_session.py:86:            'status': 'ABORTED_CONTEXT_NOT_READY', 'phase': 
+'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE',
+> tools\profit_rtd_rc54_3_2_warmed_session.py:87:            'symbol': symbol, 'warmup': {k: v for k, v in 
+warm.items() if k not in {'context','collector','pipeline'}},
+  tools\profit_rtd_rc54_3_2_warmed_session.py:88:            'requested_cycles': int(cycles), 'analyzable_samples': 
+0, 'skipped_cycles': 0, 'collection_errors': 0,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:89:            'collection_error_details': [], 'missing_price_count': 
+0, 'price_capture': False,
+> tools\profit_rtd_rc54_3_2_warmed_session.py:90:            'data_ready': False, 'trade_context_ready': False,
+> tools\profit_rtd_rc54_3_2_warmed_session.py:91:            'trade_context_ready_at_start': False, 
+'context_ready_at_start': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:92:            'samples': [], 'observational_only': True,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:93:            'predictive_claim_allowed': False, 
+'score_influence_allowed': False, 'risk_influence_allowed': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:94:            'decision_influence_allowed': False, 
+'order_execution_allowed': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:95:            'reasons': [str(warm.get('status') or 
+'WARM_HISTORY_NOT_READY')],
+  tools\profit_rtd_rc54_3_2_warmed_session.py:96:        }
+  tools\profit_rtd_rc54_3_2_warmed_session.py:124:                delta_report = 
+delta_validator.evaluate(collector.order_flow)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:125:                micro = builder.build(delta_report=delta_report, 
+book_report=book_report, symbol=symbol)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:126:                item = snapshot_context(context, micro)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:127:                item['candle_evidence'] = 
+snapshot_candle_evidence(context)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:128:                item['data_ready'] = data_ready(item)
+> tools\profit_rtd_rc54_3_2_warmed_session.py:129:                item['trade_context_ready'] = context_ready(context)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:130:                # Kept for consumers of RC54.3.2 session files.
+> tools\profit_rtd_rc54_3_2_warmed_session.py:131:                item['context_ready'] = item['trade_context_ready']
+> tools\profit_rtd_rc54_3_2_warmed_session.py:132:                if not item['trade_context_ready']:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:133:                    context_not_ready_samples += 1
+  tools\profit_rtd_rc54_3_2_warmed_session.py:134:                delta_status = str(item.get('delta_status', 
+'')).upper()
+  tools\profit_rtd_rc54_3_2_warmed_session.py:135:                if delta_status not in {'READY', 'VALID', 
+'LOW_ACTIVITY'}:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:136:                    delta_not_ready_samples += 1
+  tools\profit_rtd_rc54_3_2_warmed_session.py:137:                if delta_status not in {'READY', 'VALID', 
+'LOW_ACTIVITY', 'INITIALIZING'}:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:139:                if item['last_price'] is None:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:140:                    missing_price_count += 1
+  tools\profit_rtd_rc54_3_2_warmed_session.py:141:                item['cycle'] = cycle
+  tools\profit_rtd_rc54_3_2_warmed_session.py:142:                item['timestamp'] = 
+datetime.now().isoformat(timespec='milliseconds')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:143:                samples.append(item)
+> tools\profit_rtd_rc54_3_2_warmed_session.py:144:                print(f"[RC54.3.2] cycle={cycle}/{cycles} 
+alignment={item['alignment']} price={item['last_price']} structure={item['structure']['trend']} 
+pa_bias={item['price_action']['bias']} ready={item['context_ready']}")
+  tools\profit_rtd_rc54_3_2_warmed_session.py:145:        except Exception as exc:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:146:            collection_errors += 1
+  tools\profit_rtd_rc54_3_2_warmed_session.py:147:            detail = {'cycle': cycle, 'type': type(exc).__name__, 
+'message': str(exc)}
+  tools\profit_rtd_rc54_3_2_warmed_session.py:148:            collection_error_details.append(detail)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:149:            print(f"[RC54.3.2] cycle={cycle}/{cycles} 
+error={detail['type']}:{detail['message']}")
+  tools\profit_rtd_rc54_3_2_warmed_session.py:159:        complete=complete, collection_errors=collection_errors,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:160:        missing_price_count=missing_price_count, samples=samples,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:161:        delta_failure_samples=delta_failure_samples,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:162:    )
+  tools\profit_rtd_rc54_3_2_warmed_session.py:163:    session_data_ready = not reasons
+> tools\profit_rtd_rc54_3_2_warmed_session.py:164:    trade_context_ready = bool(samples) and 
+bool(samples[-1]['trade_context_ready'])
+  tools\profit_rtd_rc54_3_2_warmed_session.py:165:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:166:    payload = {
+  tools\profit_rtd_rc54_3_2_warmed_session.py:167:        'status': 'COMPLETED' if not reasons else 
+'COMPLETED_WITH_WARNINGS',
+  tools\profit_rtd_rc54_3_2_warmed_session.py:168:        'phase': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE', 
+'symbol': symbol,
+> tools\profit_rtd_rc54_3_2_warmed_session.py:169:        'warmup': {k: v for k, v in warm.items() if k not in 
+{'context','collector','pipeline'}},
+  tools\profit_rtd_rc54_3_2_warmed_session.py:170:        'requested_cycles': int(cycles), 'analyzable_samples': 
+len(samples), 'skipped_cycles': skipped_cycles,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:171:        'collection_errors': collection_errors, 
+'collection_error_details': collection_error_details,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:172:        'missing_price_count': missing_price_count, 
+'price_capture': price_capture,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:173:        'data_ready': session_data_ready, 
+'delta_not_ready_samples': delta_not_ready_samples,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:174:        'delta_failure_samples': delta_failure_samples,
+> tools\profit_rtd_rc54_3_2_warmed_session.py:175:        'trade_context_ready': trade_context_ready,
+> tools\profit_rtd_rc54_3_2_warmed_session.py:176:        'trade_context_ready_at_start': 
+bool(warm.get('trade_context_ready', True)),
+> tools\profit_rtd_rc54_3_2_warmed_session.py:177:        'context_ready_at_start': 
+bool(warm.get('trade_context_ready', True)),
+  tools\profit_rtd_rc54_3_2_warmed_session.py:178:        'context_not_ready_samples': context_not_ready_samples,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:179:        'samples': samples, 'observational_only': True, 
+'predictive_claim_allowed': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:180:        'score_influence_allowed': False, 'risk_influence_allowed': 
+False, 'decision_influence_allowed': False, 'order_execution_allowed': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:181:        'reasons': reasons,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:182:    }
+  tools\profit_rtd_rc54_3_2_warmed_session.py:193:def main(argv=None):
+  tools\profit_rtd_rc54_3_2_warmed_session.py:194:    p = argparse.ArgumentParser(description='RC54.3.2: warm-up real 
+seguido de 600 ciclos PA/Structure sincronizados.')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:195:    p.add_argument('symbol')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:196:    p.add_argument('--cycles', type=int, default=600)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:197:    p.add_argument('--interval', type=float, default=0.25)
+> tools\profit_rtd_rc54_3_2_warmed_session.py:198:    p.add_argument('--max-warmup-cycles', type=int, default=4800)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:199:    p.add_argument('--output-dir')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:200:    a = p.parse_args(argv)
+> tools\profit_rtd_rc54_3_2_warmed_session.py:201:    r = run_warmed_session(a.symbol, cycles=a.cycles, 
+interval=a.interval, max_warmup_cycles=a.max_warmup_cycles, output_dir=a.output_dir)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:202:    print(f"PROFIT_RTD_RC54_3_2_WARMED_SESSION={r['status']}")
+  tools\profit_rtd_rc54_3_2_warmed_session.py:203:    print(f"symbol={r['symbol']}")
+> tools\profit_rtd_rc54_3_2_warmed_session.py:204:    print('warmup_status=' + r['warmup']['status'])
+> tools\profit_rtd_rc54_3_2_warmed_session.py:205:    print('warmup_cycles=' + str(r['warmup']['warmup_cycles']))
+> tools\profit_rtd_rc54_3_2_warmed_session.py:206:    print('trade_context_ready_at_start=' + 
+str(r['trade_context_ready_at_start']))
+> tools\profit_rtd_rc54_3_2_warmed_session.py:207:    print('context_ready_at_start=' + 
+str(r['context_ready_at_start']))
+  tools\profit_rtd_rc54_3_2_warmed_session.py:208:    for key in 
+('requested_cycles','analyzable_samples','skipped_cycles','collection_errors','missing_price_count','price_capture'):
+  tools\profit_rtd_rc54_3_2_warmed_session.py:209:        print(f'{key}={r[key]}')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:210:    if 'context_not_ready_samples' in r:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:211:        
+print(f"context_not_ready_samples={r['context_not_ready_samples']}")
+> tools\profit_rtd_rc54_3_2_warmed_session.py:212:    for key in 
+('data_ready','delta_not_ready_samples','delta_failure_samples','trade_context_ready'):
+  tools\profit_rtd_rc54_3_2_warmed_session.py:213:        if key in r:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:214:            print(f'{key}={r[key]}')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:215:    if r.get('collection_error_details'):
+  tools\profit_rtd_rc54_3_2_warmed_session.py:216:        print('collection_error_details=' + 
+json.dumps(r['collection_error_details'], ensure_ascii=False, separators=(',', ':')))
+  tools\profit_rtd_rc54_3_2_warmed_session.py:217:    print('observational_only=True')
+
+
+
+=== BROOKS SESSION TRADE CONTEXT REFERENCES ===
+
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:252:def run_warmed_session(
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:253:    symbol,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:254:    *,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:255:    cycles=600,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:256:    interval=0.25,
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:257:    max_warmup_cycles=4800,
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:258:    require_trade_context_at_start=False,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:259:    output_dir=None,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:260:    sleeper=None,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:261:):
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:262:    global _ACTIVE_RESEARCH_COLLECTOR
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:263:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:284:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:285:    try:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:286:        kwargs = {
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:287:            "cycles": cycles,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:288:            "interval": interval,
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:289:            "max_warmup_cycles": max_warmup_cycles,
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:290:            "require_trade_context_at_start": 
+require_trade_context_at_start,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:291:            "output_dir": output_dir,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:292:        }
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:293:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:294:        if sleeper is not None:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:295:            kwargs["sleeper"] = sleeper
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:327:    )
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:328:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:329:    parser.add_argument("symbol")
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:330:    parser.add_argument("--cycles", type=int, default=600)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:331:    parser.add_argument("--interval", type=float, 
+default=0.25)
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:332:    parser.add_argument("--max-warmup-cycles", type=int, 
+default=4800)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:333:    parser.add_argument("--output-dir")
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:334:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:335:    args = parser.parse_args(argv)
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:336:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:337:    result = run_warmed_session(
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:338:        args.symbol,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:339:        cycles=args.cycles,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:340:        interval=args.interval,
+> tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:341:        max_warmup_cycles=args.max_warmup_cycles,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:342:        output_dir=args.output_dir,
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:343:    )
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:344:
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:345:    print(
+  tools\profit_rtd_rc54_3_2_brooks_warmed_session.py:346:        "PROFIT_RTD_RC54_3_2_BROOKS_WARMED_SESSION="
+
+
+
+=== CONTEXT ENGINE REFERENCES ===
+
+  brain\context_engine.py:200:            narrative.weaknesses.append(
+  brain\context_engine.py:201:                "Multi-timeframe ainda possui dados insuficientes."
+  brain\context_engine.py:202:            )
+  brain\context_engine.py:203:            return
+  brain\context_engine.py:204:
+> brain\context_engine.py:205:        checklist.multi_timeframe_ready = True
+  brain\context_engine.py:206:        checklist.multi_timeframe_aligned = multi_timeframe.aligned
+  brain\context_engine.py:207:        checklist.multi_timeframe_conflict = multi_timeframe.conflict
+  brain\context_engine.py:208:        alignment = multi_timeframe.alignment
+  brain\context_engine.py:209:
+  brain\context_engine.py:210:        if alignment in ("BUY", "SELL"):
+  brain\context_engine.py:246:        if not external_market.valid:
+  brain\context_engine.py:247:            checklist.external_context_status = "UNAVAILABLE"
+  brain\context_engine.py:248:            narrative.weaknesses.append("Contexto externo ainda não disponível.")
+  brain\context_engine.py:249:            return
+  brain\context_engine.py:250:
+> brain\context_engine.py:251:        checklist.external_context_ready = True
+  brain\context_engine.py:252:        confidence = min(max(float(external_market.confidence or 0.0), 0.0), 1.0)
+  brain\context_engine.py:253:        checklist.external_context_confidence = confidence
+  brain\context_engine.py:254:        risk_on_off = str(external_market.risk_on_off or "NEUTRAL").upper()
+  brain\context_engine.py:255:        global_bias = str(external_market.global_bias or "NEUTRAL").upper()
+  brain\context_engine.py:256:
+  brain\context_engine.py:297:        if not order_flow.valid:
+  brain\context_engine.py:298:            checklist.order_flow_status = "UNAVAILABLE"
+  brain\context_engine.py:299:            narrative.weaknesses.append("Order Flow ainda não disponível.")
+  brain\context_engine.py:300:            return
+  brain\context_engine.py:301:
+> brain\context_engine.py:302:        checklist.order_flow_ready = True
+  brain\context_engine.py:303:        checklist.order_flow_momentum = str(
+  brain\context_engine.py:304:            order_flow.flow_momentum or "INSUFFICIENT_DATA"
+  brain\context_engine.py:305:        ).upper()
+  brain\context_engine.py:306:        checklist.order_flow_delta_persistence = min(
+  brain\context_engine.py:307:            max(float(order_flow.delta_persistence or 0.0), 0.0), 1.0
+  brain\context_engine.py:414:        if not book_depth.valid:
+  brain\context_engine.py:415:            checklist.book_depth_status = "UNAVAILABLE"
+  brain\context_engine.py:416:            narrative.weaknesses.append("BookDepth ainda não disponível.")
+  brain\context_engine.py:417:            return
+  brain\context_engine.py:418:
+> brain\context_engine.py:419:        checklist.book_depth_ready = True
+  brain\context_engine.py:420:        checklist.book_depth_pressure = str(
+  brain\context_engine.py:421:            book_depth.pressure or "UNAVAILABLE"
+  brain\context_engine.py:422:        ).upper()
+  brain\context_engine.py:423:        checklist.book_depth_imbalance = max(
+  brain\context_engine.py:424:            -1.0, min(1.0, float(book_depth.imbalance or 0.0))
+
+
+
+=== RECENT RAW FILE COUNT ===
+
+FullName                                                                                              Length LastWrite
+                                                                                                             Time     
+--------                                                                                              ------ ---------
+C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260930_125429.json 2707365 30/09/...
+C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260930_093955.json  931544 30/09/...
+C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260928_125331.json  871263 28/09/...
+C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260928_113219.json  963465 28/09/...
+C:\COPILOTO_PRICE_ACTION_AI\data\profit_rtd_rc54_3_2\profit_rtd_rc54_3_2_WINV26_20260925_133534.json  887113 25/09/...
+
+
+
+=== PROTECTED FILES ===
+ M Profit.xlsx
+ M connectors/excel_connector.py
+ M livroOfertas.xlsx
+ M saida.txt
+ M times&trades.xlsx

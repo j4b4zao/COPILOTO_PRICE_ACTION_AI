@@ -1,0 +1,70 @@
+{
+  "status": "COMPLETED",
+  "phase": "RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE",
+  "symbol": "WINV26",
+  "warmup": {
+    "ready": true,
+    "trade_context_ready": false
+  },
+  "requested_cycles": 1,
+  "analyzable_samples": 1,
+  "skipped_cycles": 0,
+  "collection_errors": 0,
+  "collection_error_details": [],
+  "missing_price_count": 0,
+  "price_capture": true,
+  "data_ready": true,
+  "delta_not_ready_samples": 0,
+  "delta_failure_samples": 0,
+  "trade_context_ready": false,
+  "trade_context_ready_at_start": false,
+  "context_ready_at_start": false,
+  "context_not_ready_samples": 1,
+  "samples": [
+    {
+      "last_price": 1,
+      "delta_status": "READY",
+      "alignment": "NEUTRAL",
+      "structure": {
+        "trend": "SIDEWAYS"
+      },
+      "price_action": {
+        "bias": "NONE"
+      },
+      "candle_evidence": {
+        "status": "CANDLE_EVIDENCE_READY",
+        "candle_id": "WINV26|M1|2026-10-02T09:06:00",
+        "symbol": "WINV26",
+        "timeframe": "M1",
+        "timestamp": "2026-10-02T09:06:00",
+        "open": 5.0,
+        "high": 5.0,
+        "low": 5.0,
+        "close": 5.0,
+        "volume": 10.0,
+        "identity_ready": true,
+        "ohlc_ready": true,
+        "volume_ready": true,
+        "closed_candle_claim_allowed": false,
+        "observational_only": true,
+        "score_influence_allowed": false,
+        "risk_influence_allowed": false,
+        "decision_influence_allowed": false,
+        "alert_influence_allowed": false,
+        "order_execution_allowed": false
+      },
+      "data_ready": true,
+      "trade_context_ready": false,
+      "context_ready": false,
+      "cycle": 1,
+      "timestamp": "2026-10-03T09:47:38.498"
+    }
+  ],
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "order_execution_allowed": false,
+  "reasons": []
+}

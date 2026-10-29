@@ -1,0 +1,25 @@
+test_commit_bound_atomic (test_f3_int56_bounded_ingestion.IngestionTests.test_commit_bound_atomic) ... ok
+test_deep_tuple (test_f3_int56_bounded_ingestion.IngestionTests.test_deep_tuple) ... ok
+test_exact_depth_bound (test_f3_int56_bounded_ingestion.IngestionTests.test_exact_depth_bound) ... ok
+test_exact_node_bound (test_f3_int56_bounded_ingestion.IngestionTests.test_exact_node_bound) ... ok
+test_exact_string_bound (test_f3_int56_bounded_ingestion.IngestionTests.test_exact_string_bound) ... ok
+test_flags (test_f3_int56_bounded_ingestion.IngestionTests.test_flags) ... ok
+test_generator_not_consumed (test_f3_int56_bounded_ingestion.IngestionTests.test_generator_not_consumed) ... ok
+test_invalid_bool_bound (test_f3_int56_bounded_ingestion.IngestionTests.test_invalid_bool_bound) ... ok
+test_invalid_bounds_container (test_f3_int56_bounded_ingestion.IngestionTests.test_invalid_bounds_container) ... ok
+test_invalid_large_depth (test_f3_int56_bounded_ingestion.IngestionTests.test_invalid_large_depth) ... ok
+test_invalid_zero_bound (test_f3_int56_bounded_ingestion.IngestionTests.test_invalid_zero_bound) ... ok
+test_mutable_proposal (test_f3_int56_bounded_ingestion.IngestionTests.test_mutable_proposal) ... ok
+test_nested_list_membership (test_f3_int56_bounded_ingestion.IngestionTests.test_nested_list_membership) ... ok
+test_node_bound (test_f3_int56_bounded_ingestion.IngestionTests.test_node_bound) ... ok
+test_recursive_list (test_f3_int56_bounded_ingestion.IngestionTests.test_recursive_list) ... ok
+test_snapshot_nested_mutation (test_f3_int56_bounded_ingestion.IngestionTests.test_snapshot_nested_mutation) ... ok
+test_string_bound (test_f3_int56_bounded_ingestion.IngestionTests.test_string_bound) ... ok
+test_unknown_bound (test_f3_int56_bounded_ingestion.IngestionTests.test_unknown_bound) ... ok
+test_unknown_object_not_inspected (test_f3_int56_bounded_ingestion.IngestionTests.test_unknown_object_not_inspected) ... ok
+test_valid_prepare_commit (test_f3_int56_bounded_ingestion.IngestionTests.test_valid_prepare_commit) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.007s
+
+OK

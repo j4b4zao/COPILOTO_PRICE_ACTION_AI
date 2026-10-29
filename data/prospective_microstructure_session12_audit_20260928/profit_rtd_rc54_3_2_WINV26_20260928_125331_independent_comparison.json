@@ -1,0 +1,49 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-INDEPENDENT-SESSION-COMPARISON",
+  "status": "INDEPENDENT_SESSION_COMPARISON_COMPLETED",
+  "baseline": {
+    "path": "prospective_microstructure_conflict_10session_checkpoint_20260926.json",
+    "sha256": "04495bd0a9082012416f192fa39b000af83d9a42917fef6ab258865b9bf2286d",
+    "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-CHECKPOINT-MANIFEST",
+    "session_count": 10,
+    "protocol": "PROSPECTIVE_MICROSTRUCTURE_CONFLICT_10_SESSION_CHECKPOINT",
+    "status": "IDENTITY_LOCK_ONLY",
+    "identity_count": 10
+  },
+  "independent": {
+    "audit_path": "data\\prospective_microstructure_session12_audit_20260928\\profit_rtd_rc54_3_2_WINV26_20260928_125331_post_session_audit.json",
+    "sha256": "f95a39e6856a031265705565c4131d89623a90836e9c1d360a8b591795b5c7fb",
+    "session_count": 1,
+    "session": {
+      "position": 1,
+      "path": "data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260928_125331.json",
+      "sha256": "a6fc5e9df5d00bbb504018b24c9d0eff044a72a03fcb2282f71c73625be47b9e"
+    },
+    "audit_version": "RC1-PROSPECTIVE-MICROSTRUCTURE-POST-SESSION-AUDIT",
+    "audit_status": "POST_SESSION_AUDIT_COMPLETED"
+  },
+  "comparison": {
+    "mode": "FROZEN_BASELINE_VS_INDEPENDENT_OBSERVATION",
+    "baseline_session_count": 10,
+    "independent_session_count": 1,
+    "combined_session_count": null,
+    "combined_checkpoint_created": false,
+    "interpretation": "DESCRIPTIVE_ONLY"
+  },
+  "architecture": {
+    "baseline_mutated": false,
+    "independent_appended_to_baseline": false,
+    "baseline_overlap_allowed": false,
+    "automatic_promotion_allowed": false,
+    "glob_discovery_allowed": false
+  },
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}

@@ -1,0 +1,2 @@
+baseline_total,adjusted_total,delta,baseline_grade,adjusted_grade,grade_changed,baseline_valid,adjusted_valid,validity_changed,bias,order_flow_status,flow_momentum,delta_persistence,delta_impulse_ratio,evidence_strength,strength_bucket,adjustment,passive_only
+75.0,76.4,1.4,B,B,False,True,True,False,BUY,ALIGNED,ACCELERATING_BUY,0.8,0.55,0.7,HIGH,1.4,True

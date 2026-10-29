@@ -1,0 +1,22 @@
+test_bool_version (test_f3_int83_concurrent_import.ConcurrentImportTests.test_bool_version) ... ok
+test_commit (test_f3_int83_concurrent_import.ConcurrentImportTests.test_commit) ... ok
+test_competing_disjoint_import (test_f3_int83_concurrent_import.ConcurrentImportTests.test_competing_disjoint_import) ... ok
+test_duplicate_commit (test_f3_int83_concurrent_import.ConcurrentImportTests.test_duplicate_commit) ... ok
+test_final_version_increment (test_f3_int83_concurrent_import.ConcurrentImportTests.test_final_version_increment) ... ok
+test_flags (test_f3_int83_concurrent_import.ConcurrentImportTests.test_flags) ... ok
+test_forged_candidate (test_f3_int83_concurrent_import.ConcurrentImportTests.test_forged_candidate) ... ok
+test_invalid_proposal (test_f3_int83_concurrent_import.ConcurrentImportTests.test_invalid_proposal) ... ok
+test_invalid_requests (test_f3_int83_concurrent_import.ConcurrentImportTests.test_invalid_requests) ... ok
+test_mutable_registry (test_f3_int83_concurrent_import.ConcurrentImportTests.test_mutable_registry) ... ok
+test_prepare_preserves_snapshot (test_f3_int83_concurrent_import.ConcurrentImportTests.test_prepare_preserves_snapshot) ... ok
+test_rebase_disjoint_import (test_f3_int83_concurrent_import.ConcurrentImportTests.test_rebase_disjoint_import) ... ok
+test_rebase_duplicate_rejected (test_f3_int83_concurrent_import.ConcurrentImportTests.test_rebase_duplicate_rejected) ... ok
+test_requests_tampered (test_f3_int83_concurrent_import.ConcurrentImportTests.test_requests_tampered) ... ok
+test_version_exhaustion (test_f3_int83_concurrent_import.ConcurrentImportTests.test_version_exhaustion) ... ok
+test_version_only_reset_rejected (test_f3_int83_concurrent_import.ConcurrentImportTests.test_version_only_reset_rejected) ... ok
+test_whole_reset_limit (test_f3_int83_concurrent_import.ConcurrentImportTests.test_whole_reset_limit) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 3.168s
+
+OK

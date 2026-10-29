@@ -1,0 +1,183 @@
+﻿===== BASE IMPORTS =====
+from __future__ import annotations
+
+import argparse
+import json
+import math
+import time
+from datetime import datetime
+from pathlib import Path
+
+from market_data.book_depth_quality_validator import BookDepthQualityValidator
+from market_data.book_depth_source_diagnostics import BookDepthSourceDiagnostics
+from market_data.order_flow_observational_context import OrderFlowObservationalContextBuilder
+from market_data.profit_delta_quality_validator import ProfitDeltaQualityValidator
+from tools.profit_rtd_rc54_3_pa_structure_context_session import snapshot_context
+from tools.profit_rtd_rc54_3_2_warm_history_gate import context_ready, warm_history
+
+
+def snapshot_candle_evidence(context):
+    market = getattr(context, 'market', None)
+    candle = getattr(market, 'last_candle', None)
+    timestamp = getattr(candle, 'timestamp', None)
+    timeframe = str(getattr(market, 'timeframe', '') or '').strip().upper()
+    symbol = str(getattr(market, 'symbol', '') or '').strip().upper()
+    values = {}
+    for name in ('open', 'high', 'low', 'close', 'volume'):
+        raw = getattr(candle, name, None)
+        try:
+            value = float(raw)
+        except (TypeError, ValueError):
+            value = None
+        values[name] = value if value is not None and math.isfinite(value) else None
+    timestamp_text = timestamp.isoformat() if isinstance(timestamp, datetime) else None
+    ohlc_ready = all(values[name] is not None for name in ('open', 'high', 'low', 'close'))
+    volume_ready = values['volume'] is not None and values['volume'] >= 0
+    identity_ready = bool(symbol and timeframe and timestamp_text)
+    return {
+        'status': 'CANDLE_EVIDENCE_READY' if identity_ready and ohlc_ready and volume_ready else 'CANDLE_EVIDENCE_NOT_READY',
+        'candle_id': f'{symbol}|{timeframe}|{timestamp_text}' if identity_ready else None,
+        'symbol': symbol or None,
+        'timeframe': timeframe or None,
+        'timestamp': timestamp_text,
+        **values,
+        'identity_ready': identity_ready,
+        'ohlc_ready': ohlc_ready,
+        'volume_ready': volume_ready,
+        'closed_candle_claim_allowed': False,
+        'observational_only': True,
+        'score_influence_allowed': False,
+        'risk_influence_allowed': False,
+        'decision_influence_allowed': False,
+        'alert_influence_allowed': False,
+        'order_execution_allowed': False,
+    }
+
+
+def data_ready(sample):
+    return sample.get('last_price') is not None and str(sample.get('delta_status', '')).upper() in {'READY', 'VALID', 'LOW_ACTIVITY'}
+
+
+def technical_reasons(*, complete, collection_errors, missing_price_count, samples, delta_failure_samples):
+    reasons = []
+    if not complete:
+        reasons.append('CYCLE_ACCOUNTING_MISMATCH')
+    if collection_errors:
+        reasons.append('COLLECTION_ERRORS_PRESENT')
+    if missing_price_count:
+        reasons.append('MISSING_SYNCHRONIZED_PRICE')
+    if not samples:
+        reasons.append('NO_ANALYZABLE_SAMPLES')
+    if delta_failure_samples:
+        reasons.append('DELTA_NOT_READY_OR_INVALID')
+    return reasons
+
+
+def run_warmed_session(symbol, *, cycles=600, interval=0.25, max_warmup_cycles=4800, require_trade_context_at_start=False, output_dir=None, sleeper=time.sleep):
+    symbol = str(symbol or '').strip().upper()
+    if not symbol:
+        raise ValueError('symbol Ã© obrigatÃ³rio.')
+    if int(cycles) < 1 or int(max_warmup_cycles) < 1 or float(interval) < 0:
+        raise ValueError('cycles/max_warmup_cycles/interval invÃ¡lidos.')
+
+    warm = warm_history(symbol, interval=interval, max_warmup_cycles=max_warmup_cycles, require_trade_context=require_trade_context_at_start, sleeper=sleeper)
+
+    if not warm['ready']:
+        return {
+            'status': 'ABORTED_CONTEXT_NOT_READY', 'phase': 'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE',
+            'symbol': symbol, 'warmup': {k: v for k, v in warm.items() if k not in {'context','collector','pipeline'}},
+            'requested_cycles': int(cycles), 'analyzable_samples': 0, 'skipped_cycles': 0, 'collection_errors': 0,
+            'collection_error_details': [], 'missing_price_count': 0, 'price_capture': False,
+            'data_ready': False, 'trade_context_ready': False,
+            'trade_context_ready_at_start': False, 'context_ready_at_start': False,
+            'samples': [], 'observational_only': True,
+            'predictive_claim_allowed': False, 'score_influence_allowed': False, 'risk_influence_allowed': False,
+            'decision_influence_allowed': False, 'order_execution_allowed': False,
+            'reasons': [str(warm.get('status') or 'WARM_HISTORY_NOT_READY')],
+        }
+
+    collector = warm['collector']
+    pipeline = warm['pipeline']
+    delta_validator = ProfitDeltaQualityValidator()
+    book_diag = BookDepthSourceDiagnostics()
+    book_validator = BookDepthQualityValidator()
+    builder = OrderFlowObservationalContextBuilder()
+
+    samples = []
+    skipped_cycles = 0
+    collection_errors = 0
+    collection_error_details = []
+    missing_price_count = 0
+    context_not_ready_samples = 0
+
+===== WARM_HISTORY REFERENCES =====
+
+  tools\profit_rtd_rc54_3_2_warmed_session.py:10:from market_data.book_depth_quality_validator import 
+BookDepthQualityValidator
+  tools\profit_rtd_rc54_3_2_warmed_session.py:11:from market_data.book_depth_source_diagnostics import 
+BookDepthSourceDiagnostics
+  tools\profit_rtd_rc54_3_2_warmed_session.py:12:from market_data.order_flow_observational_context import 
+OrderFlowObservationalContextBuilder
+  tools\profit_rtd_rc54_3_2_warmed_session.py:13:from market_data.profit_delta_quality_validator import 
+ProfitDeltaQualityValidator
+  tools\profit_rtd_rc54_3_2_warmed_session.py:14:from tools.profit_rtd_rc54_3_pa_structure_context_session import 
+snapshot_context
+> tools\profit_rtd_rc54_3_2_warmed_session.py:15:from tools.profit_rtd_rc54_3_2_warm_history_gate import context_ready, 
+warm_history
+  tools\profit_rtd_rc54_3_2_warmed_session.py:16:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:17:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:18:def snapshot_candle_evidence(context):
+  tools\profit_rtd_rc54_3_2_warmed_session.py:19:    market = getattr(context, 'market', None)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:20:    candle = getattr(market, 'last_candle', None)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:21:    timestamp = getattr(candle, 'timestamp', None)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:22:    timeframe = str(getattr(market, 'timeframe', '') or 
+'').strip().upper()
+  tools\profit_rtd_rc54_3_2_warmed_session.py:23:    symbol = str(getattr(market, 'symbol', '') or '').strip().upper()
+  tools\profit_rtd_rc54_3_2_warmed_session.py:24:    values = {}
+  tools\profit_rtd_rc54_3_2_warmed_session.py:25:    for name in ('open', 'high', 'low', 'close', 'volume'):
+  tools\profit_rtd_rc54_3_2_warmed_session.py:26:        raw = getattr(candle, name, None)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:27:        try:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:77:    if not symbol:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:78:        raise ValueError('symbol é obrigatório.')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:79:    if int(cycles) < 1 or int(max_warmup_cycles) < 1 or 
+float(interval) < 0:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:80:        raise ValueError('cycles/max_warmup_cycles/interval 
+inválidos.')
+  tools\profit_rtd_rc54_3_2_warmed_session.py:81:
+> tools\profit_rtd_rc54_3_2_warmed_session.py:82:    warm = warm_history(symbol, interval=interval, 
+max_warmup_cycles=max_warmup_cycles, require_trade_context=require_trade_context_at_start, sleeper=sleeper)
+  tools\profit_rtd_rc54_3_2_warmed_session.py:83:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:84:    if not warm['ready']:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:85:        return {
+  tools\profit_rtd_rc54_3_2_warmed_session.py:86:            'status': 'ABORTED_CONTEXT_NOT_READY', 'phase': 
+'RC54.3.2_WARMED_SYNCHRONIZED_CONTEXT_CAPTURE',
+  tools\profit_rtd_rc54_3_2_warmed_session.py:87:            'symbol': symbol, 'warmup': {k: v for k, v in warm.items() 
+if k not in {'context','collector','pipeline'}},
+  tools\profit_rtd_rc54_3_2_warmed_session.py:88:            'requested_cycles': int(cycles), 'analyzable_samples': 0, 
+'skipped_cycles': 0, 'collection_errors': 0,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:89:            'collection_error_details': [], 'missing_price_count': 0, 
+'price_capture': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:90:            'data_ready': False, 'trade_context_ready': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:91:            'trade_context_ready_at_start': False, 
+'context_ready_at_start': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:92:            'samples': [], 'observational_only': True,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:93:            'predictive_claim_allowed': False, 
+'score_influence_allowed': False, 'risk_influence_allowed': False,
+  tools\profit_rtd_rc54_3_2_warmed_session.py:94:            'decision_influence_allowed': False, 
+'order_execution_allowed': False,
+> tools\profit_rtd_rc54_3_2_warmed_session.py:95:            'reasons': [str(warm.get('status') or 
+'WARM_HISTORY_NOT_READY')],
+  tools\profit_rtd_rc54_3_2_warmed_session.py:96:        }
+  tools\profit_rtd_rc54_3_2_warmed_session.py:97:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:98:    collector = warm['collector']
+  tools\profit_rtd_rc54_3_2_warmed_session.py:99:    pipeline = warm['pipeline']
+  tools\profit_rtd_rc54_3_2_warmed_session.py:100:    delta_validator = ProfitDeltaQualityValidator()
+  tools\profit_rtd_rc54_3_2_warmed_session.py:101:    book_diag = BookDepthSourceDiagnostics()
+  tools\profit_rtd_rc54_3_2_warmed_session.py:102:    book_validator = BookDepthQualityValidator()
+  tools\profit_rtd_rc54_3_2_warmed_session.py:103:    builder = OrderFlowObservationalContextBuilder()
+  tools\profit_rtd_rc54_3_2_warmed_session.py:104:
+  tools\profit_rtd_rc54_3_2_warmed_session.py:105:    samples = []
+  tools\profit_rtd_rc54_3_2_warmed_session.py:106:    skipped_cycles = 0
+  tools\profit_rtd_rc54_3_2_warmed_session.py:107:    collection_errors = 0
+
+

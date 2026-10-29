@@ -1,0 +1,19 @@
+{
+  "baseline_files": 1979,
+  "changed": [],
+  "missing": [],
+  "added": [
+    "market_data/source_acquisition_observational_report.py",
+    "tests/test_h10_rc3_18_3_3v2_observational_report.py"
+  ],
+  "existing_git_status_preserved": true,
+  "sha256": {
+    "market_data/source_acquisition_observational_report.py": "29547e3c025e0ae23602c5eb80ea14c343a33a7d5af3de6b3a9c5ef63674eea2",
+    "tests/test_h10_rc3_18_3_3v2_observational_report.py": "97ff2c13bf6774dde6f84a39fd7cd91f177addc931e33666fc4511d27ea08e40",
+    "market_data/collector.py": "2cdba9c345eeb5f3c76c2db3587fee94bd620664f53be6433d6e1337727b71c6",
+    "market_data/source_acquisition_diagnostics.py": "6d9b06f3b1ac6e36f928789032661a343e4f71d7d64acfbf0c551690bdd6f61a",
+    "connectors/profit_reader.py": "884e234ea7c39c6fc40dbba39b66e7346a54c59914449c2c9eb8b74fa52fc41a",
+    "market_data/source_temporal_validator.py": "93b522ab23bf0e8a34abdbf8548d3b921f8950a784cc46a3d07a3e07d5be0172",
+    "market_data/source_snapshot_consistency.py": "44a272f7f65ccf5b3a7e06fcf70540e527b53844bb0c6f13ec002e3b115d09a4"
+  }
+}

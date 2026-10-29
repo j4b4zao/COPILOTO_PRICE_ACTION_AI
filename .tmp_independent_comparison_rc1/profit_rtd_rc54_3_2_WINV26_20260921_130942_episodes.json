@@ -1,0 +1,602 @@
+{
+  "version": "RC1-PROSPECTIVE-MICROSTRUCTURE-CONFLICT-EPISODES",
+  "status": "DESCRIPTIVE_ONLY",
+  "eligible_sessions": 1,
+  "rejected_sessions": 0,
+  "sessions": [
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\data\\profit_rtd_rc54_3_2\\profit_rtd_rc54_3_2_WINV26_20260921_130942.json",
+      "sha256": "a85544271ff2ac693535ae6ed1e6effb033846f7f1ff63d24208d69159337427",
+      "samples": 292,
+      "conflict_samples": 27,
+      "conflict_episodes": 22,
+      "longest_episode_samples": 5,
+      "mean_episode_samples": 1.2273,
+      "episodes": [
+        {
+          "episode_index": 1,
+          "start_sample_index": 9,
+          "end_sample_index": 9,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "NONE": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 2,
+          "start_sample_index": 17,
+          "end_sample_index": 21,
+          "sample_count": 5,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 5
+          },
+          "flow_direction_counts": {
+            "NONE": 5
+          },
+          "book_direction_counts": {
+            "SELL": 5
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "NONE",
+          "predominant_book_direction": "SELL",
+          "conflict_count_sum": 5,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 5
+          }
+        },
+        {
+          "episode_index": 3,
+          "start_sample_index": 23,
+          "end_sample_index": 23,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "NONE": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 4,
+          "start_sample_index": 32,
+          "end_sample_index": 32,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "NONE": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 5,
+          "start_sample_index": 73,
+          "end_sample_index": 73,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "NONE": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 6,
+          "start_sample_index": 80,
+          "end_sample_index": 80,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "NONE": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 7,
+          "start_sample_index": 111,
+          "end_sample_index": 111,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "NONE": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 8,
+          "start_sample_index": 115,
+          "end_sample_index": 115,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "BUY": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "BUY",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 9,
+          "start_sample_index": 119,
+          "end_sample_index": 119,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "NONE": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 10,
+          "start_sample_index": 123,
+          "end_sample_index": 123,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "NONE": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 11,
+          "start_sample_index": 129,
+          "end_sample_index": 129,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "NONE": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 12,
+          "start_sample_index": 142,
+          "end_sample_index": 142,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "NONE": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 13,
+          "start_sample_index": 187,
+          "end_sample_index": 187,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "BUY": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "BUY",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 14,
+          "start_sample_index": 213,
+          "end_sample_index": 213,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "BUY": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "BUY",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 15,
+          "start_sample_index": 217,
+          "end_sample_index": 217,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "BUY": 1
+          },
+          "book_direction_counts": {
+            "SELL": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "BUY",
+          "predominant_book_direction": "SELL",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 16,
+          "start_sample_index": 219,
+          "end_sample_index": 219,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "NONE": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 17,
+          "start_sample_index": 246,
+          "end_sample_index": 246,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "NONE": 1
+          },
+          "book_direction_counts": {
+            "SELL": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "NONE",
+          "predominant_book_direction": "SELL",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 18,
+          "start_sample_index": 250,
+          "end_sample_index": 250,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "NONE": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 19,
+          "start_sample_index": 254,
+          "end_sample_index": 254,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "NONE": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 20,
+          "start_sample_index": 256,
+          "end_sample_index": 257,
+          "sample_count": 2,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 2
+          },
+          "flow_direction_counts": {
+            "SELL": 2
+          },
+          "book_direction_counts": {
+            "NONE": 2
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "conflict_count_sum": 2,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 2
+          }
+        },
+        {
+          "episode_index": 21,
+          "start_sample_index": 261,
+          "end_sample_index": 261,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "BUY": 1
+          },
+          "book_direction_counts": {
+            "SELL": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "BUY",
+          "predominant_book_direction": "SELL",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        },
+        {
+          "episode_index": 22,
+          "start_sample_index": 272,
+          "end_sample_index": 272,
+          "sample_count": 1,
+          "start_timestamp": null,
+          "end_timestamp": null,
+          "temporal_reference": "SAMPLE_INDEX_ONLY",
+          "price_action_direction_counts": {
+            "BUY": 1
+          },
+          "flow_direction_counts": {
+            "SELL": 1
+          },
+          "book_direction_counts": {
+            "NONE": 1
+          },
+          "predominant_price_action_direction": "BUY",
+          "predominant_flow_direction": "SELL",
+          "predominant_book_direction": "NONE",
+          "conflict_count_sum": 1,
+          "max_conflict_count": 1,
+          "states": {
+            "CONFLICT": 1
+          }
+        }
+      ]
+    }
+  ],
+  "audit_stability": "INSUFFICIENT_DATA",
+  "audit_recommendation": "COLLECT_MORE_DATA",
+  "research_only": true,
+  "observational_only": true,
+  "predictive_claim_allowed": false,
+  "score_influence_allowed": false,
+  "risk_influence_allowed": false,
+  "decision_influence_allowed": false,
+  "alert_influence_allowed": false,
+  "order_execution_allowed": false,
+  "promotion_allowed": false
+}

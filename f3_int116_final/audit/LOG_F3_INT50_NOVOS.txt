@@ -1,0 +1,31 @@
+test_all_permutations_conflict (test_f3_int50_concurrent_recovery.ConcurrentTests.test_all_permutations_conflict) ... ok
+test_bad_evidence (test_f3_int50_concurrent_recovery.ConcurrentTests.test_bad_evidence) ... ok
+test_bad_reference (test_f3_int50_concurrent_recovery.ConcurrentTests.test_bad_reference) ... ok
+test_bool_bound (test_f3_int50_concurrent_recovery.ConcurrentTests.test_bool_bound) ... ok
+test_bool_epoch (test_f3_int50_concurrent_recovery.ConcurrentTests.test_bool_epoch) ... ok
+test_consistent (test_f3_int50_concurrent_recovery.ConcurrentTests.test_consistent) ... ok
+test_copy (test_f3_int50_concurrent_recovery.ConcurrentTests.test_copy) ... ok
+test_digest (test_f3_int50_concurrent_recovery.ConcurrentTests.test_digest) ... ok
+test_empty (test_f3_int50_concurrent_recovery.ConcurrentTests.test_empty) ... ok
+test_equivocation (test_f3_int50_concurrent_recovery.ConcurrentTests.test_equivocation) ... ok
+test_future (test_f3_int50_concurrent_recovery.ConcurrentTests.test_future) ... ok
+test_infinite_evidence (test_f3_int50_concurrent_recovery.ConcurrentTests.test_infinite_evidence) ... ok
+test_infinite_history (test_f3_int50_concurrent_recovery.ConcurrentTests.test_infinite_history) ... ok
+test_large_bound (test_f3_int50_concurrent_recovery.ConcurrentTests.test_large_bound) ... ok
+test_malformed_membership (test_f3_int50_concurrent_recovery.ConcurrentTests.test_malformed_membership) ... ok
+test_malformed_votes (test_f3_int50_concurrent_recovery.ConcurrentTests.test_malformed_votes) ... ok
+test_missing_votes (test_f3_int50_concurrent_recovery.ConcurrentTests.test_missing_votes) ... ok
+test_no_quorum (test_f3_int50_concurrent_recovery.ConcurrentTests.test_no_quorum) ... ok
+test_noniterable (test_f3_int50_concurrent_recovery.ConcurrentTests.test_noniterable) ... ok
+test_partition (test_f3_int50_concurrent_recovery.ConcurrentTests.test_partition) ... ok
+test_partition_flag (test_f3_int50_concurrent_recovery.ConcurrentTests.test_partition_flag) ... ok
+test_pin_missing (test_f3_int50_concurrent_recovery.ConcurrentTests.test_pin_missing) ... ok
+test_reordered (test_f3_int50_concurrent_recovery.ConcurrentTests.test_reordered) ... ok
+test_replay (test_f3_int50_concurrent_recovery.ConcurrentTests.test_replay) ... ok
+test_stale (test_f3_int50_concurrent_recovery.ConcurrentTests.test_stale) ... ok
+test_unknown (test_f3_int50_concurrent_recovery.ConcurrentTests.test_unknown) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 0.017s
+
+OK
