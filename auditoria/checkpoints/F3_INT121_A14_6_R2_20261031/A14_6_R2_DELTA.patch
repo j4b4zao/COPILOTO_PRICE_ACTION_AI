@@ -1,0 +1,239 @@
+--- a/f3_int121_a13_counterproof.py
++++ b/f3_int121_a13_counterproof.py
+@@ -8,12 +8,12 @@
+ import sys
+ 
+ 
+-def _negative_supervisor():
++def _negative_supervisor(held_bridge=False):
+     if os.name != 'nt':
+         raise RuntimeError('Windows required')
+     from a11_native.tools import f3_int115_process_control as control
+     from a11_native.tools.f3_int115_process_identity import JobTracker
+-    from f3_int121_a12_boundaries import _supervisor
++    import f3_int121_a12_boundaries as boundaries
+ 
+     def without_kill_on_close(self):
+         # Keep the A11 implementation intact on disk; change only this test
+@@ -33,11 +33,22 @@
+             raise
+ 
+     control.Job.__init__ = without_kill_on_close
+-    _supervisor()
++    if held_bridge:
++        original_launcher = boundaries._launcher
++        def launch_controlled_bridge(module, argument):
++            if module == boundaries.__spec__.name and argument == '--bridge':
++                return original_launcher('f3_int121_a14_6_held_bridge', '--held-bridge')
++            return original_launcher(module, argument)
++        # Private to this test owner; natural observational fixtures keep the
++        # original launcher and original negative-supervisor entry point.
++        boundaries._launcher = launch_controlled_bridge
++    boundaries._supervisor()
+ 
+ 
+ if __name__ == '__main__':
+     if sys.argv[1:] == ['--negative-supervisor']:
+         _negative_supervisor()
++    elif sys.argv[1:] == ['--negative-supervisor-held']:
++        _negative_supervisor(held_bridge=True)
+     else:
+         raise SystemExit('A13 negative supervisor only')
+--- a/test_f3_int121_a14_4_exit_order.py
++++ b/test_f3_int121_a14_4_exit_order.py
+@@ -33,6 +33,8 @@
+         outer = None
+         refs = {}
+         cleaned = False
++        held_fixture = negative and not observational and order in ('worker_first', 'near_simultaneous')
++        retention = {}
+         try:
+             fixture.setUp()
+             payload = dict(root=str(fixture.root), phase='source:before_consumption_commit',
+@@ -40,6 +42,8 @@
+                            client_seed=_seed(CLIENT), witness_seed=_seed(WITNESS))
+             module = 'f3_int121_a13_counterproof' if negative else 'f3_int121_a12_boundaries'
+             arguments = ['--negative-supervisor'] if negative else ['--supervisor']
++            if held_fixture:
++                arguments = ['--negative-supervisor-held']
+             outer = control.Peer([sys.executable, '-B', '-c', _launcher(module, *arguments)],
+                                  cwd=Path(__file__).resolve().parent, timeout=45)
+             outer.send(canonical(_wire(payload)).decode('utf-8'))
+@@ -52,6 +56,19 @@
+                               ('bridge', bridge['bridge_pid']), ('worker', boundary['worker_pid'])]:
+                 refs[role] = ProcessRef(pid, outer.job.handle)
+                 self.assertFalse(refs[role].signalled(), role)
++
++            def retention_marker(phase):
++                marker = fixture.wait_json(fixture.root / ('bridge-retention-' + phase.lower() + '.json'))
++                self.assertEqual(marker['schema'], 'A14_6_HELD_BRIDGE')
++                self.assertEqual(marker['phase'], phase)
++                self.assertEqual(marker['pid'], refs['bridge'].identity['pid'])
++                self.assertEqual(marker['specimen_id'], fixture.root.name)
++                self.assertEqual(marker['optimization'], sys.flags.optimize)
++                self.assertFalse(marker['real_operations_authorized'])
++                self.assertFalse(refs['bridge'].signalled())
++                retention[phase] = marker
++            if held_fixture:
++                retention_marker('ARMED')
+ 
+             kill = lambda role: a11.NativeTests.terminate_pinned_owner(self, refs[role])
+             snapshots = {}
+@@ -71,6 +88,8 @@
+                 kill('worker')
+                 capture('after_worker_termination_request')
+                 refs['worker'].wait_until(time.monotonic() + 6)
++                if held_fixture:
++                    retention_marker('ACTIVE')
+                 self.assertFalse(refs['owner'].signalled(), 'Owner exited before explicit owner termination')
+                 kill('owner')
+                 capture('after_owner_termination_request')
+@@ -89,6 +108,8 @@
+                 capture('after_owner_termination_request')
+                 outer.process.wait(timeout=8)
+                 refs['worker'].wait_until(time.monotonic() + 6)
++                if held_fixture:
++                    retention_marker('ACTIVE')
+                 before = {role: ref.signalled() for role, ref in refs.items()}
+                 self.assertTrue(before['owner'] and before['worker'])
+                 if not observational:
+@@ -98,6 +119,9 @@
+                 raise ValueError(order)
+ 
+             capture('before_outer_cleanup')
++            if held_fixture:
++                self.assertFalse(before['bridge'])
++                self.assertFalse((fixture.root / 'release-held-bridge').exists())
+             outer.close()
+             cleaned = True
+             self.assertTrue(outer.cleanup['confirmed'])
+@@ -108,6 +132,8 @@
+             print('A14_4_EXIT_ORDER_EVIDENCE=' + json.dumps(dict(
+                 label=label, order=order, optimization=sys.flags.optimize,
+                 negative_control=negative, observational=observational,
++                retained_bridge_fixture=held_fixture, bridge_retention=retention,
++                identities={role: dict(ref.identity) for role, ref in refs.items()},
+                 survivor_observed_before_cleanup=any(not before[r] for r in ('gate','bridge')),
+                 snapshots=snapshots, handles_before_outer_cleanup=before,
+                 handles_after_outer_cleanup={role: ref.signalled() for role, ref in refs.items()},
+--- a/test_f3_int121_a14_6_barrier.py
++++ b/test_f3_int121_a14_6_barrier.py
+@@ -72,7 +72,9 @@
+             capture('initial_pinned')
+             stage = 'handshake'
+             if fault != 'missing_handshake':
+-                (self.root / 'ack-held.json').write_text(json.dumps(dict(nonce=nonce)), encoding='utf-8')
++                temporary_ack = self.root / 'ack-held.pending'
++                temporary_ack.write_text(json.dumps(dict(nonce=nonce)), encoding='utf-8')
++                temporary_ack.replace(self.root / 'ack-held.json')
+             handshake = self._handshake(nonce, timeout=0.15 if fault == 'missing_handshake' else 8)
+             self.assertEqual(handshake['pid'], refs['held'].identity['pid'])
+             self.assertEqual(handshake['optimization'], sys.flags.optimize)
+--- /dev/null
++++ b/f3_int121_a14_6_held_bridge.py
+@@ -0,0 +1,46 @@
++"""Private strict-negative fixture: retain A12 bridge after worker return.
++
++Used only by A14.4 strict ordering probes. A14.5 observational runs continue
++using the original natural-return bridge, unchanged on disk.
++"""
++import json
++import os
++from pathlib import Path
++import sys
++import time
++
++
++def _held_bridge():
++    import f3_int121_a12_boundaries as boundaries
++    original = boundaries.worker_api.run_worker
++    def run_and_retain(database_path, *args, **kwargs):
++        root = Path(database_path).parent
++        def mark(phase, **fields):
++            path = root / ('bridge-retention-' + phase.lower() + '.json')
++            temporary = path.with_suffix('.tmp')
++            temporary.write_text(json.dumps(dict(schema='A14_6_HELD_BRIDGE', phase=phase,
++                pid=os.getpid(), optimization=sys.flags.optimize, specimen_id=root.name,
++                observed_ns=time.perf_counter_ns(), real_operations_authorized=False, **fields)), encoding='utf-8')
++            temporary.replace(path)
++        mark('ARMED')
++        result = original(database_path, *args, **kwargs)
++        mark('ACTIVE', worker_status=result.status)
++        # No result frame can reach the owner while held, so its normal
++        # Peer.close path cannot race the explicit owner-death experiment.
++        deadline = time.monotonic() + 60
++        while not (root / 'release-held-bridge').exists():
++            if time.monotonic() >= deadline:
++                raise TimeoutError('A14_6_HELD_BRIDGE_EXPIRED')
++            time.sleep(0.02)
++        return result
++    boundaries.worker_api.run_worker = run_and_retain
++    try:
++        boundaries._bridge()
++    finally:
++        boundaries.worker_api.run_worker = original
++
++
++if __name__ == '__main__':
++    if os.name != 'nt' or sys.argv[1:] != ['--held-bridge']:
++        raise RuntimeError('Private Windows held-bridge specimen only')
++    _held_bridge()
+--- /dev/null
++++ b/test_f3_int121_a14_6_held_repeats.py
+@@ -0,0 +1,56 @@
++"""Three fresh strict-negative A14.4 held-bridge specimens per ordering."""
++import contextlib
++import io
++import json
++import os
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++
++import test_f3_int121_a14_4_exit_order as order_tests
++
++
++@unittest.skipUnless(os.name == 'nt', 'Real Windows containment required')
++class HeldBridgeRepeatability(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        order_tests.UnexpectedExitOrderTests.setUpClass()
++        scratch = Path(__file__).resolve().parent.parent / 'work'
++        cls.evidence = Path(tempfile.mkdtemp(prefix=f'a14_6_held_repeats_O{sys.flags.optimize}_', dir=scratch))
++
++    def _repeat(self, order):
++        for index in (1,2,3):
++            label = f'a14_6_held_{order}_{index}'
++            output = io.StringIO()
++            try:
++                with contextlib.redirect_stdout(output):
++                    order_tests.UnexpectedExitOrderTests._exercise(
++                        self, label, negative=True, order=order, observational=False)
++            except BaseException:
++                print(output.getvalue(), end='', flush=True)
++                raise
++            rows = [json.loads(line.split('=',1)[1]) for line in output.getvalue().splitlines()
++                    if line.startswith('A14_4_EXIT_ORDER_EVIDENCE=')]
++            self.assertEqual(len(rows),1)
++            row = rows[0]
++            self.assertTrue(row['retained_bridge_fixture'])
++            self.assertFalse(row['handles_before_outer_cleanup']['bridge'])
++            self.assertTrue(row['outer_cleanup_confirmed'])
++            self.assertEqual(row['active_processes_after_cleanup'],0)
++            self.assertEqual(set(row['bridge_retention']), {'ARMED','ACTIVE'})
++            self.assertEqual(row['optimization'],sys.flags.optimize)
++            self.assertFalse(row['real_operations_authorized'])
++            row.update(repetition=index, total_repetitions=3)
++            (self.evidence/(label+'.json')).write_text(json.dumps(row,indent=2),encoding='utf-8')
++            print('A14_6_HELD_BRIDGE_REPEAT_EVIDENCE='+json.dumps(row,sort_keys=True),flush=True)
++
++    def test_worker_first_three_fresh_held_bridges(self):
++        self._repeat('worker_first')
++
++    def test_close_succession_three_fresh_held_bridges(self):
++        self._repeat('near_simultaneous')
++
++
++if __name__ == '__main__':
++    unittest.main(verbosity=2)
