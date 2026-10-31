@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-31",
+  "status": "PUBLICADO_E_VERIFICADO",
+  "repository": "j4b4zao/COPILOTO_PRICE_ACTION_AI",
+  "branch": "checkpoint/f3-int121-a14-5-r2-20261030",
+  "commit": "8c5f71a05df70c7d9b73b3b51c81ea628f145f20",
+  "path": "auditoria/checkpoints/F3_INT121_A14_5_R2_20261030",
+  "files_published": 184,
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "real_operations_authorized": false,
+  "original_project_modified": false,
+  "all_local_history_uploaded": false,
+  "local_history_bundle": "COPILOTO_HISTORICO_LOCAL_20261030.bundle",
+  "local_history_sha256": "88c7c363d39d1b59f20e8a56e2ebb73a6b9ed098abd3fe2a598d24813df18895",
+  "remote_head_verified": true,
+  "critical_remote_blob_hashes_verified": 9
+}

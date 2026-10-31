@@ -48,10 +48,10 @@ def check(row, mode):
     return errors
 
 
-def audit(root, logs=None):
+def audit(root, logs=None, modes=(0,1)):
     errors, files = [], []
     seen_specimens, seen_identities = set(), set()
-    for mode in (0,1):
+    for mode in modes:
         paths = sorted(Path(root).glob(f'a14_6_held_repeats_O{mode}_*/*.json'))
         expected = {f'a14_6_held_{order}_{i}' for order in ('worker_first','near_simultaneous') for i in (1,2,3)}
         labels = []

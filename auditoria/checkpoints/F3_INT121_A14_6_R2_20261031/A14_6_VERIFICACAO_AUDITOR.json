@@ -1,0 +1,50 @@
+{
+  "scope": "Synthetic evidence mutations, separate from 190 native project tests",
+  "original_records_accepted": 12,
+  "counterexamples": [
+    {
+      "case": "cleanup_inconclusive",
+      "rejected": true
+    },
+    {
+      "case": "process_still_active",
+      "rejected": true
+    },
+    {
+      "case": "survivor_not_observed",
+      "rejected": true
+    },
+    {
+      "case": "positive_only_after_cleanup",
+      "rejected": true
+    },
+    {
+      "case": "wrong_handshake",
+      "rejected": true
+    },
+    {
+      "case": "handshake_failure_hidden",
+      "rejected": true
+    },
+    {
+      "case": "injected_failure_not_preserved",
+      "rejected": true
+    },
+    {
+      "case": "real_operations_enabled",
+      "rejected": true
+    },
+    {
+      "case": "boolean_mode",
+      "rejected": true
+    },
+    {
+      "case": "invalid_snapshot_timing",
+      "rejected": true
+    },
+    {
+      "case": "boolean_job_flags",
+      "rejected": true
+    }
+  ]
+}
