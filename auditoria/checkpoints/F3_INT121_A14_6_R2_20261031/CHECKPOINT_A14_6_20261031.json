@@ -1,0 +1,311 @@
+{
+  "date": "2026-10-31",
+  "stage": "F3-INT-121 A14.6",
+  "status": "REGRESSAO_NAO_APROVADA",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "real_operations_authorized": false,
+  "runtime_modified": false,
+  "original_project_modified": false,
+  "python": "3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]",
+  "executable": "C:\\COPILOTO_PRICE_ACTION_AI\\ambiente\\Scripts\\python.exe",
+  "previous_source_files_preserved": 167,
+  "previous_source_mismatches": [],
+  "added_source_files": [
+    "f3_int121_a14_6_specimen.py",
+    "test_f3_int121_a14_6_barrier.py"
+  ],
+  "expected_full_tests_per_mode": 190,
+  "specific_tests_per_mode": 6,
+  "specific_normal_duration_s": 9.266,
+  "specific_optimized_duration_s": 14.94,
+  "modes": [
+    {
+      "log": "outputs\\a14_6_regressao_normal.log",
+      "sha256": "c10f826d363efac7cdbfdfc77c283113f8b9b1c86b52e86b96d6cc26ea1e6a20",
+      "optimization": 0,
+      "summary": [
+        [
+          "190",
+          "320.166"
+        ]
+      ],
+      "evidence_counts": {
+        "A13_NEGATIVE_EVIDENCE": 1,
+        "A14_1_PHASE_EVIDENCE": 2,
+        "A14_2_SURVIVOR_EVIDENCE": 3,
+        "A14_3_CLEANUP_EVIDENCE": 2,
+        "A14_4_EXIT_ORDER_EVIDENCE": 8,
+        "A14_5_REPEAT_EVIDENCE": 6,
+        "A14_6_EXPECTED_FAILURE_EVIDENCE": 2,
+        "A14_6_BARRIER_EVIDENCE": 4
+      },
+      "survivors_observed_in_repeats": 6,
+      "accepted": false,
+      "failures": [
+        "Codigo de saida ausente ou diferente de zero",
+        "Resumo final nao e OK sem skips",
+        "Log contem falha ou traceback",
+        "Esperadas nove evidencias A14.4/A14.5",
+        "Rotulos de evidencia duplicados",
+        "Rotulos inesperados ou ausentes"
+      ]
+    },
+    {
+      "log": "outputs\\a14_6_regressao_otimizado.log",
+      "sha256": "2308d9bc91679794d57af06e33ccbab656bc42eb74d85d7d705e5777016c8338",
+      "optimization": 1,
+      "summary": [
+        [
+          "190",
+          "412.552"
+        ]
+      ],
+      "evidence_counts": {
+        "A13_NEGATIVE_EVIDENCE": 1,
+        "A14_1_PHASE_EVIDENCE": 2,
+        "A14_2_SURVIVOR_EVIDENCE": 3,
+        "A14_3_CLEANUP_EVIDENCE": 2,
+        "A14_4_EXIT_ORDER_EVIDENCE": 9,
+        "A14_5_REPEAT_EVIDENCE": 6,
+        "A14_6_EXPECTED_FAILURE_EVIDENCE": 2,
+        "A14_6_BARRIER_EVIDENCE": 4
+      },
+      "survivors_observed_in_repeats": 6,
+      "accepted": true,
+      "failures": []
+    }
+  ],
+  "boundary_audit": {
+    "accepted": true,
+    "failures": [],
+    "files": [
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O0_3hntbl70\\a14_2_positive_inner_kill_on_close.json",
+        "sha256": "479a16d0b3beecd9284ebec801d28d5cc017004425df48d3ca6dc5cb6cd2b229",
+        "optimization": 0,
+        "test": "a14_2_positive_inner_kill_on_close"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O0_wcvoiry1\\test_death_after_local_ack_commit.json",
+        "sha256": "7ce0bf62329b9faba17a92bc162d449718de1e9e0e4137081801a2a54edfe66f",
+        "optimization": 0,
+        "test": "test_death_after_local_ack_commit"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O0_wcvoiry1\\test_death_after_pending_insert.json",
+        "sha256": "009af9fbdb69366bf96baf0d78f1774aa50c9d34083c1359d5bfc854e6bb962e",
+        "optimization": 0,
+        "test": "test_death_after_pending_insert"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O0_wcvoiry1\\test_death_after_source_commit.json",
+        "sha256": "6a1553c2b6711e168693c337fbf3a6898660ca8f49694d3adc7e001bc46f6d33",
+        "optimization": 0,
+        "test": "test_death_after_source_commit"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O0_wcvoiry1\\test_death_after_source_update.json",
+        "sha256": "51f5bbd7b130539f8ba6e4878ba9aa0cca54432862fc67f2f89e00ec09fed36c",
+        "optimization": 0,
+        "test": "test_death_after_source_update"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O0_wcvoiry1\\test_death_after_witness_commit.json",
+        "sha256": "525270464f8608acb365bbd6beb6cf19b081fe13451bf9adb81fd4c4e0c10beb",
+        "optimization": 0,
+        "test": "test_death_after_witness_commit"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O0_wcvoiry1\\test_death_before_local_ack_commit.json",
+        "sha256": "af037599a23e576e883c583a2920129a4938fa637af4737000a43dc4f5ef9059",
+        "optimization": 0,
+        "test": "test_death_before_local_ack_commit"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O0_wcvoiry1\\test_death_before_source_commit.json",
+        "sha256": "e3e0369617b3b5a9ed9b082e06bc63246513bebcd4a79db62f0d5d2f4db18b05",
+        "optimization": 0,
+        "test": "test_death_before_source_commit"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O0_wcvoiry1\\test_death_before_witness_commit.json",
+        "sha256": "d155f138db15e8d2d12460e3aa9286ab85622f185d64544fd64505484192c57a",
+        "optimization": 0,
+        "test": "test_death_before_witness_commit"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O0_wcvoiry1\\test_releasing_boundary_without_death_commits_normally.json",
+        "sha256": "6453265702ac095ab6b07d207c6da88683f9748533754c72a418fe3187ac2ab2",
+        "optimization": 0,
+        "test": "test_releasing_boundary_without_death_commits_normally"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O0_xj8b_5_t\\a14_1_after_ack_repeat.json",
+        "sha256": "af47d38787cc77a1fc9bd880ef5ec81a2a8e68b1344ed94edd020d56ad48ccae",
+        "optimization": 0,
+        "test": "a14_1_after_ack_repeat"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O0_xj8b_5_t\\a14_1_before_commit_repeat.json",
+        "sha256": "eaf7e663ed09fa1864d233e2408aebeb1eb88ac8de3100ee1990a3a8e0c0cf50",
+        "optimization": 0,
+        "test": "a14_1_before_commit_repeat"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O1_d_c2x_4q\\a14_2_positive_inner_kill_on_close.json",
+        "sha256": "71b056bec1786fb3b6bbf3f3ffaf7441ced5b2d0a80dce0e0407bd3306d873a6",
+        "optimization": 1,
+        "test": "a14_2_positive_inner_kill_on_close"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O1_koiu0zaj\\test_death_after_local_ack_commit.json",
+        "sha256": "0862ef50b268e42baaf2b958711581f5db193d08b3229c52b769551887af96a4",
+        "optimization": 1,
+        "test": "test_death_after_local_ack_commit"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O1_koiu0zaj\\test_death_after_pending_insert.json",
+        "sha256": "2ab1707a2c1c4ef16df4f2e47e3a8bd6883219f7c9d71dcf40b09b72e99868d6",
+        "optimization": 1,
+        "test": "test_death_after_pending_insert"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O1_koiu0zaj\\test_death_after_source_commit.json",
+        "sha256": "63139db14ffe541cd29c8a2d458152f77d2edd097d91ce794e057ac228875bca",
+        "optimization": 1,
+        "test": "test_death_after_source_commit"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O1_koiu0zaj\\test_death_after_source_update.json",
+        "sha256": "efa6c4c8d6769a06809389e01b2002b1e0fd5de7185126daf3adc5c27b3bfc87",
+        "optimization": 1,
+        "test": "test_death_after_source_update"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O1_koiu0zaj\\test_death_after_witness_commit.json",
+        "sha256": "7d54decd1e79fee922108a68d2f1f5c379da58ed1f67ad78cc5dbeeae3ce106a",
+        "optimization": 1,
+        "test": "test_death_after_witness_commit"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O1_koiu0zaj\\test_death_before_local_ack_commit.json",
+        "sha256": "29a919dcf32dfd2a99c3069e2c5e6e77548dc698eed932bbd4149de42bd1ec1a",
+        "optimization": 1,
+        "test": "test_death_before_local_ack_commit"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O1_koiu0zaj\\test_death_before_source_commit.json",
+        "sha256": "579ca5d05bbb40492499b14281fa957a211a7ac078896b723d25338778041c2d",
+        "optimization": 1,
+        "test": "test_death_before_source_commit"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O1_koiu0zaj\\test_death_before_witness_commit.json",
+        "sha256": "4d22d1346a998b5a60f0bf9eceb3cc3bf5e91ddb2b991b0a10a66b5927379ab0",
+        "optimization": 1,
+        "test": "test_death_before_witness_commit"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O1_koiu0zaj\\test_releasing_boundary_without_death_commits_normally.json",
+        "sha256": "700d9396227106afd0fd9a7747e7935ce6eacc992bbebb6273ccb7358e912809",
+        "optimization": 1,
+        "test": "test_releasing_boundary_without_death_commits_normally"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O1_wzk4sg5a\\a14_1_after_ack_repeat.json",
+        "sha256": "0e6174564a63cbf2a6f568f64cb573cbccc236f1c55d4707773b3ee2f83683dd",
+        "optimization": 1,
+        "test": "a14_1_after_ack_repeat"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a12_evidence_O1_wzk4sg5a\\a14_1_before_commit_repeat.json",
+        "sha256": "ee4fa3907b4e25c1c5682cc1da6df5df35f253211cfb43f1073511b548355c6a",
+        "optimization": 1,
+        "test": "a14_1_before_commit_repeat"
+      }
+    ]
+  },
+  "barrier_audit": {
+    "accepted": true,
+    "failures": [],
+    "files": [
+      {
+        "path": "work\\a14_6_regressao\\work\\a14_6_evidence_O0_46ff5xy4\\test_injected_observer_failure_still_cleans.json",
+        "test": "test_injected_observer_failure_still_cleans",
+        "optimization": 0,
+        "sha256": "6337568290be251619e8e515fa8c6901921a00b8e0d7732e26deaf107517ed8c"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a14_6_evidence_O0_46ff5xy4\\test_missing_handshake_is_failure_and_cleans.json",
+        "test": "test_missing_handshake_is_failure_and_cleans",
+        "optimization": 0,
+        "sha256": "4beb900ab177be709c2d51f63fecc3bf972eb0737a78d1339a2b54f29ec41ba8"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a14_6_evidence_O0_46ff5xy4\\test_negative_close_succession_retains_descendant.json",
+        "test": "test_negative_close_succession_retains_descendant",
+        "optimization": 0,
+        "sha256": "e7049e43e66fbbf95c7c75926400da44691ab69710f9de8780e56f3315bbf05c"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a14_6_evidence_O0_46ff5xy4\\test_negative_owner_first_retains_descendant.json",
+        "test": "test_negative_owner_first_retains_descendant",
+        "optimization": 0,
+        "sha256": "e554663eaacc3c6f5dfefd9048c515b08d12dba710d4bd8fb71edd0be0377681"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a14_6_evidence_O0_46ff5xy4\\test_negative_worker_first_retains_descendant.json",
+        "test": "test_negative_worker_first_retains_descendant",
+        "optimization": 0,
+        "sha256": "2d1029ea9ff02dfbfb932f7c31a7b73376e45e37546c56b19ba5fae01e53a6fe"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a14_6_evidence_O0_46ff5xy4\\test_positive_inner_job_kills_retained_descendant.json",
+        "test": "test_positive_inner_job_kills_retained_descendant",
+        "optimization": 0,
+        "sha256": "91bd303f378f61ebfdfc27408438ff5c4360d59a0302fba4fca83f3bfca234b7"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a14_6_evidence_O1_jom8wb0r\\test_injected_observer_failure_still_cleans.json",
+        "test": "test_injected_observer_failure_still_cleans",
+        "optimization": 1,
+        "sha256": "8d3575b45fda262659b03a85f2a7bdce500406340ef33f6e5c785dda2861c892"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a14_6_evidence_O1_jom8wb0r\\test_missing_handshake_is_failure_and_cleans.json",
+        "test": "test_missing_handshake_is_failure_and_cleans",
+        "optimization": 1,
+        "sha256": "0bac41cb2a79c8e0e5a81d40a25f66059208e86d788de4f3836ed1d1cccefb8a"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a14_6_evidence_O1_jom8wb0r\\test_negative_close_succession_retains_descendant.json",
+        "test": "test_negative_close_succession_retains_descendant",
+        "optimization": 1,
+        "sha256": "e1e1a0a8b0b843e8e13d84dcd5bcc9fa793964c875d57413c0da7edeef68fc23"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a14_6_evidence_O1_jom8wb0r\\test_negative_owner_first_retains_descendant.json",
+        "test": "test_negative_owner_first_retains_descendant",
+        "optimization": 1,
+        "sha256": "ed6abddc3b5258e0faf037cde164a18e662f2927b0e81309c88310e12bd44574"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a14_6_evidence_O1_jom8wb0r\\test_negative_worker_first_retains_descendant.json",
+        "test": "test_negative_worker_first_retains_descendant",
+        "optimization": 1,
+        "sha256": "e33f3d9c3a2b812ad1548f1076c14a825bb5425f48d6bc9409b3f81ea208f68c"
+      },
+      {
+        "path": "work\\a14_6_regressao\\work\\a14_6_evidence_O1_jom8wb0r\\test_positive_inner_job_kills_retained_descendant.json",
+        "test": "test_positive_inner_job_kills_retained_descendant",
+        "optimization": 1,
+        "sha256": "a526ef0518309bb2cebb9d8faa8e1a23c5acb40f23d26099aea43f176ba139fa"
+      }
+    ],
+    "scope": "Synthetic Windows Jobs/barrier records; not production certification"
+  },
+  "previous_github_checkpoint": "8c5f71a05df70c7d9b73b3b51c81ea628f145f20",
+  "next_step": "Auditar publicacao atomica dos marcadores e falhas de startup, preservando F3 OPEN e a regressao anterior"
+}

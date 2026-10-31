@@ -1,0 +1,21 @@
+{
+  "stage": "F3-INT-121 A11",
+  "completion_date": "2026-10-29",
+  "classification": "WINDOWS_JOB_CONTAINMENT_LOCAL_PROTOTYPE",
+  "f3": "OPEN",
+  "real_operations_authorized": false,
+  "promotion_authorized": false,
+  "implementation": "f3_int121_a11_native.py",
+  "tests": "test_f3_int121_a11_native.py",
+  "report": "RELATORIO_F3_INT121_A11.md",
+  "final_tests": {"normal": 11, "python_O": 11, "a10_regression": 23},
+  "native_helpers": "a11_native/tools, frozen F3-INT-115 process control and identity; manifest VENDOR_A11_MANIFEST.json",
+  "next_step": "Test native supervisor death at controlled consumption and ACK boundaries with an external observer and independently retained before/after pins. Keep runtime untouched and preserve A10/A11 evidence without promotion.",
+  "limits": [
+    "Parent death was demonstrated for the tested ordinary tree; not every SQLite or ACK commit position.",
+    "Trusted gate bootstrap precedes Job association; pre-assignment EOF was tested, not kernel-atomic process creation or strict startup deadline.",
+    "No hostile breakaway or handle-duplication adversary was evaluated.",
+    "No independent custody, external monotonic checkpoint, remote witness, physical power-loss proof or runtime installation.",
+    "The A10 continuity backup was preserved and still identifies its own A10 checkpoint."
+  ]
+}

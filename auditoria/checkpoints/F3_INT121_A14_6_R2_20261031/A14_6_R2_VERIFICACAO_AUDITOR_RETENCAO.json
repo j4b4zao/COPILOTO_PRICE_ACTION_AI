@@ -1,0 +1,37 @@
+{
+  "scope": "Synthetic mutations, not part of 192 project tests",
+  "counterexamples": [
+    {
+      "case": "fixture_not_retained",
+      "rejected": true
+    },
+    {
+      "case": "bridge_dead_before_cleanup",
+      "rejected": true
+    },
+    {
+      "case": "cleanup_not_confirmed",
+      "rejected": true
+    },
+    {
+      "case": "marker_pid_mismatch",
+      "rejected": true
+    },
+    {
+      "case": "marker_phase_mismatch",
+      "rejected": true
+    },
+    {
+      "case": "specimen_mismatch",
+      "rejected": true
+    },
+    {
+      "case": "identity_missing",
+      "rejected": true
+    },
+    {
+      "case": "boolean_marker_mode",
+      "rejected": true
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "stage": "F3-INT-121 A9",
+  "classification": "OFFLINE_EXPLICIT_ROUTE_AND_EMPTY_BOOTSTRAP_PROTOTYPE",
+  "f3": "OPEN",
+  "real_operations_authorized": false,
+  "promotion_authorized": false,
+  "implementation": "f3_int121_a9_route.py",
+  "tests": "test_f3_int121_a9_route.py",
+  "report": "RELATORIO_F3_INT121_A9.md",
+  "inventory": "INVENTARIO_ROTAS_A9.json",
+  "final_tests": {"normal": 23, "python_O": 23, "a8_regression": 26},
+  "next_step": "Implement an isolated offline multiprocess caller using only OfflineConsumptionRoute, including explicit resume/reconciliation and process cleanup; do not install in the runtime or migrate advanced stores automatically.",
+  "limits": [
+    "No actual runtime cutover. Inventory covers six selected directories, not all dynamic callers.",
+    "Only generation-zero legacy copying is supported; source is preserved and not retired.",
+    "Reconciliation requires independently retained before/after pins, not newly derived trust anchors.",
+    "Independent custody, external monotonic checkpoint, bounded remote transport and physical durability remain unproven.",
+    "Official checkpoint discrepancy remains documented without marker changes."
+  ]
+}

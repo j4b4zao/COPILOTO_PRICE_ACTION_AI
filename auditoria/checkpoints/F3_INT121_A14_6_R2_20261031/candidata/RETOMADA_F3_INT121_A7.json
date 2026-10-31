@@ -1,0 +1,20 @@
+{
+  "stage": "F3-INT-121 A7",
+  "classification": "DURABLE_LOCAL_ATTESTATION_OUTBOX_PROTOTYPE",
+  "f3": "OPEN",
+  "real_operations_authorized": false,
+  "promotion_authorized": false,
+  "source_storage_sha256": "ea990a447ac3cbb31ee63dd4709c830c11088d202ae24703442545fb245c83cf",
+  "capacity": 4096,
+  "capacity_correction": "The 4097th entry is rejected before writing; the capacity was not removed.",
+  "implementation": "f3_int121_a7_outbox.py",
+  "tests": "test_f3_int121_a7_outbox.py",
+  "report": "RELATORIO_F3_INT121_A7.md",
+  "next_step": "Implement an isolated cooperative writer variant that atomically commits source state and pending envelope, and refuses new consumption until witness acknowledgment.",
+  "remaining_limits": [
+    "A7 prepares a separate outbox after source commit; it is not atomic with source consumption.",
+    "No automatic migration or backfill for an advanced source.",
+    "No independent custody, external monotonic checkpoint or real power-loss proof.",
+    "The official marker discrepancy was documented but not changed."
+  ]
+}

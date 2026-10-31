@@ -1,0 +1,19 @@
+{
+  "VALIDACAO_A9_ROUTE.txt": {
+    "passed": 23,
+    "seconds": 46.992,
+    "result": "OK"
+  },
+  "VALIDACAO_A9_PYTHON_O.txt": {
+    "passed": 23,
+    "seconds": 47.559,
+    "result": "OK"
+  },
+  "REGRESSAO_A8_PARA_A9.txt": {
+    "passed": 26,
+    "seconds": 130.721,
+    "result": "OK"
+  },
+  "prior_a8_hashes_verified": 77,
+  "inventoried_references_unchanged": 9
+}

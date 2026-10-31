@@ -1,0 +1,22 @@
+EXPECTED FAILURE BEFORE SCHEMA FILTER FIX; not a final-suite failure.
+
+test_copy_sqlite_like_user_table_is_not_ignored (__main__.RouteTests.test_copy_sqlite_like_user_table_is_not_ignored) ... FAIL
+
+======================================================================
+FAIL: test_copy_sqlite_like_user_table_is_not_ignored (__main__.RouteTests.test_copy_sqlite_like_user_table_is_not_ignored)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jb\Documents\Codex\2026-10-28\ok-continue-o-projeto-em-um\outputs\test_f3_int121_a9_route.py", line 209, in test_copy_sqlite_like_user_table_is_not_ignored
+    self.assertEqual(route.copy_empty_legacy(source, expected_state_digest=self.before).status,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     'MIGRATION_SOURCE_NOT_LEGACY_STATE_ONLY')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'EMPTY_LEGACY_COPIED_LOCAL' != 'MIGRATION_SOURCE_NOT_LEGACY_STATE_ONLY'
+- EMPTY_LEGACY_COPIED_LOCAL
++ MIGRATION_SOURCE_NOT_LEGACY_STATE_ONLY
+
+
+----------------------------------------------------------------------
+Ran 1 test in 4.581s
+
+FAILED (failures=1)

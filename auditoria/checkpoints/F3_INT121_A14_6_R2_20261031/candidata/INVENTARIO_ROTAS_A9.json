@@ -1,0 +1,116 @@
+{
+  "scope": "Only the six listed directories; not all repositories or dynamic callers",
+  "files_scanned": {
+    "C:\\COPILOTO_PRICE_ACTION_AI\\app": 21,
+    "C:\\COPILOTO_PRICE_ACTION_AI\\core": 34,
+    "C:\\COPILOTO_PRICE_ACTION_AI\\execution": 3,
+    "C:\\COPILOTO_PRICE_ACTION_AI\\tools": 247,
+    "C:\\COPILOTO_PRICE_ACTION_AI\\audit\\tools": 101,
+    "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools": 107
+  },
+  "references": [
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\audit\\tools\\f3_int109_offline_consumption_store.py",
+      "sha256": "ea990a447ac3cbb31ee63dd4709c830c11088d202ae24703442545fb245c83cf",
+      "import_lines": [],
+      "direct_call_lines": [],
+      "textual_reference_lines": [
+        147
+      ]
+    },
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\audit\\tools\\f3_int110_offline_reconciliation.py",
+      "sha256": "8624912802e400eb28606fabc1c2cdb8e773fc78a9933c9fb9974c953d103b85",
+      "import_lines": [
+        9
+      ],
+      "direct_call_lines": [],
+      "textual_reference_lines": [
+        9
+      ]
+    },
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\audit\\tools\\f3_int115_multiprocess_recovery.py",
+      "sha256": "ff92b7a3fa53c63e8c50bc5815a8e07880155eac3340b14e699c62a5cb7afd64",
+      "import_lines": [
+        8
+      ],
+      "direct_call_lines": [],
+      "textual_reference_lines": [
+        8
+      ]
+    },
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int109_offline_consumption_store.py",
+      "sha256": "ea990a447ac3cbb31ee63dd4709c830c11088d202ae24703442545fb245c83cf",
+      "import_lines": [],
+      "direct_call_lines": [],
+      "textual_reference_lines": [
+        147
+      ]
+    },
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int110_offline_reconciliation.py",
+      "sha256": "8624912802e400eb28606fabc1c2cdb8e773fc78a9933c9fb9974c953d103b85",
+      "import_lines": [
+        9
+      ],
+      "direct_call_lines": [],
+      "textual_reference_lines": [
+        9
+      ]
+    },
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int115_multiprocess_recovery.py",
+      "sha256": "ff92b7a3fa53c63e8c50bc5815a8e07880155eac3340b14e699c62a5cb7afd64",
+      "import_lines": [
+        8
+      ],
+      "direct_call_lines": [],
+      "textual_reference_lines": [
+        8
+      ]
+    },
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int116_commit_recovery.py",
+      "sha256": "73d23aaec864d34a81c187af6fb6d2ced5d71cc4d5da255b05775c44ca989d06",
+      "import_lines": [
+        11
+      ],
+      "direct_call_lines": [],
+      "textual_reference_lines": [
+        11
+      ]
+    },
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int117_sqlite_write_faults.py",
+      "sha256": "43cbcb3fce81e725f36adff6658f2aa6ce7fc5fe4686757a20a198b8df13614d",
+      "import_lines": [
+        15
+      ],
+      "direct_call_lines": [
+        251,
+        258
+      ],
+      "textual_reference_lines": [
+        15,
+        251,
+        258
+      ]
+    },
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int120_sqlite_witness_adapter.py",
+      "sha256": "86b3a2e0a99351d428b71695dc1f80a5c8a789be71678c8727569ae2b782c396",
+      "import_lines": [
+        10
+      ],
+      "direct_call_lines": [],
+      "textual_reference_lines": [
+        10
+      ]
+    }
+  ],
+  "errors": [],
+  "runtime_modified": false,
+  "legacy_fallback_added": false
+}

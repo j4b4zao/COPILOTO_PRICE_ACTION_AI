@@ -1,0 +1,32 @@
+{
+  "stage": "F3-INT-121 A14.2",
+  "status": "FINAL_DOCUMENTAL_WINDOWS_USER_LOGS",
+  "date": "2026-10-29",
+  "specific_tests": {
+    "normal": 3,
+    "optimized": 3,
+    "failures": 0
+  },
+  "full_regression": {
+    "normal": 173,
+    "optimized": 173,
+    "failures": 0,
+    "normal_seconds": 468.135,
+    "optimized_seconds": 533.54
+  },
+  "negative_control_detected": true,
+  "positive_control_active_before_safety": 0,
+  "windows_evidence_source": "user_supplied_logs",
+  "independent_windows_execution": false,
+  "scope_limit": "Does not validate outer Job cleanup delays/failures; A14.3 pending",
+  "f3": "OPEN",
+  "orders_allowed": false,
+  "real_operations_authorized": false,
+  "live_certified": false,
+  "flow_complete": false,
+  "f3_resolved": false,
+  "native_prototype_authorized": false,
+  "strict_deadline_guaranteed": false,
+  "authenticated_witness_verified": false,
+  "next_stage": "A14.3 scope and implementation pending"
+}
