@@ -1,0 +1,161 @@
+{
+  "date": "2026-10-31",
+  "resume_date": "2026-11-02",
+  "paused_by_user": true,
+  "stage": "F3-INT-121 A14.7 CANDIDATA",
+  "status": "SALVA_PARA_RETOMADA_SEM_REGRESSAO_INTEGRAL",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "real_operations_authorized": false,
+  "runtime_modified": false,
+  "original_project_modified": false,
+  "last_fully_validated_stage": "A14.6-R2",
+  "last_validated_tests_per_mode": 192,
+  "last_validated_github_commit": "6e1127ae5b594ea0712a224706484b704ae5dc0a",
+  "candidate_specific_results": [
+    {
+      "optimization": 0,
+      "tests": 9,
+      "duration_s": 17.344,
+      "status": "OK",
+      "log": "a14_7_especificos_normal.log",
+      "log_sha256": "65231e64318dc2c01e80b23e7107a9505e8eeb3cd64fe1f93f1bbc8a4818db98"
+    },
+    {
+      "optimization": 1,
+      "tests": 9,
+      "duration_s": 25.795,
+      "status": "OK",
+      "log": "a14_7_especificos_otimizado.log",
+      "log_sha256": "e549a94230d1ea651a6b7c1e497b30e274184cd6abed822d983a5a63d9d95726"
+    }
+  ],
+  "specific_records": [
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O0_fx_ph_o4\\test_assignment_failure_never_releases_target.json",
+      "mode": "assign_failure",
+      "optimization": 0,
+      "sha256": "f3a2439413c8d94dbc8a5381762b066a537befc1d5b554ec556e728ccbc4e274"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O0_fx_ph_o4\\test_gate_release_failure_never_releases_target.json",
+      "mode": "gate_failure",
+      "optimization": 0,
+      "sha256": "85d932cf21d5e08c0eb1920935399248246245a308ef32a278c8b273f2cd0e2d"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O0_fx_ph_o4\\test_injected_creation_failure_preserves_errno.json",
+      "mode": "create_failure",
+      "optimization": 0,
+      "sha256": "dd66c09986e88ae7149a81a7260327ef4a42f9bf9060dbbc879088456a968a92"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O0_fx_ph_o4\\test_journal_failure_preserves_fallback_after_cleanup.json",
+      "mode": "journal_failure",
+      "optimization": 0,
+      "sha256": "76fe437add8d7ce6dcf170fd670079da57dbe4e9ae0c804c89bc84a8ee79204a"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O0_fx_ph_o4\\test_missing_handshake_times_out_after_entry.json",
+      "mode": "handshake_timeout",
+      "optimization": 0,
+      "sha256": "090bb369d29c6f3dfbe7cb0da86bf04ed67c7ffafdb8e2d8ac3823a3d591bd60"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O0_fx_ph_o4\\test_real_invalid_cwd_preserves_winerror.json",
+      "mode": "invalid_cwd",
+      "optimization": 0,
+      "sha256": "ed12da67ddf534af59538738cd38ada5b138678bcdaf97753b8c54b00509ab44"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O0_fx_ph_o4\\test_successful_handshake_control_still_cleans.json",
+      "mode": "success",
+      "optimization": 0,
+      "sha256": "024d8c1252d1e5409e9f8c95f6ed45ad470540f0450588c12432652a39aa2262"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O0_fx_ph_o4\\test_target_crash_preserves_stderr.json",
+      "mode": "target_crash",
+      "optimization": 0,
+      "sha256": "af0115750135ec78dbcb00eba8dae4ae1e70c649d25f678142100e1d03442327"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O0_fx_ph_o4\\test_truncated_handshake_is_not_accepted.json",
+      "mode": "truncated_frame",
+      "optimization": 0,
+      "sha256": "e5c131fb84cae3772e502041d571c76662f5ce7e9dc5bbad737decb28250d9e1"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O1_c39v5so5\\test_assignment_failure_never_releases_target.json",
+      "mode": "assign_failure",
+      "optimization": 1,
+      "sha256": "b316cc67a3e8acaddbee1275513d97e22e4e0e432ebdc8738d698df0c851d289"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O1_c39v5so5\\test_gate_release_failure_never_releases_target.json",
+      "mode": "gate_failure",
+      "optimization": 1,
+      "sha256": "d9810f722d62699eb2d0b71199cec55861b23fa168d65cc4d59e348dd5dcb2ba"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O1_c39v5so5\\test_injected_creation_failure_preserves_errno.json",
+      "mode": "create_failure",
+      "optimization": 1,
+      "sha256": "349929eb41a7362936bda34e39586e6dab42ce1791f125702e7967a5fe557514"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O1_c39v5so5\\test_journal_failure_preserves_fallback_after_cleanup.json",
+      "mode": "journal_failure",
+      "optimization": 1,
+      "sha256": "9b71d73ebfce110d2760e2cd8ee31c068798a38b0e10f76c399b6a19063944b7"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O1_c39v5so5\\test_missing_handshake_times_out_after_entry.json",
+      "mode": "handshake_timeout",
+      "optimization": 1,
+      "sha256": "4bf7bea64f29ece19e374595a987f1aec6897317f39aa41b701be4f049bcd487"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O1_c39v5so5\\test_real_invalid_cwd_preserves_winerror.json",
+      "mode": "invalid_cwd",
+      "optimization": 1,
+      "sha256": "1b10ef3c2d2dd1594e39a0ecdf9a8e4132d5bdf123ddf42743521e944b8ccfed"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O1_c39v5so5\\test_successful_handshake_control_still_cleans.json",
+      "mode": "success",
+      "optimization": 1,
+      "sha256": "7dbce87787b72f23fe8d9451d8785e9c537288ebf5b725e64cff40c7b6aee834"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O1_c39v5so5\\test_target_crash_preserves_stderr.json",
+      "mode": "target_crash",
+      "optimization": 1,
+      "sha256": "56e3d85aef9f7bc574a4b454843e9938abd010dc321d5798c83d499ca4f413ba"
+    },
+    {
+      "path": "work\\a14_7\\work\\a14_7_startup_evidence_O1_c39v5so5\\test_truncated_handshake_is_not_accepted.json",
+      "mode": "truncated_frame",
+      "optimization": 1,
+      "sha256": "5b0191d14805b6596bb6075f0296f55226aaa71a203f091e908bc27a18b0bc97"
+    }
+  ],
+  "specific_record_check_scope": "Basic save-time consistency, not a new independent startup auditor",
+  "expected_full_tests_per_mode": 201,
+  "full_regression_run": false,
+  "full_normal_status": "NOT_RUN",
+  "full_optimized_status": "NOT_RUN",
+  "previous_source_files_preserved": 171,
+  "previous_source_mismatches": [],
+  "added_source_files": [
+    "f3_int121_a14_7_startup_probe.py",
+    "test_f3_int121_a14_7_startup.py"
+  ],
+  "next_steps": [
+    "Review the startup probes and 18 records",
+    "Implement/validate an independent startup evidence auditor",
+    "Run 201-test normal and optimized regressions sequentially in a fresh isolated copy",
+    "Do not change the conservative production constructor-failure status"
+  ]
+}

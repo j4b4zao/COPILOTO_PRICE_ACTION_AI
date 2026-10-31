@@ -1,0 +1,2085 @@
+{
+  "optimization": 1,
+  "death_cases": 8,
+  "release_controls": 1,
+  "records": [
+    {
+      "active_processes_before_safety": 0,
+      "all_owned_exit_proofs_before_safety": [
+        {
+          "confirmation_ns": 20200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554136930472,
+            "pid": 15876,
+            "ppid": 14100
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 13500,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554137086332,
+            "pid": 5104,
+            "ppid": 15876
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 9300,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554137611367,
+            "pid": 12376,
+            "ppid": 15876
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 7700,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554139611794,
+            "pid": 13384,
+            "ppid": 12376
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6600,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554139793386,
+            "pid": 10812,
+            "ppid": 13384
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 5700,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554140578184,
+            "pid": 6328,
+            "ppid": 13384
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 5400,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554153662858,
+            "pid": 5696,
+            "ppid": 6328
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 7900,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554153822281,
+            "pid": 1332,
+            "ppid": 5696
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 7300,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554154470630,
+            "pid": 5460,
+            "ppid": 5696
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 7000,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554157193350,
+            "pid": 1972,
+            "ppid": 5460
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 7300,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554157445142,
+            "pid": 14572,
+            "ppid": 1972
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6900,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554157921136,
+            "pid": 11128,
+            "ppid": 1972
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6900,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554172285943,
+            "pid": 14460,
+            "ppid": 11128
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        }
+      ],
+      "files_before_explicit_open": {
+        "route.sqlite": {
+          "bytes": 16384,
+          "sha256": "ba3db2ff4df4617b02b0aee1b08edc89bd4f4cd064dc6809d539336ae25a3a03"
+        },
+        "witness.sqlite": {
+          "bytes": 16384,
+          "sha256": "b14ff46a1573d778cfa72fb1d4dc4481a87bde0d7782f3341dcdcfec4629dfa3"
+        }
+      },
+      "inquiry_status": "COMMITTED_ACKNOWLEDGED_OBSERVED_LOCAL",
+      "operational_locks": {
+        "authenticated_witness_verified": false,
+        "f3_resolved": false,
+        "flow_complete": false,
+        "live_certified": false,
+        "native_prototype_authorized": false,
+        "orders_allowed": false,
+        "strict_deadline_guaranteed": false
+      },
+      "optimization": 1,
+      "phase": "source:after_ack_commit",
+      "pins_retained_before_failure": {
+        "after_state_digest": "2502421c3e5b54ae86a7ad5118d7842f3a7a49b5e856ff68de7e1c8e42dc7e86",
+        "before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40",
+        "expected_chain_digest": "7537bb024caac609151eabf8d90d5945ddde4964f8ea4e7ade4d86d0f5d2048e"
+      },
+      "process_proofs": [
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554140578184,
+            "pid": 6328,
+            "ppid": 13384
+          },
+          "observed_ns": 5243987847300,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "owner"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554153662858,
+            "pid": 5696,
+            "ppid": 6328
+          },
+          "observed_ns": 5243987875000,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "gate"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554157921136,
+            "pid": 11128,
+            "ppid": 1972
+          },
+          "observed_ns": 5243987887700,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "bridge"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554172285943,
+            "pid": 14460,
+            "ppid": 11128
+          },
+          "observed_ns": 5243987898400,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "worker"
+        }
+      ],
+      "reached_boundary": {
+        "envelope_digest": "3bc409ead865fb07021b7cd01197eeb09332f23fcec227aa5ba6d3d24e9b7cc5",
+        "local_receipt_digest": "49bbefb8ec9ac67f42124ef6413f61782cf7e2357af811c2af8a9a59c80fdfa0",
+        "optimization": 1,
+        "phase": "source:after_ack_commit",
+        "reached_ns": 5243800922900,
+        "source_generation_seen": 1,
+        "witness_rows_seen": null,
+        "worker_parent_pid": 11128,
+        "worker_pid": 14460
+      },
+      "recovery_open_status": "LOCAL_OPEN_AND_PIN_MATCH_OBSERVED",
+      "recovery_operation_status": "ALREADY_ACKNOWLEDGED_LOCAL",
+      "release_control": false,
+      "runtime_modified": false,
+      "safety_cleanup_confirmed": true,
+      "safety_cleanup_started_ns": 5243997557400,
+      "test": "test_death_after_local_ack_commit",
+      "witness_sequence_after_resume": 1,
+      "witness_sequence_before_resume": 1
+    },
+    {
+      "active_processes_before_safety": 0,
+      "all_owned_exit_proofs_before_safety": [
+        {
+          "confirmation_ns": 13100,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554230268091,
+            "pid": 14096,
+            "ppid": 14100
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 8700,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554230313781,
+            "pid": 15416,
+            "ppid": 14096
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 8600,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554231001079,
+            "pid": 5108,
+            "ppid": 14096
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 7700,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554233242722,
+            "pid": 7720,
+            "ppid": 5108
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 7300,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554233420421,
+            "pid": 9140,
+            "ppid": 7720
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 7100,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554233898285,
+            "pid": 13116,
+            "ppid": 7720
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6700,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554250144252,
+            "pid": 8328,
+            "ppid": 13116
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6500,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554250425107,
+            "pid": 13460,
+            "ppid": 8328
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6700,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554251192686,
+            "pid": 3964,
+            "ppid": 8328
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6500,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554253855062,
+            "pid": 1828,
+            "ppid": 3964
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6600,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554254072590,
+            "pid": 13536,
+            "ppid": 1828
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6500,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554254666965,
+            "pid": 5748,
+            "ppid": 1828
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6300,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554268643062,
+            "pid": 16380,
+            "ppid": 5748
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        }
+      ],
+      "files_before_explicit_open": {
+        "route.sqlite": {
+          "bytes": 16384,
+          "sha256": "d4da0fc39a0999bb74aff003b86d78c9ce5ac6ca085a0ca56b914121d347ab02"
+        },
+        "route.sqlite-journal": {
+          "bytes": 8720,
+          "sha256": "26725d5c15d2ec3781c9895cee8263dc24fa22519e38632284a2b0ec4b22ba1b"
+        },
+        "witness.sqlite": {
+          "bytes": 16384,
+          "sha256": "2e83f65cb079c968e5fae3864db47731ac280e68aa7cc44eb101b4ac07d57910"
+        }
+      },
+      "inquiry_status": "NOT_COMMITTED_OBSERVED_LOCAL",
+      "operational_locks": {
+        "authenticated_witness_verified": false,
+        "f3_resolved": false,
+        "flow_complete": false,
+        "live_certified": false,
+        "native_prototype_authorized": false,
+        "orders_allowed": false,
+        "strict_deadline_guaranteed": false
+      },
+      "optimization": 1,
+      "phase": "source:after_outbox_insert",
+      "pins_retained_before_failure": {
+        "after_state_digest": "2502421c3e5b54ae86a7ad5118d7842f3a7a49b5e856ff68de7e1c8e42dc7e86",
+        "before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40",
+        "expected_chain_digest": "7537bb024caac609151eabf8d90d5945ddde4964f8ea4e7ade4d86d0f5d2048e"
+      },
+      "process_proofs": [
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554233898285,
+            "pid": 13116,
+            "ppid": 7720
+          },
+          "observed_ns": 5256194271500,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "owner"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554250144252,
+            "pid": 8328,
+            "ppid": 13116
+          },
+          "observed_ns": 5256194299700,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "gate"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554254666965,
+            "pid": 5748,
+            "ppid": 1828
+          },
+          "observed_ns": 5256194314500,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "bridge"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554268643062,
+            "pid": 16380,
+            "ppid": 5748
+          },
+          "observed_ns": 5256194326700,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "worker"
+        }
+      ],
+      "reached_boundary": {
+        "envelope_digest": "79230339dac0d23be65a2394f6aaba8490c92674c438a8e6229ec056df74275c",
+        "local_receipt_digest": "",
+        "optimization": 1,
+        "phase": "source:after_outbox_insert",
+        "reached_ns": 5255970423400,
+        "source_generation_seen": 1,
+        "witness_rows_seen": null,
+        "worker_parent_pid": 5748,
+        "worker_pid": 16380
+      },
+      "recovery_open_status": "LOCAL_OPEN_AND_PIN_MATCH_OBSERVED",
+      "recovery_operation_status": "NOT_COMMITTED_OBSERVED_LOCAL",
+      "release_control": false,
+      "runtime_modified": false,
+      "safety_cleanup_confirmed": true,
+      "safety_cleanup_started_ns": 5256200567100,
+      "test": "test_death_after_pending_insert",
+      "witness_sequence_after_resume": 0,
+      "witness_sequence_before_resume": 0
+    },
+    {
+      "active_processes_before_safety": 0,
+      "all_owned_exit_proofs_before_safety": [
+        {
+          "confirmation_ns": 11000,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554350310068,
+            "pid": 244,
+            "ppid": 14100
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554350654658,
+            "pid": 3716,
+            "ppid": 244
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 5500,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554351798491,
+            "pid": 16004,
+            "ppid": 244
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 5200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554355015668,
+            "pid": 11156,
+            "ppid": 16004
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 4800,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554355160164,
+            "pid": 11680,
+            "ppid": 11156
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 4900,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554355772156,
+            "pid": 14076,
+            "ppid": 11156
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 7500,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554375040683,
+            "pid": 14480,
+            "ppid": 14076
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 5100,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554375234436,
+            "pid": 16676,
+            "ppid": 14480
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 5000,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554375885458,
+            "pid": 3632,
+            "ppid": 14480
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 4800,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554378830658,
+            "pid": 17272,
+            "ppid": 3632
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 4700,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554379168516,
+            "pid": 16404,
+            "ppid": 17272
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 4600,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554380384435,
+            "pid": 16936,
+            "ppid": 17272
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 4600,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554399122957,
+            "pid": 2068,
+            "ppid": 16936
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        }
+      ],
+      "files_before_explicit_open": {
+        "route.sqlite": {
+          "bytes": 16384,
+          "sha256": "dfb0d8c059abf5ff8aa3bdd3e9a057aac88f0a36adfe18948dae1eb36ac3f305"
+        },
+        "witness.sqlite": {
+          "bytes": 16384,
+          "sha256": "2e83f65cb079c968e5fae3864db47731ac280e68aa7cc44eb101b4ac07d57910"
+        }
+      },
+      "inquiry_status": "COMMITTED_PENDING_OBSERVED_LOCAL",
+      "operational_locks": {
+        "authenticated_witness_verified": false,
+        "f3_resolved": false,
+        "flow_complete": false,
+        "live_certified": false,
+        "native_prototype_authorized": false,
+        "orders_allowed": false,
+        "strict_deadline_guaranteed": false
+      },
+      "optimization": 1,
+      "phase": "source:after_consumption_commit",
+      "pins_retained_before_failure": {
+        "after_state_digest": "2502421c3e5b54ae86a7ad5118d7842f3a7a49b5e856ff68de7e1c8e42dc7e86",
+        "before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40",
+        "expected_chain_digest": "7537bb024caac609151eabf8d90d5945ddde4964f8ea4e7ade4d86d0f5d2048e"
+      },
+      "process_proofs": [
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554355772156,
+            "pid": 14076,
+            "ppid": 11156
+          },
+          "observed_ns": 5268527657100,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "owner"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554375040683,
+            "pid": 14480,
+            "ppid": 14076
+          },
+          "observed_ns": 5268527679200,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "gate"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554380384435,
+            "pid": 16936,
+            "ppid": 17272
+          },
+          "observed_ns": 5268527697800,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "bridge"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554399122957,
+            "pid": 2068,
+            "ppid": 16936
+          },
+          "observed_ns": 5268527714900,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "worker"
+        }
+      ],
+      "reached_boundary": {
+        "envelope_digest": "76975341e0b6c0e324a02240f33f64b1de8cb6b1260f7b1697e832b5146eed32",
+        "local_receipt_digest": "",
+        "optimization": 1,
+        "phase": "source:after_consumption_commit",
+        "reached_ns": 5268354942100,
+        "source_generation_seen": 1,
+        "witness_rows_seen": null,
+        "worker_parent_pid": 16936,
+        "worker_pid": 2068
+      },
+      "recovery_open_status": "LOCAL_OPEN_AND_PIN_MATCH_OBSERVED",
+      "recovery_operation_status": "LOCAL_ATTESTATION_ACKNOWLEDGED",
+      "release_control": false,
+      "runtime_modified": false,
+      "safety_cleanup_confirmed": true,
+      "safety_cleanup_started_ns": 5268531975700,
+      "test": "test_death_after_source_commit",
+      "witness_sequence_after_resume": 1,
+      "witness_sequence_before_resume": 0
+    },
+    {
+      "active_processes_before_safety": 0,
+      "all_owned_exit_proofs_before_safety": [
+        {
+          "confirmation_ns": 15900,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554474261632,
+            "pid": 1260,
+            "ppid": 14100
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 10200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554474306399,
+            "pid": 9452,
+            "ppid": 1260
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 10200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554474930041,
+            "pid": 1512,
+            "ppid": 1260
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 8400,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554477780548,
+            "pid": 16272,
+            "ppid": 1512
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 16700,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554477929510,
+            "pid": 11336,
+            "ppid": 16272
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 7400,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554478539710,
+            "pid": 3208,
+            "ppid": 16272
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 7500,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554493803751,
+            "pid": 2920,
+            "ppid": 3208
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6700,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554494080318,
+            "pid": 14300,
+            "ppid": 2920
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 7600,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554494805184,
+            "pid": 4800,
+            "ppid": 2920
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 7000,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554497082328,
+            "pid": 17148,
+            "ppid": 4800
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6300,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554497381492,
+            "pid": 10812,
+            "ppid": 17148
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6800,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554498050770,
+            "pid": 17176,
+            "ppid": 17148
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6600,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554515247092,
+            "pid": 15044,
+            "ppid": 17176
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        }
+      ],
+      "files_before_explicit_open": {
+        "route.sqlite": {
+          "bytes": 16384,
+          "sha256": "d4da0fc39a0999bb74aff003b86d78c9ce5ac6ca085a0ca56b914121d347ab02"
+        },
+        "route.sqlite-journal": {
+          "bytes": 4616,
+          "sha256": "c1cb362d96c9d99a1285034a3972a5f50c299defaa517958df90eb7f2ef3672e"
+        },
+        "witness.sqlite": {
+          "bytes": 16384,
+          "sha256": "2e83f65cb079c968e5fae3864db47731ac280e68aa7cc44eb101b4ac07d57910"
+        }
+      },
+      "inquiry_status": "NOT_COMMITTED_OBSERVED_LOCAL",
+      "operational_locks": {
+        "authenticated_witness_verified": false,
+        "f3_resolved": false,
+        "flow_complete": false,
+        "live_certified": false,
+        "native_prototype_authorized": false,
+        "orders_allowed": false,
+        "strict_deadline_guaranteed": false
+      },
+      "optimization": 1,
+      "phase": "source:after_state_write",
+      "pins_retained_before_failure": {
+        "after_state_digest": "2502421c3e5b54ae86a7ad5118d7842f3a7a49b5e856ff68de7e1c8e42dc7e86",
+        "before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40",
+        "expected_chain_digest": "7537bb024caac609151eabf8d90d5945ddde4964f8ea4e7ade4d86d0f5d2048e"
+      },
+      "process_proofs": [
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554478539710,
+            "pid": 3208,
+            "ppid": 16272
+          },
+          "observed_ns": 5280267240700,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "owner"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554493803751,
+            "pid": 2920,
+            "ppid": 3208
+          },
+          "observed_ns": 5280267250700,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "gate"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554498050770,
+            "pid": 17176,
+            "ppid": 17148
+          },
+          "observed_ns": 5280267258400,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "bridge"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554515247092,
+            "pid": 15044,
+            "ppid": 17176
+          },
+          "observed_ns": 5280267265900,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "worker"
+        }
+      ],
+      "reached_boundary": {
+        "envelope_digest": "",
+        "local_receipt_digest": "",
+        "optimization": 1,
+        "phase": "source:after_state_write",
+        "reached_ns": 5280078997900,
+        "source_generation_seen": 1,
+        "witness_rows_seen": null,
+        "worker_parent_pid": 17176,
+        "worker_pid": 15044
+      },
+      "recovery_open_status": "LOCAL_OPEN_AND_PIN_MATCH_OBSERVED",
+      "recovery_operation_status": "NOT_COMMITTED_OBSERVED_LOCAL",
+      "release_control": false,
+      "runtime_modified": false,
+      "safety_cleanup_confirmed": true,
+      "safety_cleanup_started_ns": 5280280098100,
+      "test": "test_death_after_source_update",
+      "witness_sequence_after_resume": 0,
+      "witness_sequence_before_resume": 0
+    },
+    {
+      "active_processes_before_safety": 0,
+      "all_owned_exit_proofs_before_safety": [
+        {
+          "confirmation_ns": 11500,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554610492253,
+            "pid": 16660,
+            "ppid": 14100
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 7800,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554610605250,
+            "pid": 10088,
+            "ppid": 16660
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6100,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554611129169,
+            "pid": 4120,
+            "ppid": 16660
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6500,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554614078364,
+            "pid": 16924,
+            "ppid": 4120
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554614417501,
+            "pid": 3580,
+            "ppid": 16924
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6000,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554615330372,
+            "pid": 16172,
+            "ppid": 16924
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554634077177,
+            "pid": 8960,
+            "ppid": 16172
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554634411001,
+            "pid": 6836,
+            "ppid": 8960
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6100,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554635285785,
+            "pid": 8724,
+            "ppid": 8960
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6500,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554638459852,
+            "pid": 3164,
+            "ppid": 8724
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 5900,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554638627598,
+            "pid": 15372,
+            "ppid": 3164
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 5900,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554639260976,
+            "pid": 16296,
+            "ppid": 3164
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 5900,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554658918740,
+            "pid": 5580,
+            "ppid": 16296
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        }
+      ],
+      "files_before_explicit_open": {
+        "route.sqlite": {
+          "bytes": 16384,
+          "sha256": "c81a6d4a20909c68f422698c5efff9d6f161f33fc21c032cb802b0ed2ffce7c0"
+        },
+        "witness.sqlite": {
+          "bytes": 16384,
+          "sha256": "ece0ccdd629bc8c45c2d4de2331c5c85f6ebcc606bd4a620c6b08bd41ee80cc3"
+        }
+      },
+      "inquiry_status": "COMMITTED_PENDING_OBSERVED_LOCAL",
+      "operational_locks": {
+        "authenticated_witness_verified": false,
+        "f3_resolved": false,
+        "flow_complete": false,
+        "live_certified": false,
+        "native_prototype_authorized": false,
+        "orders_allowed": false,
+        "strict_deadline_guaranteed": false
+      },
+      "optimization": 1,
+      "phase": "witness:after_commit",
+      "pins_retained_before_failure": {
+        "after_state_digest": "2502421c3e5b54ae86a7ad5118d7842f3a7a49b5e856ff68de7e1c8e42dc7e86",
+        "before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40",
+        "expected_chain_digest": "7537bb024caac609151eabf8d90d5945ddde4964f8ea4e7ade4d86d0f5d2048e"
+      },
+      "process_proofs": [
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554615330372,
+            "pid": 16172,
+            "ppid": 16924
+          },
+          "observed_ns": 5293291564700,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "owner"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554634077177,
+            "pid": 8960,
+            "ppid": 16172
+          },
+          "observed_ns": 5293291576500,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "gate"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554639260976,
+            "pid": 16296,
+            "ppid": 3164
+          },
+          "observed_ns": 5293291584600,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "bridge"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554658918740,
+            "pid": 5580,
+            "ppid": 16296
+          },
+          "observed_ns": 5293291592500,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "worker"
+        }
+      ],
+      "reached_boundary": {
+        "envelope_digest": "5be5040210c77d83e2a50e495e8cb6a877e9bbc217a16b47b7d927e9812cb691",
+        "local_receipt_digest": "",
+        "optimization": 1,
+        "phase": "witness:after_commit",
+        "reached_ns": 5293039539500,
+        "source_generation_seen": 1,
+        "witness_rows_seen": 1,
+        "worker_parent_pid": 16296,
+        "worker_pid": 5580
+      },
+      "recovery_open_status": "LOCAL_OPEN_AND_PIN_MATCH_OBSERVED",
+      "recovery_operation_status": "LOCAL_ATTESTATION_ACKNOWLEDGED",
+      "release_control": false,
+      "runtime_modified": false,
+      "safety_cleanup_confirmed": true,
+      "safety_cleanup_started_ns": 5293325948100,
+      "test": "test_death_after_witness_commit",
+      "witness_sequence_after_resume": 1,
+      "witness_sequence_before_resume": 1
+    },
+    {
+      "active_processes_before_safety": 0,
+      "all_owned_exit_proofs_before_safety": [
+        {
+          "confirmation_ns": 13500,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554757431253,
+            "pid": 13448,
+            "ppid": 14100
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6800,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554757483726,
+            "pid": 10096,
+            "ppid": 13448
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554758410171,
+            "pid": 11840,
+            "ppid": 13448
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6600,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554761311458,
+            "pid": 15836,
+            "ppid": 11840
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 5800,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554761520018,
+            "pid": 12708,
+            "ppid": 15836
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554762284230,
+            "pid": 4480,
+            "ppid": 15836
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 9400,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554779462877,
+            "pid": 17384,
+            "ppid": 4480
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6300,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554779766029,
+            "pid": 1940,
+            "ppid": 17384
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6100,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554780717997,
+            "pid": 10188,
+            "ppid": 17384
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6100,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554783581074,
+            "pid": 5644,
+            "ppid": 10188
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 5900,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554783896112,
+            "pid": 8280,
+            "ppid": 5644
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6100,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554784724950,
+            "pid": 7916,
+            "ppid": 5644
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6000,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554803494105,
+            "pid": 9836,
+            "ppid": 7916
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        }
+      ],
+      "files_before_explicit_open": {
+        "route.sqlite": {
+          "bytes": 16384,
+          "sha256": "639c4bffbd74a0f5255d04402b657abb2572a85b0a693ab73e1881540667bc34"
+        },
+        "route.sqlite-journal": {
+          "bytes": 4616,
+          "sha256": "5726766ffa10e8215e105d419bb97fc7a0bab9260e78f6dbfbb7e60fb1af2d06"
+        },
+        "witness.sqlite": {
+          "bytes": 16384,
+          "sha256": "793ea21facf877a1789de7a8de45a4e030201ab9ba2087ddabb8e0265fe50422"
+        }
+      },
+      "inquiry_status": "COMMITTED_PENDING_OBSERVED_LOCAL",
+      "operational_locks": {
+        "authenticated_witness_verified": false,
+        "f3_resolved": false,
+        "flow_complete": false,
+        "live_certified": false,
+        "native_prototype_authorized": false,
+        "orders_allowed": false,
+        "strict_deadline_guaranteed": false
+      },
+      "optimization": 1,
+      "phase": "source:before_ack_commit",
+      "pins_retained_before_failure": {
+        "after_state_digest": "2502421c3e5b54ae86a7ad5118d7842f3a7a49b5e856ff68de7e1c8e42dc7e86",
+        "before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40",
+        "expected_chain_digest": "7537bb024caac609151eabf8d90d5945ddde4964f8ea4e7ade4d86d0f5d2048e"
+      },
+      "process_proofs": [
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554762284230,
+            "pid": 4480,
+            "ppid": 15836
+          },
+          "observed_ns": 5307648972400,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "owner"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554779462877,
+            "pid": 17384,
+            "ppid": 4480
+          },
+          "observed_ns": 5307648987100,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "gate"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554784724950,
+            "pid": 7916,
+            "ppid": 5644
+          },
+          "observed_ns": 5307648997700,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "bridge"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554803494105,
+            "pid": 9836,
+            "ppid": 7916
+          },
+          "observed_ns": 5307649007000,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "worker"
+        }
+      ],
+      "reached_boundary": {
+        "envelope_digest": "ea8dd58996e0c92eb56f90f3dcb91f84499896366b06ff6cd2eaf41a00d12e12",
+        "local_receipt_digest": "01b6e7866ef8014b503428c565b54bd96c6ff8bbc1ded4b79d2a46c87df5e943",
+        "optimization": 1,
+        "phase": "source:before_ack_commit",
+        "reached_ns": 5307407424500,
+        "source_generation_seen": 1,
+        "witness_rows_seen": null,
+        "worker_parent_pid": 7916,
+        "worker_pid": 9836
+      },
+      "recovery_open_status": "LOCAL_OPEN_AND_PIN_MATCH_OBSERVED",
+      "recovery_operation_status": "LOCAL_ATTESTATION_ACKNOWLEDGED",
+      "release_control": false,
+      "runtime_modified": false,
+      "safety_cleanup_confirmed": true,
+      "safety_cleanup_started_ns": 5307658035300,
+      "test": "test_death_before_local_ack_commit",
+      "witness_sequence_after_resume": 1,
+      "witness_sequence_before_resume": 1
+    },
+    {
+      "active_processes_before_safety": 0,
+      "all_owned_exit_proofs_before_safety": [
+        {
+          "confirmation_ns": 7000,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554874091419,
+            "pid": 3948,
+            "ppid": 14100
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3500,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554874191987,
+            "pid": 1344,
+            "ppid": 3948
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3000,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554875324446,
+            "pid": 6460,
+            "ppid": 3948
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3000,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554879471326,
+            "pid": 16840,
+            "ppid": 6460
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3000,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554879704988,
+            "pid": 7632,
+            "ppid": 16840
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3000,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554880476226,
+            "pid": 16672,
+            "ppid": 16840
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 2900,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554901604924,
+            "pid": 17344,
+            "ppid": 16672
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3000,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554901939202,
+            "pid": 1924,
+            "ppid": 17344
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 2900,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554902703613,
+            "pid": 13016,
+            "ppid": 17344
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3000,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554907542040,
+            "pid": 5148,
+            "ppid": 13016
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554907952365,
+            "pid": 3172,
+            "ppid": 5148
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3000,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554908812856,
+            "pid": 14112,
+            "ppid": 5148
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3100,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554928078242,
+            "pid": 5724,
+            "ppid": 14112
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        }
+      ],
+      "files_before_explicit_open": {
+        "route.sqlite": {
+          "bytes": 16384,
+          "sha256": "d4da0fc39a0999bb74aff003b86d78c9ce5ac6ca085a0ca56b914121d347ab02"
+        },
+        "route.sqlite-journal": {
+          "bytes": 8720,
+          "sha256": "627adea4ba9bf3d7da17a4244cd90b53819b838abd8e198e1e252d5c8b3772c0"
+        },
+        "witness.sqlite": {
+          "bytes": 16384,
+          "sha256": "2e83f65cb079c968e5fae3864db47731ac280e68aa7cc44eb101b4ac07d57910"
+        }
+      },
+      "inquiry_status": "NOT_COMMITTED_OBSERVED_LOCAL",
+      "operational_locks": {
+        "authenticated_witness_verified": false,
+        "f3_resolved": false,
+        "flow_complete": false,
+        "live_certified": false,
+        "native_prototype_authorized": false,
+        "orders_allowed": false,
+        "strict_deadline_guaranteed": false
+      },
+      "optimization": 1,
+      "phase": "source:before_consumption_commit",
+      "pins_retained_before_failure": {
+        "after_state_digest": "2502421c3e5b54ae86a7ad5118d7842f3a7a49b5e856ff68de7e1c8e42dc7e86",
+        "before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40",
+        "expected_chain_digest": "7537bb024caac609151eabf8d90d5945ddde4964f8ea4e7ade4d86d0f5d2048e"
+      },
+      "process_proofs": [
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554880476226,
+            "pid": 16672,
+            "ppid": 16840
+          },
+          "observed_ns": 5321440715200,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "owner"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554901604924,
+            "pid": 17344,
+            "ppid": 16672
+          },
+          "observed_ns": 5321440726100,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "gate"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554908812856,
+            "pid": 14112,
+            "ppid": 5148
+          },
+          "observed_ns": 5321440732500,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "bridge"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377554928078242,
+            "pid": 5724,
+            "ppid": 14112
+          },
+          "observed_ns": 5321440738300,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "worker"
+        }
+      ],
+      "reached_boundary": {
+        "envelope_digest": "ce50bb5cc91f0c1adb011f10646298be62d1bed26558bf91687dd16acdcba4b8",
+        "local_receipt_digest": "",
+        "optimization": 1,
+        "phase": "source:before_consumption_commit",
+        "reached_ns": 5321253056600,
+        "source_generation_seen": 1,
+        "witness_rows_seen": null,
+        "worker_parent_pid": 14112,
+        "worker_pid": 5724
+      },
+      "recovery_open_status": "LOCAL_OPEN_AND_PIN_MATCH_OBSERVED",
+      "recovery_operation_status": "NOT_COMMITTED_OBSERVED_LOCAL",
+      "release_control": false,
+      "runtime_modified": false,
+      "safety_cleanup_confirmed": true,
+      "safety_cleanup_started_ns": 5321445012500,
+      "test": "test_death_before_source_commit",
+      "witness_sequence_after_resume": 0,
+      "witness_sequence_before_resume": 0
+    },
+    {
+      "active_processes_before_safety": 0,
+      "all_owned_exit_proofs_before_safety": [
+        {
+          "confirmation_ns": 7300,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555019422905,
+            "pid": 14964,
+            "ppid": 14100
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3500,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555019468997,
+            "pid": 7592,
+            "ppid": 14964
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3300,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555019965575,
+            "pid": 17168,
+            "ppid": 14964
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555022109606,
+            "pid": 2808,
+            "ppid": 17168
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555022295545,
+            "pid": 4984,
+            "ppid": 2808
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3100,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555022830396,
+            "pid": 484,
+            "ppid": 2808
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3100,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555036182096,
+            "pid": 16532,
+            "ppid": 484
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555036361351,
+            "pid": 3732,
+            "ppid": 16532
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3300,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555036994490,
+            "pid": 5308,
+            "ppid": 16532
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555039323831,
+            "pid": 5512,
+            "ppid": 5308
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555039530489,
+            "pid": 5840,
+            "ppid": 5512
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555040095803,
+            "pid": 9208,
+            "ppid": 5512
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 3200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555054723457,
+            "pid": 16916,
+            "ppid": 9208
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        }
+      ],
+      "files_before_explicit_open": {
+        "route.sqlite": {
+          "bytes": 16384,
+          "sha256": "cecc7ef5963b242ff920cbc536e4b29c5ab02d4403c89752b0017ae30030d533"
+        },
+        "witness.sqlite": {
+          "bytes": 16384,
+          "sha256": "2e83f65cb079c968e5fae3864db47731ac280e68aa7cc44eb101b4ac07d57910"
+        },
+        "witness.sqlite-journal": {
+          "bytes": 8720,
+          "sha256": "ba63a4ddbcba5be3b6464a4d3756bfd723039c1f98812cfc6d919fb53dc2901a"
+        }
+      },
+      "inquiry_status": "COMMITTED_PENDING_OBSERVED_LOCAL",
+      "operational_locks": {
+        "authenticated_witness_verified": false,
+        "f3_resolved": false,
+        "flow_complete": false,
+        "live_certified": false,
+        "native_prototype_authorized": false,
+        "orders_allowed": false,
+        "strict_deadline_guaranteed": false
+      },
+      "optimization": 1,
+      "phase": "witness:before_commit",
+      "pins_retained_before_failure": {
+        "after_state_digest": "2502421c3e5b54ae86a7ad5118d7842f3a7a49b5e856ff68de7e1c8e42dc7e86",
+        "before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40",
+        "expected_chain_digest": "7537bb024caac609151eabf8d90d5945ddde4964f8ea4e7ade4d86d0f5d2048e"
+      },
+      "process_proofs": [
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555022830396,
+            "pid": 484,
+            "ppid": 2808
+          },
+          "observed_ns": 5332194695700,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "owner"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555036182096,
+            "pid": 16532,
+            "ppid": 484
+          },
+          "observed_ns": 5332194716000,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "gate"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555040095803,
+            "pid": 9208,
+            "ppid": 5512
+          },
+          "observed_ns": 5332194733500,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "bridge"
+        },
+        {
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555054723457,
+            "pid": 16916,
+            "ppid": 9208
+          },
+          "observed_ns": 5332194749900,
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "role": "worker"
+        }
+      ],
+      "reached_boundary": {
+        "envelope_digest": "40c13a220f22a9d9276d54ab3f30a46f64087087d2c9aa89908fe01a71ef7ba3",
+        "local_receipt_digest": "",
+        "optimization": 1,
+        "phase": "witness:before_commit",
+        "reached_ns": 5332050056600,
+        "source_generation_seen": 1,
+        "witness_rows_seen": 1,
+        "worker_parent_pid": 9208,
+        "worker_pid": 16916
+      },
+      "recovery_open_status": "LOCAL_OPEN_AND_PIN_MATCH_OBSERVED",
+      "recovery_operation_status": "LOCAL_ATTESTATION_ACKNOWLEDGED",
+      "release_control": false,
+      "runtime_modified": false,
+      "safety_cleanup_confirmed": true,
+      "safety_cleanup_started_ns": 5332198490600,
+      "test": "test_death_before_witness_commit",
+      "witness_sequence_after_resume": 1,
+      "witness_sequence_before_resume": 0
+    },
+    {
+      "active_processes_before_safety": null,
+      "all_owned_exit_proofs_before_safety": [],
+      "files_before_explicit_open": {
+        "route.sqlite": {
+          "bytes": 16384,
+          "sha256": "5099ed839cc3feb3bbc17a2c6701dbfaeb1c4d7b4c3df22f60b90abb06a20fcd"
+        },
+        "witness.sqlite": {
+          "bytes": 16384,
+          "sha256": "2e83f65cb079c968e5fae3864db47731ac280e68aa7cc44eb101b4ac07d57910"
+        }
+      },
+      "inquiry_status": "COMMITTED_PENDING_OBSERVED_LOCAL",
+      "operational_locks": {
+        "authenticated_witness_verified": false,
+        "f3_resolved": false,
+        "flow_complete": false,
+        "live_certified": false,
+        "native_prototype_authorized": false,
+        "orders_allowed": false,
+        "strict_deadline_guaranteed": false
+      },
+      "optimization": 1,
+      "phase": "source:before_consumption_commit",
+      "pins_retained_before_failure": {
+        "after_state_digest": "2502421c3e5b54ae86a7ad5118d7842f3a7a49b5e856ff68de7e1c8e42dc7e86",
+        "before_state_digest": "3666366b4b4d126504d00d7bf772006c558ce0158f15bc78d22fa9a06b3e1a40",
+        "expected_chain_digest": "7537bb024caac609151eabf8d90d5945ddde4964f8ea4e7ade4d86d0f5d2048e"
+      },
+      "process_proofs": [
+        {
+          "confirmation_ns": 17600,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555130327324,
+            "pid": 2524,
+            "ppid": 17108
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 10200,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555130577351,
+            "pid": 16336,
+            "ppid": 2524
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6500,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555131162400,
+            "pid": 9936,
+            "ppid": 2524
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6100,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555133484447,
+            "pid": 2724,
+            "ppid": 9936
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 6000,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555133687674,
+            "pid": 2092,
+            "ppid": 2724
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 5800,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555134231586,
+            "pid": 15164,
+            "ppid": 2724
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        },
+        {
+          "confirmation_ns": 5900,
+          "exit_confirmed": true,
+          "identity": {
+            "creation_100ns": 134377555149041549,
+            "pid": 13116,
+            "ppid": 15164
+          },
+          "proof": "PINNED_HANDLE_SIGNALLED",
+          "signalled_before_wait": true
+        }
+      ],
+      "reached_boundary": {
+        "envelope_digest": "a9a7c1852fbf8f9f0577f2be0dd5680bb375ff5516b52942357b6ee78839edb2",
+        "local_receipt_digest": "",
+        "optimization": 1,
+        "phase": "source:before_consumption_commit",
+        "reached_ns": 5343446234400,
+        "source_generation_seen": 1,
+        "witness_rows_seen": null,
+        "worker_parent_pid": 15164,
+        "worker_pid": 13116
+      },
+      "recovery_open_status": "LOCAL_OPEN_AND_PIN_MATCH_OBSERVED",
+      "recovery_operation_status": "LOCAL_ATTESTATION_ACKNOWLEDGED",
+      "release_control": true,
+      "runtime_modified": false,
+      "safety_cleanup_confirmed": true,
+      "safety_cleanup_started_ns": 5343778894900,
+      "test": "test_releasing_boundary_without_death_commits_normally",
+      "witness_sequence_after_resume": 1,
+      "witness_sequence_before_resume": 0
+    }
+  ]
+}

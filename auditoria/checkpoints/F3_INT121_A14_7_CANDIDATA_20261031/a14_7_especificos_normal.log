@@ -1,0 +1,23 @@
+A14_7_STARTUP_EVIDENCE={"mode": "assign_failure", "optimization": 0, "expected_startup_failure": true, "subject_cleanup_confirmed": true, "outer_cleanup_confirmed": true, "diagnostic_fallback": false, "real_operations_authorized": false, "runtime_modified": false}
+test_assignment_failure_never_releases_target (test_f3_int121_a14_7_startup.StartupDiagnostics.test_assignment_failure_never_releases_target) ... ok
+A14_7_STARTUP_EVIDENCE={"mode": "gate_failure", "optimization": 0, "expected_startup_failure": true, "subject_cleanup_confirmed": true, "outer_cleanup_confirmed": true, "diagnostic_fallback": false, "real_operations_authorized": false, "runtime_modified": false}
+test_gate_release_failure_never_releases_target (test_f3_int121_a14_7_startup.StartupDiagnostics.test_gate_release_failure_never_releases_target) ... ok
+A14_7_STARTUP_EVIDENCE={"mode": "create_failure", "optimization": 0, "expected_startup_failure": true, "subject_cleanup_confirmed": true, "outer_cleanup_confirmed": true, "diagnostic_fallback": false, "real_operations_authorized": false, "runtime_modified": false}
+test_injected_creation_failure_preserves_errno (test_f3_int121_a14_7_startup.StartupDiagnostics.test_injected_creation_failure_preserves_errno) ... ok
+A14_7_STARTUP_EVIDENCE={"mode": "journal_failure", "optimization": 0, "expected_startup_failure": true, "subject_cleanup_confirmed": true, "outer_cleanup_confirmed": true, "diagnostic_fallback": true, "real_operations_authorized": false, "runtime_modified": false}
+test_journal_failure_preserves_fallback_after_cleanup (test_f3_int121_a14_7_startup.StartupDiagnostics.test_journal_failure_preserves_fallback_after_cleanup) ... ok
+A14_7_STARTUP_EVIDENCE={"mode": "handshake_timeout", "optimization": 0, "expected_startup_failure": true, "subject_cleanup_confirmed": true, "outer_cleanup_confirmed": true, "diagnostic_fallback": false, "real_operations_authorized": false, "runtime_modified": false}
+test_missing_handshake_times_out_after_entry (test_f3_int121_a14_7_startup.StartupDiagnostics.test_missing_handshake_times_out_after_entry) ... ok
+A14_7_STARTUP_EVIDENCE={"mode": "invalid_cwd", "optimization": 0, "expected_startup_failure": true, "subject_cleanup_confirmed": true, "outer_cleanup_confirmed": true, "diagnostic_fallback": false, "real_operations_authorized": false, "runtime_modified": false}
+test_real_invalid_cwd_preserves_winerror (test_f3_int121_a14_7_startup.StartupDiagnostics.test_real_invalid_cwd_preserves_winerror) ... ok
+A14_7_STARTUP_EVIDENCE={"mode": "success", "optimization": 0, "expected_startup_failure": false, "subject_cleanup_confirmed": true, "outer_cleanup_confirmed": true, "diagnostic_fallback": false, "real_operations_authorized": false, "runtime_modified": false}
+test_successful_handshake_control_still_cleans (test_f3_int121_a14_7_startup.StartupDiagnostics.test_successful_handshake_control_still_cleans) ... ok
+A14_7_STARTUP_EVIDENCE={"mode": "target_crash", "optimization": 0, "expected_startup_failure": true, "subject_cleanup_confirmed": true, "outer_cleanup_confirmed": true, "diagnostic_fallback": false, "real_operations_authorized": false, "runtime_modified": false}
+test_target_crash_preserves_stderr (test_f3_int121_a14_7_startup.StartupDiagnostics.test_target_crash_preserves_stderr) ... ok
+A14_7_STARTUP_EVIDENCE={"mode": "truncated_frame", "optimization": 0, "expected_startup_failure": true, "subject_cleanup_confirmed": true, "outer_cleanup_confirmed": true, "diagnostic_fallback": false, "real_operations_authorized": false, "runtime_modified": false}
+test_truncated_handshake_is_not_accepted (test_f3_int121_a14_7_startup.StartupDiagnostics.test_truncated_handshake_is_not_accepted) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 17.344s
+
+OK

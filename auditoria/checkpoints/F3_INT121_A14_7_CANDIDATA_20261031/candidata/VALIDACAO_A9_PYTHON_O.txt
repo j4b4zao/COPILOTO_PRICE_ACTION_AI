@@ -1,0 +1,28 @@
+test_all_operational_locks_remain_false (__main__.RouteTests.test_all_operational_locks_remain_false) ... ok
+test_audit_ignored_ack_does_not_release_next_generation (__main__.RouteTests.test_audit_ignored_ack_does_not_release_next_generation) ... ok
+test_audit_ignored_outbox_insert_rolls_back_source (__main__.RouteTests.test_audit_ignored_outbox_insert_rolls_back_source) ... ok
+test_audit_ignored_source_update_cannot_report_consumed (__main__.RouteTests.test_audit_ignored_source_update_cannot_report_consumed) ... ok
+test_audit_unknown_outcome_after_commit_is_observable (__main__.RouteTests.test_audit_unknown_outcome_after_commit_is_observable) ... ok
+test_complete_route_requires_ack_between_generations (__main__.RouteTests.test_complete_route_requires_ack_between_generations) ... ok
+test_copy_advanced_legacy_is_explicitly_rejected (__main__.RouteTests.test_copy_advanced_legacy_is_explicitly_rejected) ... ok
+test_copy_empty_legacy_preserves_source_and_revision (__main__.RouteTests.test_copy_empty_legacy_preserves_source_and_revision) ... ok
+test_copy_same_path_existing_target_and_extra_schema_rejected (__main__.RouteTests.test_copy_same_path_existing_target_and_extra_schema_rejected) ... ok
+test_copy_sqlite_like_user_table_is_not_ignored (__main__.RouteTests.test_copy_sqlite_like_user_table_is_not_ignored) ... ok
+test_copy_wrong_pin_and_scope_do_not_create_destination (__main__.RouteTests.test_copy_wrong_pin_and_scope_do_not_create_destination) ... ok
+test_corrupt_database_is_preserved_without_fallback (__main__.RouteTests.test_corrupt_database_is_preserved_without_fallback) ... ok
+test_create_existing_never_overwrites (__main__.RouteTests.test_create_existing_never_overwrites) ... ok
+test_existing_legacy_database_is_not_silently_upgraded (__main__.RouteTests.test_existing_legacy_database_is_not_silently_upgraded) ... ok
+test_independent_pins_classify_before_pending_and_acknowledged (__main__.RouteTests.test_independent_pins_classify_before_pending_and_acknowledged) ... ok
+test_invalid_config_and_pins_fail_before_reading (__main__.RouteTests.test_invalid_config_and_pins_fail_before_reading) ... ok
+test_lost_witness_response_recovers_without_new_consumption (__main__.RouteTests.test_lost_witness_response_recovers_without_new_consumption) ... ok
+test_missing_database_has_no_create_or_legacy_fallback (__main__.RouteTests.test_missing_database_has_no_create_or_legacy_fallback) ... ok
+test_public_key_only_observation_does_not_write (__main__.RouteTests.test_public_key_only_observation_does_not_write) ... ok
+test_wrong_observation_anchor_is_not_replaced (__main__.RouteTests.test_wrong_observation_anchor_is_not_replaced) ... ok
+test_wrong_or_identical_inquiry_pins_never_accept (__main__.RouteTests.test_wrong_or_identical_inquiry_pins_never_accept) ... ok
+test_wrong_pinned_witness_or_store_rejects_existing_database (__main__.RouteTests.test_wrong_pinned_witness_or_store_rejects_existing_database) ... ok
+test_wrong_signing_key_is_rejected_before_open (__main__.RouteTests.test_wrong_signing_key_is_rejected_before_open) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 47.559s
+
+OK

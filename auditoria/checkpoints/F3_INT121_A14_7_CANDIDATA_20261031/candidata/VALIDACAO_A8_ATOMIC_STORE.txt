@@ -1,0 +1,31 @@
+test_ack_write_failure_preserves_pending (__main__.AtomicStoreTests.test_ack_write_failure_preserves_pending) ... ok
+test_atomic_commit_and_fresh_a6_verification (__main__.AtomicStoreTests.test_atomic_commit_and_fresh_a6_verification) ... ok
+test_busy_writer_is_rejected (__main__.AtomicStoreTests.test_busy_writer_is_rejected) ... ok
+test_capacity_boundary_preserves_atomic_state_and_outbox (__main__.AtomicStoreTests.test_capacity_boundary_preserves_atomic_state_and_outbox) ... ok
+test_commit_busy_is_unknown_until_reopened (__main__.AtomicStoreTests.test_commit_busy_is_unknown_until_reopened) ... ok
+test_concurrent_processes_only_one_generation_admitted (__main__.AtomicStoreTests.test_concurrent_processes_only_one_generation_admitted) ... ok
+test_dispatch_excludes_other_source_writer (__main__.AtomicStoreTests.test_dispatch_excludes_other_source_writer) ... ok
+test_invalid_anchor_scope_and_chain_preserve_both_tables (__main__.AtomicStoreTests.test_invalid_anchor_scope_and_chain_preserve_both_tables) ... ok
+test_legacy_writer_bypass_is_detected_not_claimed_prevented (__main__.AtomicStoreTests.test_legacy_writer_bypass_is_detected_not_claimed_prevented) ... ok
+test_lost_response_and_invalid_ack_keep_new_consumption_blocked (__main__.AtomicStoreTests.test_lost_response_and_invalid_ack_keep_new_consumption_blocked) ... ok
+test_missing_or_existing_database_never_reset (__main__.AtomicStoreTests.test_missing_or_existing_database_never_reset) ... ok
+test_no_separate_prepare_path (__main__.AtomicStoreTests.test_no_separate_prepare_path) ... ok
+test_operational_flags_remain_false (__main__.AtomicStoreTests.test_operational_flags_remain_false) ... ok
+test_outbox_insert_error_rolls_back_source_update (__main__.AtomicStoreTests.test_outbox_insert_error_rolls_back_source_update) ... ok
+test_pending_blocks_next_generation_without_writes (__main__.AtomicStoreTests.test_pending_blocks_next_generation_without_writes) ... ok
+test_process_death_after_ack_commit_is_already_complete (__main__.AtomicStoreTests.test_process_death_after_ack_commit_is_already_complete) ... ok
+test_process_death_after_commit_keeps_state_and_envelope (__main__.AtomicStoreTests.test_process_death_after_commit_keeps_state_and_envelope) ... ok
+test_process_death_after_outbox_insert_is_fully_rolled_back (__main__.AtomicStoreTests.test_process_death_after_outbox_insert_is_fully_rolled_back) ... ok
+test_process_death_after_state_write_is_fully_rolled_back (__main__.AtomicStoreTests.test_process_death_after_state_write_is_fully_rolled_back) ... ok
+test_process_death_after_witness_ack_recovers_same_receipt (__main__.AtomicStoreTests.test_process_death_after_witness_ack_recovers_same_receipt) ... ok
+test_process_death_before_commit_is_fully_rolled_back (__main__.AtomicStoreTests.test_process_death_before_commit_is_fully_rolled_back) ... ok
+test_readonly_failure_rolls_back_both (__main__.AtomicStoreTests.test_readonly_failure_rolls_back_both) ... ok
+test_reopen_preserves_exact_pending_envelope (__main__.AtomicStoreTests.test_reopen_preserves_exact_pending_envelope) ... ok
+test_replay_after_ack_is_rejected (__main__.AtomicStoreTests.test_replay_after_ack_is_rejected) ... ok
+test_state_write_error_leaves_no_envelope (__main__.AtomicStoreTests.test_state_write_error_leaves_no_envelope) ... ok
+test_wrong_key_and_wal_mode_rejected_on_open (__main__.AtomicStoreTests.test_wrong_key_and_wal_mode_rejected_on_open) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 258.422s
+
+OK

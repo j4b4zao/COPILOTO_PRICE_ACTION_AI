@@ -1,0 +1,20 @@
+{
+  "stage": "F3-INT-121 A8",
+  "classification": "ATOMIC_LOCAL_CONSUMPTION_OUTBOX_PROTOTYPE",
+  "f3": "OPEN",
+  "real_operations_authorized": false,
+  "promotion_authorized": false,
+  "implementation": "f3_int121_a8_atomic_store.py",
+  "tests": "test_f3_int121_a8_atomic_store.py",
+  "report": "RELATORIO_F3_INT121_A8.md",
+  "database": "One local SQLite file containing state, metadata and outbox; witness A5 database stays separate.",
+  "capacity": 4096,
+  "next_step": "Audit the A8 contract, then prepare an isolated project route that uses AtomicConsumptionStore for every cooperative consumption, with explicit bootstrap/migration and no legacy fallback.",
+  "limits": [
+    "Runtime principal and official checkpoints were not modified.",
+    "Legacy/direct SQL writers can bypass the cooperative API; A8 detects the resulting mismatch but is not native fencing.",
+    "No migration or automatic reconstruction for advanced stores.",
+    "No independent witness custody, external monotonic checkpoint or physical power-loss proof.",
+    "Synchronous witness callback must enforce its own timeout."
+  ]
+}

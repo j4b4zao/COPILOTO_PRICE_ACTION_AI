@@ -1,0 +1,89 @@
+DEVELOPMENT RUN BEFORE EXPLICIT STDIO FORWARDING; not the final suite.
+
+test_abrupt_inner_worker_commit_can_be_explicitly_resumed (__main__.NativeTests.test_abrupt_inner_worker_commit_can_be_explicitly_resumed) ... ERROR
+test_all_operational_locks_remain_false (__main__.NativeTests.test_all_operational_locks_remain_false) ... ERROR
+test_assignment_failure_never_releases_target_or_changes_source (__main__.NativeTests.test_assignment_failure_never_releases_target_or_changes_source) ... ok
+test_bridge_optimization_is_explicitly_preserved (__main__.NativeTests.test_bridge_optimization_is_explicitly_preserved) ... FAIL
+test_invalid_request_never_starts_permissive_fallback (__main__.NativeTests.test_invalid_request_never_starts_permissive_fallback) ... ok
+test_killing_native_supervisor_closes_its_job_and_stops_tree (__main__.NativeTests.test_killing_native_supervisor_closes_its_job_and_stops_tree) ... FAIL
+test_native_timeout_kills_bridge_and_living_descendant (__main__.NativeTests.test_native_timeout_kills_bridge_and_living_descendant) ... FAIL
+test_normal_root_exit_still_terminates_its_descendant (__main__.NativeTests.test_normal_root_exit_still_terminates_its_descendant) ... FAIL
+test_parent_death_before_assignment_leaves_gate_at_eof_no_target (__main__.NativeTests.test_parent_death_before_assignment_leaves_gate_at_eof_no_target) ... ok
+test_real_consume_and_resume_run_inside_job_tree (__main__.NativeTests.test_real_consume_and_resume_run_inside_job_tree) ... FAIL
+test_typed_wire_roundtrip_does_not_import_arbitrary_types (__main__.NativeTests.test_typed_wire_roundtrip_does_not_import_arbitrary_types) ... ok
+
+======================================================================
+ERROR: test_abrupt_inner_worker_commit_can_be_explicitly_resumed (__main__.NativeTests.test_abrupt_inner_worker_commit_can_be_explicitly_resumed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jb\Documents\Codex\2026-10-28\ok-continue-o-projeto-em-um\outputs\test_f3_int121_a11_native.py", line 208, in test_abrupt_inner_worker_commit_can_be_explicitly_resumed
+    self.assertEqual(first.worker_result['status'], 'WORKER_OUTCOME_UNKNOWN')
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+TypeError: 'NoneType' object is not subscriptable
+
+======================================================================
+ERROR: test_all_operational_locks_remain_false (__main__.NativeTests.test_all_operational_locks_remain_false)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jb\Documents\Codex\2026-10-28\ok-continue-o-projeto-em-um\outputs\test_f3_int121_a11_native.py", line 236, in test_all_operational_locks_remain_false
+    self.assertIs(result.worker_result[name], False)
+                  ~~~~~~~~~~~~~~~~~~~~^^^^^^
+TypeError: 'NoneType' object is not subscriptable
+
+======================================================================
+FAIL: test_bridge_optimization_is_explicitly_preserved (__main__.NativeTests.test_bridge_optimization_is_explicitly_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jb\Documents\Codex\2026-10-28\ok-continue-o-projeto-em-um\outputs\test_f3_int121_a11_native.py", line 111, in test_bridge_optimization_is_explicitly_preserved
+    self.assertEqual(result.bridge_optimization, sys.flags.optimize)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != 0
+
+======================================================================
+FAIL: test_killing_native_supervisor_closes_its_job_and_stops_tree (__main__.NativeTests.test_killing_native_supervisor_closes_its_job_and_stops_tree)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jb\Documents\Codex\2026-10-28\ok-continue-o-projeto-em-um\outputs\test_f3_int121_a11_native.py", line 135, in test_killing_native_supervisor_closes_its_job_and_stops_tree
+    data = self.wait_marker(marker)
+  File "C:\Users\jb\Documents\Codex\2026-10-28\ok-continue-o-projeto-em-um\outputs\test_f3_int121_a11_native.py", line 185, in wait_marker
+    self.fail('Native specimen marker missing')
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Native specimen marker missing
+
+======================================================================
+FAIL: test_native_timeout_kills_bridge_and_living_descendant (__main__.NativeTests.test_native_timeout_kills_bridge_and_living_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jb\Documents\Codex\2026-10-28\ok-continue-o-projeto-em-um\outputs\test_f3_int121_a11_native.py", line 118, in test_native_timeout_kills_bridge_and_living_descendant
+    self.assertTrue(marker.exists())
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_normal_root_exit_still_terminates_its_descendant (__main__.NativeTests.test_normal_root_exit_still_terminates_its_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jb\Documents\Codex\2026-10-28\ok-continue-o-projeto-em-um\outputs\test_f3_int121_a11_native.py", line 128, in test_normal_root_exit_still_terminates_its_descendant
+    self.assertEqual(result.status, 'NATIVE_SPECIMEN_COMPLETED')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'NATIVE_OUTCOME_UNKNOWN' != 'NATIVE_SPECIMEN_COMPLETED'
+- NATIVE_OUTCOME_UNKNOWN
++ NATIVE_SPECIMEN_COMPLETED
+
+
+======================================================================
+FAIL: test_real_consume_and_resume_run_inside_job_tree (__main__.NativeTests.test_real_consume_and_resume_run_inside_job_tree)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jb\Documents\Codex\2026-10-28\ok-continue-o-projeto-em-um\outputs\test_f3_int121_a11_native.py", line 99, in test_real_consume_and_resume_run_inside_job_tree
+    self.assertEqual(first.status, 'CONTAINED_WORKER_RETURNED')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'NATIVE_OUTCOME_UNKNOWN' != 'CONTAINED_WORKER_RETURNED'
+- NATIVE_OUTCOME_UNKNOWN
++ CONTAINED_WORKER_RETURNED
+
+
+----------------------------------------------------------------------
+Ran 11 tests in 201.406s
+
+FAILED (failures=5, errors=2)

@@ -1,0 +1,18 @@
+{
+  "VALIDACAO_A10_WORKER.txt": {
+    "passed": 23,
+    "seconds": 91.244,
+    "result": "OK"
+  },
+  "VALIDACAO_A10_PYTHON_O.txt": {
+    "passed": 23,
+    "seconds": 164.871,
+    "result": "OK"
+  },
+  "REGRESSAO_A9_PARA_A10.txt": {
+    "passed": 23,
+    "seconds": 96.655,
+    "result": "OK"
+  },
+  "prior_a9_hashes_verified": 88
+}
