@@ -1,0 +1,293 @@
+{
+  "adaptation": "Only import namespace tools -> a6_vendor.tools; UTF-8/LF",
+  "files": [
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int100_receipt_lineage.py",
+      "source_sha256": "d6ee8dc4b53ecf6e09c4a31749cf4cefcafbb0310ccc5d1c67ab8e2ea23a3070",
+      "delivered": "a6_vendor\\tools\\f3_int100_receipt_lineage.py",
+      "delivered_sha256": "3232050c8d6f7c8e15fb00d3443a81537e939344b3326767a17c8f6c41cce848"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int101_cross_batch_audit.py",
+      "source_sha256": "0ccb25aeaafe475b01d6df9461ed703b57fa2ed7b69eaf0dd68fb7fc39b72ce7",
+      "delivered": "a6_vendor\\tools\\f3_int101_cross_batch_audit.py",
+      "delivered_sha256": "689fd882261cd29d17189f44374312df8d5fbd586baf4dabf6b13839bcafcc37"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int102_transcript_commitment.py",
+      "source_sha256": "2cc584394838d2038762a5e4adf3e5b7015151e73a059a3cc41c4fa55a1ae1db",
+      "delivered": "a6_vendor\\tools\\f3_int102_transcript_commitment.py",
+      "delivered_sha256": "a6341c99cb18a10af8fe59981dad8ee9b72299b660027a287bf883a06aba1604"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int103_context_bound_transcript.py",
+      "source_sha256": "76a53d7f14517de5f30c5c6e17fede90d16c8b74ed2ac2a9b3f743ad51ff1057",
+      "delivered": "a6_vendor\\tools\\f3_int103_context_bound_transcript.py",
+      "delivered_sha256": "3824de206b3e91252cf78934b7560bd63ab3ea836e19c7bcded9a79f14aa6ca8"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int104_domain_scoped_commitment.py",
+      "source_sha256": "597709d7f19f609e7e0b28935159df6a4bf18dff38593f9573fa337d3405b632",
+      "delivered": "a6_vendor\\tools\\f3_int104_domain_scoped_commitment.py",
+      "delivered_sha256": "316e9f4d504cc04a4c6ca1107d7edd62bb4cf55aac7af02c6766f7a1e5990035"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int105_typed_identity_envelope.py",
+      "source_sha256": "67192f1906a7153cb34d44c7c5e4af81386bd2944d99ec91707b7b4b6176dd2f",
+      "delivered": "a6_vendor\\tools\\f3_int105_typed_identity_envelope.py",
+      "delivered_sha256": "fddfd1bfb0b871b7588eefa4d14d7697ae2802cd5b342ba17c92ce34b316476d"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int106_typed_batch_manifest.py",
+      "source_sha256": "00ae28dea1880557fdefdd77e87f93bb4740ef32928dc2d862dc2b2dfc25b748",
+      "delivered": "a6_vendor\\tools\\f3_int106_typed_batch_manifest.py",
+      "delivered_sha256": "160fa88d38fa9e82d7cb66e75e7401f8fa05929e114865c9caeef1240a313bdf"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int107_typed_batch_chain.py",
+      "source_sha256": "a5dc83acc593254d9516f4eb921eeac09627dd6e91b1f6d18bcc66f07f8a4ade",
+      "delivered": "a6_vendor\\tools\\f3_int107_typed_batch_chain.py",
+      "delivered_sha256": "9185d191c2978f8e756fba3a22fd274fd63eac5baaf4219bd7e5ee9312e3d085"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int108_typed_chain_guard.py",
+      "source_sha256": "3010f67f9baa41584ce036b2756c402a4286dba2c3931a77cf1618240e3e9d44",
+      "delivered": "a6_vendor\\tools\\f3_int108_typed_chain_guard.py",
+      "delivered_sha256": "12416f28a5c6d178cc406222b94fd3a7b7d3be9045592174774a7c4a1b1c4899"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int109_offline_consumption_store.py",
+      "source_sha256": "ea990a447ac3cbb31ee63dd4709c830c11088d202ae24703442545fb245c83cf",
+      "delivered": "a6_vendor\\tools\\f3_int109_offline_consumption_store.py",
+      "delivered_sha256": "11d7f96bee14274847e78c3f2ac077f553d4879ba8c47d042fb391fc50377624"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int41_worker_handoff_simulator.py",
+      "source_sha256": "7b079b65ea847a258e413a69dbc7237d542b1714c16a3acb132be7fb9ab30e71",
+      "delivered": "a6_vendor\\tools\\f3_int41_worker_handoff_simulator.py",
+      "delivered_sha256": "7b079b65ea847a258e413a69dbc7237d542b1714c16a3acb132be7fb9ab30e71"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int43_partition_reconciliation_simulator.py",
+      "source_sha256": "de23dbc744eef1b93e2354c83891d5029267ed236a11c3c19ba773c0115efd30",
+      "delivered": "a6_vendor\\tools\\f3_int43_partition_reconciliation_simulator.py",
+      "delivered_sha256": "cc1b798144f644bf972c3e3ff277dba9ba558dcf1b97dfb54f091015de511094"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int44_witness_membership_simulator.py",
+      "source_sha256": "a5ceeef9b5fc4bb8348184368c30f43f89e76663609aa3e52d04f1348063f645",
+      "delivered": "a6_vendor\\tools\\f3_int44_witness_membership_simulator.py",
+      "delivered_sha256": "2e1432e52515e8dea977f53e841a3674b5a0e989c2a930431e0b08cdf05684a2"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int45_joint_quorum_simulator.py",
+      "source_sha256": "57fb8a86fcea95b41d910d1ce02fe2f9650f730b48413b49eed4a4551040315d",
+      "delivered": "a6_vendor\\tools\\f3_int45_joint_quorum_simulator.py",
+      "delivered_sha256": "c43f602def3e320e539096b14c22c5f1a363b89132eecc0a73ddbcec669d8d14"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int46_multiepoch_simulator.py",
+      "source_sha256": "54ccaa9428fc9de2970185e25d49219f3880343630e229793ed5e62bb2fc4838",
+      "delivered": "a6_vendor\\tools\\f3_int46_multiepoch_simulator.py",
+      "delivered_sha256": "d543950dd5f9d2451584ccf1b60351c9a5d03a808426a115cf610bc32515daf3"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int47_truncated_history_simulator.py",
+      "source_sha256": "5a041ebb48cbcc97252ed7dc0443dde2060cdc2cb6a7aad595d9373f89e4d49f",
+      "delivered": "a6_vendor\\tools\\f3_int47_truncated_history_simulator.py",
+      "delivered_sha256": "6032ee1c4f3c52dc4bced8758f3d276cdb0a78fe6dc0c86c110a2173128bdcd7"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int49_recovery_replay_simulator.py",
+      "source_sha256": "a80cf3e9070323056290a189453d24cdaa03163da5dbc9002ac2d32610fd3edc",
+      "delivered": "a6_vendor\\tools\\f3_int49_recovery_replay_simulator.py",
+      "delivered_sha256": "b7fb66b1909cb47d839133f418581d13a63f829a4f09feb6a3d104920b1795af"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int50_concurrent_recovery_simulator.py",
+      "source_sha256": "2abdaf7590d9a661e7447da769322f0d1084731f0477ebe1cd2480c4603ed80c",
+      "delivered": "a6_vendor\\tools\\f3_int50_concurrent_recovery_simulator.py",
+      "delivered_sha256": "8a008933aee9712b5ad328eca14f06336ffc714b319c7d0b02658be68ac368a7"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int51_recovery_memory_simulator.py",
+      "source_sha256": "931adf76e34a1963e154f5a0338bd903c5776553dd4fd6069e9df196c5179437",
+      "delivered": "a6_vendor\\tools\\f3_int51_recovery_memory_simulator.py",
+      "delivered_sha256": "0d8ebf61a6c852f3b2a12fdb944c4b1e6bed8d83a2e06079664c37f8ed402f8a"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int52_recovery_continuity_simulator.py",
+      "source_sha256": "61b3aca3e27add0fdc7044dacd60c3ca47a22398f3bd5508dc194d7450268866",
+      "delivered": "a6_vendor\\tools\\f3_int52_recovery_continuity_simulator.py",
+      "delivered_sha256": "7e6ffff15e09a182749b8b5375f61cca1420a1460d9321ec04185603946b2611"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int53_interleaving_simulator.py",
+      "source_sha256": "20e367ab3fd307011f8479b7231d24760fd363db2711e786c1451c78c73906aa",
+      "delivered": "a6_vendor\\tools\\f3_int53_interleaving_simulator.py",
+      "delivered_sha256": "d721da28ef8d8f2ccac3ba3476ae1dbd22d6a2ca28afdc81895f7c29a8566555"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int54_schedule_divergence_simulator.py",
+      "source_sha256": "e9a2ad14e2f84c2bf3e388b4e692d7962316865c02479fe8d82dbbafcc895570",
+      "delivered": "a6_vendor\\tools\\f3_int54_schedule_divergence_simulator.py",
+      "delivered_sha256": "82e8a013c19773bbc98118f54e96267cd0569883a474d2b1855206e0d0f6d5ac"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int56_bounded_ingestion_simulator.py",
+      "source_sha256": "2984670780337c97c09cb1e26b17385300e57638426543352a53f5e3c25475ee",
+      "delivered": "a6_vendor\\tools\\f3_int56_bounded_ingestion_simulator.py",
+      "delivered_sha256": "62a1a33490e9ffa6b6692afadd7906258b6858b39a78d9131c17e0c706702fa2"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int57_retry_interleaving_simulator.py",
+      "source_sha256": "25eee68bb4dbf96542eaf69777c93036df9cd6ec02c6de3a17cb09b0332461a2",
+      "delivered": "a6_vendor\\tools\\f3_int57_retry_interleaving_simulator.py",
+      "delivered_sha256": "ff683dc7a5caa8faff85d89ab5645eb01622e10fd4d3c1a9b5a1f5392e5d69e0"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int60_package_integrity_simulator.py",
+      "source_sha256": "75350febe0c26030d5f2355e5edbd699efb9a62fb9cea57d66fbec5a4b3fe202",
+      "delivered": "a6_vendor\\tools\\f3_int60_package_integrity_simulator.py",
+      "delivered_sha256": "ac3752996a5568009fd48417f38f3879720178882ccb935cfde6e4c07db285f4"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int61_portable_package_simulator.py",
+      "source_sha256": "91f948b93984c70bd69a3222823119221b8cb06d7e658c9ce6d74046b2a47ace",
+      "delivered": "a6_vendor\\tools\\f3_int61_portable_package_simulator.py",
+      "delivered_sha256": "dad6c79fbef85124d25ffa3862c2139f5ea54c80098f093ba75f5825b04831e5"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int62_strict_evidence_simulator.py",
+      "source_sha256": "f60a23fe3308c39dac071afc7539900f7e90a38aa2e796dad4b5e6355c61b004",
+      "delivered": "a6_vendor\\tools\\f3_int62_strict_evidence_simulator.py",
+      "delivered_sha256": "d3f54b5703d8896d89b9a13e31a7d8acbe68e73a03237d9b771cf5ea78f54f78"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int66_crash_schedule_simulator.py",
+      "source_sha256": "dfa096205411459c7d83bc03473fb2212359fa29ed26367ed37c07fd42e9abf7",
+      "delivered": "a6_vendor\\tools\\f3_int66_crash_schedule_simulator.py",
+      "delivered_sha256": "154dfb843983ee5305c445abd0d7704e3b16bc4982d9850f18d44d900eec48d0"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int67_crash_exploration_simulator.py",
+      "source_sha256": "510e01500a6940bdca48d703e59e6e1030fe74df9c2a407252a66b8a5bbd661b",
+      "delivered": "a6_vendor\\tools\\f3_int67_crash_exploration_simulator.py",
+      "delivered_sha256": "69ed88282aa9f61891dcfa3cc13a301b9267d58cf28b61c90ac85b67a14d3517"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int68_crash_witness_simulator.py",
+      "source_sha256": "76978bd750321df689c5a2a9d344752f2bcf34a788c3ed7f93c19649bdbd2f8e",
+      "delivered": "a6_vendor\\tools\\f3_int68_crash_witness_simulator.py",
+      "delivered_sha256": "6d8c2a3412af76133cdc5a13874bafafb6731f0a534d7bc203651ff9940a3e15"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int70_crash_witness_codec.py",
+      "source_sha256": "6b5954061a709b71613c47edba434c75d72d1dabdb224e53c5e022fad20d19f8",
+      "delivered": "a6_vendor\\tools\\f3_int70_crash_witness_codec.py",
+      "delivered_sha256": "8594267ec120ad844c9889fbad50999c39f3f22f09ff7ece762bb2be4a956f5e"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int72_atomic_witness_batch_simulator.py",
+      "source_sha256": "67a779d1609f2f2dd5251ff826114a659591e3126915bd3728479c0c0ba5e078",
+      "delivered": "a6_vendor\\tools\\f3_int72_atomic_witness_batch_simulator.py",
+      "delivered_sha256": "6c61d2bbfcc6a5d18eba49e482fb1b64c9adaf4408ff32915d71a6ff5dd2cac1"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int73_package_lineage_simulator.py",
+      "source_sha256": "cc2776173911983c390dee4599185701025b34d2ab40d73f8cedfcb28570ac2b",
+      "delivered": "a6_vendor\\tools\\f3_int73_package_lineage_simulator.py",
+      "delivered_sha256": "80c5aafb239ca008adb1250f9bf3e3bd07190a2cac8a30be287a30b473408ddf"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int74_declared_delta_simulator.py",
+      "source_sha256": "2fb20c5660cb510b0fe68748bb98f3c5f8fdf9649bd4c53629af51c717b1cefe",
+      "delivered": "a6_vendor\\tools\\f3_int74_declared_delta_simulator.py",
+      "delivered_sha256": "34a74447b4c9c735c24edcafa11dcf481352d5062a980af7c8804f5fb775a1cd"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int78_verified_envelope.py",
+      "source_sha256": "00be1c719f041e6dfb834ae53783769231ea4a15430f794d2f56eb189fc7a0fe",
+      "delivered": "a6_vendor\\tools\\f3_int78_verified_envelope.py",
+      "delivered_sha256": "3981e868d2076089b6f7c93a70d6627c191d9d3cd7ac8e4f17d11a0af501c842"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int81_package_bound_witness.py",
+      "source_sha256": "9645ea1ffe58e0eac6cb91a9e1156209961a6cacf38d2eb7d7c140871a0b0273",
+      "delivered": "a6_vendor\\tools\\f3_int81_package_bound_witness.py",
+      "delivered_sha256": "581763f1a7fd0cf60cdbb67870c4b80b26a20b961cfea2bc3e1fd4582f999230"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int82_atomic_package_witness_batch.py",
+      "source_sha256": "3788cfbc4db1f8ebb09add875551f5facccde6ca7d12586a13ce999702bd1fce",
+      "delivered": "a6_vendor\\tools\\f3_int82_atomic_package_witness_batch.py",
+      "delivered_sha256": "b3aa76e861fa1758b9f835436ee06ed15dcdabbe30fda642647d132ef9b71d75"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int83_concurrent_import_simulator.py",
+      "source_sha256": "6a2367e049391d182ab2f61ff9ef3e8a2bb7c8eff465fc4e48c77664796a6a9b",
+      "delivered": "a6_vendor\\tools\\f3_int83_concurrent_import_simulator.py",
+      "delivered_sha256": "d0684b1885fda7ccd0d5a0dfaaec7a8d352d71031f7b769e76ddd9865a3855ed"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int84_import_schedule_divergence.py",
+      "source_sha256": "4d12b90609d776f0387af16ac8bf59edbc05eff8e4c501aef4621a525979f16e",
+      "delivered": "a6_vendor\\tools\\f3_int84_import_schedule_divergence.py",
+      "delivered_sha256": "7c2d1df74a83d3f606a750c91cb189d4002234d0d6ce53db24e1ddc90d50e57b"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int86_policy_bound_import.py",
+      "source_sha256": "1865d9fe626ba262c2defe8a02d9b5b2db927625cf3244ecf1f4a80509bde331",
+      "delivered": "a6_vendor\\tools\\f3_int86_policy_bound_import.py",
+      "delivered_sha256": "6ecfcb56fe539d02afe32e1489ac9df31466e3b6f5aacdcb4b73fa86fa4579ae"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int88_import_divergence_witness.py",
+      "source_sha256": "87631a106db215e06bbc82552dd546a5eb96a6bc92b7cf204eafb590a4e8a3e8",
+      "delivered": "a6_vendor\\tools\\f3_int88_import_divergence_witness.py",
+      "delivered_sha256": "c9c18f7d55fdea57845b0eff9fcdc77e181e031fb433fe97246cadc8d2f4d86e"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int89_import_witness_codec.py",
+      "source_sha256": "f5cebf8d147d8a6d16f7f8ead9797f849623be6d0c89eece67a19633f8c9f02b",
+      "delivered": "a6_vendor\\tools\\f3_int89_import_witness_codec.py",
+      "delivered_sha256": "6056dfc0840c387059d9513ec8bfdd716f3b201f20c36e82b090d58eedf05a7b"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int90_import_witness_bundle.py",
+      "source_sha256": "175a20d7cffdc7014263984b4ea581db407d90c2b6ee1bcba0cbe92311454bfe",
+      "delivered": "a6_vendor\\tools\\f3_int90_import_witness_bundle.py",
+      "delivered_sha256": "73b13df387747e11268fdc8f1975761982113fa9f8730af14c5e06b6a6e27720"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int95_policy_import_schedules.py",
+      "source_sha256": "7ff7076b53e853a81193e33305906ee542894e35aac5d6f6de4b42bfdf9bb57f",
+      "delivered": "a6_vendor\\tools\\f3_int95_policy_import_schedules.py",
+      "delivered_sha256": "fc1468a621f83247ef4c29107be42918da569e5f6f6902c5151447df7afcf333"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int96_policy_import_witness.py",
+      "source_sha256": "8faa8fcb2d0ad1ee436db11bc273c77622170c3e86ba9fdc68104c38f8e32637",
+      "delivered": "a6_vendor\\tools\\f3_int96_policy_import_witness.py",
+      "delivered_sha256": "f02043385e7b7bce83503f618ba0b063be9afb4104e0f20e5ddf6b29f7db9d48"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int97_policy_witness_codec.py",
+      "source_sha256": "ba99d38bc993139124669b17288d782c3dce7fd427a0f17ef5201d454d909c9e",
+      "delivered": "a6_vendor\\tools\\f3_int97_policy_witness_codec.py",
+      "delivered_sha256": "5dcd64b9412ff5a6408e3b04538c138dadcb86682d8cddb6926d11340b1f398b"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int98_policy_bundle_registry.py",
+      "source_sha256": "7a11e34bbf47f6378568b984ebe9eb9362cc6702f138374677b84f5392e4426b",
+      "delivered": "a6_vendor\\tools\\f3_int98_policy_bundle_registry.py",
+      "delivered_sha256": "a446cb85fbadaf15fb9879f94d79af35b54a73412605adca6ccbccaad2687abb"
+    },
+    {
+      "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int99_bundle_consistency.py",
+      "source_sha256": "f13d3264eeae60065050fd1e9133fd1bc1d3840a09dccb07f8e8c14e67f96e1b",
+      "delivered": "a6_vendor\\tools\\f3_int99_bundle_consistency.py",
+      "delivered_sha256": "e2d315e59747b256b1602db9d8dab7f0a6dc158aa9e97e888929258c896c50b9"
+    }
+  ]
+}

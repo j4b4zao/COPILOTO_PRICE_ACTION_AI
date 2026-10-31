@@ -1,0 +1,24 @@
+{
+  "VALIDACAO_A12_BOUNDARIES.txt": {
+    "passed": 10,
+    "seconds": 85.07,
+    "result": "OK"
+  },
+  "VALIDACAO_A12_PYTHON_O.txt": {
+    "passed": 10,
+    "seconds": 113.854,
+    "result": "OK"
+  },
+  "REGRESSAO_A11_PARA_A12.txt": {
+    "passed": 11,
+    "seconds": 53.729,
+    "result": "OK"
+  },
+  "prior_a11_hashes_verified": 112,
+  "evidence_records_per_mode": 9,
+  "death_boundaries_per_mode": 8,
+  "previous_continuity_backup_preserved": {
+    "file": "BACKUP_CONTINUIDADE_F3_INT121_A10_20261029.zip",
+    "sha256": "72e5922924169c3b1d9b774e5baddfe7279400e37eb09ead98a5249fd3c0ae68"
+  }
+}

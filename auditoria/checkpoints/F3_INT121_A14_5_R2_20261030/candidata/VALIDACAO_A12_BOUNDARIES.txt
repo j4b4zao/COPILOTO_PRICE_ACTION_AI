@@ -1,0 +1,15 @@
+test_death_after_local_ack_commit (__main__.BoundaryTests.test_death_after_local_ack_commit) ... ok
+test_death_after_pending_insert (__main__.BoundaryTests.test_death_after_pending_insert) ... ok
+test_death_after_source_commit (__main__.BoundaryTests.test_death_after_source_commit) ... ok
+test_death_after_source_update (__main__.BoundaryTests.test_death_after_source_update) ... ok
+test_death_after_witness_commit (__main__.BoundaryTests.test_death_after_witness_commit) ... ok
+test_death_before_local_ack_commit (__main__.BoundaryTests.test_death_before_local_ack_commit) ... ok
+test_death_before_source_commit (__main__.BoundaryTests.test_death_before_source_commit) ... ok
+test_death_before_witness_commit (__main__.BoundaryTests.test_death_before_witness_commit) ... ok
+test_invalid_recovery_pins_do_not_initialize_database (__main__.BoundaryTests.test_invalid_recovery_pins_do_not_initialize_database) ... ok
+test_releasing_boundary_without_death_commits_normally (__main__.BoundaryTests.test_releasing_boundary_without_death_commits_normally) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 85.070s
+
+OK

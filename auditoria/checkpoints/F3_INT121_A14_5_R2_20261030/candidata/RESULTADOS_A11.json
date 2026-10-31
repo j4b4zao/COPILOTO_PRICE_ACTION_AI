@@ -1,0 +1,23 @@
+{
+  "VALIDACAO_A11_NATIVE.txt": {
+    "passed": 11,
+    "seconds": 54.062,
+    "result": "OK"
+  },
+  "VALIDACAO_A11_PYTHON_O.txt": {
+    "passed": 11,
+    "seconds": 64.699,
+    "result": "OK"
+  },
+  "REGRESSAO_A10_PARA_A11.txt": {
+    "passed": 23,
+    "seconds": 98.019,
+    "result": "OK"
+  },
+  "prior_a10_hashes_verified": 97,
+  "native_original_helpers_unchanged": 2,
+  "previous_continuity_backup_preserved": {
+    "file": "BACKUP_CONTINUIDADE_F3_INT121_A10_20261029.zip",
+    "sha256": "72e5922924169c3b1d9b774e5baddfe7279400e37eb09ead98a5249fd3c0ae68"
+  }
+}

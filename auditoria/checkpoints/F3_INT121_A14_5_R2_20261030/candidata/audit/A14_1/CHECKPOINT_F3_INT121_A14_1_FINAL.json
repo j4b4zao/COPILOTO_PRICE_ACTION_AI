@@ -1,0 +1,50 @@
+{
+  "stage": "F3-INT-121 A14.1",
+  "checkpoint_type": "FINAL_DOCUMENTAL",
+  "date": "2026-10-29",
+  "last_completed": "F3-INT-121 A14.1",
+  "previous_definitive": "F3-INT-121 A13 FINAL",
+  "status": "OFFLINE_REPEATABILITY_TESTED_FROM_USER_LOGS",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "real_operations_authorized": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "windows_regressions": [
+    {
+      "mode": "normal",
+      "tests": 170,
+      "duration_seconds": 311.906,
+      "result": "OK",
+      "failures_reported": 0,
+      "errors_reported": 0
+    },
+    {
+      "mode": "optimized_-O",
+      "tests": 170,
+      "duration_seconds": 424.319,
+      "result": "OK",
+      "failures_reported": 0,
+      "errors_reported": 0
+    }
+  ],
+  "evidence_origin": "User-supplied Windows console output; not independently re-executed",
+  "scope": "Two repeated A12 supervisor death boundaries, before consumption commit and after local ACK commit",
+  "next_step": "F3-INT-121 A14.2 scope review and isolated survivor detection tests",
+  "next_stage_implementation_authorized": false,
+  "limitations": [
+    "Package hash manifest detects changes relative to this package, not provenance",
+    "No real operational authorization",
+    "No exhaustive race coverage",
+    "No independent Windows test execution by assistant"
+  ]
+}

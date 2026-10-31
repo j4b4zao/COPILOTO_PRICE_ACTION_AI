@@ -1,0 +1,18 @@
+{
+  "stage": "F3-INT-121 A14.3",
+  "status": "FINAL_DOCUMENTAL",
+  "date": "2026-10-29",
+  "source_candidate": "F3_INT121_A14_3_LIMPEZA_EXTERNA_CORRIGIDA_R2_20261029.zip",
+  "windows_evidence_source": "user_supplied_logs",
+  "normal_tests": 175,
+  "optimized_tests": 175,
+  "total_regression_executions": 350,
+  "normal_duration_s": 402.365,
+  "optimized_duration_s": 464.727,
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "real_operations_authorized": false,
+  "runtime_modified": false,
+  "next_step": "A14.4 isolated exit-order tests"
+}

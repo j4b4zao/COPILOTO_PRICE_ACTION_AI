@@ -1,0 +1,18 @@
+{
+  "archives": [
+    {
+      "name": "CANDIDATA_CORRECAO_MARCADOR_20261030.zip",
+      "bytes": 417338,
+      "sha256_matches": true,
+      "bad_member": null
+    },
+    {
+      "name": "EVIDENCIAS_WINDOWS_A14_5_R2_20261030.zip",
+      "bytes": 800595,
+      "sha256_matches": true,
+      "bad_member": null
+    }
+  ],
+  "candidate_manifest_entries": 167,
+  "candidate_manifest_mismatches": []
+}

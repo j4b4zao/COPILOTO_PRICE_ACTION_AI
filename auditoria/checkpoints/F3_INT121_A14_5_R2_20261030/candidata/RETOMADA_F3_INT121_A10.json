@@ -1,0 +1,20 @@
+{
+  "stage": "F3-INT-121 A10",
+  "completion_date": "2026-10-29",
+  "classification": "OFFLINE_SPAWN_WORKER_RECOVERY_PROTOTYPE",
+  "f3": "OPEN",
+  "real_operations_authorized": false,
+  "promotion_authorized": false,
+  "implementation": "f3_int121_a10_worker.py",
+  "tests": "test_f3_int121_a10_worker.py",
+  "report": "RELATORIO_F3_INT121_A10.md",
+  "final_tests": {"normal": 23, "python_O": 23, "a9_regression": 23},
+  "next_step": "Evaluate native Windows containment for the worker and its tree, including supervisor failure/death, reusing historical supervisor contracts in an isolated candidate. Preserve every prior FINAL and evidence package.",
+  "limits": [
+    "Cleanup covers only the directly owned worker in the tested supervisor paths; abrupt parent death and arbitrary descendants are not contained by a Job Object.",
+    "Worker startup and scheduling have no proven hard deadline.",
+    "Local private keys cross spawn IPC in memory; no independent custody or secure memory erasure is proved.",
+    "No external monotonic checkpoint, deployed remote witness, power-loss proof, runtime installation or advanced-store migration.",
+    "The official checkpoint discrepancy remains documented without marker changes."
+  ]
+}

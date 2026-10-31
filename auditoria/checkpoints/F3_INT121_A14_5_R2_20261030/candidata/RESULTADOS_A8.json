@@ -1,0 +1,18 @@
+{
+  "VALIDACAO_A8_ATOMIC_STORE.txt": {
+    "passed": 26,
+    "seconds": 258.422,
+    "result": "OK"
+  },
+  "VALIDACAO_A8_PYTHON_O.txt": {
+    "passed": 26,
+    "seconds": 145.22,
+    "result": "OK"
+  },
+  "REGRESSAO_A5_A7_PARA_A8.txt": {
+    "passed": 74,
+    "seconds": 270.111,
+    "result": "OK"
+  },
+  "prior_a7_hashes_verified": 68
+}

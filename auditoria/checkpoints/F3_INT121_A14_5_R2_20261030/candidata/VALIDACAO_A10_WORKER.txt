@@ -1,0 +1,28 @@
+test_abrupt_exit_after_commit_has_unknown_result_and_explicit_recovery (__main__.WorkerTests.test_abrupt_exit_after_commit_has_unknown_result_and_explicit_recovery) ... ok
+test_abrupt_exit_after_witness_commit_preserves_exact_request (__main__.WorkerTests.test_abrupt_exit_after_witness_commit_preserves_exact_request) ... ok
+test_all_operational_locks_remain_false (__main__.WorkerTests.test_all_operational_locks_remain_false) ... ok
+test_changed_target_never_reaches_witness_callback (__main__.WorkerTests.test_changed_target_never_reaches_witness_callback) ... ok
+test_concurrent_consume_workers_admit_one_generation (__main__.WorkerTests.test_concurrent_consume_workers_admit_one_generation) ... ok
+test_concurrent_resume_workers_do_not_advance_witness_twice (__main__.WorkerTests.test_concurrent_resume_workers_do_not_advance_witness_twice) ... ok
+test_consume_inquire_and_resume_in_distinct_processes (__main__.WorkerTests.test_consume_inquire_and_resume_in_distinct_processes) ... ok
+test_failure_after_actual_launch_still_terminates_and_reaps_worker (__main__.WorkerTests.test_failure_after_actual_launch_still_terminates_and_reaps_worker) ... ok
+test_inquiry_needs_only_public_configuration_and_does_not_write (__main__.WorkerTests.test_inquiry_needs_only_public_configuration_and_does_not_write) ... ok
+test_invalid_pins_and_already_acknowledged_resume (__main__.WorkerTests.test_invalid_pins_and_already_acknowledged_resume) ... ok
+test_invalid_reply_is_unknown_not_success (__main__.WorkerTests.test_invalid_reply_is_unknown_not_success) ... ok
+test_ipc_context_and_operational_flags_are_validated (__main__.WorkerTests.test_ipc_context_and_operational_flags_are_validated) ... ok
+test_lost_response_leaves_pending_and_retry_is_idempotent (__main__.WorkerTests.test_lost_response_leaves_pending_and_retry_is_idempotent) ... ok
+test_missing_database_never_initialized_by_worker (__main__.WorkerTests.test_missing_database_never_initialized_by_worker) ... ok
+test_missing_witness_never_recreated (__main__.WorkerTests.test_missing_witness_never_recreated) ... ok
+test_new_worker_cannot_consume_next_generation_while_pending (__main__.WorkerTests.test_new_worker_cannot_consume_next_generation_while_pending) ... ok
+test_no_legacy_writer_or_key_material_in_supervisor_source_and_reply (__main__.WorkerTests.test_no_legacy_writer_or_key_material_in_supervisor_source_and_reply) ... ok
+test_os_refusal_to_stop_worker_reports_inconclusive_cleanup (__main__.WorkerTests.test_os_refusal_to_stop_worker_reports_inconclusive_cleanup) ... ok
+test_process_creation_failure_closes_allocated_pipe_handles (__main__.WorkerTests.test_process_creation_failure_closes_allocated_pipe_handles) ... ok
+test_process_start_failure_closes_unstarted_process_and_channels (__main__.WorkerTests.test_process_start_failure_closes_unstarted_process_and_channels) ... ok
+test_request_validation_rejects_keys_timeouts_and_operations_without_spawn (__main__.WorkerTests.test_request_validation_rejects_keys_timeouts_and_operations_without_spawn) ... ok
+test_resume_of_uncommitted_job_never_consumes_it (__main__.WorkerTests.test_resume_of_uncommitted_job_never_consumes_it) ... ok
+test_timeout_kills_and_reaps_owned_worker_without_retry (__main__.WorkerTests.test_timeout_kills_and_reaps_owned_worker_without_retry) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 91.244s
+
+OK

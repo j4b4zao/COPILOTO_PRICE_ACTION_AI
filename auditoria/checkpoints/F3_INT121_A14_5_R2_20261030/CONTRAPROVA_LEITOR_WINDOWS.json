@@ -1,0 +1,18 @@
+{
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "real_operations_authorized": false,
+  "scope": "Controlled Windows sharing denial; not proof of original error cause",
+  "original": {
+    "result": "PermissionError",
+    "errno": 13,
+    "winerror": null
+  },
+  "corrected": {
+    "result": "JSON_RECOVERED",
+    "value": {
+      "ready": true
+    }
+  }
+}

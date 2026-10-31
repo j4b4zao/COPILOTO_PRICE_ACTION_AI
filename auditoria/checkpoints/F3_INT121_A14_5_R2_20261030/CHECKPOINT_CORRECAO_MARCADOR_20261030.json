@@ -1,0 +1,217 @@
+{
+  "stage": "F3-INT-121 A14.5-R2 — candidata de correcao de leitura",
+  "date": "2026-10-30",
+  "status": "CORRECAO_VALIDADA_LOCALMENTE",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "real_operations_authorized": false,
+  "runtime_modified": false,
+  "python": "3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]",
+  "executable": "C:\\COPILOTO_PRICE_ACTION_AI\\ambiente\\Scripts\\python.exe",
+  "baseline_original": "REGRESSAO_NAO_APROVADA: 179/180 no modo otimizado",
+  "source_zip_sha256": "9426adc9917158c87cbdf5c8ff5a5cfba9e6c4dfcbcd716cae4596a0deda377e",
+  "changed_files": [
+    "test_f3_int121_a12_boundaries.py"
+  ],
+  "added_tests": 4,
+  "expected_tests_per_mode": 184,
+  "modes": [
+    {
+      "log": "outputs\\corrigida_regressao_normal.log",
+      "sha256": "beb8496868e23507c7a68d2b519181d3b15e78a085d492dd231c2585cc7866e6",
+      "optimization": 0,
+      "summary": [
+        [
+          "184",
+          "729.515"
+        ]
+      ],
+      "evidence_counts": {
+        "A13_NEGATIVE_EVIDENCE": 1,
+        "A14_1_PHASE_EVIDENCE": 2,
+        "A14_2_SURVIVOR_EVIDENCE": 3,
+        "A14_3_CLEANUP_EVIDENCE": 2,
+        "A14_4_EXIT_ORDER_EVIDENCE": 9,
+        "A14_5_REPEAT_EVIDENCE": 6
+      },
+      "survivors_observed_in_repeats": 6,
+      "accepted": true,
+      "failures": []
+    },
+    {
+      "log": "outputs\\corrigida_regressao_otimizado.log",
+      "sha256": "1af2aa00a52437583fb95409401fef51186446e3ed2fe6fa5dd5c2cb8bc2c63a",
+      "optimization": 1,
+      "summary": [
+        [
+          "184",
+          "826.754"
+        ]
+      ],
+      "evidence_counts": {
+        "A13_NEGATIVE_EVIDENCE": 1,
+        "A14_1_PHASE_EVIDENCE": 2,
+        "A14_2_SURVIVOR_EVIDENCE": 3,
+        "A14_3_CLEANUP_EVIDENCE": 2,
+        "A14_4_EXIT_ORDER_EVIDENCE": 9,
+        "A14_5_REPEAT_EVIDENCE": 6
+      },
+      "survivors_observed_in_repeats": 6,
+      "accepted": true,
+      "failures": []
+    }
+  ],
+  "boundary_audit": {
+    "accepted": true,
+    "failures": [],
+    "files": [
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O0_cakt3_kc\\a14_1_after_ack_repeat.json",
+        "sha256": "2d8c087b46fab811ca7b26ae316d8d92c89a0f93c48631e717b90777d4e1c097",
+        "optimization": 0,
+        "test": "a14_1_after_ack_repeat"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O0_cakt3_kc\\a14_1_before_commit_repeat.json",
+        "sha256": "ea9ac5eec7016b23025492694398e7b604ca38d19e4824c17cea4807b69a2003",
+        "optimization": 0,
+        "test": "a14_1_before_commit_repeat"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O0_mzajea4w\\test_death_after_local_ack_commit.json",
+        "sha256": "94d71ed7d6035c7ef87ba91e5ef3cb9f1c21bd068049dc119a577fee58c1cae0",
+        "optimization": 0,
+        "test": "test_death_after_local_ack_commit"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O0_mzajea4w\\test_death_after_pending_insert.json",
+        "sha256": "9a95b366a69a1940638b60fb07ee7fe7b3003f233e5959d1f54f21f48de099b7",
+        "optimization": 0,
+        "test": "test_death_after_pending_insert"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O0_mzajea4w\\test_death_after_source_commit.json",
+        "sha256": "03aabce46818a372568a2304dd7558f96f10e8d0d4d67592ca87296f151e49e6",
+        "optimization": 0,
+        "test": "test_death_after_source_commit"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O0_mzajea4w\\test_death_after_source_update.json",
+        "sha256": "87ce5fe9b37f5e4b84f608523f5e735de7258cd46bb8dc52649998afbc3ff7da",
+        "optimization": 0,
+        "test": "test_death_after_source_update"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O0_mzajea4w\\test_death_after_witness_commit.json",
+        "sha256": "1b58ae489db4eb5cf8e0da22cbbd36ef87992b9c3233f7de99fc1b4676d8c94d",
+        "optimization": 0,
+        "test": "test_death_after_witness_commit"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O0_mzajea4w\\test_death_before_local_ack_commit.json",
+        "sha256": "d6405f4668b3793df9f35c122b07b1eeb0386e2140b70fab9f684d19a6484a16",
+        "optimization": 0,
+        "test": "test_death_before_local_ack_commit"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O0_mzajea4w\\test_death_before_source_commit.json",
+        "sha256": "b04b5ba13b7276b5bbf2c779d5616f1139dad3aa741f1b227a8a03509257ce5d",
+        "optimization": 0,
+        "test": "test_death_before_source_commit"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O0_mzajea4w\\test_death_before_witness_commit.json",
+        "sha256": "d4be9ee99320d9e31147d493397da04f2ff0d6f30e8ff0a7afff53ea748b4aaf",
+        "optimization": 0,
+        "test": "test_death_before_witness_commit"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O0_mzajea4w\\test_releasing_boundary_without_death_commits_normally.json",
+        "sha256": "b7bd20cbf32c1beda61e59236b7a21642989b8728042d97e4973722242bbd564",
+        "optimization": 0,
+        "test": "test_releasing_boundary_without_death_commits_normally"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O0_v5fs6tc5\\a14_2_positive_inner_kill_on_close.json",
+        "sha256": "f3872abdd5b7b5a19e9e8b1596bb90ca3cd0ece44f032c184bdf4ee1478e2675",
+        "optimization": 0,
+        "test": "a14_2_positive_inner_kill_on_close"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O1_6vxn4tc1\\test_death_after_local_ack_commit.json",
+        "sha256": "1b993accf098c4c250416ca9cee1287660502d42088b7146a97c34e60a3ffc45",
+        "optimization": 1,
+        "test": "test_death_after_local_ack_commit"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O1_6vxn4tc1\\test_death_after_pending_insert.json",
+        "sha256": "6fb7b85c20a3706e43b395d8fec12bc1fd0996b878fb2cee7976cea285321730",
+        "optimization": 1,
+        "test": "test_death_after_pending_insert"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O1_6vxn4tc1\\test_death_after_source_commit.json",
+        "sha256": "85c8021328fc1385a09465af981492b480c7369f8bcea2a463e517c8590b4181",
+        "optimization": 1,
+        "test": "test_death_after_source_commit"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O1_6vxn4tc1\\test_death_after_source_update.json",
+        "sha256": "e8185b7af2b0a5e0cc5215b7cc0770f73de36a88ec40eeb9d096a127591e23e4",
+        "optimization": 1,
+        "test": "test_death_after_source_update"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O1_6vxn4tc1\\test_death_after_witness_commit.json",
+        "sha256": "d25255dbe4b972b438f445682dd792f37493a55a7874edde2627621c60675bdd",
+        "optimization": 1,
+        "test": "test_death_after_witness_commit"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O1_6vxn4tc1\\test_death_before_local_ack_commit.json",
+        "sha256": "c26c3be15ccdfad2f6c0d433b53a325c5bc516fec87d26b0076b2be1b6608155",
+        "optimization": 1,
+        "test": "test_death_before_local_ack_commit"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O1_6vxn4tc1\\test_death_before_source_commit.json",
+        "sha256": "f1ccb50969c7962bdcdd42051e04919510b483f1aecb1c74f5fe6f39fbe73dd0",
+        "optimization": 1,
+        "test": "test_death_before_source_commit"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O1_6vxn4tc1\\test_death_before_witness_commit.json",
+        "sha256": "42d20ce14c21ed075872a120be2a65d8dff1d50377d797d906b279eb0042f88c",
+        "optimization": 1,
+        "test": "test_death_before_witness_commit"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O1_6vxn4tc1\\test_releasing_boundary_without_death_commits_normally.json",
+        "sha256": "95be4c09498fa5fd0e06a72fc521a87ed6dc9f4b2fd8656f0c9b669758b98e21",
+        "optimization": 1,
+        "test": "test_releasing_boundary_without_death_commits_normally"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O1_k1cznpfl\\a14_1_after_ack_repeat.json",
+        "sha256": "d6936a3d8ad833b795359fe1708444f6b0399e9863fe82c971b11f976dded9f0",
+        "optimization": 1,
+        "test": "a14_1_after_ack_repeat"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O1_k1cznpfl\\a14_1_before_commit_repeat.json",
+        "sha256": "d99ece5520760ee2365c1d31680497a1f61a65281bd35f32e23244404f8b455d",
+        "optimization": 1,
+        "test": "a14_1_before_commit_repeat"
+      },
+      {
+        "path": "work\\regressao_corrigida\\work\\a12_evidence_O1_p5fqbovb\\a14_2_positive_inner_kill_on_close.json",
+        "sha256": "5ceac8d9d2a123289c07605185e63d39dabcebd1b3cdab5fa9025bb6ab2d7eec",
+        "optimization": 1,
+        "test": "a14_2_positive_inner_kill_on_close"
+      }
+    ]
+  },
+  "github_updated": false,
+  "next_step": "Revisar pacote corrigido e proposta A14.6; sem promocao operacional"
+}

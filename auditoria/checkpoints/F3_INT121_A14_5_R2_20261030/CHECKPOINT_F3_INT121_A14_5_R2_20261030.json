@@ -1,0 +1,212 @@
+{
+  "stage": "F3-INT-121 A14.5-R2",
+  "date": "2026-10-30",
+  "status": "REGRESSAO_NAO_APROVADA",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "real_operations_authorized": false,
+  "runtime_modified": false,
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "C:\\Users\\jb\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "modes": [
+    {
+      "log": "outputs\\regressao_a14_5_r2_normal.log",
+      "sha256": "1f0bb4411f327568f21f87b1e1932a3e6758707df2b4d73ea3863cbf9c83dba7",
+      "optimization": 0,
+      "summary": [
+        [
+          "180",
+          "900.334"
+        ]
+      ],
+      "evidence_counts": {
+        "A13_NEGATIVE_EVIDENCE": 1,
+        "A14_1_PHASE_EVIDENCE": 2,
+        "A14_2_SURVIVOR_EVIDENCE": 3,
+        "A14_3_CLEANUP_EVIDENCE": 2,
+        "A14_4_EXIT_ORDER_EVIDENCE": 9,
+        "A14_5_REPEAT_EVIDENCE": 6
+      },
+      "survivors_observed_in_repeats": 6,
+      "accepted": true,
+      "failures": []
+    },
+    {
+      "log": "outputs\\regressao_a14_5_r2_otimizado.log",
+      "sha256": "b6c58febad3c5e3cb9c3ad7e67d288e51055fbde620687ad7b43ab63ff0f5527",
+      "optimization": 1,
+      "summary": [
+        [
+          "180",
+          "966.618"
+        ]
+      ],
+      "evidence_counts": {
+        "A13_NEGATIVE_EVIDENCE": 1,
+        "A14_1_PHASE_EVIDENCE": 1,
+        "A14_2_SURVIVOR_EVIDENCE": 3,
+        "A14_3_CLEANUP_EVIDENCE": 2,
+        "A14_4_EXIT_ORDER_EVIDENCE": 9,
+        "A14_5_REPEAT_EVIDENCE": 6
+      },
+      "survivors_observed_in_repeats": 6,
+      "accepted": false,
+      "failures": [
+        "Codigo de saida ausente ou diferente de zero",
+        "Resumo final nao e OK sem skips",
+        "Log contem falha ou traceback"
+      ]
+    }
+  ],
+  "boundary_audit": {
+    "accepted": false,
+    "failures": [
+      "Modo 1: esperados 12 registros distintos de fronteira"
+    ],
+    "files": [
+      {
+        "path": "work\\work\\a12_evidence_O0_duzrr2wh\\a14_1_after_ack_repeat.json",
+        "sha256": "d2cadd07a21c0c50c6ab20fc7cc6ae02ce025addcbfbfd4b7b51de7ed2fd78cd",
+        "optimization": 0,
+        "test": "a14_1_after_ack_repeat"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O0_duzrr2wh\\a14_1_before_commit_repeat.json",
+        "sha256": "7b17790eaf950010b5ec528b9d510041f8dc2dc7fcaf792a6dbc5d3fd84e066c",
+        "optimization": 0,
+        "test": "a14_1_before_commit_repeat"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O0_x8d34v5e\\test_death_after_local_ack_commit.json",
+        "sha256": "83fe09144ab72a846e482c7067763cee5a137942354f50cff4088956e7df5e9f",
+        "optimization": 0,
+        "test": "test_death_after_local_ack_commit"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O0_x8d34v5e\\test_death_after_pending_insert.json",
+        "sha256": "bf63306fd44fcec8609f5a4ad04f4eb9447688d9e3628c3416595efaee557805",
+        "optimization": 0,
+        "test": "test_death_after_pending_insert"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O0_x8d34v5e\\test_death_after_source_commit.json",
+        "sha256": "660491f439a22815f05be41f527164aad35b19486056a0944a1db3e93d14bd88",
+        "optimization": 0,
+        "test": "test_death_after_source_commit"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O0_x8d34v5e\\test_death_after_source_update.json",
+        "sha256": "0756fa7d7e241b81e909f9783282e907a9a241bae426bebef67b3105cdb1fe89",
+        "optimization": 0,
+        "test": "test_death_after_source_update"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O0_x8d34v5e\\test_death_after_witness_commit.json",
+        "sha256": "a26e221f4512620ad56581b96aa756acb32a89924a9dfece10046bb40f9837a0",
+        "optimization": 0,
+        "test": "test_death_after_witness_commit"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O0_x8d34v5e\\test_death_before_local_ack_commit.json",
+        "sha256": "5aa93939ef14c751324b7c62ce4b7c14e4c3897de64167894f4822e90009212a",
+        "optimization": 0,
+        "test": "test_death_before_local_ack_commit"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O0_x8d34v5e\\test_death_before_source_commit.json",
+        "sha256": "abd54c78636ccf77e983eaceca1e66c5768e24104a26449e61fa9dd279b52367",
+        "optimization": 0,
+        "test": "test_death_before_source_commit"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O0_x8d34v5e\\test_death_before_witness_commit.json",
+        "sha256": "b75da07051e6c3ff9d508df1b0cb9559b8c89f6d855d40c993c9086f492fe970",
+        "optimization": 0,
+        "test": "test_death_before_witness_commit"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O0_x8d34v5e\\test_releasing_boundary_without_death_commits_normally.json",
+        "sha256": "d46b00cdb3462e7dd038a2f5c19f343fa0fe2c6ac25d861949d23f7bf16bdabd",
+        "optimization": 0,
+        "test": "test_releasing_boundary_without_death_commits_normally"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O0_yx54xdbr\\a14_2_positive_inner_kill_on_close.json",
+        "sha256": "c4ed06b36ad4977476bf6084b022a49a222540f6934b694c278fe5d7e4aac356",
+        "optimization": 0,
+        "test": "a14_2_positive_inner_kill_on_close"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O1_0r3rorqa\\a14_2_positive_inner_kill_on_close.json",
+        "sha256": "181c15317c6f6b0287c7ab77a1019a0ddb2b844234594634a6d36e9048d1647e",
+        "optimization": 1,
+        "test": "a14_2_positive_inner_kill_on_close"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O1_cya2jyaa\\a14_1_after_ack_repeat.json",
+        "sha256": "becea0056ce751b1025e9f4dc56f49b7df314aa48c7b69ac8c73f1f0c281f2d2",
+        "optimization": 1,
+        "test": "a14_1_after_ack_repeat"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O1_ydyzy406\\test_death_after_local_ack_commit.json",
+        "sha256": "741a4c36ec15931b754c7927c3803ed1ed6b69c19294619ec1ac105f14e03c81",
+        "optimization": 1,
+        "test": "test_death_after_local_ack_commit"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O1_ydyzy406\\test_death_after_pending_insert.json",
+        "sha256": "be72486f2cd0ebbd0c0911642b980bc8e0e14e783195330f3eec7addedeb055f",
+        "optimization": 1,
+        "test": "test_death_after_pending_insert"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O1_ydyzy406\\test_death_after_source_commit.json",
+        "sha256": "ba8e9d3a138e75a9a17870ff4e894cc4b00d61e1a32f35798c9b3f4895ea7825",
+        "optimization": 1,
+        "test": "test_death_after_source_commit"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O1_ydyzy406\\test_death_after_source_update.json",
+        "sha256": "d4e5bbbf77b64fb1745c4814e8c452169dc9b7fd0810e4f648df06ea6abeae49",
+        "optimization": 1,
+        "test": "test_death_after_source_update"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O1_ydyzy406\\test_death_after_witness_commit.json",
+        "sha256": "a25c88536f1d3e1dd56ac065e2f08167c3f367155429da1ae1d63d896f5d18b6",
+        "optimization": 1,
+        "test": "test_death_after_witness_commit"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O1_ydyzy406\\test_death_before_local_ack_commit.json",
+        "sha256": "dc7e40f346716390852205fb9cd9f0c92d1a5f8719da417ba2c14c040a33e4f6",
+        "optimization": 1,
+        "test": "test_death_before_local_ack_commit"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O1_ydyzy406\\test_death_before_source_commit.json",
+        "sha256": "339a870fd038330033280f6217d48ca04778c2ef41a05fd3c5c4710c2d8df55a",
+        "optimization": 1,
+        "test": "test_death_before_source_commit"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O1_ydyzy406\\test_death_before_witness_commit.json",
+        "sha256": "ff0dd0df30b3f92ede36690ce34ddf6c45050633e6d85abffb75b1c0a9d38a04",
+        "optimization": 1,
+        "test": "test_death_before_witness_commit"
+      },
+      {
+        "path": "work\\work\\a12_evidence_O1_ydyzy406\\test_releasing_boundary_without_death_commits_normally.json",
+        "sha256": "56fe439b345653754f98f5700fd1885c5f766ec7e58091b1f886de05878ef3a3",
+        "optimization": 1,
+        "test": "test_releasing_boundary_without_death_commits_normally"
+      }
+    ]
+  },
+  "source_zip_sha256": "9426adc9917158c87cbdf5c8ff5a5cfba9e6c4dfcbcd716cae4596a0deda377e",
+  "github_checkpoint_confirmed": false,
+  "next_step": "Revisar a correcao de leitura do marcador e seu checkpoint separado; A14.6 somente proposta offline"
+}

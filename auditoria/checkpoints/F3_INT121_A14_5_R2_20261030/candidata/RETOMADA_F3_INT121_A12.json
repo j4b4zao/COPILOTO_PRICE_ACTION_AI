@@ -1,0 +1,28 @@
+{
+  "stage": "F3-INT-121 A12",
+  "completion_date": "2026-10-29",
+  "classification": "NATIVE_OWNER_DEATH_TRANSACTION_BOUNDARIES_LOCAL_EXPERIMENT",
+  "f3": "OPEN",
+  "real_operations_authorized": false,
+  "promotion_authorized": false,
+  "runtime_modified": false,
+  "implementation": "f3_int121_a12_boundaries.py",
+  "tests": "test_f3_int121_a12_boundaries.py",
+  "report": "RELATORIO_F3_INT121_A12.md",
+  "final_tests": {
+    "normal": 10,
+    "python_O": 10,
+    "a11_regression": 11
+  },
+  "evidence": [
+    "EVIDENCIAS_A12_NORMAL.json",
+    "EVIDENCIAS_A12_PYTHON_O.json"
+  ],
+  "next_step": "Contraprovas isoladas retirando KILL_ON_JOB_CLOSE, com Job externo de segurança, para verificar detecção da perda de contenção. Preservar etapas anteriores e runtime.",
+  "limits": [
+    "Oito pontos controlados; não todas as instruções internas de commit/fsync.",
+    "Sem prova de perda física de energia, custódia independente, referência monotônica externa ou testemunha remota autenticada.",
+    "Sem avaliação de atacante hostil ou garantia de prazo estrito.",
+    "Backup de continuidade A10 preservado; consultar este checkpoint para o estado A12."
+  ]
+}

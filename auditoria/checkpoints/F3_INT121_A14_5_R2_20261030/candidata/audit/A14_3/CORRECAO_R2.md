@@ -1,0 +1,1 @@
+A14.3 R2: substitui import direto de NativeTests por import do modulo a11_tests. Evita 11 testes duplicados no unittest. Nao altera a logica de cleanup. Testes Windows e regressao integral pendentes nesta revisao. F3 OPEN; ordens reais bloqueadas.

@@ -1,0 +1,17 @@
+{
+  "VALIDACAO_A7_OUTBOX.txt": {
+    "passed": 24,
+    "seconds": 29.195,
+    "result": "OK"
+  },
+  "VALIDACAO_A7_PYTHON_O.txt": {
+    "passed": 24,
+    "seconds": 41.978,
+    "result": "OK"
+  },
+  "REGRESSAO_A5_A6_PARA_A7.txt": {
+    "passed": 50,
+    "seconds": 156.167,
+    "result": "OK"
+  }
+}

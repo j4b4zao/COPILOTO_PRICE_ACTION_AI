@@ -1,0 +1,13 @@
+{
+  "stage": "F3-INT-121 A14.4",
+  "status": "FINAL_DOCUMENTAL",
+  "windows_evidence_source": "user_supplied_logs",
+  "regression_normal": 178,
+  "regression_optimized": 178,
+  "total": 356,
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "real_operations_authorized": false,
+  "next_stage": "A14.5"
+}

@@ -1,0 +1,42 @@
+{
+  "stage": "F3-INT-121 A13",
+  "checkpoint_type": "FINAL_DOCUMENTAL",
+  "date": "2026-10-29",
+  "status": "OFFLINE_NEGATIVE_CONTAINMENT_COUNTERPROOF_REGRESSION_RECORDED",
+  "f3": "OPEN",
+  "simulation_only": true,
+  "certification": false,
+  "real_operations_authorized": false,
+  "locks": {
+    "orders_allowed": false,
+    "live_certified": false,
+    "flow_complete": false,
+    "f3_resolved": false,
+    "native_prototype_authorized": false,
+    "strict_deadline_guaranteed": false,
+    "authenticated_witness_verified": false
+  },
+  "windows_evidence_source": "user_supplied_logs",
+  "windows_runs": [
+    {
+      "mode": "normal",
+      "tests_reported": 168,
+      "duration_seconds": 309.455,
+      "outcome": "OK",
+      "negative_control_detected": true,
+      "log": "audit/A13/REGRESSAO_NORMAL.txt"
+    },
+    {
+      "mode": "optimized_-O",
+      "tests_reported": 168,
+      "duration_seconds": 351.003,
+      "outcome": "OK",
+      "negative_control_detected": true,
+      "log": "audit/A13/REGRESSAO_OTIMIZADA.txt"
+    }
+  ],
+  "skips_explicitly_reported": false,
+  "full_repository_regression_proven": false,
+  "next_step": "F3-INT-121 A14 scope proposal and review only",
+  "next_stage_implementation_authorized": false
+}

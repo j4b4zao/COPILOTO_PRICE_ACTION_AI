@@ -1,0 +1,20 @@
+{
+  "storage_sources": [
+    {
+      "path": "C:\\Users\\jb\\Documents\\Codex\\r11826\\audit\\tools\\f3_int109_offline_consumption_store.py",
+      "sha256": "ea990a447ac3cbb31ee63dd4709c830c11088d202ae24703442545fb245c83cf"
+    },
+    {
+      "path": "C:\\Users\\jb\\Documents\\Codex\\r11726\\audit\\tools\\f3_int109_offline_consumption_store.py",
+      "sha256": "ea990a447ac3cbb31ee63dd4709c830c11088d202ae24703442545fb245c83cf"
+    },
+    {
+      "path": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int109_offline_consumption_store.py",
+      "sha256": "ea990a447ac3cbb31ee63dd4709c830c11088d202ae24703442545fb245c83cf"
+    }
+  ],
+  "storage_identical": true,
+  "capacity": 4096,
+  "correction": "Reject 4097th entry before write; capacity was not removed",
+  "official_marker_changed": false
+}

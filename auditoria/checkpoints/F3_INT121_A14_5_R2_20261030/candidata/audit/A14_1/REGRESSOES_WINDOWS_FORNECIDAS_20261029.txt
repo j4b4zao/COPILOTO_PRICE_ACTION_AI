@@ -1,0 +1,15 @@
+A13_NEGATIVE_EVIDENCE={"handles_signalled_before_safety": {"bridge": false, "gate": false, "owner": true, "worker": false}, "negative_control_detected": true, "optimization": 0, "phase": "source:before_consumption_commit", "real_operations_authorized": false, "runtime_modified": false, "stage": "F3-INT-121 A13"}
+A14_1_PHASE_EVIDENCE={"active_processes_before_safety": 0, "label": "a14_1_after_ack_repeat", "optimization": 0, "phase": "source:after_ack_commit", "real_operations_authorized": false, "runtime_modified": false, "safety_cleanup_confirmed": true}
+A14_1_PHASE_EVIDENCE={"active_processes_before_safety": 0, "label": "a14_1_before_commit_repeat", "optimization": 0, "phase": "source:before_consumption_commit", "real_operations_authorized": false, "runtime_modified": false, "safety_cleanup_confirmed": true}
+----------------------------------------------------------------------
+Ran 170 tests in 311.906s
+
+OK
+(ambiente) PS C:\COPILOTO_F3_A14_TESTE> python -O -B -m unittest discover -s . -p "test_*.py" -q
+A13_NEGATIVE_EVIDENCE={"handles_signalled_before_safety": {"bridge": false, "gate": false, "owner": true, "worker": false}, "negative_control_detected": true, "optimization": 1, "phase": "source:before_consumption_commit", "real_operations_authorized": false, "runtime_modified": false, "stage": "F3-INT-121 A13"}
+A14_1_PHASE_EVIDENCE={"active_processes_before_safety": 0, "label": "a14_1_after_ack_repeat", "optimization": 1, "phase": "source:after_ack_commit", "real_operations_authorized": false, "runtime_modified": false, "safety_cleanup_confirmed": true}
+A14_1_PHASE_EVIDENCE={"active_processes_before_safety": 0, "label": "a14_1_before_commit_repeat", "optimization": 1, "phase": "source:before_consumption_commit", "real_operations_authorized": false, "runtime_modified": false, "safety_cleanup_confirmed": true}
+----------------------------------------------------------------------
+Ran 170 tests in 424.319s
+
+OK

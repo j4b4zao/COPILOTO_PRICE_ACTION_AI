@@ -1,0 +1,98 @@
+--- a/test_f3_int121_a12_boundaries.py
++++ b/test_f3_int121_a12_boundaries.py
+@@ -64,11 +64,17 @@
+ 
+     def wait_json(self, path, timeout=20):
+         until = time.monotonic() + timeout
++        last_error = None
+         while time.monotonic() < until:
+             try:
+                 return json.loads(path.read_bytes())
+-            except (FileNotFoundError, json.JSONDecodeError):
++            except (FileNotFoundError, json.JSONDecodeError, PermissionError) as error:
++                # Windows can temporarily deny a concurrent marker open.
++                # Keep the existing deadline; persistent denial still fails.
++                last_error = error
+                 time.sleep(0.02)
++        if isinstance(last_error, PermissionError):
++            raise last_error
+         self.fail('Controlled boundary marker missing: ' + path.name)
+ 
+     def witness_sequence(self):
+--- /dev/null
++++ b/test_f3_int121_marker_access.py
+@@ -0,0 +1,74 @@
++"""Real Windows sharing-denial probes for the isolated boundary reader."""
++import ctypes
++from ctypes import wintypes
++import json
++import os
++from pathlib import Path
++import tempfile
++import threading
++import unittest
++
++import test_f3_int121_a12_boundaries as boundaries
++
++
++@unittest.skipUnless(os.name == 'nt', 'Real Windows file sharing required')
++class MarkerAccessTests(unittest.TestCase):
++    def setUp(self):
++        scratch = Path(__file__).resolve().parent.parent / 'work'
++        scratch.mkdir(exist_ok=True)
++        temporary = tempfile.TemporaryDirectory(dir=scratch, prefix='marker_access_')
++        self.addCleanup(temporary.cleanup)
++        self.path = Path(temporary.name) / 'marker.json'
++        self.path.write_text('{"ready": true}', encoding='utf-8')
++        self.reader = boundaries.BoundaryTests('test_death_before_source_commit')
++        self.kernel = ctypes.WinDLL('kernel32', use_last_error=True)
++        self.kernel.CreateFileW.argtypes = [wintypes.LPCWSTR, wintypes.DWORD,
++            wintypes.DWORD, ctypes.c_void_p, wintypes.DWORD, wintypes.DWORD,
++            wintypes.HANDLE]
++        self.kernel.CreateFileW.restype = wintypes.HANDLE
++        self.kernel.CloseHandle.argtypes = [wintypes.HANDLE]
++        self.kernel.CloseHandle.restype = wintypes.BOOL
++
++    def exclusive_handle(self):
++        # OPEN_EXISTING, GENERIC_READ, no sharing. This induces an actual OS
++        # denial, rather than mocking Path.read_bytes or the test reader.
++        handle = self.kernel.CreateFileW(str(self.path), 0x80000000, 0, None, 3, 0x80, None)
++        if handle == ctypes.c_void_p(-1).value:
++            raise ctypes.WinError(ctypes.get_last_error())
++        return handle
++
++    def test_transient_sharing_denial_recovers(self):
++        handle = self.exclusive_handle()
++        try:
++            with self.assertRaises(PermissionError):
++                self.path.read_bytes()
++        except BaseException:
++            self.kernel.CloseHandle(handle)
++            raise
++        timer = threading.Timer(0.15, self.kernel.CloseHandle, args=(handle,))
++        timer.start()
++        try:
++            self.assertEqual(self.reader.wait_json(self.path, timeout=2), {'ready': True})
++        finally:
++            timer.join()
++
++    def test_persistent_sharing_denial_still_fails(self):
++        handle = self.exclusive_handle()
++        try:
++            with self.assertRaises(PermissionError):
++                self.reader.wait_json(self.path, timeout=0.1)
++        finally:
++            self.kernel.CloseHandle(handle)
++
++    def test_missing_marker_still_fails(self):
++        with self.assertRaisesRegex(AssertionError, 'Controlled boundary marker missing'):
++            self.reader.wait_json(self.path.with_name('absent.json'), timeout=0.06)
++
++    def test_malformed_marker_still_fails(self):
++        self.path.write_text('{', encoding='utf-8')
++        with self.assertRaisesRegex(AssertionError, 'Controlled boundary marker missing'):
++            self.reader.wait_json(self.path, timeout=0.06)
++
++
++if __name__ == '__main__':
++    unittest.main(verbosity=2)

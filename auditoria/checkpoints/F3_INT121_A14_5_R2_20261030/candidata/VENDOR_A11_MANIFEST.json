@@ -1,0 +1,21 @@
+[
+  {
+    "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int115_process_control.py",
+    "source_sha256": "05b44e551c2ba62696670be1692361b6213ddafbe2287b7767acb5e7bfd68c27",
+    "delivered": "a11_native/tools/f3_int115_process_control.py",
+    "delivered_sha256": "90a7846a9ba0e9b2e5d013c1e5a17dad926f9bd37512486455c105c93a5938e2",
+    "changes": [
+      "Import namespace tools -> a11_native.tools; UTF-8/LF",
+      "Explicit close_fds=True and CREATE_NO_WINDOW for the gate process"
+    ]
+  },
+  {
+    "source": "C:\\COPILOTO_PRICE_ACTION_AI\\f3_int117_corrigida\\audit\\tools\\f3_int115_process_identity.py",
+    "source_sha256": "935e1dbd03ad2e3d60674ecb181fa8a62807aa76ab4c5e32cbcc7a81023e27f8",
+    "delivered": "a11_native/tools/f3_int115_process_identity.py",
+    "delivered_sha256": "935e1dbd03ad2e3d60674ecb181fa8a62807aa76ab4c5e32cbcc7a81023e27f8",
+    "changes": [
+      "Import namespace tools -> a11_native.tools; UTF-8/LF"
+    ]
+  }
+]
