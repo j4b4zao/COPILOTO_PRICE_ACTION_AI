@@ -1,0 +1,16 @@
+{
+  "scope": "Synthetic formatting transformations of old validated logs, not project tests",
+  "checks": [
+    {
+      "mode": 0,
+      "verbose_log_accepted": true
+    },
+    {
+      "mode": 1,
+      "verbose_log_accepted": true
+    },
+    {
+      "held_bridge_and_natural_observations_accepted": true
+    }
+  ]
+}

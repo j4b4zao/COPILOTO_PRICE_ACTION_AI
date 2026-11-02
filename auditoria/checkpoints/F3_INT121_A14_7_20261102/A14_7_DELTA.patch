@@ -1,0 +1,355 @@
+--- /dev/null
++++ b/f3_int121_a14_7_startup_probe.py
+@@ -0,0 +1,185 @@
++"""Private startup-fault probes, always launched inside an outer safety Job.
++
++No production API/status changes. Constructor objects retained here are private
++test observations, not returned proofs from run_native_worker.
++"""
++import errno
++import json
++import os
++from pathlib import Path
++import sys
++import time
++from unittest.mock import patch
++
++MODES = ('create_failure','invalid_cwd','assign_failure','gate_failure',
++         'target_crash','truncated_frame','handshake_timeout','journal_failure','success')
++
++
++def exception(error, stage):
++    return dict(type=type(error).__name__,message=str(error),stage=stage,observed_ns=time.perf_counter_ns(),
++                errno=getattr(error,'errno',None),winerror=getattr(error,'winerror',None),
++                is_os_error=isinstance(error,OSError))
++
++
++def atomic_json(path, data):
++    temporary=path.with_suffix('.pending')
++    temporary.write_text(json.dumps(data),encoding='utf-8')
++    temporary.replace(path)
++
++
++def target(payload):
++    root=Path(payload['root'])
++    mode=payload['mode']
++    atomic_json(root/'target-entered.json',dict(pid=os.getpid(),nonce=payload['nonce'],
++        optimization=sys.flags.optimize,observed_ns=time.perf_counter_ns()))
++    if mode=='target_crash':
++        sys.stderr.write('A14_7_TARGET_STARTUP_CRASH\n')
++        sys.stderr.flush()
++        raise SystemExit(23)
++    if mode=='truncated_frame':
++        sys.stderr.write('A14_7_TARGET_TRUNCATED_FRAME\n')
++        sys.stderr.flush()
++        sys.stdout.write('{"nonce":')
++        sys.stdout.flush()
++        return
++    if mode=='success':
++        print(json.dumps(dict(schema='A14_7_READY',nonce=payload['nonce'],pid=os.getpid(),
++                              optimization=sys.flags.optimize)),flush=True)
++    deadline=time.monotonic()+30
++    while not (root/'release-target').exists():
++        if time.monotonic()>=deadline:
++            raise TimeoutError('A14_7_TARGET_BARRIER_EXPIRED')
++        time.sleep(0.02)
++
++
++def probe(payload):
++    from a11_native.tools import f3_int115_process_control as control
++    from a11_native.tools.f3_int115_process_identity import ProcessRef
++    from f3_int121_a12_boundaries import _launcher
++    from test_f3_int121_a12_boundaries import BoundaryTests
++    root=Path(payload['root'])
++    mode=payload['mode']
++    created=[]
++    primary=[]
++    peer=control.Peer.__new__(control.Peer)
++    original_popen=control.subprocess.Popen
++    original_assign=control.Job.assign
++    original_write=control.Peer._write
++    def fail(kind,message,stage):
++        error=kind(errno.EACCES if kind is PermissionError else errno.EPIPE,message)
++        primary.append(exception(error,stage))
++        raise error
++    def spawn(*args,**kwargs):
++        if mode in ('create_failure','journal_failure'):
++            fail(PermissionError,'A14_7_INJECTED_PROCESS_CREATION','create_process')
++        try:
++            process=original_popen(*args,**kwargs)
++        except OSError as error:
++            primary.append(exception(error,'create_process'))
++            raise
++        ref=ProcessRef(process.pid)
++        created.append(ref)
++        return process
++    def assign(job,process):
++        if mode=='assign_failure':
++            fail(PermissionError,'A14_7_INJECTED_ASSIGNMENT','assign_job')
++        return original_assign(job,process)
++    def write(subject,data):
++        if mode=='gate_failure' and data==b'G':
++            fail(BrokenPipeError,'A14_7_INJECTED_GATE_RELEASE','release_gate')
++        return original_write(subject,data)
++    stage='construct_peer'
++    error=None
++    received=None
++    started=time.perf_counter_ns()
++    try:
++        with patch.object(control.subprocess,'Popen',side_effect=spawn), \
++             patch.object(control.Job,'assign',new=assign), \
++             patch.object(control.Peer,'_write',new=write):
++            cwd=root/'nonexistent-working-directory' if mode=='invalid_cwd' else Path(__file__).resolve().parent
++            control.Peer.__init__(peer,[sys.executable,'-B','-c',_launcher(__name__.replace('__main__','f3_int121_a14_7_startup_probe'),'--target')],
++                                  cwd=cwd,timeout=8 if mode=='handshake_timeout' else 20)
++            stage='send_payload'
++            peer.send(json.dumps(payload))
++            peer.process.stdin.close()
++            stage='wait_target_entry'
++            marker=BoundaryTests('test_death_before_source_commit').wait_json(root/'target-entered.json',timeout=5)
++            if marker['nonce']!=payload['nonce'] or marker['optimization']!=sys.flags.optimize:
++                raise ValueError('A14_7_TARGET_IDENTITY_MISMATCH')
++            stage='recv_handshake'
++            received=peer.recv()
++            if received.get('schema')!='A14_7_READY' or received.get('nonce')!=payload['nonce'] or received.get('optimization')!=sys.flags.optimize:
++                raise ValueError('A14_7_INVALID_HANDSHAKE')
++            stage='handshake_validated'
++    except BaseException as caught:
++        error=exception(caught,stage)
++    was_closed=peer.closed
++    cleanup_started=time.perf_counter_ns()
++    cleanup_error=None
++    try:
++        if not peer.closed:
++            peer.close()
++    except BaseException as caught:
++        cleanup_error=exception(caught,'subject_cleanup')
++    cleanup_finished=time.perf_counter_ns()
++    direct=[]
++    for ref in created:
++        try:
++            direct.append(dict(identity=ref.identity,exit_confirmed=ref.signalled(),proof='PINNED_HANDLE_SIGNALLED'))
++        finally:
++            ref.close()
++    marker=None
++    if (root/'target-entered.json').exists():
++        marker=json.loads((root/'target-entered.json').read_bytes())
++    result=dict(schema='A14_7_STARTUP_RECORD',mode=mode,nonce=payload['nonce'],probe_pid=os.getpid(),
++        optimization=sys.flags.optimize,started_ns=started,cleanup_confirmation_started_ns=cleanup_started,
++        cleanup_confirmation_finished_ns=cleanup_finished,observed_error=error,primary_errors=primary,
++        detector_failure=exception(peer.failure,'detector') if peer.failure else None,
++        subject_constructor_completed=stage!='construct_peer',subject_assigned=peer.assigned,
++        subject_cleanup=peer.cleanup,subject_cleanup_error=cleanup_error,
++        subject_job_handle_closed=peer.job.handle is None,subject_tracker_closed=peer.job.tracker.closed,
++        subject_was_closed_before_confirmation=was_closed,
++        subject_cleanup_scope='INNER_JOB_AND_DIRECT_LAUNCH_PROCESS_ONLY',
++        full_subtree_exit_requires_outer_safety_proof=True,
++        direct_processes=direct,target_entry=marker,received_frame=received,
++        subject_stderr=bytes(peer.stderr).decode('utf-8',errors='replace'),
++        journal_error=None,journal_written=False,f3='OPEN',offline=True,simulation_only=True,
++        real_operations_authorized=False,runtime_modified=False,
++        constructor_evidence_is_private=True,production_api_changed=False,
++        controlled_injection=mode in ('create_failure','assign_failure','gate_failure','journal_failure'))
++    result['journal_attempt_started_ns']=time.perf_counter_ns()
++    try:
++        path=root/'startup-journal.json'
++        if mode=='journal_failure':
++            blocked=root/'not-a-directory'
++            blocked.write_text('private test fixture',encoding='utf-8')
++            path=blocked/'startup-journal.json'
++        result['journal_written']=True
++        atomic_json(path,result)
++    except OSError as caught:
++        result['journal_written']=False
++        result['journal_error']=exception(caught,'publish_after_cleanup')
++        sys.stderr.write('A14_7_JOURNAL_PUBLISH_FAILED\n')
++        sys.stderr.flush()
++    # This fallback record is emitted only after cleanup, independently of
++    # whether the specimen's own journal could be written.
++    print(json.dumps(result),flush=True)
++    deadline=time.monotonic()+40
++    while not (root/'release-probe').exists():
++        if time.monotonic()>=deadline:
++            raise TimeoutError('A14_7_OBSERVER_DID_NOT_RELEASE_PROBE')
++        time.sleep(0.02)
++
++
++if __name__=='__main__':
++    if os.name!='nt':
++        raise RuntimeError('Native Windows startup probes required')
++    payload=json.loads(sys.stdin.readline())
++    if set(payload)!={'root','mode','nonce'} or payload['mode'] not in MODES:
++        raise ValueError('Invalid private startup payload')
++    if sys.argv[1:]==['--probe']:
++        probe(payload)
++    elif sys.argv[1:]==['--target']:
++        target(payload)
++    else:
++        raise ValueError('Invalid startup entry point')
+--- /dev/null
++++ b/test_f3_int121_a14_7_startup.py
+@@ -0,0 +1,164 @@
++"""Startup diagnostics with real outer safety containment; no API promotion."""
++import json
++import os
++from pathlib import Path
++import tempfile
++import time
++import unittest
++import uuid
++import sys
++
++import test_f3_int121_a12_boundaries as boundaries
++
++if os.name=='nt':
++    from a11_native.tools import f3_int115_process_control as control
++    from a11_native.tools.f3_int115_process_identity import ProcessRef
++
++
++@unittest.skipUnless(os.name=='nt','Native Windows Jobs required')
++class StartupDiagnostics(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        cls.scratch=Path(__file__).resolve().parent.parent/'work'
++        cls.scratch.mkdir(exist_ok=True)
++        cls.evidence=Path(tempfile.mkdtemp(prefix=f'a14_7_startup_evidence_O{sys.flags.optimize}_',dir=cls.scratch))
++
++    def setUp(self):
++        temp=tempfile.TemporaryDirectory(prefix='a14_7_startup_',dir=self.scratch)
++        self.addCleanup(temp.cleanup)
++        self.root=Path(temp.name)
++
++    def _run(self,mode):
++        nonce=uuid.uuid4().hex
++        outer=None
++        ref=None
++        result=None
++        failure=None
++        try:
++            outer=control.Peer([sys.executable,'-B','-c',boundaries._launcher('f3_int121_a14_7_startup_probe','--probe')],
++                               cwd=Path(__file__).resolve().parent,timeout=60)
++            outer.send(json.dumps(dict(root=str(self.root),mode=mode,nonce=nonce)))
++            outer.process.stdin.close()
++            result=outer.recv()
++            self.assertEqual(result['schema'],'A14_7_STARTUP_RECORD')
++            self.assertEqual(result['mode'],mode)
++            self.assertEqual(result['nonce'],nonce)
++            self.assertEqual(result['optimization'],sys.flags.optimize)
++            ref=ProcessRef(result['probe_pid'],outer.job.handle)
++            self.assertFalse(ref.signalled())
++            cleanup=result['subject_cleanup']
++            self.assertIsNone(result['subject_cleanup_error'])
++            self.assertTrue(cleanup['confirmed'])
++            self.assertEqual(cleanup['active_processes'],0)
++            self.assertFalse(cleanup['live_io_threads'])
++            self.assertTrue(result['subject_job_handle_closed'])
++            self.assertTrue(result['subject_tracker_closed'])
++            self.assertTrue(all(p['exit_confirmed'] for p in cleanup['processes']))
++            self.assertTrue(all(p['exit_confirmed'] for p in result['direct_processes']))
++            self.assertLessEqual(result['cleanup_confirmation_finished_ns'],result['journal_attempt_started_ns'])
++            self.assertEqual(result['subject_cleanup_scope'],'INNER_JOB_AND_DIRECT_LAUNCH_PROCESS_ONLY')
++            self.assertTrue(result['full_subtree_exit_requires_outer_safety_proof'])
++            self.assertFalse(result['production_api_changed'])
++            self.assertFalse(result['real_operations_authorized'])
++            error=result['observed_error']
++            prestart=mode in ('create_failure','invalid_cwd','assign_failure','gate_failure','journal_failure')
++            self.assertEqual(result['target_entry'] is None,prestart)
++            self.assertEqual(len(result['direct_processes']),0 if mode in ('create_failure','invalid_cwd','journal_failure') else 1)
++            if mode=='success':
++                self.assertIsNone(error)
++                self.assertEqual(result['received_frame']['nonce'],nonce)
++            else:
++                self.assertIsNotNone(error)
++                self.assertIsNone(result['received_frame'])
++            if mode in ('create_failure','assign_failure','journal_failure'):
++                self.assertEqual(error['type'],'PermissionError')
++                self.assertEqual(error['errno'],13)
++                self.assertIsNone(error['winerror'])
++                self.assertEqual(error['stage'],'construct_peer')
++                self.assertEqual(len(result['primary_errors']),1)
++            elif mode=='invalid_cwd':
++                self.assertTrue(error['is_os_error'])
++                self.assertIsInstance(error['winerror'],int)
++                self.assertGreater(error['winerror'],0)
++            elif mode=='gate_failure':
++                self.assertEqual(error['type'],'BrokenPipeError')
++                self.assertEqual(result['primary_errors'][0]['stage'],'release_gate')
++                self.assertTrue(result['subject_assigned'])
++            elif mode=='target_crash':
++                self.assertEqual(error['type'],'EOFError')
++                self.assertIn('A14_7_TARGET_STARTUP_CRASH',result['subject_stderr'])
++            elif mode=='truncated_frame':
++                self.assertEqual(error['type'],'RuntimeError')
++                self.assertEqual(error['message'],'Truncated stdout frame')
++                self.assertIn('A14_7_TARGET_TRUNCATED_FRAME',result['subject_stderr'])
++            elif mode=='handshake_timeout':
++                self.assertEqual(error['type'],'TimeoutError')
++                self.assertEqual(error['stage'],'recv_handshake')
++                self.assertIsNotNone(result['target_entry'])
++            if mode=='journal_failure':
++                self.assertFalse(result['journal_written'])
++                self.assertTrue(result['journal_error']['is_os_error'])
++                self.assertEqual(result['journal_error']['stage'],'publish_after_cleanup')
++            else:
++                self.assertTrue(result['journal_written'])
++                self.assertIsNone(result['journal_error'])
++        except BaseException as caught:
++            failure=dict(type=type(caught).__name__,message=str(caught))
++            raise
++        finally:
++            start=time.perf_counter_ns()
++            cleanup_error=None
++            try:
++                if outer is not None:
++                    outer.close()
++            except BaseException as caught:
++                cleanup_error=repr(caught)
++            after=ref.signalled() if ref is not None else None
++            identity=dict(ref.identity) if ref is not None else None
++            record=dict(test=self._testMethodName,mode=mode,nonce=nonce,optimization=sys.flags.optimize,
++                result=result,observer_error=failure,outer_cleanup=outer.cleanup if outer else None,
++                outer_cleanup_error=cleanup_error,outer_cleanup_started_ns=start,
++                outer_cleanup_finished_ns=time.perf_counter_ns(),probe_identity=identity,
++                probe_signalled_after_cleanup=after,
++                outer_stderr=bytes(outer.stderr).decode('utf-8',errors='replace') if outer else '',
++                f3='OPEN',offline=True,simulation_only=True,real_operations_authorized=False,runtime_modified=False,
++                operational_locks={key:False for key in ('orders_allowed','live_certified','flow_complete',
++                    'f3_resolved','native_prototype_authorized','strict_deadline_guaranteed','authenticated_witness_verified')})
++            try:
++                (self.evidence/(self._testMethodName+'.json')).write_text(json.dumps(record,indent=2),encoding='utf-8')
++            finally:
++                if ref is not None:
++                    ref.close()
++            if cleanup_error:
++                raise RuntimeError('A14_7_OUTER_CLEANUP_FAILED: '+cleanup_error)
++            self.assertIsNotNone(outer)
++            self.assertTrue(outer.cleanup['confirmed'])
++            self.assertEqual(outer.cleanup['active_processes'],0)
++            self.assertFalse(outer.cleanup['live_io_threads'])
++            self.assertTrue(after)
++            self.assertTrue(all(p['exit_confirmed'] for p in outer.cleanup['processes']))
++        outer_rows=outer.cleanup['processes']
++        for process in result['direct_processes']:
++            identity=process['identity']
++            matches=[row for row in outer_rows if
++                     (row.get('identity') is not None and row['identity']['pid']==identity['pid'] and
++                      row['identity']['creation_100ns']==identity['creation_100ns']) or
++                     (row.get('proof')=='OWN_JOB_EXIT_NOTIFICATION' and row.get('pid')==identity['pid'])]
++            self.assertTrue(matches,'Created gate absent from outer safety Job proof')
++        print('A14_7_STARTUP_EVIDENCE='+json.dumps(dict(mode=mode,optimization=sys.flags.optimize,
++            expected_startup_failure=mode!='success',subject_cleanup_confirmed=True,
++            outer_cleanup_confirmed=True,diagnostic_fallback=mode=='journal_failure',
++            real_operations_authorized=False,runtime_modified=False)),flush=True)
++
++    def test_injected_creation_failure_preserves_errno(self): self._run('create_failure')
++    def test_real_invalid_cwd_preserves_winerror(self): self._run('invalid_cwd')
++    def test_assignment_failure_never_releases_target(self): self._run('assign_failure')
++    def test_gate_release_failure_never_releases_target(self): self._run('gate_failure')
++    def test_target_crash_preserves_stderr(self): self._run('target_crash')
++    def test_truncated_handshake_is_not_accepted(self): self._run('truncated_frame')
++    def test_missing_handshake_times_out_after_entry(self): self._run('handshake_timeout')
++    def test_journal_failure_preserves_fallback_after_cleanup(self): self._run('journal_failure')
++    def test_successful_handshake_control_still_cleans(self): self._run('success')
++
++
++if __name__=='__main__': unittest.main(verbosity=2)

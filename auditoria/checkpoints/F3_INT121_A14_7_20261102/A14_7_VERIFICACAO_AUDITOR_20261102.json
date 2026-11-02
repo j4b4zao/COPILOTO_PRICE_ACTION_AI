@@ -1,0 +1,219 @@
+{
+  "scope": "Synthetic adversarial checks, separate from 201 project tests per mode",
+  "original_records_accepted": 18,
+  "counterexamples": [
+    {
+      "case": "cleanup_false",
+      "rejected": true,
+      "reasons": [
+        "Cleanup unconfirmed/active processes"
+      ]
+    },
+    {
+      "case": "active_process",
+      "rejected": true,
+      "reasons": [
+        "Cleanup unconfirmed/active processes"
+      ]
+    },
+    {
+      "case": "live_thread",
+      "rejected": true,
+      "reasons": [
+        "Cleanup errors/live threads"
+      ]
+    },
+    {
+      "case": "missing_probe_identity",
+      "rejected": true,
+      "reasons": [
+        "Probe identity/exit missing",
+        "Probe absent from pinned outer proof"
+      ]
+    },
+    {
+      "case": "probe_not_signalled",
+      "rejected": true,
+      "reasons": [
+        "Probe identity/exit missing"
+      ]
+    },
+    {
+      "case": "subtree_proof_missing",
+      "rejected": true,
+      "reasons": [
+        "Missing native exit proofs",
+        "Probe absent from pinned outer proof",
+        "Direct process absent from outer subtree proof"
+      ]
+    },
+    {
+      "case": "inner_proof_promoted",
+      "rejected": true,
+      "reasons": [
+        "Private proof scope promoted"
+      ]
+    },
+    {
+      "case": "changed_api",
+      "rejected": true,
+      "reasons": [
+        "Private proof scope promoted"
+      ]
+    },
+    {
+      "case": "real_trading_enabled",
+      "rejected": true,
+      "reasons": [
+        "Operational restrictions changed"
+      ]
+    },
+    {
+      "case": "lock_enabled",
+      "rejected": true,
+      "reasons": [
+        "Missing/enabled operational lock"
+      ]
+    },
+    {
+      "case": "lock_removed",
+      "rejected": true,
+      "reasons": [
+        "Missing/enabled operational lock"
+      ]
+    },
+    {
+      "case": "wrong_nonce",
+      "rejected": true,
+      "reasons": [
+        "Cross-record identity mismatch"
+      ]
+    },
+    {
+      "case": "wrong_frame_pid",
+      "rejected": true,
+      "reasons": [
+        "Invalid control handshake"
+      ]
+    },
+    {
+      "case": "boolean_frame_mode",
+      "rejected": true,
+      "reasons": [
+        "Invalid control handshake"
+      ]
+    },
+    {
+      "case": "fake_entry",
+      "rejected": true,
+      "reasons": [
+        "Target entry violates startup barrier",
+        "Invalid target marker",
+        "Target missing from outer subtree proof"
+      ]
+    },
+    {
+      "case": "lost_errno",
+      "rejected": true,
+      "reasons": [
+        "Original error lost",
+        "Injected errno altered"
+      ]
+    },
+    {
+      "case": "fake_winerror",
+      "rejected": true,
+      "reasons": [
+        "Original error lost",
+        "Injected errno altered"
+      ]
+    },
+    {
+      "case": "real_error_marked_injected",
+      "rejected": true,
+      "reasons": [
+        "Real/injected error misclassified"
+      ]
+    },
+    {
+      "case": "lost_real_winerror",
+      "rejected": true,
+      "reasons": [
+        "Original error lost",
+        "Real Windows error missing"
+      ]
+    },
+    {
+      "case": "assignment_lied",
+      "rejected": true,
+      "reasons": [
+        "Wrong Job assignment state"
+      ]
+    },
+    {
+      "case": "stderr_lost",
+      "rejected": true,
+      "reasons": [
+        "Crash stderr lost"
+      ]
+    },
+    {
+      "case": "truncated_frame_accepted",
+      "rejected": true,
+      "reasons": [
+        "Failure accepted as handshake"
+      ]
+    },
+    {
+      "case": "timeout_wrong_stage",
+      "rejected": true,
+      "reasons": [
+        "Wrong failure stage"
+      ]
+    },
+    {
+      "case": "journal_marked_written",
+      "rejected": true,
+      "reasons": [
+        "Journal fallback diagnostic lost"
+      ]
+    },
+    {
+      "case": "fallback_stderr_lost",
+      "rejected": true,
+      "reasons": [
+        "Journal fallback diagnostic lost"
+      ]
+    },
+    {
+      "case": "journal_before_cleanup",
+      "rejected": true,
+      "reasons": [
+        "Cleanup/journal temporal order invalid"
+      ]
+    },
+    {
+      "case": "primary_error_reordered",
+      "rejected": true,
+      "reasons": [
+        "Primary error occurred after observed error"
+      ]
+    },
+    {
+      "case": "outer_cleanup_before_journal",
+      "rejected": true,
+      "reasons": [
+        "Cleanup/journal temporal order invalid"
+      ]
+    },
+    {
+      "case": "missing_scenario",
+      "rejected": true
+    },
+    {
+      "case": "malformed_record",
+      "rejected": true
+    }
+  ],
+  "accepted": true
+}
