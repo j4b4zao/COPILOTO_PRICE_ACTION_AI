@@ -1,0 +1,148 @@
+--- /dev/null
++++ b/test_f3_int121_a14_10_observer.py
+@@ -0,0 +1,145 @@
++"""Private observer faults after genuine denial; cleanup precedes diagnostics."""
++import base64
++import contextlib
++import ctypes
++from ctypes import wintypes
++import hashlib
++import io
++import json
++import os
++from pathlib import Path
++import sys
++import tempfile
++import time
++import unittest
++
++import f3_int121_a14_9_readback as reader
++import test_f3_int121_a14_7_startup as startup
++
++
++@unittest.skipUnless(os.name=='nt','Native Windows safety Jobs and sharing required')
++class ObserverFaults(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        cls.scratch=Path(__file__).resolve().parent.parent/'work'
++        cls.scratch.mkdir(exist_ok=True)
++        cls.evidence=Path(tempfile.mkdtemp(prefix=f'a14_10_observer_evidence_O{sys.flags.optimize}_',dir=cls.scratch))
++
++    def _run(self,scenario):
++        method='test_successful_handshake_control_still_cleans'
++        fixture=startup.StartupDiagnostics(method)
++        fixture.scratch=self.scratch
++        fixture.evidence=Path(tempfile.mkdtemp(prefix='a14_10_native_',dir=self.scratch))
++        fixture.setUp()
++        kernel=ctypes.WinDLL('kernel32',use_last_error=True)
++        kernel.CreateFileW.argtypes=[wintypes.LPCWSTR,wintypes.DWORD,wintypes.DWORD,ctypes.c_void_p,
++                                    wintypes.DWORD,wintypes.DWORD,wintypes.HANDLE]
++        kernel.CreateFileW.restype=wintypes.HANDLE
++        kernel.CloseHandle.argtypes=[wintypes.HANDLE]
++        kernel.CloseHandle.restype=wintypes.BOOL
++        invalid=ctypes.c_void_p(-1).value
++        handle=None
++        native=None
++        raw=None
++        after=None
++        result=None
++        callback_error=None
++        failure=None
++        close_error=None
++        win32_denial=None
++        callbacks=[]
++        times={}
++        def release():
++            nonlocal handle
++            if handle is not None:
++                times['release_started_ns']=time.perf_counter_ns()
++                if not kernel.CloseHandle(handle): raise ctypes.WinError(ctypes.get_last_error())
++                handle=None
++                times['release_finished_ns']=time.perf_counter_ns()
++        def callback(error):
++            event=dict(error=error,started_ns=time.perf_counter_ns())
++            callbacks.append(event)
++            try:
++                if scenario=='over_budget':
++                    time.sleep(0.2)
++                    release()
++                    return
++                if scenario=='fail_after_release': release()
++                raise RuntimeError('A14_10_CONTROLLED_CALLBACK_FAILURE')
++            finally:
++                event['finished_ns']=time.perf_counter_ns()
++        try:
++            with contextlib.redirect_stdout(io.StringIO()): fixture._run('success')
++            native=json.loads((fixture.evidence/(method+'.json')).read_bytes())
++            path=fixture.root/'startup-journal.json'
++            times['original_read_ns']=time.perf_counter_ns()
++            self.assertLessEqual(native['outer_cleanup_finished_ns'],times['original_read_ns'])
++            raw=path.read_bytes()
++            handle=kernel.CreateFileW(str(path),0x80000000,0,None,3,0x80,None)
++            if handle==invalid:
++                handle=None
++                raise ctypes.WinError(ctypes.get_last_error())
++            times['lock_acquired_ns']=time.perf_counter_ns()
++            probe=kernel.CreateFileW(str(path),0x80000000,7,None,3,0x80,None)
++            win32_denial=ctypes.get_last_error() if probe==invalid else None
++            if probe!=invalid: kernel.CloseHandle(probe)
++            self.assertEqual(win32_denial,32)
++            times['reader_started_ns']=time.perf_counter_ns()
++            try:
++                result=reader.read(path,native['result'],timeout=0.1,after_denial=callback)
++                self.assertIsNone(result.pop('raw'))
++            except RuntimeError as error:
++                callback_error=dict(type=type(error).__name__,message=str(error),observed_ns=time.perf_counter_ns())
++            times['reader_finished_ns']=time.perf_counter_ns()
++            self.assertEqual(len(callbacks),1)
++            self.assertEqual(callbacks[0]['error']['type'],'PermissionError')
++            self.assertEqual(callbacks[0]['error']['errno'],13)
++            if scenario=='over_budget':
++                self.assertIsNone(callback_error)
++                self.assertEqual(result['status'],'JOURNAL_READ_DENIED')
++                self.assertEqual(len(result['attempts']),1,'A late read must not begin after callback budget expiry')
++                self.assertIsNone(result['verification'])
++                self.assertGreaterEqual(result['finished_ns'],result['deadline_ns'])
++                self.assertGreaterEqual(callbacks[0]['finished_ns'],result['deadline_ns'])
++            else:
++                self.assertIsNone(result)
++                self.assertEqual(callback_error['type'],'RuntimeError')
++                self.assertEqual(callback_error['message'],'A14_10_CONTROLLED_CALLBACK_FAILURE')
++        except BaseException as error:
++            failure=dict(type=type(error).__name__,message=str(error))
++            raise
++        finally:
++            times['finally_started_ns']=time.perf_counter_ns()
++            try:
++                release()
++                if raw is not None:
++                    times['post_close_read_ns']=time.perf_counter_ns()
++                    after=(fixture.root/'startup-journal.json').read_bytes()
++            except BaseException as error:
++                close_error=repr(error)
++            record=dict(test=self._testMethodName,scenario=scenario,optimization=sys.flags.optimize,
++                native=native,callbacks=callbacks,callback_error=callback_error,reader=result,timings=times,
++                win32_denial=win32_denial,lock_closed=handle is None,close_error=close_error,observer_error=failure,
++                original_base64=base64.b64encode(raw).decode('ascii') if raw is not None else None,
++                post_close_base64=base64.b64encode(after).decode('ascii') if after is not None else None,
++                sha256=hashlib.sha256(raw).hexdigest() if raw is not None else None,
++                fault_is_controlled=True,f3='OPEN',offline=True,simulation_only=True,
++                real_operations_authorized=False,runtime_modified=False,production_api_changed=False,
++                strict_deadline_guaranteed=False,authentication_tested=False,durability_tested=False)
++            try:
++                (self.evidence/(self._testMethodName+'.json')).write_text(json.dumps(record,indent=2),encoding='utf-8')
++            finally:
++                fixture.doCleanups()
++            if close_error: raise RuntimeError('A14_10_FINAL_CLEANUP_FAILED: '+close_error)
++            self.assertIsNone(handle)
++            self.assertEqual(after,raw)
++        print('A14_10_OBSERVER_EVIDENCE='+json.dumps(dict(scenario=scenario,optimization=sys.flags.optimize,
++            controlled_callback_failure=scenario!='over_budget',lock_closed=True,outer_cleanup_confirmed=True,
++            real_operations_authorized=False,runtime_modified=False)),flush=True)
++
++    def test_callback_failure_before_release_still_closes(self): self._run('fail_before_release')
++    def test_callback_failure_after_release_preserves_error(self): self._run('fail_after_release')
++    def test_callback_budget_overrun_prevents_late_read(self): self._run('over_budget')
++
++
++if __name__=='__main__': unittest.main(verbosity=2)

@@ -1,0 +1,111 @@
+{
+  "scope": "Synthetic evidence corruptions, separate from 216 project tests per mode",
+  "original_native_records_accepted": 6,
+  "counterexamples": [
+    {
+      "case": "native_cleanup_false",
+      "rejected": true
+    },
+    {
+      "case": "native_probe_alive",
+      "rejected": true
+    },
+    {
+      "case": "post_close_bytes_changed",
+      "rejected": true
+    },
+    {
+      "case": "hash_changed",
+      "rejected": true
+    },
+    {
+      "case": "error_lost",
+      "rejected": true
+    },
+    {
+      "case": "error_message_changed",
+      "rejected": true
+    },
+    {
+      "case": "missing_callback",
+      "rejected": true
+    },
+    {
+      "case": "denial_type_changed",
+      "rejected": true
+    },
+    {
+      "case": "denial_errno_lost",
+      "rejected": true
+    },
+    {
+      "case": "fake_win32_error",
+      "rejected": true
+    },
+    {
+      "case": "lock_left_open",
+      "rejected": true
+    },
+    {
+      "case": "close_failed",
+      "rejected": true
+    },
+    {
+      "case": "finally_before_reader",
+      "rejected": true
+    },
+    {
+      "case": "premature_release",
+      "rejected": true
+    },
+    {
+      "case": "release_after_read",
+      "rejected": true
+    },
+    {
+      "case": "late_read_accepted",
+      "rejected": true
+    },
+    {
+      "case": "late_attempt_added",
+      "rejected": true
+    },
+    {
+      "case": "verification_manufactured",
+      "rejected": true
+    },
+    {
+      "case": "last_denial_lost",
+      "rejected": true
+    },
+    {
+      "case": "budget_changed",
+      "rejected": true
+    },
+    {
+      "case": "unexpected_callback_error",
+      "rejected": true
+    },
+    {
+      "case": "scope_strict_deadline",
+      "rejected": true
+    },
+    {
+      "case": "real_operations_enabled",
+      "rejected": true
+    },
+    {
+      "case": "uncontrolled_fault",
+      "rejected": true
+    },
+    {
+      "case": "observer_failed",
+      "rejected": true
+    },
+    {
+      "case": "boolean_mode",
+      "rejected": true
+    }
+  ],
+  "accepted": true
+}

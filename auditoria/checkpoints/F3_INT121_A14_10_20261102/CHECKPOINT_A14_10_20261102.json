@@ -1,0 +1,642 @@
+{
+  "date": "2026-11-02",
+  "stage": "F3-INT-121 A14.10",
+  "status": "A14_10_VALIDADA_LOCALMENTE",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "real_operations_authorized": false,
+  "runtime_modified": false,
+  "production_api_changed": false,
+  "original_project_modified": false,
+  "previous_177_source_files_preserved": true,
+  "source_files": 178,
+  "source_mismatches": [],
+  "expected_tests_per_mode": 216,
+  "modes": [
+    {
+      "log": "outputs\\a14_10_regressao_normal_20261102.log",
+      "sha256": "a269ed7365e61d1359a7657cb482b712da2e6a26a477454671f20ef0c1b30884",
+      "optimization": 0,
+      "summary": [
+        [
+          "216",
+          "351.710"
+        ]
+      ],
+      "evidence_counts": {
+        "A13_NEGATIVE_EVIDENCE": 1,
+        "A14_10_OBSERVER_EVIDENCE": 3,
+        "A14_1_PHASE_EVIDENCE": 2,
+        "A14_2_SURVIVOR_EVIDENCE": 3,
+        "A14_3_CLEANUP_EVIDENCE": 2,
+        "A14_4_EXIT_ORDER_EVIDENCE": 9,
+        "A14_5_REPEAT_EVIDENCE": 6,
+        "A14_6_EXPECTED_FAILURE_EVIDENCE": 2,
+        "A14_6_BARRIER_EVIDENCE": 4,
+        "A14_6_HELD_BRIDGE_REPEAT_EVIDENCE": 6,
+        "A14_7_STARTUP_EVIDENCE": 9,
+        "A14_8_JOURNAL_EVIDENCE": 8,
+        "A14_9_SHARING_EVIDENCE": 4
+      },
+      "survivors_observed_in_repeats": 5,
+      "accepted": true,
+      "failures": []
+    },
+    {
+      "log": "outputs\\a14_10_regressao_otimizado_20261102.log",
+      "sha256": "bded2063e6993e871c55b27e10a1083e363f6dc4ab12f96d01f8eba3bf0bbd9b",
+      "optimization": 1,
+      "summary": [
+        [
+          "216",
+          "428.432"
+        ]
+      ],
+      "evidence_counts": {
+        "A13_NEGATIVE_EVIDENCE": 1,
+        "A14_10_OBSERVER_EVIDENCE": 3,
+        "A14_1_PHASE_EVIDENCE": 2,
+        "A14_2_SURVIVOR_EVIDENCE": 3,
+        "A14_3_CLEANUP_EVIDENCE": 2,
+        "A14_4_EXIT_ORDER_EVIDENCE": 9,
+        "A14_5_REPEAT_EVIDENCE": 6,
+        "A14_6_EXPECTED_FAILURE_EVIDENCE": 2,
+        "A14_6_BARRIER_EVIDENCE": 4,
+        "A14_6_HELD_BRIDGE_REPEAT_EVIDENCE": 6,
+        "A14_7_STARTUP_EVIDENCE": 9,
+        "A14_8_JOURNAL_EVIDENCE": 8,
+        "A14_9_SHARING_EVIDENCE": 4
+      },
+      "survivors_observed_in_repeats": 6,
+      "accepted": true,
+      "failures": []
+    }
+  ],
+  "specific": [
+    {
+      "optimization": 0,
+      "accepted": true,
+      "summary": [
+        [
+          "3",
+          "4.442"
+        ]
+      ],
+      "sha256": "1b4a244c4db31c33ce824ab57c36bffc2b2fb60702cf7d8b982ba814e57482cd"
+    },
+    {
+      "optimization": 1,
+      "accepted": true,
+      "summary": [
+        [
+          "3",
+          "8.180"
+        ]
+      ],
+      "sha256": "3582414a8e2db6842137ba0e59fee478dc5641d07e030fcb804a89cb59c6c92d"
+    }
+  ],
+  "audits": {
+    "boundaries": {
+      "accepted": true,
+      "failures": [],
+      "files": [
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O0_atrelkuc\\a14_1_after_ack_repeat.json",
+          "sha256": "46ced0dd759c350bdcef29bb89a9a20606ee5fa6de8086228a5a0149b6572dad",
+          "optimization": 0,
+          "test": "a14_1_after_ack_repeat"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O0_atrelkuc\\a14_1_before_commit_repeat.json",
+          "sha256": "12062db2c6ae6c5bf1470ef642038bf9824fddf36aefd73d727943ed244597ae",
+          "optimization": 0,
+          "test": "a14_1_before_commit_repeat"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O0_eywmwm6q\\a14_2_positive_inner_kill_on_close.json",
+          "sha256": "400c018e148a67cc76c7a6fbb1de83d5780220b722e863fd7492196ee1e03ee1",
+          "optimization": 0,
+          "test": "a14_2_positive_inner_kill_on_close"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O0_g61knr4f\\test_death_after_local_ack_commit.json",
+          "sha256": "e00276996a9e7d5d0f8bcdf927f8b789517d315a168f8974498035d255d44e7f",
+          "optimization": 0,
+          "test": "test_death_after_local_ack_commit"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O0_g61knr4f\\test_death_after_pending_insert.json",
+          "sha256": "77945a1f1a097fe98405cc3b260ab1ba7951835127b360c2aa7778576e8367c1",
+          "optimization": 0,
+          "test": "test_death_after_pending_insert"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O0_g61knr4f\\test_death_after_source_commit.json",
+          "sha256": "2d05fb74cf4b345132e2ea2ce624a93670a824d7ebcef94304919c619795ff17",
+          "optimization": 0,
+          "test": "test_death_after_source_commit"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O0_g61knr4f\\test_death_after_source_update.json",
+          "sha256": "7c93de23cb2f41c5391662eeeb13c81546addf2da89d33eebdc19082d12f2652",
+          "optimization": 0,
+          "test": "test_death_after_source_update"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O0_g61knr4f\\test_death_after_witness_commit.json",
+          "sha256": "c5d2428cdfc61fd2b4ed60e75544555a21fa5af44cfabd801e3888e6690d4cea",
+          "optimization": 0,
+          "test": "test_death_after_witness_commit"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O0_g61knr4f\\test_death_before_local_ack_commit.json",
+          "sha256": "561a30da03291b94cef7a1d2a7dcadf5e6e987de985423ee69fac8abcddbacc9",
+          "optimization": 0,
+          "test": "test_death_before_local_ack_commit"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O0_g61knr4f\\test_death_before_source_commit.json",
+          "sha256": "2f7ce58e14da6c6574b1d56a36c6ab516d37b79eb8e23dd7db893c5d92600df5",
+          "optimization": 0,
+          "test": "test_death_before_source_commit"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O0_g61knr4f\\test_death_before_witness_commit.json",
+          "sha256": "13ebd8adaf9f9b2441abe5c73fd2e9b79d1d0be5cc29e1655e6adfaf972f51b4",
+          "optimization": 0,
+          "test": "test_death_before_witness_commit"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O0_g61knr4f\\test_releasing_boundary_without_death_commits_normally.json",
+          "sha256": "077b51f6cd87d583e8942afbe8659944019405ecd95f5c8f03b46c574aa246fe",
+          "optimization": 0,
+          "test": "test_releasing_boundary_without_death_commits_normally"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O1_6dz4pj_a\\test_death_after_local_ack_commit.json",
+          "sha256": "b6f52cd9660372c52b95174df951e610939e2366551ab120c98b2baecaeae29c",
+          "optimization": 1,
+          "test": "test_death_after_local_ack_commit"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O1_6dz4pj_a\\test_death_after_pending_insert.json",
+          "sha256": "976468500ad4158afc6b55b53aac3602e2ec551ff1bb63e70834d7b98e98458e",
+          "optimization": 1,
+          "test": "test_death_after_pending_insert"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O1_6dz4pj_a\\test_death_after_source_commit.json",
+          "sha256": "5ec733b2a6df3830d069d1684c55d4cfa61125da813b2d655219f94ea01c9c7d",
+          "optimization": 1,
+          "test": "test_death_after_source_commit"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O1_6dz4pj_a\\test_death_after_source_update.json",
+          "sha256": "2ddb4a39427f4f63694fe45c93f77165440729bdad401d4724882520e5c35775",
+          "optimization": 1,
+          "test": "test_death_after_source_update"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O1_6dz4pj_a\\test_death_after_witness_commit.json",
+          "sha256": "8a4c407d652eeb8c77c9804c1a19260b9a1753f5f5b699bfb8d13571dfa6bf6f",
+          "optimization": 1,
+          "test": "test_death_after_witness_commit"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O1_6dz4pj_a\\test_death_before_local_ack_commit.json",
+          "sha256": "31c57c6f9e1670fc8407907ffb8ac1f004638512498f21e43fdbb85acbee154b",
+          "optimization": 1,
+          "test": "test_death_before_local_ack_commit"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O1_6dz4pj_a\\test_death_before_source_commit.json",
+          "sha256": "54789db71f6ed85977f7cbedba27b231b95cde40df2abc794436aa1601864bed",
+          "optimization": 1,
+          "test": "test_death_before_source_commit"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O1_6dz4pj_a\\test_death_before_witness_commit.json",
+          "sha256": "9b9b78e38ec386877b48146eb2d509becbb4a39afda3a1c5ed61308f5e0baadf",
+          "optimization": 1,
+          "test": "test_death_before_witness_commit"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O1_6dz4pj_a\\test_releasing_boundary_without_death_commits_normally.json",
+          "sha256": "364aafbca9cf822ad16cd391e2eb0521f2f15b9dd61750c5ff1ba20b5a4a074e",
+          "optimization": 1,
+          "test": "test_releasing_boundary_without_death_commits_normally"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O1_6lr4p6pp\\a14_2_positive_inner_kill_on_close.json",
+          "sha256": "11c97ed0d2d441995d05c1dcb2bfd62ebba4a7b266c414f7a52bb78c0b7cbf4a",
+          "optimization": 1,
+          "test": "a14_2_positive_inner_kill_on_close"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O1_xx1kuor_\\a14_1_after_ack_repeat.json",
+          "sha256": "3ad65f3c73b6a980e2bad816162d5789b37de28b3d2dbabc34157f78c6122ed4",
+          "optimization": 1,
+          "test": "a14_1_after_ack_repeat"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a12_evidence_O1_xx1kuor_\\a14_1_before_commit_repeat.json",
+          "sha256": "fb817b559ad9863f028087a1ad41aaabc0ecde19da351b68a61b29fbb4fbb0da",
+          "optimization": 1,
+          "test": "a14_1_before_commit_repeat"
+        }
+      ]
+    },
+    "barriers": {
+      "accepted": true,
+      "failures": [],
+      "files": [
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_evidence_O0_nft25ej1\\test_injected_observer_failure_still_cleans.json",
+          "test": "test_injected_observer_failure_still_cleans",
+          "optimization": 0,
+          "sha256": "25dcfad6d8e5895dc56a7f355f22b8a03f9da955eb389c7d9d41c8a725b5907b"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_evidence_O0_nft25ej1\\test_missing_handshake_is_failure_and_cleans.json",
+          "test": "test_missing_handshake_is_failure_and_cleans",
+          "optimization": 0,
+          "sha256": "2c4878b04e451358e94a6dda60c5731139b852b12801446eb00aed5901427ddc"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_evidence_O0_nft25ej1\\test_negative_close_succession_retains_descendant.json",
+          "test": "test_negative_close_succession_retains_descendant",
+          "optimization": 0,
+          "sha256": "8539a9e10b2cf14c711b53477e2647c65bf3bc15ce05e67101f91630a8c9524e"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_evidence_O0_nft25ej1\\test_negative_owner_first_retains_descendant.json",
+          "test": "test_negative_owner_first_retains_descendant",
+          "optimization": 0,
+          "sha256": "eb1704b701720a0415c142585a995c4aa2007dfc28f56299b104db56a32aea45"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_evidence_O0_nft25ej1\\test_negative_worker_first_retains_descendant.json",
+          "test": "test_negative_worker_first_retains_descendant",
+          "optimization": 0,
+          "sha256": "3b940cbae941559f596f3f197a13e87ce60f6d3a9045a97fa53e1e19cd45e819"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_evidence_O0_nft25ej1\\test_positive_inner_job_kills_retained_descendant.json",
+          "test": "test_positive_inner_job_kills_retained_descendant",
+          "optimization": 0,
+          "sha256": "5ccc1054ec75301402c0c1f5083f625ab71bf0094aa41c0b5574c888b615a43f"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_evidence_O1_tloy1akl\\test_injected_observer_failure_still_cleans.json",
+          "test": "test_injected_observer_failure_still_cleans",
+          "optimization": 1,
+          "sha256": "fa3e91fa4df8d21af4e07679118d3d37c90c659be3a7ab8fbaed0a7c4156037c"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_evidence_O1_tloy1akl\\test_missing_handshake_is_failure_and_cleans.json",
+          "test": "test_missing_handshake_is_failure_and_cleans",
+          "optimization": 1,
+          "sha256": "c6977af338b340dbb806bd26f9a691b616bb2c7c76b0ff996acaa1fbd36737f4"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_evidence_O1_tloy1akl\\test_negative_close_succession_retains_descendant.json",
+          "test": "test_negative_close_succession_retains_descendant",
+          "optimization": 1,
+          "sha256": "3ce7d36c82da7ad09d755c79b899ffbbf110508babb3aeefbb4a28eba7ae04c4"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_evidence_O1_tloy1akl\\test_negative_owner_first_retains_descendant.json",
+          "test": "test_negative_owner_first_retains_descendant",
+          "optimization": 1,
+          "sha256": "c1c11b12636195a8be13b3b47876a463d4b0f51c41fc15bc977d240aaf8ebf62"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_evidence_O1_tloy1akl\\test_negative_worker_first_retains_descendant.json",
+          "test": "test_negative_worker_first_retains_descendant",
+          "optimization": 1,
+          "sha256": "dc30a1e138aaac95b2e5c53e589c3105a6b8a9098c724e61f3c0c3af34e79e9e"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_evidence_O1_tloy1akl\\test_positive_inner_job_kills_retained_descendant.json",
+          "test": "test_positive_inner_job_kills_retained_descendant",
+          "optimization": 1,
+          "sha256": "0cf6ec8452bebfbf5f362068f8579608ec0cd8f2c2204dac63a8e3be6be85e43"
+        }
+      ],
+      "scope": "Synthetic Windows Jobs/barrier records; not production certification"
+    },
+    "held_bridges": {
+      "accepted": true,
+      "failures": [],
+      "files": [
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_held_repeats_O0_1bdx2825\\a14_6_held_near_simultaneous_1.json",
+          "label": "a14_6_held_near_simultaneous_1",
+          "optimization": 0,
+          "sha256": "2182d0fb1ea60a5a86a3e048028ca87e43be05d46b28889c3e99ba4047b87822"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_held_repeats_O0_1bdx2825\\a14_6_held_near_simultaneous_2.json",
+          "label": "a14_6_held_near_simultaneous_2",
+          "optimization": 0,
+          "sha256": "d930465864f8b66c4147828467abb6f0d99bf5d0305bec0e07be40e391f16660"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_held_repeats_O0_1bdx2825\\a14_6_held_near_simultaneous_3.json",
+          "label": "a14_6_held_near_simultaneous_3",
+          "optimization": 0,
+          "sha256": "2357b2c26bdb0de4b9b48dec4056bb00228e517a485bdcd96c4f4bcd1f118b5a"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_held_repeats_O0_1bdx2825\\a14_6_held_worker_first_1.json",
+          "label": "a14_6_held_worker_first_1",
+          "optimization": 0,
+          "sha256": "3a3758493a85b248abaa1e82819f1884521c868f3657ed18d75755902b103992"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_held_repeats_O0_1bdx2825\\a14_6_held_worker_first_2.json",
+          "label": "a14_6_held_worker_first_2",
+          "optimization": 0,
+          "sha256": "73a0f95a1cac8d1d7fbdb2a3a53941e85313ba9c505e4bf94be72451f26552b5"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_held_repeats_O0_1bdx2825\\a14_6_held_worker_first_3.json",
+          "label": "a14_6_held_worker_first_3",
+          "optimization": 0,
+          "sha256": "587674728f1e7fab44c195852eec29df20998736423a711a3abd7a980fc5746e"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_held_repeats_O1_lsxrzpxe\\a14_6_held_near_simultaneous_1.json",
+          "label": "a14_6_held_near_simultaneous_1",
+          "optimization": 1,
+          "sha256": "85818a3ef5e5a17c7f0c510c345822f9f167f46c53ebc916b94d4f8d6d37b291"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_held_repeats_O1_lsxrzpxe\\a14_6_held_near_simultaneous_2.json",
+          "label": "a14_6_held_near_simultaneous_2",
+          "optimization": 1,
+          "sha256": "6402562c2dbefb26c2e8f1a5d12ac1bee45fcdee89b96d08ed3671cbb2f4216b"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_held_repeats_O1_lsxrzpxe\\a14_6_held_near_simultaneous_3.json",
+          "label": "a14_6_held_near_simultaneous_3",
+          "optimization": 1,
+          "sha256": "f9bab77f7b1bd845a23b2e72ee379ae4904b2b67cf5c913036e1455f5e6b7ae6"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_held_repeats_O1_lsxrzpxe\\a14_6_held_worker_first_1.json",
+          "label": "a14_6_held_worker_first_1",
+          "optimization": 1,
+          "sha256": "22f2c870f7537fd5440c8d8dcc0df23b878c13e8b53424be1e803bcc9be5df65"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_held_repeats_O1_lsxrzpxe\\a14_6_held_worker_first_2.json",
+          "label": "a14_6_held_worker_first_2",
+          "optimization": 1,
+          "sha256": "bef32ffabeb675da48bc6fbc04829848d376d44d1e2a9222dfe5db851b6b63a5"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_6_held_repeats_O1_lsxrzpxe\\a14_6_held_worker_first_3.json",
+          "label": "a14_6_held_worker_first_3",
+          "optimization": 1,
+          "sha256": "57358b7368cbe41f222830933de3eb4c49fe84bf6e60b3af959e22998fab46b6"
+        }
+      ],
+      "scope": "Strict held bridges; natural A14.5 observations remain separate"
+    },
+    "startup": {
+      "accepted": true,
+      "records": 18,
+      "files": [
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O0_qsncwi_w\\test_assignment_failure_never_releases_target.json",
+          "sha256": "3ff1c67c779b5c25ff7c3190b15a9aa6fe0fc82d6861c01a78c695dfd93e5191"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O0_qsncwi_w\\test_gate_release_failure_never_releases_target.json",
+          "sha256": "dd101d2bb7e32fb765d2fe61575ac092ed27c443524166772e0be408af5cab7c"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O0_qsncwi_w\\test_injected_creation_failure_preserves_errno.json",
+          "sha256": "f4928dbdf6cbbb79b2a10dcb8f99a06624a94f15521ef22e1e0f12d612014b4e"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O0_qsncwi_w\\test_journal_failure_preserves_fallback_after_cleanup.json",
+          "sha256": "26cab28107a57f31bff17956ba5ee86b5da6d2b0f3c4e231fa98cd0f9bf073b6"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O0_qsncwi_w\\test_missing_handshake_times_out_after_entry.json",
+          "sha256": "23daf8fc9f1c9b89b98a7dd072a53193904aa36daf8c40ba5de403d3c153923a"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O0_qsncwi_w\\test_real_invalid_cwd_preserves_winerror.json",
+          "sha256": "cad33ebf76403fe14acba77b31b08495a1817239d4dcc3423817376f36609502"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O0_qsncwi_w\\test_successful_handshake_control_still_cleans.json",
+          "sha256": "841ebfb307be9d07604057689e505dbb7cc964dbe4bdd7c8e7d81fd6c6d31586"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O0_qsncwi_w\\test_target_crash_preserves_stderr.json",
+          "sha256": "1628a89e1978ac4e38e93cb71a26422aeaefddf523acf718bf251b48448618ca"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O0_qsncwi_w\\test_truncated_handshake_is_not_accepted.json",
+          "sha256": "ea989d2e12ed99941441c8930c8b5ec3ad5df46b198071bf94b877f1e17af035"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O1_t6v7of9f\\test_assignment_failure_never_releases_target.json",
+          "sha256": "5c10b7297310de2a6abd7e0537ef49d94bf769d168ed4d7ee8ca717b010652ff"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O1_t6v7of9f\\test_gate_release_failure_never_releases_target.json",
+          "sha256": "4143323bbb32320152d86ba053854d68db2b527db12b732ad4becdb67de58beb"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O1_t6v7of9f\\test_injected_creation_failure_preserves_errno.json",
+          "sha256": "e5552a67845253a7d53eb087dc3469975cec18b77e95174eb5bd9dfc689c401c"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O1_t6v7of9f\\test_journal_failure_preserves_fallback_after_cleanup.json",
+          "sha256": "2bc9c192e3ca13157ce674919d0cfe6971fa1e5c2fb706b0bf0d4b88c278140d"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O1_t6v7of9f\\test_missing_handshake_times_out_after_entry.json",
+          "sha256": "42adc3d10821b2a31422263196fe49757b95c318119d00d3ea3136351e620465"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O1_t6v7of9f\\test_real_invalid_cwd_preserves_winerror.json",
+          "sha256": "934a73f99561cd497dfe7083dc90ee13b57aba102251387301af7b17cbe84437"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O1_t6v7of9f\\test_successful_handshake_control_still_cleans.json",
+          "sha256": "74ce2e37cca7fc9514ff7a2d2e75ea5b1dab61719fed7b864b885c23f9232f9e"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O1_t6v7of9f\\test_target_crash_preserves_stderr.json",
+          "sha256": "d7346f15d6ae59bb3fe1e0ceffef60df7f0c8cc7289c793ad83218a215d500ea"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_7_startup_evidence_O1_t6v7of9f\\test_truncated_handshake_is_not_accepted.json",
+          "sha256": "9c52bad80649bf106855a62d6e36a75a10ba58026d95b83e336329a85be96533"
+        }
+      ],
+      "failures": [],
+      "scope": "PRIVATE_STARTUP_AND_OUTER_SAFETY_JOB_ONLY",
+      "production_api_changed": false
+    },
+    "journal": {
+      "accepted": true,
+      "files": [
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_8_journal_evidence_O0_e6qu5vuu\\test_changed_authorization_rejected_after_cleanup.json",
+          "sha256": "d0e92abdf16922f2d8650707c30060b9594ce152aede727f256b3164d7ae3987"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_8_journal_evidence_O0_e6qu5vuu\\test_changed_cleanup_rejected_after_cleanup.json",
+          "sha256": "c2ea3503a1441ba46015fedcadf39a1cd14268d4a9eb5b5320037c2c7e72651b"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_8_journal_evidence_O0_e6qu5vuu\\test_missing_journal_rejected_after_cleanup.json",
+          "sha256": "1f8b1f6f775553432c55dbf0af390266c459bb9788a847d18c02f7a3c2b99475"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_8_journal_evidence_O0_e6qu5vuu\\test_real_publication_failure_retains_pipe_fallback.json",
+          "sha256": "b67a23b125cc1078ed47a5979f1e3b575da8743e2714e4db97849d8e91f283a8"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_8_journal_evidence_O0_e6qu5vuu\\test_swapped_identity_rejected_after_cleanup.json",
+          "sha256": "d6c3aba62aa3df16188328e424c92d312ad86ae0bde484435d1603559912592f"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_8_journal_evidence_O0_e6qu5vuu\\test_swapped_nonce_rejected_after_cleanup.json",
+          "sha256": "7c512b725a2d99fdaeb99171b068c5cfe69765117c3085fc1612cd675b658577"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_8_journal_evidence_O0_e6qu5vuu\\test_truncated_journal_rejected_after_cleanup.json",
+          "sha256": "750799a2a6ee3079bfe5b8ed08f8c7118c92b7b68143e674a828d8ec612cbbd9"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_8_journal_evidence_O0_e6qu5vuu\\test_valid_journal_matches_pipe_after_cleanup.json",
+          "sha256": "3a315dc14f025d398d31170a67aa8cc097bf5c57f356627a3fba1328449c8143"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_8_journal_evidence_O1_ppl4_5ea\\test_changed_authorization_rejected_after_cleanup.json",
+          "sha256": "934b80f239a9a9c80dbee732a3a2b779ae2e6148a79860818a80e63839c69cec"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_8_journal_evidence_O1_ppl4_5ea\\test_changed_cleanup_rejected_after_cleanup.json",
+          "sha256": "0dce5e9c5147439017d475af795626fb283683ba1a6a31869b05b20134899895"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_8_journal_evidence_O1_ppl4_5ea\\test_missing_journal_rejected_after_cleanup.json",
+          "sha256": "86fc19931de496b64cdd5881478a9d53efd45bf1b6150cc8e03e185c77120eb3"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_8_journal_evidence_O1_ppl4_5ea\\test_real_publication_failure_retains_pipe_fallback.json",
+          "sha256": "eb36e1f50a42f65e4aafedc6b8ac5e917024d75ef2d5bd327259022102636a31"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_8_journal_evidence_O1_ppl4_5ea\\test_swapped_identity_rejected_after_cleanup.json",
+          "sha256": "bcd65142b2f57407691cd67663ae1119ce68fa25436ea5626ac5f48105398888"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_8_journal_evidence_O1_ppl4_5ea\\test_swapped_nonce_rejected_after_cleanup.json",
+          "sha256": "a82fb2766f7efd061e6f6825c15a8b9943e75e35d191727431593620c502d76b"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_8_journal_evidence_O1_ppl4_5ea\\test_truncated_journal_rejected_after_cleanup.json",
+          "sha256": "3ae057fc283eb3902b583a5803fb668253d81bf4d767b33c697bc318f701bb28"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_8_journal_evidence_O1_ppl4_5ea\\test_valid_journal_matches_pipe_after_cleanup.json",
+          "sha256": "821c0506f0a47d6a084435752d7b53daa3f9daf223133fece36752a1885df0b5"
+        }
+      ],
+      "records": 16,
+      "failures": [],
+      "scope": "Post-cleanup journal content fidelity; no authentication or power-loss durability proof"
+    },
+    "sharing": {
+      "accepted": true,
+      "files": [
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_9_sharing_evidence_O0_ogefkwjp\\test_corrupt_journal_after_release_still_rejected.json",
+          "sha256": "ac276acbaade574434aee7e9f31bdc3693be9a90ea6dd0b9eefe65328d0493f2"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_9_sharing_evidence_O0_ogefkwjp\\test_missing_journal_is_not_sharing_denial.json",
+          "sha256": "0d44b279f6d9a99020b3eac85bad16dac83e8908c9b4317e0f802e74c9058e4d"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_9_sharing_evidence_O0_ogefkwjp\\test_persistent_real_sharing_denial_is_not_missing.json",
+          "sha256": "93eeee5e47aefbafd4235bbdf76ddfd56bd4698ebe6e0a3e191966cb3e2cdd80"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_9_sharing_evidence_O0_ogefkwjp\\test_transient_real_sharing_denial_recovers.json",
+          "sha256": "924f711bb1fd9b23cf3e5284e3954c9543c286341f3b8d3090577a0534e86bb5"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_9_sharing_evidence_O1_ck2oxqvm\\test_corrupt_journal_after_release_still_rejected.json",
+          "sha256": "bd98a2fd00f3d3ccd64d4205bcdaf62be11458ab92fc2937259f08a70e0a450f"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_9_sharing_evidence_O1_ck2oxqvm\\test_missing_journal_is_not_sharing_denial.json",
+          "sha256": "5afd4e5697be478e8f696b883462024e9bab07d20d0e0e11a52bd6daf4769e04"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_9_sharing_evidence_O1_ck2oxqvm\\test_persistent_real_sharing_denial_is_not_missing.json",
+          "sha256": "3cd305359be90462c0803409d10373715c1ef1a16db74e9097af2a1fc840200c"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_9_sharing_evidence_O1_ck2oxqvm\\test_transient_real_sharing_denial_recovers.json",
+          "sha256": "57a8ec8a1b12b0205f3616414e826451b4805f195cabebbf94a234e36d4c0548"
+        }
+      ],
+      "records": 8,
+      "failures": [],
+      "scope": "Real share denial and retry budget after native cleanup; no strict realtime/durability/authentication claim"
+    },
+    "observer": {
+      "accepted": true,
+      "files": [
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_10_observer_evidence_O0_y2mng6n8\\test_callback_budget_overrun_prevents_late_read.json",
+          "sha256": "994caec5fcb9e977b977aedacf4885632adb20f1f14c50c14780ed4adfc99c17"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_10_observer_evidence_O0_y2mng6n8\\test_callback_failure_after_release_preserves_error.json",
+          "sha256": "fefa67fc62e4eeeb15116659f13ff0b6c2b8ad42de70284713102fedff0727a8"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_10_observer_evidence_O0_y2mng6n8\\test_callback_failure_before_release_still_closes.json",
+          "sha256": "6064292a386f6b370e7611533e17332b5951519d1ac9e51bfb678fcb2e24f922"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_10_observer_evidence_O1_3j15zn3a\\test_callback_budget_overrun_prevents_late_read.json",
+          "sha256": "84725028c6c9908e182146314cbe5b72dff11da21c6e645650c68605202157a7"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_10_observer_evidence_O1_3j15zn3a\\test_callback_failure_after_release_preserves_error.json",
+          "sha256": "daab0e23524f23a01951fd0f727ece61f4b066352e4c8e9cf6a7856fa59e2947"
+        },
+        {
+          "path": "work\\a14_10_regressao_20261102\\work\\a14_10_observer_evidence_O1_3j15zn3a\\test_callback_failure_before_release_still_closes.json",
+          "sha256": "db94766c51b66b0269b30898e71cb0d8b11199cf51de716a1b183526d6e63462"
+        }
+      ],
+      "records": 6,
+      "failures": [],
+      "scope": "Controlled callback failure and retry-budget overrun after native cleanup; no operational promotion"
+    }
+  },
+  "python": "3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]",
+  "executable": "C:\\COPILOTO_PRICE_ACTION_AI\\ambiente\\Scripts\\python.exe",
+  "authentication_tested": false,
+  "durability_tested": false,
+  "strict_deadline_guaranteed": false,
+  "scope": "Controlled observer exceptions and retry-budget overrun after native safety cleanup",
+  "next_step": "Review remaining private diagnostic cases without changing operational authorization"
+}
