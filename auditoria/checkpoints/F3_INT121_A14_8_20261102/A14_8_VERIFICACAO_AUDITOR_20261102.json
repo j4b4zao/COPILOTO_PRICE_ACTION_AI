@@ -1,0 +1,124 @@
+{
+  "scope": "Synthetic counterexamples; not included in 209 project tests per mode",
+  "original_native_records_accepted": 16,
+  "counterexamples": [
+    {
+      "case": "native_cleanup_false",
+      "rejected": true
+    },
+    {
+      "case": "native_probe_alive",
+      "rejected": true
+    },
+    {
+      "case": "native_proof_scope_promoted",
+      "rejected": true
+    },
+    {
+      "case": "read_before_cleanup",
+      "rejected": true
+    },
+    {
+      "case": "mutation_before_read",
+      "rejected": true
+    },
+    {
+      "case": "read_finish_before_start",
+      "rejected": true
+    },
+    {
+      "case": "original_hash_altered",
+      "rejected": true
+    },
+    {
+      "case": "original_missing",
+      "rejected": true
+    },
+    {
+      "case": "captured_hash_altered",
+      "rejected": true
+    },
+    {
+      "case": "captured_length_altered",
+      "rejected": true
+    },
+    {
+      "case": "negative_accepted",
+      "rejected": true
+    },
+    {
+      "case": "wrong_reason",
+      "rejected": true
+    },
+    {
+      "case": "negative_not_mutated",
+      "rejected": true
+    },
+    {
+      "case": "unexpected_read_error",
+      "rejected": true
+    },
+    {
+      "case": "missing_read_error",
+      "rejected": true
+    },
+    {
+      "case": "fallback_error_lost",
+      "rejected": true
+    },
+    {
+      "case": "fallback_stderr_lost",
+      "rejected": true
+    },
+    {
+      "case": "disk_absence_fabricated",
+      "rejected": true
+    },
+    {
+      "case": "real_operations_enabled",
+      "rejected": true
+    },
+    {
+      "case": "power_loss_claim",
+      "rejected": true
+    },
+    {
+      "case": "authentication_claim",
+      "rejected": true
+    },
+    {
+      "case": "wrong_optimization",
+      "rejected": true
+    },
+    {
+      "case": "observer_failed",
+      "rejected": true
+    },
+    {
+      "case": "duplicate_json_key",
+      "rejected": true,
+      "scope": "candidate comparer"
+    },
+    {
+      "case": "nonfinite_json",
+      "rejected": true,
+      "scope": "candidate comparer"
+    },
+    {
+      "case": "boolean_integer_confusion",
+      "rejected": true,
+      "scope": "candidate comparer"
+    },
+    {
+      "case": "malformed_bytes",
+      "rejected": true,
+      "scope": "candidate comparer"
+    },
+    {
+      "case": "scope_invalid_even_if_pipe_matches",
+      "rejected": true,
+      "scope": "candidate comparer"
+    }
+  ],
+  "accepted": true
+}

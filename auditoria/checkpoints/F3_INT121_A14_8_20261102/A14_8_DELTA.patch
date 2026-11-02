@@ -1,0 +1,176 @@
+--- /dev/null
++++ b/f3_int121_a14_8_journal.py
+@@ -0,0 +1,52 @@
++"""Private offline comparison against an independently retained pipe record.
++
++This is content fidelity, not authentication, crash durability or authorization.
++No trading or native process modules are imported.
++"""
++import hashlib
++import json
++
++
++def _unique_pairs(pairs):
++    value = {}
++    for key,item in pairs:
++        if key in value:
++            raise ValueError('Duplicate JSON key')
++        value[key] = item
++    return value
++
++
++def _invalid_constant(value):
++    raise ValueError('Nonfinite JSON constant: '+value)
++
++
++def compare(raw, expected):
++    """Reject absent/malformed/changed evidence; never infer cleanup from a file."""
++    if raw is None:
++        return dict(accepted=False,reason='JOURNAL_MISSING',sha256=None,size=0)
++    digest = hashlib.sha256(raw).hexdigest()
++    result = dict(accepted=False,reason='INVALID_JSON',sha256=digest,size=len(raw))
++    try:
++        actual = json.loads(raw,object_pairs_hook=_unique_pairs,parse_constant=_invalid_constant)
++        if not isinstance(actual,dict):
++            return result
++        # Serialization distinguishes bool from int, unlike Python dict equality.
++        canonical = lambda value: json.dumps(value,sort_keys=True,separators=(',',':'),allow_nan=False)
++        if canonical(actual) != canonical(expected):
++            result['reason'] = 'CONTENT_MISMATCH'
++            return result
++    except (ValueError,UnicodeError,TypeError):
++        return result
++    restrictions = dict(f3='OPEN',offline=True,simulation_only=True,
++                        real_operations_authorized=False,runtime_modified=False,
++                        production_api_changed=False,constructor_evidence_is_private=True,
++                        full_subtree_exit_requires_outer_safety_proof=True)
++    if any(type(actual.get(k)) is not type(v) or actual[k] != v for k,v in restrictions.items()):
++        result['reason'] = 'INVALID_SCOPE'
++        return result
++    if (actual.get('schema') != 'A14_7_STARTUP_RECORD'
++            or actual.get('subject_cleanup_scope') != 'INNER_JOB_AND_DIRECT_LAUNCH_PROCESS_ONLY'):
++        result['reason'] = 'INVALID_SCOPE'
++        return result
++    result.update(accepted=True,reason='CONTENT_MATCH')
++    return result
+--- /dev/null
++++ b/test_f3_int121_a14_8_journal.py
+@@ -0,0 +1,118 @@
++"""Native readback after safety cleanup, followed by controlled disk corruption."""
++import base64
++import contextlib
++import hashlib
++import io
++import json
++import os
++from pathlib import Path
++import sys
++import tempfile
++import time
++import unittest
++
++import f3_int121_a14_8_journal as journal
++import test_f3_int121_a14_7_startup as startup
++
++
++@unittest.skipUnless(os.name=='nt','Native Windows safety Jobs required')
++class JournalReadback(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        cls.scratch = Path(__file__).resolve().parent.parent/'work'
++        cls.scratch.mkdir(exist_ok=True)
++        cls.evidence = Path(tempfile.mkdtemp(prefix=f'a14_8_journal_evidence_O{sys.flags.optimize}_',dir=cls.scratch))
++
++    def _run(self, fault):
++        failed_publish = fault == 'publication_failure'
++        method = ('test_journal_failure_preserves_fallback_after_cleanup' if failed_publish else
++                  'test_successful_handshake_control_still_cleans')
++        fixture = startup.StartupDiagnostics(method)
++        fixture.scratch = self.scratch
++        fixture.evidence = Path(tempfile.mkdtemp(prefix='a14_8_native_',dir=self.scratch))
++        fixture.setUp()
++        native = None
++        original = None
++        captured = None
++        read_error = None
++        verification = None
++        failure = None
++        read_started = None
++        mutation_started = None
++        output = io.StringIO()
++        try:
++            with contextlib.redirect_stdout(output):
++                fixture._run('journal_failure' if failed_publish else 'success')
++            native = json.loads((fixture.evidence/(method+'.json')).read_bytes())
++            self.assertTrue(native['outer_cleanup']['confirmed'])
++            path = fixture.root/'startup-journal.json'
++            read_started = time.perf_counter_ns()
++            self.assertLessEqual(native['outer_cleanup_finished_ns'],read_started)
++            if not failed_publish:
++                original = path.read_bytes()
++                self.assertTrue(journal.compare(original,native['result'])['accepted'])
++                mutation_started = time.perf_counter_ns()
++                if fault == 'missing':
++                    path.unlink()
++                elif fault == 'truncated':
++                    path.write_bytes(original[:len(original)//2])
++                elif fault in ('nonce','identity','cleanup','authorization'):
++                    changed = json.loads(original)
++                    if fault == 'nonce': changed['nonce'] = '0'*32
++                    if fault == 'identity': changed['probe_pid'] += 1
++                    if fault == 'cleanup': changed['subject_cleanup']['confirmed'] = False
++                    if fault == 'authorization': changed['real_operations_authorized'] = True
++                    path.write_text(json.dumps(changed),encoding='utf-8')
++            try:
++                captured = path.read_bytes()
++            except OSError as error:
++                read_error = dict(type=type(error).__name__,errno=error.errno,
++                                  winerror=getattr(error,'winerror',None),message=str(error))
++            verification = journal.compare(captured,native['result'])
++            expected = ('CONTENT_MATCH' if fault=='valid' else
++                        'JOURNAL_MISSING' if fault in ('missing','publication_failure') else
++                        'INVALID_JSON' if fault=='truncated' else 'CONTENT_MISMATCH')
++            self.assertEqual(verification['reason'],expected)
++            self.assertEqual(verification['accepted'],fault=='valid')
++            if fault in ('missing','publication_failure'):
++                self.assertIsNotNone(read_error)
++                self.assertIsNone(captured)
++            else:
++                self.assertIsNone(read_error)
++            if failed_publish:
++                self.assertFalse(native['result']['journal_written'])
++                self.assertTrue(native['result']['journal_error']['is_os_error'])
++                self.assertIn('A14_7_JOURNAL_PUBLISH_FAILED',native['outer_stderr'])
++        except BaseException as error:
++            failure = dict(type=type(error).__name__,message=str(error))
++            raise
++        finally:
++            record = dict(test=self._testMethodName,fault=fault,optimization=sys.flags.optimize,
++                native=native,observer_error=failure,read_started_ns=read_started,
++                mutation_started_ns=mutation_started,read_finished_ns=time.perf_counter_ns(),
++                original_base64=base64.b64encode(original).decode('ascii') if original is not None else None,
++                original_sha256=hashlib.sha256(original).hexdigest() if original is not None else None,
++                captured_base64=base64.b64encode(captured).decode('ascii') if captured is not None else None,
++                read_error=read_error,verification=verification,f3='OPEN',offline=True,simulation_only=True,
++                real_operations_authorized=False,runtime_modified=False,production_api_changed=False,
++                durability_tested=False,authentication_tested=False)
++            try:
++                (self.evidence/(self._testMethodName+'.json')).write_text(json.dumps(record,indent=2),encoding='utf-8')
++            finally:
++                fixture.doCleanups()
++        print('A14_8_JOURNAL_EVIDENCE='+json.dumps(dict(fault=fault,optimization=sys.flags.optimize,
++            journal_accepted=verification['accepted'],expected_rejection=fault!='valid',
++            outer_cleanup_confirmed=True,real_operations_authorized=False,runtime_modified=False)),flush=True)
++
++    def test_valid_journal_matches_pipe_after_cleanup(self): self._run('valid')
++    def test_missing_journal_rejected_after_cleanup(self): self._run('missing')
++    def test_truncated_journal_rejected_after_cleanup(self): self._run('truncated')
++    def test_swapped_nonce_rejected_after_cleanup(self): self._run('nonce')
++    def test_swapped_identity_rejected_after_cleanup(self): self._run('identity')
++    def test_changed_cleanup_rejected_after_cleanup(self): self._run('cleanup')
++    def test_changed_authorization_rejected_after_cleanup(self): self._run('authorization')
++    def test_real_publication_failure_retains_pipe_fallback(self): self._run('publication_failure')
++
++
++if __name__=='__main__':
++    unittest.main(verbosity=2)
