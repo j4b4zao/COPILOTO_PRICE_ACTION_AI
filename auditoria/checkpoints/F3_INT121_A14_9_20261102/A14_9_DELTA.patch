@@ -1,0 +1,197 @@
+--- /dev/null
++++ b/f3_int121_a14_9_readback.py
+@@ -0,0 +1,51 @@
++"""Private bounded retries for offline journal reads; no operational API use.
++
++The budget bounds retries, not OS scheduling or a blocking filesystem call.
++"""
++import time
++import f3_int121_a14_8_journal as journal
++
++
++def read(path, expected, timeout=0.5, after_denial=None):
++    if type(timeout) not in (int,float) or not 0 < timeout <= 5:
++        raise ValueError('Private retry budget must be positive and at most five seconds')
++    started=time.perf_counter_ns()
++    deadline=started+int(timeout*1_000_000_000)
++    attempts=[]
++    raw=None
++    error=None
++    verification=None
++    status=None
++    while True:
++        begin=time.perf_counter_ns()
++        if attempts and begin >= deadline:
++            status='JOURNAL_READ_DENIED'
++            break
++        try:
++            raw=path.read_bytes()
++        except OSError as caught:
++            error=dict(type=type(caught).__name__,errno=caught.errno,
++                       winerror=getattr(caught,'winerror',None),message=str(caught))
++            attempts.append(dict(started_ns=begin,finished_ns=time.perf_counter_ns(),error=dict(error)))
++            if isinstance(caught,FileNotFoundError):
++                status='JOURNAL_MISSING'
++                break
++            if not isinstance(caught,PermissionError):
++                status='JOURNAL_READ_ERROR'
++                break
++            # Private observer hook coordinates release of a genuine OS handle;
++            # Path.read_bytes and its failures are never mocked.
++            if after_denial is not None:
++                after_denial(dict(error))
++            remaining=(deadline-time.perf_counter_ns())/1_000_000_000
++            if remaining>0:
++                time.sleep(min(0.01,remaining))
++        else:
++            attempts.append(dict(started_ns=begin,finished_ns=time.perf_counter_ns(),error=None))
++            verification=journal.compare(raw,expected)
++            status=verification['reason']
++            error=None
++            break
++    return dict(status=status,raw=raw,error=error,verification=verification,attempts=attempts,
++                started_ns=started,deadline_ns=deadline,finished_ns=time.perf_counter_ns(),
++                strict_deadline_guaranteed=False,production_api_changed=False)
+--- /dev/null
++++ b/test_f3_int121_a14_9_sharing.py
+@@ -0,0 +1,140 @@
++"""Real Win32 share denial on a persisted journal after native Job cleanup."""
++import base64
++import contextlib
++import ctypes
++from ctypes import wintypes
++import hashlib
++import io
++import json
++import os
++from pathlib import Path
++import sys
++import tempfile
++import time
++import unittest
++
++import f3_int121_a14_9_readback as reader
++import test_f3_int121_a14_7_startup as startup
++
++
++@unittest.skipUnless(os.name=='nt','Real Windows file sharing and safety Jobs required')
++class JournalSharing(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        cls.scratch=Path(__file__).resolve().parent.parent/'work'
++        cls.scratch.mkdir(exist_ok=True)
++        cls.evidence=Path(tempfile.mkdtemp(prefix=f'a14_9_sharing_evidence_O{sys.flags.optimize}_',dir=cls.scratch))
++
++    def _run(self,scenario):
++        method='test_successful_handshake_control_still_cleans'
++        fixture=startup.StartupDiagnostics(method)
++        fixture.scratch=self.scratch
++        fixture.evidence=Path(tempfile.mkdtemp(prefix='a14_9_native_',dir=self.scratch))
++        fixture.setUp()
++        kernel=ctypes.WinDLL('kernel32',use_last_error=True)
++        kernel.CreateFileW.argtypes=[wintypes.LPCWSTR,wintypes.DWORD,wintypes.DWORD,ctypes.c_void_p,
++                                    wintypes.DWORD,wintypes.DWORD,wintypes.HANDLE]
++        kernel.CreateFileW.restype=wintypes.HANDLE
++        kernel.CloseHandle.argtypes=[wintypes.HANDLE]
++        kernel.CloseHandle.restype=wintypes.BOOL
++        invalid=ctypes.c_void_p(-1).value
++        handle=None
++        native=None
++        original=None
++        captured=None
++        result=None
++        failure=None
++        timings={}
++        win32_denial=None
++        def release():
++            nonlocal handle
++            if handle is not None:
++                timings['lock_release_started_ns']=time.perf_counter_ns()
++                if not kernel.CloseHandle(handle):
++                    raise ctypes.WinError(ctypes.get_last_error())
++                handle=None
++                timings['lock_release_finished_ns']=time.perf_counter_ns()
++        try:
++            with contextlib.redirect_stdout(io.StringIO()):
++                fixture._run('success')
++            native=json.loads((fixture.evidence/(method+'.json')).read_bytes())
++            path=fixture.root/'startup-journal.json'
++            timings['original_read_started_ns']=time.perf_counter_ns()
++            self.assertLessEqual(native['outer_cleanup_finished_ns'],timings['original_read_started_ns'])
++            original=path.read_bytes()
++            if scenario=='missing':
++                path.unlink()
++            else:
++                if scenario=='transient_corrupt':
++                    changed=json.loads(original)
++                    changed['nonce']='0'*32
++                    path.write_text(json.dumps(changed),encoding='utf-8')
++                handle=kernel.CreateFileW(str(path),0x80000000,0,None,3,0x80,None)
++                if handle==invalid:
++                    handle=None
++                    raise ctypes.WinError(ctypes.get_last_error())
++                timings['lock_acquired_ns']=time.perf_counter_ns()
++                timings['win32_probe_started_ns']=time.perf_counter_ns()
++                probe=kernel.CreateFileW(str(path),0x80000000,7,None,3,0x80,None)
++                win32_denial=ctypes.get_last_error() if probe==invalid else None
++                if probe!=invalid:
++                    kernel.CloseHandle(probe)
++                self.assertEqual(win32_denial,32,'Expected genuine ERROR_SHARING_VIOLATION')
++            callback=(lambda error:release()) if scenario.startswith('transient') else None
++            result=reader.read(path,native['result'],timeout=0.15 if scenario=='persistent' else 0.5,
++                               after_denial=callback)
++            captured=result.pop('raw')
++            expected={'transient_valid':'CONTENT_MATCH','transient_corrupt':'CONTENT_MISMATCH',
++                      'persistent':'JOURNAL_READ_DENIED','missing':'JOURNAL_MISSING'}[scenario]
++            self.assertEqual(result['status'],expected)
++            if scenario=='missing':
++                self.assertEqual(result['error']['type'],'FileNotFoundError')
++                self.assertEqual(len(result['attempts']),1)
++            else:
++                denied=[a for a in result['attempts'] if a['error'] is not None]
++                self.assertTrue(denied)
++                self.assertTrue(all(a['error']['type']=='PermissionError' and a['error']['errno']==13 for a in denied))
++                if scenario=='persistent':
++                    self.assertIsNone(captured)
++                    self.assertIsNone(result['verification'])
++                    self.assertEqual(result['error']['type'],'PermissionError')
++                    self.assertGreaterEqual(result['finished_ns'],result['deadline_ns'])
++                else:
++                    self.assertGreaterEqual(len(result['attempts']),2)
++                    self.assertIsNone(result['error'])
++                    self.assertEqual(result['verification']['accepted'],scenario=='transient_valid')
++        except BaseException as error:
++            failure=dict(type=type(error).__name__,message=str(error))
++            raise
++        finally:
++            close_error=None
++            try:
++                release()
++            except BaseException as error:
++                close_error=repr(error)
++            record=dict(test=self._testMethodName,scenario=scenario,optimization=sys.flags.optimize,
++                native=native,original_base64=base64.b64encode(original).decode('ascii') if original is not None else None,
++                original_sha256=hashlib.sha256(original).hexdigest() if original is not None else None,
++                captured_base64=base64.b64encode(captured).decode('ascii') if captured is not None else None,
++                reader=result,timings=timings,win32_denial=win32_denial,lock_closed=handle is None,
++                lock_close_error=close_error,observer_error=failure,f3='OPEN',offline=True,simulation_only=True,
++                real_operations_authorized=False,runtime_modified=False,production_api_changed=False,
++                authentication_tested=False,durability_tested=False)
++            try:
++                (self.evidence/(self._testMethodName+'.json')).write_text(json.dumps(record,indent=2),encoding='utf-8')
++            finally:
++                fixture.doCleanups()
++            if close_error:
++                raise RuntimeError('A14_9_LOCK_CLOSE_FAILED: '+close_error)
++        print('A14_9_SHARING_EVIDENCE='+json.dumps(dict(scenario=scenario,optimization=sys.flags.optimize,
++            status=result['status'],lock_closed=True,outer_cleanup_confirmed=True,
++            real_operations_authorized=False,runtime_modified=False)),flush=True)
++
++    def test_transient_real_sharing_denial_recovers(self): self._run('transient_valid')
++    def test_persistent_real_sharing_denial_is_not_missing(self): self._run('persistent')
++    def test_missing_journal_is_not_sharing_denial(self): self._run('missing')
++    def test_corrupt_journal_after_release_still_rejected(self): self._run('transient_corrupt')
++
++
++if __name__=='__main__':
++    unittest.main(verbosity=2)

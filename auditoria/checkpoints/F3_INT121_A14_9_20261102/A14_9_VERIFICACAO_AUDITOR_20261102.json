@@ -1,0 +1,119 @@
+{
+  "scope": "Synthetic record mutations, separate from 213 project tests per mode",
+  "original_native_records_accepted": 8,
+  "counterexamples": [
+    {
+      "case": "native_cleanup_false",
+      "rejected": true
+    },
+    {
+      "case": "native_probe_alive",
+      "rejected": true
+    },
+    {
+      "case": "read_before_cleanup",
+      "rejected": true
+    },
+    {
+      "case": "fake_win32_sharing_code",
+      "rejected": true
+    },
+    {
+      "case": "boolean_win32_code",
+      "rejected": true
+    },
+    {
+      "case": "fake_python_denial",
+      "rejected": true
+    },
+    {
+      "case": "errno_lost",
+      "rejected": true
+    },
+    {
+      "case": "missing_label_conflated",
+      "rejected": true
+    },
+    {
+      "case": "denial_label_conflated",
+      "rejected": true
+    },
+    {
+      "case": "budget_changed",
+      "rejected": true
+    },
+    {
+      "case": "deadline_not_reached",
+      "rejected": true
+    },
+    {
+      "case": "lock_released_early",
+      "rejected": true
+    },
+    {
+      "case": "success_before_release",
+      "rejected": true
+    },
+    {
+      "case": "lock_left_open",
+      "rejected": true
+    },
+    {
+      "case": "close_error_lost",
+      "rejected": true
+    },
+    {
+      "case": "last_denial_lost",
+      "rejected": true
+    },
+    {
+      "case": "failure_manufactures_content",
+      "rejected": true
+    },
+    {
+      "case": "bytes_missing",
+      "rejected": true
+    },
+    {
+      "case": "corrupt_accepted",
+      "rejected": true
+    },
+    {
+      "case": "captured_hash_changed",
+      "rejected": true
+    },
+    {
+      "case": "original_hash_changed",
+      "rejected": true
+    },
+    {
+      "case": "strict_deadline_claim",
+      "rejected": true
+    },
+    {
+      "case": "api_promoted",
+      "rejected": true
+    },
+    {
+      "case": "real_operations_enabled",
+      "rejected": true
+    },
+    {
+      "case": "authentication_claim",
+      "rejected": true
+    },
+    {
+      "case": "durability_claim",
+      "rejected": true
+    },
+    {
+      "case": "wrong_optimization",
+      "rejected": true
+    },
+    {
+      "case": "observer_failed",
+      "rejected": true
+    }
+  ],
+  "accepted": true
+}
