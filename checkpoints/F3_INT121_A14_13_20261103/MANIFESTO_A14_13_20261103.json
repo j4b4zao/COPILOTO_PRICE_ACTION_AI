@@ -1,0 +1,38 @@
+{
+  "phase": "F3-INT-121 A14.13",
+  "created_utc": "2026-11-03T14:06:34.888026+00:00",
+  "branch": "checkpoint/f3-int121-a14-13-20261103",
+  "parent_commit": "17689276ee52055f3fded0892da965816dd592e3",
+  "tests_normal": 5,
+  "tests_optimized": 5,
+  "tests_total": 10,
+  "test_results_source": "PowerShell output reviewed in conversation",
+  "tests_reexecuted_by_checkpoint": false,
+  "integrity": "verified",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "real_operations_authorized": false,
+  "files": [
+    {
+      "name": "f3_int121_a14_8_journal.py",
+      "bytes": 2193,
+      "sha256": "5c2b3dc56e3b2723a2a40f21cc912495a7978e958dd94c951d213b6416ceeba2"
+    },
+    {
+      "name": "f3_int121_a14_11_budget.py",
+      "bytes": 2108,
+      "sha256": "1df25671311772e899382d69b94d48cb9f39b19c3154958436365e4b807c627a"
+    },
+    {
+      "name": "test_f3_int121_a14_13_adversarial.py",
+      "bytes": 4363,
+      "sha256": "2d32ad4024e9b6854bf96fac5967e501f15247985a8276b21ef54dac1b89321f"
+    }
+  ],
+  "zip": {
+    "name": "F3_INT121_A14_13_VALIDACAO_20261103.zip",
+    "bytes": 3664,
+    "sha256": "fdfdcd55cb9b9f2dcf78f7149465861d405efed236af3dfc331544ed95c80363"
+  }
+}
