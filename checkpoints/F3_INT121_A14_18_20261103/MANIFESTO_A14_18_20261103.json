@@ -1,0 +1,46 @@
+{
+  "phase": "F3-INT-121 A14.18",
+  "created_utc": "2026-11-03T16:57:57.582229+00:00",
+  "branch": "checkpoint/f3-int121-a14-18-20261103",
+  "parent_commit": "08e875dacb1dab9b38d750c910fb443bb1fb698a",
+  "audit_type": "consolidated_read_only",
+  "audited_checkpoints": [
+    "A14.12",
+    "A14.13",
+    "A14.14",
+    "A14.15",
+    "A14.16",
+    "A14.17"
+  ],
+  "checkpoints_audited": 6,
+  "internal_hashes_verified": 192,
+  "zip_entries_inspected": 331,
+  "shared_modules_verified": 2,
+  "historical_tests_registered": 36,
+  "historical_tests_reexecuted": false,
+  "audit_execution": "local_windows_python",
+  "audit_result": "APPROVED",
+  "legacy_a14_12": {
+    "declared_hashes_verified": 181,
+    "additional_zip_entries": 139,
+    "additional_entries_individually_hashed_against_manifest": false
+  },
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "real_operations_authorized": false,
+  "production_api_changed": false,
+  "files": [
+    {
+      "name": "auditoria_consolidada_a14_18.py",
+      "bytes": 8850,
+      "sha256": "f9c21bc9541d1ef990388ee022aca30889dd8479034a3c6e1e979be786d9ce92"
+    }
+  ],
+  "zip": {
+    "name": "F3_INT121_A14_18_VALIDACAO_20261103.zip",
+    "bytes": 3135,
+    "sha256": "68f8e7c03a3e327a61cb7815213c839bbf76edc19eefddcdd1d94dfc2f8c60fc"
+  }
+}
