@@ -1,0 +1,50 @@
+{
+  "12": {
+    "commit": "17689276ee52055f3fded0892da965816dd592e3",
+    "path": "checkpoints/F3_INT121_A14_12_20261103/MANIFESTO_A14_12_20261103.json",
+    "sha256_git": "72507b6df1a8ac4b79110384a87826a54247cf98434a5594b6fbf9fee2deb4c6",
+    "sha256_local": "d13e526a0272864a49f36c25cd2d85dccf008dbcc68b6c9a2061881179ec2797",
+    "bytes_git": 20319,
+    "bytes_local": 20505
+  },
+  "13": {
+    "commit": "f20f0b2e90772b9919dcd9c9d00ac1e0f16d1d68",
+    "path": "checkpoints/F3_INT121_A14_13_20261103/MANIFESTO_A14_13_20261103.json",
+    "sha256_git": "e6974c449acc89ff94e8c5dc4326cc6e5b260a6434b72c91e5cebbc6d686292e",
+    "sha256_local": "4acca9bcc516fd03d7f2212f3481b126fb9768e1794188884702705033be9bf0",
+    "bytes_git": 1202,
+    "bytes_local": 1240
+  },
+  "14": {
+    "commit": "8eb42f8a72ff691d4cc58c877429df5469196b66",
+    "path": "checkpoints/F3_INT121_A14_14_20261103/MANIFESTO_A14_14_20261103.json",
+    "sha256_git": "cf162d48195d700af8856f61247fc93cb18a8a59db5f38fbd676844e6ac35d01",
+    "sha256_local": "2cddd456e194b0fd5fcba5db221b0dee6f152452cfca8c04c195b87c9eeeb914",
+    "bytes_git": 1252,
+    "bytes_local": 1292
+  },
+  "15": {
+    "commit": "2a17ce70fffbd3e1203aa86059e5c86f1ff472d0",
+    "path": "checkpoints/F3_INT121_A14_15_20261103/MANIFESTO_A14_15_20261103.json",
+    "sha256_git": "d146df3ba9322e99fc90b0bc0be0cb352fb0d1af5071503490431d30599a1ea8",
+    "sha256_local": "347b3c2fe74840f690155335f2cbeeaf07a32ab3ea5e974fe4db293779607814",
+    "bytes_git": 1252,
+    "bytes_local": 1292
+  },
+  "16": {
+    "commit": "9d1c2666a2ff97d9ac6c54256f9dc45741a87d08",
+    "path": "checkpoints/F3_INT121_A14_16_20261103/MANIFESTO_A14_16_20261103.json",
+    "sha256_git": "13024a0913721f3791281ce673dec308a500f8e0ca155a59daacf06465454379",
+    "sha256_local": "42028e9d87f7df857d04e2684c1225c3f4c89bd4653715a3bcf556032460675a",
+    "bytes_git": 1104,
+    "bytes_local": 1142
+  },
+  "17": {
+    "commit": "08e875dacb1dab9b38d750c910fb443bb1fb698a",
+    "path": "checkpoints/F3_INT121_A14_17_20261103/MANIFESTO_A14_17_20261103.json",
+    "sha256_git": "aadfb8d358d1a27c1acd4951f632626315a2b4f58ffff90c0b541456bff2cf2c",
+    "sha256_local": "b2a00f4183f18a0049ad9f0edf465d21ec37a67e5975f68492033df498d01bb6",
+    "bytes_git": 1169,
+    "bytes_local": 1208
+  }
+}

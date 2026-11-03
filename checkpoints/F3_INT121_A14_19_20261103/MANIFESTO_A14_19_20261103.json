@@ -1,0 +1,55 @@
+{
+  "phase": "F3-INT-121 A14.19",
+  "date": "2026-11-03",
+  "status": "ADVERSARIAL_TESTS_PASSED",
+  "parent_commit": "cfc6f64c9a1bd30586dc90ff0a91bd936aebb0cf",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "real_operations_authorized": false,
+  "production_api_changed": false,
+  "tests": {
+    "T01": "PASS",
+    "T01B": "PASS",
+    "T02": "PASS",
+    "T03": "PASS",
+    "T04": "PASS",
+    "T05": "PASS",
+    "T06": "PASS"
+  },
+  "files": {
+    "auditoria_complementar_a14_19.py": {
+      "sha256": "0c873657abea19f2b4974975bb256660b0973f83742f923b4af272125b2d5d7a",
+      "bytes": 2156
+    },
+    "a14_19_manifestos_referencias.json": {
+      "sha256": "3b01f874b8ad9bd0237241a85a827b47113435f71ee55bc7c45cc5681692d81e",
+      "bytes": 2323
+    },
+    "teste_a14_19_t01.py": {
+      "sha256": "4c4a72348a9b632419ba6f485da276aa32bfc510e2afdc1b5c486d13ce00ec40",
+      "bytes": 1265
+    },
+    "teste_a14_19_t02.py": {
+      "sha256": "8fb18e07712a485310929005a180d64a561fffb13dc5bf5232a02374ac95f797",
+      "bytes": 1959
+    },
+    "teste_a14_19_t03.py": {
+      "sha256": "e7485cfe6302f72504e75bbb15eb16a8cd90a33637ff1afa6ac76e06e4d28e3a",
+      "bytes": 1601
+    },
+    "teste_a14_19_t04.py": {
+      "sha256": "7a213c0b66fa186df845a1371b78a6d0c3d043386b66d89a5ad0cdb1b5c5c956",
+      "bytes": 1589
+    },
+    "teste_a14_19_t05.py": {
+      "sha256": "9755cfa7ab3a33513656c0c6272e842062c0b087e45f7f578548f166b631e5a3",
+      "bytes": 1797
+    },
+    "teste_a14_19_t06.py": {
+      "sha256": "4a9424a71c3f6c07e0def21e40b2c0fdf2198ae7be178671160c10344ca82277",
+      "bytes": 3289
+    }
+  }
+}
