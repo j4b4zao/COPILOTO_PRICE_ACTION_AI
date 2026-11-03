@@ -1,0 +1,38 @@
+{
+  "phase": "F3-INT-121 A14.16",
+  "created_utc": "2026-11-03T15:57:16.307270+00:00",
+  "branch": "checkpoint/f3-int121-a14-16-20261103",
+  "parent_commit": "2a17ce70fffbd3e1203aa86059e5c86f1ff472d0",
+  "audit_type": "cross_checkpoint_consistency",
+  "audited_checkpoints": [
+    "A14.13",
+    "A14.14",
+    "A14.15"
+  ],
+  "checkpoints_audited": 3,
+  "zip_entries_verified": 9,
+  "shared_modules_verified": 2,
+  "historical_tests_registered": 24,
+  "historical_tests_reexecuted": false,
+  "audit_execution": "read_only",
+  "audit_result": "PASS",
+  "manifest_comparison": "semantic_json",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "real_operations_authorized": false,
+  "production_api_changed": false,
+  "files": [
+    {
+      "name": "auditoria_cruzada_a14_16.py",
+      "bytes": 5665,
+      "sha256": "eb90901fec6d26fa7b19ec6351ab72ba6b9c62bf4580d1014cfa9c8d0860cb56"
+    }
+  ],
+  "zip": {
+    "name": "F3_INT121_A14_16_VALIDACAO_20261103.zip",
+    "bytes": 2275,
+    "sha256": "56783d9db379dfb21c2faa34ee047abc7a6773f7003177640498c919c218bc4a"
+  }
+}
