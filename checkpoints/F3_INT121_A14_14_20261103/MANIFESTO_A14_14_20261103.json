@@ -1,0 +1,40 @@
+{
+  "phase": "F3-INT-121 A14.14",
+  "created_utc": "2026-11-03T14:47:25.487580+00:00",
+  "branch": "checkpoint/f3-int121-a14-14-20261103",
+  "parent_commit": "f20f0b2e90772b9919dcd9c9d00ac1e0f16d1d68",
+  "tests_normal": 3,
+  "tests_optimized": 3,
+  "tests_total": 6,
+  "test_results_source": "PowerShell output reviewed in conversation",
+  "tests_reexecuted_by_checkpoint": false,
+  "integrity": "verified",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "real_operations_authorized": false,
+  "production_api_changed": false,
+  "files": [
+    {
+      "name": "f3_int121_a14_8_journal.py",
+      "bytes": 2193,
+      "sha256": "5c2b3dc56e3b2723a2a40f21cc912495a7978e958dd94c951d213b6416ceeba2"
+    },
+    {
+      "name": "f3_int121_a14_11_budget.py",
+      "bytes": 2108,
+      "sha256": "1df25671311772e899382d69b94d48cb9f39b19c3154958436365e4b807c627a"
+    },
+    {
+      "name": "test_f3_int121_a14_14_consistency.py",
+      "bytes": 4204,
+      "sha256": "59052bd976d626b8c9c749d020a51d66987ebf7ca02020865b46d4d9e7cac3b5"
+    }
+  ],
+  "zip": {
+    "name": "F3_INT121_A14_14_VALIDACAO_20261103.zip",
+    "bytes": 3746,
+    "sha256": "39370f0a67c393300a20628595d56e35a55abf28b2c99d8342a1b345a5c3f49d"
+  }
+}
