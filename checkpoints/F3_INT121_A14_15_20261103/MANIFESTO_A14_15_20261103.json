@@ -1,0 +1,40 @@
+{
+  "phase": "F3-INT-121 A14.15",
+  "created_utc": "2026-11-03T15:32:46.126673+00:00",
+  "branch": "checkpoint/f3-int121-a14-15-20261103",
+  "parent_commit": "8eb42f8a72ff691d4cc58c877429df5469196b66",
+  "tests_normal": 4,
+  "tests_optimized": 4,
+  "tests_total": 8,
+  "test_results_source": "PowerShell output reviewed in conversation",
+  "tests_reexecuted_by_checkpoint": false,
+  "integrity": "verified",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "real_operations_authorized": false,
+  "production_api_changed": false,
+  "files": [
+    {
+      "name": "f3_int121_a14_8_journal.py",
+      "bytes": 2193,
+      "sha256": "5c2b3dc56e3b2723a2a40f21cc912495a7978e958dd94c951d213b6416ceeba2"
+    },
+    {
+      "name": "f3_int121_a14_11_budget.py",
+      "bytes": 2108,
+      "sha256": "1df25671311772e899382d69b94d48cb9f39b19c3154958436365e4b807c627a"
+    },
+    {
+      "name": "test_f3_int121_a14_15_persistence.py",
+      "bytes": 4179,
+      "sha256": "525e87d57b0f6418958765be101a0f8c39d3c92cb73bf99abf44143ed5f0d471"
+    }
+  ],
+  "zip": {
+    "name": "F3_INT121_A14_15_VALIDACAO_20261103.zip",
+    "bytes": 3645,
+    "sha256": "f9565ba02880c35718624e4190f9cec2c17204f2ebcb0067cad9e504178f845a"
+  }
+}
