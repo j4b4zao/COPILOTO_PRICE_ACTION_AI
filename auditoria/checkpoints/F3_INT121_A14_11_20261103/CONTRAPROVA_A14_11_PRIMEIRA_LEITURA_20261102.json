@@ -1,0 +1,33 @@
+{
+  "scope": "Controlled clock on real local file; no claim of observed natural OS stall",
+  "reader": "unchanged private A14.9 reader",
+  "first_read_after_deadline": true,
+  "result": {
+    "status": "CONTENT_MATCH",
+    "error": null,
+    "verification": {
+      "accepted": true,
+      "reason": "CONTENT_MATCH",
+      "sha256": "f6b8f83b76b2090fd9c58ba34814abe23b0afd58981a383aab8d01867fd7319a",
+      "size": 2989
+    },
+    "attempts": [
+      {
+        "started_ns": 201000000,
+        "finished_ns": 202000000,
+        "error": null
+      }
+    ],
+    "started_ns": 1000000,
+    "deadline_ns": 101000000,
+    "finished_ns": 203000000,
+    "strict_deadline_guaranteed": false,
+    "production_api_changed": false
+  },
+  "sha256": "f6b8f83b76b2090fd9c58ba34814abe23b0afd58981a383aab8d01867fd7319a",
+  "production_api_changed": false,
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "real_operations_authorized": false
+}

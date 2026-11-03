@@ -1,0 +1,159 @@
+--- /dev/null
++++ b/f3_int121_a14_11_budget.py
+@@ -0,0 +1,47 @@
++"""Private first-attempt budget guard; no operational API integration.
++
++An injected clock is for deterministic tests. Retry budgets do not bound OS
++calls, scheduling or arbitrary observer callbacks.
++"""
++import time
++import f3_int121_a14_8_journal as journal
++
++
++def read(path,expected,timeout=0.5,after_denial=None,clock_ns=None):
++    if type(timeout) not in (int,float) or not 0<timeout<=5:
++        raise ValueError('Private retry budget must be positive and at most five seconds')
++    clock=clock_ns if clock_ns is not None else time.perf_counter_ns
++    started=clock()
++    deadline=started+int(timeout*1_000_000_000)
++    attempts=[]
++    raw=None
++    error=None
++    verification=None
++    status=None
++    while True:
++        begin=clock()
++        if begin>=deadline:
++            status='JOURNAL_READ_DENIED' if attempts else 'JOURNAL_READ_BUDGET_EXHAUSTED'
++            break
++        try:
++            raw=path.read_bytes()
++        except OSError as caught:
++            error=dict(type=type(caught).__name__,errno=caught.errno,
++                       winerror=getattr(caught,'winerror',None),message=str(caught))
++            attempts.append(dict(started_ns=begin,finished_ns=clock(),error=dict(error)))
++            if isinstance(caught,FileNotFoundError):
++                status='JOURNAL_MISSING'; break
++            if not isinstance(caught,PermissionError):
++                status='JOURNAL_READ_ERROR'; break
++            if after_denial is not None: after_denial(dict(error))
++            remaining=(deadline-clock())/1_000_000_000
++            if remaining>0: time.sleep(min(0.01,remaining))
++        else:
++            attempts.append(dict(started_ns=begin,finished_ns=clock(),error=None))
++            verification=journal.compare(raw,expected)
++            status=verification['reason']
++            error=None
++            break
++    return dict(status=status,raw=raw,error=error,verification=verification,attempts=attempts,
++                started_ns=started,deadline_ns=deadline,finished_ns=clock(),
++                first_attempt_budget_checked=True,strict_deadline_guaranteed=False,production_api_changed=False)
+--- /dev/null
++++ b/test_f3_int121_a14_11_first_attempt.py
+@@ -0,0 +1,106 @@
++"""Controlled-clock counterproof and isolated guard, both on real journals."""
++import base64
++import contextlib
++import hashlib
++import io
++import json
++import os
++from pathlib import Path
++import sys
++import tempfile
++import time
++from types import SimpleNamespace
++import unittest
++from unittest.mock import patch
++
++import f3_int121_a14_9_readback as legacy
++import f3_int121_a14_11_budget as candidate
++import test_f3_int121_a14_7_startup as startup
++
++
++@unittest.skipUnless(os.name=='nt','Native Windows safety containment required')
++class FirstAttemptBudget(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        cls.scratch=Path(__file__).resolve().parent.parent/'work'
++        cls.scratch.mkdir(exist_ok=True)
++        cls.evidence=Path(tempfile.mkdtemp(prefix=f'a14_11_budget_evidence_O{sys.flags.optimize}_',dir=cls.scratch))
++
++    def _run(self,scenario):
++        method='test_successful_handshake_control_still_cleans'
++        fixture=startup.StartupDiagnostics(method)
++        fixture.scratch=self.scratch
++        fixture.evidence=Path(tempfile.mkdtemp(prefix='a14_11_native_',dir=self.scratch))
++        fixture.setUp()
++        native=None; original=None; captured=None; result=None; error=None
++        calls=[]; ticks=[]; invocation=None; completed=None
++        values={'legacy_late':[1_000_000,201_000_000,202_000_000,203_000_000],
++                'guard_late':[1_000_000,201_000_000,202_000_000],
++                'guard_equal':[1_000_000,101_000_000,102_000_000]}.get(scenario)
++        sequence=iter(values or [])
++        def clock():
++            value=next(sequence); ticks.append(value); return value
++        class CountedPath:
++            def read_bytes(self):
++                event=dict(started_real_ns=time.perf_counter_ns())
++                calls.append(event)
++                try: return path.read_bytes()
++                finally: event['finished_real_ns']=time.perf_counter_ns()
++        try:
++            with contextlib.redirect_stdout(io.StringIO()): fixture._run('success')
++            native=json.loads((fixture.evidence/(method+'.json')).read_bytes())
++            path=fixture.root/'startup-journal.json'
++            original=path.read_bytes()
++            invocation=time.perf_counter_ns()
++            self.assertLessEqual(native['outer_cleanup_finished_ns'],invocation)
++            if scenario=='legacy_late':
++                with patch.object(legacy,'time',SimpleNamespace(perf_counter_ns=clock)):
++                    result=legacy.read(CountedPath(),native['result'],timeout=0.1)
++            else:
++                result=candidate.read(CountedPath(),native['result'],timeout=0.1,
++                                      clock_ns=clock if values else None)
++            captured=result.pop('raw')
++            completed=time.perf_counter_ns()
++            guarded=scenario in ('guard_late','guard_equal')
++            self.assertEqual(result['status'],'JOURNAL_READ_BUDGET_EXHAUSTED' if guarded else 'CONTENT_MATCH')
++            self.assertEqual(len(calls),0 if guarded else 1)
++            if guarded:
++                self.assertEqual(result['attempts'],[])
++                self.assertIsNone(result['verification'])
++                self.assertIsNone(result['error'])
++                self.assertIsNone(captured)
++            else:
++                self.assertEqual(captured,original)
++                self.assertTrue(result['verification']['accepted'])
++                if scenario=='legacy_late':
++                    self.assertGreater(result['attempts'][0]['started_ns'],result['deadline_ns'])
++                else:
++                    self.assertLess(result['attempts'][0]['started_ns'],result['deadline_ns'])
++        except BaseException as caught:
++            error=dict(type=type(caught).__name__,message=str(caught)); raise
++        finally:
++            record=dict(test=self._testMethodName,scenario=scenario,optimization=sys.flags.optimize,
++                native=native,reader=result,read_calls=calls,clock_values=ticks,
++                clock_mode='CONTROLLED' if values else 'REAL',scheduler_delay_simulated=bool(values),
++                implementation='LEGACY_A14_9' if scenario=='legacy_late' else 'ISOLATED_A14_11',
++                expected_legacy_violation=scenario=='legacy_late',invocation_started_real_ns=invocation,
++                invocation_finished_real_ns=completed,observer_error=error,
++                original_base64=base64.b64encode(original).decode('ascii') if original is not None else None,
++                captured_base64=base64.b64encode(captured).decode('ascii') if captured is not None else None,
++                original_sha256=hashlib.sha256(original).hexdigest() if original is not None else None,
++                f3='OPEN',offline=True,simulation_only=True,real_operations_authorized=False,runtime_modified=False,
++                production_api_changed=False,strict_deadline_guaranteed=False,authentication_tested=False,durability_tested=False)
++            try:
++                (self.evidence/(self._testMethodName+'.json')).write_text(json.dumps(record,indent=2),encoding='utf-8')
++            finally: fixture.doCleanups()
++        print('A14_11_BUDGET_EVIDENCE='+json.dumps(dict(scenario=scenario,optimization=sys.flags.optimize,
++            clock_mode=record['clock_mode'],reader_calls=len(calls),status=result['status'],
++            expected_legacy_violation=scenario=='legacy_late',real_operations_authorized=False,runtime_modified=False)),flush=True)
++
++    def test_legacy_counterproof_first_attempt_after_budget(self): self._run('legacy_late')
++    def test_guard_prevents_first_attempt_after_budget(self): self._run('guard_late')
++    def test_guard_prevents_first_attempt_at_deadline(self): self._run('guard_equal')
++    def test_guard_real_clock_valid_journal_control(self): self._run('real_control')
++
++
++if __name__=='__main__': unittest.main(verbosity=2)
