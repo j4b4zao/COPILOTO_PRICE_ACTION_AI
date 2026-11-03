@@ -1,0 +1,39 @@
+{
+  "phase": "F3-INT-121 A14.17",
+  "created_utc": "2026-11-03T16:27:11.340891+00:00",
+  "branch": "checkpoint/f3-int121-a14-17-20261103",
+  "parent_commit": "9d1c2666a2ff97d9ac6c54256f9dc45741a87d08",
+  "test_scope": "adversarial_cross_checkpoint_auditor",
+  "tests_normal": 6,
+  "tests_optimized": 6,
+  "tests_total": 12,
+  "test_results_source": "local_unittest_execution",
+  "test_scenarios": [
+    "manifest_tampering",
+    "sha256_sidecar_tampering",
+    "zip_tampering",
+    "missing_file",
+    "manifest_commit_chain_tampering",
+    "original_evidence_acceptance"
+  ],
+  "audit_mode": "offline_temporary_copies",
+  "audit_result": "PASS",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "real_operations_authorized": false,
+  "production_api_changed": false,
+  "files": [
+    {
+      "name": "test_f3_int121_a14_17_adversarial.py",
+      "bytes": 5236,
+      "sha256": "0b90b35cb7a39d61f8a39b341a976e44d6d7089f90b75ad0e23ba4025084ca99"
+    }
+  ],
+  "zip": {
+    "name": "F3_INT121_A14_17_VALIDACAO_20261103.zip",
+    "bytes": 1814,
+    "sha256": "f9c903327c9610e02ec7b0596fdd21b4d91918e4ab981ce539ff55de092d733f"
+  }
+}
