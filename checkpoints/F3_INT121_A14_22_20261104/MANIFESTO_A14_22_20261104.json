@@ -1,0 +1,36 @@
+{
+  "projeto": "COPILOTO_PRICE_ACTION_AI",
+  "etapa": "F3-INT-121 A14.22",
+  "data": "2026-11-04",
+  "branch": "checkpoint/f3-int121-a14-22-20261104",
+  "commit_base": "d42d35b385e7cf76406cf70fc5a38a5ea277a61d",
+  "objetivo": "Preservar teste reproduzivel T04 da A14.20",
+  "script": {
+    "arquivo": "teste_a14_20_t04_cadeia_commits.py",
+    "sha256": "475f2ab69cff5516a8fb246f7a47eb7f55204cee5ddcee4c384eef7f62613e91",
+    "commits_verificados": 10,
+    "ligacoes_parent": 9
+  },
+  "validacoes": {
+    "T01_branch_criada": "PASS",
+    "T02_ast": "PASS",
+    "T02_execucao_normal": "PASS",
+    "T02_execucao_otimizada": "PASS",
+    "T03_adulteracao_rejeitada_normal": "PASS",
+    "T03_adulteracao_rejeitada_otimizada": "PASS",
+    "T03_original_preservado": "PASS"
+  },
+  "observacao": "Os resultados T01-T03 foram observados nas execucoes anteriores. Este manifesto registra essas evidencias; nao representa uma nova execucao dos testes.",
+  "operacao": {
+    "f3": "OPEN",
+    "offline": true,
+    "simulation_only": true,
+    "certification": false,
+    "real_operations_authorized": false,
+    "production_api_changed": false
+  },
+  "publicacao": {
+    "commit_realizado": false,
+    "push_realizado": false
+  }
+}
