@@ -1,0 +1,34 @@
+{
+  "phase": "F3-INT-121 A14.20",
+  "date": "2026-11-04",
+  "status": "LOCAL_VALIDATION_PASSED",
+  "parent_commit": "01384da2387819af3efecc94929d2f18e9ec0366",
+  "f3": "OPEN",
+  "offline": true,
+  "simulation_only": true,
+  "certification": false,
+  "real_operations_authorized": false,
+  "production_api_changed": false,
+  "functional_tests": {
+    "normal": "PASS",
+    "optimized": "PASS"
+  },
+  "adversarial_tests": {
+    "T01": "PASS",
+    "T02": "PASS",
+    "T03": "PASS",
+    "T04": "PASS",
+    "T05": "PASS",
+    "T06": "PASS"
+  },
+  "files": {
+    "auditoria_a14_20.py": {
+      "sha256": "b3cc894fd4ed6c788ba0671044c62db4006674583cee3b48d64b2d676a0abe30",
+      "bytes": 4929
+    },
+    "auditoria_a14_20_pre_t05.py": {
+      "sha256": "d7fcbece07d4573973e0da29a77548a6e35a45a83d8c78cb06184d48cbfc42a9",
+      "bytes": 4614
+    }
+  }
+}
