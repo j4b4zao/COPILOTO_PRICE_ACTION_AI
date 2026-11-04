@@ -1,0 +1,85 @@
+{
+  "etapa": "F3-INT-121 A14.31",
+  "commit_base": "9572242085122cbd0833830576d7b2b4aa8b3b5f",
+  "python": "3.13.5",
+  "sha256_script": "18ac62b34e8aee714cd8af1f867e622fd91a085e049a69ee9abfc8bdc13aa250",
+  "sha256_modulos": {
+    "f3_int121_a14_8_journal.py": "5c2b3dc56e3b2723a2a40f21cc912495a7978e958dd94c951d213b6416ceeba2",
+    "f3_int121_a14_11_budget.py": "1df25671311772e899382d69b94d48cb9f39b19c3154958436365e4b807c627a"
+  },
+  "relogio": "Injetado para expirar o orcamento de forma deterministica.",
+  "estado_operacional": {
+    "f3": "OPEN",
+    "offline": true,
+    "simulation_only": true,
+    "certification": false,
+    "real_operations_authorized": false,
+    "production_api_changed": false
+  },
+  "execucoes": [
+    {
+      "modo": "normal",
+      "bloqueio": "mantido",
+      "denials": [
+        [
+          "PermissionError",
+          13,
+          null
+        ]
+      ],
+      "status": "JOURNAL_READ_DENIED",
+      "attempts": 1,
+      "sha256": null,
+      "production_api_changed": false
+    },
+    {
+      "modo": "normal",
+      "bloqueio": "liberado",
+      "denials": [
+        [
+          "PermissionError",
+          13,
+          null
+        ]
+      ],
+      "status": "CONTENT_MATCH",
+      "attempts": 2,
+      "sha256": "dc6c85ecab0a860509f8558697774ba10ded9817be5220aa78628db201634124",
+      "production_api_changed": false
+    },
+    {
+      "modo": "otimizado",
+      "bloqueio": "mantido",
+      "denials": [
+        [
+          "PermissionError",
+          13,
+          null
+        ]
+      ],
+      "status": "JOURNAL_READ_DENIED",
+      "attempts": 1,
+      "sha256": null,
+      "production_api_changed": false
+    },
+    {
+      "modo": "otimizado",
+      "bloqueio": "liberado",
+      "denials": [
+        [
+          "PermissionError",
+          13,
+          null
+        ]
+      ],
+      "status": "CONTENT_MATCH",
+      "attempts": 2,
+      "sha256": "dc6c85ecab0a860509f8558697774ba10ded9817be5220aa78628db201634124",
+      "production_api_changed": false
+    }
+  ],
+  "reproducao": {
+    "clones_fonte": 2,
+    "saida_identica": true
+  }
+}
