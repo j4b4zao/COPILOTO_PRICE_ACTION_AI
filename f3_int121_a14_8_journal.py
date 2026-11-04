@@ -35,7 +35,7 @@ def compare(raw, expected):
         if canonical(actual) != canonical(expected):
             result['reason'] = 'CONTENT_MISMATCH'
             return result
-    except (ValueError,UnicodeError,TypeError):
+    except (ValueError,UnicodeError,TypeError,RecursionError):
         return result
     restrictions = dict(f3='OPEN',offline=True,simulation_only=True,
                         real_operations_authorized=False,runtime_modified=False,

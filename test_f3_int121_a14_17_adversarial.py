@@ -20,6 +20,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 AUDITOR = ROOT / "auditoria_cruzada_a14_16.py"
+HISTORICAL_COMMIT = "08e875dacb1dab9b38d750c910fb443bb1fb698a"
 STAGE_DIR = Path("checkpoints/F3_INT121_A14_13_20261103")
 MANIFEST_NAME = "MANIFESTO_A14_13_20261103.json"
 ZIP_NAME = "F3_INT121_A14_13_VALIDACAO_20261103.zip"
@@ -43,19 +44,26 @@ class TestA1417Adversarial(unittest.TestCase):
             timeout=45,
         )
 
-    def fixture(self, destination: Path) -> Path:
-        """Copia somente A14.13 e seus tres arquivos, sem alterar originais."""
-        source = ROOT / STAGE_DIR
-        target = destination / STAGE_DIR
+    def fixture(self, destination: Path, stage: int = 13) -> Path:
+        """Materializa um checkpoint e seus arquivos na revisao auditada."""
+        folder = Path(f"checkpoints/F3_INT121_A14_{stage}_20261103")
+        manifest_name = f"MANIFESTO_A14_{stage}_20261103.json"
+        zip_name = f"F3_INT121_A14_{stage}_VALIDACAO_20261103.zip"
+        source = ROOT / folder
+        target = destination / folder
         target.mkdir(parents=True, exist_ok=False)
-        manifest = json.loads((source / MANIFEST_NAME).read_text(encoding="utf-8"))
-        for filename in (MANIFEST_NAME, ZIP_NAME, ZIP_NAME + ".sha256"):
+        manifest = json.loads((source / manifest_name).read_text(encoding="utf-8"))
+        for filename in (manifest_name, zip_name, zip_name + ".sha256"):
             shutil.copyfile(source / filename, target / filename)
         for record in manifest["files"]:
             name = record["name"]
             if Path(name).name != name:
                 raise RuntimeError("NOME_DE_ARQUIVO_INSEGURO_NA_FIXTURE")
-            shutil.copyfile(ROOT / name, destination / name)
+            data = subprocess.check_output(
+                ["git", "-C", str(ROOT), "cat-file", "blob", f"{HISTORICAL_COMMIT}:{name}"],
+                timeout=45,
+            )
+            (destination / name).write_bytes(data)
         return target
 
     def expect_rejected(self, root: Path, marker: str) -> None:
@@ -113,7 +121,15 @@ class TestA1417Adversarial(unittest.TestCase):
             self.expect_rejected(Path(tmp), "CADEIA_MANIFESTO_INCORRETA")
 
     def test_t06_evidencias_originais_aprovadas(self):
-        result = self.run_auditor(ROOT)
+        with tempfile.TemporaryDirectory(prefix="a1417_t06_") as tmp:
+            root = Path(tmp) / "repo"
+            subprocess.run(
+                ["git", "clone", "--quiet", "--shared", "--no-checkout", str(ROOT), str(root)],
+                check=True, timeout=60,
+            )
+            for stage in (13, 14, 15):
+                self.fixture(root, stage)
+            result = self.run_auditor(root)
         combined = result.stdout + "\n" + result.stderr
         self.assertEqual(result.returncode, 0, combined)
         self.assertIn("CHECKPOINTS_AUDITADOS: 3", combined)
