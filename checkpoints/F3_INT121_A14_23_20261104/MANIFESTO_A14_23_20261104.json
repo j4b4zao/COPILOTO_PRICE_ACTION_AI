@@ -1,0 +1,64 @@
+{
+  "projeto": "COPILOTO_PRICE_ACTION_AI",
+  "etapa": "F3-INT-121 A14.23",
+  "data": "2026-11-04",
+  "created_utc": "2026-11-04T15:02:30.347521+00:00",
+  "objetivo": "Auditoria historica A14.12 a A14.22",
+  "branch_base": "checkpoint/f3-int121-a14-22-20261104",
+  "commit_base": "b8185d3787a420adcf2c8eb7624dc101f71eddb0",
+  "escopo": {
+    "checkpoints": 11,
+    "arquivos_versionados": 53,
+    "pacotes_zip": 11,
+    "entradas_zip_verificadas": 352,
+    "manifestos_json": 12
+  },
+  "validacoes": {
+    "T01": "PASS",
+    "T02": "PASS",
+    "T03": "PASS",
+    "T04": {
+      "status": "CONCLUIDO_COM_PENDENCIAS_DE_LOCALIZACAO",
+      "referencias_processadas": 215,
+      "verificadas": 24,
+      "divergentes": 0,
+      "pendentes_na_busca_local": 191
+    },
+    "T05": {
+      "status": "PASS",
+      "referencias_unicas": 209,
+      "confirmadas_em_zip": 203
+    },
+    "T06": {
+      "status": "PASS",
+      "confirmadas_no_git": 6
+    },
+    "T07": {
+      "status": "PASS",
+      "commits": 11,
+      "relacoes_parent": 10,
+      "branch_local": "PASS",
+      "branch_remota": "PASS"
+    },
+    "T08": "PASS"
+  },
+  "conclusao": {
+    "referencias_unicas_confirmadas": 209,
+    "referencias_sem_correspondencia": 0,
+    "divergencias_sha256_identificadas": 0,
+    "limite": "A verificacao cobre as referencias identificadas em T05 e T06, nao todos os vinculos semanticos dos manifestos historicos."
+  },
+  "estado_operacional": {
+    "f3": "OPEN",
+    "offline": true,
+    "simulation_only": true,
+    "certification": false,
+    "real_operations_authorized": false,
+    "production_api_changed": false
+  },
+  "publicacao": {
+    "status": "CANDIDATA_NAO_PUBLICADA",
+    "commit": false,
+    "push": false
+  }
+}
