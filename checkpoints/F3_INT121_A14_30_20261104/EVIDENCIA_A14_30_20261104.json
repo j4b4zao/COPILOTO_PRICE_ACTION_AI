@@ -1,0 +1,101 @@
+{
+  "etapa": "F3-INT-121 A14.30",
+  "commit_base": "c3a8169103611e16279980da00538a645783b16b",
+  "python": "3.13.5",
+  "sha256_script": "1dd5ada46c46235b08f7318b135d2823c96aabcf9b96310d44b664dd1f83ddb3",
+  "sha256_modulos": {
+    "f3_int121_a14_8_journal.py": "5c2b3dc56e3b2723a2a40f21cc912495a7978e958dd94c951d213b6416ceeba2",
+    "f3_int121_a14_11_budget.py": "1df25671311772e899382d69b94d48cb9f39b19c3154958436365e4b807c627a"
+  },
+  "escopo": "Interrupcao do gravador apos flush para o sistema operacional, com um novo leitor por cenario.",
+  "estado_operacional": {
+    "f3": "OPEN",
+    "offline": true,
+    "simulation_only": true,
+    "certification": false,
+    "real_operations_authorized": false,
+    "production_api_changed": false
+  },
+  "execucoes": {
+    "normal": [
+      {
+        "cenario": "original",
+        "saida_gravador": 0,
+        "status": "CONTENT_MATCH",
+        "aceito": true,
+        "sha256": "dc6c85ecab0a860509f8558697774ba10ded9817be5220aa78628db201634124",
+        "tentativas": 1,
+        "production_api_changed": false
+      },
+      {
+        "cenario": "interrupcao",
+        "saida_gravador": 23,
+        "status": "INVALID_JSON",
+        "aceito": false,
+        "sha256": "1b2cd75f4e31a788c832037233bf021c0749e9e9acb05dc49bddeb66a2a5b222",
+        "tentativas": 1,
+        "production_api_changed": false
+      },
+      {
+        "cenario": "substituicao",
+        "saida_gravador": 0,
+        "status": "CONTENT_MISMATCH",
+        "aceito": false,
+        "sha256": "6e457942c213b6331cb234dccbf3d138ecc53e64de2b23030cfa0137949a0031",
+        "tentativas": 1,
+        "production_api_changed": false
+      },
+      {
+        "cenario": "recuperacao",
+        "saida_gravador": 0,
+        "status": "CONTENT_MATCH",
+        "aceito": true,
+        "sha256": "dc6c85ecab0a860509f8558697774ba10ded9817be5220aa78628db201634124",
+        "tentativas": 1,
+        "production_api_changed": false
+      }
+    ],
+    "otimizado": [
+      {
+        "cenario": "original",
+        "saida_gravador": 0,
+        "status": "CONTENT_MATCH",
+        "aceito": true,
+        "sha256": "dc6c85ecab0a860509f8558697774ba10ded9817be5220aa78628db201634124",
+        "tentativas": 1,
+        "production_api_changed": false
+      },
+      {
+        "cenario": "interrupcao",
+        "saida_gravador": 23,
+        "status": "INVALID_JSON",
+        "aceito": false,
+        "sha256": "1b2cd75f4e31a788c832037233bf021c0749e9e9acb05dc49bddeb66a2a5b222",
+        "tentativas": 1,
+        "production_api_changed": false
+      },
+      {
+        "cenario": "substituicao",
+        "saida_gravador": 0,
+        "status": "CONTENT_MISMATCH",
+        "aceito": false,
+        "sha256": "6e457942c213b6331cb234dccbf3d138ecc53e64de2b23030cfa0137949a0031",
+        "tentativas": 1,
+        "production_api_changed": false
+      },
+      {
+        "cenario": "recuperacao",
+        "saida_gravador": 0,
+        "status": "CONTENT_MATCH",
+        "aceito": true,
+        "sha256": "dc6c85ecab0a860509f8558697774ba10ded9817be5220aa78628db201634124",
+        "tentativas": 1,
+        "production_api_changed": false
+      }
+    ]
+  },
+  "reproducao": {
+    "clones_fonte": 2,
+    "saida_identica": true
+  }
+}
