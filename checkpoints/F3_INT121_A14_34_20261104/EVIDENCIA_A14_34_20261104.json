@@ -1,0 +1,33 @@
+{
+  "etapa": "F3-INT-121 A14.34",
+  "commit": "42003cc69b4e14d0147f668d512acb1e81c87559",
+  "base_suite": "A14.12",
+  "escopo": "23 testes nativos direcionados de journal, compartilhamento, observador e orcamento",
+  "arquivos_conferidos": 181,
+  "unico_arquivo_substituido": "f3_int121_a14_8_journal.py",
+  "sha256_modulo": "4587e4087ae0af64c3e9fb1b7cc7f5ae34ebc8f49bb925dfa8917f069aeae408",
+  "execucoes": [
+    {
+      "modo": "normal",
+      "aprovados": 23,
+      "resumo": "Ran 23 tests in 61.926s",
+      "sha256_log": "4e57127d543578d3fabaf276f7ec2806ca629474568221c9defc38ef3709f93b"
+    },
+    {
+      "modo": "otimizado",
+      "aprovados": 23,
+      "resumo": "Ran 23 tests in 103.512s",
+      "sha256_log": "87eb523031dec80335ef303252ef0cda89be723001a32349f913e4e30bd56fb1"
+    }
+  ],
+  "sha256_zip": "4d5c5dcf71b5ccc57c7a555ba437ab71d65dd46c0b67d6c08c18c6f752815b74",
+  "estado_operacional": {
+    "f3": "OPEN",
+    "offline": true,
+    "simulation_only": true,
+    "certification": false,
+    "real_operations_authorized": false,
+    "production_api_changed": false
+  },
+  "arquivo_logs": "LOGS_NATIVOS_A14_33_20261104.zip"
+}
