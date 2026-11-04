@@ -1,0 +1,86 @@
+{
+  "etapa": "F3-INT-121 A14.29",
+  "commit_base": "30cab14bf21eca4441ea3a2921c13e9b0d2035ea",
+  "python": "3.13.5",
+  "sha256_script": "50c1c7a6fce4688ff9397b7cbde89b429dead2d830c1bfa0ce5b5cb9b071a9fa",
+  "estado_operacional": {
+    "f3": "OPEN",
+    "offline": true,
+    "simulation_only": true,
+    "certification": false,
+    "real_operations_authorized": false,
+    "production_api_changed": false
+  },
+  "sha256_arquivos_versionados": {
+    "f3_int121_a14_8_journal.py": "5c2b3dc56e3b2723a2a40f21cc912495a7978e958dd94c951d213b6416ceeba2",
+    "f3_int121_a14_11_budget.py": "1df25671311772e899382d69b94d48cb9f39b19c3154958436365e4b807c627a",
+    "auditoria_cruzada_a14_16.py": "eb90901fec6d26fa7b19ec6351ab72ba6b9c62bf4580d1014cfa9c8d0860cb56",
+    "test_f3_int121_a14_13_adversarial.py": "2d32ad4024e9b6854bf96fac5967e501f15247985a8276b21ef54dac1b89321f",
+    "test_f3_int121_a14_14_consistency.py": "59052bd976d626b8c9c749d020a51d66987ebf7ca02020865b46d4d9e7cac3b5",
+    "test_f3_int121_a14_15_persistence.py": "525e87d57b0f6418958765be101a0f8c39d3c92cb73bf99abf44143ed5f0d471",
+    "test_f3_int121_a14_17_adversarial.py": "0b90b35cb7a39d61f8a39b341a976e44d6d7089f90b75ad0e23ba4025084ca99",
+    "checkpoints/F3_INT121_A14_13_20261103/MANIFESTO_A14_13_20261103.json": "e6974c449acc89ff94e8c5dc4326cc6e5b260a6434b72c91e5cebbc6d686292e",
+    "checkpoints/F3_INT121_A14_13_20261103/F3_INT121_A14_13_VALIDACAO_20261103.zip": "fdfdcd55cb9b9f2dcf78f7149465861d405efed236af3dfc331544ed95c80363",
+    "checkpoints/F3_INT121_A14_13_20261103/F3_INT121_A14_13_VALIDACAO_20261103.zip.sha256": "1e6e9a72b9eab73de6b978d21f97be9c14407d09db2f9d1cf6ff84d4a491f473",
+    "checkpoints/F3_INT121_A14_14_20261103/MANIFESTO_A14_14_20261103.json": "cf162d48195d700af8856f61247fc93cb18a8a59db5f38fbd676844e6ac35d01",
+    "checkpoints/F3_INT121_A14_14_20261103/F3_INT121_A14_14_VALIDACAO_20261103.zip": "39370f0a67c393300a20628595d56e35a55abf28b2c99d8342a1b345a5c3f49d",
+    "checkpoints/F3_INT121_A14_14_20261103/F3_INT121_A14_14_VALIDACAO_20261103.zip.sha256": "7304e5aa49fa46ff3e9aefd2140c7cdbf0f0a9a50a840b102206ae4409a6e62e",
+    "checkpoints/F3_INT121_A14_15_20261103/MANIFESTO_A14_15_20261103.json": "d146df3ba9322e99fc90b0bc0be0cb352fb0d1af5071503490431d30599a1ea8",
+    "checkpoints/F3_INT121_A14_15_20261103/F3_INT121_A14_15_VALIDACAO_20261103.zip": "f9565ba02880c35718624e4190f9cec2c17204f2ebcb0067cad9e504178f845a",
+    "checkpoints/F3_INT121_A14_15_20261103/F3_INT121_A14_15_VALIDACAO_20261103.zip.sha256": "01b160b0cb6e69a137f8365d704a928fbe2b32065b14ad0c2e7983333dfcecb3"
+  },
+  "execucoes": [
+    {
+      "modo": "normal",
+      "testes_aprovados": 18,
+      "testes": [
+        "test_callback_exception_is_observable_not_false_success (test_f3_int121_a14_13_adversarial.AdversarialBudgetTests.test_callback_exception_is_observable_not_false_success)",
+        "test_deadline_expires_inside_callback_without_new_read (test_f3_int121_a14_13_adversarial.AdversarialBudgetTests.test_deadline_expires_inside_callback_without_new_read)",
+        "test_last_denial_preserved_when_callback_consumes_budget (test_f3_int121_a14_13_adversarial.AdversarialBudgetTests.test_last_denial_preserved_when_callback_consumes_budget)",
+        "test_no_first_attempt_at_deadline (test_f3_int121_a14_13_adversarial.AdversarialBudgetTests.test_no_first_attempt_at_deadline)",
+        "test_read_started_before_deadline_may_finish_after (test_f3_int121_a14_13_adversarial.AdversarialBudgetTests.test_read_started_before_deadline_may_finish_after)",
+        "test_t01_tampered_journal_is_rejected_by_real_comparator (test_f3_int121_a14_14_consistency.JournalConsistencyTests.test_t01_tampered_journal_is_rejected_by_real_comparator)",
+        "test_t02_os_read_failure_is_not_reported_as_success (test_f3_int121_a14_14_consistency.JournalConsistencyTests.test_t02_os_read_failure_is_not_reported_as_success)",
+        "test_t03_transient_denial_then_valid_read_recovers_with_integrity (test_f3_int121_a14_14_consistency.JournalConsistencyTests.test_t03_transient_denial_then_valid_read_recovers_with_integrity)",
+        "test_t01_fresh_reader_accepts_unchanged_persisted_record (test_f3_int121_a14_15_persistence.PersistenceTests.test_t01_fresh_reader_accepts_unchanged_persisted_record)",
+        "test_t02_truncated_persisted_record_is_rejected (test_f3_int121_a14_15_persistence.PersistenceTests.test_t02_truncated_persisted_record_is_rejected)",
+        "test_t03_replaced_persisted_record_is_rejected (test_f3_int121_a14_15_persistence.PersistenceTests.test_t03_replaced_persisted_record_is_rejected)",
+        "test_t04_recovery_read_error_never_reports_success (test_f3_int121_a14_15_persistence.PersistenceTests.test_t04_recovery_read_error_never_reports_success)",
+        "test_t01_manifesto_adulterado_rejeitado (test_f3_int121_a14_17_adversarial.TestA1417Adversarial.test_t01_manifesto_adulterado_rejeitado)",
+        "test_t02_sha256_lateral_adulterado_rejeitado (test_f3_int121_a14_17_adversarial.TestA1417Adversarial.test_t02_sha256_lateral_adulterado_rejeitado)",
+        "test_t03_zip_adulterado_rejeitado (test_f3_int121_a14_17_adversarial.TestA1417Adversarial.test_t03_zip_adulterado_rejeitado)",
+        "test_t04_arquivo_ausente_rejeitado (test_f3_int121_a14_17_adversarial.TestA1417Adversarial.test_t04_arquivo_ausente_rejeitado)",
+        "test_t05_cadeia_manifesto_adulterada_rejeitada (test_f3_int121_a14_17_adversarial.TestA1417Adversarial.test_t05_cadeia_manifesto_adulterada_rejeitada)",
+        "test_t06_evidencias_originais_aprovadas (test_f3_int121_a14_17_adversarial.TestA1417Adversarial.test_t06_evidencias_originais_aprovadas)"
+      ]
+    },
+    {
+      "modo": "otimizado",
+      "testes_aprovados": 18,
+      "testes": [
+        "test_callback_exception_is_observable_not_false_success (test_f3_int121_a14_13_adversarial.AdversarialBudgetTests.test_callback_exception_is_observable_not_false_success)",
+        "test_deadline_expires_inside_callback_without_new_read (test_f3_int121_a14_13_adversarial.AdversarialBudgetTests.test_deadline_expires_inside_callback_without_new_read)",
+        "test_last_denial_preserved_when_callback_consumes_budget (test_f3_int121_a14_13_adversarial.AdversarialBudgetTests.test_last_denial_preserved_when_callback_consumes_budget)",
+        "test_no_first_attempt_at_deadline (test_f3_int121_a14_13_adversarial.AdversarialBudgetTests.test_no_first_attempt_at_deadline)",
+        "test_read_started_before_deadline_may_finish_after (test_f3_int121_a14_13_adversarial.AdversarialBudgetTests.test_read_started_before_deadline_may_finish_after)",
+        "test_t01_tampered_journal_is_rejected_by_real_comparator (test_f3_int121_a14_14_consistency.JournalConsistencyTests.test_t01_tampered_journal_is_rejected_by_real_comparator)",
+        "test_t02_os_read_failure_is_not_reported_as_success (test_f3_int121_a14_14_consistency.JournalConsistencyTests.test_t02_os_read_failure_is_not_reported_as_success)",
+        "test_t03_transient_denial_then_valid_read_recovers_with_integrity (test_f3_int121_a14_14_consistency.JournalConsistencyTests.test_t03_transient_denial_then_valid_read_recovers_with_integrity)",
+        "test_t01_fresh_reader_accepts_unchanged_persisted_record (test_f3_int121_a14_15_persistence.PersistenceTests.test_t01_fresh_reader_accepts_unchanged_persisted_record)",
+        "test_t02_truncated_persisted_record_is_rejected (test_f3_int121_a14_15_persistence.PersistenceTests.test_t02_truncated_persisted_record_is_rejected)",
+        "test_t03_replaced_persisted_record_is_rejected (test_f3_int121_a14_15_persistence.PersistenceTests.test_t03_replaced_persisted_record_is_rejected)",
+        "test_t04_recovery_read_error_never_reports_success (test_f3_int121_a14_15_persistence.PersistenceTests.test_t04_recovery_read_error_never_reports_success)",
+        "test_t01_manifesto_adulterado_rejeitado (test_f3_int121_a14_17_adversarial.TestA1417Adversarial.test_t01_manifesto_adulterado_rejeitado)",
+        "test_t02_sha256_lateral_adulterado_rejeitado (test_f3_int121_a14_17_adversarial.TestA1417Adversarial.test_t02_sha256_lateral_adulterado_rejeitado)",
+        "test_t03_zip_adulterado_rejeitado (test_f3_int121_a14_17_adversarial.TestA1417Adversarial.test_t03_zip_adulterado_rejeitado)",
+        "test_t04_arquivo_ausente_rejeitado (test_f3_int121_a14_17_adversarial.TestA1417Adversarial.test_t04_arquivo_ausente_rejeitado)",
+        "test_t05_cadeia_manifesto_adulterada_rejeitada (test_f3_int121_a14_17_adversarial.TestA1417Adversarial.test_t05_cadeia_manifesto_adulterada_rejeitada)",
+        "test_t06_evidencias_originais_aprovadas (test_f3_int121_a14_17_adversarial.TestA1417Adversarial.test_t06_evidencias_originais_aprovadas)"
+      ]
+    }
+  ],
+  "reproducao": {
+    "clones_fonte": 2,
+    "saida_identica": true
+  }
+}
