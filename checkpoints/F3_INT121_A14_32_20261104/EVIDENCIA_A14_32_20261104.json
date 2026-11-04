@@ -1,0 +1,72 @@
+{
+  "etapa": "F3-INT-121 A14.32",
+  "base": "F3-INT-121 A14.12",
+  "commit_fonte": "17689276ee52055f3fded0892da965816dd592e3",
+  "python": "3.13.5",
+  "arquivos_sha256_conferidos_apos_execucao": 181,
+  "estado_operacional": {
+    "f3": "OPEN",
+    "offline": true,
+    "simulation_only": true,
+    "certification": false,
+    "real_operations_authorized": false,
+    "production_api_changed": false
+  },
+  "execucoes": [
+    {
+      "modo": "normal",
+      "exit_code": 0,
+      "aprovados": 224,
+      "segundos": 599.349,
+      "log_sha256": "64053649fa29b5a0cb66d42ed7be72c95ae788da451fcdd6a046fa2d3192a520",
+      "contagem_marcadores": {
+        "A13_NEGATIVE_EVIDENCE": 1,
+        "A14_10_OBSERVER_EVIDENCE": 3,
+        "A14_11_BUDGET_EVIDENCE": 4,
+        "A14_12_SHARING_EVIDENCE": 4,
+        "A14_1_PHASE_EVIDENCE": 2,
+        "A14_2_SURVIVOR_EVIDENCE": 3,
+        "A14_3_CLEANUP_EVIDENCE": 2,
+        "A14_4_EXIT_ORDER_EVIDENCE": 9,
+        "A14_5_REPEAT_EVIDENCE": 6,
+        "A14_6_BARRIER_EVIDENCE": 4,
+        "A14_6_EXPECTED_FAILURE_EVIDENCE": 2,
+        "A14_6_HELD_BRIDGE_REPEAT_EVIDENCE": 6,
+        "A14_7_STARTUP_EVIDENCE": 9,
+        "A14_8_JOURNAL_EVIDENCE": 8,
+        "A14_9_SHARING_EVIDENCE": 4
+      }
+    },
+    {
+      "modo": "otimizado",
+      "exit_code": 0,
+      "aprovados": 224,
+      "segundos": 706.413,
+      "log_sha256": "6ff26b36b0451fe3aa09036e3abd9d4f2aa93aad0f15bcf42e259ac4de92f581",
+      "contagem_marcadores": {
+        "A13_NEGATIVE_EVIDENCE": 1,
+        "A14_10_OBSERVER_EVIDENCE": 3,
+        "A14_11_BUDGET_EVIDENCE": 4,
+        "A14_12_SHARING_EVIDENCE": 4,
+        "A14_1_PHASE_EVIDENCE": 2,
+        "A14_2_SURVIVOR_EVIDENCE": 3,
+        "A14_3_CLEANUP_EVIDENCE": 2,
+        "A14_4_EXIT_ORDER_EVIDENCE": 9,
+        "A14_5_REPEAT_EVIDENCE": 6,
+        "A14_6_BARRIER_EVIDENCE": 4,
+        "A14_6_EXPECTED_FAILURE_EVIDENCE": 2,
+        "A14_6_HELD_BRIDGE_REPEAT_EVIDENCE": 6,
+        "A14_7_STARTUP_EVIDENCE": 9,
+        "A14_8_JOURNAL_EVIDENCE": 8,
+        "A14_9_SHARING_EVIDENCE": 4
+      }
+    }
+  ],
+  "cryptography": "50.0.2",
+  "comandos": [
+    "python -E -s -B -m unittest discover -v",
+    "python -O -E -s -B -m unittest discover -v"
+  ],
+  "commit_pai_checkpoint": "0f7a51e8aa38465325a4d75a78df42b880534d0f",
+  "logs_zip_sha256": "d06779d5a43533c861142539d4fb87c466c0604ab770162757b9b95e5b8ff539"
+}
