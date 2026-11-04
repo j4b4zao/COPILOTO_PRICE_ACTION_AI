@@ -1,0 +1,155 @@
+{
+  "etapa": "F3-INT-121 A14.27",
+  "commit_base": "302937f33f1dfe5ba22e28f170fb5964046f4e13",
+  "escopo": "Fase, introducao no Git, pai declarado e estado operacional dos manifestos versionados A14.12 a A14.23",
+  "estado_operacional": {
+    "f3": "OPEN",
+    "offline": true,
+    "simulation_only": true,
+    "certification": false,
+    "real_operations_authorized": false,
+    "production_api_changed": false
+  },
+  "manifestos": [
+    {
+      "etapa": "A14.23",
+      "commit": "302937f33f1dfe5ba22e28f170fb5964046f4e13",
+      "parent": "b8185d3787a420adcf2c8eb7624dc101f71eddb0",
+      "manifesto": "checkpoints/F3_INT121_A14_23_20261104/MANIFESTO_A14_23_20261104.json",
+      "campos_verificados": 6,
+      "campos_legados_ausentes": []
+    },
+    {
+      "etapa": "A14.22",
+      "commit": "b8185d3787a420adcf2c8eb7624dc101f71eddb0",
+      "parent": "d42d35b385e7cf76406cf70fc5a38a5ea277a61d",
+      "manifesto": "checkpoints/F3_INT121_A14_22_20261104/MANIFESTO_A14_22_20261104.json",
+      "campos_verificados": 6,
+      "campos_legados_ausentes": []
+    },
+    {
+      "etapa": "A14.21",
+      "commit": "d42d35b385e7cf76406cf70fc5a38a5ea277a61d",
+      "parent": "d361e35383efec65c041a70540d994444b58c352",
+      "manifesto": "checkpoints/F3_INT121_A14_21_20261104/MANIFESTO_A14_21_20261104.json",
+      "campos_verificados": 6,
+      "campos_legados_ausentes": []
+    },
+    {
+      "etapa": "A14.20",
+      "commit": "d361e35383efec65c041a70540d994444b58c352",
+      "parent": "01384da2387819af3efecc94929d2f18e9ec0366",
+      "manifesto": "checkpoints/F3_INT121_A14_20_20261104/MANIFESTO_A14_20_20261104.json",
+      "campos_verificados": 6,
+      "campos_legados_ausentes": []
+    },
+    {
+      "etapa": "A14.19",
+      "commit": "01384da2387819af3efecc94929d2f18e9ec0366",
+      "parent": "cfc6f64c9a1bd30586dc90ff0a91bd936aebb0cf",
+      "manifesto": "checkpoints/F3_INT121_A14_19_20261103/MANIFESTO_A14_19_20261103.json",
+      "campos_verificados": 6,
+      "campos_legados_ausentes": []
+    },
+    {
+      "etapa": "A14.18",
+      "commit": "cfc6f64c9a1bd30586dc90ff0a91bd936aebb0cf",
+      "parent": "08e875dacb1dab9b38d750c910fb443bb1fb698a",
+      "manifesto": "checkpoints/F3_INT121_A14_18_20261103/MANIFESTO_A14_18_20261103.json",
+      "campos_verificados": 6,
+      "campos_legados_ausentes": []
+    },
+    {
+      "etapa": "A14.17",
+      "commit": "08e875dacb1dab9b38d750c910fb443bb1fb698a",
+      "parent": "9d1c2666a2ff97d9ac6c54256f9dc45741a87d08",
+      "manifesto": "checkpoints/F3_INT121_A14_17_20261103/MANIFESTO_A14_17_20261103.json",
+      "campos_verificados": 6,
+      "campos_legados_ausentes": []
+    },
+    {
+      "etapa": "A14.16",
+      "commit": "9d1c2666a2ff97d9ac6c54256f9dc45741a87d08",
+      "parent": "2a17ce70fffbd3e1203aa86059e5c86f1ff472d0",
+      "manifesto": "checkpoints/F3_INT121_A14_16_20261103/MANIFESTO_A14_16_20261103.json",
+      "campos_verificados": 6,
+      "campos_legados_ausentes": []
+    },
+    {
+      "etapa": "A14.15",
+      "commit": "2a17ce70fffbd3e1203aa86059e5c86f1ff472d0",
+      "parent": "8eb42f8a72ff691d4cc58c877429df5469196b66",
+      "manifesto": "checkpoints/F3_INT121_A14_15_20261103/MANIFESTO_A14_15_20261103.json",
+      "campos_verificados": 6,
+      "campos_legados_ausentes": []
+    },
+    {
+      "etapa": "A14.14",
+      "commit": "8eb42f8a72ff691d4cc58c877429df5469196b66",
+      "parent": "f20f0b2e90772b9919dcd9c9d00ac1e0f16d1d68",
+      "manifesto": "checkpoints/F3_INT121_A14_14_20261103/MANIFESTO_A14_14_20261103.json",
+      "campos_verificados": 6,
+      "campos_legados_ausentes": []
+    },
+    {
+      "etapa": "A14.13",
+      "commit": "f20f0b2e90772b9919dcd9c9d00ac1e0f16d1d68",
+      "parent": "17689276ee52055f3fded0892da965816dd592e3",
+      "manifesto": "checkpoints/F3_INT121_A14_13_20261103/MANIFESTO_A14_13_20261103.json",
+      "campos_verificados": 4,
+      "campos_legados_ausentes": [
+        "f3",
+        "production_api_changed"
+      ]
+    },
+    {
+      "etapa": "A14.12",
+      "commit": "17689276ee52055f3fded0892da965816dd592e3",
+      "parent": "3ca24e4f4d9cfe76df4422930dea1e5b26c7dfcb",
+      "manifesto": "checkpoints/F3_INT121_A14_12_20261103/MANIFESTO_A14_12_20261103.json",
+      "campos_verificados": 0,
+      "campos_legados_ausentes": [
+        "f3",
+        "offline",
+        "simulation_only",
+        "certification",
+        "real_operations_authorized",
+        "production_api_changed"
+      ]
+    }
+  ],
+  "contraprovas": [
+    {
+      "campo": "etapa",
+      "resultado": "REJEITADO",
+      "motivo": "FASE_DIVERGENTE"
+    },
+    {
+      "campo": "commit_base",
+      "resultado": "REJEITADO",
+      "motivo": "PARENT_DIVERGENTE"
+    },
+    {
+      "campo": "offline",
+      "resultado": "REJEITADO",
+      "motivo": "ESTADO_DIVERGENTE"
+    },
+    {
+      "campo": "real_operations_authorized",
+      "resultado": "REJEITADO",
+      "motivo": "ESTADO_DIVERGENTE"
+    },
+    {
+      "campo": "production_api_changed",
+      "resultado": "REJEITADO",
+      "motivo": "ESTADO_DIVERGENTE"
+    }
+  ],
+  "commit_pai_checkpoint": "d0bc343eadcc835e3028aa7b4fc404e3742ae43b",
+  "reproducao": {
+    "sem_checkout": "PASS",
+    "com_checkpoints": "PASS",
+    "resultado_equivalente_a14_24": "PASS",
+    "sha256_script": "0c6c56898c62cbc768847638501f04ea933d7af1a2c88bc52a2fb3b0eca21cfe"
+  }
+}
