@@ -1,0 +1,74 @@
+{
+    "projeto":  "COPILOTO_PRICE_ACTION_AI",
+    "etapa":  "F3-INT-121 A14.21",
+    "data":  "2026-11-04",
+    "finalidade":  "Preservacao e reproducao dos testes adversariais A14.20",
+    "branch":  "checkpoint/f3-int121-a14-21-20261104",
+    "commit_base":  "d361e35383efec65c041a70540d994444b58c352",
+    "auditor_a14_20_sha256":  "b3cc894fd4ed6c788ba0671044c62db4006674583cee3b48d64b2d676a0abe30",
+    "referencias_a14_19_sha256":  "3b01f874b8ad9bd0237241a85a827b47113435f71ee55bc7c45cc5681692d81e",
+    "scripts":  [
+                    {
+                        "teste":  "T01",
+                        "arquivo":  "teste_a14_20_t01.ps_python.py",
+                        "sha256":  "01ef8d95d044966f4622e9ced0b4576487d1e86e1e4401a565de1e233f6b92a6",
+                        "resultado":  "PASS",
+                        "reproducao":  "2026-11-04"
+                    },
+                    {
+                        "teste":  "T02",
+                        "arquivo":  "teste_a14_20_t02.py",
+                        "sha256":  "b291bc468fcd25a99a41f8f1a2349fb886f0b00526381403b8fef8bdc8e19cf4",
+                        "resultado":  "PASS",
+                        "reproducao":  "2026-11-04"
+                    },
+                    {
+                        "teste":  "T03",
+                        "arquivo":  "teste_a14_20_t03_corrigido.py",
+                        "sha256":  "14b474c5a0642e957abd931871e653adde98517d7553ecd415aacfa343cbc652",
+                        "resultado":  "PASS",
+                        "reproducao":  "2026-11-04"
+                    },
+                    {
+                        "teste":  "T05",
+                        "arquivo":  "teste_a14_20_t05.py",
+                        "sha256":  "daef291c8741b9b060926978bb0f36c4db04ca4ce5ea9c60fc8685bdfc9b975a",
+                        "resultado":  "PASS",
+                        "reproducao":  "2026-11-04"
+                    },
+                    {
+                        "teste":  "T06",
+                        "arquivo":  "teste_a14_20_t06.py",
+                        "sha256":  "6ec19f21d2c005dcfb1ae969ff803fc83a4906903b4a9ecd10421ed04c43ecd0",
+                        "resultado":  "PASS",
+                        "reproducao":  "2026-11-04"
+                    }
+                ],
+    "reproducao":  {
+                       "scripts_recuperados":  5,
+                       "scripts_reproduzidos":  5,
+                       "resultado":  "PASS",
+                       "modos_testados":  [
+                                              "normal",
+                                              "otimizado"
+                                          ],
+                       "observacao":  "T05 verifica integridade por SHA256; T01, T02, T03 e T06 incluem verificacoes normal e otimizada."
+                   },
+    "teste_t04":  {
+                      "descricao":  "Verificacao historica da cadeia de commits",
+                      "situacao":  "NAO_REPRODUZIDO_NESTA_ETAPA",
+                      "observacao":  "O comando historico T04 ainda nao foi convertido em script preservado."
+                  },
+    "estado_operacional":  {
+                               "f3":  "OPEN",
+                               "offline":  true,
+                               "simulation_only":  true,
+                               "certification":  false,
+                               "real_operations_authorized":  false,
+                               "production_api_changed":  false
+                           },
+    "publicacao":  {
+                       "commit_realizado":  false,
+                       "push_realizado":  false
+                   }
+}
