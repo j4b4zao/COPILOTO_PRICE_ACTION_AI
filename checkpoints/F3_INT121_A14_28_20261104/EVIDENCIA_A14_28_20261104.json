@@ -1,0 +1,170 @@
+{
+  "etapa": "F3-INT-121 A14.28",
+  "commit_base": "ecb79b4f792301503599cf8dea5d876352477a68",
+  "python": "3.13.5",
+  "sha256_script": "17b73c0fefe23255fd4aa022b81c947d369655f289a06678923c7c56389ecb76",
+  "estado_operacional": {
+    "f3": "OPEN",
+    "offline": true,
+    "simulation_only": true,
+    "certification": false,
+    "real_operations_authorized": false,
+    "production_api_changed": false
+  },
+  "execucoes": [
+    {
+      "caso": "auditor_normal",
+      "codigo": 0,
+      "saida": [
+        "REFERENCIAS_SHA256_AUTENTICADAS: PASS",
+        "MANIFESTO_A14_12: PASS",
+        "MANIFESTO_A14_13: PASS",
+        "MANIFESTO_A14_14: PASS",
+        "MANIFESTO_A14_15: PASS",
+        "MANIFESTO_A14_16: PASS",
+        "MANIFESTO_A14_17: PASS",
+        "AUDITOR_A14_18_SHA256_AUTENTICADO: PASS",
+        "AUDITOR_INTERNO_MODO: NORMAL",
+        "AUDITOR_INTERNO: PASS",
+        "A14_20_AUDITORIA_APROVADA"
+      ]
+    },
+    {
+      "caso": "auditor_otimizado",
+      "codigo": 0,
+      "saida": [
+        "REFERENCIAS_SHA256_AUTENTICADAS: PASS",
+        "MANIFESTO_A14_12: PASS",
+        "MANIFESTO_A14_13: PASS",
+        "MANIFESTO_A14_14: PASS",
+        "MANIFESTO_A14_15: PASS",
+        "MANIFESTO_A14_16: PASS",
+        "MANIFESTO_A14_17: PASS",
+        "AUDITOR_A14_18_SHA256_AUTENTICADO: PASS",
+        "AUDITOR_INTERNO_MODO: OTIMIZADO",
+        "AUDITOR_INTERNO: PASS",
+        "A14_20_AUDITORIA_APROVADA"
+      ]
+    },
+    {
+      "caso": "T01",
+      "codigo": 0,
+      "saida": [
+        "T01_NORMAL_CODIGO: 1",
+        "T01_NORMAL: PASS",
+        "T01_OTIMIZADO_CODIGO: 1",
+        "T01_OTIMIZADO: PASS",
+        "T01_REFERENCIAS_ORIGINAIS_PRESERVADAS: PASS",
+        "A14_20_T01_APROVADO"
+      ]
+    },
+    {
+      "caso": "T02",
+      "codigo": 0,
+      "saida": [
+        "T02_NORMAL_CODIGO: 1",
+        "T02_NORMAL: PASS",
+        "T02_OTIMIZADO_CODIGO: 1",
+        "T02_OTIMIZADO: PASS",
+        "T02_REFERENCIAS_ORIGINAIS_PRESERVADAS: PASS",
+        "A14_20_T02_APROVADO"
+      ]
+    },
+    {
+      "caso": "T03",
+      "codigo": 0,
+      "saida": [
+        "T03_NORMAL_CODIGO: 1",
+        "T03_NORMAL: PASS",
+        "T03_OTIMIZADO_CODIGO: 1",
+        "T03_OTIMIZADO: PASS",
+        "T03_ORIGINAL_PRESERVADO: PASS",
+        "A14_20_T03_APROVADO"
+      ]
+    },
+    {
+      "caso": "T05",
+      "codigo": 0,
+      "saida": [
+        "SHA256_LOCAL: f9c21bc9541d1ef990388ee022aca30889dd8479034a3c6e1e979be786d9ce92",
+        "SHA256_GIT: f9c21bc9541d1ef990388ee022aca30889dd8479034a3c6e1e979be786d9ce92",
+        "AUDITOR_INTERNO_INTEGRO: PASS",
+        "A14_20_T05_APROVADO"
+      ]
+    },
+    {
+      "caso": "T06",
+      "codigo": 0,
+      "saida": [
+        "T06_NORMAL_CODIGO: 1",
+        "T06_NORMAL: PASS",
+        "T06_OTIMIZADO_CODIGO: 1",
+        "T06_OTIMIZADO: PASS",
+        "T06_AUDITOR_ORIGINAL_PRESERVADO: PASS",
+        "A14_20_T06_APROVADO"
+      ]
+    },
+    {
+      "caso": "T04_normal",
+      "codigo": 0,
+      "saida": [
+        "BRANCH: PASS",
+        "HEAD: PASS",
+        "COMMIT_A14.12: PASS",
+        "COMMIT_A14.13: PASS",
+        "COMMIT_A14.14: PASS",
+        "COMMIT_A14.15: PASS",
+        "COMMIT_A14.16: PASS",
+        "COMMIT_A14.17: PASS",
+        "COMMIT_A14.18: PASS",
+        "COMMIT_A14.19: PASS",
+        "COMMIT_A14.20: PASS",
+        "COMMIT_A14.21: PASS",
+        "CADEIA_A14.12_A14.13: PASS",
+        "CADEIA_A14.13_A14.14: PASS",
+        "CADEIA_A14.14_A14.15: PASS",
+        "CADEIA_A14.15_A14.16: PASS",
+        "CADEIA_A14.16_A14.17: PASS",
+        "CADEIA_A14.17_A14.18: PASS",
+        "CADEIA_A14.18_A14.19: PASS",
+        "CADEIA_A14.19_A14.20: PASS",
+        "CADEIA_A14.20_A14.21: PASS",
+        "COMMITS_VERIFICADOS: 10",
+        "LIGACOES_PARENT: 9",
+        "MODIFICACOES_PELO_SCRIPT: NENHUMA",
+        "A14_22_T02_T04_APROVADO"
+      ]
+    },
+    {
+      "caso": "T04_otimizado",
+      "codigo": 0,
+      "saida": [
+        "BRANCH: PASS",
+        "HEAD: PASS",
+        "COMMIT_A14.12: PASS",
+        "COMMIT_A14.13: PASS",
+        "COMMIT_A14.14: PASS",
+        "COMMIT_A14.15: PASS",
+        "COMMIT_A14.16: PASS",
+        "COMMIT_A14.17: PASS",
+        "COMMIT_A14.18: PASS",
+        "COMMIT_A14.19: PASS",
+        "COMMIT_A14.20: PASS",
+        "COMMIT_A14.21: PASS",
+        "CADEIA_A14.12_A14.13: PASS",
+        "CADEIA_A14.13_A14.14: PASS",
+        "CADEIA_A14.14_A14.15: PASS",
+        "CADEIA_A14.15_A14.16: PASS",
+        "CADEIA_A14.16_A14.17: PASS",
+        "CADEIA_A14.17_A14.18: PASS",
+        "CADEIA_A14.18_A14.19: PASS",
+        "CADEIA_A14.19_A14.20: PASS",
+        "CADEIA_A14.20_A14.21: PASS",
+        "COMMITS_VERIFICADOS: 10",
+        "LIGACOES_PARENT: 9",
+        "MODIFICACOES_PELO_SCRIPT: NENHUMA",
+        "A14_22_T02_T04_APROVADO"
+      ]
+    }
+  ]
+}
