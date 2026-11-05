@@ -24,6 +24,8 @@ def compare(raw, expected):
     """Reject absent/malformed/changed evidence; never infer cleanup from a file."""
     if raw is None:
         return dict(accepted=False,reason='JOURNAL_MISSING',sha256=None,size=0)
+    if not isinstance(raw, bytes):
+        return dict(accepted=False,reason='INVALID_INPUT_TYPE',sha256=None,size=0)
     digest = hashlib.sha256(raw).hexdigest()
     result = dict(accepted=False,reason='INVALID_JSON',sha256=digest,size=len(raw))
     try:
