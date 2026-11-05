@@ -1,0 +1,95 @@
+{
+  "etapa": "F3-INT-121 A14.36",
+  "commit_base": "10afe347d280692da7cf5a15eebda5bfd486a7b9",
+  "python": "3.13.5",
+  "arquivos_historicos_verificados": 181,
+  "arquivo_historico_atualizado": "f3_int121_a14_8_journal.py",
+  "sha256_blobs_atualizados": {
+    "f3_int121_a14_8_journal.py": "e66c762fde0464acd6ce15609d43b07bd39917b685f2c4df52ebe3026ab496cc",
+    "test_f3_int121_a14_13_adversarial.py": "2d32ad4024e9b6854bf96fac5967e501f15247985a8276b21ef54dac1b89321f",
+    "test_f3_int121_a14_14_consistency.py": "59052bd976d626b8c9c749d020a51d66987ebf7ca02020865b46d4d9e7cac3b5",
+    "test_f3_int121_a14_15_persistence.py": "525e87d57b0f6418958765be101a0f8c39d3c92cb73bf99abf44143ed5f0d471",
+    "test_f3_int121_a14_17_adversarial.py": "1e2c4a216ea41f3d9669031e5ee2c52388dc2f420e4169a8025e8827eaee8fa1",
+    "test_f3_int121_a14_33_journal_depth.py": "46234f991afda7c167305b2aec6fb771451c02de1da3702780c70e47fb2878f6",
+    "test_f3_int121_a14_35_certification.py": "42fee00fa73545b3f439bad457db1270cd555ae354c2e926b1ef16021c493b70",
+    "auditoria_cruzada_a14_16.py": "eb90901fec6d26fa7b19ec6351ab72ba6b9c62bf4580d1014cfa9c8d0860cb56",
+    "checkpoints/F3_INT121_A14_13_20261103/MANIFESTO_A14_13_20261103.json": "e6974c449acc89ff94e8c5dc4326cc6e5b260a6434b72c91e5cebbc6d686292e",
+    "checkpoints/F3_INT121_A14_13_20261103/F3_INT121_A14_13_VALIDACAO_20261103.zip": "fdfdcd55cb9b9f2dcf78f7149465861d405efed236af3dfc331544ed95c80363",
+    "checkpoints/F3_INT121_A14_13_20261103/F3_INT121_A14_13_VALIDACAO_20261103.zip.sha256": "1e6e9a72b9eab73de6b978d21f97be9c14407d09db2f9d1cf6ff84d4a491f473",
+    "checkpoints/F3_INT121_A14_14_20261103/MANIFESTO_A14_14_20261103.json": "cf162d48195d700af8856f61247fc93cb18a8a59db5f38fbd676844e6ac35d01",
+    "checkpoints/F3_INT121_A14_14_20261103/F3_INT121_A14_14_VALIDACAO_20261103.zip": "39370f0a67c393300a20628595d56e35a55abf28b2c99d8342a1b345a5c3f49d",
+    "checkpoints/F3_INT121_A14_14_20261103/F3_INT121_A14_14_VALIDACAO_20261103.zip.sha256": "7304e5aa49fa46ff3e9aefd2140c7cdbf0f0a9a50a840b102206ae4409a6e62e",
+    "checkpoints/F3_INT121_A14_15_20261103/MANIFESTO_A14_15_20261103.json": "d146df3ba9322e99fc90b0bc0be0cb352fb0d1af5071503490431d30599a1ea8",
+    "checkpoints/F3_INT121_A14_15_20261103/F3_INT121_A14_15_VALIDACAO_20261103.zip": "f9565ba02880c35718624e4190f9cec2c17204f2ebcb0067cad9e504178f845a",
+    "checkpoints/F3_INT121_A14_15_20261103/F3_INT121_A14_15_VALIDACAO_20261103.zip.sha256": "01b160b0cb6e69a137f8365d704a928fbe2b32065b14ad0c2e7983333dfcecb3"
+  },
+  "execucoes": [
+    {
+      "modo": "normal",
+      "aprovados": 246,
+      "segundos": 640.383,
+      "sha256_log": "64a3a6e60e54300e5f32bc3c4d57bb8bf642def262dfe06656f599d8a9c5c90b",
+      "testes_historicos_preservados": 224,
+      "testes_posteriores": 22,
+      "observacoes_historicas_preservadas": 226,
+      "marcadores": {
+        "A13_NEGATIVE_EVIDENCE": 1,
+        "A14_10_OBSERVER_EVIDENCE": 3,
+        "A14_11_BUDGET_EVIDENCE": 4,
+        "A14_12_SHARING_EVIDENCE": 4,
+        "A14_1_PHASE_EVIDENCE": 2,
+        "A14_2_SURVIVOR_EVIDENCE": 3,
+        "A14_3_CLEANUP_EVIDENCE": 2,
+        "A14_4_EXIT_ORDER_EVIDENCE": 9,
+        "A14_5_REPEAT_EVIDENCE": 6,
+        "A14_6_BARRIER_EVIDENCE": 4,
+        "A14_6_EXPECTED_FAILURE_EVIDENCE": 2,
+        "A14_6_HELD_BRIDGE_REPEAT_EVIDENCE": 6,
+        "A14_7_STARTUP_EVIDENCE": 9,
+        "A14_8_JOURNAL_EVIDENCE": 8,
+        "A14_9_SHARING_EVIDENCE": 4
+      }
+    },
+    {
+      "modo": "otimizado",
+      "aprovados": 246,
+      "segundos": 685.607,
+      "sha256_log": "340d06040597b27bf776085c76bc7814c8b566e495fd286eea56aec1b4e77adf",
+      "testes_historicos_preservados": 224,
+      "testes_posteriores": 22,
+      "observacoes_historicas_preservadas": 226,
+      "marcadores": {
+        "A13_NEGATIVE_EVIDENCE": 1,
+        "A14_10_OBSERVER_EVIDENCE": 3,
+        "A14_11_BUDGET_EVIDENCE": 4,
+        "A14_12_SHARING_EVIDENCE": 4,
+        "A14_1_PHASE_EVIDENCE": 2,
+        "A14_2_SURVIVOR_EVIDENCE": 3,
+        "A14_3_CLEANUP_EVIDENCE": 2,
+        "A14_4_EXIT_ORDER_EVIDENCE": 9,
+        "A14_5_REPEAT_EVIDENCE": 6,
+        "A14_6_BARRIER_EVIDENCE": 4,
+        "A14_6_EXPECTED_FAILURE_EVIDENCE": 2,
+        "A14_6_HELD_BRIDGE_REPEAT_EVIDENCE": 6,
+        "A14_7_STARTUP_EVIDENCE": 9,
+        "A14_8_JOURNAL_EVIDENCE": 8,
+        "A14_9_SHARING_EVIDENCE": 4
+      }
+    }
+  ],
+  "estado_operacional": {
+    "f3": "OPEN",
+    "offline": true,
+    "simulation_only": true,
+    "certification": false,
+    "real_operations_authorized": false,
+    "production_api_changed": false
+  },
+  "cryptography": "50.0.2",
+  "comandos": [
+    "python -E -s -B -m unittest discover -v",
+    "python -O -E -s -B -m unittest discover -v"
+  ],
+  "arquivo_logs": "LOGS_REGRESSAO_A14_36_20261105.zip",
+  "sha256_zip": "4d70e73bf6ef05f8df7461ec79a59e8db9c0bcabe28d4c55ea6efda11a567c06"
+}
