@@ -48,5 +48,8 @@ def compare(raw, expected):
             or actual.get('subject_cleanup_scope') != 'INNER_JOB_AND_DIRECT_LAUNCH_PROCESS_ONLY'):
         result['reason'] = 'INVALID_SCOPE'
         return result
+    if 'certification' in actual and actual['certification'] is not False:
+        result['reason'] = 'INVALID_SCOPE'
+        return result
     result.update(accepted=True,reason='CONTENT_MATCH')
     return result
