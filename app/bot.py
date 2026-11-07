@@ -15,6 +15,7 @@ from logs.logger import Logger
 from monitor.multi_timeframe_monitor import MultiTimeframeMonitor
 from monitor.order_flow_monitor import OrderFlowMonitor
 from dashboard.copilot_readonly_dashboard import project, render
+from dashboard.economic_calendar_readonly_dashboard import render_calendar
 from dashboard.external_per_asset_readonly_dashboard import project_external, render_external
 from analysis.research.intermarket_external_context_bridge import ExternalBridgeAudit
 
@@ -104,7 +105,8 @@ class Bot:
     # ==========================================================
 
     def mostrar(self, context, *, external_audit: ExternalBridgeAudit | None = None,
-                external_presentation_enabled: bool = False):
+                external_presentation_enabled: bool = False,
+                calendar_presentation_enabled: bool = False):
 
         market = context.market
 
@@ -245,6 +247,18 @@ class Bot:
 
         # Passive presentation of the completed context; loop error policy applies.
         print(render(project(context)))
+
+        if calendar_presentation_enabled is not False:
+            try:
+                if calendar_presentation_enabled is not True:
+                    raise TypeError("Calendar presentation requires an exact bool")
+                calendar_text = render_calendar(context.economic_calendar)
+            except Exception:
+                calendar_text = "ECONOMIC CALENDAR OBSERVATIONAL UNAVAILABLE"
+            try:
+                print(calendar_text)
+            except Exception:
+                pass
 
         # Optional display consumes only supplied, completed observational evidence.
         if external_presentation_enabled is False:
