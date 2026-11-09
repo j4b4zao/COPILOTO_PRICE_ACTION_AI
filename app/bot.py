@@ -16,6 +16,8 @@ from monitor.multi_timeframe_monitor import MultiTimeframeMonitor
 from monitor.order_flow_monitor import OrderFlowMonitor
 from dashboard.copilot_readonly_dashboard import project, render
 from dashboard.economic_calendar_readonly_dashboard import render_calendar
+from dashboard.local_news_readonly_dashboard import render_local_news
+from economic_context.local_news import LocalNewsState
 from dashboard.external_per_asset_readonly_dashboard import project_external, render_external
 from analysis.research.intermarket_external_context_bridge import ExternalBridgeAudit
 
@@ -106,7 +108,9 @@ class Bot:
 
     def mostrar(self, context, *, external_audit: ExternalBridgeAudit | None = None,
                 external_presentation_enabled: bool = False,
-                calendar_presentation_enabled: bool = False):
+                calendar_presentation_enabled: bool = False,
+                news_state: LocalNewsState | None = None,
+                news_presentation_enabled: bool = False):
 
         market = context.market
 
@@ -247,6 +251,18 @@ class Bot:
 
         # Passive presentation of the completed context; loop error policy applies.
         print(render(project(context)))
+
+        if news_presentation_enabled is not False:
+            try:
+                if news_presentation_enabled is not True:
+                    raise TypeError("News presentation requires an exact bool")
+                news_text = render_local_news(news_state)
+            except Exception:
+                news_text = "LOCAL NEWS OBSERVATIONAL UNAVAILABLE"
+            try:
+                print(news_text)
+            except Exception:
+                pass
 
         if calendar_presentation_enabled is not False:
             try:
