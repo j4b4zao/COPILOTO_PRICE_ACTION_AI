@@ -304,6 +304,9 @@ class BookDiagnosticsEngine(EngineBase):
         )
 
         penalty = 0.0
+        if not valid:
+            result.range_quality_penalty = 0.0
+            return
         if result.tight_range_active:
             penalty += 15.0
         if barbwire:

@@ -25,6 +25,11 @@ class VoiceStatusRetentionHealth:
     readonly: bool = True
     affects_decision: bool = False
 
+    @property
+    def excess_count(self) -> int:
+        """Alias de leitura para compatibilidade com consumidores anteriores."""
+        return self.would_remove_count
+
     def to_dict(self) -> dict:
         return asdict(self)
 

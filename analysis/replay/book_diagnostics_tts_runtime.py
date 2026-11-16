@@ -45,7 +45,7 @@ class BookDiagnosticsTTSRuntimeCoordinator:
         session: BookDiagnosticsVoiceSessionController | None = None,
         gateway: BookDiagnosticsTTSGateway | None = None,
     ):
-        self.queue = queue or BookDiagnosticsVoiceQueue()
+        self.queue = queue if queue is not None else BookDiagnosticsVoiceQueue()
         self.adapter = adapter or BookDiagnosticsVoiceOutputAdapter()
         self.session = session or BookDiagnosticsVoiceSessionController()
         self.gateway = gateway or BookDiagnosticsTTSGateway()
