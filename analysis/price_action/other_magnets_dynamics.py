@@ -248,9 +248,17 @@ class OtherMagnetsDynamics:
         tolerance = atr * 0.08
 
         for item in ordered:
-            if any(abs(item.price - existing.price) <= tolerance for existing in result):
+            # Independent sources may legitimately identify nearby prices.
+            # Preserve that evidence for confluence calculations.
+            duplicate = any(
+                item.source == existing.source
+                and abs(item.price - existing.price) <= tolerance
+                for existing in result
+            )
+            if duplicate:
                 continue
             result.append(item)
+
         return sorted(result, key=lambda item: item.price)
 
     @staticmethod

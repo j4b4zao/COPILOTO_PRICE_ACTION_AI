@@ -167,8 +167,8 @@ class BreakoutStrengthDynamics:
 
     def _find_latest_breakout(self, candles):
         start = self.LOOKBACK_LEVEL
-        # Require room after the breakout for follow-through evaluation.
-        end = len(candles) - 1
+        # Require three closed candles after the breakout for follow-through.
+        end = len(candles) - self.FOLLOW_THROUGH_BARS
         for idx in range(end - 1, start - 1, -1):
             previous = candles[idx - self.LOOKBACK_LEVEL:idx]
             high_level = max(float(x.high) for x in previous)

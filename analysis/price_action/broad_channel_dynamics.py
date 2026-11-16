@@ -29,11 +29,12 @@ class BroadChannelDynamics:
         swings = cls._compress_swings(cls._swings(window))
         direction = cls._direction(trend)
 
-        if len(swings) < cls.MIN_SWINGS:
-            return cls._empty(direction)
-
         pullbacks = cls._pullbacks(swings, trend)
-        if not pullbacks:
+        if len(swings) < cls.MIN_SWINGS or not pullbacks:
+            # Overlapping wicks can hide turns that are visible at the close.
+            swings = cls._compress_swings(cls._swings(window, by_close=True))
+            pullbacks = cls._pullbacks(swings, trend)
+        if len(swings) < cls.MIN_SWINGS or not pullbacks:
             return cls._empty(direction)
 
         step_count = cls._step_count(swings, trend)
@@ -106,15 +107,17 @@ class BroadChannelDynamics:
         }
 
     @staticmethod
-    def _swings(candles):
+    def _swings(candles, *, by_close=False):
         swings = []
         for index in range(1, len(candles) - 1):
             previous = candles[index - 1]
             current = candles[index]
             following = candles[index + 1]
-            if current.high >= previous.high and current.high > following.high:
+            highs = (previous.close, current.close, following.close) if by_close else (previous.high, current.high, following.high)
+            lows = (previous.close, current.close, following.close) if by_close else (previous.low, current.low, following.low)
+            if highs[1] >= highs[0] and highs[1] > highs[2]:
                 swings.append({"type": "HIGH", "price": current.high, "index": index})
-            if current.low <= previous.low and current.low < following.low:
+            if lows[1] <= lows[0] and lows[1] < lows[2]:
                 swings.append({"type": "LOW", "price": current.low, "index": index})
         return sorted(swings, key=lambda item: item["index"])
 

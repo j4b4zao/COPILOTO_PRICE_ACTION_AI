@@ -173,7 +173,10 @@ class TrendBreakoutEntryDynamics:
 
     def _find_latest_setup(self, candles):
         # Search backward for a breakout after 1-5 counter-trend pullback bars.
-        for idx in range(len(candles) - 2, self.MIN_HISTORY - 2, -1):
+        # Keep MIN_HISTORY as the global history requirement.
+        # A setup needs at least four prior trend bars and one pullback bar.
+        min_breakout_index = 5
+        for idx in range(len(candles) - 2, min_breakout_index - 1, -1):
             bar = candles[idx]
 
             for direction in ("BUY", "SELL"):

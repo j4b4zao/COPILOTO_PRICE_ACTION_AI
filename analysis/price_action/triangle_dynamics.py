@@ -171,6 +171,8 @@ class TriangleDynamics:
             close = float(candles[i].close)
             upper = self._line_value(h1, h2, i)
             lower = self._line_value(l1, l2, i)
+            if upper <= lower:
+                break
             if close > upper:
                 return True, "BUY", i
             if close < lower:

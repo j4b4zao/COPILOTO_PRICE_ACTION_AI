@@ -129,7 +129,7 @@ class TwentyGapBarsDynamics:
         best_count = 0
         first_touch = None
 
-        for start in range(max(self.EMA_PERIOD - 1, 0), len(candles)):
+        for start in range(len(candles)):
             for direction in ("UP", "DOWN"):
                 count = 0
                 idx = start

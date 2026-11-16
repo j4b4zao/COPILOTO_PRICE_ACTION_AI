@@ -73,13 +73,16 @@ class GapOpeningDynamics:
 
         if direction == "BUY":
             filled = any(float(b.low) <= previous_close for b in early)
-            follow = len(early) >= 2 and sum(float(b.close) > session_open for b in early[1:]) >= 2
+            directional_closes = sum(float(b.close) > session_open for b in early[1:])
             reversed = filled and any(float(b.close) < session_open for b in early)
         else:
             filled = any(float(b.high) >= previous_close for b in early)
-            follow = len(early) >= 2 and sum(float(b.close) < session_open for b in early[1:]) >= 2
+            directional_closes = sum(float(b.close) < session_open for b in early[1:])
             reversed = filled and any(float(b.close) > session_open for b in early)
 
+        follow = directional_closes >= 2 and (
+            not two_sided or directional_closes * 2 > len(early) - 1
+        )
         continuation = follow and not filled
         trend_day_watch = large_gap and continuation
         trading_range_risk = two_sided and not continuation and not reversed

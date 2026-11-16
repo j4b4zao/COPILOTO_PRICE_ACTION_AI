@@ -183,14 +183,39 @@ class BreakoutFailureTestDynamics:
         )
 
     def _find_latest_breakout(self, candles):
-        for idx in range(len(candles) - 2, self.LOOKBACK_LEVEL - 1, -1):
+        candidates = []
+
+        for idx in range(self.LOOKBACK_LEVEL, len(candles) - 1):
             previous = candles[idx - self.LOOKBACK_LEVEL : idx]
             high_level = max(float(x.high) for x in previous)
             low_level = min(float(x.low) for x in previous)
             bar = candles[idx]
 
             if float(bar.close) > high_level:
-                return idx, "BUY", high_level
-            if float(bar.close) < low_level:
-                return idx, "SELL", low_level
-        return None
+                candidates.append((idx, "BUY", high_level))
+            elif float(bar.close) < low_level:
+                candidates.append((idx, "SELL", low_level))
+
+        for idx, direction, level in reversed(candidates):
+            breakout_bar = candles[idx]
+            post = candles[idx + 1:]
+
+            if direction == "BUY":
+                failed = any(float(x.close) < level for x in post)
+                resumed = any(
+                    float(x.high) > float(breakout_bar.high)
+                    and float(x.close) > level
+                    for x in post
+                )
+            else:
+                failed = any(float(x.close) > level for x in post)
+                resumed = any(
+                    float(x.low) < float(breakout_bar.low)
+                    and float(x.close) < level
+                    for x in post
+                )
+
+            if failed and resumed:
+                return idx, direction, level
+
+        return candidates[-1] if candidates else None

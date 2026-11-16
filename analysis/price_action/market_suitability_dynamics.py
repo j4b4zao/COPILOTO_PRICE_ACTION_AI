@@ -68,7 +68,8 @@ class MarketSuitabilityDynamics:
             spread_score = max(0.0, 100.0 - spread * 20.0)
 
         gaps = []
-        for a, b in zip(closed[-20:], closed[-19:]):
+        recent = closed[-20:]
+        for a, b in zip(recent, recent[1:]):
             gaps.append(abs(float(b.open) - float(a.close)))
         large_gaps = sum(1 for g in gaps if g > avg_range * 0.8) if avg_range > 0 else 0
         gap_ratio = large_gaps / max(len(gaps), 1)

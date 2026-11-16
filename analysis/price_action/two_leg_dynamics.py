@@ -53,7 +53,7 @@ class TwoLegDynamics:
         second_leg_completed = bool(
             second_leg_present
             and latest_kind == "WITH_TREND"
-            and runs[-1]["start_index"] > second_leg["end_index"]
+            and runs[-1]["start_index"] >= second_leg["end_index"]
         )
 
         current_leg = min(leg_count, 3)

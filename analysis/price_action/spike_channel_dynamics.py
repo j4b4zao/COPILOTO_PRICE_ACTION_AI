@@ -24,7 +24,7 @@ class SpikeChannelDynamics:
     @classmethod
     def analyze(cls, candles, trend):
         closed = list(candles[:-1])
-        if len(closed) < 6 or trend not in (Trend.UP, Trend.DOWN):
+        if len(closed) < 5 or trend not in (Trend.UP, Trend.DOWN):
             return cls._empty()
 
         window = closed[-cls.LOOKBACK:]
@@ -66,7 +66,7 @@ class SpikeChannelDynamics:
             "brooks_spike_channel_leg_equality_target": round(leg_equality_target, 4),
             "brooks_spike_channel_target_reached": cls._target_reached(window, measured_target, direction),
             "brooks_spike_channel_second_spike_risk": cls._second_spike_risk(window, spike, channel, direction),
-            "brooks_spike_channel_reversal_watch": cls._reversal_watch(window, channel, direction),
+            "brooks_spike_channel_reversal_watch": cls._reversal_watch(window, channel, pullback, direction),
             "brooks_spike_channel_valid": True,
         }
 
@@ -252,12 +252,21 @@ class SpikeChannelDynamics:
         return all(c.range > 0 and (c.body / c.range) >= cls.LARGE_BODY_RATIO for c in recent)
 
     @classmethod
-    def _reversal_watch(cls, candles, channel, direction):
-        if channel is None or channel["bar_count"] < 3:
+    def _reversal_watch(cls, candles, channel, pullback, direction):
+        if channel is not None:
+            return sum(not cls._aligned(c, direction) for c in candles[-3:]) >= 2
+        if pullback is None:
             return False
-        recent = candles[-3:]
-        opposite = [not cls._aligned(c, direction) for c in recent]
-        return sum(opposite) >= 2
+
+        continuation = candles[pullback["end_index"] + 1:]
+        if len(continuation) < 4:
+            return False
+        before_reversal = continuation[:-2]
+        return (
+            all(not cls._aligned(c, direction) for c in continuation[-2:])
+            and sum(cls._aligned(c, direction) for c in before_reversal) >= 2
+            and cls._aligned(before_reversal[-1], direction)
+        )
 
     @staticmethod
     def _aligned(candle, direction):

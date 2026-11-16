@@ -123,8 +123,15 @@ class FailedReversalMagnetDynamics:
         )
 
     def _infer_trend(self, candles):
-        sample = candles[-8:]
-        if len(sample) < 6:
+        # Identify the trend preceding a possible failed reversal.
+        # The most recent bars may already contain the reversal
+        # attempt and the subsequent return toward its signal level.
+        if len(candles) >= 12:
+            sample = candles[-12:-7]
+        else:
+            sample = candles[-8:]
+
+        if len(sample) < 5:
             return "NONE"
 
         closes = [float(x.close) for x in sample]
