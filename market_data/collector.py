@@ -105,6 +105,16 @@ class Collector:
         if not dados:
             return None
 
+        ativo = str(dados.get("ativo") or "").strip()
+        if not ativo:
+            print("[DATA WARNING] Ativo inválido recebido. Leitura ignorada.")
+            return None
+
+        close = self.to_float(dados.get("close"))
+        if not math.isfinite(close) or close <= 0:
+            print(f"[DATA WARNING] Preço inválido recebido: {close!r}. Leitura ignorada.")
+            return None
+
         raw_volume = dados.get("volume")
         volume, volume_held = self._resolve_cumulative_volume(raw_volume)
         print(
@@ -122,17 +132,6 @@ class Collector:
                 "[DATA WARNING] Volume acumulado indisponível nesta leitura; "
                 "mantendo último valor válido para evitar reset artificial."
             )
-
-        ativo = str(dados.get("ativo") or "").strip()
-        if not ativo:
-            print("[DATA WARNING] Ativo inválido recebido. Leitura ignorada.")
-            return None
-
-        close = self.to_float(dados.get("close"))
-        if not math.isfinite(close) or close <= 0:
-            print(f"[DATA WARNING] Preço inválido recebido: {close!r}. Leitura ignorada.")
-            return None
-
         aggression_buy = self.to_optional_float(dados.get("agressao_compra"))
         aggression_sell = self.to_optional_float(dados.get("agressao_venda"))
         integrity = self.source_guard.inspect(dados)

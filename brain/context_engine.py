@@ -225,6 +225,7 @@ class ContextEngine(EngineBase):
             return
 
         messages = {
+            "CONFLICT": "M15, M5 e M1 apresentam conflito direcional.",
             "CONFLICT_REGIME": "Multi-timeframe conflita com o regime de mercado estabilizado.",
             "WAIT_REGIME": "Multi-timeframe possui bias, mas aguarda confirmação do regime.",
             "CONFLICT_M5": "M5 contradiz o contexto direcional definido pelo M15.",
@@ -233,7 +234,7 @@ class ContextEngine(EngineBase):
             "WAIT_M5": "M15 possui direção, mas M5 ainda não confirmou o setup.",
             "WAIT_TRIGGER": "M15/M5 estão coerentes; M1 ainda aguarda gatilho.",
         }
-        if alignment in ("CONFLICT_REGIME", "CONFLICT_M5", "CONFLICT_M1"):
+        if alignment in ("CONFLICT", "CONFLICT_REGIME", "CONFLICT_M5", "CONFLICT_M1"):
             checklist.multi_timeframe_conflict = True
         narrative.weaknesses.append(
             messages.get(alignment, "Multi-timeframe aguarda alinhamento completo.")
