@@ -25,8 +25,12 @@ Payload por símbolo:
     }
 """
 
-from external_context.external_market_state import ExternalMarketState
 from copy import deepcopy
+from datetime import datetime
+from math import isfinite
+
+from external_context.external_market_state import ExternalMarketState
+from external_context._quote_values import normalize_quote_values
 from external_context.external_observational_snapshot import ExternalObservationalSnapshot
 
 
@@ -100,7 +104,7 @@ class ExternalMarketCollector:
                 timestamps.append(timestamp)
 
         if timestamps:
-            data["timestamp"] = max(timestamps)
+            data["timestamp"] = self._latest_timestamp(timestamps)
 
         if self.preserve_quotes and self.observational_error is None:
             try:
@@ -142,19 +146,23 @@ class ExternalMarketCollector:
             return None
         if not isinstance(payload, dict):
             raise TypeError("Provider externo deve retornar dict ou None.")
-        if "price" not in payload or "change" not in payload:
+        values = normalize_quote_values(payload.get("price"), payload.get("change"))
+        if values is None:
             return None
 
-        try:
-            price = float(payload["price"])
-            change = float(payload["change"])
-        except (TypeError, ValueError):
-            return None
-
-        if price <= 0:
-            return None
-
+        price, change = values
         return price, change, str(payload.get("timestamp", "") or "")
+
+    @staticmethod
+    def _latest_timestamp(timestamps: list[str]) -> str:
+        try:
+            instants = [datetime.fromisoformat(value) for value in timestamps]
+            if all(instant.utcoffset() is not None for instant in instants):
+                return timestamps[max(range(len(instants)), key=instants.__getitem__)]
+        except (ValueError, OverflowError):
+            pass
+        # Legacy providers may supply timestamps without timezone information.
+        return max(timestamps)
 
     @staticmethod
     def _to_float(value) -> float:
@@ -162,18 +170,31 @@ class ExternalMarketCollector:
             return 0.0
         try:
             return float(value)
-        except (TypeError, ValueError):
-            return 0.0
+        except (TypeError, ValueError, OverflowError):
+            return float("nan")
 
     @classmethod
     def _validate(cls, state: ExternalMarketState, *, require_all_markets: bool, raw: dict) -> list[str]:
         errors = []
         fields = tuple(cls.FIELD_TO_SYMBOL) if require_all_markets else cls.REQUIRED_FOR_CONTEXT
 
-        for field in fields:
-            symbol = cls.FIELD_TO_SYMBOL[field]
+        for field, symbol in cls.FIELD_TO_SYMBOL.items():
             price = getattr(state, field)
-            if field not in raw or price <= 0:
+            invalid_price = isinstance(raw.get(field), bool) or not isfinite(price) or (
+                (field in fields or field in raw) and price <= 0
+            )
+            if invalid_price:
                 errors.append(f"{symbol} inválido ou ausente.")
+                setattr(state, field, 0.0)
+            change_field = f"{field}_change"
+            if change_field in raw and (
+                field not in raw
+                or invalid_price
+                or raw[change_field] is None
+                or isinstance(raw[change_field], bool)
+                or not isfinite(getattr(state, change_field))
+            ):
+                errors.append(f"Variação de {symbol} inválida.")
+                setattr(state, change_field, 0.0)
 
         return errors

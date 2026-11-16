@@ -6,11 +6,12 @@ canonical asset mapping remains the manifest/adapter responsibility.
 """
 from __future__ import annotations
 
-import json
-from datetime import datetime, timezone
-from urllib.error import HTTPError, URLError
-from urllib.parse import urlencode
-from urllib.request import Request, urlopen
+from urllib.request import urlopen
+
+from external_context.providers._quote_http import fetch_quote_json
+from external_context.providers._quote_timeout import normalize_quote_timeout
+from external_context.providers._quote_timestamp import normalize_quote_timestamp
+from external_context._quote_values import normalize_quote_values
 
 
 class TwelveDataQuoteTransport:
@@ -22,9 +23,7 @@ class TwelveDataQuoteTransport:
         self._api_key = str(api_key or "").strip()
         if not self._api_key:
             raise ValueError("api_key is required")
-        self._timeout = float(timeout)
-        if self._timeout <= 0:
-            raise ValueError("timeout must be greater than zero")
+        self._timeout = normalize_quote_timeout(timeout)
         self._opener = opener or urlopen
 
     def fetch(self, provider_symbol: str):
@@ -32,39 +31,26 @@ class TwelveDataQuoteTransport:
         if not symbol:
             raise ValueError("provider_symbol is required")
 
-        url = f"{self.BASE_URL}?{urlencode({'symbol': symbol, 'apikey': self._api_key})}"
-        request = Request(
-            url,
-            headers={"User-Agent": "COPILOTO_PRICE_ACTION_AI/ExternalContext"},
-            method="GET",
+        payload = fetch_quote_json(
+            self._opener,
+            self.BASE_URL,
+            symbol=symbol,
+            api_key=self._api_key,
+            timeout=self._timeout,
         )
-
-        try:
-            response = self._opener(request, timeout=self._timeout)
-            raw = response.read()
-            payload = json.loads(raw.decode("utf-8"))
-        except (HTTPError, URLError, TimeoutError, OSError, UnicodeDecodeError, json.JSONDecodeError):
-            return None
 
         if not isinstance(payload, dict) or payload.get("status") == "error":
             return None
-
-        try:
-            price = float(payload["close"])
-            percent_change = float(payload["percent_change"])
-        except (KeyError, TypeError, ValueError):
+        if "symbol" in payload and payload["symbol"] != symbol:
             return None
 
-        if price <= 0:
+        values = normalize_quote_values(payload.get("close"), payload.get("percent_change"))
+        if values is None:
             return None
+        price, percent_change = values
 
-        raw_timestamp = payload.get("timestamp")
-        try:
-            unix_seconds = int(raw_timestamp)
-            if unix_seconds <= 0:
-                raise ValueError
-            timestamp = datetime.fromtimestamp(unix_seconds, tz=timezone.utc).isoformat()
-        except (TypeError, ValueError, OverflowError, OSError):
+        timestamp = normalize_quote_timestamp(payload.get("timestamp"))
+        if timestamp is None:
             return None
 
         return {
