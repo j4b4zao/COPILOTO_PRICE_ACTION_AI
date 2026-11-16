@@ -52,6 +52,7 @@ from strategies.strategy_engine import StrategyEngine
 from ai.score_engine_rc13_2 import ScoreEngine
 from risk.risk_manager import RiskManager
 from decision.decision_engine import DecisionEngine
+from alerts.alert_manager import AlertManager
 
 from core.event import Event
 from core.event_types import EventType
@@ -170,7 +171,7 @@ class AnalysisPipeline:
             BookDiagnosticsEngine(),
         ]
         self.smart_money_engines = [Imbalance(), OrderBlock(), FairValueGap(), LiquidityPool()]
-        self.ai_engines = [ContextEngine(), StrategyEngine(), ScoreEngine(), RiskManager(), DecisionEngine()]
+        self.ai_engines = [ContextEngine(), StrategyEngine(), ScoreEngine(), RiskManager(), DecisionEngine(), AlertManager()]
         self.engines = self.price_action_engines + self.smart_money_engines + self.ai_engines
         self.engines.sort(key=lambda engine: engine.PRIORITY)
 
