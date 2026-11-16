@@ -114,7 +114,7 @@ def teste_dados_validos():
             "❌ Collector não foi executado."
         )
 
-        return False
+        raise AssertionError("Collector não foi executado.")
 
     print()
     print("COLLECTOR")
@@ -131,7 +131,7 @@ def teste_dados_validos():
             "❌ Provider deveria estar disponível."
         )
 
-        return False
+        raise AssertionError("Provider deveria estar disponível.")
 
     if not state.valid:
 
@@ -145,7 +145,7 @@ def teste_dados_validos():
                 f" - {reason}"
             )
 
-        return False
+        raise AssertionError(state.reasons)
 
     # ----------------------------------------------------------
     # ENGINE
@@ -180,14 +180,13 @@ def teste_dados_validos():
             "❌ RISK_ON esperado."
         )
 
-        return False
+        raise AssertionError(f"RISK_ON esperado, obtido {state.risk_on_off}.")
 
     print()
     print(
         "✅ TESTE APROVADO"
     )
 
-    return True
 
 
 # ==============================================================
@@ -215,7 +214,7 @@ def teste_provider_indisponivel():
             "❌ Provider deveria estar indisponível."
         )
 
-        return False
+        raise AssertionError("Provider deveria estar indisponível.")
 
     if state is not None:
 
@@ -223,14 +222,13 @@ def teste_provider_indisponivel():
             "❌ Collector não deveria ser executado."
         )
 
-        return False
+        raise AssertionError("Collector não deveria ser executado.")
 
     print()
     print(
         "✅ PROVIDER BLOQUEADO CORRETAMENTE"
     )
 
-    return True
 
 
 # ==============================================================
@@ -258,7 +256,7 @@ def teste_dados_invalidos():
             "❌ Provider deveria estar disponível."
         )
 
-        return False
+        raise AssertionError("Provider deveria estar disponível.")
 
     if state is None:
 
@@ -266,7 +264,7 @@ def teste_dados_invalidos():
             "❌ Collector deveria ter sido executado."
         )
 
-        return False
+        raise AssertionError("Collector deveria ter sido executado.")
 
     print()
     print("COLLECTOR")
@@ -290,14 +288,13 @@ def teste_dados_invalidos():
             "❌ DADOS INVÁLIDOS FORAM ACEITOS"
         )
 
-        return False
+        raise AssertionError("Dados inválidos foram aceitos.")
 
     print()
     print(
         "✅ DADOS INVÁLIDOS BLOQUEADOS"
     )
 
-    return True
 
 
 # ==============================================================
@@ -305,54 +302,10 @@ def teste_dados_invalidos():
 # ==============================================================
 
 def main():
-
-    valid_ok = teste_dados_validos()
-
-    unavailable_ok = (
-        teste_provider_indisponivel()
-    )
-
-    invalid_ok = teste_dados_invalidos()
-
-    print()
-    print("=" * 72)
-    print("RESULTADO FINAL")
-    print("=" * 72)
-
-    print(
-        f"DADOS VÁLIDOS      : "
-        f"{'PASSOU' if valid_ok else 'FALHOU'}"
-    )
-
-    print(
-        f"PROVIDER INDISP.   : "
-        f"{'PASSOU' if unavailable_ok else 'FALHOU'}"
-    )
-
-    print(
-        f"DADOS INVÁLIDOS    : "
-        f"{'PASSOU' if invalid_ok else 'FALHOU'}"
-    )
-
-    print()
-
-    if (
-        valid_ok
-        and unavailable_ok
-        and invalid_ok
-    ):
-
-        print(
-            "🏆 PROVIDER RESULT "
-            "INTEGRATION RC1 APROVADO"
-        )
-
-    else:
-
-        print(
-            "⚠️ PROVIDER RESULT "
-            "INTEGRATION PRECISA DE CORREÇÃO"
-        )
+    teste_dados_validos()
+    teste_provider_indisponivel()
+    teste_dados_invalidos()
+    print("PROVIDER RESULT INTEGRATION RC1 APROVADO")
 
 
 if __name__ == "__main__":

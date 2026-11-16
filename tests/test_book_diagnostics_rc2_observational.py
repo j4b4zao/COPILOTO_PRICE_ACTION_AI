@@ -72,7 +72,7 @@ def test_operational_engines_do_not_read_book_diagnostics():
 
 
 def test_book_diagnostics_engine_contract_remains_passive():
-    assert BookDiagnosticsEngine.VERSION == "RC2-OBSERVATIONAL"
+    assert BookDiagnosticsEngine.VERSION == "RC7-OBSERVATIONAL-SYNTHESIS"
     assert BookDiagnosticsEngine.ENABLED is True
     assert BookDiagnosticsEngine.PRIORITY == 55
 

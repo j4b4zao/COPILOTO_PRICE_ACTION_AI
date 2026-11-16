@@ -96,8 +96,8 @@ def test_mixed_remains_neutral():
 
 def test_combined_filters_are_supported():
     recorder = ScoreOrderFlowABRecorder()
-    _record(recorder, bias="BUY", status="ALIGNED", momentum="PERSISTENT_BUY", persistence=0.8, impulse=0.5)
-    _record(recorder, bias="SELL", status="CONFLICT", momentum="PERSISTENT_BUY", persistence=0.8, impulse=0.5)
+    _record(recorder, bias="BUY", status="ALIGNED", momentum="PERSISTENT_BUY", persistence=0.8, impulse=0.6)
+    _record(recorder, bias="SELL", status="CONFLICT", momentum="PERSISTENT_BUY", persistence=0.8, impulse=0.6)
     metrics = recorder.scenario(status="ALIGNED", momentum="PERSISTENT_BUY", bias="BUY", strength="HIGH")
     assert metrics["samples"] == 1
     assert metrics["positive_adjustments"] == 1

@@ -13,12 +13,23 @@ class C:
 
 def _range_history():
     data = []
+
     for i in range(16):
-        base = 100.0 + (i % 4) * 0.4
-        o = base + (0.2 if i % 2 == 0 else -0.1)
-        c = base + (-0.1 if i % 2 == 0 else 0.2)
-        data.append(C(o, 102.0, 98.0, c))
-    data.append(C(100.0, 103.0, 97.0, 100.0))  # current/forming
+        phase = i % 4
+
+        if phase == 0:
+            candle = C(99.0, 99.8, 98.0, 99.4)
+        elif phase == 1:
+            candle = C(99.4, 100.7, 99.0, 100.2)
+        elif phase == 2:
+            candle = C(100.2, 102.0, 100.0, 101.2)
+        else:
+            candle = C(101.2, 101.3, 99.8, 100.0)
+
+        data.append(candle)
+
+    # Current/forming candle: excluded by the engine.
+    data.append(C(100.0, 103.0, 97.0, 100.0))
     return data
 
 

@@ -31,7 +31,7 @@ def test_two_sided_opening_range_enters_breakout_mode():
 def test_buy_breakout_requires_follow_through():
     bars = [
         C(100, 102, 99, 101), C(101, 103, 100, 102), C(102, 104, 101, 103),
-        C(103, 105, 102, 104.5), C(104.5, 106, 104, 105.5), C(105.5, 106, 105, 105.7),
+        C(103, 105, 102, 104.5), C(104.5, 106, 104.5, 105.5), C(105.5, 106, 105, 105.7),
     ]
     r = OpeningRangeDynamics().analyze(bars)
     assert r.status == "OPENING_RANGE_BREAKOUT_CONFIRMED"

@@ -8,6 +8,24 @@ class Dummy:
         self.kwargs = kwargs
 
 
+class DummyEventBus(Dummy):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.subscriptions = {}
+
+    def subscribe(self, event_type, callback):
+        self.subscriptions.setdefault(event_type, []).append(callback)
+
+    def unsubscribe(self, event_type, callback):
+        callbacks = self.subscriptions.get(event_type, [])
+        if callback in callbacks:
+            callbacks.remove(callback)
+
+    def publish(self, event):
+        for callback in tuple(self.subscriptions.get(event.type, ())):
+            callback(event)
+
+
 class DummyPipeline(Dummy):
     pass
 
@@ -29,6 +47,7 @@ def _patch_runtime_dependencies(monkeypatch):
     )
     for name in names:
         monkeypatch.setattr(module, name, Dummy)
+    monkeypatch.setattr(module, "EventBus", DummyEventBus)
     monkeypatch.setattr(module, "AnalysisPipeline", DummyPipeline)
 
 

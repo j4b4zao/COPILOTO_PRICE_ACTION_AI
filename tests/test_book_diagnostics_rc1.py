@@ -94,9 +94,12 @@ def test_engine_is_passive_and_synthesizes_alignment():
     assert result.trend_strength
     assert result.directional_bias in {"BUY", "NONE"}
     assert result.alignment in {
+        "FULL_ALIGNMENT",
         "ALIGNED",
+        "MAJORITY_WITH_CONFLICT",
         "PARTIAL",
         "NEUTRAL",
+        "CONFLICT",
     }
     assert "PASSIVE_DIAGNOSTICS_ONLY" in result.reasons
 

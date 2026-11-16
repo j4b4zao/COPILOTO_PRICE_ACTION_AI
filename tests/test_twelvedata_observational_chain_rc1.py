@@ -63,7 +63,7 @@ def controlled_opener(seen):
             "symbol": provider_symbol,
             "close": "100.0",
             "percent_change": "0.25",
-            "datetime": "2026-10-06T15:30:00+00:00",
+            "timestamp": int(datetime(2026, 10, 6, 15, 30, tzinfo=timezone.utc).timestamp()),
         })
     return opener
 

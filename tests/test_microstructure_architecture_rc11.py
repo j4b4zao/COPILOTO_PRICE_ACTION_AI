@@ -1,3 +1,5 @@
+import pytest
+
 from analysis.book_depth_analysis import BookDepthAnalysis
 from analysis.order_flow import OrderFlow
 from analysis.price_action.price_action import PriceAction
@@ -84,7 +86,7 @@ def test_order_flow_sideways_structure_is_neutral():
     result = _order_flow_result(context, "BUY_ABSORPTION")
     OrderFlow()._qualify_structure(context, result)
     assert result.structure_alignment == "NEUTRAL"
-    assert result.structural_pattern_confidence == 0.64
+    assert result.structural_pattern_confidence == pytest.approx(0.64)
 
 
 def test_order_flow_unknown_structure_is_unavailable():

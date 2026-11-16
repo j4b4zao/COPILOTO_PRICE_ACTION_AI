@@ -123,7 +123,7 @@ def teste_buy_confirmado():
     assert context.context.bias == "BUY"
 
     assert (
-        "Contexto externo confirma direção."
+        "Contexto externo confirma direção (85% confiança)."
         in context.narrative.strengths
     )
 
@@ -143,7 +143,7 @@ def teste_buy_conflito():
     assert context.context.bias == "BUY"
 
     assert (
-        "Contexto externo conflita com direção."
+        "Contexto externo conflita com direção (85% confiança)."
         in context.narrative.weaknesses
     )
 
@@ -163,7 +163,7 @@ def teste_sell_confirmado():
     assert context.context.bias == "SELL"
 
     assert (
-        "Contexto externo confirma direção."
+        "Contexto externo confirma direção (85% confiança)."
         in context.narrative.strengths
     )
 
@@ -183,7 +183,7 @@ def teste_sell_conflito():
     assert context.context.bias == "SELL"
 
     assert (
-        "Contexto externo conflita com direção."
+        "Contexto externo conflita com direção (85% confiança)."
         in context.narrative.weaknesses
     )
 
@@ -203,7 +203,7 @@ def teste_externo_neutro():
     assert context.context.bias == "BUY"
 
     assert (
-        "Contexto externo neutro."
+        "Contexto externo neutro (85% confiança)."
         in context.narrative.weaknesses
     )
 

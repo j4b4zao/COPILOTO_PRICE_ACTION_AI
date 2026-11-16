@@ -242,6 +242,7 @@ def teste_collector_rejeita_identificacao_e_preco_invalidos():
             reading(100.0, 1000.0, symbol=""),
             reading(0.0, 1000.0),
             reading(100.0, -10.0),
+            reading(101.0, 1200.0),
         ],
         timestamps=[
             timestamp(2),
@@ -249,15 +250,23 @@ def teste_collector_rejeita_identificacao_e_preco_invalidos():
     )
 
     assert collector.get_data() is None
+    assert collector.last_valid_volume is None
+    assert collector.market.candle_count == 0
+
     assert collector.get_data() is None
+    assert collector.last_valid_volume is None
+    assert collector.market.candle_count == 0
+
+    assert collector.get_data() is None
+    assert collector.last_valid_volume is None
+    assert collector.market.candle_count == 0
 
     context = collector.get_data()
 
     assert context is not None
+    assert collector.last_valid_volume == 1200.0
     assert context.market.candle_count == 1
-    assert context.market.volume == 0.0
-    assert context.market.last_candle.volume == 0.0
-
+    assert context.market.last_candle is not None
 
 def teste_collector_sem_leitura_nao_altera_estado():
 

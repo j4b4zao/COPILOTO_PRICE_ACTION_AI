@@ -43,11 +43,30 @@ def test_duplicate_is_counted():
     assert d.report.duplicate_snapshots == 1
 
 
-def test_excessive_duplicates_degrade_source():
-    d = BookDepthSourceDiagnostics(); s = snap()
+def test_four_duplicates_do_not_degrade_initializing_source():
+    d = BookDepthSourceDiagnostics()
+    s = snap()
+
     d.observe(s)
-    for _ in range(4): d.observe(s)
+
+    for _ in range(4):
+        d.observe(s)
+
+    assert d.report.status == "INITIALIZING"
+    assert d.report.consecutive_duplicates == 4
+
+
+def test_twenty_consecutive_duplicates_degrade_source():
+    d = BookDepthSourceDiagnostics()
+    s = snap()
+
+    d.observe(s)
+
+    for _ in range(20):
+        d.observe(s)
+
     assert d.report.status == "DEGRADED"
+    assert d.report.consecutive_duplicates == 20
 
 
 def test_symbol_change_is_counted():

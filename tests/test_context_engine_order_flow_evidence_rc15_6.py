@@ -2,6 +2,7 @@ from types import SimpleNamespace
 
 from brain.context_engine import ContextEngine
 from models.market_narrative import MarketNarrative
+from models.order_flow_result import OrderFlowResult
 from models.trade_checklist import TradeChecklist
 
 
@@ -13,7 +14,7 @@ def _order_flow(
     acceleration=10.0,
     impulse=0.4,
 ):
-    return SimpleNamespace(
+    return OrderFlowResult(
         valid=valid,
         flow_momentum=momentum,
         delta_persistence=persistence,

@@ -1,3 +1,5 @@
+from dataclasses import asdict
+
 from analysis.book_depth_analysis import BookDepthAnalysis
 from analysis.replay.microstructure_confluence import MicrostructureConfluenceAudit
 from analysis.replay.microstructure_eligibility_policy import MicrostructureEligibilityPolicy
@@ -60,7 +62,7 @@ def test_independent_book_can_reach_three_sources():
 
 
 def test_three_independent_high_confidence_can_be_strong_candidate():
-    context = _prepare_context(flow_pressure="BALANCED", momentum="ACCELERATING_BUY", pattern="BUY")
+    context = _prepare_context(flow_pressure="BALANCED", momentum="ACCELERATING_BUY", pattern="NONE")
     context.book_depth_analysis.duplicate_evidence_risk = False
     context.book_depth_analysis.confidence = 1.0
     snap = MicrostructureConfluenceAudit().analyze(context)
@@ -97,14 +99,14 @@ def test_no_price_action_bias_is_insufficient_data():
 
 def test_chain_is_passive_only_end_to_end():
     context = _prepare_context()
-    before_score = context.score.to_dict()
-    before_decision = context.decision.to_dict()
+    before_score = asdict(context.score)
+    before_decision = asdict(context.decision)
     snap = MicrostructureConfluenceAudit().analyze(context)
     decision = MicrostructureEligibilityPolicy().evaluate(snap)
     assert snap.passive_only is True
     assert decision.passive_only is True
-    assert context.score.to_dict() == before_score
-    assert context.decision.to_dict() == before_decision
+    assert asdict(context.score) == before_score
+    assert asdict(context.decision) == before_decision
 
 
 def test_book_analysis_uses_current_cycle_price_action_bias():

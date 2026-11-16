@@ -95,7 +95,8 @@ def test_rc94_rejects_unsafe_prefix(tmp_path):
         )
 
 
-def test_rc94_is_exposed_by_system_initializer():
+def test_rc94_is_exposed_by_system_initializer(monkeypatch):
+    monkeypatch.setattr("core.system_initializer.Collector", object)
     system = SystemInitializer(
         voice_config=VoiceConfig(enabled=False, backend="NULL_TTS")
     ).inicializar()

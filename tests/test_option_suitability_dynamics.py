@@ -5,7 +5,7 @@ def test_higher_timeframe_swing_option_vehicle_can_be_suitable():
     r = OptionSuitabilityDynamics().analyze(
         timeframe="D1",
         holding_horizon="SWING",
-        bid=9.90,
+        bid=9.95,
         ask=10.00,
         liquidity_score=85,
         overnight_exposure=True,

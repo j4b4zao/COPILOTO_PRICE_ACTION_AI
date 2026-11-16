@@ -11,8 +11,8 @@ def source(status="READY", duplicate_rate=0.0, availability_rate=1.0):
 def snap(bids=None, asks=None):
     return BookDepthSnapshot.build(
         symbol="WINV26", timestamp="2026-08-23T10:00:00",
-        bids=bids or [(100.0, 30), (99.5, 20), (99.0, 10)],
-        asks=asks or [(100.5, 25), (101.0, 15), (101.5, 10)], source="TEST")
+        bids=bids or [(1000.0, 30), (999.5, 20), (999.0, 10)],
+        asks=asks or [(1000.5, 25), (1001.0, 15), (1001.5, 10)], source="TEST")
 
 
 def test_no_data():
@@ -31,7 +31,7 @@ def test_valid_book():
 
 
 def test_shallow_book():
-    r = BookDepthQualityValidator().evaluate(snap(bids=[(100, 10)], asks=[(101, 10)]), source())
+    r = BookDepthQualityValidator().evaluate(snap(bids=[(1000, 10)], asks=[(1001, 10)]), source())
     assert r.status == "SHALLOW"
 
 
@@ -41,9 +41,9 @@ def test_wide_spread_is_degraded():
     assert "WIDE_SPREAD" in r.reasons
 
 
-def test_duplicate_rate_is_degraded():
+def test_duplicate_rate_alone_does_not_degrade_ready_source():
     r = BookDepthQualityValidator().evaluate(snap(), source(duplicate_rate=0.9))
-    assert r.status == "DEGRADED"
+    assert r.status == "VALID"
 
 
 def test_low_availability_is_degraded():

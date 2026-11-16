@@ -30,8 +30,8 @@ def _mtf(alignment, bias="BUY", aligned=False, conflict=False, valid=True):
     )
 
 
-def test_version_is_rc15_4():
-    assert ContextEngine.VERSION == "RC15.4-REGIME-MTF-EVIDENCE"
+def test_context_engine_version():
+    assert ContextEngine.VERSION == "RC15.8-BOOK-DEPTH-EVIDENCE"
 
 
 def test_transition_regime_is_reported_with_pending_candidate():

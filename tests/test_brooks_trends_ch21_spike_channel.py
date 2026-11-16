@@ -21,7 +21,7 @@ def bullish_spike_channel():
         candle(111, 112, 108, 109),
         candle(109, 111, 108, 110),
         candle(110, 113, 109, 112),
-        candle(112, 114, 111, 113),
+        candle(112, 114, 111, 111.5),
         candle(113, 114, 112, 113.5),
     ]
     return [*closed, current_bar()]

@@ -81,7 +81,7 @@ def test_report_is_frozen_and_serializable():
     _record(recorder)
     report = ScoreRegimeMtfABSessionReporter.build(recorder)
     payload = report.to_dict()
-    assert payload["version"].startswith("RC4-")
+    assert payload["version"] == "RC5-REGIME-MTF-SCORE-AB-SESSION-REPORT-EXPORT"
     assert payload["passive_only"] is True
 
 

@@ -132,27 +132,20 @@ def teste_regime_lateral():
     assert context.context.bias == "BUY"
 
     assert (
-        "Regime de mercado lateral."
+        "Regime de mercado em range."
         in context.narrative.weaknesses
     )
 
 
-def teste_regime_invalido_ignorado():
+def teste_regime_invalido_informa_indisponibilidade():
 
     context = preparar_contexto(
         Trend.UP,
     )
 
-    messages = (
-        context.narrative.strengths
-        + context.narrative.weaknesses
-    )
-
-    assert all(
-        not message.startswith(
-            "Regime de mercado"
-        )
-        for message in messages
+    assert (
+        "Regime de mercado ainda não disponível."
+        in context.narrative.weaknesses
     )
 
 
@@ -208,7 +201,7 @@ def main():
         teste_sell_confirmado,
         teste_sell_em_conflito,
         teste_regime_lateral,
-        teste_regime_invalido_ignorado,
+        teste_regime_invalido_informa_indisponibilidade,
         teste_sem_impacto_operacional,
     ]
 

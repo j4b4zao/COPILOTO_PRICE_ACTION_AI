@@ -97,7 +97,7 @@ def test_weighted_totals_and_independent_vs_correlated():
     ]
     result = BookDepthABMultiSessionComparator().compare(reports)
     assert result.weighted_average_delta == 0.2
-    assert result.weighted_independent_delta == 0.37
+    assert result.weighted_independent_delta == 0.36  # (80 * 0.5 + 100 * 0.3 + 20 * 0.1) / 200
     assert result.weighted_correlated_delta == 0.04
 
 

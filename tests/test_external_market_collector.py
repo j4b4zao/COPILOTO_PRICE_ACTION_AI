@@ -148,12 +148,11 @@ def teste_dados_validos():
                 f" - {error}"
             )
 
-        return False
+        raise AssertionError("; ".join(errors))
 
     print()
     print("✅ DADOS VÁLIDOS APROVADOS")
 
-    return True
 
 
 def teste_dados_invalidos():
@@ -204,51 +203,19 @@ def teste_dados_invalidos():
             "Dados inválidos foram aceitos."
         )
 
-        return False
+        raise AssertionError("Dados inválidos foram aceitos.")
 
     print()
     print(
         "✅ DADOS INVÁLIDOS REJEITADOS"
     )
 
-    return True
 
 
 def main():
-
-    valid_ok = teste_dados_validos()
-
-    invalid_ok = teste_dados_invalidos()
-
-    print()
-    print("=" * 72)
-    print("RESULTADO FINAL")
-    print("=" * 72)
-
-    print(
-        f"VÁLIDOS   : "
-        f"{'PASSOU' if valid_ok else 'FALHOU'}"
-    )
-
-    print(
-        f"INVÁLIDOS : "
-        f"{'PASSOU' if invalid_ok else 'FALHOU'}"
-    )
-
-    print()
-
-    if valid_ok and invalid_ok:
-
-        print(
-            "🏆 EXTERNAL MARKET COLLECTOR RC1 APROVADO"
-        )
-
-    else:
-
-        print(
-            "⚠️ EXTERNAL MARKET COLLECTOR "
-            "PRECISA DE CORREÇÃO"
-        )
+    teste_dados_validos()
+    teste_dados_invalidos()
+    print("EXTERNAL MARKET COLLECTOR RC1 APROVADO")
 
 
 if __name__ == "__main__":

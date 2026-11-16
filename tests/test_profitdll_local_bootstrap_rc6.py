@@ -9,6 +9,7 @@ class DLL:
         self.DLLFinalize = lambda: 0
         if modern:
             self.SubscribePriceDepth = lambda *args: 0
+            self.UnsubscribePriceDepth = lambda *args: 0
             self.GetPriceDepthSideCount = lambda *args: 0
             self.GetPriceGroup = lambda *args: 0
         else:

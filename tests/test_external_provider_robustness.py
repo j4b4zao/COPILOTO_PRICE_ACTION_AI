@@ -58,7 +58,7 @@ def dados_validos():
 # EXECUTAR TESTE
 # ==============================================================
 
-def testar_coleta(
+def _verificar_coleta(
     nome,
     dados,
     deve_ser_valido,
@@ -125,7 +125,7 @@ def testar_coleta(
             f"obtido valid={state.valid}"
         )
 
-        return False
+        raise AssertionError(f"{nome}: esperado valid={deve_ser_valido}, obtido {state.valid}")
 
     print()
     print(
@@ -141,7 +141,7 @@ def testar_coleta(
 
 def teste_none():
 
-    return testar_coleta(
+    _verificar_coleta(
         "PROVIDER RETORNOU NONE",
         None,
         False,
@@ -154,7 +154,7 @@ def teste_none():
 
 def teste_tipo_invalido():
 
-    return testar_coleta(
+    _verificar_coleta(
         "TIPO DE DADO INVÁLIDO",
         "dados inválidos",
         False,
@@ -176,7 +176,7 @@ def teste_incompleto():
         # DXY, VIX, US10Y, OIL e GOLD ausentes.
     }
 
-    return testar_coleta(
+    _verificar_coleta(
         "DADOS INCOMPLETOS",
         dados,
         False,
@@ -195,7 +195,7 @@ def teste_valores_invalidos():
     dados["vix"] = 0.0
     dados["dxy"] = -98.5
 
-    return testar_coleta(
+    _verificar_coleta(
         "VALORES INVÁLIDOS",
         dados,
         False,
@@ -208,15 +208,11 @@ def teste_valores_invalidos():
 
 def teste_valido():
 
-    state = testar_coleta(
+    state = _verificar_coleta(
         "DADOS VÁLIDOS",
         dados_validos(),
         True,
     )
-
-    if state is False:
-
-        return False
 
     # ----------------------------------------------------------
     # Agora o Engine pode interpretar.
@@ -245,90 +241,19 @@ def teste_valido():
         f"{state.confidence:.3f}"
     )
 
-    if state.risk_on_off != "RISK_ON":
-
-        print()
-        print(
-            "❌ ENGINE PRODUZIU RESULTADO INCORRETO"
-        )
-
-        return False
-
-    print()
-    print(
-        "✅ ENGINE VALIDADO"
-    )
-
-    return True
-
+    assert state.risk_on_off == "RISK_ON", state.risk_on_off
 
 # ==============================================================
 # MAIN
 # ==============================================================
 
 def main():
-
-    none_ok = teste_none()
-
-    tipo_ok = teste_tipo_invalido()
-
-    incompleto_ok = teste_incompleto()
-
-    invalido_ok = teste_valores_invalidos()
-
-    valido_ok = teste_valido()
-
-    print()
-    print("=" * 72)
-    print("RESULTADO FINAL")
-    print("=" * 72)
-
-    print(
-        f"NONE          : "
-        f"{'PASSOU' if none_ok is not False else 'FALHOU'}"
-    )
-
-    print(
-        f"TIPO INVÁLIDO : "
-        f"{'PASSOU' if tipo_ok is not False else 'FALHOU'}"
-    )
-
-    print(
-        f"INCOMPLETO    : "
-        f"{'PASSOU' if incompleto_ok is not False else 'FALHOU'}"
-    )
-
-    print(
-        f"VALORES       : "
-        f"{'PASSOU' if invalido_ok is not False else 'FALHOU'}"
-    )
-
-    print(
-        f"VÁLIDO        : "
-        f"{'PASSOU' if valido_ok else 'FALHOU'}"
-    )
-
-    print()
-
-    if (
-        none_ok is not False
-        and tipo_ok is not False
-        and incompleto_ok is not False
-        and invalido_ok is not False
-        and valido_ok
-    ):
-
-        print(
-            "🏆 EXTERNAL PROVIDER ROBUSTNESS "
-            "RC1 APROVADO"
-        )
-
-    else:
-
-        print(
-            "⚠️ EXTERNAL PROVIDER ROBUSTNESS "
-            "PRECISA DE CORREÇÃO"
-        )
+    teste_none()
+    teste_tipo_invalido()
+    teste_incompleto()
+    teste_valores_invalidos()
+    teste_valido()
+    print("EXTERNAL PROVIDER ROBUSTNESS RC1 APROVADO")
 
 
 if __name__ == "__main__":

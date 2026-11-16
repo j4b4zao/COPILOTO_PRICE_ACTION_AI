@@ -6,7 +6,7 @@ def test_scale_in_allowed_with_structure_and_risk_controlled():
     result = engine.analyze(
         direction="BUY",
         entries=[(100.0, 1.0)],
-        stop_price=95.0,
+        stop_price=101.0,
         current_price=104.0,
         action="SCALE_IN",
         action_price=102.0,

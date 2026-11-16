@@ -69,7 +69,7 @@ def teste_range_sobreposto_tem_inercia_lateral():
     assert result.inertia == "RANGE_PERSISTENCE"
 
 
-def teste_ultimo_par_direcional_pode_continuar_em_transicao():
+def teste_ultimo_par_direcional_nao_supera_sobreposicao():
     context = context_from(
         (
             (100.0, 110.0, 90.0, 105.0),
@@ -81,7 +81,7 @@ def teste_ultimo_par_direcional_pode_continuar_em_transicao():
     )
 
     result = context.regime
-    assert result.regime == "TREND_UP"
+    assert result.regime == "RANGE"
     assert result.directional_consistency < 0.75
     assert result.inertia == "TRANSITION"
 

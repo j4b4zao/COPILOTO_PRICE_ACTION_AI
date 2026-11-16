@@ -25,9 +25,9 @@ def bull_history(reaction=True):
     # Deep pullback reaches/crosses the EMA.
     bars += [
         c(148.0, 148.5, 138.0, 140.0),
-        c(140.0, 141.0, 132.0, 134.0),
+        c(140.0, 141.0, 131.0, 134.0),
         # First bar completely below the EMA.
-        c(133.0, 133.5, 129.0, 131.0),
+        c(130.5, 131.0, 129.0, 130.0),
     ]
 
     if reaction:
@@ -50,9 +50,9 @@ def bear_history(reaction=True):
 
     bars += [
         c(152.0, 162.0, 151.5, 160.0),
-        c(160.0, 168.0, 159.0, 166.0),
+        c(160.0, 169.0, 159.0, 166.0),
         # First bar completely above the EMA.
-        c(167.0, 171.0, 166.5, 169.0),
+        c(169.0, 171.0, 168.8, 170.0),
     ]
 
     if reaction:

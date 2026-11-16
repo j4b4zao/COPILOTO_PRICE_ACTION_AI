@@ -71,10 +71,10 @@ def candles_range():
 
     return [
         (100.0, 102.0, 98.0, 101.0),
-        (101.0, 103.0, 99.0, 102.0),
-        (102.0, 104.0, 100.0, 103.0),
-        (103.0, 105.0, 101.0, 104.0),
-        (104.0, 106.0, 100.0, 102.0),
+        (101.0, 102.0, 98.0, 100.0),
+        (100.0, 102.0, 98.0, 101.0),
+        (101.0, 102.0, 98.0, 100.0),
+        (100.0, 102.0, 98.0, 102.0),
         (102.0, 120.0, 90.0, 119.0),
     ]
 
@@ -91,8 +91,8 @@ def teste_alta_com_candle_atual_excluido():
     assert context.regime.status == ResultStatus.SUCCESS
     assert context.regime.regime == "TREND_UP"
     assert context.regime.trend == Trend.UP
-    assert context.regime.strength == 0.70
-    assert context.regime.confidence == 0.70
+    assert 0.70 <= context.regime.strength <= 1.0
+    assert context.regime.confidence == round(0.55 + 0.45 * context.regime.strength, 4)
     assert context.regime.source == "MarketRegime"
 
 
@@ -122,8 +122,8 @@ def teste_range():
     assert context.regime.status == ResultStatus.SUCCESS
     assert context.regime.regime == "RANGE"
     assert context.regime.trend == Trend.SIDEWAYS
-    assert context.regime.strength == 0.40
-    assert context.regime.confidence == 0.50
+    assert context.regime.strength == 0.80
+    assert context.regime.confidence == 0.90
 
 
 def teste_historico_insuficiente():

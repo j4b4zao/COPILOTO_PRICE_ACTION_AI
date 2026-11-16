@@ -52,7 +52,8 @@ def test_poll_updates_source_report():
 def test_poll_updates_quality_report():
     r = ProfitDLLBookDepthRuntime(Session(payload()))
     r.poll("WINV26")
-    assert r.last_quality_report.status in {"INITIALIZING", "VALID"}
+    assert r.last_quality_report.status == "DEGRADED"
+    assert "WIDE_SPREAD" in r.last_quality_report.reasons
 
 
 def test_refresh_writes_context_book_depth():

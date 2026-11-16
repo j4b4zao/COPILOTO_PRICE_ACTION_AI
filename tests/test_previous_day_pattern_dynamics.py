@@ -22,7 +22,7 @@ def prev_day():
 def test_breakout_above_previous_high_needs_follow_through():
     current = [
         C(105, 107, 104, 106.5),
-        C(106.5, 108, 106, 107.2),
+        C(106.5, 108, 106.5, 107.2),
         C(107.2, 108, 106.8, 107.4),
         C(107.4, 109, 107, 108),  # forming, ignored
     ]
@@ -61,7 +61,7 @@ def test_failed_breakout_above_previous_high():
 def test_previous_low_breakout_confirmed():
     current = [
         C(100, 100.5, 98, 98.5),
-        C(98.5, 99, 97, 97.5),
+        C(98.5, 98.5, 97, 97.5),
         C(97.5, 98, 96.5, 97.0),
         C(97, 105, 96, 104),
     ]

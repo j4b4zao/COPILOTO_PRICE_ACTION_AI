@@ -31,7 +31,7 @@ class FakeBackend:
 
 def test_registry_starts_with_null_tts():
     registry = BookDiagnosticsTTSBackendRegistry()
-    assert registry.names() == ("NULL_TTS",)
+    assert registry.names() == ("NULL_TTS", "WINDOWS_SAPI")
     assert registry.contains("null_tts") is True
 
 

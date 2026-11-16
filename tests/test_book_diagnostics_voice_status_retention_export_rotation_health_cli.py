@@ -30,17 +30,11 @@ def _install_fake(monkeypatch, report, *, error=None):
                 raise error
             return report
 
-    class FakeSystem:
-        voice = FakeVoice()
+    def build_voice(*, config):
+        calls["config"] = config
+        return FakeVoice()
 
-    class FakeInitializer:
-        def __init__(self, *, voice_config=None, **kwargs):
-            calls["config"] = voice_config
-
-        def inicializar(self):
-            return FakeSystem()
-
-    monkeypatch.setattr(cli, "SystemInitializer", FakeInitializer)
+    monkeypatch.setattr(cli, "BookDiagnosticsVoiceServiceRC97", build_voice)
     return calls
 
 

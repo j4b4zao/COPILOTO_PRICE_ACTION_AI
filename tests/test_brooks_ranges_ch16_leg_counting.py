@@ -1,5 +1,7 @@
-from dataclasses import dataclass
+﻿from dataclasses import dataclass
+
 from analysis.price_action.leg_count_dynamics import LegCountDynamics
+
 
 @dataclass
 class Candle:
@@ -8,50 +10,98 @@ class Candle:
     low: float
     close: float
 
-def c(o,h,l,cl):
-    return Candle(o,h,l,cl)
+
+def c(o, h, l, cl):
+    return Candle(o, h, l, cl)
+
+
+def build_confirmed_up_legs(count):
+    """Cria pernas de alta com topos e fundos confirmaveis."""
+    bars = []
+    price = 100.0
+
+    for _ in range(count):
+        for _ in range(3):
+            o = price
+            price += 2.0
+            bars.append(c(o, price + 0.3, o - 0.1, price))
+
+        for _ in range(3):
+            o = price
+            price -= 1.5
+            bars.append(c(o, o + 0.2, price - 0.5, price))
+
+    for _ in range(3):
+        o = price
+        price += 1.5
+        bars.append(c(o, price + 0.2, o - 0.1, price))
+
+    # Confirma o ultimo topo com dois candles fechados.
+    for _ in range(2):
+        o = price
+        price -= 0.8
+        bars.append(c(o, o + 0.1, price - 0.1, price))
+
+    # Candle em formacao: nao deve participar da analise.
+    bars.append(c(price, price + 1.0, price - 1.0, price))
+
+    return bars
+
 
 def test_multiple_up_legs_mark_exhaustion():
-    candles=[
-        c(100,101,99,100.5),c(100.5,103,100,102.5),c(102.5,105,102,104.5),
-        c(104.5,104.8,101.5,102),c(102,106,101.8,105.5),c(105.5,108,105,107.5),
-        c(107.5,107.8,104.5,105),c(105,109,104.8,108.5),c(108.5,111,108,110.5),
-        c(110.5,110.8,107.5,108),c(108,112,107.8,111.5),c(111.5,113,111,112.5),
-        c(112.5,112.8,109.8,110.2),c(110.2,113.2,110,112.8),c(112.8,114,112.5,113.5),
-        c(113.5,114.2,113,114),
-    ]
-    r=LegCountDynamics().analyze(candles)
+    candles = build_confirmed_up_legs(3)
+    r = LegCountDynamics().analyze(candles)
+
     assert r.valid
-    assert r.direction=="UP"
-    assert r.leg_count>=3
+    assert r.direction == "UP"
+    assert r.leg_count == 3
+    assert r.two_leg_complete
+    assert r.third_attempt
     assert r.exhaustion_risk
 
+
 def test_two_leg_complete():
-    candles=[
-        c(100,101,99,100),c(100,103,99.8,102.5),c(102.5,105,102,104),
-        c(104,104.5,101.5,102),c(102,106,101.8,105.5),c(105.5,108,105,107),
-        c(107,107.5,104.5,105),c(105,109,104.8,108.5),c(108.5,110,108,109.5),
-        c(109.5,109.8,107,107.5),c(107.5,110.5,107.2,110),c(110,111,109.5,110.5),
-        c(110.5,111.2,110,110.8),
-    ]
-    r=LegCountDynamics().analyze(candles)
+    candles = build_confirmed_up_legs(2)
+    r = LegCountDynamics().analyze(candles)
+
     assert r.valid
-    assert r.leg_count>=2
+    assert r.direction == "UP"
+    assert r.leg_count == 2
     assert r.two_leg_complete
+    assert not r.third_attempt
+    assert not r.exhaustion_risk
+
+
+def test_fourth_plus_attempt_marks_exhaustion():
+    candles = build_confirmed_up_legs(4)
+    r = LegCountDynamics().analyze(candles)
+
+    assert r.valid
+    assert r.direction == "UP"
+    assert r.leg_count == 4
+    assert r.fourth_plus_attempt
+    assert r.exhaustion_risk
+
 
 def test_current_candle_is_excluded():
-    base=[
-        c(100,101,99,100),c(100,103,99.8,102.5),c(102.5,105,102,104),
-        c(104,104.5,101.5,102),c(102,106,101.8,105.5),c(105.5,108,105,107),
-        c(107,107.5,104.5,105),c(105,109,104.8,108.5),c(108.5,110,108,109.5),
-        c(109.5,109.8,107,107.5),c(107.5,110.5,107.2,110),c(110,111,109.5,110.5),
-    ]
-    a=LegCountDynamics().analyze(base+[c(110.5,111,110,110.6)])
-    b=LegCountDynamics().analyze(base+[c(110.5,120,90,119)])
-    assert a.leg_count==b.leg_count
-    assert a.pivot_count==b.pivot_count
+    base = build_confirmed_up_legs(2)[:-1]
+
+    a = LegCountDynamics().analyze(
+        base + [c(110.5, 111.0, 110.0, 110.6)]
+    )
+    b = LegCountDynamics().analyze(
+        base + [c(110.5, 120.0, 90.0, 119.0)]
+    )
+
+    assert a.leg_count == b.leg_count
+    assert a.pivot_count == b.pivot_count
+    assert a.direction == b.direction
+
 
 def test_insufficient_history():
-    r=LegCountDynamics().analyze([c(100,101,99,100)]*8)
+    r = LegCountDynamics().analyze(
+        [c(100, 101, 99, 100)] * 8
+    )
+
     assert not r.valid
     assert "INSUFFICIENT_HISTORY" in r.reasons

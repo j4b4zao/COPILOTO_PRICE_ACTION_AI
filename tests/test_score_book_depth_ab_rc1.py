@@ -2,6 +2,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from ai.score_engine_rc13_2 import ScoreEngine
 from analysis.replay.score_book_depth_ab_recorder import ScoreBookDepthABRecorder
 
 
@@ -90,9 +91,9 @@ def test_grade_change_is_detected():
 
 def test_validity_change_is_detected_around_min_score():
     sample = ScoreBookDepthABRecorder().record(
-        _context(total=59.5, grade="REPROVADO", score_valid=False, confidence=1.0)
+        _context(total=ScoreEngine.MIN_SCORE - 0.5, grade="REPROVADO", score_valid=False, confidence=1.0)
     )
-    assert sample.adjusted_total == 60.5
+    assert sample.adjusted_total == ScoreEngine.MIN_SCORE + 0.5
     assert sample.adjusted_valid is True
     assert sample.validity_changed is True
 

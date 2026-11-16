@@ -135,9 +135,26 @@ def test_rc46_system_initializer_exposes_voice_diagnostics(monkeypatch):
         def __init__(self, *args, **kwargs):
             pass
 
+    class DummyEventBus(Dummy):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.subscriptions = {}
+
+        def subscribe(self, event_type, callback):
+            self.subscriptions.setdefault(event_type, []).append(callback)
+
+        def unsubscribe(self, event_type, callback):
+            callbacks = self.subscriptions.get(event_type, [])
+            if callback in callbacks:
+                callbacks.remove(callback)
+
+        def publish(self, event):
+            for callback in tuple(self.subscriptions.get(event.type, ())):
+                callback(event)
+
     monkeypatch.setattr(module, "ConnectionManager", Dummy)
     monkeypatch.setattr(module, "Collector", Dummy)
-    monkeypatch.setattr(module, "EventBus", Dummy)
+    monkeypatch.setattr(module, "EventBus", DummyEventBus)
     monkeypatch.setattr(module, "DataValidator", Dummy)
     monkeypatch.setattr(module, "AnalysisPipeline", Dummy)
     monkeypatch.setattr(module, "RiskManager", Dummy)

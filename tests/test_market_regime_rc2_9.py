@@ -18,8 +18,8 @@ def _context(closed, current=None):
     return context
 
 
-def test_rc2_9_version():
-    assert MarketRegime.VERSION == "RC2.9-TRANSITION-STATE"
+def test_market_regime_version():
+    assert MarketRegime.VERSION == "RC3.0-TRANSITION-CONFIRMATION"
 
 
 def test_persistent_uptrend_remains_trend_up():
@@ -55,12 +55,12 @@ def test_mixed_direction_without_strong_range_is_transition():
     assert context.regime.trend == Trend.SIDEWAYS
 
 
-def test_transition_with_directional_step_and_transition_bars():
+def test_range_can_have_transitional_inertia():
     closed = [_c(102, 100), _c(105, 102), _c(106, 101), _c(107, 103), _c(108, 102)]
     context = _context(closed)
     MarketRegime().executar(context)
     assert context.regime.inertia == "TRANSITION"
-    assert context.regime.regime in {"TRANSITION", "TREND_UP"}
+    assert context.regime.regime == "RANGE"
 
 
 def test_transition_strength_and_confidence_are_bounded():
