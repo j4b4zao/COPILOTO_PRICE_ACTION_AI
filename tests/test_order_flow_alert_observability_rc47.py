@@ -26,6 +26,18 @@ def approved_context(
     context.decision.setup = "PRICE_ACTION"
     context.decision.score = 90.0
     context.decision.confidence = 0.90
+    # RC9.3: fixture de decisão aprovada deve conter risco e preços
+    # consistentes; não enfraquecer o fail-closed do AlertManager.
+    context.risk.valid = True
+    context.risk.approved = True
+    if context.decision.action == "BUY":
+        context.decision.entry = 170000.0
+        context.decision.stop = 169800.0
+        context.decision.target = 170400.0
+    else:
+        context.decision.entry = 170000.0
+        context.decision.stop = 170200.0
+        context.decision.target = 169600.0
 
     context.score.order_flow_applied = applied
     context.score.order_flow_direction = direction
