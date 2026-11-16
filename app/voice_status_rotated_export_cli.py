@@ -10,7 +10,7 @@ from __future__ import annotations
 import argparse
 
 from analysis.replay.book_diagnostics_voice_config import VoiceConfig
-from core.system_initializer import SystemInitializer
+from analysis.replay.book_diagnostics_voice_service_rc97 import BookDiagnosticsVoiceServiceRC97
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -37,18 +37,18 @@ def run(argv: list[str] | None = None) -> int:
         voice_profile=str(args.profile).strip(),
         speech_rate=float(args.rate),
     )
-    system = SystemInitializer(voice_config=config).inicializar()
-    result = system.voice.export_status_rotated(
+    voice = BookDiagnosticsVoiceServiceRC97(config=config)
+    result = voice.export_status_rotated(
         args.directory,
         keep=int(args.keep),
         prefix=str(args.prefix).strip(),
     )
 
     print("=== VOICE STATUS ROTATED EXPORT ===")
-    print(f"PATH: {result.path}")
-    print(f"STATUS: {result.status}")
-    print(f"KEPT: {result.kept}")
-    print(f"REMOVED: {len(result.removed_paths)}")
+    print(f"PATH: {result.current_file}")
+    print("STATUS: EXPORTED")
+    print(f"KEPT: {len(result.retained_files)}")
+    print(f"REMOVED: {len(result.removed_files)}")
     print(f"PREFIX: {result.prefix}")
     print(f"READONLY: {result.readonly}")
 

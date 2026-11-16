@@ -11,7 +11,7 @@ import argparse
 import json
 
 from analysis.replay.book_diagnostics_voice_config import VoiceConfig
-from core.system_initializer import SystemInitializer
+from analysis.replay.book_diagnostics_voice_service_rc97 import BookDiagnosticsVoiceServiceRC97
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -36,8 +36,8 @@ def run(argv: list[str] | None = None) -> int:
         voice_profile=str(args.profile).strip(),
         speech_rate=float(args.rate),
     )
-    system = SystemInitializer(voice_config=config).inicializar()
-    bundle = system.voice.status_bundle()
+    voice = BookDiagnosticsVoiceServiceRC97(config=config)
+    bundle = voice.status_bundle()
     payload = bundle.to_dict()
 
     if args.as_json:

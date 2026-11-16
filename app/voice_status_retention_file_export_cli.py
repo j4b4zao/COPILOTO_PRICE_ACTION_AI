@@ -11,7 +11,7 @@ import argparse
 from pathlib import Path
 
 from analysis.replay.book_diagnostics_voice_config import VoiceConfig
-from core.system_initializer import SystemInitializer
+from analysis.replay.book_diagnostics_voice_service_rc97 import BookDiagnosticsVoiceServiceRC97
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -31,8 +31,8 @@ def run(argv: list[str] | None = None) -> int:
     destination = Path(str(args.destination)).expanduser()
 
     config = VoiceConfig(enabled=False, backend="NULL_TTS")
-    system = SystemInitializer(voice_config=config).inicializar()
-    result = system.voice.export_retention_status_file(
+    voice = BookDiagnosticsVoiceServiceRC97(config=config)
+    result = voice.export_retention_status_file(
         source_directory,
         destination,
         keep=int(args.keep),

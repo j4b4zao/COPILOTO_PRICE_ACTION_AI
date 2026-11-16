@@ -11,7 +11,7 @@ import argparse
 from pathlib import Path
 
 from analysis.replay.book_diagnostics_voice_config import VoiceConfig
-from core.system_initializer import SystemInitializer
+from analysis.replay.book_diagnostics_voice_service_rc97 import BookDiagnosticsVoiceServiceRC97
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -29,8 +29,8 @@ def run(argv: list[str] | None = None) -> int:
 
     # RC72 e estritamente observacional. Mantemos o servico desativado e backend nulo.
     config = VoiceConfig(enabled=False, backend="NULL_TTS")
-    system = SystemInitializer(voice_config=config).inicializar()
-    inspection = system.voice.inspect_status_retention(
+    voice = BookDiagnosticsVoiceServiceRC97(config=config)
+    inspection = voice.inspect_status_retention(
         args.directory,
         keep=int(args.keep),
         prefix=str(args.prefix).strip(),

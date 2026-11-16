@@ -11,7 +11,7 @@ import argparse
 import json
 
 from analysis.replay.book_diagnostics_voice_config import VoiceConfig
-from core.system_initializer import SystemInitializer
+from analysis.replay.book_diagnostics_voice_service_rc97 import BookDiagnosticsVoiceServiceRC97
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -29,8 +29,8 @@ def run(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
 
     config = VoiceConfig(enabled=False, backend="NULL_TTS")
-    system = SystemInitializer(voice_config=config).inicializar()
-    bundle = system.voice.retention_status_bundle(
+    voice = BookDiagnosticsVoiceServiceRC97(config=config)
+    bundle = voice.retention_status_bundle(
         args.directory,
         keep=args.keep,
         prefix=args.prefix,

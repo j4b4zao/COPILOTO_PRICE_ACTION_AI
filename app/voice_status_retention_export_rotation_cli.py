@@ -10,7 +10,7 @@ from __future__ import annotations
 import argparse
 
 from analysis.replay.book_diagnostics_voice_config import VoiceConfig
-from core.system_initializer import SystemInitializer
+from analysis.replay.book_diagnostics_voice_service_rc97 import BookDiagnosticsVoiceServiceRC97
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -30,8 +30,8 @@ def run(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
 
     config = VoiceConfig(enabled=False, backend="NULL_TTS")
-    system = SystemInitializer(voice_config=config).inicializar()
-    result = system.voice.export_retention_status_rotated(
+    voice = BookDiagnosticsVoiceServiceRC97(config=config)
+    result = voice.export_retention_status_rotated(
         args.source_directory,
         args.export_directory,
         source_keep=int(args.source_keep),

@@ -10,7 +10,7 @@ from __future__ import annotations
 import argparse
 
 from analysis.replay.book_diagnostics_voice_config import VoiceConfig
-from core.system_initializer import SystemInitializer
+from analysis.replay.book_diagnostics_voice_service_rc97 import BookDiagnosticsVoiceServiceRC97
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -26,9 +26,9 @@ def build_parser() -> argparse.ArgumentParser:
 def run(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     config = VoiceConfig(enabled=False, backend="NULL_TTS")
-    system = SystemInitializer(voice_config=config).inicializar()
+    voice = BookDiagnosticsVoiceServiceRC97(config=config)
 
-    report = system.voice.retention_health(
+    report = voice.retention_health(
         args.directory,
         keep=int(args.keep),
         prefix=str(args.prefix),
@@ -43,7 +43,7 @@ def run(argv: list[str] | None = None) -> int:
     print(f"KEEP: {report.keep}")
     print(f"EXISTING: {report.existing_count}")
     print(f"RETAINED: {report.retained_count}")
-    print(f"EXCESS: {report.excess_count}")
+    print(f"EXCESS: {report.would_remove_count}")
     print(f"READONLY: {report.readonly}")
 
     return 2 if report.status == "OVER_LIMIT" else 0
