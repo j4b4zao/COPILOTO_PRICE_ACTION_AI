@@ -264,7 +264,37 @@ class AnalysisPipeline:
                 source="BOOK_DEPTH_INVALID_SNAPSHOT",
             )
             return
-        self.context.book_depth = snapshot
+        try:
+            if not snapshot.available:
+                if snapshot.bids or snapshot.asks:
+                    raise ValueError("BOOK_DEPTH_UNAVAILABLE_WITH_LEVELS")
+                self.context.book_depth = BookDepthSnapshot.unavailable(
+                    symbol=snapshot.symbol,
+                    source=snapshot.source,
+                )
+                return
+
+            normalized = BookDepthSnapshot.build(
+                symbol=snapshot.symbol,
+                timestamp=snapshot.timestamp,
+                bids=tuple(
+                    (level.price, level.quantity, level.orders)
+                    for level in snapshot.bids
+                ),
+                asks=tuple(
+                    (level.price, level.quantity, level.orders)
+                    for level in snapshot.asks
+                ),
+                source=snapshot.source,
+            )
+            if normalized.available != snapshot.available:
+                raise ValueError("BOOK_DEPTH_AVAILABILITY_MISMATCH")
+            self.context.book_depth = normalized
+        except Exception:
+            self.context.book_depth = BookDepthSnapshot.unavailable(
+                symbol=symbol,
+                source="BOOK_DEPTH_INVALID_CONTENT",
+            )
 
     def _refresh_trader_psychology(self) -> None:
         if self.psychology_state_provider is None:
