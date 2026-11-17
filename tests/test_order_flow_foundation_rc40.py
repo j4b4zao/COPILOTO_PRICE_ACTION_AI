@@ -185,7 +185,8 @@ def teste_pipeline_publica_evento_sem_usar_order_flow_no_score():
     AnalysisPipeline(event_bus=bus).executar(context)
 
     assert len(events) == 1
-    assert events[0].data is context
+    assert events[0].data is not context
+    assert events[0].data.order_flow.pressure == "BUY"
     assert context.order_flow.pressure == "BUY"
     assert context.score.total == score_before
 

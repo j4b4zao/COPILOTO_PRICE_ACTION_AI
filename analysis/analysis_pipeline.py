@@ -6,6 +6,7 @@ Pipeline principal do COPILOTO PRICE ACTION AI.
 RC15.5 + TRADER PSYCHOLOGY RC7 - PIPELINE OBSERVATIONAL
 """
 
+from copy import deepcopy
 from dataclasses import replace
 
 from core.analysis_context import AnalysisContext
@@ -190,8 +191,14 @@ class AnalysisPipeline:
         for engine in self.engines:
             if not engine.ENABLED:
                 continue
-            engine.executar(self.context)
-            self._publish_engine(engine)
+            try:
+                engine.executar(self.context)
+                self._publish_engine(engine)
+            except Exception:
+                # RC9.6: nenhum resultado parcial pode sobreviver a uma
+                # falha da engine ou da publicacao de seu evento.
+                self.context.clear_results()
+                raise
 
         # Todos os recorders abaixo executam depois do DecisionEngine e apenas
         # leem o resultado oficial já fechado do ciclo.
@@ -342,9 +349,12 @@ class AnalysisPipeline:
         event_type = mapping.get(type(engine))
         if event_type is None:
             return
-        self.event_bus.publish(Event(event_type, self.context))
+        # RC9.6: observadores recebem uma copia isolada, nunca o contexto
+        # operacional que sera consumido pelas proximas engines.
+        self.event_bus.publish(Event(event_type, deepcopy(self.context)))
 
     def _publish_loop(self):
         if self.event_bus is None:
             return
-        self.event_bus.publish(Event(EventType.LOOP_COMPLETED, self.context))
+        # RC9.6: o encerramento tambem nao expoe o contexto original.
+        self.event_bus.publish(Event(EventType.LOOP_COMPLETED, deepcopy(self.context)))

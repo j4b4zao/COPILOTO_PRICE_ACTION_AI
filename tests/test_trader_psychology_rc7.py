@@ -223,7 +223,7 @@ def teste_loop_completed_recebe_snapshot_pronto():
         if event.type == EventType.LOOP_COMPLETED
     ]
     assert len(loop_events) == 1
-    assert loop_events[0].data is context
+    assert loop_events[0].data is not context
     assert loop_events[0].data.trader_psychology is not None
 
 

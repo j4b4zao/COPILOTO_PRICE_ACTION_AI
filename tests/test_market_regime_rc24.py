@@ -189,7 +189,9 @@ def teste_integracao_pipeline_e_evento():
     assert context.regime.regime == "TREND_UP"
     assert len(events) == 1
     assert events[0].type == EventType.REGIME_UPDATED
-    assert events[0].data is context
+    assert events[0].data is not context
+    assert events[0].data.regime.valid is True
+    assert events[0].data.regime.regime == "TREND_UP"
 
 
 def main():
