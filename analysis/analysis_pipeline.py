@@ -244,7 +244,7 @@ class AnalysisPipeline:
                 "ExternalContextService retornou estado inválido."
             )
             return
-        self.context.external_market = state
+        self.context.external_market = deepcopy(state)
 
     def _refresh_book_depth(self) -> None:
         if self.book_depth_service is None:

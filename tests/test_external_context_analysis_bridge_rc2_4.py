@@ -84,7 +84,8 @@ def test_pipeline_refreshes_external_context_from_service():
     pipeline.context = context
     pipeline._refresh_external_context()
     assert service.calls == 1
-    assert context.external_market is state
+    assert context.external_market is not state
+    assert context.external_market == state
     assert context.external_risk == "RISK_OFF"
 
 
