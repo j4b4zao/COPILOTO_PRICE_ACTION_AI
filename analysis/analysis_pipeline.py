@@ -200,17 +200,26 @@ class AnalysisPipeline:
                 self.context.clear_results()
                 raise
 
-        # Todos os recorders abaixo executam depois do DecisionEngine e apenas
-        # leem o resultado oficial já fechado do ciclo.
-        self.book_diagnostics_replay.record(self.context)
-        self.score_regime_mtf_ab.record(self.context)
-        self.score_external_context_ab.record(self.context)
-        self.score_order_flow_ab.record(self.context)
-        self.score_order_flow_structure_ab.record(self.context)
-        self.score_book_depth_ab.record(self.context)
-        self.score_microstructure_eligibility_ab.record(self.context)
-        self.microstructure_confluence_replay.record(self.context)
-        self.microstructure_eligibility_replay.record(self.context)
+        # RC9.7: recorders sao observacionais. Cada um recebe um snapshot
+        # independente para impedir alteracoes no contexto operacional oficial.
+        # Uma falha de recorder invalida os resultados do ciclo (fail-closed).
+        recorders = (
+            self.book_diagnostics_replay,
+            self.score_regime_mtf_ab,
+            self.score_external_context_ab,
+            self.score_order_flow_ab,
+            self.score_order_flow_structure_ab,
+            self.score_book_depth_ab,
+            self.score_microstructure_eligibility_ab,
+            self.microstructure_confluence_replay,
+            self.microstructure_eligibility_replay,
+        )
+        try:
+            for recorder in recorders:
+                recorder.record(deepcopy(self.context))
+        except Exception:
+            self.context.clear_results()
+            raise
 
         # A Psicologia roda somente depois do núcleo operacional e dos replays.
         # Ela anexa um snapshot observacional e nunca retroalimenta as engines.
