@@ -270,7 +270,7 @@ class AnalysisPipeline:
         if self.psychology_state_provider is None:
             return
         try:
-            state = self.psychology_state_provider.snapshot(self.context)
+            state = self.psychology_state_provider.snapshot(deepcopy(self.context))
             if not isinstance(state, TraderPsychologyState):
                 return
             runtime_result = self.psychology_runtime.process(state)
@@ -324,9 +324,15 @@ class AnalysisPipeline:
                 except Exception:
                     # O diário é observacional e nunca invalida o snapshot.
                     pass
+            # RC9.8: bridge observacional opera em copia independente.
+            # Somente o slot de psicologia e transferido ao contexto oficial.
+            psychology_context = deepcopy(self.context)
             self.psychology_context_bridge.attach(
-                self.context,
+                psychology_context,
                 runtime_result,
+            )
+            self.context.trader_psychology = deepcopy(
+                psychology_context.trader_psychology
             )
         except Exception:
             # Fail-open operacional: psicologia indisponível não interfere
