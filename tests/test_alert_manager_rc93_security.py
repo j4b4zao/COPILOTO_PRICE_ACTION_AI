@@ -1,4 +1,4 @@
-"""Testes adversariais RC9.3 — executar com unittest ou pytest."""
+"""Regressão RC9.3 compatível com validação cruzada fail-closed RC9.4."""
 import unittest
 from contextlib import redirect_stdout
 from io import StringIO
@@ -24,6 +24,10 @@ class AlertManagerSecurityRC93(unittest.TestCase):
         d.target = 170400.0 if action == "BUY" else 169600.0
         c.risk.valid = True
         c.risk.approved = True
+        # Fixture coerente: o risco aprovou exatamente os preços da decisão.
+        c.risk.entry_price = d.entry
+        c.risk.stop_loss = d.stop
+        c.risk.take_profit = d.target
         return c
 
     def run_alert(self, c):
@@ -66,6 +70,9 @@ class AlertManagerSecurityRC93(unittest.TestCase):
             "score_infinity": ("decision", "score", float("inf")),
             "confidence_nan": ("decision", "confidence", float("nan")),
             "rr_insufficient": ("decision", "target", 170100.0),
+            "risk_entry_mismatch": ("risk", "entry_price", 170010.0),
+            "risk_stop_mismatch": ("risk", "stop_loss", 169700.0),
+            "risk_target_mismatch": ("risk", "take_profit", 170500.0),
         }
         for name, (object_name, field, value) in cases.items():
             with self.subTest(name=name):

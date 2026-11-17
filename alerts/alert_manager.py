@@ -1,4 +1,4 @@
-"""alerts/alert_manager.py — RC9.3, validação fail-closed de alertas.
+"""alerts/alert_manager.py — RC9.4, validação fail-closed de alertas.
 
 Não executa ordens. Rejeita decisões e riscos inconsistentes.
 """
@@ -11,7 +11,7 @@ from ai.engine_base import EngineBase
 
 class AlertManager(EngineBase):
     NAME = "AlertManager"
-    VERSION = "RC9.3"
+    VERSION = "RC9.4"
     ENABLED = True
     PRIORITY = 110
 
@@ -49,6 +49,15 @@ class AlertManager(EngineBase):
             entry, stop, target = decision.entry, decision.stop, decision.target
             if not all(cls._positive_number(x) for x in (entry, stop, target)):
                 return False
+            # RC9.4: a decisão não pode alterar os preços já aprovados
+            # pelo RiskManager. Comparação exata: os valores são copiados
+            # entre resultados, sem transformação ou arredondamento.
+            risk_prices = (risk.entry_price, risk.stop_loss, risk.take_profit)
+            if not all(cls._positive_number(x) for x in risk_prices):
+                return False
+            if (entry, stop, target) != risk_prices:
+                return False
+
             if action == "BUY" and not (stop < entry < target):
                 return False
             if action == "SELL" and not (target < entry < stop):

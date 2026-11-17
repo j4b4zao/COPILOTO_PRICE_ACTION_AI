@@ -39,6 +39,11 @@ def approved_context(
         context.decision.stop = 170200.0
         context.decision.target = 169600.0
 
+    # RC9.4: preços do risco aprovado devem coincidir com a decisão.
+    context.risk.entry_price = context.decision.entry
+    context.risk.stop_loss = context.decision.stop
+    context.risk.take_profit = context.decision.target
+
     context.score.order_flow_applied = applied
     context.score.order_flow_direction = direction
     context.score.order_flow_contribution = contribution
