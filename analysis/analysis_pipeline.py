@@ -10,6 +10,7 @@ from copy import deepcopy
 from analysis.temporal_snapshot_policy import (
     TemporalSnapshotHistory,
     TemporalSnapshotPolicy,
+    validate_primary_quote_timestamp,
     validate_snapshot_timestamp,
 )
 from dataclasses import replace
@@ -85,6 +86,7 @@ class AnalysisPipeline:
         temporal_external_policy=None,
         temporal_book_policy=None,
         temporal_reference_provider=None,
+        temporal_primary_policy=None,
     ):
         if external_context_service is not None and not callable(
             getattr(external_context_service, "snapshot", None)
@@ -158,6 +160,11 @@ class AnalysisPipeline:
         ):
             raise TypeError("INVALID_BOOK_TEMPORAL_POLICY")
 
+        if temporal_primary_policy is not None and not isinstance(
+            temporal_primary_policy, TemporalSnapshotPolicy
+        ):
+            raise TypeError("INVALID_PRIMARY_TEMPORAL_POLICY")
+
         if (
             temporal_reference_provider is not None
             and not callable(temporal_reference_provider)
@@ -167,15 +174,18 @@ class AnalysisPipeline:
         if (
             temporal_external_policy is not None
             or temporal_book_policy is not None
+            or temporal_primary_policy is not None
         ) and temporal_reference_provider is None:
             raise ValueError("TEMPORAL_REFERENCE_PROVIDER_REQUIRED")
 
         self.temporal_external_policy = temporal_external_policy
         self.temporal_book_policy = temporal_book_policy
+        self.temporal_primary_policy = temporal_primary_policy
         self.temporal_reference_provider = temporal_reference_provider
 
         self._temporal_external_history = TemporalSnapshotHistory()
         self._temporal_book_history = TemporalSnapshotHistory()
+        self._temporal_primary_history = TemporalSnapshotHistory()
         self._temporal_cycle_reference = _NO_CYCLE_REFERENCE
 
         self.event_bus = event_bus
@@ -228,6 +238,7 @@ class AnalysisPipeline:
         self.context = context
         # RC9.13: invalida resultados anteriores antes dos refreshes.
         self.context.clear_results()
+        primary_policy = getattr(self, "temporal_primary_policy", None)
         previous_reference = getattr(
             self, "_temporal_cycle_reference", _NO_CYCLE_REFERENCE
         )
@@ -236,8 +247,23 @@ class AnalysisPipeline:
             if (
                 getattr(self, "temporal_external_policy", None) is not None
                 or getattr(self, "temporal_book_policy", None) is not None
+                or primary_policy is not None
             ):
                 self._temporal_cycle_reference = self._read_temporal_reference()
+            if primary_policy is not None:
+                stream = context.market.symbol.strip().upper()
+                history = self._temporal_primary_history
+                timestamp = context.source_timestamp
+                temporal = validate_primary_quote_timestamp(
+                    timestamp,
+                    reference_timestamp=self._temporal_cycle_reference,
+                    policy=primary_policy,
+                    previous_timestamp=history.previous(None, stream),
+                )
+                if not temporal.accepted:
+                    context.decision.add_reason(temporal.reason)
+                    return context
+                history.record(None, stream, timestamp)
             self._refresh_external_context()
             self._refresh_book_depth()
         finally:

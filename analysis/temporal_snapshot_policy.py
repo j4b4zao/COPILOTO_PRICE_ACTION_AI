@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import date, datetime, time, timezone
 from math import isfinite
 
 
@@ -67,6 +67,11 @@ class TemporalSnapshotPolicy:
                 )
 
 
+# Perfil opt-in para a cotação primária: janela curta para o loop de
+# coleta de ~1 s, com pequena margem para diferença entre relógios.
+PRIMARY_QUOTE_TEMPORAL_POLICY = TemporalSnapshotPolicy(30, 2)
+
+
 @dataclass(frozen=True)
 class TemporalValidationResult:
     accepted: bool
@@ -94,6 +99,40 @@ def _parse_timestamp(value):
         return None
 
     return parsed.astimezone(timezone.utc)
+
+
+def primary_quote_source_timestamp(data):
+    """Extrai ISO com offset; data/hora locais sem offset ficam inválidas."""
+    if "source_timestamp" in data:
+        value = data["source_timestamp"]
+        if value is None or value == "":
+            return None
+        if isinstance(value, datetime):
+            return value.isoformat()
+        return value if isinstance(value, str) else ""
+
+    day, clock = data.get("data"), data.get("hora")
+    if day is None or day == "" or clock is None or clock == "":
+        return None
+    try:
+        if isinstance(day, datetime):
+            day = day.date()
+        if not isinstance(day, date):
+            day = date.fromisoformat(day)
+        if not isinstance(clock, time):
+            clock = time.fromisoformat(clock)
+        return datetime.combine(day, clock).isoformat()
+    except (TypeError, ValueError, OverflowError):
+        return ""
+
+
+def validate_primary_quote_timestamp(timestamp, **validation_args):
+    if timestamp is None:
+        return TemporalValidationResult(False, "TEMPORAL_MISSING_TIMESTAMP")
+    try:
+        return validate_snapshot_timestamp(timestamp, **validation_args)
+    except (TypeError, ValueError, OverflowError):
+        return TemporalValidationResult(False, "TEMPORAL_VALIDATION_ERROR")
 
 
 def validate_snapshot_timestamp(

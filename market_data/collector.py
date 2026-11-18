@@ -2,6 +2,12 @@
 
 import math
 
+from analysis.temporal_snapshot_policy import (
+    TemporalSnapshotHistory,
+    TemporalSnapshotPolicy,
+    primary_quote_source_timestamp,
+    validate_primary_quote_timestamp,
+)
 from connectors.profit_reader import ProfitReader
 from core.analysis_context import AnalysisContext
 from core.market_clock import MarketClock
@@ -24,7 +30,14 @@ class Collector:
                  order_flow_state=None, chart_mode=None, renko_brick_size=None, clock=None,
                  source_guard=None, source_diagnostics=None, delta_quality_validator=None,
                  delta_session_recorder=None, enable_profit_rtd_order_flow=None,
-                 profit_rtd_order_flow_pipeline=None, profit_rtd_validation_recorder=None):
+                 profit_rtd_order_flow_pipeline=None, profit_rtd_validation_recorder=None,
+                 *, temporal_primary_policy=None):
+        if temporal_primary_policy is not None and not isinstance(
+            temporal_primary_policy, TemporalSnapshotPolicy
+        ):
+            raise TypeError("INVALID_PRIMARY_TEMPORAL_POLICY")
+        self.temporal_primary_policy = temporal_primary_policy
+        self._temporal_primary_history = TemporalSnapshotHistory()
         if excel is None:
             from connectors.excel_connector import ExcelConnector
             excel = ExcelConnector()
@@ -115,6 +128,26 @@ class Collector:
             print(f"[DATA WARNING] Preço inválido recebido: {close!r}. Leitura ignorada.")
             return None
 
+        source_timestamp = primary_quote_source_timestamp(dados)
+        policy = self.temporal_primary_policy
+        received_timestamp = None
+        if policy is not None:
+            try:
+                received_timestamp = self.clock.now()
+            except Exception:
+                print("[DATA WARNING] TEMPORAL_VALIDATION_ERROR")
+                return None
+            stream = ativo.upper()
+            temporal = validate_primary_quote_timestamp(
+                source_timestamp,
+                reference_timestamp=received_timestamp,
+                policy=policy,
+                previous_timestamp=self._temporal_primary_history.previous(None, stream),
+            )
+            if not temporal.accepted:
+                print(f"[DATA WARNING] {temporal.reason}")
+                return None
+
         raw_volume = dados.get("volume")
         volume, volume_held = self._resolve_cumulative_volume(raw_volume)
         print(
@@ -134,7 +167,12 @@ class Collector:
             )
         aggression_buy = self.to_optional_float(dados.get("agressao_compra"))
         aggression_sell = self.to_optional_float(dados.get("agressao_venda"))
-        integrity = self.source_guard.inspect(dados)
+        # O timestamp de origem participa da deduplicação protegida,
+        # inclusive quando a fonte fornece source_timestamp em vez de data/hora.
+        integrity_data = dados if policy is None else dict(
+            dados, data=source_timestamp, hora=None
+        )
+        integrity = self.source_guard.inspect(integrity_data)
 
         if self.enable_profit_rtd_order_flow:
             self.last_profit_rtd_receipt = self.profit_rtd_order_flow_pipeline.process(
@@ -168,7 +206,7 @@ class Collector:
             print("[DATA WAIT] Snapshot do Profit sem mudança; ciclo ignorado.")
             return None
 
-        timestamp = self.clock.now()
+        timestamp = self.clock.now() if policy is None else received_timestamp
         self.last_new_candles = self.multi_timeframe.update_tick(
             symbol=ativo,
             price=close,
@@ -207,11 +245,16 @@ class Collector:
             f"order_flow_source={'PROFIT_RTD_TT' if self.enable_profit_rtd_order_flow else 'LEGACY'}"
         )
 
-        return AnalysisContext(
+        context = AnalysisContext(
             market=self.market,
             multi_timeframe=self.multi_timeframe,
             order_flow_state=self.order_flow,
+            source_timestamp=source_timestamp,
+            received_timestamp=timestamp,
         )
+        if policy is not None:
+            self._temporal_primary_history.record(None, stream, source_timestamp)
+        return context
 
     def _build_profit_rtd_order_flow_pipeline(self):
         from market_data.excel_range_gateway import ExcelRangeGateway

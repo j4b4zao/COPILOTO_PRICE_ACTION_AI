@@ -6,6 +6,7 @@ COPILOTO PRICE ACTION AI.
 """
 
 from dataclasses import dataclass, field
+from datetime import datetime
 
 from core.market_state import MarketState
 from core.multi_timeframe_state import MultiTimeframeState
@@ -80,6 +81,8 @@ class AnalysisContext:
     checklist: TradeChecklist = field(default_factory=TradeChecklist)
     narrative: MarketNarrative = field(default_factory=MarketNarrative)
     trader_psychology: TraderPsychologyRuntimeResult | None = None
+    source_timestamp: str | None = None
+    received_timestamp: datetime | None = None
 
     @property
     def external_valid(self) -> bool:
@@ -140,6 +143,8 @@ class AnalysisContext:
 
     def reset(self) -> None:
         """Reinicia completamente o contexto."""
+        self.source_timestamp = None
+        self.received_timestamp = None
         self.market.clear()
         if self.multi_timeframe is not None:
             self.multi_timeframe.clear()
