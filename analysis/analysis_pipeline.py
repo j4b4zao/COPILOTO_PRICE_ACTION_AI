@@ -224,7 +224,13 @@ class AnalysisPipeline:
         # A Psicologia roda somente depois do núcleo operacional e dos replays.
         # Ela anexa um snapshot observacional e nunca retroalimenta as engines.
         self._refresh_trader_psychology()
-        self._publish_loop()
+        try:
+            self._publish_loop()
+        except Exception:
+            # RC9.12: falha na publicacao final invalida o ciclo.
+            # Nenhum resultado operacional parcial deve permanecer.
+            self.context.clear_results()
+            raise
         return self.context
 
     def _refresh_external_context(self) -> None:
