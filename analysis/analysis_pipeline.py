@@ -236,6 +236,11 @@ class AnalysisPipeline:
 
     def _refresh_external_context(self) -> None:
         if self.external_context_service is None:
+            # RC9.14: sem fonte, dados anteriores nao sao atuais.
+            self.context.external_market.clear()
+            self.context.external_market.add_reason(
+                'EXTERNAL_CONTEXT_SERVICE_UNAVAILABLE'
+            )
             return
         try:
             state = self.external_context_service.snapshot()
@@ -255,6 +260,12 @@ class AnalysisPipeline:
 
     def _refresh_book_depth(self) -> None:
         if self.book_depth_service is None:
+            # RC9.14: evita reutilizar Book de ciclo anterior.
+            symbol = str(getattr(self.context.market, 'symbol', '') or '')
+            self.context.book_depth = BookDepthSnapshot.unavailable(
+                symbol=symbol,
+                source='BOOK_DEPTH_SERVICE_UNAVAILABLE',
+            )
             return
         symbol = str(getattr(self.context.market, "symbol", "") or "")
         try:
