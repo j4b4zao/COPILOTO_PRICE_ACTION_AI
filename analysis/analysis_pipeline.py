@@ -184,9 +184,10 @@ class AnalysisPipeline:
             )
 
         self.context = context
+        # RC9.13: invalida resultados anteriores antes dos refreshes.
+        self.context.clear_results()
         self._refresh_external_context()
         self._refresh_book_depth()
-        self.context.clear_results()
 
         for engine in self.engines:
             if not engine.ENABLED:
