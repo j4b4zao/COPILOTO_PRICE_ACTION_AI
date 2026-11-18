@@ -8,6 +8,7 @@ RC15.5 + TRADER PSYCHOLOGY RC7 - PIPELINE OBSERVATIONAL
 
 from copy import deepcopy
 from analysis.temporal_snapshot_policy import (
+    TemporalSnapshotHistory,
     TemporalSnapshotPolicy,
     validate_snapshot_timestamp,
 )
@@ -61,6 +62,9 @@ from alerts.alert_manager import AlertManager
 
 from core.event import Event
 from core.event_types import EventType
+
+
+_NO_CYCLE_REFERENCE = object()
 
 
 class AnalysisPipeline:
@@ -170,8 +174,9 @@ class AnalysisPipeline:
         self.temporal_book_policy = temporal_book_policy
         self.temporal_reference_provider = temporal_reference_provider
 
-        self._temporal_external_history = {}
-        self._temporal_book_history = {}
+        self._temporal_external_history = TemporalSnapshotHistory()
+        self._temporal_book_history = TemporalSnapshotHistory()
+        self._temporal_cycle_reference = _NO_CYCLE_REFERENCE
 
         self.event_bus = event_bus
         self.external_context_service = external_context_service
@@ -223,8 +228,20 @@ class AnalysisPipeline:
         self.context = context
         # RC9.13: invalida resultados anteriores antes dos refreshes.
         self.context.clear_results()
-        self._refresh_external_context()
-        self._refresh_book_depth()
+        previous_reference = getattr(
+            self, "_temporal_cycle_reference", _NO_CYCLE_REFERENCE
+        )
+        self._temporal_cycle_reference = None
+        try:
+            if (
+                getattr(self, "temporal_external_policy", None) is not None
+                or getattr(self, "temporal_book_policy", None) is not None
+            ):
+                self._temporal_cycle_reference = self._read_temporal_reference()
+            self._refresh_external_context()
+            self._refresh_book_depth()
+        finally:
+            self._temporal_cycle_reference = previous_reference
 
         for engine in self.engines:
             if not engine.ENABLED:
@@ -272,41 +289,47 @@ class AnalysisPipeline:
         return self.context
 
 
+    def _read_temporal_reference(self):
+        try:
+            return self.temporal_reference_provider()
+        except Exception:
+            return None
+
     def _rc915_validate_temporal(
         self,
         *,
         timestamp,
         policy,
         history,
-        identity,
+        service,
+        stream=None,
     ):
-        """Valida snapshot sem alterar historico em caso de rejeicao."""
+        """Valida o snapshot antes da publicação, sem alterar o histórico."""
         if policy is None:
             return True, "TEMPORAL_POLICY_DISABLED"
 
         try:
-            reference = self.temporal_reference_provider()
-
-            previous = history.get(identity)
+            reference = getattr(
+                self, "_temporal_cycle_reference", _NO_CYCLE_REFERENCE
+            )
+            if reference is _NO_CYCLE_REFERENCE:
+                reference = self._read_temporal_reference()
 
             result = validate_snapshot_timestamp(
                 timestamp,
                 reference_timestamp=reference,
                 policy=policy,
-                previous_timestamp=previous,
+                previous_timestamp=history.previous(service, stream),
             )
 
-            if not result.accepted:
-                return False, result.reason
-
-            history[identity] = timestamp
-            return True, result.reason
+            return result.accepted, result.reason
 
         except Exception:
             return False, "TEMPORAL_VALIDATION_ERROR"
 
     def _refresh_external_context(self) -> None:
-        if self.external_context_service is None:
+        service = self.external_context_service
+        if service is None:
             # RC9.14: sem fonte, dados anteriores nao sao atuais.
             self.context.external_market.clear()
             self.context.external_market.add_reason(
@@ -314,7 +337,7 @@ class AnalysisPipeline:
             )
             return
         try:
-            state = self.external_context_service.snapshot()
+            state = service.snapshot()
         except Exception as exc:
             self.context.external_market.clear()
             self.context.external_market.add_reason(
@@ -327,14 +350,15 @@ class AnalysisPipeline:
                 "ExternalContextService retornou estado inválido."
             )
             return
-        if self.temporal_external_policy is not None and state.valid:
-            identity = id(self.external_context_service)
-
+        policy = getattr(self, "temporal_external_policy", None)
+        validate_temporal = policy is not None and state.valid
+        if validate_temporal:
+            timestamp = state.timestamp
             accepted, reason = self._rc915_validate_temporal(
-                timestamp=state.timestamp,
-                policy=self.temporal_external_policy,
+                timestamp=timestamp,
+                policy=policy,
                 history=self._temporal_external_history,
-                identity=identity,
+                service=service,
             )
 
             if not accepted:
@@ -342,10 +366,14 @@ class AnalysisPipeline:
                 self.context.external_market.add_reason(reason)
                 return
 
-        self.context.external_market = deepcopy(state)
+        published = deepcopy(state)
+        self.context.external_market = published
+        if validate_temporal:
+            self._temporal_external_history.record(service, None, timestamp)
 
     def _refresh_book_depth(self) -> None:
-        if self.book_depth_service is None:
+        service = self.book_depth_service
+        if service is None:
             # RC9.14: evita reutilizar Book de ciclo anterior.
             symbol = str(getattr(self.context.market, 'symbol', '') or '')
             self.context.book_depth = BookDepthSnapshot.unavailable(
@@ -355,7 +383,7 @@ class AnalysisPipeline:
             return
         symbol = str(getattr(self.context.market, "symbol", "") or "")
         try:
-            snapshot = self.book_depth_service.snapshot(symbol)
+            snapshot = service.snapshot(symbol)
         except Exception:
             self.context.book_depth = BookDepthSnapshot.unavailable(
                 symbol=symbol,
@@ -393,21 +421,16 @@ class AnalysisPipeline:
             )
             if normalized.available != snapshot.available:
                 raise ValueError("BOOK_DEPTH_AVAILABILITY_MISMATCH")
-            if (
-                self.temporal_book_policy is not None
-                and normalized.available
-            ):
-                identity = (
-                    id(self.book_depth_service),
-                    normalized.symbol,
-                    normalized.source,
-                )
-
+            policy = getattr(self, "temporal_book_policy", None)
+            validate_temporal = policy is not None and normalized.available
+            if validate_temporal:
+                stream = (normalized.symbol, normalized.source)
                 accepted, reason = self._rc915_validate_temporal(
                     timestamp=normalized.timestamp,
-                    policy=self.temporal_book_policy,
+                    policy=policy,
                     history=self._temporal_book_history,
-                    identity=identity,
+                    service=service,
+                    stream=stream,
                 )
 
                 if not accepted:
@@ -417,12 +440,16 @@ class AnalysisPipeline:
                     )
                     return
 
-            self.context.book_depth = normalized
         except Exception:
             self.context.book_depth = BookDepthSnapshot.unavailable(
                 symbol=symbol,
                 source="BOOK_DEPTH_INVALID_CONTENT",
             )
+            return
+
+        self.context.book_depth = normalized
+        if validate_temporal:
+            self._temporal_book_history.record(service, stream, normalized.timestamp)
 
     def _refresh_trader_psychology(self) -> None:
         if self.psychology_state_provider is None:

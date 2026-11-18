@@ -7,6 +7,43 @@ from datetime import datetime, timezone
 from math import isfinite
 
 
+class TemporalSnapshotHistory:
+    """Retém os 64 fluxos publicados mais recentemente, sem expiração por tempo.
+
+    O orçamento por canal limita memória e referências fortes a serviços antigos.
+    Uma publicação nova remove a entrada menos recente apenas se o limite for
+    excedido. Rejeições e desconexões não alteram a ordem de retenção.
+    """
+
+    CAPACITY = 64
+
+    def __init__(self):
+        self._entries = []
+
+    def __len__(self):
+        return len(self._entries)
+
+    def _find(self, service, stream):
+        for index, (stored_service, stored_stream, _) in enumerate(self._entries):
+            if stored_service is service and stored_stream == stream:
+                return index
+        return None
+
+    def previous(self, service, stream):
+        index = self._find(service, stream)
+        if index is not None:
+            return self._entries[index][2]
+        return None
+
+    def record(self, service, stream, timestamp):
+        index = self._find(service, stream)
+        if index is not None:
+            self._entries.pop(index)
+        self._entries.append((service, stream, timestamp))
+        if len(self._entries) > self.CAPACITY:
+            self._entries.pop(0)
+
+
 @dataclass(frozen=True)
 class TemporalSnapshotPolicy:
     maximum_age_seconds: float
