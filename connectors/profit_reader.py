@@ -31,10 +31,7 @@ class ProfitReader:
         "media", "volume", "vencimento", "adx", "macd", "media_movel",
         "agressao_compra", "agressao_venda",
     )
-    COHERENCE_FIELDS = (
-        "ativo", "data", "hora", "close", "volume", "vencimento",
-        "agressao_compra", "agressao_venda",
-    )
+    COHERENCE_FIELDS = DATA_FIELDS
 
     def __init__(self, excel, linha=2):
         if not callable(getattr(excel, "ler_celula", None)):

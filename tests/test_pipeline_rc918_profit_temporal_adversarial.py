@@ -342,7 +342,7 @@ def test_silence_has_no_transport_or_session_classification(
         assert collector.market.candle_count == 1
     elif scenario == "unavailable":
         assert collector.get_data() is None
-        assert capsys.readouterr().out == ""
+        assert capsys.readouterr().out == "[DATA REJECTED] PROFIT_QUOTE_UNAVAILABLE\n"
     else:
         assert_guard_rejection(collector, "TEMPORAL_STALE_TIMESTAMP", capsys)
         assert collector.market.candle_count == 0

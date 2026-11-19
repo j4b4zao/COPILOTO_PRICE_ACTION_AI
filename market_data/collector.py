@@ -1,7 +1,8 @@
 """Coleta Profit/Excel com integridade, diagnóstico, qualidade e recorder de Delta."""
 
 import math
-from datetime import timezone, tzinfo
+import sys
+from datetime import datetime, timezone, tzinfo
 
 from analysis.temporal_snapshot_policy import (
     TemporalSnapshotHistory,
@@ -44,6 +45,8 @@ class Collector:
         self._temporal_primary_history = TemporalSnapshotHistory()
         self._primary_contract = None
         self._last_primary_receipt = None
+        self._primary_gap_pending = False
+        self._primary_chart_volume = None
         if excel is None:
             from connectors.excel_connector import ExcelConnector
             excel = ExcelConnector()
@@ -122,15 +125,19 @@ class Collector:
     def get_data(self):
         policy = self.temporal_primary_policy
         read_coherent = getattr(self.reader, "obter_dados_coerentes", None)
-        if policy is not None and callable(read_coherent):
+        if policy is not None:
+            print("[DATA LOOP] PROFIT_LOOP_ACTIVE", file=sys.stderr)
             try:
-                dados = read_coherent()
+                dados = read_coherent() if callable(read_coherent) else self.reader.obter_dados()
             except Exception:
-                print("[DATA WARNING] PROFIT_QUOTE_READ_ERROR")
-                return None
+                return self._reject_primary("PROFIT_QUOTE_READ_ERROR", gap=True)
             if dados is None:
-                print("[DATA WARNING] PROFIT_QUOTE_INCONSISTENT_READ")
-                return None
+                reason = ("PROFIT_QUOTE_INCONSISTENT_READ" if callable(read_coherent)
+                          else "PROFIT_QUOTE_UNAVAILABLE")
+                return self._reject_primary(reason, gap=True)
+            if not dados:
+                return self._reject_primary("PROFIT_QUOTE_UNAVAILABLE", gap=True)
+            print("[DATA READ] PROFIT_QUOTE_READ_OK")
         else:
             dados = self.reader.obter_dados()
         if not dados:
@@ -138,11 +145,15 @@ class Collector:
 
         ativo = str(dados.get("ativo") or "").strip()
         if not ativo:
+            if policy is not None:
+                return self._reject_primary("PROFIT_QUOTE_INVALID_SYMBOL", gap=True)
             print("[DATA WARNING] Ativo inválido recebido. Leitura ignorada.")
             return None
 
         close = self.to_float(dados.get("close"))
         if not math.isfinite(close) or close <= 0:
+            if policy is not None:
+                return self._reject_primary("PROFIT_QUOTE_INVALID_PRICE", gap=True)
             print(f"[DATA WARNING] Preço inválido recebido: {close!r}. Leitura ignorada.")
             return None
 
@@ -150,28 +161,30 @@ class Collector:
             dados, source_timezone=self.source_timezone if policy is not None else None
         )
         received_timestamp = None
+        continuity_gap = False
         if policy is not None:
             try:
                 received_timestamp = self.clock.now()
+                if (not isinstance(received_timestamp, datetime)
+                        or received_timestamp.utcoffset() is None):
+                    return self._reject_primary("TEMPORAL_VALIDATION_ERROR")
             except Exception:
-                print("[DATA WARNING] TEMPORAL_VALIDATION_ERROR")
-                return None
+                return self._reject_primary("TEMPORAL_VALIDATION_ERROR")
             stream = ativo.upper()
+            previous_source = self._temporal_primary_history.previous(None, stream)
             temporal = validate_primary_quote_timestamp(
                 source_timestamp,
                 reference_timestamp=received_timestamp,
                 policy=policy,
-                previous_timestamp=self._temporal_primary_history.previous(None, stream),
+                previous_timestamp=previous_source,
             )
             if not temporal.accepted:
-                print(f"[DATA WARNING] {temporal.reason}")
                 if temporal.reason == "TEMPORAL_SOURCE_TIMEZONE_REQUIRED":
                     print("[DATA WARNING] TEMPORAL_INVALID_TIMESTAMP")
-                return None
+                return self._reject_primary(temporal.reason)
             contract = (stream, str(dados.get("vencimento") or "").strip())
             if self._primary_contract is not None and contract != self._primary_contract:
-                print("[DATA WARNING] TEMPORAL_CONTRACT_TRANSITION_BLOCKED")
-                return None
+                return self._reject_primary("TEMPORAL_CONTRACT_TRANSITION_BLOCKED")
             if (
                 self._last_primary_receipt is not None
                 and (
@@ -181,11 +194,28 @@ class Collector:
                     < self._last_primary_receipt.replace(tzinfo=None)
                 )
             ):
-                print("[DATA WARNING] TEMPORAL_REGRESSIVE_RECEIPT")
-                return None
+                return self._reject_primary("TEMPORAL_REGRESSIVE_RECEIPT")
+            if self._last_primary_receipt is not None:
+                receipt_interval = (
+                    received_timestamp.astimezone(timezone.utc)
+                    - self._last_primary_receipt.astimezone(timezone.utc)
+                ).total_seconds()
+                source_interval = (
+                    datetime.fromisoformat(source_timestamp).astimezone(timezone.utc)
+                    - datetime.fromisoformat(previous_source).astimezone(timezone.utc)
+                ).total_seconds()
+                continuity_gap = self._primary_gap_pending or (
+                    max(receipt_interval, source_interval) > policy.maximum_age_seconds
+                )
 
         raw_volume = dados.get("volume")
-        volume, volume_held = self._resolve_cumulative_volume(raw_volume)
+        if policy is None:
+            volume, volume_held = self._resolve_cumulative_volume(raw_volume)
+        else:
+            volume = self.to_optional_float(raw_volume)
+            volume_held = False
+            if volume is None:
+                return self._reject_primary("PROFIT_QUOTE_INVALID_VOLUME", gap=True)
         print(
             f"[VOLUME DEBUG] raw={raw_volume!r} converted={volume} "
             f"held_last_valid={volume_held}"
@@ -209,6 +239,24 @@ class Collector:
             dados, data=source_timestamp, hora=None
         )
         integrity = self.source_guard.inspect(integrity_data)
+
+        if policy is not None and integrity.duplicate:
+            return self._reject_primary("PROFIT_QUOTE_DUPLICATE: Snapshot do Profit sem mudança")
+
+        chart_volume = volume
+        if policy is not None and self._primary_chart_volume is not None:
+            # Preserve attributed volume and start measuring fresh deltas at
+            # the resumed sample. The raw counter can include the entire gap.
+            if continuity_gap:
+                chart_volume = self._primary_chart_volume
+                self.order_flow.clear()
+                if self.enable_profit_rtd_order_flow:
+                    self.profit_rtd_order_flow_pipeline.clear()
+                print("[DATA CONTINUITY] PROFIT_QUOTE_GAP_VOLUME_INDETERMINATE")
+            elif volume < self.last_valid_volume:
+                chart_volume = 0.0
+            else:
+                chart_volume = self._primary_chart_volume + (volume - self.last_valid_volume)
 
         if self.enable_profit_rtd_order_flow:
             self.last_profit_rtd_receipt = self.profit_rtd_order_flow_pipeline.process(
@@ -246,7 +294,7 @@ class Collector:
         self.last_new_candles = self.multi_timeframe.update_tick(
             symbol=ativo,
             price=close,
-            cumulative_volume=volume,
+            cumulative_volume=chart_volume,
             timestamp=timestamp,
         )
 
@@ -254,7 +302,7 @@ class Collector:
             self.last_closed_renko_bricks = self.renko.update_tick(
                 symbol=ativo,
                 price=close,
-                cumulative_volume=volume,
+                cumulative_volume=chart_volume,
                 timestamp=timestamp,
             )
 
@@ -292,7 +340,17 @@ class Collector:
             self._temporal_primary_history.record(None, stream, source_timestamp)
             self._primary_contract = contract
             self._last_primary_receipt = received_timestamp
+            self._primary_gap_pending = False
+            self._primary_chart_volume = chart_volume
+            self.last_valid_volume = volume
+            print("[DATA ACCEPTED] PROFIT_QUOTE_ACCEPTED")
         return context
+
+    def _reject_primary(self, reason, *, gap=False):
+        if gap:
+            self._primary_gap_pending = True
+        print(f"[DATA REJECTED] {reason}")
+        return None
 
     def _build_profit_rtd_order_flow_pipeline(self):
         from market_data.excel_range_gateway import ExcelRangeGateway

@@ -217,9 +217,9 @@ def test_m1_m5_m15_and_renko_form_from_same_ticks(monkeypatch, protected_chain, 
         assert_buy_and_alert(pipeline, context, clock, capsys)
 
     for tf, minutes, closes, volumes in (
-        ("M1", (0, 1, 5, 15), (180_000, 180_040, 180_060, 180_080), (0, 10, 20, 30)),
-        ("M5", (0, 5, 15), (180_040, 180_060, 180_080), (10, 20, 30)),
-        ("M15", (0, 15), (180_060, 180_080), (30, 30)),
+        ("M1", (0, 1, 5, 15), (180_000, 180_040, 180_060, 180_080), (0, 0, 0, 0)),
+        ("M5", (0, 5, 15), (180_040, 180_060, 180_080), (0, 0, 0)),
+        ("M15", (0, 15), (180_060, 180_080), (0, 0)),
     ):
         candles = collector.multi_timeframe.get(tf).candles
         assert tuple(c.timestamp for c in candles) == tuple(
@@ -232,7 +232,7 @@ def test_m1_m5_m15_and_renko_form_from_same_ticks(monkeypatch, protected_chain, 
         (180_000, 180_020), (180_020, 180_040), (180_040, 180_060),
         (180_060, 180_080), (180_080, 180_080),
     ]
-    assert sum(c.volume for c in bricks) == 60
+    assert sum(c.volume for c in bricks) == 0
 
 
 def test_legacy_defaults_and_pipeline_without_init(monkeypatch, offline_chain, capsys):
