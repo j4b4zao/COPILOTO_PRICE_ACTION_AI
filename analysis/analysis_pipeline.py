@@ -7,6 +7,7 @@ RC15.5 + TRADER PSYCHOLOGY RC7 - PIPELINE OBSERVATIONAL
 """
 
 from copy import deepcopy
+from weakref import WeakValueDictionary
 from analysis.temporal_snapshot_policy import (
     TemporalSnapshotHistory,
     TemporalSnapshotPolicy,
@@ -186,6 +187,7 @@ class AnalysisPipeline:
         self._temporal_external_history = TemporalSnapshotHistory()
         self._temporal_book_history = TemporalSnapshotHistory()
         self._temporal_primary_history = TemporalSnapshotHistory()
+        self._temporal_processed_contexts = WeakValueDictionary()
         self._temporal_cycle_reference = _NO_CYCLE_REFERENCE
 
         self.event_bus = event_bus
@@ -262,7 +264,14 @@ class AnalysisPipeline:
                 )
                 if not temporal.accepted:
                     context.decision.add_reason(temporal.reason)
+                    if temporal.reason == "TEMPORAL_SOURCE_TIMEZONE_REQUIRED":
+                        context.decision.add_reason("TEMPORAL_INVALID_TIMESTAMP")
                     return context
+                context_id = id(context)
+                if self._temporal_processed_contexts.get(context_id) is context:
+                    context.decision.add_reason("TEMPORAL_CONTEXT_ALREADY_PROCESSED")
+                    return context
+                self._temporal_processed_contexts[context_id] = context
                 history.record(None, stream, timestamp)
             self._refresh_external_context()
             self._refresh_book_depth()

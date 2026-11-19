@@ -43,7 +43,7 @@ from models.trade_checklist import TradeChecklist
 from models.market_narrative import MarketNarrative
 
 
-@dataclass(slots=True)
+@dataclass(slots=True, weakref_slot=True)
 class AnalysisContext:
     """Contexto compartilhado por todas as engines."""
 

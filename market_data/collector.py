@@ -1,6 +1,7 @@
 """Coleta Profit/Excel com integridade, diagnóstico, qualidade e recorder de Delta."""
 
 import math
+from datetime import timezone, tzinfo
 
 from analysis.temporal_snapshot_policy import (
     TemporalSnapshotHistory,
@@ -31,13 +32,18 @@ class Collector:
                  source_guard=None, source_diagnostics=None, delta_quality_validator=None,
                  delta_session_recorder=None, enable_profit_rtd_order_flow=None,
                  profit_rtd_order_flow_pipeline=None, profit_rtd_validation_recorder=None,
-                 *, temporal_primary_policy=None):
+                 *, temporal_primary_policy=None, source_timezone=None):
         if temporal_primary_policy is not None and not isinstance(
             temporal_primary_policy, TemporalSnapshotPolicy
         ):
             raise TypeError("INVALID_PRIMARY_TEMPORAL_POLICY")
+        if source_timezone is not None and not isinstance(source_timezone, tzinfo):
+            raise TypeError("INVALID_PRIMARY_SOURCE_TIMEZONE")
         self.temporal_primary_policy = temporal_primary_policy
+        self.source_timezone = source_timezone
         self._temporal_primary_history = TemporalSnapshotHistory()
+        self._primary_contract = None
+        self._last_primary_receipt = None
         if excel is None:
             from connectors.excel_connector import ExcelConnector
             excel = ExcelConnector()
@@ -114,7 +120,19 @@ class Collector:
             self.profit_rtd_order_flow_pipeline = self._build_profit_rtd_order_flow_pipeline()
 
     def get_data(self):
-        dados = self.reader.obter_dados()
+        policy = self.temporal_primary_policy
+        read_coherent = getattr(self.reader, "obter_dados_coerentes", None)
+        if policy is not None and callable(read_coherent):
+            try:
+                dados = read_coherent()
+            except Exception:
+                print("[DATA WARNING] PROFIT_QUOTE_READ_ERROR")
+                return None
+            if dados is None:
+                print("[DATA WARNING] PROFIT_QUOTE_INCONSISTENT_READ")
+                return None
+        else:
+            dados = self.reader.obter_dados()
         if not dados:
             return None
 
@@ -128,8 +146,9 @@ class Collector:
             print(f"[DATA WARNING] Preço inválido recebido: {close!r}. Leitura ignorada.")
             return None
 
-        source_timestamp = primary_quote_source_timestamp(dados)
-        policy = self.temporal_primary_policy
+        source_timestamp = primary_quote_source_timestamp(
+            dados, source_timezone=self.source_timezone if policy is not None else None
+        )
         received_timestamp = None
         if policy is not None:
             try:
@@ -146,6 +165,23 @@ class Collector:
             )
             if not temporal.accepted:
                 print(f"[DATA WARNING] {temporal.reason}")
+                if temporal.reason == "TEMPORAL_SOURCE_TIMEZONE_REQUIRED":
+                    print("[DATA WARNING] TEMPORAL_INVALID_TIMESTAMP")
+                return None
+            contract = (stream, str(dados.get("vencimento") or "").strip())
+            if self._primary_contract is not None and contract != self._primary_contract:
+                print("[DATA WARNING] TEMPORAL_CONTRACT_TRANSITION_BLOCKED")
+                return None
+            if (
+                self._last_primary_receipt is not None
+                and (
+                    received_timestamp.astimezone(timezone.utc)
+                    < self._last_primary_receipt.astimezone(timezone.utc)
+                    or received_timestamp.replace(tzinfo=None)
+                    < self._last_primary_receipt.replace(tzinfo=None)
+                )
+            ):
+                print("[DATA WARNING] TEMPORAL_REGRESSIVE_RECEIPT")
                 return None
 
         raw_volume = dados.get("volume")
@@ -254,6 +290,8 @@ class Collector:
         )
         if policy is not None:
             self._temporal_primary_history.record(None, stream, source_timestamp)
+            self._primary_contract = contract
+            self._last_primary_receipt = received_timestamp
         return context
 
     def _build_profit_rtd_order_flow_pipeline(self):

@@ -52,3 +52,6 @@ class ExcelConnector:
             return self.book.sheets[aba].range(celula).value
         except Exception:
             return None
+
+    def ler_intervalo(self, aba, intervalo):
+        return self.book.sheets[aba].range(intervalo).options(ndim=1).value

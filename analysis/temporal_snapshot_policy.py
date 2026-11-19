@@ -101,27 +101,48 @@ def _parse_timestamp(value):
     return parsed.astimezone(timezone.utc)
 
 
-def primary_quote_source_timestamp(data):
-    """Extrai ISO com offset; data/hora locais sem offset ficam inválidas."""
+def primary_quote_source_timestamp(data, *, source_timezone=None):
+    """Normaliza a origem sem inferir fuso a partir do ambiente."""
     if "source_timestamp" in data:
         value = data["source_timestamp"]
         if value is None or value == "":
             return None
-        if isinstance(value, datetime):
-            return value.isoformat()
-        return value if isinstance(value, str) else ""
-
-    day, clock = data.get("data"), data.get("hora")
-    if day is None or day == "" or clock is None or clock == "":
-        return None
+        if not isinstance(value, (str, datetime)):
+            return ""
+    else:
+        day, clock = data.get("data"), data.get("hora")
+        if day is None or day == "" or clock is None or clock == "":
+            return None
+        try:
+            if isinstance(day, datetime):
+                day = day.date()
+            if isinstance(day, str):
+                day = (
+                    datetime.strptime(day, "%d/%m/%Y").date()
+                    if "/" in day else date.fromisoformat(day)
+                )
+            if not isinstance(clock, time):
+                clock = time.fromisoformat(clock)
+            value = datetime.combine(day, clock)
+        except (TypeError, ValueError, OverflowError):
+            return ""
     try:
-        if isinstance(day, datetime):
-            day = day.date()
-        if not isinstance(day, date):
-            day = date.fromisoformat(day)
-        if not isinstance(clock, time):
-            clock = time.fromisoformat(clock)
-        return datetime.combine(day, clock).isoformat()
+        # Para timestamp explícito, não transformar uma data ISO isolada
+        # em horário de evento à meia-noite.
+        if isinstance(value, str):
+            if len(value.strip()) <= 10:
+                return ""
+            value = datetime.fromisoformat(value.strip())
+        if value.utcoffset() is None and source_timezone is not None:
+            wall = value.replace(tzinfo=None)
+            first = wall.replace(tzinfo=source_timezone, fold=0)
+            second = wall.replace(tzinfo=source_timezone, fold=1)
+            if (first.utcoffset() is None or first.utcoffset() != second.utcoffset()
+                    or first.astimezone(timezone.utc).astimezone(source_timezone)
+                    .replace(tzinfo=None) != wall):
+                return ""
+            value = first
+        return value.isoformat()
     except (TypeError, ValueError, OverflowError):
         return ""
 
@@ -130,6 +151,14 @@ def validate_primary_quote_timestamp(timestamp, **validation_args):
     if timestamp is None:
         return TemporalValidationResult(False, "TEMPORAL_MISSING_TIMESTAMP")
     try:
+        if isinstance(timestamp, str) and timestamp.strip():
+            try:
+                source = datetime.fromisoformat(timestamp.strip())
+            except ValueError:
+                pass
+            else:
+                if source.utcoffset() is None:
+                    return TemporalValidationResult(False, "TEMPORAL_SOURCE_TIMEZONE_REQUIRED")
         return validate_snapshot_timestamp(timestamp, **validation_args)
     except (TypeError, ValueError, OverflowError):
         return TemporalValidationResult(False, "TEMPORAL_VALIDATION_ERROR")
