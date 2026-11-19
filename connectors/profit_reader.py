@@ -3,6 +3,10 @@
 from __future__ import annotations
 
 
+class ProfitQuoteIncompleteRange(ValueError):
+    """A leitura em bloco não retornou todas as colunas esperadas."""
+
+
 class ProfitReader:
     """Lê o layout A1:N2 verificado no Profit.xlsx RTD."""
 
@@ -80,7 +84,7 @@ class ProfitReader:
             def read():
                 row = read_range(self.SHEET, f"A{self.linha}:P{self.linha}")
                 if not isinstance(row, (list, tuple)) or len(row) != len(self.DATA_FIELDS):
-                    raise ValueError("PROFIT_QUOTE_INCOMPLETE_RANGE")
+                    raise ProfitQuoteIncompleteRange("PROFIT_QUOTE_INCOMPLETE_RANGE")
                 return dict(zip(self.DATA_FIELDS, row), negocios=None)
         else:
             read = self.obter_dados

@@ -1,7 +1,9 @@
 """Coleta Profit/Excel com integridade, diagnóstico, qualidade e recorder de Delta."""
 
+import logging
 import math
 import sys
+from copy import deepcopy
 from datetime import datetime, timezone, tzinfo
 
 from analysis.temporal_snapshot_policy import (
@@ -10,7 +12,7 @@ from analysis.temporal_snapshot_policy import (
     primary_quote_source_timestamp,
     validate_primary_quote_timestamp,
 )
-from connectors.profit_reader import ProfitReader
+from connectors.profit_reader import ProfitQuoteIncompleteRange, ProfitReader
 from core.analysis_context import AnalysisContext
 from core.market_clock import MarketClock
 from core.multi_timeframe_state import MultiTimeframeState
@@ -22,6 +24,9 @@ from market_data.profit_delta_session_recorder import ProfitDeltaSessionRecorder
 from market_data.profit_delta_source_diagnostics import ProfitDeltaSourceDiagnostics
 from market_data.profit_source_integrity import ProfitSourceIntegrityGuard
 from market_data.profit_rtd_validation_recorder import ProfitRTDValidationRecorder
+
+
+logger = logging.getLogger(__name__)
 
 
 class Collector:
@@ -46,6 +51,8 @@ class Collector:
         self._primary_contract = None
         self._last_primary_receipt = None
         self._primary_gap_pending = False
+        self._primary_gap_reason = None
+        self._primary_publication_blocked = False
         self._primary_chart_volume = None
         if excel is None:
             from connectors.excel_connector import ExcelConnector
@@ -127,8 +134,13 @@ class Collector:
         read_coherent = getattr(self.reader, "obter_dados_coerentes", None)
         if policy is not None:
             print("[DATA LOOP] PROFIT_LOOP_ACTIVE", file=sys.stderr)
+            if self._primary_publication_blocked:
+                return self._reject_primary("PROFIT_QUOTE_REINITIALIZATION_REQUIRED")
+            logger.info("PROFIT_QUOTE_READ_ATTEMPT")
             try:
                 dados = read_coherent() if callable(read_coherent) else self.reader.obter_dados()
+            except ProfitQuoteIncompleteRange:
+                return self._reject_primary("PROFIT_QUOTE_INCOMPLETE_RANGE", gap=True)
             except Exception:
                 return self._reject_primary("PROFIT_QUOTE_READ_ERROR", gap=True)
             if dados is None:
@@ -161,7 +173,7 @@ class Collector:
             dados, source_timezone=self.source_timezone if policy is not None else None
         )
         received_timestamp = None
-        continuity_gap = False
+        gap_reason = None
         if policy is not None:
             try:
                 received_timestamp = self.clock.now()
@@ -204,9 +216,10 @@ class Collector:
                     datetime.fromisoformat(source_timestamp).astimezone(timezone.utc)
                     - datetime.fromisoformat(previous_source).astimezone(timezone.utc)
                 ).total_seconds()
-                continuity_gap = self._primary_gap_pending or (
-                    max(receipt_interval, source_interval) > policy.maximum_age_seconds
-                )
+                if self._primary_gap_pending:
+                    gap_reason = self._primary_gap_reason
+                elif max(receipt_interval, source_interval) > policy.maximum_age_seconds:
+                    gap_reason = "PROFIT_QUOTE_INTERVAL_EXCEEDED"
 
         raw_volume = dados.get("volume")
         if policy is None:
@@ -238,27 +251,42 @@ class Collector:
         integrity_data = dados if policy is None else dict(
             dados, data=source_timestamp, hora=None
         )
-        integrity = self.source_guard.inspect(integrity_data)
+        integrity = (self.source_guard.inspect(integrity_data) if policy is None
+                     else self.source_guard.evaluate(integrity_data))
 
         if policy is not None and integrity.duplicate:
             return self._reject_primary("PROFIT_QUOTE_DUPLICATE: Snapshot do Profit sem mudança")
+
+        if policy is not None:
+            print("[DATA VALIDATED] PROFIT_QUOTE_ELIGIBLE")
+        staged_rtd = None
+        if policy is not None and self.enable_profit_rtd_order_flow:
+            try:
+                staged_rtd, receipt = self.profit_rtd_order_flow_pipeline.prepare(
+                    ativo, price=close, rebase=gap_reason is not None,
+                )
+                recorder = deepcopy(self.profit_rtd_validation_recorder)
+                recorder.record(receipt)
+            except Exception:
+                return self._reject_primary("PROFIT_QUOTE_AUXILIARY_FAILED", gap=True)
 
         chart_volume = volume
         if policy is not None and self._primary_chart_volume is not None:
             # Preserve attributed volume and start measuring fresh deltas at
             # the resumed sample. The raw counter can include the entire gap.
-            if continuity_gap:
+            if gap_reason is not None:
                 chart_volume = self._primary_chart_volume
-                self.order_flow.clear()
-                if self.enable_profit_rtd_order_flow:
-                    self.profit_rtd_order_flow_pipeline.clear()
                 print("[DATA CONTINUITY] PROFIT_QUOTE_GAP_VOLUME_INDETERMINATE")
             elif volume < self.last_valid_volume:
                 chart_volume = 0.0
             else:
                 chart_volume = self._primary_chart_volume + (volume - self.last_valid_volume)
 
-        if self.enable_profit_rtd_order_flow:
+        if staged_rtd is not None:
+            auxiliary_flow = staged_rtd.state_adapter.state
+            diagnostic_buy = auxiliary_flow.cumulative_buy
+            diagnostic_sell = auxiliary_flow.cumulative_sell
+        elif self.enable_profit_rtd_order_flow:
             self.last_profit_rtd_receipt = self.profit_rtd_order_flow_pipeline.process(
                 ativo,
                 price=close,
@@ -277,7 +305,7 @@ class Collector:
         else:
             diagnostic_buy = aggression_buy
             diagnostic_sell = aggression_sell
-            if integrity.symbol_changed:
+            if policy is None and integrity.symbol_changed:
                 self.order_flow.clear()
 
         if integrity.duplicate:
@@ -291,6 +319,10 @@ class Collector:
             return None
 
         timestamp = self.clock.now() if policy is None else received_timestamp
+        if policy is not None:
+            # Builders share live history with published contexts. If a
+            # mutation raises, require a fresh collector rather than retry it.
+            self._primary_publication_blocked = True
         self.last_new_candles = self.multi_timeframe.update_tick(
             symbol=ativo,
             price=close,
@@ -306,7 +338,13 @@ class Collector:
                 timestamp=timestamp,
             )
 
-        if not self.enable_profit_rtd_order_flow:
+        if staged_rtd is not None:
+            self.profit_rtd_order_flow_pipeline.publish(staged_rtd)
+            self.profit_rtd_validation_recorder = recorder
+            self.last_profit_rtd_receipt = receipt
+        elif not self.enable_profit_rtd_order_flow:
+            if gap_reason is not None:
+                self.order_flow.clear()
             self._update_order_flow(
                 aggression_buy=aggression_buy,
                 aggression_sell=aggression_sell,
@@ -337,18 +375,26 @@ class Collector:
             received_timestamp=timestamp,
         )
         if policy is not None:
+            self.source_guard.record(integrity)
             self._temporal_primary_history.record(None, stream, source_timestamp)
             self._primary_contract = contract
             self._last_primary_receipt = received_timestamp
             self._primary_gap_pending = False
+            recovery_reason = gap_reason or self._primary_gap_reason
+            self._primary_gap_reason = None
             self._primary_chart_volume = chart_volume
             self.last_valid_volume = volume
+            self._primary_publication_blocked = False
             print("[DATA ACCEPTED] PROFIT_QUOTE_ACCEPTED")
+            print("[DATA PUBLISHED] PROFIT_QUOTE_PUBLISHED")
+            if recovery_reason is not None:
+                print(f"[DATA RECOVERED] PROFIT_LOCAL_RECOVERY_COMPLETE reason={recovery_reason}")
         return context
 
     def _reject_primary(self, reason, *, gap=False):
         if gap:
             self._primary_gap_pending = True
+            self._primary_gap_reason = reason
         print(f"[DATA REJECTED] {reason}")
         return None
 

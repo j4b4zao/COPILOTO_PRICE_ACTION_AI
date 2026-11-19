@@ -32,6 +32,11 @@ class ProfitSourceIntegrityGuard:
         self._last_symbol: str = ""
 
     def inspect(self, data: dict) -> SourceIntegrityDecision:
+        decision = self.evaluate(data)
+        self.record(decision)
+        return decision
+
+    def evaluate(self, data: dict) -> SourceIntegrityDecision:
         if not isinstance(data, dict):
             raise TypeError("Snapshot do Profit deve ser um dict.")
 
@@ -40,17 +45,18 @@ class ProfitSourceIntegrityGuard:
         duplicate = fingerprint == self._last_fingerprint
         symbol_changed = bool(self._last_symbol and symbol and symbol != self._last_symbol)
 
-        if not duplicate:
-            self._last_fingerprint = fingerprint
-        if symbol:
-            self._last_symbol = symbol
-
         return SourceIntegrityDecision(
             symbol=symbol,
             duplicate=duplicate,
             symbol_changed=symbol_changed,
             fingerprint=fingerprint,
         )
+
+    def record(self, decision: SourceIntegrityDecision) -> None:
+        if not decision.duplicate:
+            self._last_fingerprint = decision.fingerprint
+        if decision.symbol:
+            self._last_symbol = decision.symbol
 
     def clear(self) -> None:
         self._last_fingerprint = None

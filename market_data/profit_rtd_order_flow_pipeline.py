@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from copy import copy, deepcopy
+from dataclasses import dataclass, fields
+
+from core.order_flow_state import OrderFlowState
 
 from market_data.profit_rtd_incremental_aggression import (
     ProfitRTDIncrementalAggressionBuilder,
@@ -69,3 +72,22 @@ class ProfitRTDOrderFlowPipeline:
         clear_adapter = getattr(self.state_adapter, "clear", None)
         if callable(clear_adapter):
             clear_adapter()
+
+    def prepare(self, symbol: str, *, price: float, rebase: bool):
+        """Calcula o ciclo sobre o estado auxiliar isolado, usando o leitor atual."""
+        staged = copy(self)
+        staged.deduplicator, staged.state_adapter = deepcopy(
+            (self.deduplicator, self.state_adapter)
+        )
+        if rebase:
+            staged.clear()
+        return staged, staged.process(symbol, price=price)
+
+    def publish(self, staged) -> None:
+        """Atualiza o estado compartilhado sem trocar sua identidade."""
+        state = self.state_adapter.state
+        for field in fields(OrderFlowState):
+            setattr(state, field.name, getattr(staged.state_adapter.state, field.name))
+        staged.state_adapter.state = state
+        self.state_adapter = staged.state_adapter
+        self.deduplicator = staged.deduplicator
