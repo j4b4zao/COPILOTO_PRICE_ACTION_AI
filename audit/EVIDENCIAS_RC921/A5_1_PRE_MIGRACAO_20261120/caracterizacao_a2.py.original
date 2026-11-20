@@ -1,0 +1,498 @@
+"""Caracteriza as fronteiras de falha da RC9.20 com Excel e negócios sintéticos."""
+
+from builtins import print as console_print
+from copy import deepcopy
+from datetime import timedelta
+from types import SimpleNamespace
+from unittest.mock import DEFAULT, Mock
+
+import pytest
+
+from app import bot as bot_module
+from core.connection_manager import ConnectionManager
+from market_data import collector as collector_module
+from tests.test_pipeline_rc917_freshness_adversarial import offline_chain, protected_chain
+from tests.test_pipeline_rc918_integrated_offline import make_collector
+from tests.test_pipeline_rc920_integrated_offline import assert_publication, install_rtd
+from tests.test_pipeline_rc920_source_recovery_adversarial import quote
+
+
+TIMEFRAMES = ("M1", "M5", "M15")
+CHARTS = {"builder:M1", "builder:M5", "builder:M15", *TIMEFRAMES, "Renko"}
+MULTI_TIMEFRAME_DONE = {"new_candles"}
+RENKO_DONE = {"renko_count"}
+ACCEPTANCE = {"primary_signature", "temporal_history", "receipt_time", "volume"}
+DERIVED = {"flow", "rtd", "diagnostics", "quality", "session"}
+COMPLETE = CHARTS | MULTI_TIMEFRAME_DONE | RENKO_DONE | ACCEPTANCE | DERIVED
+
+
+class InjectedFailure(RuntimeError):
+    pass
+
+
+def market_image(market):
+    return (
+        market.symbol, market.timeframe, market.timestamp, market.last_price,
+        market.volume, market.candles.all(),
+    )
+
+
+def context_image(context):
+    return deepcopy((
+        market_image(context.market),
+        {tf: market_image(context.multi_timeframe.get(tf)) for tf in TIMEFRAMES},
+        context.order_flow_state, context.source_timestamp, context.received_timestamp,
+        context.decision, context.alert,
+    ))
+
+
+def state_image(collector, rtd):
+    image = {
+        tf: market_image(collector.multi_timeframe.get(tf)) for tf in TIMEFRAMES
+    }
+    image.update({
+        f"builder:{tf}": vars(builder)
+        for tf, builder in collector.multi_timeframe._builders.items()
+    })
+    renko = collector.renko
+    image.update(
+        Renko=(market_image(renko.market), renko._current_open,
+               renko._last_cumulative_volume, renko._brick_start_volume),
+        new_candles=collector.last_new_candles,
+        renko_count=collector.last_closed_renko_bricks,
+        flow=collector.order_flow,
+        rtd=(vars(rtd.deduplicator),
+             (rtd.state_adapter._symbol, rtd.state_adapter._cumulative_buy,
+              rtd.state_adapter._cumulative_sell),
+             collector.last_profit_rtd_receipt, collector.profit_rtd_validation_summary()),
+        diagnostics=vars(collector.source_diagnostics),
+        quality=collector.last_delta_quality,
+        session=collector.delta_session_recorder.samples,
+        primary_signature=vars(collector.source_guard),
+        temporal_history=collector._temporal_primary_history._entries,
+        contract=collector._primary_contract,
+        receipt_time=collector._last_primary_receipt,
+        volume=(collector.last_valid_volume, collector._primary_chart_volume),
+        recovery=(collector._primary_gap_pending, collector._primary_gap_reason),
+        blocked=collector._primary_publication_blocked,
+    )
+    return deepcopy(image)
+
+
+def assert_shared(previous, collector):
+    assert previous.market is collector.market is collector.renko.market
+    assert previous.multi_timeframe is collector.multi_timeframe
+    assert previous.order_flow_state is collector.order_flow
+    for tf in TIMEFRAMES:
+        builder = collector.multi_timeframe._builders[tf]
+        assert builder.current is previous.multi_timeframe.get(tf).last_candle
+
+
+@pytest.fixture
+def transaction(monkeypatch, protected_chain, capsys):
+    clock, pipeline = protected_chain
+    workbook, collector = make_collector(monkeypatch, clock)
+    rtd = install_rtd(collector, clock)
+    read = rtd.reader.read_times_trades.side_effect
+    baseline = read("WINZ26")["trades"][0]
+
+    def overlapping_window(symbol):
+        payload = read(symbol)
+        if payload["trades"][0] != baseline:
+            payload["trades"].append(baseline)
+        return payload
+
+    rtd.reader.read_times_trades.side_effect = overlapping_window
+    workbook.publish(quote(clock))
+    previous = collector.get_data()
+    assert_publication(pipeline, previous, clock, capsys)
+    return clock, pipeline, workbook, collector, rtd, previous
+
+
+def fail_at(patch, target, name, error, *, after=False):
+    original = getattr(target, name)
+
+    def injected(*args, **kwargs):
+        if after:
+            original(*args, **kwargs)
+        raise error
+
+    patch.setattr(target, name, injected)
+
+
+def inject_collector_fault(patch, collector, point, error):
+    builders = collector.multi_timeframe._builders
+    if point == "A-antes-M1":
+        fail_at(patch, builders["M1"], "update", error)
+    elif point == "B-dentro-M1":
+        fail_at(patch, builders["M1"], "_calculate_period_volume", error, after=True)
+    elif point == "C-entre-M1-M5":
+        fail_at(patch, builders["M5"], "update", error)
+    elif point == "D-entre-M5-M15":
+        fail_at(patch, builders["M15"], "update", error)
+    elif point == "E-antes-Renko":
+        fail_at(patch, collector.renko, "update_tick", error)
+    elif point == "F-dentro-Renko":
+        fail_at(patch, collector.renko, "_add_current", error, after=True)
+    elif point == "G-publicacao-RTD":
+        live = collector.order_flow
+        setattr_original = type(live).__setattr__
+
+        def fail_on_live_sell(state, name, value):
+            if state is live and name == "cumulative_sell":
+                raise error
+            setattr_original(state, name, value)
+
+        patch.setattr(type(live), "__setattr__", fail_on_live_sell)
+    elif point == "H-diagnosticos":
+        fail_at(patch, collector.delta_quality_validator, "evaluate", error)
+    elif point == "I-marcadores":
+        fail_at(patch, collector._temporal_primary_history, "record", error)
+    elif point == "J-aceite-sem-retorno":
+        def fail_after_acceptance(*args, **kwargs):
+            console_print(*args, **kwargs)
+            if args == ("[DATA ACCEPTED] PROFIT_QUOTE_ACCEPTED",):
+                raise error
+
+        patch.setattr(collector_module, "print", fail_after_acceptance, raising=False)
+    else:
+        raise AssertionError(f"Ponto de injeção desconhecido: {point}")
+
+
+def record_transition(record_property, point, error, before, after, context_before,
+                      context_after, *, partial, retry, severity, duplication, loss,
+                      publication):
+    evidence = {
+        "classificacao": "REPRODUZIDO",
+        "injecao": point,
+        "excecao": repr(error) if error is not None else "nenhuma",
+        "estado_anterior": repr(before),
+        "estado_posterior": repr(after),
+        "estados_alterados": sorted(key for key in before if before[key] != after[key]),
+        "contexto_anterior": repr(context_before),
+        "contexto_posterior": repr(context_after),
+        "contexto_alterado": context_before != context_after,
+        "mutacao_parcial": partial,
+        "bloqueado": after["blocked"],
+        "publicacao": publication,
+        "retry": retry,
+        "risco_duplicacao_inferido": duplication,
+        "risco_perda_inferido": loss,
+        "severidade": severity,
+    }
+    for name, value in evidence.items():
+        record_property(name, value)
+
+
+@pytest.mark.parametrize(
+    "point,changed,visible",
+    [
+        pytest.param("A-antes-M1", set(), False, id="A-antes-M1"),
+        pytest.param("B-dentro-M1", {"builder:M1"}, False, id="B-dentro-M1"),
+        pytest.param("C-entre-M1-M5", {"builder:M1", "M1"}, True, id="C-entre-M1-M5"),
+        pytest.param("D-entre-M5-M15", {"builder:M1", "M1", "builder:M5", "M5"}, True,
+                     id="D-entre-M5-M15"),
+        pytest.param("E-antes-Renko", (CHARTS - {"Renko"}) | MULTI_TIMEFRAME_DONE, True,
+                     id="E-antes-Renko"),
+        pytest.param("F-dentro-Renko", CHARTS | MULTI_TIMEFRAME_DONE, True, id="F-dentro-Renko"),
+        pytest.param("G-publicacao-RTD", CHARTS | MULTI_TIMEFRAME_DONE | RENKO_DONE | {"flow"}, True,
+                     id="G-publicacao-RTD"),
+        pytest.param("H-diagnosticos", COMPLETE - ACCEPTANCE - {"quality", "session"},
+                     True, id="H-diagnosticos"),
+        pytest.param("I-marcadores", COMPLETE - {"temporal_history", "receipt_time", "volume"},
+                     True, id="I-marcadores"),
+        pytest.param("J-aceite-sem-retorno", COMPLETE, True, id="J-aceite-sem-retorno"),
+    ],
+)
+def test_collector_failure_boundaries(
+    transaction, monkeypatch, capsys, record_property, point, changed, visible,
+):
+    clock, pipeline, workbook, collector, rtd, previous = transaction
+    before = state_image(collector, rtd)
+    old_context = context_image(previous)
+    assert_shared(previous, collector)
+    clock.current += timedelta(seconds=1)
+    pending = quote(clock, price=180_060, volume=1100)
+    workbook.publish(pending)
+    injected = InjectedFailure(point)
+    with monkeypatch.context() as fault:
+        inject_collector_fault(fault, collector, point, injected)
+        with pytest.raises(InjectedFailure) as raised:
+            collector.get_data()
+        assert raised.value is injected
+
+    output = capsys.readouterr().out
+    accepted = point == "J-aceite-sem-retorno"
+    assert "PROFIT_QUOTE_ELIGIBLE" in output
+    assert ("PROFIT_QUOTE_ACCEPTED" in output) is accepted
+    assert "PROFIT_QUOTE_PUBLISHED" not in output
+    after = state_image(collector, rtd)
+    assert after["blocked"] is not accepted
+    expected = changed if accepted else changed | {"blocked"}
+    assert {key for key in before if before[key] != after[key]} == expected
+    if "new_candles" in changed:
+        assert before["new_candles"] == dict.fromkeys(TIMEFRAMES, True)
+        assert after["new_candles"] == dict.fromkeys(TIMEFRAMES, False)
+    assert pipeline.context is previous
+    assert_shared(previous, collector)
+    observed_context = context_image(previous)
+    assert (observed_context != old_context) is visible
+    assert (previous.decision, previous.alert) == old_context[-2:]
+    if point == "G-publicacao-RTD":
+        expected_flow = deepcopy(before["flow"])
+        expected_flow.cumulative_buy = 1
+        assert after["flow"] == expected_flow
+    if point == "F-dentro-Renko":
+        assert collector.renko.market.candle_count == 2
+        assert collector.last_closed_renko_bricks == 0
+
+    reads = workbook.block_reads
+    rtd_reads = rtd.reader.read_times_trades.call_count
+    workbook.publish(pending)
+    assert collector.get_data() is None
+    reason = "PROFIT_QUOTE_DUPLICATE" if accepted else "PROFIT_QUOTE_REINITIALIZATION_REQUIRED"
+    assert reason in capsys.readouterr().out
+    assert state_image(collector, rtd) == after
+    assert rtd.reader.read_times_trades.call_count == rtd_reads
+    assert workbook.block_reads == reads + (2 if accepted else 0)
+
+    clock.current += timedelta(seconds=1)
+    newer = quote(clock, price=180_080, volume=1200)
+    workbook.publish(newer)
+    result = collector.get_data()
+    if accepted:
+        assert_publication(pipeline, result, clock, capsys)
+    else:
+        assert result is None
+        assert "PROFIT_QUOTE_REINITIALIZATION_REQUIRED" in capsys.readouterr().out
+        assert state_image(collector, rtd) == after
+        assert workbook.block_reads == reads
+        assert rtd.reader.read_times_trades.call_count == rtd_reads
+
+    record_transition(
+        record_property, point, raised.value, before, after, old_context, observed_context,
+        partial=bool(changed) and not accepted,
+        retry="mesma deduplicada; nova aceita" if accepted else "mesma e nova bloqueadas",
+        severity="alta" if changed else "média",
+        duplication="mesma cotação não republicada no replay exercitado",
+        loss="entrega aceita perdida" if accepted else "ciclo omitido até reinicialização",
+        publication="aceite sem retorno" if accepted else "sem aceite ou publicação",
+    )
+
+
+@pytest.mark.parametrize("point", ["K-analise", "L-apresentacao"])
+def test_failure_after_collector_delivery(transaction, monkeypatch, capsys, record_property, point):
+    clock, pipeline, workbook, collector, rtd, previous = transaction
+    before = state_image(collector, rtd)
+    old_context = context_image(previous)
+    clock.current += timedelta(seconds=1)
+    pending = quote(clock, price=180_060, volume=1100)
+    workbook.publish(pending)
+    bot = object.__new__(bot_module.Bot)
+    bot.connection, bot.collector, bot.pipeline = ConnectionManager(), collector, pipeline
+    bot.logger = Mock()
+    injected = InjectedFailure(point)
+    presentation_reached = []
+
+    with monkeypatch.context() as fault:
+        if point == "K-analise":
+            score = next(engine for engine in pipeline.engines if type(engine).__name__ == "ScoreEngine")
+            fail_at(fault, score, "executar", injected, after=True)
+        else:
+            def fail_render(context):
+                presentation_reached.append(context)
+                raise injected
+
+            fault.setattr(bot_module.OrderFlowMonitor, "render", staticmethod(fail_render))
+        fault.setattr(bot_module, "time", SimpleNamespace(sleep=Mock()))
+        stop_on_second_cycle = Mock(
+            wraps=bot.connection.atualizar, side_effect=[DEFAULT, KeyboardInterrupt()],
+        )
+        fault.setattr(bot.connection, "atualizar", stop_on_second_cycle)
+        bot.executar()
+
+    bot.logger.erro.assert_called_once_with(point)
+    assert "PROFIT_QUOTE_PUBLISHED" in capsys.readouterr().out
+    delivered = pipeline.context
+    assert delivered is not previous
+    assert delivered.received_timestamp == clock.current
+    assert delivered.alert.valid is (point == "L-apresentacao")
+    assert delivered.decision.valid is (point == "L-apresentacao")
+    assert presentation_reached == ([delivered] if point == "L-apresentacao" else [])
+    after = state_image(collector, rtd)
+    assert {key for key in before if before[key] != after[key]} == COMPLETE
+    assert not after["blocked"]
+    assert_shared(previous, collector)
+    observed_context = context_image(previous)
+    assert observed_context != old_context
+    assert (previous.decision, previous.alert) == old_context[-2:]
+    workbook.publish(pending)
+    assert collector.get_data() is None
+    assert "PROFIT_QUOTE_DUPLICATE" in capsys.readouterr().out
+    assert state_image(collector, rtd) == after
+    clock.current += timedelta(seconds=1)
+    workbook.publish(quote(clock, price=180_080, volume=1200))
+    assert_publication(pipeline, collector.get_data(), clock, capsys)
+    record_transition(
+        record_property, point, injected, before, after, old_context, observed_context,
+        partial=True, retry="mesma deduplicada; nova aceita", severity="alta",
+        duplication="mesma cotação não voltou ao consumidor",
+        loss="análise ou apresentação interrompida para o ciclo já ingerido",
+        publication="contexto entregue; consumidor interrompido",
+    )
+
+
+def test_new_collector_restarts_after_partial_candle_update(
+    transaction, monkeypatch, capsys, record_property,
+):
+    clock, pipeline, workbook, collector, rtd, previous = transaction
+    before = state_image(collector, rtd)
+    old_context = context_image(previous)
+    clock.current += timedelta(seconds=1)
+    pending = quote(clock, price=180_060, volume=1100)
+    workbook.publish(pending)
+    with monkeypatch.context() as fault:
+        fail_at(fault, collector.multi_timeframe._builders["M5"], "update",
+                InjectedFailure("entre M1 e M5"))
+        with pytest.raises(InjectedFailure, match="entre M1 e M5") as raised:
+            collector.get_data()
+    partial = state_image(collector, rtd)
+    assert partial["blocked"]
+    assert collector.multi_timeframe.get("M1").last_candle.close == 180_060
+    assert collector.multi_timeframe.get("M5").last_candle.close == 180_000
+    retained = context_image(previous)
+    capsys.readouterr()
+    new_workbook, replacement = make_collector(monkeypatch, clock)
+    new_rtd = install_rtd(replacement, clock)
+    new_workbook.publish(pending)
+    recovered = replacement.get_data()
+    assert_publication(pipeline, recovered, clock, capsys)
+    assert recovered is not previous and recovered.market is not previous.market
+    assert recovered.order_flow_state is not previous.order_flow_state
+    assert recovered.multi_timeframe is not previous.multi_timeframe
+    assert replacement.last_profit_rtd_receipt.baseline_reset
+    for market in [recovered.market, *(recovered.multi_timeframe.get(tf) for tf in TIMEFRAMES)]:
+        assert market.candle_count == 1
+        assert (market.last_candle.open, market.last_candle.close, market.last_candle.volume) == (
+            180_060, 180_060, 0,
+        )
+    assert state_image(collector, rtd) == partial
+    assert context_image(previous) == retained
+    record_transition(
+        record_property, "M5 antes da atualização", raised.value, before, partial,
+        old_context, retained, partial=True, retry="mesma cotação aceita em coletor novo",
+        severity="alta", duplication="uma entrega após reinicialização",
+        loss="histórico anterior não incorporado ao coletor novo",
+        publication="sem entrega no coletor antigo; entregue no novo",
+    )
+    record_property("estado_coletor_novo", repr(state_image(replacement, new_rtd)))
+
+
+@pytest.mark.parametrize(
+    "original,changed,expiry",
+    [("WINZ26", "WDOZ26", "16/12/2026"), ("WDOZ26", "WINZ26", "16/12/2026"),
+     ("WINZ26", "WING27", "17/02/2027")],
+    ids=["WIN-WDO", "WDO-WIN", "rollover"],
+)
+def test_contract_transitions_leave_accepted_state_intact(
+    monkeypatch, protected_chain, capsys, record_property, original, changed, expiry,
+):
+    clock, pipeline = protected_chain
+    workbook, collector = make_collector(monkeypatch, clock)
+    rtd = install_rtd(collector, clock)
+    workbook.publish(quote(clock, symbol=original))
+    previous = collector.get_data()
+    assert_publication(pipeline, previous, clock, capsys)
+    before = state_image(collector, rtd)
+    old_context = context_image(previous)
+    clock.current += timedelta(seconds=1)
+    workbook.publish(quote(clock, symbol=changed, expiry=expiry, price=180_040))
+    assert collector.get_data() is None
+    output = capsys.readouterr().out
+    assert "TEMPORAL_CONTRACT_TRANSITION_BLOCKED" in output
+    assert "PROFIT_QUOTE_PUBLISHED" not in output
+    after = state_image(collector, rtd)
+    assert after == before
+    assert context_image(previous) == old_context
+    rtd.reader.read_times_trades.assert_called_once()
+    clock.current += timedelta(seconds=1)
+    workbook.publish(quote(clock, symbol=original, price=180_060, volume=1100))
+    assert_publication(pipeline, collector.get_data(), clock, capsys)
+    record_transition(
+        record_property, f"guarda de contrato {original} → {changed}", None, before, after,
+        old_context, old_context, partial=False, retry="contrato inicial volta a publicar",
+        severity="média", duplication="sem entrega da série rejeitada",
+        loss="cotação da outra série descartada por contrato",
+        publication="transição rejeitada; contrato inicial publicado após retorno",
+    )
+
+
+@pytest.mark.parametrize("seconds,attributed", [(29, 100), (30, 100), (31, 0)])
+def test_continuity_boundary_preserves_volume_contract(
+    transaction, capsys, record_property, seconds, attributed,
+):
+    clock, pipeline, workbook, collector, rtd, previous = transaction
+    before = state_image(collector, rtd)
+    old_context = context_image(previous)
+    clock.current += timedelta(seconds=seconds)
+    workbook.publish(quote(clock, price=180_060, volume=1100))
+    current = collector.get_data()
+    output = assert_publication(pipeline, current, clock, capsys)
+    assert ("PROFIT_QUOTE_GAP_VOLUME_INDETERMINATE" in output) is (seconds == 31)
+    assert ("reason=PROFIT_QUOTE_INTERVAL_EXCEEDED" in output) is (seconds == 31)
+    for tf in TIMEFRAMES:
+        assert current.multi_timeframe.get(tf).last_candle.volume == attributed
+        assert previous.multi_timeframe.get(tf).last_candle.volume == attributed
+    assert sum(c.volume for c in current.market.candles) == attributed
+    assert collector._primary_chart_volume == 1000 + attributed
+    assert collector.last_valid_volume == 1100
+    assert_shared(previous, collector)
+    record_transition(
+        record_property, f"intervalo de {seconds}s", None, before, state_image(collector, rtd),
+        old_context, context_image(previous), partial=False,
+        retry="não aplicável; ciclo entregue", severity="média",
+        duplication="replay não exercitado neste caso",
+        loss="volume indeterminado não atribuído" if seconds == 31 else "delta atribuído",
+        publication="contexto entregue",
+    )
+
+
+@pytest.mark.parametrize("use_new_snapshot", [False, True], ids=["mesma", "nova"])
+def test_auxiliary_failure_before_builders_allows_retry(
+    transaction, monkeypatch, capsys, record_property, use_new_snapshot,
+):
+    clock, pipeline, workbook, collector, rtd, previous = transaction
+    before = state_image(collector, rtd)
+    old_context = context_image(previous)
+    clock.current += timedelta(seconds=1)
+    pending = quote(clock, price=180_060, volume=1100)
+    workbook.publish(pending)
+    injected = InjectedFailure("gravacao no recorder auxiliar em preparacao")
+    observer = Mock(side_effect=injected)
+    recorder = collector.profit_rtd_validation_recorder
+    with monkeypatch.context() as fault:
+        fault.setattr(type(recorder), "record", observer)
+        assert collector.get_data() is None
+    observer.assert_called_once()
+    output = capsys.readouterr().out
+    assert "PROFIT_QUOTE_AUXILIARY_FAILED" in output
+    assert "PROFIT_QUOTE_PUBLISHED" not in output
+    after = state_image(collector, rtd)
+    assert {key for key in before if before[key] != after[key]} == {"recovery"}
+    assert after["recovery"] == (True, "PROFIT_QUOTE_AUXILIARY_FAILED")
+    assert context_image(previous) == old_context
+    if use_new_snapshot:
+        clock.current += timedelta(seconds=1)
+        pending = quote(clock, price=180_080, volume=1200)
+    workbook.publish(pending)
+    output = assert_publication(pipeline, collector.get_data(), clock, capsys)
+    assert "reason=PROFIT_QUOTE_AUXILIARY_FAILED" in output
+    assert collector._primary_chart_volume == 1000
+    assert not collector._primary_gap_pending
+    record_transition(
+        record_property, "recorder auxiliar preparado", injected, before, after,
+        old_context, old_context, partial=False, retry="recuperação publicada",
+        severity="média", duplication="nenhuma na tentativa exercitada",
+        loss="volume indeterminado da lacuna não atribuído",
+        publication="falha sem publicação; retry publicado",
+    )

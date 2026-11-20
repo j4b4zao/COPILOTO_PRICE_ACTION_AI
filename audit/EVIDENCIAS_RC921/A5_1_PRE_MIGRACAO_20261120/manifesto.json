@@ -1,0 +1,96 @@
+{
+  "data": "2026-11-20T11:21:11.160773-03:00",
+  "origem": "tests/test_pipeline_rc921_transactional_adversarial.py",
+  "copia": "caracterizacao_a2.py.original",
+  "sha256": "1449a5b2533e7521dd251d2c0f8a16c9495b856d198724ea07aa656e8b4edfbf",
+  "junit_a5": "C:\\Users\\jb\\AppData\\Local\\Temp\\rc921-a5-025acae9bd3d40a69058bfdd23f5ea0d\\results.xml",
+  "junit_sha256": "b731fb820aabcab1aae8c5d392ebe6045eb414da7f46968965a228b5cc651b11",
+  "aprovados_a5": 5,
+  "falhas_a5": 16,
+  "casos": [
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_collector_failure_boundaries[A-antes-M1]",
+      "resultado": "falha"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_collector_failure_boundaries[B-dentro-M1]",
+      "resultado": "falha"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_collector_failure_boundaries[C-entre-M1-M5]",
+      "resultado": "falha"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_collector_failure_boundaries[D-entre-M5-M15]",
+      "resultado": "falha"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_collector_failure_boundaries[E-antes-Renko]",
+      "resultado": "falha"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_collector_failure_boundaries[F-dentro-Renko]",
+      "resultado": "falha"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_collector_failure_boundaries[G-publicacao-RTD]",
+      "resultado": "falha"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_collector_failure_boundaries[H-diagnosticos]",
+      "resultado": "falha"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_collector_failure_boundaries[I-marcadores]",
+      "resultado": "falha"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_collector_failure_boundaries[J-aceite-sem-retorno]",
+      "resultado": "falha"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_failure_after_collector_delivery[K-analise]",
+      "resultado": "falha"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_failure_after_collector_delivery[L-apresentacao]",
+      "resultado": "falha"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_new_collector_restarts_after_partial_candle_update",
+      "resultado": "falha"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_contract_transitions_leave_accepted_state_intact[WIN-WDO]",
+      "resultado": "aprovado"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_contract_transitions_leave_accepted_state_intact[WDO-WIN]",
+      "resultado": "aprovado"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_contract_transitions_leave_accepted_state_intact[rollover]",
+      "resultado": "aprovado"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_continuity_boundary_preserves_volume_contract[29-100]",
+      "resultado": "falha"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_continuity_boundary_preserves_volume_contract[30-100]",
+      "resultado": "falha"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_continuity_boundary_preserves_volume_contract[31-0]",
+      "resultado": "falha"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_auxiliary_failure_before_builders_allows_retry[mesma]",
+      "resultado": "aprovado"
+    },
+    {
+      "caso": "tests/test_pipeline_rc921_transactional_adversarial.py::test_auxiliary_failure_before_builders_allows_retry[nova]",
+      "resultado": "aprovado"
+    }
+  ]
+}

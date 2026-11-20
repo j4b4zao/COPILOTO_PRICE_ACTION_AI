@@ -113,37 +113,71 @@ def test_r03_falha_auxiliar_preserva_estado_e_permite_repetir(
 
 
 def test_r03_falha_de_publicacao_exige_novo_coletor(monkeypatch, protected_chain, capsys):
+    from tests.test_pipeline_rc920_integrated_offline import (
+        assert_no_publication, assert_publication, install_rtd,
+    )
+    from tests.test_pipeline_rc921_transactional_adversarial import (
+        TIMEFRAMES, context_image, state_image,
+    )
+
     clock, pipeline = protected_chain
     workbook, collector = make_collector(monkeypatch, clock)
+    rtd = install_rtd(collector, clock)
     workbook.publish(quote(clock))
     original = collector.get_data()
-    assert_buy_and_alert(pipeline, original, clock, capsys)
-    signature = collector.source_guard._last_fingerprint
+    assert_publication(pipeline, original, clock, capsys)
+    before = state_image(collector, rtd)
+    retained = context_image(original)
     clock.current += timedelta(seconds=1)
     next_tick = quote(clock, price=180_040, volume=1100)
+    error = RuntimeError("Renko")
+    fault = Mock(side_effect=error)
+
+    def fail_renko(staged, **tick):
+        assert staged is not collector.renko
+        fault(**tick)
+
+    # Na RC9.21, a falha na preparacao permite retry no mesmo coletor.
+    with monkeypatch.context() as inject:
+        inject.setattr(type(collector.renko), "update_tick", fail_renko)
+        for attempt in (1, 2):
+            workbook.publish(next_tick)
+            with pytest.raises(RuntimeError, match="^Renko$") as raised:
+                collector.get_data()
+            assert raised.value is error
+            assert fault.call_count == attempt
+            output = assert_no_publication(capsys, "PROFIT_QUOTE_ELIGIBLE")
+            assert "PROFIT_QUOTE_ACCEPTED" not in output
+            assert "PROFIT_QUOTE_REINITIALIZATION_REQUIRED" not in output
+            assert state_image(collector, rtd) == before
+            assert pipeline.context is original
+            assert context_image(original) == retained
+
     workbook.publish(next_tick)
-    monkeypatch.setattr(collector.renko, "update_tick", Mock(side_effect=RuntimeError("Renko")))
-
-    with pytest.raises(RuntimeError, match="Renko"):
-        collector.get_data()
-    output = capsys.readouterr().out
-    assert "PROFIT_QUOTE_PUBLISHED" not in output
+    recovered = collector.get_data()
+    output = assert_publication(pipeline, recovered, clock, capsys)
+    assert output.count("PROFIT_QUOTE_PUBLISHED") == 1
     assert "PROFIT_LOCAL_RECOVERY_COMPLETE" not in output
-    assert collector.source_guard._last_fingerprint == signature
-    assert pipeline.context is original
+    assert recovered is not original and recovered.alert is not original.alert
+    assert context_image(original) == retained
+    assert collector.last_valid_volume == collector._primary_chart_volume == 1100
+    assert collector.last_closed_renko_bricks == 2
+    assert [c.volume for c in recovered.market.candles] == [100, 0, 0]
+    for tf in TIMEFRAMES:
+        market = recovered.multi_timeframe.get(tf)
+        assert market.candle_count == 1
+        assert (market.last_candle.close, market.last_candle.volume) == (180_040, 100)
 
-    partial = market_state(collector)
+    committed = state_image(collector, rtd)
+    current = context_image(recovered)
     workbook.publish(next_tick)
     assert collector.get_data() is None
-    assert "PROFIT_QUOTE_REINITIALIZATION_REQUIRED" in capsys.readouterr().out
-    assert market_state(collector) == partial
-
-    replacement_workbook, replacement = make_collector(monkeypatch, clock)
-    replacement_workbook.publish(next_tick)
-    recovered = replacement.get_data()
-    assert recovered is not None and recovered is not original
-    assert recovered.market.last_candle.volume == 0
-    assert_buy_and_alert(pipeline, recovered, clock, capsys)
+    output = assert_no_publication(capsys, "PROFIT_QUOTE_DUPLICATE")
+    assert "PROFIT_QUOTE_ACCEPTED" not in output
+    assert state_image(collector, rtd) == committed
+    assert pipeline.context is recovered
+    assert context_image(recovered) == current
+    assert context_image(original) == retained
 
 
 def test_r01_r06_loop_ativo_durante_silencio_e_alerta_novo_so_na_retomada(

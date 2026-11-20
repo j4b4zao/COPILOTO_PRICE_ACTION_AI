@@ -3,8 +3,9 @@
 import logging
 import math
 import sys
-from copy import deepcopy
+from copy import copy, deepcopy
 from datetime import datetime, timezone, tzinfo
+from threading import Lock
 
 from analysis.temporal_snapshot_policy import (
     TemporalSnapshotHistory,
@@ -22,11 +23,19 @@ from enums.chart_mode import ChartMode
 from market_data.profit_delta_quality_validator import ProfitDeltaQualityValidator
 from market_data.profit_delta_session_recorder import ProfitDeltaSessionRecorder
 from market_data.profit_delta_source_diagnostics import ProfitDeltaSourceDiagnostics
+from market_data.profit_rtd_order_flow_pipeline import ProfitRTDOrderFlowPipeline
 from market_data.profit_source_integrity import ProfitSourceIntegrityGuard
 from market_data.profit_rtd_validation_recorder import ProfitRTDValidationRecorder
 
 
 logger = logging.getLogger(__name__)
+
+
+_PROTECTED_CYCLE_STATE = (
+    "market", "multi_timeframe", "renko", "order_flow", "source_guard",
+    "source_diagnostics", "delta_quality_validator", "delta_session_recorder",
+    "profit_rtd_validation_recorder", "_temporal_primary_history",
+)
 
 
 class Collector:
@@ -54,6 +63,7 @@ class Collector:
         self._primary_gap_reason = None
         self._primary_publication_blocked = False
         self._primary_chart_volume = None
+        self._protected_cycle_lock = Lock()
         if excel is None:
             from connectors.excel_connector import ExcelConnector
             excel = ExcelConnector()
@@ -121,6 +131,7 @@ class Collector:
             else enable_profit_rtd_order_flow
         )
         self.profit_rtd_order_flow_pipeline = profit_rtd_order_flow_pipeline
+        self._accepted_rtd_version = None
         self.last_profit_rtd_receipt = None
 
         if not self.excel.conectar(EXCEL_PATH):
@@ -130,12 +141,102 @@ class Collector:
             self.profit_rtd_order_flow_pipeline = self._build_profit_rtd_order_flow_pipeline()
 
     def get_data(self):
+        if self.temporal_primary_policy is None:
+            return self._collect_cycle()
+
+        if not self._protected_cycle_lock.acquire(blocking=False):
+            raise RuntimeError("PROFIT_QUOTE_PROTECTED_CYCLE_IN_PROGRESS")
+        try:
+            return self._collect_protected()
+        finally:
+            self._protected_cycle_lock.release()
+
+    def _collect_protected(self):
+        print("[DATA LOOP] PROFIT_LOOP_ACTIVE", file=sys.stderr)
+        if self._primary_publication_blocked:
+            return self._reject_primary("PROFIT_QUOTE_REINITIALIZATION_REQUIRED")
+
+        # Copy the graph together so builder/history and RTD/flow aliases
+        # are preserved within the prepared cycle and detached from older ones.
+        try:
+            prepared = self._fork_protected_cycle()
+        except Exception as exc:
+            self._primary_publication_blocked = True
+            raise RuntimeError("PROFIT_QUOTE_REINITIALIZATION_REQUIRED") from exc
+
+        context = prepared._collect_cycle()
+        if context is None:
+            self.__dict__ = {
+                **self.__dict__,
+                "_primary_gap_pending": prepared._primary_gap_pending,
+                "_primary_gap_reason": prepared._primary_gap_reason,
+            }
+            return None
+
+        recovery_reason = prepared.__dict__.pop("_cycle_recovery_reason")
+        original_rtd = self.profit_rtd_order_flow_pipeline
+        if self.enable_profit_rtd_order_flow and isinstance(original_rtd, ProfitRTDOrderFlowPipeline):
+            prepared._accepted_rtd_version = (
+                original_rtd, prepared.profit_rtd_order_flow_pipeline._state(),
+            )
+            prepared.profit_rtd_order_flow_pipeline = original_rtd
+        # ACCEPTED: the complete state becomes current in one reference swap.
+        # Only the caller can observe delivery, when get_data() returns.
+        self.__dict__ = prepared.__dict__
+        self._report_protected_acceptance(recovery_reason)
+        return context
+
+    def _fork_protected_cycle(self):
+        prepared = copy(self)
+        memo = {}
+        state = {name: getattr(self, name) for name in _PROTECTED_CYCLE_STATE}
+        prepared.__dict__.update(deepcopy(state, memo))
+        if self.enable_profit_rtd_order_flow:
+            pipeline = self.profit_rtd_order_flow_pipeline
+            if isinstance(pipeline, ProfitRTDOrderFlowPipeline):
+                pipeline._bind_collector(self)
+                fork = pipeline._fork(memo)
+            else:
+                # The previous injection contract requires prepare/publish.
+                # An alternate must be independently copyable around its reader.
+                reader = getattr(pipeline, "reader", None)
+                if reader is not None:
+                    memo[id(reader)] = reader
+                fork = deepcopy(pipeline, memo)
+            adapter = getattr(pipeline, "state_adapter", None)
+            if fork is pipeline or (
+                adapter is not None and fork.state_adapter.state is adapter.state
+            ):
+                raise TypeError("RTD_PIPELINE_ISOLATION_REQUIRED")
+            prepared.profit_rtd_order_flow_pipeline = fork
+        return prepared
+
+    def _rtd_state_for(self, pipeline):
+        version = self._accepted_rtd_version
+        if version is not None and version[0] is pipeline:
+            return version[1]
+
+    @staticmethod
+    def _report_protected_acceptance(recovery_reason):
+        messages = [
+            "[DATA ACCEPTED] PROFIT_QUOTE_ACCEPTED",
+            "[DATA PUBLISHED] PROFIT_QUOTE_PUBLISHED",
+        ]
+        if recovery_reason is not None:
+            messages.append(
+                f"[DATA RECOVERED] PROFIT_LOCAL_RECOVERY_COMPLETE reason={recovery_reason}"
+            )
+        for message in messages:
+            try:
+                print(message)
+            except Exception:
+                # A failed diagnostic must not consume the accepted context.
+                continue
+
+    def _collect_cycle(self):
         policy = self.temporal_primary_policy
         read_coherent = getattr(self.reader, "obter_dados_coerentes", None)
         if policy is not None:
-            print("[DATA LOOP] PROFIT_LOOP_ACTIVE", file=sys.stderr)
-            if self._primary_publication_blocked:
-                return self._reject_primary("PROFIT_QUOTE_REINITIALIZATION_REQUIRED")
             logger.info("PROFIT_QUOTE_READ_ATTEMPT")
             try:
                 dados = read_coherent() if callable(read_coherent) else self.reader.obter_dados()
@@ -319,10 +420,6 @@ class Collector:
             return None
 
         timestamp = self.clock.now() if policy is None else received_timestamp
-        if policy is not None:
-            # Builders share live history with published contexts. If a
-            # mutation raises, require a fresh collector rather than retry it.
-            self._primary_publication_blocked = True
         self.last_new_candles = self.multi_timeframe.update_tick(
             symbol=ativo,
             price=close,
@@ -380,15 +477,10 @@ class Collector:
             self._primary_contract = contract
             self._last_primary_receipt = received_timestamp
             self._primary_gap_pending = False
-            recovery_reason = gap_reason or self._primary_gap_reason
+            self._cycle_recovery_reason = gap_reason or self._primary_gap_reason
             self._primary_gap_reason = None
             self._primary_chart_volume = chart_volume
             self.last_valid_volume = volume
-            self._primary_publication_blocked = False
-            print("[DATA ACCEPTED] PROFIT_QUOTE_ACCEPTED")
-            print("[DATA PUBLISHED] PROFIT_QUOTE_PUBLISHED")
-            if recovery_reason is not None:
-                print(f"[DATA RECOVERED] PROFIT_LOCAL_RECOVERY_COMPLETE reason={recovery_reason}")
         return context
 
     def _reject_primary(self, reason, *, gap=False):
@@ -400,7 +492,6 @@ class Collector:
 
     def _build_profit_rtd_order_flow_pipeline(self):
         from market_data.excel_range_gateway import ExcelRangeGateway
-        from market_data.profit_rtd_order_flow_pipeline import ProfitRTDOrderFlowPipeline
         from market_data.profit_rtd_workbook_reader import ProfitRTDTimesTradesReader
 
         gateway = ExcelRangeGateway(self.excel)

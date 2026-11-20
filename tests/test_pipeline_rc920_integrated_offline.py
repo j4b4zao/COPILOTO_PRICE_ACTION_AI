@@ -127,54 +127,82 @@ def test_a_b_c_d_auxiliar_e_repeticao_da_mesma_cotacao(
 def test_e_f_g_falha_de_builder_bloqueia_ate_coletor_novo(
     monkeypatch, protected_chain, capsys,
 ):
+    from tests.test_pipeline_rc921_transactional_adversarial import (
+        TIMEFRAMES, context_image, state_image,
+    )
+
     clock, pipeline = protected_chain
     workbook, collector = make_collector(monkeypatch, clock)
     rtd = install_rtd(collector, clock)
     workbook.publish(quote(clock))
     first = collector.get_data()
     assert_publication(pipeline, first, clock, capsys)
-    before = snapshot(collector, pipeline)
-    clock.current += timedelta(seconds=1)
-    workbook.publish(quote(clock, price=180_040, volume=1100))
-    fault = Mock(side_effect=RuntimeError("falha no builder Renko"))
-    monkeypatch.setattr(collector.renko, "update_tick", fault)
-    with pytest.raises(RuntimeError, match="falha no builder Renko"):
-        collector.get_data()
-    assert_no_publication(capsys, "PROFIT_QUOTE_ELIGIBLE")
-    partial = snapshot(collector, pipeline)
-    assert partial[1:] == before[1:]
-    for tf in ("M1", "M5", "M15"):
-        candle = collector.multi_timeframe.get(tf).last_candle
-        assert (candle.close, candle.volume) == (180_040, 100)
-    assert collector.renko.market.last_candle.close == 180_000
+    before = state_image(collector, rtd)
+    retained = context_image(first)
     assert collector.last_valid_volume == 1000
-    assert collector._last_primary_receipt == first.received_timestamp
-    assert collector._primary_publication_blocked
-    reads = workbook.block_reads
-    rtd_reads = rtd.reader.read_times_trades.call_count
 
     clock.current += timedelta(seconds=1)
     candidate = quote(clock, price=180_080, volume=1200)
     workbook.publish(candidate)
-    assert collector.get_data() is None
-    assert_no_publication(capsys, "PROFIT_QUOTE_REINITIALIZATION_REQUIRED")
-    assert snapshot(collector, pipeline) == partial
-    assert workbook.block_reads == reads and rtd.reader.read_times_trades.call_count == rtd_reads
-    fault.assert_called_once()
+    error = RuntimeError("falha no builder Renko")
 
-    new_workbook, replacement = make_collector(monkeypatch, clock)
-    install_rtd(replacement, clock)
-    new_workbook.publish(candidate)
-    recovered = replacement.get_data()
+    # Desde a RC9.21, ate um tijolo iniciado pertence a copia transacional.
+    renko = collector.renko
+    add_current = type(renko)._add_current
+    reached = []
+
+    def fail_after_brick(staged, *args, **kwargs):
+        assert staged is not renko
+        add_current(staged, *args, **kwargs)
+        reached.append(staged.market.candle_count)
+        raise error
+
+    with monkeypatch.context() as inject:
+        inject.setattr(type(renko), "_add_current", fail_after_brick)
+        with pytest.raises(RuntimeError, match="falha no builder Renko") as raised:
+            collector.get_data()
+    assert raised.value is error
+    assert reached == [2]
+    output = assert_no_publication(capsys, "PROFIT_QUOTE_ELIGIBLE")
+    assert "PROFIT_QUOTE_ACCEPTED" not in output
+    assert state_image(collector, rtd) == before
+    assert pipeline.context is first
+    assert context_image(first) == retained
+    assert collector.renko is renko
+
+    workbook.publish(candidate)
+    recovered = collector.get_data()
     output = assert_publication(pipeline, recovered, clock, capsys)
+    assert output.count("PROFIT_QUOTE_PUBLISHED") == 1
     assert "PROFIT_LOCAL_RECOVERY_COMPLETE" not in output
     assert recovered is not first and recovered.alert is not first.alert
-    assert replacement.last_profit_rtd_receipt.baseline_reset
-    for market in [replacement.multi_timeframe.get(tf) for tf in ("M1", "M5", "M15")] + [
-        replacement.renko.market,
-    ]:
-        assert market.candle_count == 1
-        assert (market.last_candle.open, market.last_candle.volume) == (180_080, 0)
+    assert context_image(first) == retained
+    assert collector.last_valid_volume == collector._primary_chart_volume == 1200
+    assert collector._last_primary_receipt == recovered.received_timestamp
+    assert collector.profit_rtd_order_flow_pipeline is rtd
+    assert collector.last_closed_renko_bricks == 4
+    assert [c.close for c in recovered.market.candles] == [
+        180_020, 180_040, 180_060, 180_080, 180_080,
+    ]
+    assert [c.volume for c in recovered.market.candles] == [200, 0, 0, 0, 0]
+    for tf in TIMEFRAMES:
+        candles = recovered.multi_timeframe.get(tf).candles
+        assert len(candles) == 1
+        candle = candles[-1]
+        assert (candle.open, candle.high, candle.low, candle.close, candle.volume) == (
+            180_000, 180_080, 180_000, 180_080, 200,
+        )
+
+    committed = state_image(collector, rtd)
+    current = context_image(recovered)
+    workbook.publish(candidate)
+    assert collector.get_data() is None
+    output = assert_no_publication(capsys, "PROFIT_QUOTE_DUPLICATE")
+    assert "PROFIT_QUOTE_ACCEPTED" not in output
+    assert state_image(collector, rtd) == committed
+    assert pipeline.context is recovered
+    assert context_image(recovered) == current
+    assert context_image(first) == retained
 
 
 @pytest.mark.parametrize("seconds", [29, 30, 31, 65])
