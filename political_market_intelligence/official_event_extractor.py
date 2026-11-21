@@ -40,7 +40,9 @@ class ExtractedOfficialEvent:
 
 _PERCENT = r"[+-]?[0-9]+(?:[,.][0-9]+)?\s*%"
 _INDICATOR = r"(?:o IPCA|o PIB|o IBC-Br|a taxa de desemprego)"
-_FISCAL_AMOUNT = r"R\$\s*[0-9]+(?:[,.][0-9]+)? (?:milhões|bilhões)"
+_FISCAL_VALUE = r"R\$\s*[0-9]+(?:[,.][0-9]+)?"
+_FISCAL_UNIT = r"(?:milhões|bilhões)"
+_FISCAL_AMOUNT = rf"{_FISCAL_VALUE} {_FISCAL_UNIT}"
 _FISCAL_LEAD = r"O Tesouro Nacional (?:divulgou|publicou) (?:o resultado primário|o resultado fiscal) com"
 _FISCAL_COMPLEMENT = rf"(?:déficit|superávit) de {_FISCAL_AMOUNT}"
 _MEASURE_ACTION = r"(?:a redução|o aumento|a suspensão)"
@@ -141,6 +143,13 @@ _FISCAL_AMOUNT_LEAD = re.compile(rf"{_FISCAL_LEAD}(?: (?:déficit|superávit) de
 _FISCAL_COMPLETE = re.compile(rf"{_FISCAL_LEAD} {_FISCAL_COMPLEMENT}[.!]?", re.IGNORECASE)
 _MEASURE_MIDDLE = re.compile(rf"anunciou {_MEASURE_ACTION}", re.IGNORECASE)
 _MEASURE_END = re.compile(rf"do {_MEASURE_TAX}[.!]?", re.IGNORECASE)
+_FISCAL_REPORT_LEAD = re.compile(
+    r"O Tesouro Nacional (?:divulgou|publicou) (?:o resultado primário|o resultado fiscal)",
+    re.IGNORECASE,
+)
+_FISCAL_VALUE_MIDDLE = re.compile(rf"com (?:déficit|superávit) de {_FISCAL_VALUE}", re.IGNORECASE)
+_FISCAL_UNIT_END = re.compile(rf"{_FISCAL_UNIT}[.!]?", re.IGNORECASE)
+_MEASURE_ACTION_MIDDLE = re.compile(_MEASURE_ACTION, re.IGNORECASE)
 _LAYOUT_BREAK = r"\r?\n[ \t]*(?:\r?\n[ \t]*)?"
 _WRAPPED_WORD = re.compile(rf"(?<=[^\W\d_])-{_LAYOUT_BREAK}(?=[^\W\d_])")
 _WRAPPED_DECIMAL = re.compile(rf"(?<=[0-9][,.]){_LAYOUT_BREAK}(?=[0-9])")
@@ -195,17 +204,13 @@ def _continuation_end(content, start, boundary, end):
         ):
             return tail_end
     elif lead.casefold() == "o governo federal":
-        middle_boundary = _BOUNDARY.search(content, next_start, end)
-        if middle_boundary and middle_boundary.start() != middle_boundary.end():
-            middle = content[next_start:middle_boundary.start()]
-            tail_start = middle_boundary.end()
-            following = _BOUNDARY.search(content, tail_start, end)
-            tail_end = following.start() if following else end
-            tail = content[tail_start:tail_end]
-            if (not _EXTRA_LINE_BREAK.match(middle) and not _EXTRA_LINE_BREAK.match(tail)
-                    and _MEASURE_MIDDLE.fullmatch(" ".join(middle.split()))
-                    and _MEASURE_END.fullmatch(" ".join(tail.split()))):
-                return tail_end
+        return _three_fragment_end(content, boundary, end, _MEASURE_MIDDLE, _MEASURE_END)
+    elif lead.casefold() == "o governo federal anunciou":
+        return _three_fragment_end(content, boundary, end, _MEASURE_ACTION_MIDDLE, _MEASURE_END)
+    elif _FISCAL_REPORT_LEAD.fullmatch(lead):
+        fiscal_end = _three_fragment_end(content, boundary, end, _FISCAL_VALUE_MIDDLE, _FISCAL_UNIT_END)
+        if fiscal_end > split:
+            return fiscal_end
     if _INCOMPLETE_STATEMENTS.fullmatch(lead):
         next_start = boundary.end()
         following = _BOUNDARY.search(content, next_start, end)
@@ -215,6 +220,21 @@ def _continuation_end(content, start, boundary, end):
             if any(rule.fullmatch(reconstructed) for _, rule in _RULES):
                 return tail_end
     return split
+
+
+def _three_fragment_end(content, boundary, end, middle_rule, tail_rule):
+    middle_boundary = _BOUNDARY.search(content, boundary.end(), end)
+    if not middle_boundary or middle_boundary.start() == middle_boundary.end():
+        return boundary.start()
+    middle = content[boundary.end():middle_boundary.start()]
+    following = _BOUNDARY.search(content, middle_boundary.end(), end)
+    tail_end = following.start() if following else end
+    tail = content[middle_boundary.end():tail_end]
+    if (not _EXTRA_LINE_BREAK.match(middle) and not _EXTRA_LINE_BREAK.match(tail)
+            and middle_rule.fullmatch(" ".join(middle.split()))
+            and tail_rule.fullmatch(" ".join(tail.split()))):
+        return tail_end
+    return boundary.start()
 
 
 def _normalize_statement(statement):
