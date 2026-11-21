@@ -452,9 +452,16 @@ def test_new_collector_restarts_after_partial_candle_update(
     clock.current += timedelta(seconds=1)
     pending = quote(clock, price=180_060, volume=1100)
     workbook.publish(pending)
+    builder_type = type(collector.multi_timeframe._builders["M5"])
+    update = builder_type.update
+
+    def fail_m5_update(builder, *, timeframe, **kwargs):
+        if timeframe == "M5":
+            raise InjectedFailure("entre M1 e M5")
+        return update(builder, timeframe=timeframe, **kwargs)
+
     with monkeypatch.context() as fault:
-        fail_at(fault, collector.multi_timeframe._builders["M5"], "update",
-                InjectedFailure("entre M1 e M5"))
+        fault.setattr(builder_type, "update", fail_m5_update)
         with pytest.raises(InjectedFailure, match="entre M1 e M5") as raised:
             collector.get_data()
     assert isinstance(raised.value, InjectedFailure)
