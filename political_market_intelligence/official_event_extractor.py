@@ -6,6 +6,7 @@ from enum import Enum
 from hashlib import sha256
 import json
 import re
+from unicodedata import normalize
 
 from .official_document_normalizer import (
     DocumentObservation, DocumentState, OfficialDocumentNormalizer, _utc,
@@ -126,6 +127,18 @@ _BACKWARD_QUALIFIER = re.compile(
     r"(?:o Tesouro|a fonte|o órgão) nega que essa divulgação tenha ocorrido)[.!]?",
     re.IGNORECASE,
 )
+_REFERENCE_CORRECTION = re.compile(
+    r"retificação\s*:\s*onde se lê ([0-9]+/[0-9]{4}), leia-se ([0-9]+/[0-9]{4})[.!]?",
+    re.IGNORECASE,
+)
+_OTHER_ACT_YEAR = re.compile(
+    r"nota de paginação\s*:\s*([0-9]{4}) é o ano da resolução nº ([0-9]+)"
+    r"(?:, listad[ao] na tabela seguinte)?[.!]?",
+    re.IGNORECASE,
+)
+_ACT_NUMBER_YEAR = re.compile(r"(?<![0-9])([0-9]+)/\s*([0-9]{4})(?![0-9])")
+_CONDITION_HEADING = re.compile(r"se a diretoria aprovar a proposta\s*:", re.IGNORECASE)
+_SIMULATION_HEADING = re.compile(r"fórmula de simulação para teste interno\s*:", re.IGNORECASE)
 _FACTUAL_HEADING = re.compile(
     r"(?:fatos (?:confirmados|documentados)|resultados (?:realizados|oficiais|efetivos)|"
     r"(?:seção|contexto) factual|decisões (?:tomadas|oficiais)|deliberação registrada)\s*:?",
@@ -150,11 +163,83 @@ _FISCAL_REPORT_LEAD = re.compile(
 _FISCAL_VALUE_MIDDLE = re.compile(rf"com (?:déficit|superávit) de {_FISCAL_VALUE}", re.IGNORECASE)
 _FISCAL_UNIT_END = re.compile(rf"{_FISCAL_UNIT}[.!]?", re.IGNORECASE)
 _MEASURE_ACTION_MIDDLE = re.compile(_MEASURE_ACTION, re.IGNORECASE)
+_TRADE_DATA_MIDDLE = re.compile(r"os dados da balança", re.IGNORECASE)
+_TRADE_DATA_END = re.compile(r"comercial[.!]?")
+_CVM_INSTRUCTION_MIDDLE = re.compile(r"a Instrução n[º°]", re.IGNORECASE)
+_CVM_INSTRUCTION_END = re.compile(r"[0-9]+/[0-9]{4}[.!]?")
+_EXPLICIT_COMPLEMENT_QUALIFIER = re.compile(
+    r"(?:se houver (?:aprovação|autorização)|"
+    r"é falso que o fato (?:abaixo|a seguir) tenha ocorrido|"
+    r"o fato (?:abaixo|a seguir) é hipotético|"
+    r"(?:informação desmentida|retratação|alegação de terceiros)"
+    r" (?:sobre o fato )?(?:abaixo|a seguir))[:.!]?",
+    re.IGNORECASE,
+)
+_QUALIFIER_TERMINAL = re.compile(r" *(\.\.\.|…|[:.!])$")
+_FRAGMENT_GAP = rf"{_PARAGRAPH_BREAK}[ \t]*"
+_FRAGMENTED_SUBJECT_TAILS = {
+    "o tesouro nacional": re.compile(
+        rf"[ \t]*divulgou o resultado primário{_FRAGMENT_GAP}"
+        rf"com superávit de R\$ [0-9]+{_FRAGMENT_GAP}milhões[.!]?",
+        re.IGNORECASE,
+    ),
+    "o governo": re.compile(
+        rf"[ \t]*Federal anunciou{_FRAGMENT_GAP}a suspensão{_FRAGMENT_GAP}do IPI[.!]?",
+        re.IGNORECASE,
+    ),
+    "o copom": re.compile(
+        rf"[ \t]*reduziu a taxa Selic para{_FRAGMENT_GAP}[0-9]+,[0-9]+% ao ano[.!]?",
+        re.IGNORECASE,
+    ),
+    "o ibge": re.compile(
+        rf"[ \t]*divulgou o IBC-Br de{_FRAGMENT_GAP}[0-9]+,[0-9]+%[.!]?",
+        re.IGNORECASE,
+    ),
+}
+_EXTENDED_GAP_TAILS = {
+    "o copom reduziu a taxa selic para": re.compile(
+        r"(?:\n[ \t]*\n[ \t]*\n[ \t]*\n|\r\n[ \t]*\r\n[ \t]*\r\n[ \t]*\r\n)"
+        r"[ \t]*[0-9]+,[0-9]+% ao ano[.!]?",
+        re.IGNORECASE,
+    ),
+    "o ibge divulgou o ibc-br de": re.compile(
+        r"\r\n(?:[ \t]+\r\n[ \t]*|\r\n[ \t]+)\r\n"
+        r"[ \t]*[0-9]+,[0-9]+%[.!]?",
+    ),
+}
+_FRAGMENTED_NUMERIC_STATEMENTS = (
+    re.compile(
+        rf"O Copom{_FRAGMENT_GAP}reduziu a taxa Selic para{_FRAGMENT_GAP}"
+        rf"[0-9]+,(?P<number_gap>{_FRAGMENT_GAP})[0-9]+% ao ano[.!]?",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"O IBGE divulgou o IBC-Br de [0-9]+,"
+        r"(?P<number_gap>\r?\n[ \t]*\r?\n[ \t]*\r?\n[ \t]*)[0-9]+%[.!]?",
+        re.IGNORECASE,
+    ),
+)
+_FRAGMENTED_INSTRUCTION_LEAD = re.compile(
+    rf"A CVM editou {_CVM_INSTRUCTION_MIDDLE.pattern}", re.IGNORECASE,
+)
+_FRAGMENTED_INSTRUCTION_TAIL = re.compile(
+    rf"{_FRAGMENT_GAP}[0-9]+/{_FRAGMENT_GAP}[0-9]{{4}}[.!]?",
+)
+_FRAGMENTED_INSTRUCTION = re.compile(
+    _FRAGMENTED_INSTRUCTION_LEAD.pattern + _FRAGMENTED_INSTRUCTION_TAIL.pattern, re.IGNORECASE,
+)
 _LAYOUT_BREAK = r"\r?\n[ \t]*(?:\r?\n[ \t]*)?"
+_FRAGMENTED_RESOLUTION_LEAD = re.compile(r"A CVM publicou a Resolução CVM n[º°]", re.IGNORECASE)
+_FRAGMENTED_RESOLUTION_TAIL = re.compile(
+    rf"{_FRAGMENT_GAP}[0-9]+/(?:[ \t]*{_LAYOUT_BREAK})?[0-9]{{4}}[.!]?",
+)
+_FRAGMENTED_RESOLUTION = re.compile(
+    _FRAGMENTED_RESOLUTION_LEAD.pattern + _FRAGMENTED_RESOLUTION_TAIL.pattern, re.IGNORECASE,
+)
 _WRAPPED_WORD = re.compile(rf"(?<=[^\W\d_])-{_LAYOUT_BREAK}(?=[^\W\d_])")
 _WRAPPED_DECIMAL = re.compile(rf"(?<=[0-9][,.]){_LAYOUT_BREAK}(?=[0-9])")
 _COMPOUND = re.compile(r"\s+e\s+|,\s+enquanto\s+", re.IGNORECASE)
-_HISTORICAL_PREFIX = re.compile(r"^(?:Em retrospecto|Na série anterior),\s+", re.IGNORECASE)
+_HISTORICAL_PREFIX = re.compile(r"^(?:Em retrospecto|Na série anterior),[ \t]+", re.IGNORECASE)
 _HISTORICAL_YEAR = re.compile(r" em ([0-9]{4})$", re.IGNORECASE)
 
 
@@ -163,10 +248,15 @@ def _statement_spans(content):
     start = 0
     for line in re.finditer(r"[^\r\n]+", content):
         heading = line[0].strip().lstrip("#").lstrip()
-        if (_FACTUAL_HEADING.fullmatch(heading) or _DOCUMENT_HEADING.fullmatch(heading)
-                or _NONFACTUAL_CONTEXT.match(heading)
-                or _THIRD_PARTY_INTRO.fullmatch(heading)
-                or _BACKWARD_QUALIFIER.fullmatch(heading)):
+        qualifier = normalize("NFC", " ".join(heading.split()))
+        if (_FACTUAL_HEADING.fullmatch(qualifier) or _DOCUMENT_HEADING.fullmatch(heading)
+                or _NONFACTUAL_CONTEXT.match(qualifier)
+                or _THIRD_PARTY_INTRO.fullmatch(qualifier)
+                or _BACKWARD_QUALIFIER.fullmatch(qualifier)
+                or _REFERENCE_CORRECTION.fullmatch(qualifier)
+                or _OTHER_ACT_YEAR.fullmatch(qualifier)
+                or _CONDITION_HEADING.fullmatch(qualifier)
+                or _SIMULATION_HEADING.fullmatch(qualifier)):
             yield from _split_statements(content, start, line.start())
             yield line.span()
             start = line.end()
@@ -175,22 +265,27 @@ def _statement_spans(content):
 
 def _split_statements(content, start, end):
     joined_until = start
+    previous = ""
     for boundary in _BOUNDARY.finditer(content, start, end):
         if boundary.start() < joined_until:
             continue
         if boundary.start() != boundary.end():
-            joined_until = _continuation_end(content, start, boundary, end)
+            joined_until = _continuation_end(content, start, boundary, end, previous)
             if joined_until > boundary.start():
                 continue
         yield start, boundary.start()
+        statement = content[start:boundary.start()]
+        if statement.strip():
+            previous = statement
         start = boundary.end()
     yield start, end
 
 
-def _continuation_end(content, start, boundary, end):
+def _continuation_end(content, start, boundary, end, previous):
     """Return the end of a complete permitted statement, or the boundary."""
     split = boundary.start()
-    lead = " ".join(content[start:split].split())
+    raw_lead = content[start:split]
+    lead = " ".join(raw_lead.split())
     next_start = boundary.end()
     if _FISCAL_AMOUNT_LEAD.fullmatch(lead):
         extra_break = _EXTRA_LINE_BREAK.match(content, next_start, end)
@@ -207,6 +302,16 @@ def _continuation_end(content, start, boundary, end):
         return _three_fragment_end(content, boundary, end, _MEASURE_MIDDLE, _MEASURE_END)
     elif lead.casefold() == "o governo federal anunciou":
         return _three_fragment_end(content, boundary, end, _MEASURE_ACTION_MIDDLE, _MEASURE_END)
+    elif lead.casefold() == "a secex divulgou":
+        return _explicit_complement_end(
+            content, boundary, end, previous, _TRADE_DATA_MIDDLE, _TRADE_DATA_END,
+        )
+    elif lead.casefold() == "a cvm editou":
+        regulation_end = _explicit_complement_end(
+            content, boundary, end, previous, _CVM_INSTRUCTION_MIDDLE, _CVM_INSTRUCTION_END,
+        )
+        if regulation_end > split:
+            return regulation_end
     elif _FISCAL_REPORT_LEAD.fullmatch(lead):
         fiscal_end = _three_fragment_end(content, boundary, end, _FISCAL_VALUE_MIDDLE, _FISCAL_UNIT_END)
         if fiscal_end > split:
@@ -219,7 +324,73 @@ def _continuation_end(content, start, boundary, end):
             reconstructed = _normalize_statement(content[start:tail_end])
             if any(rule.fullmatch(reconstructed) for _, rule in _RULES):
                 return tail_end
+    tail_rule = _FRAGMENTED_SUBJECT_TAILS.get(lead.casefold())
+    if tail_rule is not None and not _qualifies_following_complement(previous):
+        tail = tail_rule.match(content, boundary.end(), end)
+        if tail and (tail.end() == end or _BOUNDARY.match(content, tail.end(), end)):
+            return tail.end()
+    gap_rule = _EXTENDED_GAP_TAILS.get(lead.casefold())
+    if gap_rule is not None and not _qualifies_following_complement(previous):
+        tail = gap_rule.match(content, split, end)
+        if tail and (tail.end() == end or _BOUNDARY.match(content, tail.end(), end)):
+            return tail.end()
+    statement_start = split - len(raw_lead.lstrip())
+    for rule in _FRAGMENTED_NUMERIC_STATEMENTS:
+        match = rule.match(content, statement_start, end)
+        if (match and (match.end() == end or _BOUNDARY.match(content, match.end(), end))
+                and not _qualifies_following_complement(previous)):
+            return match.end()
+    # Compare the lead canonically, but match the tail on the original document.
+    canonical_lead = normalize("NFC", raw_lead.lstrip())
+    for candidate, lead_rule, tail_rule in (
+        (canonical_lead, _FRAGMENTED_INSTRUCTION_LEAD, _FRAGMENTED_INSTRUCTION_TAIL),
+        (_HISTORICAL_PREFIX.sub("", canonical_lead), _FRAGMENTED_RESOLUTION_LEAD, _FRAGMENTED_RESOLUTION_TAIL),
+    ):
+        if not lead_rule.fullmatch(candidate):
+            continue
+        tail = tail_rule.match(content, split, end)
+        if (tail and (tail.end() == end or _BOUNDARY.match(content, tail.end(), end))
+                and not _qualifies_following_complement(previous)):
+            return tail.end()
     return split
+
+
+def _explicit_complement_end(content, boundary, end, previous, middle_rule, tail_rule):
+    if _qualifies_following_complement(previous):
+        return boundary.start()
+    return _three_fragment_end(content, boundary, end, middle_rule, tail_rule)
+
+
+def _qualifies_following_complement(previous):
+    context = normalize("NFC", " ".join(previous.split()).lstrip("#").lstrip())
+    context = _QUALIFIER_TERMINAL.sub(
+        lambda match: "." if match[1] in {"...", "…"} else match[1], context,
+    )
+    return _EXPLICIT_COMPLEMENT_QUALIFIER.fullmatch(context) is not None
+
+
+def _regulatory_reference(event):
+    if event.category is OfficialEventCategory.REGULATORY_CHANGE:
+        match = _ACT_NUMBER_YEAR.search(event.description)
+        if match:
+            return "/".join(match.groups())
+    return None
+
+
+def _has_conflicting_pagination_year(event, note_year, note_number):
+    reference = _regulatory_reference(event)
+    if not reference or not reference.endswith("/" + note_year):
+        return False
+    literal = event.description
+    canonical = normalize("NFC", literal)
+    if (re.search(r"/[ \t]*" + _PARAGRAPH_BREAK, literal)
+            and re.match(r"A CVM editou\s+a Instrução", canonical, re.IGNORECASE)):
+        return True
+    return (
+        _FRAGMENTED_RESOLUTION.fullmatch(_HISTORICAL_PREFIX.sub("", canonical)) is not None
+        and re.search(r"/[ \t]*\r?\n", literal) is not None
+        and reference.split("/")[0].lstrip("0") != note_number.lstrip("0")
+    )
 
 
 def _three_fragment_end(content, boundary, end, middle_rule, tail_rule):
@@ -243,6 +414,16 @@ def _normalize_statement(statement):
 
 
 def _category(statement, publication_year):
+    canonical = normalize("NFC", statement)
+    if (_FRAGMENTED_INSTRUCTION.fullmatch(canonical)
+            or _FRAGMENTED_RESOLUTION.fullmatch(_HISTORICAL_PREFIX.sub("", canonical))):
+        return OfficialEventCategory.REGULATORY_CHANGE
+    for rule in _FRAGMENTED_NUMERIC_STATEMENTS:
+        match = rule.fullmatch(statement)
+        if match:
+            left, right = match.span("number_gap")
+            statement = statement[:left] + statement[right:]
+            break
     text = _normalize_statement(statement)
     text = _HISTORICAL_PREFIX.sub("", text.removeprefix("• "))
     attribution = _AUTHORITY_ATTRIBUTION.fullmatch(text)
@@ -258,7 +439,11 @@ def _category(statement, publication_year):
         if int(year[1]) >= publication_year:
             return None
         text = text[:year.start()]
-    return next((category for category, rule in _RULES if rule.fullmatch(text)), None)
+    for category, rule in _RULES:
+        candidate = normalize("NFC", text) if category is OfficialEventCategory.REGULATORY_CHANGE else text
+        if rule.fullmatch(candidate):
+            return category
+    return None
 
 
 def _match_statement(statement, publication_year):
@@ -328,6 +513,9 @@ class OfficialEventExtractor:
             blocked = False
             third_party_claim = False
             claim_end = None
+            regulatory_claim = False
+            condition_pending = False
+            document_start = len(events)
             preceding_count = 0
             for start, end in _statement_spans(doc.content):
                 raw = doc.content[start:end]
@@ -336,37 +524,72 @@ class OfficialEventExtractor:
                 text = " ".join(statement.split())
                 if not text:
                     continue
-                if claim_end is not None and start >= claim_end:
+                if claim_end is not None and start >= claim_end and not regulatory_claim:
                     third_party_claim = False
                     claim_end = None
                 context = text.lstrip("#").lstrip()
-                if _BACKWARD_QUALIFIER.fullmatch(context):
+                correction_context = normalize("NFC", context)
+                correction = _REFERENCE_CORRECTION.fullmatch(correction_context)
+                if correction:
+                    if correction[1] != correction[2] and not (blocked or third_party_claim or condition_pending):
+                        candidates = [
+                            index for index in range(document_start, len(events))
+                            if _regulatory_reference(events[index]) == correction[1]
+                        ]
+                        if len(candidates) == 1:
+                            del events[candidates[0]]
+                    preceding_count = 0
+                    continue
+                other_year = _OTHER_ACT_YEAR.fullmatch(correction_context)
+                if other_year and preceding_count == 1 and not (blocked or third_party_claim or condition_pending):
+                    if _has_conflicting_pagination_year(events[-1], *other_year.groups()):
+                        events.pop()
+                    preceding_count = 0
+                    continue
+                if _BACKWARD_QUALIFIER.fullmatch(correction_context):
                     if preceding_count:
                         del events[-preceding_count:]
                     preceding_count = 0
                     continue
                 preceding_count = 0
-                if _FACTUAL_HEADING.fullmatch(context):
+                if _FACTUAL_HEADING.fullmatch(correction_context):
                     blocked = False
                     third_party_claim = False
                     claim_end = None
+                    regulatory_claim = False
+                    condition_pending = False
                     continue
                 if _DOCUMENT_HEADING.fullmatch(context):
                     continue
-                if _THIRD_PARTY_INTRO.fullmatch(context):
+                if _THIRD_PARTY_INTRO.fullmatch(correction_context):
                     third_party_claim = True
                     claim_end = None
+                    regulatory_claim = False
                     continue
-                if _NONFACTUAL_CONTEXT.match(context):
+                if _CONDITION_HEADING.fullmatch(correction_context):
+                    condition_pending = True
+                    continue
+                if _NONFACTUAL_CONTEXT.match(correction_context) or _SIMULATION_HEADING.fullmatch(correction_context):
                     blocked = True
                 if blocked:
                     continue
                 matches = _match_statement(statement, doc.published_at.year)
-                if third_party_claim and matches:
-                    if claim_end is None:
-                        boundary = _PARAGRAPH_BOUNDARY.search(doc.content, start + len(statement))
-                        claim_end = boundary.end() if boundary else len(doc.content)
+                if condition_pending and matches:
+                    condition_pending = False
                     continue
+                if third_party_claim and matches:
+                    regulatory = all(category is OfficialEventCategory.REGULATORY_CHANGE
+                                     for category, _, _ in matches)
+                    if regulatory_claim and claim_end is not None and start >= claim_end and not regulatory:
+                        third_party_claim = False
+                        regulatory_claim = False
+                        claim_end = None
+                    else:
+                        regulatory_claim = regulatory_claim or regulatory
+                        if claim_end is None or regulatory_claim:
+                            boundary = _PARAGRAPH_BOUNDARY.search(doc.content, start + len(statement))
+                            claim_end = boundary.end() if boundary else len(doc.content)
+                        continue
                 for category, left, right in matches:
                     evidence_start, evidence_end = start + left, start + right
                     identity = json.dumps((*doc.key, doc.content_sha256, evidence_start,
